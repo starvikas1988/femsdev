@@ -1,0 +1,151 @@
+-- phpMyAdmin SQL Dump
+-- version 4.8.5
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost
+-- Generation Time: Nov 04, 2022 at 05:47 AM
+-- Server version: 10.1.40-MariaDB
+-- PHP Version: 7.3.5
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+--
+-- Database: `femsdev`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `qa_paynearby_outbound_new_feedback`
+--
+
+CREATE TABLE `qa_paynearby_outbound_new_feedback` (
+  `id` int(11) NOT NULL,
+  `audit_date` date NOT NULL,
+  `agent_id` int(11) NOT NULL,
+  `tl_id` int(11) NOT NULL,
+  `call_date` date DEFAULT NULL,
+  `campaign` text NOT NULL,
+  `customer` varchar(100) DEFAULT NULL,
+  `incoming_no` varchar(100) DEFAULT NULL,
+  `register_no` varchar(100) DEFAULT NULL,
+  `call_duration` time DEFAULT NULL,
+  `call_link` varchar(100) DEFAULT NULL,
+  `ticket_no` varchar(100) DEFAULT NULL,
+  `call_disconnect_by` varchar(100) DEFAULT NULL,
+  `tagging` varchar(100) DEFAULT NULL,
+  `query_service` varchar(10) DEFAULT NULL,
+  `call_type` varchar(100) DEFAULT NULL,
+  `audit_type` varchar(100) NOT NULL,
+  `auditor_type` varchar(10) DEFAULT NULL,
+  `voc` tinyint(4) NOT NULL,
+  `possible_score` varchar(20) DEFAULT NULL,
+  `earned_score` varchar(20) DEFAULT NULL,
+  `overall_score` float NOT NULL,
+  
+  `standard_call_opening` varchar(20) DEFAULT NULL,
+  `sco_reason` varchar(100) DEFAULT NULL,
+  `appr_empathy_apology` varchar(20) DEFAULT NULL,
+  `appr_emp_ap_reason` varchar(200) DEFAULT NULL,
+  `professional` varchar(20) DEFAULT NULL,
+  `professional_reason` varchar(300) DEFAULT NULL,
+  `connect_retailer` varchar(20) DEFAULT NULL,
+  `connect_retailer_reason` varchar(300) DEFAULT NULL,
+  `clarity_of_speech` varchar(20) DEFAULT NULL,
+  `clarity_of_speech_reason` varchar(300) DEFAULT NULL,
+  `active_listening` varchar(20) DEFAULT NULL,
+  `active_listening_reason` varchar(300) DEFAULT NULL,
+  `parallel_talking` varchar(20) DEFAULT NULL,
+  `parallel_talking_reason` varchar(300) DEFAULT NULL,
+  `dead_air` varchar(20) DEFAULT NULL,
+  `dead_air_reason` varchar(300) DEFAULT NULL,
+  `drop_business` varchar(20) DEFAULT NULL,
+  `drop_business_reason` varchar(300) DEFAULT NULL,
+  `conversion_check` varchar(20) DEFAULT NULL,
+  `conversion_check_reason` varchar(300) DEFAULT NULL,
+  `complete_information` varchar(20) DEFAULT NULL,
+  `complete_information_reason` varchar(300) DEFAULT NULL,
+  `business_opportunity` varchar(20) DEFAULT NULL,
+  `business_opportunity_reason` varchar(300) DEFAULT NULL,
+  `crm` varchar(20) DEFAULT NULL,
+  `crm_reason` varchar(300) DEFAULT NULL,
+  `actioning_in_system` varchar(20) DEFAULT NULL,
+  `actioning_in_system_reason` varchar(300) DEFAULT NULL,
+  `summarization_of_call` varchar(20) DEFAULT NULL,
+  `summarization_of_call_reason` varchar(300) DEFAULT NULL,
+  `closing_call` varchar(20) DEFAULT NULL,
+  `closing_call_reason` varchar(300) DEFAULT NULL,
+  `tagging_disposition` varchar(20) DEFAULT NULL,
+  `tagging_disposition_reason` varchar(300) DEFAULT NULL,
+  `ztp` varchar(20) DEFAULT NULL,
+  `ztp_reason` varchar(300) DEFAULT NULL,
+  `remark1` text,
+  `remark2` text,
+  `remark3` text,
+  `remark4` text,
+  `remark5` text,
+  `remark6` text,
+  `remark7` text,
+  `remark8` text,
+  `remark9` text,
+  `remark10` text,
+  `remark11` text,
+  `remark12` text,
+  `remark13` text,
+  `remark14` text,
+  `remark15` text,
+  `remark16` text,
+  `remark17` text,
+  `remark18` text,
+  `call_summary` text,
+  `feedback` text,
+  `level1_comment` text,
+  `attach_file` text,
+  `entry_by` int(11) DEFAULT NULL,
+  `audit_start_time` datetime DEFAULT NULL,
+  `entry_date` datetime NOT NULL,
+  `client_entryby` int(11) DEFAULT NULL,
+  `mgnt_rvw_by` int(11) DEFAULT NULL,
+  `mgnt_rvw_note` text,
+  `mgnt_rvw_date` datetime DEFAULT NULL,
+  `agnt_fd_acpt` varchar(50) DEFAULT NULL,
+  `agent_rvw_note` text,
+  `agent_rvw_date` datetime DEFAULT NULL,
+  `client_rvw_by` int(11) DEFAULT NULL,
+  `client_rvw_note` text,
+  `client_rvw_date` datetime DEFAULT NULL,
+  `qa_feedback` text,
+  `qa_feedback_date` datetime DEFAULT NULL,
+  `qa_feedback_type` varchar(100) DEFAULT NULL,
+  `log` text
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `qa_paynearby_outbound_new_feedback`
+--
+ALTER TABLE `qa_paynearby_outbound_new_feedback`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `agent_id` (`agent_id`),
+  ADD KEY `tl_id` (`tl_id`),
+  ADD KEY `entry_by` (`entry_by`),
+  ADD KEY `client_entryby` (`client_entryby`),
+  ADD KEY `mgnt_rvw_by` (`mgnt_rvw_by`),
+  ADD KEY `client_rvw_by` (`client_rvw_by`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `qa_paynearby_outbound_new_feedback`
+--
+ALTER TABLE `qa_paynearby_outbound_new_feedback`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;

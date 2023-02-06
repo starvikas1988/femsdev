@@ -1,0 +1,15 @@
+SELECT s.office_id,c.id as client_id,def.process_id,c.fullname as clientName,p.name as processName
+                                FROM qa_defect def
+                                LEFT JOIN client c
+                                ON def.client_id = c.id
+                                LEFT JOIN process p 
+                                ON def.process_id=p.id
+                                LEFT JOIN info_assign_client ic
+                                ON c.id = ic.client_id
+                                LEFT JOIN signin s ON s.id=ic.user_id
+                                where c.is_active=1 and def.client_id not in (0) and s.office_id in ('CEB','MAN') and c.id not in('4','90','291','312','324','339','342','345','352','355','357') group by def.process_id order by s.office_id
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+134  AD-Commercial and Non-Profit
+275  Boomsourcing

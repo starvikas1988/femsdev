@@ -1,0 +1,112 @@
+-- phpMyAdmin SQL Dump
+-- version 4.8.5
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost
+-- Generation Time: Nov 24, 2022 at 12:30 AM
+-- Server version: 10.1.40-MariaDB
+-- PHP Version: 7.3.5
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+--
+-- Database: `femsdev`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `qa_credit_mantri_referral_feedback`
+--
+
+CREATE TABLE `qa_credit_mantri_referral_feedback` (
+  `id` int(11) NOT NULL,
+  `audit_date` date NOT NULL,
+  `agent_id` int(11) NOT NULL,
+  `tl_id` int(11) NOT NULL,
+  `call_date` date NOT NULL,
+  `call_duration` time DEFAULT NULL,
+  `call_type` varchar(100) DEFAULT NULL,
+  `customer_name` varchar(100) DEFAULT NULL,
+  `customer_contact` varchar(100) DEFAULT NULL,
+  `five9_id` varchar(100) DEFAULT NULL,
+  `objection` varchar(100) DEFAULT NULL,
+  `campaign` varchar(100) DEFAULT NULL,
+  `customer_voc` varchar(100) DEFAULT NULL,
+  `phone` varchar(100) DEFAULT NULL,
+  `agent_disposition` varchar(100) DEFAULT NULL,
+  `qa_disposition` varchar(100) DEFAULT NULL,
+  `audit_type` varchar(100) NOT NULL,
+  `auditor_type` varchar(100) DEFAULT NULL,
+  `voc` tinyint(4) NOT NULL,
+  `overall_score` float NOT NULL,
+  `possible_score` int(11) DEFAULT NULL,
+  `earned_score` int(11) DEFAULT NULL,
+  `customer_score` int(11) DEFAULT NULL,
+  `business_score` int(11) DEFAULT NULL,
+  `compliance_score` int(11) DEFAULT NULL,
+  `Week` varchar(20) DEFAULT NULL,
+  `Agency` varchar(20) DEFAULT NULL,
+  `OIC` varchar(20) DEFAULT NULL,
+  `Lead` varchar(20) DEFAULT NULL,
+  `CRM` varchar(20) DEFAULT NULL,
+  `Opening` varchar(20) DEFAULT NULL,
+  `intro_pitch` varchar(20) DEFAULT NULL,
+  `key_focus_area` varchar(20) DEFAULT NULL,
+  `objection_handling` varchar(20) DEFAULT NULL,
+  `urgency_creation` varchar(20) DEFAULT NULL,
+  `referral_closure_process` varchar(20) DEFAULT NULL,
+  `crm_disposition` varchar(20) DEFAULT NULL,
+  `missleading_customer` varchar(20) DEFAULT NULL,
+  `cmt1` text,
+  `cmt2` text,
+  `cmt3` text,
+  `cmt4` text,
+  `cmt5` text,
+  `cmt6` text,
+  `cmt7` text,
+  `cmt8` text,
+  `call_summary` text,
+  `feedback` text,
+  `attach_file` text,
+  `entry_by` int(11) DEFAULT NULL,
+  `entry_date` datetime NOT NULL,
+  `audit_start_time` datetime DEFAULT NULL,
+  `client_entryby` int(11) DEFAULT NULL,
+  `mgnt_rvw_by` int(11) DEFAULT NULL,
+  `mgnt_rvw_note` text,
+  `mgnt_rvw_date` datetime DEFAULT NULL,
+  `agent_rvw_note` text,
+  `agnt_fd_acpt` varchar(20) DEFAULT NULL,
+  `agent_rvw_date` datetime DEFAULT NULL,
+  `client_rvw_by` int(11) DEFAULT NULL,
+  `client_rvw_note` text,
+  `client_rvw_date` datetime DEFAULT NULL,
+  `log` text
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `qa_credit_mantri_referral_feedback`
+--
+ALTER TABLE `qa_credit_mantri_referral_feedback`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `audit_date` (`audit_date`),
+  ADD KEY `agent_id` (`agent_id`,`tl_id`,`call_date`,`overall_score`,`possible_score`,`earned_score`,`entry_by`,`client_entryby`,`mgnt_rvw_by`,`client_rvw_by`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `qa_credit_mantri_referral_feedback`
+--
+ALTER TABLE `qa_credit_mantri_referral_feedback`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;

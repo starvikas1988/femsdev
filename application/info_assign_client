@@ -1,0 +1,10 @@
+info_assign_client
+
+SELECT s.office_id,c.id as client_id,i.process_id,c.fullname as clientName,p.name as processName
+FROM signin s
+INNER JOIN info_assign_process i ON s.id=i.user_id
+INNER JOIN process p ON p.id=i.process_id
+INNER JOIN client c ON p.client_id=c.id
+INNER JOIN info_assign_client ic ON c.id=ic.client_id
+INNER JOIN signin sg ON ic.user_id=sg.id
+where c.is_active=1 and p.client_id not in (0) and s.office_id in ('CEB','MAN') group by p.client_id order by s.office_id
