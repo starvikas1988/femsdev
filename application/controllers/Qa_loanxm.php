@@ -138,6 +138,37 @@
 			}else{
 				$tl_mgnt_cond="";
 			}
+
+			/******** Randamiser Start***********/
+			//VIKAS START//
+			//Debt Solution 123
+			$rand_id=0;
+			if(!empty($this->uri->segment(4))){
+				$rand_id=$this->uri->segment(4);
+			}
+			$data['rand_id']=$rand_id;
+			$data["rand_data"] = "";
+
+			if($rand_id!=0){
+				$client_id=37;
+				$pro_id = 49;
+				$curDateTime=CurrMySqlDate();
+				$upArr = array('distribution_opend_by' =>$current_user,'distribution_opened_datetime'=>$curDateTime);
+				$this->db->where('id', $rand_id);
+				$this->db->update('qa_randamiser_debt_solution_123_data',$upArr);
+				
+				$randSql="Select srd.*,srd.aht as call_duration, S.id as sid, S.fname, S.lname, S.xpoid, S.assigned_to,
+				(select concat(fname, ' ', lname) as name from signin s1 where s1.id=S.assigned_to) as tl_name,
+				(SELECT r.folder as designation FROM `signin` sd
+			LEFT JOIN role r ON sd.role_id=r.id
+			where sd.fusion_id=srd.fusion_id) as designation,
+				DATEDIFF(CURDATE(), S.doj) as tenure
+				from qa_randamiser_debt_solution_123_data srd Left Join signin S On srd.fusion_id=S.fusion_id where srd.audit_status=0 and srd.id='$rand_id'";
+				$data["rand_data"] = $rand_data =  $this->Common_model->get_query_row_array($randSql);
+				
+			}
+			//VIKAS ENDS//
+			/******** Randamiser Ends**********/
 			
 			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,37) and is_assign_process(id,49) and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
@@ -180,6 +211,20 @@
 					}
 					$this->db->where('id', $rowid);
 					$this->db->update('qa_loanxm_feedback',$add_array);
+
+					//VIKAS START//
+					//Debt Solution 123
+
+					if($rand_id!=0){
+					$rand_cdr_array = array("audit_status" => 1);
+					$this->db->where('id', $rand_id);
+					$this->db->update('qa_randamiser_debt_solution_123_data',$rand_cdr_array);
+					
+					$rand_array = array("is_rand" => 1);
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_loanxm_feedback',$rand_array);
+					}
+					//VIKAS ENDS//
 					
 				}else{
 					
@@ -205,7 +250,16 @@
 					$this->db->update('qa_loanxm_feedback',$edit_array);
 					
 				}
-				redirect('qa_loanxm');
+
+				//VIKAS START//
+				//Debt Solution 123
+				if(isset($rand_data['upload_date']) && !empty($rand_data['upload_date'])){
+					$up_date = date('Y-m-d', strtotime($rand_data['upload_date']));
+					redirect('Qa_randamiser_vikas/data_distribute_freshdesk?from_date='.$up_date.'&client_id='.$client_id.'&pro_id='.$pro_id.'&submit=Submit');
+				}else{
+					redirect('qa_loanxm');
+				}
+				//VIKAS ENDS//
 			}
 			$data["array"] = $a;
 			$this->load->view("dashboard",$data);

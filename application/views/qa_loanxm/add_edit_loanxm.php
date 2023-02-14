@@ -57,6 +57,49 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											$auditDate = mysql2mmddyy($loanxm['audit_date']);
 											$clDate_val = mysql2mmddyy($loanxm['call_date']);
 										}
+
+										//VIKAS START//
+										//Debt Solution 123
+										$desig1="";
+										$designation1="";
+										// echo"<pre>";
+										// print_r($rand_data);
+										// echo"<pre>";
+										// exit();
+										if ($rand_id != 0) {
+
+											$agent_id = $rand_data['sid'];
+											$fusion_id = $rand_data['fusion_id'];
+											$agent_name = $rand_data['fname'] . " " . $rand_data['lname'];
+											$tl_id = $rand_data['assigned_to'];
+											$tl_name = $rand_data['tl_name'];
+											//$call_queue = "";
+											$designation1 = strtoupper($rand_data['designation']);
+											$call_duration =$rand_data['aht'];
+											$mobile_no = $rand_data['phone_no'];	
+											$call_type       = $rand_data['call_type'];
+											$clDate_val = date('m-d-Y',strtotime($rand_data['call_date']));
+											
+										} else {
+											$agent_id = $loanxm['agent_id'];
+											$fusion_id = $loanxm['fusion_id'];
+											$agent_name = $loanxm['fname'] . " " . $loanxm['lname'] ;
+											$tl_id = $loanxm['tl_id'];
+											$tl_name = $loanxm['tl_name'];
+											//$call_queue = $mobikwik_new['call_queue'];
+											
+											
+											$call_duration = $loanxm['call_duration'];
+											$mobile_no     = $loanxm['customer_contact'];
+											$call_type     = $loanxm['call_type'];
+											if ($loanxm_id == 0) {
+												$clDate_val = '';
+											} else {
+												//$clDate_val =mysqlDt2mmddyy($bsnl['call_date']);
+												$clDate_val = date('m-d-Y',strtotime($loanxm['call_date']));
+											}
+										}
+										//VIKAS ENDS//
 									?>
 									<tr>
 										<td style="width:16%">Auditor Name:</td>
@@ -70,7 +113,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>Agent:</td>
 										<td>
 											<select class="form-control" id="agent_id" name="data[agent_id]" required >
-												<option value="<?php echo $loanxm['agent_id'] ?>"><?php echo $loanxm['fname']." ".$loanxm['lname'] ?></option>
+												<option value="<?php echo $agent_id  ?>"><?php echo $agent_name; ?></option>
 												<option value="">-Select-</option>
 												<?php foreach($agentName as $row):  ?>
 													<option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
@@ -78,11 +121,11 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											</select>
 										</td>
 											<td>Fusion ID:</td>
-										<td><input type="text" class="form-control" id="fusion_id" value="<?php echo $loanxm['fusion_id'] ?>" readonly ></td>
+										<td><input type="text" class="form-control" id="fusion_id" value="<?php echo $fusion_id; ?>" readonly ></td>
 											<td>L1 Supervisor:</td>
 										<td>
 											<select class="form-control" id="tl_id" name="data[tl_id]" readonly>
-												<option value="<?php echo $loanxm['tl_id'] ?>"><?php echo $loanxm['tl_name'] ?></option>
+												<option value="<?php echo $tl_id ?>"><?php echo $tl_name; ?></option>
 												<option value="">--Select--</option>
 												<?php foreach($tlname as $tl): ?>
 													<option value="<?php echo $tl['id']; ?>"><?php echo $tl['name']; ?></option>
@@ -96,7 +139,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>Type of Call:</td>
 										<td>
 											<select class="form-control" name="data[call_type]" required>
-												<option value="<?php echo $loanxm['call_type'] ?>"><?php echo $loanxm['call_type'] ?></option>
+												<option value="<?php echo $call_type ?>"><?php echo $call_type ?></option>
 												<option value="">-Select-</option>
 												<option value="Inbound">Inbound</option>
 												<option value="Outbound">Outbound</option>
@@ -109,7 +152,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>Customer Name:</td>
 										<td><input type="text" class="form-control" name="data[customer_name]" value="<?php echo $loanxm['customer_name'] ?>" required ></td>
 										<td>Customer Contact number:</td>
-										<td><input type="text" class="form-control" name="data[customer_contact]" value="<?php echo $loanxm['customer_contact'] ?>" required ></td>
+										<td><input type="text" class="form-control" name="data[customer_contact]" onkeyup="checkDec(this);" value="<?php echo $mobile_no ?>" required ></td>
 										<td>Disposition</td>
 										<td><input type="text" class="form-control" name="data[disposition]" value="<?php echo $loanxm['disposition'] ?>"required></td>
 									</tr>

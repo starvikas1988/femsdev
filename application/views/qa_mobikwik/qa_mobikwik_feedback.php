@@ -1,3 +1,17 @@
+<style>
+.new-btn{
+		margin: 10px;
+	}
+	.new-btn .btn{
+		padding: 6px!important;
+	}
+	.padding_top{
+		padding-top: 0;
+	}
+	.btn-section .btn{
+		padding:10px;
+	}
+</style>
 
 <div class="wrap">
 	<section class="app-content">
@@ -8,10 +22,23 @@
 				<div class="widget">
 				
 					<div class="row">
-						<div class="col-md-10">
+						<div class="col-md-6">
 							<header class="widget-header">
 								<h4 class="widget-title">Search Feedback</h4>
 							</header>
+						</div>
+						<div class="col-md-6">
+							<?php $rand ="mobikwik";
+							$client_id =345;
+							$pro_id=719; ?>
+							<div class="pull-right new-btn">
+								<?php if(is_access_qa_module()==true || get_login_type()=="client" || is_access_randamiser()==true){ ?>
+									<a class="btn btn-primary" target="_blank" href="<?php echo base_url(); ?>qa_randamiser_vikas/data_upload_freshdesk/<?php echo $client_id; ?>/<?php echo $pro_id; ?>">Sampling/ Randamiser</a>
+								<?php }
+								if(is_access_agent_categorisation()==true){ ?>
+									<a class="btn btn-primary" target="_blank" href="<?php echo base_url(); ?>qa_agent_categorisation/index/<?php echo $client_id; ?>/<?php echo $pro_id; ?>">Agent Categorisation</a>
+								<?php } ?>
+							</div>
 						</div>	
 						<hr class="widget-separator">
 					</div>

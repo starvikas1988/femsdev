@@ -50,7 +50,6 @@ input[type=submit] {
 }
 
 </style>
-
 <div class="wrap">
 	<section class="app-content">
 		<div class="row">
@@ -114,7 +113,7 @@ input[type=submit] {
 
 								<div class="filter-widget1 compute-widget">
 							
-									<div class="col-sm-8">
+									<div class="col-sm-4">
 									<div class="form-group">
 									
 									<?= $this->session->flashdata('Success');?>
@@ -130,6 +129,19 @@ input[type=submit] {
 									
 									</div>
 								</div>
+								<div class="col-sm-4">
+							<?php $rand ="debit_solution123";
+							$client_id =37;
+							$pro_id=49; ?>
+							<div class="pull-right new-btn">
+								<?php if(is_access_qa_module()==true || get_login_type()=="client" || is_access_randamiser()==true){ ?>
+									<a class="btn btn-primary" target="_blank" href="<?php echo base_url(); ?>qa_randamiser_vikas/data_upload_freshdesk/<?php echo $client_id; ?>/<?php echo $pro_id; ?>">Sampling/ Randamiser</a>
+								<?php }
+								if(is_access_agent_categorisation()==true){ ?>
+									<a class="btn btn-primary" target="_blank" href="<?php echo base_url(); ?>qa_agent_categorisation/index/<?php echo $client_id; ?>/<?php echo $pro_id; ?>">Agent Categorisation</a>
+								<?php } ?>
+							</div>
+						</div>
 								<div class="col-sm-4">
 									<div class="form-group"  style="float:right;">
 										<a href="<?php echo base_url();?>qa_loanxm/sample_loanxm_download" class="btn btn-success" title="Download Sample Examination Excel" download="Sample Excel.xlsx" style="margin-right:5px;">Sample Excel</a>

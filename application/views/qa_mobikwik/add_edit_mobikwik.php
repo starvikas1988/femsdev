@@ -57,9 +57,55 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											}else{
 												$auditorName = $mobikwik_new['client_name'];
 											}
+
+											$auditDate = ConvServerToLocal($mobikwik_new['audit_date']);
 											$auditDate = mysql2mmddyy($mobikwik_new['audit_date']);
 											$clDate_val = mysqlDt2mmddyy($mobikwik_new['call_date']);
+											
 										}
+
+										//VIKAS START//
+										//Mobikwik
+										$desig1="";
+										$designation1="";
+										// echo"<pre>";
+										// print_r($rand_data);
+										// echo"<pre>";
+										// exit();
+										if ($rand_id != 0) {
+
+											$agent_id = $rand_data['sid'];
+											$fusion_id = $rand_data['fusion_id'];
+											$agent_name = $rand_data['fname'] . " " . $rand_data['lname'];
+											$tl_id = $rand_data['assigned_to'];
+											$tl_name = $rand_data['tl_name'];
+											//$call_queue = "";
+											$designation1 = strtoupper($rand_data['designation']);
+											$call_duration =$rand_data['aht'];
+											$mobile_no = $rand_data['caller_no'];	
+											$disposition=$rand_data['disposition'];
+											$clDate_val = date('m-d-Y',strtotime($rand_data['call_date']));
+											
+										} else {
+											$agent_id = $mobikwik_new['agent_id'];
+											$fusion_id = $mobikwik_new['fusion_id'];
+											$agent_name = $mobikwik_new['fname'] . " " . $mobikwik_new['lname'] ;
+											$tl_id = $mobikwik_new['tl_id'];
+											$tl_name = $mobikwik_new['tl_name'];
+											//$call_queue = $mobikwik_new['call_queue'];
+											
+											
+											$call_duration = $mobikwik_new['call_duration'];
+											$mobile_no = $mobikwik_new['customer_phone'];
+											$disposition=$mobikwik_new['agent_disposition'];
+											if ($mobikwik_id == 0) {
+												$clDate_val = '';
+											} else {
+												//$clDate_val =mysqlDt2mmddyy($bsnl['call_date']);
+												$clDate_val = date('m-d-Y',strtotime($mobikwik_new['call_date']));
+											}
+										}
+										//VIKAS ENDS//
 									?>
 									<tr>
 										<td>Name of Auditor:</td>
@@ -76,7 +122,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>Agent/TL/QA/Trainer:</td>
 										<td colspan=2>
 											<select class="form-control" id="agent_id" name="data[agent_id]" required>
-												<option value="<?php echo $mobikwik_new['agent_id'] ?>"><?php echo $mobikwik_new['fname']." ".$mobikwik_new['lname'] ?></option>
+												<option value="<?php echo $agent_id  ?>"><?php echo $agent_name; ?></option>
 												<option value="">-Select-</option>
 												<?php foreach($agentName as $row):  ?>
 													<?php 
@@ -94,11 +140,11 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											</select>
 										</td>
 										<td>MWP ID:</td>
-										<td colspan=2><input type="text" class="form-control" id="fusion_id" value="<?php echo $mobikwik_new['fusion_id'] ?>" readonly></td>
+										<td colspan=2><input type="text" class="form-control" id="fusion_id" value="<?php echo $fusion_id; ?>" readonly></td>
 										<td>L1 Supervisor:</td>
 										<td colspan=2>
 											<select class="form-control" id="tl_id" name="data[tl_id]" readonly>
-												<option value="<?php echo $mobikwik_new['tl_id'] ?>"><?php echo $mobikwik_new['tl_name'] ?></option>
+												<option value="<?php echo $tl_id ?>"><?php echo $tl_name; ?></option>
 												<option value="">--Select--</option>
 												<?php foreach($tlname as $tl): ?>
 													<option value="<?php echo $tl['id']; ?>"><?php echo $tl['fname']." ".$tl['lname']; ?></option>
@@ -109,8 +155,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									<tr>
 										<td>Designation:</td>
 										<?php 
-										$desig1 = '';
-										if($mobikwik_new['agent_id']!=''){
+										//$desig1 = '';
+										if($agent_id!=''){
 											if($mobikwik_new['roleName'] == 'QA Auditor' || $mobikwik_new['roleName'] == 'QA Specialist' || $mobikwik_new['roleName'] == 'Quality Analyst'){
 														$desig1 = 'QA';
 
@@ -118,7 +164,19 @@ if(is_access_qa_edit_feedback()==false){ ?>
 														$desig1 = strtoupper($mobikwik_new['designation']);
 											}
 											?>
-											<td colspan=2><input type="text" class="form-control" id="designation" name="" value="<?php echo $desig1; ?>" readonly></td>
+											<?php 
+											if($designation1!=""){
+												?>
+												<td colspan=2><input type="text" class="form-control" id="designation" name="" value="<?php echo $designation1; ?>" readonly></td>
+												<?php
+
+											}else{
+												?>
+												<td colspan=2><input type="text" class="form-control" id="designation" name="" value="<?php echo $desig1; ?>" readonly></td>
+												<?php
+											}
+											?>
+											
 											<?php
 
 										}else{
@@ -130,7 +188,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										
 										
 										<td>AHT:</td>
-										<td colspan=2><input type="text" class="form-control" id="call_duration" name="data[call_duration]" value="<?php echo $mobikwik_new['call_duration'] ?>" required></td>
+										<td colspan=2><input type="text" class="form-control" id="call_duration" name="data[call_duration]" value="<?php echo $call_duration ?>" required></td>
 										<!-- <td>Product Name:</td>
 
 										<td colspan=2><input type="text" class="form-control" id="product_name" name="data[product_name]" value="<?php echo $mobikwik_new['product_name'] ?>" required></td> -->
@@ -149,9 +207,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									</tr>
 									<tr>
 										<td>Phone:</td>
-										<td colspan=2><input type="text" class="form-control" id="phone" name="data[customer_phone]" onkeyup="checkDec(this);" value="<?php echo $mobikwik_new['customer_phone'] ?>" required></td>
+										<td colspan=2><input type="text" class="form-control" id="phone" name="data[customer_phone]" onkeyup="checkDec(this);" value="<?php echo $mobile_no ?>" required></td>
 										<td>Agent Disposition:</td>
-										<td colspan=2><input type="text" class="form-control" name="data[agent_disposition]" value="<?php echo $mobikwik_new['agent_disposition'] ?>" required></td>
+										<td colspan=2><input type="text" class="form-control" name="data[agent_disposition]" value="<?php echo $disposition ?>" required></td>
 										<td>QA Disposition:</td>
 										<td colspan=2><input type="text" class="form-control" name="data[qa_disposition]" value="<?php echo $mobikwik_new['qa_disposition'] ?>" required></td>
 									</tr>
