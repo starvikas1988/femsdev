@@ -4,12 +4,16 @@
 				
 	public function __construct(){
 		parent::__construct();
-		$this->load->library('excel');
+		
 		$this->load->model('user_model');
 		$this->load->model('Common_model');
+		$this->load->model('reports_model');
+		$this->reports_model->set_report_database("report");
+		
+		$this->load->helper(array('form', 'url'));
 		
 		$this->load->model('Qa_randamiser_model');
-		
+		$this->load->library('excel');
 		$this->objPHPExcel = new PHPExcel();
 	}
 	
@@ -155,7 +159,7 @@
 					}	
 				}
 				//exit;
-				 //echo "<pre>"; print_r($user_list); echo "</pre>";exit;
+				// echo "<pre>"; print_r($user_list); echo "</pre>";exit;
 				 $client_id = $this->input->post('client_id');
 				 $pro_id = $this->input->post('pro_id');
 				 if($client_id == 288 &&  $pro_id == 614){
@@ -302,9 +306,31 @@
 			$data["aside_template"] = "qa_randamiser/aside.php";
 			$data["content_template"] = "qa_randamiser/randamiser/data_cdr_upload_freshdesk_vikas.php";
 			$data["content_js"] = "qa_randamiser_vikas_js.php";
+			//$dn_link ='';
 			
+			
+			
+			// $client_id = $this->uri->segment(3);
+			// $pro_id = $this->uri->segment(4);
+			// $up_date = $this->uri->segment(5);
+			// if($client_id ==''){
+			// 	$client_id = $this->input->get('client_id');
+			// }
+
+			// if($pro_id ==''){
+			// 	$pro_id = $this->input->get('pro_id');
+			// }
+
+			// if($up_date ==''){
+			// 	$up_date = $this->input->get('up_date');
+			// }
+
 			$data['client_id'] = $client_id = $this->uri->segment(3);
 			$data['pro_id'] = $pro_id = $this->uri->segment(4);
+
+			//vikas start
+			$data['up_date'] = $up_date = $this->uri->segment(5);
+			// vikas ends
 			
 			if($client_id == 288 && $pro_id== 614){
 				$rand_table = "qa_randamiser_bsnl_data";
@@ -349,12 +375,315 @@
 			//vikas end//
 			$qSql = "Select count(*) as count, date(upload_date) as uplDate from $rand_table group by date(upload_date)";
 			$data["sampling"] = $this->Common_model->get_query_result_array($qSql);
-			
+
 			$this->load->view("dashboard",$data);
 		}
 	}
 	
-	
+	//vikas start
+	public function download_qa_randamiser_CSV($client_id,$pro_id,$up_date)
+	{
+		
+		$client_sql = "Select fullname from client where is_active=1 and id='".$client_id."' ";
+		$client_res = $this->Common_model->get_query_row_array($client_sql);
+		//print_r($client_res);
+		//exit();
+
+		if($client_id == 288 && $pro_id== 614){
+				$rand_table = "qa_randamiser_bsnl_data";
+			}
+			if($client_id == 202 && $pro_id== 411){
+				$rand_table = "qa_randamiser_indiamart_data";
+			}if($client_id == 314 && $pro_id== 663){
+				$rand_table = "qa_randamiser_nurture_farm_data";
+			}
+			// Cras 24 Pre-booking
+			if($client_id == 246 && $pro_id== 529){
+				$rand_table = "qa_randamiser_cars24_data";
+			}
+			// Touch Fuse New
+			if($client_id == 134 && $pro_id== 753){
+				$rand_table = "qa_randamiser_touchfuse_data";
+			}
+			// Blains
+			if($client_id == 134 && $pro_id== 271){
+				$rand_table = "qa_randamiser_blains_data";
+			}
+
+			//vikas start//
+			//Mobikwik
+			if($client_id == 345 && $pro_id== 719){
+				 $rand_table = "qa_randamiser_mobikwik_data";
+			}
+
+
+			//Cholamandlam
+
+			if($client_id == 266 && $pro_id== 554){
+				 $rand_table = "qa_randamiser_cholamandlam_data";
+			}
+
+			//Debt Solution 123
+
+			if($client_id == 37 && $pro_id== 49){
+				 $rand_table = "qa_randamiser_debt_solution_123_data";
+			}
+
+
+		$sqlR="SELECT xx.*,(select concat(fname, ' ', lname) as name from signin s where s.fusion_id=xx.fusion_id) as agent_name,
+		(select concat(fname, ' ', lname) as name from signin s where s.id=(select assigned_to from signin si where si.fusion_id=xx.fusion_id)) as tl_name
+				from $rand_table xx WHERE date(xx.upload_date)='".$up_date."'
+				 "; 				
+				//echo $sqlR;
+
+		$fullAray = $this->Common_model->get_query_result_array($sqlR);
+
+				// echo"<pre>";
+				// print_r($fullAray);
+				// echo"</pre>";
+				// exit();
+
+		//$data["sampling_data"] = $fullAray;
+		$this->create_qa_randamiser_CSV($fullAray,$client_id,$pro_id);
+
+
+		$currDate=date("Y-m-d");
+		$filename = "./qa_files/qa_reports_data/Report_".$client_res['fullname'].get_user_id().$client_id.".csv";
+		$newfile="QA randamiser ".$client_res['fullname']." Audit List-'".$currDate."'.csv";
+		header('Content-Disposition: attachment;  filename="'.$newfile.'"');
+		readfile($filename);
+	}
+
+	public function create_qa_randamiser_CSV($rr,$client_id,$pro_id)
+	{
+		// echo $client_id;
+		// echo"<br>";
+		// echo $pro_id;
+		// echo"<br>";
+		// print_r($rr);
+		// exit;
+		$currDate=date("Y-m-d");
+
+		$client_sql = "Select fullname from client where is_active=1 and id='".$client_id."' ";
+		$client_res = $this->Common_model->get_query_row_array($client_sql);
+
+		$filename = "./qa_files/qa_reports_data/Report_".$client_res['fullname'].get_user_id().$client_id.".csv";
+		$fopen = fopen($filename,"w+");
+
+		if($client_id==37 && $pro_id==49){
+			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+			 "phone_no", "call_type", "rpc", "upload_date");
+
+			$row = "";
+			foreach($header as $data) $row .= ''.$data.',';
+			fwrite($fopen,rtrim($row,",")."\r\n");
+			$searches = array("\r", "\n", "\r\n");
+
+			foreach($rr as $user){
+				$row  = '"'.$user['fusion_id'].'",';
+				$row .= '"'.$user['agent_name'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['aht'].'",';
+				$row .= '"'.$user['phone_no'].'",';
+				$row .= '"'.$user['call_type'].'",';
+				$row .= '"'.$user['rpc'].'",';
+				$row .= '"'.$user['upload_date'].'",';
+				fwrite($fopen,$row."\r\n");
+			}
+			//exit;
+			fclose($fopen);
+		} 
+		else if($client_id == 288 && $pro_id== 614){
+			//  print_r($rr);
+			// exit;
+			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+			 "customer_number", "recording_track_id", "sap_id_extension","campaign","first_disposed","disconnected_by", "upload_date");
+			$row = "";
+			foreach($header as $data) $row .= ''.$data.',';
+			fwrite($fopen,rtrim($row,",")."\r\n");
+			$searches = array("\r", "\n", "\r\n");
+
+			foreach($rr as $user){
+				$row  = '"'.$user['fusion_id'].'",';
+				$row .= '"'.$user['agent_name'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['aht'].'",';
+				$row .= '"'.$user['customer_number'].'",';
+				$row .= '"'.$user['recording_track_id'].'",';
+				$row .= '"'.$user['sap_id_extension'].'",';
+				$row .= '"'.$user['campaign'].'",';
+				$row .= '"'.$user['first_disposed'].'",';
+				$row .= '"'.$user['disconnected_by'].'",';
+				$row .= '"'.$user['upload_date'].'",';
+				fwrite($fopen,$row."\r\n");
+			}
+			//exit;
+			fclose($fopen);
+		}else if($client_id == 202 && $pro_id== 411){
+			//  print_r($rr);
+			// exit;
+			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+			 "called_no", "out_in", "call_type", "upload_date");
+			$row = "";
+			foreach($header as $data) $row .= ''.$data.',';
+			fwrite($fopen,rtrim($row,",")."\r\n");
+			$searches = array("\r", "\n", "\r\n");
+
+			foreach($rr as $user){
+				$row  = '"'.$user['fusion_id'].'",';
+				$row .= '"'.$user['agent_name'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['aht'].'",';
+				$row .= '"'.$user['called_no'].'",';
+				$row .= '"'.$user['out_in'].'",';
+				$row .= '"'.$user['call_type'].'",';
+				$row .= '"'.$user['upload_date'].'",';
+				fwrite($fopen,$row."\r\n");
+			}
+			//exit;
+			fclose($fopen);
+		}else if($client_id == 246 && $pro_id== 529){
+			//  print_r($rr);
+			// exit;
+			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+			 "call_id", "process_name", "customer_number","campaign","system_disposition","hangup_details","disposition_code","disposition_class", "upload_date");
+			$row = "";
+			foreach($header as $data) $row .= ''.$data.',';
+			fwrite($fopen,rtrim($row,",")."\r\n");
+			$searches = array("\r", "\n", "\r\n");
+
+			foreach($rr as $user){
+				$row  = '"'.$user['fusion_id'].'",';
+				$row .= '"'.$user['agent_name'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['aht'].'",';
+				$row .= '"'.$user['call_id'].'",';
+				$row .= '"'.$user['process_name'].'",';
+				$row .= '"'.$user['customer_number'].'",';
+				$row .= '"'.$user['campaign'].'",';
+				$row .= '"'.$user['system_disposition'].'",';
+				$row .= '"'.$user['hangup_details'].'",';
+				$row .= '"'.$user['disposition_code'].'",';
+				$row .= '"'.$user['disposition_class'].'",';
+				$row .= '"'.$user['upload_date'].'",';
+				fwrite($fopen,$row."\r\n");
+			}
+			//exit;
+			fclose($fopen);
+		}else if($client_id == 134 && $pro_id== 753){
+			//  print_r($rr);
+			// exit;
+			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+			 "customer_disconnection_source", "customer_number","campaign", "upload_date");
+			$row = "";
+			foreach($header as $data) $row .= ''.$data.',';
+			fwrite($fopen,rtrim($row,",")."\r\n");
+			$searches = array("\r", "\n", "\r\n");
+
+			foreach($rr as $user){
+				$row  = '"'.$user['fusion_id'].'",';
+				$row .= '"'.$user['agent_name'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['aht'].'",';
+				$row .= '"'.$user['customer_disconnection_source'].'",';
+				$row .= '"'.$user['customer_number'].'",';
+				$row .= '"'.$user['campaign'].'",';
+				$row .= '"'.$user['upload_date'].'",';
+				fwrite($fopen,$row."\r\n");
+			}
+			//exit;
+			fclose($fopen);
+		}else if($client_id == 134 && $pro_id== 271){
+			//  print_r($rr);
+			// exit;
+			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+			 "customer_disconnection_source", "customer_number","campaign", "upload_date");
+			$row = "";
+			foreach($header as $data) $row .= ''.$data.',';
+			fwrite($fopen,rtrim($row,",")."\r\n");
+			$searches = array("\r", "\n", "\r\n");
+
+			foreach($rr as $user){
+				$row  = '"'.$user['fusion_id'].'",';
+				$row .= '"'.$user['agent_name'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['aht'].'",';
+				$row .= '"'.$user['customer_disconnection_source'].'",';
+				$row .= '"'.$user['customer_number'].'",';
+				$row .= '"'.$user['campaign'].'",';
+				$row .= '"'.$user['upload_date'].'",';
+				fwrite($fopen,$row."\r\n");
+			}
+			//exit;
+			fclose($fopen);
+		}else if($client_id == 345 && $pro_id== 719){
+			//  print_r($rr);
+			// exit;
+			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+			 "caller_no", "call_id","skill","status","dial_status","disposition","hangup_by","campaign", "upload_date");
+			$row = "";
+			foreach($header as $data) $row .= ''.$data.',';
+			fwrite($fopen,rtrim($row,",")."\r\n");
+			$searches = array("\r", "\n", "\r\n");
+
+			foreach($rr as $user){
+				$row  = '"'.$user['fusion_id'].'",';
+				$row .= '"'.$user['agent_name'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['aht'].'",';
+				$row .= '"'.$user['caller_no'].'",';
+				$row .= '"'.$user['call_id'].'",';
+				$row .= '"'.$user['skill'].'",';
+				$row .= '"'.$user['status'].'",';
+				$row .= '"'.$user['dial_status'].'",';
+				$row .= '"'.$user['disposition'].'",';
+				$row .= '"'.$user['hangup_by'].'",';
+				$row .= '"'.$user['campaign'].'",';
+				$row .= '"'.$user['upload_date'].'",';
+				fwrite($fopen,$row."\r\n");
+			}
+			//exit;
+			fclose($fopen);
+		}else if($client_id == 266 && $pro_id== 554){
+			//  print_r($rr);
+			// exit;
+			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+			 "called_no", "agreement_no","call_status","attempts","paymode","branch","bucket","region", "upload_date");
+			$row = "";
+			foreach($header as $data) $row .= ''.$data.',';
+			fwrite($fopen,rtrim($row,",")."\r\n");
+			$searches = array("\r", "\n", "\r\n");
+
+			foreach($rr as $user){
+				$row  = '"'.$user['fusion_id'].'",';
+				$row .= '"'.$user['agent_name'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['aht'].'",';
+				$row .= '"'.$user['called_no'].'",';
+				$row .= '"'.$user['agreement_no'].'",';
+				$row .= '"'.$user['call_status'].'",';
+				$row .= '"'.$user['attempts'].'",';
+				$row .= '"'.$user['paymode'].'",';
+				$row .= '"'.$user['branch'].'",';
+				$row .= '"'.$user['bucket'].'",';
+				$row .= '"'.$user['region'].'",';
+				$row .= '"'.$user['upload_date'].'",';
+				fwrite($fopen,$row."\r\n");
+			}
+			//exit;
+			fclose($fopen);
+		}
+	}
+
+	//vikas ends
 	
 /*******************************************************************/
 /*                      COMPUTE SAMPLING                           */
@@ -756,41 +1085,41 @@
 
 				//VIKAS START//
 				//Mobikwik
-				if(!empty($hangup_by)) $hangup_by = implode(',',$hangup_by);
-				else $hangup_by = "";
+				if(!empty($hangup_by)) $hangup_by_con = implode(',',$hangup_by);
+				else $hangup_by_con = "";
 
-				if(!empty($status_details)) $status_details = implode(',',$status_details);
-				else $status_details = "";
+				if(!empty($status_details)) $status_details_con = implode(',',$status_details);
+				else $status_details_con = "";
 
 				if(!empty($disposition_mobi)) $mobikwik_disposition = implode(',',$disposition_mobi);
 				else $mobikwik_disposition = "";
 
 				//Cholamandlam
-				if(!empty($call_status_chola)) $call_status_chola = implode(',',$call_status_chola);
-				else $call_status_chola = "";
+				if(!empty($call_status_chola)) $call_status_chola_con = implode(',',$call_status_chola);
+				else $call_status_chola_con = "";
 
-				if(!empty($attempts_chola)) $attempts_chola = implode(',',$attempts_chola);
-				else $attempts_chola = "";
+				if(!empty($attempts_chola)) $attempts_chola_con = implode(',',$attempts_chola);
+				else $attempts_chola_con = "";
 
-				if(!empty($paymode_chola)) $paymode_chola = implode(',',$paymode_chola);
-				else $paymode_chola = "";
+				if(!empty($paymode_chola)) $paymode_chola_con = implode(',',$paymode_chola);
+				else $paymode_chola_con = "";
 
-				if(!empty($branch_chola)) $branch_chola = implode(',',$branch_chola);
-				else $branch_chola = "";
+				if(!empty($branch_chola)) $branch_chola_con = implode(',',$branch_chola);
+				else $branch_chola_con = "";
 
-				if(!empty($bucket_chola)) $bucket_chola = implode(',',$bucket_chola);
-				else $bucket_chola = "";
+				if(!empty($bucket_chola)) $bucket_chola_con = implode(',',$bucket_chola);
+				else $bucket_chola_con = "";
 
-				if(!empty($region_chola)) $region_chola = implode(',',$region_chola);
-				else $region_chola = "";
+				if(!empty($region_chola)) $region_chola_con = implode(',',$region_chola);
+				else $region_chola_con = "";
 
 				//Debt Solution 123
 
-				if(!empty($call_type_debit)) $call_type_debit = implode(',',$call_type_debit);
-				else $call_type_debit = "";
+				if(!empty($call_type_debit)) $call_type_debit_con = implode(',',$call_type_debit);
+				else $call_type_debit_con = "";
 
-				if(!empty($rpc_debit)) $rpc_debit = implode(',',$rpc_debit);
-				else $rpc_debit = "";
+				if(!empty($rpc_debit)) $rpc_debit_con = implode(',',$rpc_debit);
+				else $rpc_debit_con = "";
 
 				//VIKAS ENDS//
 				
@@ -930,8 +1259,8 @@
 						"qa_id" => $qa_id_sel,
 						"aht" => $aht_sel,
 						"campaign" => $campaign_sel,
-						"hangup_by" => $hangup_by,
-						"dial_status" => $status_details,
+						"hangup_by" => $hangup_by_con,
+						"dial_status" => $status_details_con,
 						"disposition" => $mobikwik_disposition,
 						"log" => $log
 					);	
@@ -951,12 +1280,12 @@
 						"agent_id" => $agent_id_sel,
 						"qa_id" => $qa_id_sel,
 						"aht" => $aht_sel,
-						"call_status" => $call_status_chola,
-						"attempts" => $attempts_chola,
-						"paymode" => $paymode_chola,
-						"branch" => $branch_chola,
-						"bucket" => $bucket_chola,
-						"region" => $region_chola,
+						"call_status" => $call_status_chola_con,
+						"attempts" => $attempts_chola_con,
+						"paymode" => $paymode_chola_con,
+						"branch" => $branch_chola_con,
+						"bucket" => $bucket_chola_con,
+						"region" => $region_chola_con,
 						"log" => $log
 					);	
 					$comp_table = "qa_randamiser_compute_logic_cholamandlam";
@@ -976,8 +1305,8 @@
 						"agent_id" => $agent_id_sel,
 						"qa_id" => $qa_id_sel,
 						"aht" => $aht_sel,
-						"call_type" => $call_type_debit,
-						"rpc" => $rpc_debit,
+						"call_type" => $call_type_debit_con,
+						"rpc" => $rpc_debit_con,
 						"log" => $log
 					);	
 					$comp_table = "qa_randamiser_compute_logic_debt_solution_123";
@@ -1115,57 +1444,61 @@
 
 				//Cholamandlam
 
-				$call_status_cholas 	=	$this->input->post('call_status');
-				$attempts_cholas 		=	$this->input->post('attempts');
-				$paymode_cholas 		=	$this->input->post('paymode');
-				$branch_cholas			=	$this->input->post('branch');
-				$bucket_cholas			=	$this->input->post('bucket');
-				$region_cholas			=	$this->input->post('region');
+				//$call_status_cholas 	=	$this->input->post('call_status');
+				// $attempts_cholas 		=	$this->input->post('attempts');
+				// $paymode_cholas 		=	$this->input->post('paymode');
+				// $branch_cholas			=	$this->input->post('branch');
+				// $bucket_cholas			=	$this->input->post('bucket');
+				// $region_cholas			=	$this->input->post('region');
 
-				if($call_status_cholas!=""){
-					$call_statusCholas=implode("','", $call_status_cholas);
+				if($call_status_chola!=""){
+					$call_statusCholas=implode("','", $call_status_chola);
 					$call_statusCholas_cond .=" and RCD.call_status in ('$call_statusCholas')";
 				}
-				if($attempts_cholas!=""){
-					$attemptsCholas=implode("','", $attempts_cholas);
+				if($attempts_chola!=""){
+					$attemptsCholas=implode("','", $attempts_chola);
 					$attemptsCholas_cond .=" and RCD.attempts in ('$attemptsCholas')";
 				}
-				if($paymode_cholas!=""){
-					$paymodeCholas=implode("','", $paymode_cholas);
+				if($paymode_chola!=""){
+					$paymodeCholas=implode("','", $paymode_chola);
 					$paymodeCholas_cond .=" and RCD.paymode in ('$paymodeCholas')";
 				}
 
-				if($branch_cholas!=""){
-					$branchCholas=implode("','", $branch_cholas);
+				if($branch_chola!=""){
+					$branchCholas=implode("','", $branch_chola);
 					$branchCholas_cond .=" and RCD.branch in ('$branchCholas')";
 				}
 
-				if($bucket_cholas!=""){
-					$bucketCholas=implode("','", $bucket_cholas);
+				if($bucket_chola!=""){
+					$bucketCholas=implode("','", $bucket_chola);
 					$bucketCholas_cond .=" and RCD.bucket in ('$bucketCholas')";
 				}
 
-				if($region_cholas!=""){
-					$regionCholas=implode("','", $region_cholas);
+				if($region_chola!=""){
+					$regionCholas=implode("','", $region_chola);
 					$regionCholas_cond .=" and RCD.region in ('$regionCholas')";
 				}
 
 				if($client_id == 266 && $pro_id== 554){
-					$ext_cond .= $hangup_details_cond. $status_details_cond.$disposition_class_cond;
+					$ext_cond .= $call_statusCholas_cond. $attemptsCholas_cond.$paymodeCholas_cond.$branchCholas_cond.$bucketCholas_cond.$regionCholas_cond;
 				}
 
 				//Debt Solution 123
 
-				$call_type_debit 	=	$this->input->post('call_type');
-				$rpc_debit 			=	$this->input->post('rpc');
+				//$call_type_debit 	=	$this->input->post('call_type');
+				//$rpc_debit 			=	$this->input->post('rpc');
 
 				if($call_type_debit!=""){
 					$call_type_debit=implode("','", $call_type_debit);
-					$call_type_debit_cond .=" and RCD.call_status in ('$call_type_debit')";
+					$call_type_debit_cond .=" and RCD.call_type in ('$call_type_debit')";
 				}
 				if($rpc_debit!=""){
 					$rpc_debit=implode("','", $rpc_debit);
-					$rpc_debit_cond .=" and RCD.attempts in ('$rpc_debit')";
+					$rpc_debit_cond .=" and RCD.rpc in ('$rpc_debit')";
+				}
+
+				if($client_id == 37 && $pro_id== 49){
+					$ext_cond .= $call_type_debit_cond. $rpc_debit_cond;
 				}
 
 				//vikas ends//
@@ -1905,24 +2238,109 @@
 			redirect('Qa_randamiser_vikas/data_distribute_freshdesk'.$redURL);
 		}
 	}
-	/* function getAuditCountWeekly($agent_id, $client_id, $pro_id){
-		
-		$currDate=CurrDate();
-		
-		if($from_date!="")  $cond= "MONTH(audit_date)=MONTH('$from_date') AND YEAR(audit_date)=YEAR('$from_date') ";
-		$defect_sql = "select table_name from qa_defect WHERE client_id=".$client_id." and process_id=".$pro_id;
-		$defect_data = $this->Common_model->get_query_result_array($defect_sql);
-		
-		$total_score = 0;
-		$total_audit = 0;
-		foreach($defect_data as $d_data){
-			$qsql = 'select count(id) as total_audit from '.$d_data['table_name'].' where agent_id = '.$agent_id.' and '.$cond;
-			$audit_data = $this->Common_model->get_query_row_array($qsql);
-			$total_audit = $total_audit + $audit_data['total_audit'];
-		}
-		
-		return $total_audit;
-	} */
+
+	/********************************vikas start*****************************************/
+	// public function download_data_cdr_upload_freshdesk(){
+	// 	if(check_logged_in()){
+	// 		$up_date = $this->input->get('up_date');
+	// 		$client_id = $this->input->get('client_id');
+	// 		$pro_id = $this->input->get('pro_id');
+
+	// 		$from_date="";
+	// 		$cond="";
+	// 		$randCond="";
+	// 		$rand_tbl="";
+			
+			
+			
+	// 		$loc_sql="Select * from office_location where is_active=1";
+	// 		$data["location"]=$this->Common_model->get_query_result_array($loc_sql);
+			
+	// 		$qa_sql="Select id, fusion_id, office_id, concat(fname, ' ', lname) as name from signin where status=1 and dept_id=5 order by name";
+	// 		$data["qa"]=$this->Common_model->get_query_result_array($qa_sql);
+
+			
+	// 		$data["sampling_data"] = array();
+	// 		$sel_fields="";
+	// 		$sel_distribute_fields="";
+	// 		if($client_id==202 && $pro_id==411)
+	// 		{
+	// 			$tableName = "qa_randamiser_indiamart_data";
+
+	// 		}
+	// 		//BSNL
+	// 		if($client_id==288 && $pro_id==614){
+	// 			$tableName = "qa_randamiser_bsnl_data";
+	// 			$redURL = 'qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
+
+	// 		}
+	// 		// Nurture Farm
+	// 		if($client_id==314 && $pro_id==663){
+	// 			$tableName = "qa_randamiser_nurture_farm_data";
+	// 			$redURL = 'qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
+
+	// 		}
+	// 		// Cars24
+	// 		if($client_id == 246 && $pro_id== 529){
+	// 			$tableName = "qa_randamiser_cars24_data";
+	// 			$redURL = 'qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
+	// 		}
+	// 		// Touchfuse
+	// 		if($client_id == 134 && $pro_id== 753){
+	// 			$tableName = "qa_randamiser_touchfuse_data";
+	// 			$redURL = 'qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
+				
+	// 		}
+	// 		// Blains
+	// 		if($client_id == 134 && $pro_id== 271){
+	// 			$tableName = "qa_randamiser_blains_data";
+	// 			$redURL = 'qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
+				
+	// 		}
+
+	// 		//VIKAS START//
+	// 		// Mobikwik
+	// 		if($client_id == 345 && $pro_id== 719){
+	// 			$tableName = "qa_randamiser_mobikwik_data";
+	// 			$redURL = 'qa_randamiser_vikas/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
+
+	// 		}
+
+	// 		//Cholamandlam
+	// 		if($client_id == 266 && $pro_id== 554){
+	// 			$tableName = "qa_randamiser_cholamandlam_data";
+	// 			$redURL = 'qa_randamiser_vikas/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
+	// 		}
+
+	// 		//Debt Solution 123
+
+	// 		if($client_id == 37 && $pro_id== 49){
+	// 			$tableName = "qa_randamiser_debt_solution_123_data";
+	// 			$redURL = 'qa_randamiser_vikas/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
+	// 		}
+
+	// 		$sqlR="SELECT xx.*,(select concat(fname, ' ', lname) as name from signin s where s.fusion_id=xx.fusion_id) as agent_name
+	// 			from $tableName xx WHERE date(xx.upload_date)='".$up_date."'
+	// 			 "; 				
+	// 			//echo $sqlR;
+
+	// 			$fullAray = $this->Common_model->get_query_result_array($sqlR);
+
+	// 			// echo"<pre>";
+	// 			// print_r($fullAray);
+	// 			// echo"</pre>";
+	// 			// exit();
+
+	// 			$data["sampling_data"] = $fullAray;
+	// 			$this->create_qa_randamiser_CSV($fullAray,$client_id,$pro_id);
+	// 			$dn_link = base_url()."Qa_randamiser_vikas/download_qa_randamiser_CSV/".$client_id.$pro_id;
+
+	// 		//VIKAS ENDS//
+	// 	}
+	// }
+
+
+	/********************************vikas ends*****************************************/
  }
  
  ?>

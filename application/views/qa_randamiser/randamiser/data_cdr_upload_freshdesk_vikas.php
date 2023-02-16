@@ -36,7 +36,7 @@ input[type=submit]{
 								</div>
 									<div class="col-sm-6">
 									<div class="form-group" style="float:right;">
-										<a href="<?php echo base_url();?>Qa_randamiser/sample_cdr_download/<?php echo $client_id?>/<?php echo $pro_id;?>" class="btn btn-success" title="Download Sample Examination Excel" download="Sample Excel.xlsx">Sample Excel</a>
+										<a href="<?php echo base_url();?>Qa_randamiser_vikas/sample_cdr_download/<?php echo $client_id;?>/<?php echo $pro_id;?>" class="btn btn-success" title="Download Sample Examination Excel" download="Sample Excel.xlsx">Sample Excel</a>
 									</div>
 								</div>
 							</div>
@@ -51,7 +51,7 @@ input[type=submit]{
 									<div class="form-group file-section">
 									
 									<?= $this->session->flashdata('Success');?>
-									<?= form_open( base_url('Qa_randamiser/import_cdr_excel_data/'),array('method'=>'post','enctype'=>'multipart/form-data'));?>
+									<?= form_open( base_url('Qa_randamiser_vikas/import_cdr_excel_data/'),array('method'=>'post','enctype'=>'multipart/form-data'));?>
 										<!-- <input class="upload-path" disabled /> -->
 										  <label class="upload">
 										  	<span>Upload Sample</span>
@@ -67,7 +67,7 @@ input[type=submit]{
 								</div>
 							<!-- 	<div class="col-sm-4">
 									<div class="form-group" style="float:right;">
-										<a href="<?php echo base_url();?>Qa_randamiser/sample_cdr_download" class="btn btn-success" title="Download Sample Examination Excel" download="Sample Excel.xlsx">Sample Excel</a>
+										<a href="<?php echo base_url();?>Qa_randamiser_vikas/sample_cdr_download" class="btn btn-success" title="Download Sample Examination Excel" download="Sample Excel.xlsx">Sample Excel</a>
 									</div>
 								</div> -->
 								<!--<div class="col-sm-4">
@@ -123,9 +123,14 @@ input[type=submit]{
 											<td><?php echo $row['count']; ?></td>
 											<td><?php echo $row['uplDate']; ?></td>
 											<td>
-												<a href="<?php echo base_url();?>Qa_randamiser/remove_data_cdr_upload_freshdesk/?up_date=<?php echo $row['uplDate'];?>&client_id=<?php echo $client_id;?>&pro_id=<?php echo $pro_id;?>" class="edit-btn">
+												<a href="<?php echo base_url();?>Qa_randamiser_vikas/remove_data_cdr_upload_freshdesk/?up_date=<?php echo $row['uplDate'];?>&client_id=<?php echo $client_id;?>&pro_id=<?php echo $pro_id;?>" class="edit-btn">
 													<i class="fa fa-trash" aria-hidden="true"></i>
 												</a>
+												<a href="<?php echo base_url();?>Qa_randamiser_vikas/download_qa_randamiser_CSV/<?php echo $client_id;?>/<?php echo $pro_id;?>/<?php echo $row['uplDate'];?>" class="edit-btn">
+													<i class="fa fa-download" aria-hidden="true"></i>
+												</a>
+												
+
 											</td>
 										</tr>
 										<?php } ?>

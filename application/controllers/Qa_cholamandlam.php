@@ -147,6 +147,14 @@
 				(Select id as sid, fname, lname, fusion_id, get_client_ids(id) as client, get_process_ids(id) as pid, get_process_names(id) as process, assigned_to from signin) yy on (xx.agent_id=yy.sid) $ops_cond order by audit_date";
 			$data["cholamandlam_ibl"] = $this->Common_model->get_query_result_array($qSql);
 
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_cholamandlam_collection_feedback $cond) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, get_client_ids(id) as client, get_process_ids(id) as pid, get_process_names(id) as process, assigned_to from signin) yy on (xx.agent_id=yy.sid) $ops_cond order by audit_date";
+			$data["cholamandlam_collection"] = $this->Common_model->get_query_result_array($qSql);
+
 			
 			$data["from_date"] = $from_date;
 			$data["to_date"] = $to_date;
@@ -347,6 +355,159 @@
 		}
 	}
 
+	public function add_edit_cholamandlam_collection($cholamandlam_collection_id){
+		if(check_logged_in())
+		{
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_cholamandlam/cholamandlam_collection/add_edit_cholamandlam_collection.php";
+			$data["content_js"] = "qa_cholamandlam_js.php";
+			$data['cholamandlam_collection_id']=$cholamandlam_collection_id;
+			$tl_mgnt_cond='';
+
+			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and assigned_to='$current_user'";
+			}else{
+				$tl_mgnt_cond="";
+			}
+
+			/******** Randamiser Start***********/
+			//VIKAS START//
+			//Cholamandalam
+			$rand_id=0;
+			if(!empty($this->uri->segment(4))){
+				$rand_id=$this->uri->segment(4);
+			}
+			$data['rand_id']=$rand_id;
+			$data["rand_data"] = "";
+
+			if($rand_id!=0){
+				$client_id=266;
+				$pro_id = 554;
+				$curDateTime=CurrMySqlDate();
+				$upArr = array('distribution_opend_by' =>$current_user,'distribution_opened_datetime'=>$curDateTime);
+				$this->db->where('id', $rand_id);
+				$this->db->update('qa_randamiser_cholamandlam_data',$upArr);
+				
+				$randSql="Select srd.*,srd.aht as call_duration, S.id as sid, S.fname, S.lname, S.xpoid, S.assigned_to,
+				(select concat(fname, ' ', lname) as name from signin s1 where s1.id=S.assigned_to) as tl_name,
+				(SELECT r.folder as designation FROM `signin` sd
+			LEFT JOIN role r ON sd.role_id=r.id
+			where sd.fusion_id=srd.fusion_id) as designation,
+				DATEDIFF(CURDATE(), S.doj) as tenure
+				from qa_randamiser_cholamandlam_data srd Left Join signin S On srd.fusion_id=S.fusion_id where srd.audit_status=0 and srd.id='$rand_id'";
+				$data["rand_data"] = $rand_data =  $this->Common_model->get_query_row_array($randSql);
+				
+			}
+			//VIKAS ENDS//
+			/******** Randamiser Ends**********/
+
+
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,266) and status=1  order by name";
+			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
+
+			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where folder in ('tl','trainer','am','manager')) and status=1";
+			$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
+				from qa_cholamandlam_collection_feedback where id='$cholamandlam_collection_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			$data["cholamandlam_collection"] = $this->Common_model->get_query_row_array($qSql);
+			
+			//$currDate=CurrDate();
+			$curDateTime=CurrMySqlDate();
+			$a = array();
+
+
+			$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
+			if($field_array['agent_id']){
+
+				if($cholamandlam_collection_id==0){
+
+					$field_array=$this->input->post('data');
+					$field_array['audit_date']=CurrDate();
+					$field_array['call_date']=mdydt2mysql($this->input->post('call_date'));
+					$field_array['entry_date']=$curDateTime;
+					$field_array['audit_start_time']=$this->input->post('audit_start_time');
+					$a = $this->cholamandlam_upload_files($_FILES['attach_file'], $path='./qa_files/qa_cholamandlam/');
+					$field_array["attach_file"] = implode(',',$a);
+					$rowid= data_inserter('qa_cholamandlam_collection_feedback',$field_array);
+				///////////
+					if(get_login_type()=="client"){
+						$add_array = array("client_entryby" => $current_user);
+					}else{
+						$add_array = array("entry_by" => $current_user);
+					}
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_cholamandlam_collection_feedback',$add_array);
+
+					//VIKAS START//
+					//Cholamandalam
+
+					if($rand_id!=0){
+					$rand_cdr_array = array("audit_status" => 1);
+					$this->db->where('id', $rand_id);
+					$this->db->update('qa_randamiser_cholamandlam_data',$rand_cdr_array);
+					
+					$rand_array = array("is_rand" => 1);
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_cholamandlam_collection_feedback',$rand_array);
+					}
+					//VIKAS ENDS//
+
+
+				}else{
+
+					$field_array1=$this->input->post('data');
+					if(!isset($field_array1['auditor_type'])){
+						$field_array1['auditor_type'] = "";
+					}
+					$field_array1['call_date']=mdydt2mysql($this->input->post('call_date'));
+					$this->db->where('id', $cholamandlam_collection_id);
+					$this->db->update('qa_cholamandlam_collection_feedback',$field_array1);
+				/////////////
+					if(get_login_type()=="client"){
+						$edit_array = array(
+							"client_rvw_by" => $current_user,
+							"client_rvw_note" => $this->input->post('note'),
+							"client_rvw_date" => $curDateTime
+						);
+					}else{
+						$edit_array = array(
+							"mgnt_rvw_by" => $current_user,
+							"mgnt_rvw_note" => $this->input->post('note'),
+							"mgnt_rvw_date" => $curDateTime
+						);
+					}
+					$this->db->where('id', $cholamandlam_collection_id);
+					$this->db->update('qa_cholamandlam_collection_feedback',$edit_array);
+
+				}
+
+				//VIKAS START//
+				//Cholamandalam
+				if(isset($rand_data['upload_date']) && !empty($rand_data['upload_date'])){
+					$up_date = date('Y-m-d', strtotime($rand_data['upload_date']));
+					redirect('Qa_randamiser_vikas/data_distribute_freshdesk?from_date='.$up_date.'&client_id='.$client_id.'&pro_id='.$pro_id.'&submit=Submit');
+				}else{
+					redirect('Qa_cholamandlam');
+				}
+				//VIKAS ENDS//
+
+				//redirect('Qa_cholamandlam');
+			}
+			$data["array"] = $a;
+			$this->load->view("dashboard",$data);
+		}
+	}
+
 /*------------------- Agent Part ---------------------*/
 	public function agent_cholamandlam_feedback(){
 		if(check_logged_in()){
@@ -357,23 +518,28 @@
 			$data["content_template"] = "qa_cholamandlam/agent_cholamandlam_feedback.php";
 			$data["content_js"] = "qa_cholamandlam_js.php";
 			$data["agentUrl"] = "qa_cholamandlam/agent_cholamandlam_feedback";
-
-
-			$qSql="Select count(id) as value from qa_cholamandlam_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')";
-			$data["tot_feedback"] =  $this->Common_model->get_single_value($qSql);
-
-			$qSql="Select count(id) as value from qa_cholamandlam_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit') and agent_rvw_date is Null";
-			$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql);
-
-			$qSql="Select count(id) as value from qa_cholamandlam_ibl_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')";
-			$data["tot_feedback_ibl"] =  $this->Common_model->get_single_value($qSql);
-
-			$qSql="Select count(id) as value from qa_cholamandlam_ibl_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit') and agent_rvw_date is Null";
-			$data["yet_rvw_ibl"] =  $this->Common_model->get_single_value($qSql);
-
+			$campaign='';
 			$from_date = '';
 			$to_date = '';
 			$cond="";
+
+			$campaign=$this->input->get('campaign');
+
+			if($campaign){
+
+			$qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')";
+			$data["tot_feedback"] =  $this->Common_model->get_single_value($qSql);
+
+			$qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit') and agent_rvw_date is Null";
+			$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql);
+
+			// $qSql="Select count(id) as value from qa_cholamandlam_ibl_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')";
+			// $data["tot_feedback_ibl"] =  $this->Common_model->get_single_value($qSql);
+
+			// $qSql="Select count(id) as value from qa_cholamandlam_ibl_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit') and agent_rvw_date is Null";
+			// $data["yet_rvw_ibl"] =  $this->Common_model->get_single_value($qSql);
+
+		
 
 
 			if($this->input->get('btnView')=='View')
@@ -387,17 +553,17 @@
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_cholamandlam_feedback $cond And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')) xx Left Join
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_".$campaign."_feedback $cond And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')) xx Left Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
 				$data["agent_rvw_list"] = $this->Common_model->get_query_result_array($qSql);
 
-				$qSql = "SELECT * from
-				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_cholamandlam_ibl_feedback $cond And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')) xx Left Join
-				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
-				$data["agent_rvw_list_ibl"] = $this->Common_model->get_query_result_array($qSql);
+				// $qSql = "SELECT * from
+				// (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				// (select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				// (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				// (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_cholamandlam_ibl_feedback $cond And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')) xx Left Join
+				// (Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+				// $data["agent_rvw_list_ibl"] = $this->Common_model->get_query_result_array($qSql);
 
 			}else{
 
@@ -405,23 +571,24 @@
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_cholamandlam_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')) xx Left Join
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_".$campaign."_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')) xx Left Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
 				$data["agent_rvw_list"] = $this->Common_model->get_query_result_array($qSql);
 
-				$qSql="SELECT * from
-				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_cholamandlam_ibl_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')) xx Left Join
-				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
-				$data["agent_rvw_list_ibl"] = $this->Common_model->get_query_result_array($qSql);
+				// $qSql="SELECT * from
+				// (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				// (select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				// (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				// (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_cholamandlam_ibl_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')) xx Left Join
+				// (Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
+				// $data["agent_rvw_list_ibl"] = $this->Common_model->get_query_result_array($qSql);
 
 			}
+		}
 
 			$data["from_date"] = $from_date;
 			$data["to_date"] = $to_date;
-
+			$data['campaign'] = $campaign;
 			$this->load->view('dashboard',$data);
 		}
 	}
@@ -503,6 +670,48 @@
 				);
 				$this->db->where('id', $pnid);
 				$this->db->update('qa_cholamandlam_ibl_feedback',$field_array1);
+
+				redirect('qa_cholamandlam/agent_cholamandlam_feedback');
+
+			}else{
+				$this->load->view('dashboard',$data);
+			}
+		}
+	}
+
+	public function agent_cholamandlam_collection_rvw($id){
+		if(check_logged_in()){
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+			$data['cholamandlam_collection_id']=$id;
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_cholamandlam/cholamandlam_collection/agent_cholamandlam_collection_rvw.php";
+			$data["content_js"] = "qa_cholamandlam_js.php";
+			$data["agentUrl"] = "qa_cholamandlam/agent_cholamandlam_feedback";
+
+			$qSql="SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_cholamandlam_collection_feedback where id='$id') xx Left Join
+				(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			$data["cholamandlam_collection"] = $this->Common_model->get_query_row_array($qSql);
+
+			$data["pnid"]=$id;
+
+			if($this->input->post('pnid'))
+			{
+				$pnid=$this->input->post('pnid');
+				$curDateTime=CurrMySqlDate();
+				$log=get_logs();
+
+				$field_array1=array(
+					"agnt_fd_acpt" => $this->input->post('agnt_fd_acpt'),
+					"agent_rvw_note" => $this->input->post('note'),
+					"agent_rvw_date" => $curDateTime
+				);
+				$this->db->where('id', $pnid);
+				$this->db->update('qa_cholamandlam_collection_feedback',$field_array1);
 
 				redirect('qa_cholamandlam/agent_cholamandlam_feedback');
 
