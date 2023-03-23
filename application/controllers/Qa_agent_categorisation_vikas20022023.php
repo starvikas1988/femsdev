@@ -231,8 +231,8 @@
 							$agent_fusion_id = $worksheet->getCell($d.$row )->getValue();
 							$sql_agentId = "SELECT id FROM signin WHERE fusion_id = '".$agent_fusion_id."' ";
 							$row_agentId = $this->Common_model->get_query_row_array($sql_agentId);
-							// print_r($row_agentId);
-							// exit;
+							//print_r($row_agentId);
+							//exit;
 							
 						}
 						else if($key=="qa_fusion_id"){

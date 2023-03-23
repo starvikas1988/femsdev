@@ -11132,7 +11132,7 @@ public function blains(){
 				// exit;
 				$rowid= data_inserter('qa_amd_'.$page.'_feedback',$field_array);
 				
-				//redirect('qa_ameridial/blains');
+				redirect('qa_ameridial/blains');
 				
 				if(in_array($page,array("brightway_prescreen","brightway_evaluation"))){
 					$page="brightway";
@@ -11147,18 +11147,16 @@ public function blains(){
 					
 					$rand_array = array("is_rand" => 1);
 					$this->db->where('id', $rowid);
-					$this->db->update('qa_amd_'.$page.'_feedback',$rand_array);
+					$this->db->update('qa_amd_blains_feedback',$rand_array);
 
-					/* $rand_array = array("is_rand" => 1);
+					$rand_array = array("is_rand" => 1);
 					$this->db->where('id', $rowid);
-					$this->db->update('qa_amd_blains_v2_feedback',$rand_array); */
+					$this->db->update('qa_amd_blains_v2_feedback',$rand_array);
 					}
 					
 					if(isset($rand_data['upload_date']) && !empty($rand_data['upload_date'])){
 						$up_date = date('Y-m-d', strtotime($rand_data['upload_date']));
 						redirect('Qa_randamiser/data_distribute_freshdesk?from_date='.$up_date.'&client_id='.$client_id.'&pro_id='.$pro_id.'&submit=Submit');
-					}else{
-						redirect('qa_ameridial/blains');
 					}
 				
 				}

@@ -1,3 +1,150 @@
+<script>
+function date_validation(val,type){ 
+	// alert(val);
+		$(".end_date_error").html("");
+		$(".start_date_error").html("");
+		if(type=='E'){
+		var start_date=$("#from_date").val();
+		//if(val<start_date)
+		if(Date.parse(val) < Date.parse(start_date))
+		{
+			$(".end_date_error").html("To Date must be greater or equal to From Date");
+			 $(".blains-effect").attr("disabled",true);
+			 $(".blains-effect").css('cursor', 'no-drop');
+		}
+		else{
+			 $(".blains-effect").attr("disabled",false);
+			 $(".blains-effect").css('cursor', 'pointer');
+			}
+		}
+		else{
+			var end_date=$("#to_date").val();
+		//if(val>end_date && end_date!='')
+		
+		if(Date.parse(val) > Date.parse(end_date) && end_date!='')
+		{
+			$(".start_date_error").html("From  Date  must be less or equal to  To Date");
+			 $(".blains-effect").attr("disabled",true);
+			 $(".blains-effect").css('cursor', 'no-drop');
+		}
+		else{
+			 $(".blains-effect").attr("disabled",false);
+			 $(".blains-effect").css('cursor', 'pointer');
+			}
+
+		}
+		
+		
+	}
+
+	// var todayDate = new Date();
+    // var month = todayDate.getMonth();
+    // var year = todayDate.getUTCFullYear() - 0;
+    // var tdate = todayDate.getDate();
+    // if (month < 10) {
+    //     month = "0" + month
+    // }
+    // if (tdate < 10) {
+    //     tdate = "0" + tdate;
+    // }
+    // var maxDate = year + "-" + month + "-" + tdate;
+    // document.getElementById("call_date_time").setAttribute("min", maxDate);
+   // console.log(maxDate);
+
+
+
+
+</script>
+<script>
+	   function phone_noFunction(phone_no){
+			var phone_no=$("#phone_no").val();
+
+
+		if((phone_no.length <10) || (phone_no.length >12)){
+				$("#msg-phone_no").html("<font color=red style='font-size:14px;'>Please enter the correct  10-12 Digit format</font>");
+			
+				$(".waves-effect").attr("disabled",true);
+				$(".waves-effect").css('cursor', 'no-drop');
+				
+			} else{
+				$("#msg-phone_no").html("");
+				$(".waves-effect").attr("disabled",false);
+				$(".waves-effect").css('cursor', 'pointer');
+				
+			}
+  }	
+
+  
+//   function phone_no_keyup(phone_no) {
+// 	$("#msg-phone_no").html("");
+	
+// }
+
+
+
+
+jQuery.fn.ForceNumericOnly =
+function()
+{
+    return this.each(function()
+    {
+        $(this).keydown(function(e)
+        {
+            var key = e.charCode || e.keyCode || 0;
+          
+            return ((key == 8) || (key == 37) || (key == 39) || (key == 46) ||    (key == 189) || (key >= 48 && key <= 57)|| (key >= 96 && key <= 105)|| (key >= 65 && key <= 90));
+        });
+    });
+};
+
+
+
+$("#call_id").ForceNumericOnly();
+
+$("#reference").ForceNumericOnly();
+
+
+
+$(function () {
+   $('#phone_no').keydown(function (e) {
+        if (e.shiftKey || e.ctrlKey || e.altKey) {
+           e.preventDefault();
+        } 
+        else {
+            var key = e.keyCode;
+            if (!((key == 8) || (key == 37) || (key == 39) || (key == 46) || (key ==16) ||  (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+               e.preventDefault();
+            }
+        }
+    });
+});
+</script>
+
+<script>
+/* $('INPUT[type="file"]').change(function () {
+    var ext = this.value.match(/\.(.+)$/)[1];
+    switch (ext) {
+        case 'avi':
+			case 'mp4':
+				case '3gp':
+					case 'mpeg':
+						case 'mpg':
+							case 'mov':
+								case 'mp3':
+								case 'wav':
+        case 'flv':
+        case 'wmv':
+			case'mkv':
+            $('#qaformsubmit').attr('disabled', false);
+            break;
+        default:
+            alert('This is not an allowed file type.');
+			//$('#qaformsubmit').attr('disabled', true);
+            this.value = '';
+    }
+}); */
+</script>
+
 <script type="text/javascript">
 		function checkDec(el) {
 			var ex = /^[0-9]+\.?[0-9]*$/;
@@ -18,18 +165,18 @@
 </script> 
 
 <script>
- 	$(function () {
-    $('input[type=file]').change(function () {
-        var val = $(this).val().toLowerCase(),
-            regex = new RegExp("(.*?)\.(mp3|avi|mp4|wmv|wav)$");
+	 $(function () {
+		$('input[type=file]').change(function () {
+			var val = $(this).val().toLowerCase(),
+				regex = new RegExp("(.*?)\.(mp3|avi|mp4|wmv|wav)$");
 
-        if (!(regex.test(val))) {
-            $(this).val('');
-            alert('Please select correct file format');
-            return false;
-        }
-    });
-});
+			if (!(regex.test(val))) {
+				$(this).val('');
+				alert('This is not an allowed file type. Please upload correct file format');
+				return false;
+			}
+		});
+	});
 
    $('#btnViewAgent').click(function(){
 
@@ -348,11 +495,11 @@ total_view();
 $(document).ready(function(){
 
 	$("#audit_date").datepicker();
-	$("#call_date").datepicker();
+	$("#call_date").datepicker({maxDate: new Date() });
 	$("#copy_received").datepicker();
 	$("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });
-	$("#from_date").datepicker();
-	$("#to_date").datepicker();
+	$("#from_date").datepicker({maxDate: new Date() });
+	$("#to_date").datepicker({maxDate: new Date() });
 	
 	$("#agent_id").select2();
 
@@ -363,7 +510,7 @@ $(document).ready(function(){
 	// $('#audit_type').on('change', function(){
 	// 	if($(this).val()=='Calibration'){
 	// 		$('.auType').show();
-	// 		$('#auditor_type').attr('required',true);
+	// 		$('#auditor_type').attr('required',true);   
 	// 		$('#auditor_type').prop('disabled',false);
 	// 	}else{
 	// 		$('.auType').hide();
@@ -890,7 +1037,7 @@ $('.conduent_points').each(function(index,element){
 		}
 	/////////////////////////////
 		if($('#hovAF1').val()=='Fail' || $('#hovAF2').val()=='Fail' || $('#hovAF3').val()=='Fail' || $('#hovAF4').val()=='Fail'){
-			$('.hoveroundFatal').val(0);
+			$('.hoveroundFatal').val(0+'%');
 		}else{
 			$('.hoveroundFatal').val(quality_score_percent+'%');
 		}
@@ -3486,7 +3633,7 @@ $('.conduent_points').each(function(index,element){
 <script>
 $(document).ready(function(){
 	
-	$('.audioFile').change(function () {
+	/* $('.audioFile').change(function () {
 		var ext = this.value.match(/\.(.+)$/)[1];switch (ext) {
 			case 'wav':
 			case 'wmv':
@@ -3498,7 +3645,7 @@ $(document).ready(function(){
 				alert('This is not an allowed file type.');
 				this.value = '';
 		}
-	});
+	}); */
 	
 });	
 </script>

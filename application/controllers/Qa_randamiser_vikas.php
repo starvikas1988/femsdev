@@ -113,6 +113,13 @@
 					
 						if($key=="call_date"){
 							$user_list[$row][$key] = date('Y-m-d H:i:s',strtotime($worksheet->getCell($d.$row )->getFormattedValue()));
+							if(($client_id == 196 && $pro_id== 392)){
+								$user_list[$row][$key] = mmddyy2mysql($worksheet->getCell($d.$row)->getFormattedValue());	
+							}
+							if(($client_id == 345 && $pro_id== 719)){
+								$user_list[$row][$key] = date('Y-m-d H:i:s',strtotime(mmddyy2mysql($worksheet->getCell($d.$row )->getFormattedValue())));
+							}
+
 						}
 						else if($key=="contact_date"){
 							$user_list[$row][$key] = date('Y-m-d H:i:s',strtotime($worksheet->getCell($d.$row )->getFormattedValue()));
@@ -159,7 +166,7 @@
 					}	
 				}
 				//exit;
-				// echo "<pre>"; print_r($user_list); echo "</pre>";exit;
+				 //echo "<pre>"; print_r($user_list); echo "</pre>";exit;
 				 $client_id = $this->input->post('client_id');
 				 $pro_id = $this->input->post('pro_id');
 				 if($client_id == 288 &&  $pro_id == 614){
@@ -390,42 +397,60 @@
 		//exit();
 
 		if($client_id == 288 && $pro_id== 614){
+			$header = array("agent_name","tl_name","recording_track_id", "sap_id_extension","call_date","aht","fusion_id","customer_number","campaign","first_disposed","upload_date");
+
 				$rand_table = "qa_randamiser_bsnl_data";
 			}
 			if($client_id == 202 && $pro_id== 411){
+				$header = array("agent_name","tl_name","called_no","call_date","out_in","call_type","aht","fusion_id","upload_date");
+
 				$rand_table = "qa_randamiser_indiamart_data";
 			}if($client_id == 314 && $pro_id== 663){
+				$header = array("agent_name","tl_name","call_id","call_type","call_date","csat","aht","fusion_id","customer_number","ivr_name","call_disposition","disconnection_party","service_name","ivr_language","upload_date");
 				$rand_table = "qa_randamiser_nurture_farm_data";
 			}
 			// Cras 24 Pre-booking
 			if($client_id == 246 && $pro_id== 529){
+				$header = array("agent_name","tl_name","call_id","process_name","call_date", "aht","fusion_id","customer_number","campaign","system_disposition","hangup_details","disposition_code","disposition_class", "upload_date");
 				$rand_table = "qa_randamiser_cars24_data";
 			}
 			// Touch Fuse New
 			if($client_id == 134 && $pro_id== 753){
+				$header = array("agent_name","tl_name","call_date", "aht","fusion_id","customer_number","customer_disconnection_source", "campaign", "upload_date");
 				$rand_table = "qa_randamiser_touchfuse_data";
 			}
 			// Blains
 			if($client_id == 134 && $pro_id== 271){
+				$header = array("agent_name","tl_name","call_date", "aht","fusion_id",
+			 "customer_disconnection_source", "customer_number","campaign", "upload_date");
 				$rand_table = "qa_randamiser_blains_data";
 			}
 
 			//vikas start//
 			//Mobikwik
 			if($client_id == 345 && $pro_id== 719){
-				 $rand_table = "qa_randamiser_mobikwik_data";
+				$header = array("agent_name","tl_name","call_date", "aht","fusion_id",
+			 "caller_no","campaign","call_id","skill","status","dial_status","disposition","hangup_by", "upload_date");
+
+				// $header = array("call_id", "upload_date","campaign",
+    //          "skill", "caller_no","call_date","aht","status","dial_status","disposition","hangup_by", "fusion_id","agent_name","tl_name");
+				  $rand_table = "qa_randamiser_mobikwik_data";
 			}
 
 
 			//Cholamandlam
 
 			if($client_id == 266 && $pro_id== 554){
+				$header = array("agent_name","tl_name","call_date", "aht","fusion_id",
+			 "called_no", "agreement_no","call_status","attempts","paymode","branch","bucket","region", "upload_date");
 				 $rand_table = "qa_randamiser_cholamandlam_data";
 			}
 
 			//Debt Solution 123
 
 			if($client_id == 37 && $pro_id== 49){
+				$header = array("agent_name","tl_name","call_date", "aht","fusion_id",
+			 "phone_no", "call_type", "rpc", "upload_date");
 				 $rand_table = "qa_randamiser_debt_solution_123_data";
 			}
 
@@ -434,7 +459,7 @@
 		(select concat(fname, ' ', lname) as name from signin s where s.id=(select assigned_to from signin si where si.fusion_id=xx.fusion_id)) as tl_name
 				from $rand_table xx WHERE date(xx.upload_date)='".$up_date."'
 				 "; 				
-				//echo $sqlR;
+
 
 		$fullAray = $this->Common_model->get_query_result_array($sqlR);
 
@@ -444,7 +469,7 @@
 				// exit();
 
 		//$data["sampling_data"] = $fullAray;
-		$this->create_qa_randamiser_CSV($fullAray,$client_id,$pro_id);
+		$this->create_qa_randamiser_CSV($fullAray,$client_id,$pro_id,$header,$rand_table);
 
 
 		$currDate=date("Y-m-d");
@@ -454,14 +479,8 @@
 		readfile($filename);
 	}
 
-	public function create_qa_randamiser_CSV($rr,$client_id,$pro_id)
+	public function create_qa_randamiser_CSV($rr,$client_id,$pro_id,$header,$rand_table)
 	{
-		// echo $client_id;
-		// echo"<br>";
-		// echo $pro_id;
-		// echo"<br>";
-		// print_r($rr);
-		// exit;
 		$currDate=date("Y-m-d");
 
 		$client_sql = "Select fullname from client where is_active=1 and id='".$client_id."' ";
@@ -470,218 +489,342 @@
 		$filename = "./qa_files/qa_reports_data/Report_".$client_res['fullname'].get_user_id().$client_id.".csv";
 		$fopen = fopen($filename,"w+");
 
-		if($client_id==37 && $pro_id==49){
-			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
-			 "phone_no", "call_type", "rpc", "upload_date");
+		$field_name="SHOW FULL COLUMNS FROM ".$rand_table." ";
+		$field_name=$this->Common_model->get_query_result_array($field_name);
+		$fld_cnt=count($field_name);
+		for($i=0;$i<$fld_cnt;$i++){
+						$val=$field_name[$i]['Field'];
+						if($val!=""){
+							$field_val[]=$val;
+						}
+					 }
 
-			$row = "";
-			foreach($header as $data) $row .= ''.$data.',';
-			fwrite($fopen,rtrim($row,",")."\r\n");
-			$searches = array("\r", "\n", "\r\n");
+		array_unshift($field_val ,"agent_name","tl_name");
+		$key = array_search ('upload_date', $field_val);
+		//array_splice($field_val, $key, 0, 'call_id');
+		$field_val= array_values($field_val);
+		
 
-			foreach($rr as $user){
-				$row  = '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['agent_name'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['aht'].'",';
-				$row .= '"'.$user['phone_no'].'",';
-				$row .= '"'.$user['call_type'].'",';
-				$row .= '"'.$user['rpc'].'",';
-				$row .= '"'.$user['upload_date'].'",';
-				fwrite($fopen,$row."\r\n");
+		$count_for_field=count($field_val);
+
+		$row = "";
+		foreach($header as $data) $row .= ''.$data.',';
+		fwrite($fopen,rtrim($row,",")."\r\n");
+		$searches = array("\r", "\n", "\r\n");
+		$row = "";
+		// echo"<pre>";
+		// print_r($field_val);
+		// print_r($rr);
+		// echo"</pre>";
+		// die;
+		foreach($rr as $user)
+		{
+			
+			/////////////////////////////////
+			foreach($header as $value){
+				if($client_id == 345 && $pro_id== 719){
+					if(in_array($value, array('id','audit_sheet','compute_status','audit_status','is_distributed','compute_by','non_auditable','non_auditable_comment','non_auditable_by','non_auditable_date','distribution_opend_by','distribution_opened_datetime','log','last_date_time','disconnected_by'))) {
+						continue;
+
+				}else{
+						$row .= '"'.$user[$value].'",';
+				}
+
+				}else{
+					if(in_array($value, array('id','audit_sheet','compute_status','audit_status','is_distributed','compute_by','non_auditable','non_auditable_comment','non_auditable_by','non_auditable_date','distribution_opend_by','distribution_opened_datetime','log','last_date_time','status','disconnected_by'))) {
+						continue;
+
+				}else{
+						$row .= '"'.$user[$value].'",';
+				}
+
+				}
+				
+
 			}
-			//exit;
-			fclose($fopen);
-		} 
-		else if($client_id == 288 && $pro_id== 614){
-			//  print_r($rr);
-			// exit;
-			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
-			 "customer_number", "recording_track_id", "sap_id_extension","campaign","first_disposed","disconnected_by", "upload_date");
-			$row = "";
-			foreach($header as $data) $row .= ''.$data.',';
-			fwrite($fopen,rtrim($row,",")."\r\n");
-			$searches = array("\r", "\n", "\r\n");
 
-			foreach($rr as $user){
-				$row  = '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['agent_name'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['aht'].'",';
-				$row .= '"'.$user['customer_number'].'",';
-				$row .= '"'.$user['recording_track_id'].'",';
-				$row .= '"'.$user['sap_id_extension'].'",';
-				$row .= '"'.$user['campaign'].'",';
-				$row .= '"'.$user['first_disposed'].'",';
-				$row .= '"'.$user['disconnected_by'].'",';
-				$row .= '"'.$user['upload_date'].'",';
-				fwrite($fopen,$row."\r\n");
-			}
-			//exit;
-			fclose($fopen);
-		}else if($client_id == 202 && $pro_id== 411){
-			//  print_r($rr);
-			// exit;
-			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
-			 "called_no", "out_in", "call_type", "upload_date");
-			$row = "";
-			foreach($header as $data) $row .= ''.$data.',';
-			fwrite($fopen,rtrim($row,",")."\r\n");
-			$searches = array("\r", "\n", "\r\n");
+			/////////////////////////////////
+			
 
-			foreach($rr as $user){
-				$row  = '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['agent_name'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['aht'].'",';
-				$row .= '"'.$user['called_no'].'",';
-				$row .= '"'.$user['out_in'].'",';
-				$row .= '"'.$user['call_type'].'",';
-				$row .= '"'.$user['upload_date'].'",';
 				fwrite($fopen,$row."\r\n");
-			}
-			//exit;
-			fclose($fopen);
-		}else if($client_id == 246 && $pro_id== 529){
-			//  print_r($rr);
-			// exit;
-			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
-			 "call_id", "process_name", "customer_number","campaign","system_disposition","hangup_details","disposition_code","disposition_class", "upload_date");
-			$row = "";
-			foreach($header as $data) $row .= ''.$data.',';
-			fwrite($fopen,rtrim($row,",")."\r\n");
-			$searches = array("\r", "\n", "\r\n");
-
-			foreach($rr as $user){
-				$row  = '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['agent_name'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['aht'].'",';
-				$row .= '"'.$user['call_id'].'",';
-				$row .= '"'.$user['process_name'].'",';
-				$row .= '"'.$user['customer_number'].'",';
-				$row .= '"'.$user['campaign'].'",';
-				$row .= '"'.$user['system_disposition'].'",';
-				$row .= '"'.$user['hangup_details'].'",';
-				$row .= '"'.$user['disposition_code'].'",';
-				$row .= '"'.$user['disposition_class'].'",';
-				$row .= '"'.$user['upload_date'].'",';
-				fwrite($fopen,$row."\r\n");
-			}
-			//exit;
-			fclose($fopen);
-		}else if($client_id == 134 && $pro_id== 753){
-			//  print_r($rr);
-			// exit;
-			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
-			 "customer_disconnection_source", "customer_number","campaign", "upload_date");
-			$row = "";
-			foreach($header as $data) $row .= ''.$data.',';
-			fwrite($fopen,rtrim($row,",")."\r\n");
-			$searches = array("\r", "\n", "\r\n");
-
-			foreach($rr as $user){
-				$row  = '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['agent_name'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['aht'].'",';
-				$row .= '"'.$user['customer_disconnection_source'].'",';
-				$row .= '"'.$user['customer_number'].'",';
-				$row .= '"'.$user['campaign'].'",';
-				$row .= '"'.$user['upload_date'].'",';
-				fwrite($fopen,$row."\r\n");
-			}
-			//exit;
-			fclose($fopen);
-		}else if($client_id == 134 && $pro_id== 271){
-			//  print_r($rr);
-			// exit;
-			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
-			 "customer_disconnection_source", "customer_number","campaign", "upload_date");
-			$row = "";
-			foreach($header as $data) $row .= ''.$data.',';
-			fwrite($fopen,rtrim($row,",")."\r\n");
-			$searches = array("\r", "\n", "\r\n");
-
-			foreach($rr as $user){
-				$row  = '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['agent_name'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['aht'].'",';
-				$row .= '"'.$user['customer_disconnection_source'].'",';
-				$row .= '"'.$user['customer_number'].'",';
-				$row .= '"'.$user['campaign'].'",';
-				$row .= '"'.$user['upload_date'].'",';
-				fwrite($fopen,$row."\r\n");
-			}
-			//exit;
-			fclose($fopen);
-		}else if($client_id == 345 && $pro_id== 719){
-			//  print_r($rr);
-			// exit;
-			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
-			 "caller_no", "call_id","skill","status","dial_status","disposition","hangup_by","campaign", "upload_date");
-			$row = "";
-			foreach($header as $data) $row .= ''.$data.',';
-			fwrite($fopen,rtrim($row,",")."\r\n");
-			$searches = array("\r", "\n", "\r\n");
-
-			foreach($rr as $user){
-				$row  = '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['agent_name'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['aht'].'",';
-				$row .= '"'.$user['caller_no'].'",';
-				$row .= '"'.$user['call_id'].'",';
-				$row .= '"'.$user['skill'].'",';
-				$row .= '"'.$user['status'].'",';
-				$row .= '"'.$user['dial_status'].'",';
-				$row .= '"'.$user['disposition'].'",';
-				$row .= '"'.$user['hangup_by'].'",';
-				$row .= '"'.$user['campaign'].'",';
-				$row .= '"'.$user['upload_date'].'",';
-				fwrite($fopen,$row."\r\n");
-			}
-			//exit;
-			fclose($fopen);
-		}else if($client_id == 266 && $pro_id== 554){
-			//  print_r($rr);
-			// exit;
-			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
-			 "called_no", "agreement_no","call_status","attempts","paymode","branch","bucket","region", "upload_date");
-			$row = "";
-			foreach($header as $data) $row .= ''.$data.',';
-			fwrite($fopen,rtrim($row,",")."\r\n");
-			$searches = array("\r", "\n", "\r\n");
-
-			foreach($rr as $user){
-				$row  = '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['agent_name'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['aht'].'",';
-				$row .= '"'.$user['called_no'].'",';
-				$row .= '"'.$user['agreement_no'].'",';
-				$row .= '"'.$user['call_status'].'",';
-				$row .= '"'.$user['attempts'].'",';
-				$row .= '"'.$user['paymode'].'",';
-				$row .= '"'.$user['branch'].'",';
-				$row .= '"'.$user['bucket'].'",';
-				$row .= '"'.$user['region'].'",';
-				$row .= '"'.$user['upload_date'].'",';
-				fwrite($fopen,$row."\r\n");
-			}
-			//exit;
-			fclose($fopen);
+				$row = "";
 		}
+
+		fclose($fopen);
 	}
+
+
+	// public function create_qa_randamiser_CSV($rr,$client_id,$pro_id,$header)
+	// {
+	// 	// echo $client_id;
+	// 	// echo"<br>";
+	// 	// echo $pro_id;
+	// 	// echo"<br>";
+	// 	// print_r($rr);
+	// 	// exit;
+	// 	$currDate=date("Y-m-d");
+
+	// 	$client_sql = "Select fullname from client where is_active=1 and id='".$client_id."' ";
+	// 	$client_res = $this->Common_model->get_query_row_array($client_sql);
+
+	// 	$filename = "./qa_files/qa_reports_data/Report_".$client_res['fullname'].get_user_id().$client_id.".csv";
+	// 	$fopen = fopen($filename,"w+");
+
+	// 	$row = "";
+	// 	foreach($header as $data) $row .= ''.$data.',';
+	// 	fwrite($fopen,rtrim($row,",")."\r\n");
+	// 	$searches = array("\r", "\n", "\r\n");
+			
+	// 	// echo"<pre>";
+	// 	// print_r($rr);
+	// 	// echo"</pre>";
+		
+	// 	// foreach($rr as $key=> $user){
+	// 	// 	//echo $data_each;
+	// 	// 		foreach($header as $key1 =>$data_each){	
+	// 	// 			echo $data_each;
+	// 	// 			echo"<br>";
+	// 	// 			//echo $user[$key1];
+
+
+	// 	// 			if($user[$data_each]== $data_each){
+	// 	// 				$row  .= '"'.$user[$data_each].'",';
+	// 	// 				fwrite($fopen,$row."\r\n");
+						
+	// 	// 			}
+	// 	// 	}
+			
+	// 	// 	//fclose($fopen);
+	// 	// }
+	// 	foreach($rr as $user){
+	// 		foreach($header as $datas){
+	// 			$row  .= '"'.$user[$datas].'",';
+	// 			fwrite($fopen,$row."\r\n");
+	// 		}	
+	// 		}
+
+	// 	//exit();
+	// 	fclose($fopen);
+
+	// 	// if($client_id==37 && $pro_id==49){
+	// 	// 	$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+	// 	// 	 "phone_no", "call_type", "rpc", "upload_date");
+
+	// 	// 	$row = "";
+	// 	// 	foreach($header as $data) $row .= ''.$data.',';
+	// 	// 	fwrite($fopen,rtrim($row,",")."\r\n");
+	// 	// 	$searches = array("\r", "\n", "\r\n");
+
+	// 	// 	foreach($rr as $user){
+	// 	// 		$row  = '"'.$user['fusion_id'].'",';
+	// 	// 		$row .= '"'.$user['agent_name'].'",';
+	// 	// 		$row .= '"'.$user['tl_name'].'",';
+	// 	// 		$row .= '"'.$user['call_date'].'",';
+	// 	// 		$row .= '"'.$user['aht'].'",';
+	// 	// 		$row .= '"'.$user['phone_no'].'",';
+	// 	// 		$row .= '"'.$user['call_type'].'",';
+	// 	// 		$row .= '"'.$user['rpc'].'",';
+	// 	// 		$row .= '"'.$user['upload_date'].'",';
+	// 	// 		fwrite($fopen,$row."\r\n");
+	// 	// 	}
+	// 	// 	//exit;
+	// 	// 	fclose($fopen);
+	// 	// } 
+	// 	// else if($client_id == 288 && $pro_id== 614){
+	// 	// 	//  print_r($rr);
+	// 	// 	// exit;
+	// 	// 	$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+	// 	// 	 "customer_number", "recording_track_id", "sap_id_extension","campaign","first_disposed","disconnected_by", "upload_date");
+	// 	// 	$row = "";
+	// 	// 	foreach($header as $data) $row .= ''.$data.',';
+	// 	// 	fwrite($fopen,rtrim($row,",")."\r\n");
+	// 	// 	$searches = array("\r", "\n", "\r\n");
+
+	// 	// 	foreach($rr as $user){
+	// 	// 		$row  = '"'.$user['fusion_id'].'",';
+	// 	// 		$row .= '"'.$user['agent_name'].'",';
+	// 	// 		$row .= '"'.$user['tl_name'].'",';
+	// 	// 		$row .= '"'.$user['call_date'].'",';
+	// 	// 		$row .= '"'.$user['aht'].'",';
+	// 	// 		$row .= '"'.$user['customer_number'].'",';
+	// 	// 		$row .= '"'.$user['recording_track_id'].'",';
+	// 	// 		$row .= '"'.$user['sap_id_extension'].'",';
+	// 	// 		$row .= '"'.$user['campaign'].'",';
+	// 	// 		$row .= '"'.$user['first_disposed'].'",';
+	// 	// 		$row .= '"'.$user['disconnected_by'].'",';
+	// 	// 		$row .= '"'.$user['upload_date'].'",';
+	// 	// 		fwrite($fopen,$row."\r\n");
+	// 	// 	}
+	// 	// 	//exit;
+	// 	// 	fclose($fopen);
+	// 	// }else if($client_id == 202 && $pro_id== 411){
+	// 	// 	//  print_r($rr);
+	// 	// 	// exit;
+	// 	// 	$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+	// 	// 	 "called_no", "out_in", "call_type", "upload_date");
+	// 	// 	$row = "";
+	// 	// 	foreach($header as $data) $row .= ''.$data.',';
+	// 	// 	fwrite($fopen,rtrim($row,",")."\r\n");
+	// 	// 	$searches = array("\r", "\n", "\r\n");
+
+	// 	// 	foreach($rr as $user){
+	// 	// 		$row  = '"'.$user['fusion_id'].'",';
+	// 	// 		$row .= '"'.$user['agent_name'].'",';
+	// 	// 		$row .= '"'.$user['tl_name'].'",';
+	// 	// 		$row .= '"'.$user['call_date'].'",';
+	// 	// 		$row .= '"'.$user['aht'].'",';
+	// 	// 		$row .= '"'.$user['called_no'].'",';
+	// 	// 		$row .= '"'.$user['out_in'].'",';
+	// 	// 		$row .= '"'.$user['call_type'].'",';
+	// 	// 		$row .= '"'.$user['upload_date'].'",';
+	// 	// 		fwrite($fopen,$row."\r\n");
+	// 	// 	}
+	// 	// 	//exit;
+	// 	// 	fclose($fopen);
+	// 	// }else if($client_id == 246 && $pro_id== 529){
+	// 	// 	//  print_r($rr);
+	// 	// 	// exit;
+	// 	// 	$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+	// 	// 	 "call_id", "process_name", "customer_number","campaign","system_disposition","hangup_details","disposition_code","disposition_class", "upload_date");
+	// 	// 	$row = "";
+	// 	// 	foreach($header as $data) $row .= ''.$data.',';
+	// 	// 	fwrite($fopen,rtrim($row,",")."\r\n");
+	// 	// 	$searches = array("\r", "\n", "\r\n");
+
+	// 	// 	foreach($rr as $user){
+	// 	// 		$row  = '"'.$user['fusion_id'].'",';
+	// 	// 		$row .= '"'.$user['agent_name'].'",';
+	// 	// 		$row .= '"'.$user['tl_name'].'",';
+	// 	// 		$row .= '"'.$user['call_date'].'",';
+	// 	// 		$row .= '"'.$user['aht'].'",';
+	// 	// 		$row .= '"'.$user['call_id'].'",';
+	// 	// 		$row .= '"'.$user['process_name'].'",';
+	// 	// 		$row .= '"'.$user['customer_number'].'",';
+	// 	// 		$row .= '"'.$user['campaign'].'",';
+	// 	// 		$row .= '"'.$user['system_disposition'].'",';
+	// 	// 		$row .= '"'.$user['hangup_details'].'",';
+	// 	// 		$row .= '"'.$user['disposition_code'].'",';
+	// 	// 		$row .= '"'.$user['disposition_class'].'",';
+	// 	// 		$row .= '"'.$user['upload_date'].'",';
+	// 	// 		fwrite($fopen,$row."\r\n");
+	// 	// 	}
+	// 	// 	//exit;
+	// 	// 	fclose($fopen);
+	// 	// }else if($client_id == 134 && $pro_id== 753){
+	// 	// 	//  print_r($rr);
+	// 	// 	// exit;
+	// 	// 	$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+	// 	// 	 "customer_disconnection_source", "customer_number","campaign", "upload_date");
+	// 	// 	$row = "";
+	// 	// 	foreach($header as $data) $row .= ''.$data.',';
+	// 	// 	fwrite($fopen,rtrim($row,",")."\r\n");
+	// 	// 	$searches = array("\r", "\n", "\r\n");
+
+	// 	// 	foreach($rr as $user){
+	// 	// 		$row  = '"'.$user['fusion_id'].'",';
+	// 	// 		$row .= '"'.$user['agent_name'].'",';
+	// 	// 		$row .= '"'.$user['tl_name'].'",';
+	// 	// 		$row .= '"'.$user['call_date'].'",';
+	// 	// 		$row .= '"'.$user['aht'].'",';
+	// 	// 		$row .= '"'.$user['customer_disconnection_source'].'",';
+	// 	// 		$row .= '"'.$user['customer_number'].'",';
+	// 	// 		$row .= '"'.$user['campaign'].'",';
+	// 	// 		$row .= '"'.$user['upload_date'].'",';
+	// 	// 		fwrite($fopen,$row."\r\n");
+	// 	// 	}
+	// 	// 	//exit;
+	// 	// 	fclose($fopen);
+	// 	// }else if($client_id == 134 && $pro_id== 271){
+	// 	// 	//  print_r($rr);
+	// 	// 	// exit;
+	// 	// 	$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+	// 	// 	 "customer_disconnection_source", "customer_number","campaign", "upload_date");
+	// 	// 	$row = "";
+	// 	// 	foreach($header as $data) $row .= ''.$data.',';
+	// 	// 	fwrite($fopen,rtrim($row,",")."\r\n");
+	// 	// 	$searches = array("\r", "\n", "\r\n");
+
+	// 	// 	foreach($rr as $user){
+	// 	// 		$row  = '"'.$user['fusion_id'].'",';
+	// 	// 		$row .= '"'.$user['agent_name'].'",';
+	// 	// 		$row .= '"'.$user['tl_name'].'",';
+	// 	// 		$row .= '"'.$user['call_date'].'",';
+	// 	// 		$row .= '"'.$user['aht'].'",';
+	// 	// 		$row .= '"'.$user['customer_disconnection_source'].'",';
+	// 	// 		$row .= '"'.$user['customer_number'].'",';
+	// 	// 		$row .= '"'.$user['campaign'].'",';
+	// 	// 		$row .= '"'.$user['upload_date'].'",';
+	// 	// 		fwrite($fopen,$row."\r\n");
+	// 	// 	}
+	// 	// 	//exit;
+	// 	// 	fclose($fopen);
+	// 	// }else if($client_id == 345 && $pro_id== 719){
+	// 	// 	//  print_r($rr);
+	// 	// 	// exit;
+	// 	// 	$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+	// 	// 	 "caller_no", "call_id","skill","status","dial_status","disposition","hangup_by","campaign", "upload_date");
+	// 	// 	$row = "";
+	// 	// 	foreach($header as $data) $row .= ''.$data.',';
+	// 	// 	fwrite($fopen,rtrim($row,",")."\r\n");
+	// 	// 	$searches = array("\r", "\n", "\r\n");
+
+	// 	// 	foreach($rr as $user){
+	// 	// 		$row  = '"'.$user['fusion_id'].'",';
+	// 	// 		$row .= '"'.$user['agent_name'].'",';
+	// 	// 		$row .= '"'.$user['tl_name'].'",';
+	// 	// 		$row .= '"'.$user['call_date'].'",';
+	// 	// 		$row .= '"'.$user['aht'].'",';
+	// 	// 		$row .= '"'.$user['caller_no'].'",';
+	// 	// 		$row .= '"'.$user['call_id'].'",';
+	// 	// 		$row .= '"'.$user['skill'].'",';
+	// 	// 		$row .= '"'.$user['status'].'",';
+	// 	// 		$row .= '"'.$user['dial_status'].'",';
+	// 	// 		$row .= '"'.$user['disposition'].'",';
+	// 	// 		$row .= '"'.$user['hangup_by'].'",';
+	// 	// 		$row .= '"'.$user['campaign'].'",';
+	// 	// 		$row .= '"'.$user['upload_date'].'",';
+	// 	// 		fwrite($fopen,$row."\r\n");
+	// 	// 	}
+	// 	// 	//exit;
+	// 	// 	fclose($fopen);
+	// 	// }else if($client_id == 266 && $pro_id== 554){
+	// 	// 	//  print_r($rr);
+	// 	// 	// exit;
+	// 	// 	$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+	// 	// 	 "called_no", "agreement_no","call_status","attempts","paymode","branch","bucket","region", "upload_date");
+	// 	// 	$row = "";
+	// 	// 	foreach($header as $data) $row .= ''.$data.',';
+	// 	// 	fwrite($fopen,rtrim($row,",")."\r\n");
+	// 	// 	$searches = array("\r", "\n", "\r\n");
+
+	// 	// 	foreach($rr as $user){
+	// 	// 		$row  = '"'.$user['fusion_id'].'",';
+	// 	// 		$row .= '"'.$user['agent_name'].'",';
+	// 	// 		$row .= '"'.$user['tl_name'].'",';
+	// 	// 		$row .= '"'.$user['call_date'].'",';
+	// 	// 		$row .= '"'.$user['aht'].'",';
+	// 	// 		$row .= '"'.$user['called_no'].'",';
+	// 	// 		$row .= '"'.$user['agreement_no'].'",';
+	// 	// 		$row .= '"'.$user['call_status'].'",';
+	// 	// 		$row .= '"'.$user['attempts'].'",';
+	// 	// 		$row .= '"'.$user['paymode'].'",';
+	// 	// 		$row .= '"'.$user['branch'].'",';
+	// 	// 		$row .= '"'.$user['bucket'].'",';
+	// 	// 		$row .= '"'.$user['region'].'",';
+	// 	// 		$row .= '"'.$user['upload_date'].'",';
+	// 	// 		fwrite($fopen,$row."\r\n");
+	// 	// 	}
+	// 	// 	//exit;
+	// 	// 	fclose($fopen);
+	// 	// }
+	// }
+
+	// if(in_array($field_val[$z], array('id','audit_sheet','compute_status','audit_status','is_distributed','compute_by','non_auditable','non_auditable_comment','non_auditable_by','non_auditable_date','distribution_opend_by','distribution_opened_datetime','log','last_date_time','status','disconnected_by'))) {
+				// 		continue;
+
+				// 	}else{
+				// 		//$row .= '"'.$user[$field_val[$z]].'",';
+				// 	}
 
 	//vikas ends
 	

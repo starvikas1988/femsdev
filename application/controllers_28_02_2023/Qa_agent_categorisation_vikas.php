@@ -147,9 +147,10 @@
 			
 			$data['agent_cat_list'] = $agent_cat_lists;
 			
-			/* echo "<pre>";
-			print_r($agent_cat_lists);
-			echo "</pre>"; */
+			//  echo "<pre>";
+			// print_r($agent_cat_lists);
+			// echo "</pre>"; 
+			// exit;
 			//First day of the month
 			$monthFirstDate = date('Y-m-01', strtotime('today'));
 			//Current of the month.
@@ -186,7 +187,7 @@
 	}
 
 	//VIKAS STARTS//
-	function import_cdr_agent_excel_data(){ /*-- For BSNL --*/
+	function import_assign_agent_excel_data(){ /*-- For BSNL --*/
 		
 		$this->load->library('excel');
 		if(isset($_FILES["file"]["name"])){
@@ -199,7 +200,7 @@
 			$localDateTime = GetLocalTime();
 
 			$clmarr = array("agent_fusion_id","qa_fusion_id");
-			$rand_table = "qa_agent_categorisation";
+			$agent_categorisation_table = "qa_agent_categorisation";
 			
 			foreach($object->getWorksheetIterator() as $worksheet){
 				$highestRow = $worksheet->getHighestRow();
@@ -241,15 +242,17 @@
 							$row_qaId = $this->Common_model->get_query_row_array($sql_qaId);
 						}
 
-						$randArr = array('assigned_qa_id'=>$row_qaId['id']);
+						//$assign_agentArr = array('assigned_qa_id'=>$row_qaId['id']);
+						$assign_agentArr = array('assigned_qa_id'=>$row_qaId['id'],'client_id'=>$client_id, 'process_id'=>$pro_id);
+
 							$this->db->where('agent_id', $row_agentId['id']);
-						    $this->db->update($rand_table,$randArr);
+						    $this->db->update($agent_categorisation_table,$assign_agentArr);
 					}	
 				}
 				//exit;
 				// echo "<pre>"; print_r($user_list); echo "</pre>";exit;
-				 $client_id = $this->input->post('client_id');
-				 $pro_id = $this->input->post('pro_id');
+				 //$client_id = $this->input->post('client_id');
+				 //$pro_id = $this->input->post('pro_id');
 				 redirect('Qa_agent_categorisation_vikas/index/'.$client_id.'/'.$pro_id);
 
 				//vikas ends//

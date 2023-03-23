@@ -113,6 +113,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<option <?php echo $sas['audit_type']=='Calibration'?"selected":""; ?> value="Calibration">Calibration</option>
 												<option <?php echo $sas['audit_type']=='Pre-Certificate Mock Call'?"selected":""; ?> value="Pre-Certificate Mock Call">Pre-Certificate Mock Call</option>
 												<option <?php echo $sas['audit_type']=='Certificate Audit'?"selected":""; ?> value="Certificate Audit">Certificate Audit</option>
+												<option value="WOW Call">WOW Call</option>
 												<?php if(get_login_type()!="client"){ ?>
 													<option <?php echo $sas['audit_type']=='Operation Audit'?"selected":""; ?> value="Operation Audit">Operation Audit</option>
 													<option <?php echo $sas['audit_type']=='Trainer Audit'?"selected":""; ?> value="Trainer Audit">Trainer Audit</option>

@@ -2474,6 +2474,7 @@ public function create_qa_it_helpdesk_feedback_CSV($rr)
 				$adtdate=ConvServerToLocal($user['entry_date']);
 				$time = strtotime($adtdate);
 				$auditDate = date('Y-m-d',$time);
+				//$auditDate = $adtdate;
 
 				if($user['qa_feedback_date']=="" || $user['qa_feedback_date']=='0000-00-00 00:00:00'){
 					$qa_feedback_date='---';
@@ -15369,7 +15370,7 @@ public function awarenessHeader(){
 			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "Audit Type", "VOC","Audit Link", "Overall Score", "Earned Score", "Possible Score", "Pass Count", "Fail Count", "N/A Count", "Customer Score", "Business Score", "Compliance Score", "Did the agent Greet the Customer appropriately?", "Comment", "Did the agent offer his/her name?", "Comment", "Did the agent ascertain the customer name and use conversationally?", "Comment", "Did the agent ask an Open Question?", "Comment", "Did the agent utilise all resources available?", "Comment", "Did the agent determine if the call was for business?", "Comment", "Did the agent reconfirm to caller when the customer wants to stay?", "Comment", "Did the agent reconfirm to caller where the customer wants to stay?", "Comment", "Did the agent ask and reconfirm the number of rooms and guests?", "Comment", "Did the agent determine if the guest has stayed with us before?", "Comment", "Did the agent take relevant caller and profile information", "Comment", "Did the agent conform to GDPR requirements during the call?", "Comment", "Did the agent determine if the guest was a Jurys Rewards member?", "Comment", "Did the agent recommend the benefits of the Jurys Rewards programme?", "Comment", "Did the agent offer to enrol the guest on Jurys Rewards?", "Comment", "Did the agent upsell the room type and offer the benefits?", "Comment", "Did the agent offer Room Only and Bed & Breakfast?", "Comment", "Did the agent offer alternates positively", "Comment", "Did the agent present terms and conditions positively at the time of quoting?", "Comment","Did the agent offer the caller to contact the hotel for the correct reason?","Comment", "Did the agent ask for the business?", "Comment", "Did the agent reconfirm all booking details?", "Comment", "Did the agent follow the correct process?", "Comment", "Did the agent offer to send a confirmation email?", "Comment", "Did the agent advise that directions and parking information?", "Comment", "Did the agent ask if there was anything else?", "Comment", "Did the agent avoid long silences during the call?", "Comment", "Did the agent display a professional manner throughout the call?", "Comment", "Did the agent pro-actively volunteer additional info throughout the call?", "Comment", "Did the agent sound clear and confident throughout the call?", "Comment", "Did the agent refrain from using jargon throughout the call?", "Comment", "Did the agent sound polite and welcoming?", "Comment", "Did the agent use effective questioning skills?", "Comment", "Did the agent demonstrate active listening?", "Comment", "Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
 			/* "Did the agent apply the correct call tag?","Comment" */
 		}else if($lob=="cis_v2"){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "Audit Type", "VOC","Audit Link", "Overall Score", "Earned Score", "Possible Score", "Pass Count", "Fail Count", "N/A Count", "Customer Score", "Business Score", "Compliance Score", "Did the agent Greet the Customer appropriately?", "Comment", "Did the agent offer his/her name?", "Comment", "Did the agent ascertain the customer name and use conversationally?", "Comment", "Did the agent ask an Open Question?", "Comment", "Did the agent utilise all resources available?", "Comment", "Did the agent determine if the call was for business?", "Comment", "Did the agent reconfirm to caller when the customer wants to stay?", "Comment", "Did the agent reconfirm to caller where the customer wants to stay?", "Comment", "Did the agent ask and reconfirm the number of rooms and guests?", "Comment", "Did the agent determine if the guest has stayed with us before?", "Comment", "Did the agent take relevant caller and profile information", "Comment", "Did the agent conform to GDPR requirements during the call?", "Comment", "Did the agent determine if the guest was a Jurys Rewards member?", "Comment", "Did the agent recommend the benefits of the Jurys Rewards programme?", "Comment", "Did the agent offer to enrol the guest on Jurys Rewards?", "Comment", "Did the agent upsell the room type and offer the benefits?", "Comment", "Did the agent offer Room Only and Bed & Breakfast?", "Comment", "Did the agent offer alternates positively", "Comment", "Did the agent present terms and conditions positively at the time of quoting?", "Comment","Did the agent offer the caller to contact the hotel for the correct reason?","Comment", "Did the agent ask for the business?", "Comment", "Did the agent reconfirm all booking details?", "Comment", "Did the agent follow the correct process?", "Comment", "Did the agent offer to send a confirmation email?", "Comment", "Did the agent advise that directions and parking information?", "Comment", "Did the agent ask if there was anything else?", "Comment", "Did the agent apply the correct call tag?","Comment","Did the agent avoid long silences during the call?", "Comment", "Did the agent display a professional manner throughout the call?", "Comment", "Did the agent pro-actively volunteer additional info throughout the call?", "Comment", "Did the agent sound clear and confident throughout the call?", "Comment", "Did the agent refrain from using jargon throughout the call?", "Comment", "Did the agent sound polite and welcoming?", "Comment", "Did the agent use effective questioning skills?", "Comment", "Did the agent demonstrate active listening?", "Comment", "Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");	
+			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "Audit Type", "VOC","Audit Link", "Overall Score", "Earned Score", "Possible Score", "Pass Count", "Fail Count", "N/A Count", "Customer Score", "Business Score", "Compliance Score", "Did the agent Greet the Customer appropriately?", "Comment", "Did the agent offer his/her name?", "Comment", "Did the agent ascertain the customer name and use conversationally?", "Comment", "Did the agent ask an Open Question?", "Comment", "Did the agent utilise all resources available?", "Comment", "Did the agent determine if the call was for business?", "Comment", "Did the agent reconfirm to caller when the customer wants to stay?", "Comment", "Did the agent reconfirm to caller where the customer wants to stay?", "Comment", "Did the agent ask and reconfirm the number of rooms and guests?", "Comment", "Did the agent determine if the guest has stayed with us before?", "Comment", "Did the agent take relevant caller and profile information", "Comment", "Did the agent conform to GDPR requirements during the call?", "Comment", "Did the agent determine if the guest was a Jurys Rewards member?", "Comment", "Did the agent recommend the benefits of the Jurys Rewards programme?", "Comment", "Did the agent upsell the room type and offer the benefits?", "Comment", "Did the agent offer Room Only and Bed & Breakfast?", "Comment", "Did the agent offer alternates positively", "Comment", "Did the agent present terms and conditions positively at the time of quoting?", "Comment","Did the agent offer the caller to contact the hotel for the correct reason?","Comment", "Did the agent ask for the business?", "Comment", "Did the agent reconfirm all booking details?", "Comment", "Did the agent follow the correct process?", "Comment", "Did the agent offer to send a confirmation email?", "Comment", "Did the agent advise that directions and parking information?", "Comment", "Did the agent ask if there was anything else?", "Comment", "Did the agent apply the correct call tag?","Comment","Did the agent avoid long silences during the call?", "Comment", "Did the agent display a professional manner throughout the call?", "Comment", "Did the agent pro-actively volunteer additional info throughout the call?", "Comment", "Did the agent sound clear and confident throughout the call?", "Comment", "Did the agent refrain from using jargon throughout the call?", "Comment", "Did the agent sound polite and welcoming?", "Comment", "Did the agent use effective questioning skills?", "Comment", "Did the agent demonstrate active listening?", "Comment", "Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");	
 
 		}else if($lob=="cis_proposal"){
 		$header = array("Auditor Name777","Audit Date","Fusion Id","Agent","L1 Super","Call Id","Call Date","Call Duration","Call Type","Audit Type ","Auditor Type ","VOC ","Block Code ","Channel ","Overall Score ","Possible Score ","Earned Score ","Customer Score ","Business Score ","Compliance Score ","Did the agent check that the enquiry has all details? (such as correct meeting date delegates and layout) ","Did the agent check the caps and dims to ensure that we have a suitable room type to offer? ","Did the agent load the block for the correct property and dates? ","Was the function diary checked before loading the block? ","Did the agent choose the correct profile/email profiles if a profile doesn’t exist? ","Is the market segments correctly inputted? (Status Market Source Origin Type) ","Did the agent load bedrooms on the grid correctly? (If applicable) ","Did the agent load the meeting block correctly? (Separate Charges / DDR) ","Did the agent add block notes to what was offered? ","Did the agent add a trace to the block with the correct chase date? ","Did the agent check smart space and quote to the appropriate demand? ","Did the agent compose the proposal in the correct formant font and colour? ","Did the Contact and Meeting information table have all the correct detail on? ","Was the rate section correct and simple to read for the client? ","Did the agent amend the subject line accordingly? ","Did the the agent quote in the correct currency? ","Did the agent send it from the ‘meet’ Inbox? ","Did the agent use their signature at the end of the email? ","Comments 1 ","Comments 2 ","Comments 3 ","Comments 4 ","Comments 5 ","Comments 6 ","Comments 7 ","Comments 8 ","Comments 9 ","Comments 10 ","Comments 11 ","Comments 12 ","Comments 13 ","Comments 14 ","Comments 15 ","Comments 16 ","Comments 17 ","Comments 18 ","Call Summary ","Feedback ","Agent review date","Agent review note ","Mgnt review date ","Mgnt review Name ","Mgnt review note ","Client Review date","Client review by ","Client review note");
@@ -15588,8 +15589,8 @@ public function awarenessHeader(){
 						$row .= '"'.$user['recomend1_comm'].'",';
 						$row .= '"'.$user['recomend_benefit'].'",';
 						$row .= '"'.$user['recomend2_comm'].'",';
-						$row .= '"'.$user['recomend_offer'].'",';
-						$row .= '"'.$user['recomend3_comm'].'",';
+						// $row .= '"'.$user['recomend_offer'].'",';
+						// $row .= '"'.$user['recomend3_comm'].'",';
 						$row .= '"'.$user['recomend_upsell'].'",';
 						$row .= '"'.$user['recomend4_comm'].'",';
 						$row .= '"'.$user['recomend_room'].'",';
@@ -17603,7 +17604,12 @@ public function create_qa_idfc_CSV($rr,$campaign){
 					$table = 'qa_il_sales_'.$process.'_feedback';
 				}else if($process == 'mercy'){
 					$table = 'qa_'.$process.'_feedback';
-				}else{
+				}
+				else if($process == 'sales_ob'){
+					$table = 'qa_ideal_living_'.$process.'_feedback';
+				}
+				
+				else{
 					$table = 'qa_ideal_living_'.$process.'_feedback';
 				}
 				$qSql="SELECT * from
@@ -17661,7 +17667,7 @@ public function create_qa_idfc_CSV($rr,$campaign){
 		$fopen = fopen($filename,"w+");
 
 		if($process=='sales'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "TL", "Call Date", "Call Duration", "Call Type", "Can be Automated", "Product", "QA Type", "Disposition", "Recording ID", "Audit Type", "VOC","Audit Link","Correct Disposition","Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Auto Fail", "Overall Score", "Greeting", "Probing Question", "Product Benefit", "Closing the Sales", "Rebuttals", "Rapport Empathy", "Product Knowledge", "Speed Clarity", "Professional ethics Emotional Intelligence", "Enthusiasm Passion About Selling", "Main Offers Compliance", "Upsells Compliance", "Prepays Compliance", "Legal Terms Confirmation Compliance", "Third party separation Compliance", "Call Summary", "Feedback", "Agent Review Date", "Agent Feedback Acceptance", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "TL", "Call Date", "Call Duration", "Call Type", "Can be Automated", "Product", "QA Type", "Disposition", "Recording ID", "Audit Type", "VOC","Audit Link","Correct Disposition","Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Auto Fail", "Overall Score", "Greeting", "Probing Question", "Product Benefit", "Closing the Sales", "Rebuttals", "Rapport Empathy", "Product Knowledge", "Speed Clarity", "Professional ethics Emotional Intelligence", "Enthusiasm Passion About Selling", "Main Offers Compliance", "Upsells Compliance", "Prepays Compliance", "Legal Terms Confirmation Compliance", "Third party separation Compliance", "Acknowledge", "Build Value","Close the Sale","Call Summary", "Feedback", "Agent Review Date", "Agent Feedback Acceptance", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
 
 			// $header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "TL", "Call Date", "Call Duration", "Call Type", "Can be Automated", "Product", "QA Type", "Disposition", "Recording ID", "Audit Type", "VOC","Audit Link","Correct Disposition","Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Auto Fail", "Overall Score", "Greeting", "Probing Question", "Product Benefit", "Closing the Sales", "Rebuttals", "Rapport Empathy", "Product Knowledge", "Speed Clarity", "Professional ethics Emotional Intelligence", "Enthusiasm Passion About Selling", "Main Offers Compliance", "Upsells Compliance", "E-Mail Compliance", "Legal Terms Confirmation Compliance", "Third party separation Compliance", "Acknowledge", "Build Value", "Close the Sale", "Call Summary", "Feedback", "Agent Review Date", "Agent Feedback Acceptance", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
 		}else if($process=='cs_new'){
@@ -17670,6 +17676,10 @@ public function create_qa_idfc_CSV($rr,$campaign){
 			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "TL", "Call Date", "Call Duration", "Product", "Disposition", "Recorded Id",  "Wrong Disposition", "Correct Disposition" , "Audit Type", "QA Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Greeting", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
 		}else if($process=='mercy'){
 			$header = Array ("Auditor Name","Audit Date","Fusion Id","Agent","L1 Super","Call Id","Call Date","Call Duration","Call Type","Audit Type ","Auditor Type ","VOC ","Disposition ","CDRID ","Agent Assessment Request History as Requested by Client or AMD ","Overall Score ","Possible Score ","Earned Score ","Greeting / Closing ","Smile / Enthusiasm ","Info Capture / Verification ","Accuracy of Data Entry in ACDD CRM & Qgiv Payment Processing Page ","Acknowledgement or Empathy ","Appreciation (Donor Services Desire to Volunteer Etc.) ","Tone / Pace ","Positive Phrasing ","Script Adherence ","Active Listening ","Proper Use of Navigational Tools / Help Buttons / FAQs ","Disposition of Call ","Redirect/Rebuttals ","Agent Engagement ","Comments 1 ","Comments 2 ","Comments 3 ","Comments 4 ","Comments 5 ","Comments 6 ","Comments 7 ","Comments 8 ","Comments 9 ","Comments 10 ","Comments 11 ","Comments 12 ","Comments 13 ","Comments 14 ","Call Summary ","Feedback ","Entry By ","Entry Date ","Audit Start Time ","Client entry by ","Mgnt review by ","Mgnt review note ","Mgnt review date ","Agent review note ","Agent review date ","Client review by ","Client review note ","Client_rvw_date" );
+		}
+		else if($process=='sales_ob')
+		{
+			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "TL", "Call Date", "Call Duration", "Call Type", "Can be Automated", "Product", "QA Type", "Disposition", "Recording ID", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Auto Fail","Overall Score", "Greeting", "Probing Question", "Product Benefit", "Closing the Sales", "Rebuttals", "Rapport Empathy", "Product Knowledge", "Speed Clarity", "Professional ethics Emotional Intelligence", "Enthusiasm Passion About Selling", "Main Offers Compliance", "Upsells Compliance", "Prepays / Platinum", "Legal Terms Confirmation Compliance", "Third party separation Compliance",  "Call Summary", "Feedback", "Agent Review Date", "Agent Feedback Acceptance", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
 		}
 
 		$row = "";
@@ -17725,9 +17735,9 @@ public function create_qa_idfc_CSV($rr,$campaign){
 				$row .= '"'.$user['prepays_compliance'].'",';
 				$row .= '"'.$user['legal_terms'].'",';
 				$row .= '"'.$user['third_party_separation'].'",';
-				// $row .= '"'.$user['acknowledge'].'",';
-				// $row .= '"'.$user['build_value'].'",';
-				// $row .= '"'.$user['sale_close'].'",';
+				$row .= '"'.$user['acknowledge'].'",';
+				$row .= '"'.$user['build_value'].'",';
+				$row .= '"'.$user['sale_close'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
 				$row .= '"'.$user['agent_rvw_date'].'",';
@@ -17849,7 +17859,80 @@ public function create_qa_idfc_CSV($rr,$campaign){
 				fwrite($fopen,$row."\r\n");
 			}
 			fclose($fopen);
-		}else if($process == 'mercy'){
+		}
+		
+		else if(($process=='sales_ob')){
+			foreach($rr as $user){	
+				if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+					$interval1 = '---';
+				}else{
+					$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+				}
+				
+				$row = '"'.$user['auditor_name'].'",'; 
+				$row .= '"'.$user['audit_date'].'",'; 
+				$row .= '"'.$user['fusion_id'].'",'; 
+				$row .= '"'.$user['fname']." ".$user['lname'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['call_duration'].'",';
+				$row .= '"'.$user['call_type'].'",';
+				$row .= '"'.$user['can_automated'].'",';
+				$row .= '"'.$user['product'].'",';
+				$row .= '"'.$user['qa_type'].'",';
+				$row .= '"'.$user['disposition'].'",';
+				$row .= '"'.$user['recording_id'].'",';
+				$row .= '"'.$user['audit_type'].'",';
+				$row .= '"'.$user['voc'].'",';
+				$row .= '"'.$user['audit_start_time'].'",';
+				$row .= '"'.$user['entry_date'].'",';
+				$row .= '"'.$interval1.'",';
+				$row .= '"'.$user['auto_fail'].'",';
+				$row .= '"'.$user['overall_score'].'%'.'",';
+				$row .= '"'.$user['greeting'].'",';
+				$row .= '"'.$user['probing_question'].'",';
+				$row .= '"'.$user['product_benefit'].'",';
+				$row .= '"'.$user['close_the_sale'].'",';
+				$row .= '"'.$user['rebuttals'].'",';
+				$row .= '"'.$user['rapport'].'",';
+				$row .= '"'.$user['product_knowledge'].'",';
+				$row .= '"'.$user['speed_clarity'].'",';
+				$row .= '"'.$user['professional_ethics'].'",';
+				$row .= '"'.$user['passion_selling'].'",';
+				$row .= '"'.$user['main_offers'].'",';
+				$row .= '"'.$user['upsell_compliance'].'",';
+				$row .= '"'.$user['prepays_compliance'].'",';
+				$row .= '"'.$user['legal_terms'].'",';
+				$row .= '"'.$user['third_party_separation'].'",';
+				
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+				$row .= '"'.$user['agent_rvw_date'].'",';
+				$row .= '"'.$user['agnt_fd_acpt'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+				$row .= '"'.$user['mgnt_rvw_date'].'",';
+				$row .= '"'.$user['mgnt_rvw_name'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'"';				
+				fwrite($fopen,$row."\r\n");
+			}
+			fclose($fopen);
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		else if($process == 'mercy'){
 
 				$field_name="SHOW FULL COLUMNS FROM qa_".$process."_feedback WHERE Comment!=''";
 				$field_name=$this->Common_model->get_query_result_array($field_name);
@@ -18782,290 +18865,326 @@ public function qa_romtech_report() // working
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////// HOME ADVISOR ///////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public function qa_homeadvisor_report(){
-		if(check_logged_in()){
+public function qa_homeadvisor_report(){
+	if(check_logged_in()){
 
-			$office_id = "";
-			$user_office_id=get_user_office_id();
-			$current_user = get_user_id();
-			$is_global_access=get_global_access();
-			$role_dir=get_role_dir();
-			$data["show_download"] = false;
-			$data["download_link"] = "";
-			$data["show_table"] = false;
-			$data["show_table"] = false;
-			$data["aside_template"] = "reports_qa/aside.php";
-			$data["content_template"] = "reports_qa/qa_homeadvisor_report.php";
+		$office_id = "";
+		$user_office_id=get_user_office_id();
+		$current_user = get_user_id();
+		$is_global_access=get_global_access();
+		$role_dir=get_role_dir();
+		$data["show_download"] = false;
+		$data["download_link"] = "";
+		$data["show_table"] = false;
+		$data["show_table"] = false;
+		$data["aside_template"] = "reports_qa/aside.php";
+		$data["content_template"] = "reports_qa/qa_homeadvisor_report.php";
 
-			$date_from="";
-			$date_to="";
-			$action="";
-			$dn_link="";
-			$cond="";
-			$cond1="";
-			$cond2="";
+		$date_from="";
+		$date_to="";
+		$action="";
+		$dn_link="";
+		$cond="";
+		$cond1="";
+		$cond2="";
 
-			$currentURL = current_url();
+		$currentURL = current_url();
 
-			$pValue = trim($this->input->post('process_id'));
-			if($pValue=="") $pValue = trim($this->input->get('process_id'));
-			$data['pValue']=$pValue;
+		$pValue = trim($this->input->post('process_id'));
+		if($pValue=="") $pValue = trim($this->input->get('process_id'));
+		$data['pValue']=$pValue;
 
-			$data["qa_homeadvisor_list"] = array();
+		$data["qa_homeadvisor_list"] = array();
 
-			$data['location_list'] = $this->Common_model->get_office_location_list();
+		$data['location_list'] = $this->Common_model->get_office_location_list();
 
-			$date_from = $this->input->get('date_from');
-			$date_to = $this->input->get('date_to');
+		$date_from = $this->input->get('date_from');
+		$date_to = $this->input->get('date_to');
 
-			if($date_from==""){
-				$date_from=CurrDate();
-			}else{
-				$date_from = mmddyy2mysql($date_from);
-			}
+		if($date_from==""){
+			$date_from=CurrDate();
+		}else{
+			$date_from = mmddyy2mysql($date_from);
+		}
 
-			if($date_to==""){
-				$date_to=CurrDate();
-			}else{
-				$date_to = mmddyy2mysql($date_to);
-			}
+		if($date_to==""){
+			$date_to=CurrDate();
+		}else{
+			$date_to = mmddyy2mysql($date_to);
+		}
 
-			$office_id = $this->input->get('office_id');
+		$office_id = $this->input->get('office_id');
 
-		/////////////////////
-			if($date_from !="" && $date_to!=="" )  $cond= " Where (audit_date >= '$date_from' and audit_date <= '$date_to' ) ";
+	/////////////////////
+		if($date_from !="" && $date_to!=="" )  $cond= " Where (audit_date >= '$date_from' and audit_date <= '$date_to' ) ";
 
-			if($office_id=="All") $cond .= "";
-			else $cond .=" and office_id='$office_id'";
+		if($office_id=="All") $cond .= "";
+		else $cond .=" and office_id='$office_id'";
 
-			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
-				if(get_user_fusion_id()=='FELS000025' || get_user_fusion_id()=='FJAM004099' || get_user_fusion_id()=='FJAM004208' || get_user_fusion_id()=='FJAM004102' || get_user_fusion_id()=='FELS001565'){
-					$cond1 .="";
-				}else{
-					$cond1 .=" And (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
-				}
-			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
-				if(get_user_fusion_id()=='FJAM004099' || get_user_fusion_id()=='FJAM004208' || get_user_fusion_id()=='FJAM004102' || get_user_fusion_id()=='FELS001565'){
-					$cond1 .="";
-					$cond2 .=" and office_id='JAM'";
-				}else{
-					$cond1 .=" And assigned_to='$current_user'";
-				}
-			}else{
+		if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+			if(get_user_fusion_id()=='FELS000025' || get_user_fusion_id()=='FJAM004099' || get_user_fusion_id()=='FJAM004208' || get_user_fusion_id()=='FJAM004102' || get_user_fusion_id()=='FELS001565'){
 				$cond1 .="";
+			}else{
+				$cond1 .=" And (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
 			}
-
-			if($this->input->get('show')=='Show'){
-
-				if($pValue=='Home Advisor'){
-
-					$qSql="SELECT * from
-					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,(select DATEDIFF(CURDATE(), s.doj) as tenure from signin s where s.id=agent_id) as tenure, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name from qa_homeadvisor_feedback) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) Left join (Select fd_id, note as agent_note, date(entry_date) as agent_rvw_date from qa_homeadvisor_agent_rvw) zz on (xx.id=zz.fd_id) Left Join (Select fd_id as mgnt_fd_id, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as mgnt_name, note as mgnt_note, date(entry_date) as mgnt_rvw_date from qa_homeadvisor_mgnt_rvw) ww on (xx.id=ww.mgnt_fd_id) $cond $cond1 order by audit_date";
-
-					$fullAray = $this->Common_model->get_query_result_array($qSql);
-					$data["qa_homeadvisor_list"] = $fullAray;
-					$this->create_qa_homeadvisor_CSV($fullAray);
-					$dn_link = base_url()."reports_qa/download_qa_homeadvisor_CSV";
-
-				}elseif($pValue=='HCCI'){
-					$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,(select DATEDIFF(CURDATE(), s.doj) as tenure from signin s where s.id=agent_id) as tenure, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcci_feedback) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, get_process_names(id) as campaign, DATEDIFF(CURDATE(), doj) as tenure, assigned_to from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
-					$fullAray = $this->Common_model->get_query_result_array($qSql);
-					$data["qa_homeadvisor_list"] = $fullAray;
-					// $header_arr=$this->Common_model->get_query_result_array("SELECT column_comment FROM information_schema.COLUMNS WHERE table_name = 'qa_hcci_feedback'");
-					// $cnt=count($header_arr);
-
-					//  for($i=0;$i<$cnt;$i++){
-					// 	$val=$this->getval($header_arr[$i],'column_comment');
-					// 	if($val!=""){
-					// 		$header[]=$val;
-					// 	}
-					//  }
-					// array_unshift($header ,"Auditor Name");
-					// $key = array_search ('Agent', $header);
-					// array_splice($header, $key, 0, 'Fusion Id');
-					// print_r($header);
-					// die;
-					$this->create_qa_hcci_CSV($fullAray);
-					$dn_link = base_url()."reports_qa/download_qa_hcci_CSV";
-
-				}
-				elseif($pValue=='HCCI_new'){
-					$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,(select DATEDIFF(CURDATE(), s.doj) as tenure from signin s where s.id=agent_id) as tenure, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcci_feedback_new) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, get_process_names(id) as campaign, DATEDIFF(CURDATE(), doj) as tenure, assigned_to from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
-					$fullAray = $this->Common_model->get_query_result_array($qSql);
-					$data["qa_homeadvisor_list"] = $fullAray;
-
-					$this->create_qa_hcci_CSV_new($fullAray);
-					$dn_link = base_url()."reports_qa/download_qa_hcci_CSV_new";
-
-				}elseif($pValue=='HCCO SR COMPLIANCE'){
-
-					$qSql="SELECT * from
-					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-					(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-					(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,(select DATEDIFF(CURDATE(), s.doj) as tenure from signin s where s.id=agent_id) as tenure,
-					(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
-					(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_hcco_sr_feedback) xx Left Join
-					(Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
-					$fullAray = $this->Common_model->get_query_result_array($qSql);
-					$data["qa_homeadvisor_list"] = $fullAray;
-					$this->create_qa_hcco_sr_CSV($fullAray);
-					$dn_link = base_url()."reports_qa/download_qa_hcco_sr_CSV";
-
-				}elseif($pValue=='HCCO FLEX'){
-
-						$qSql="SELECT * from
-						(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-						(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-						(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,(select DATEDIFF(CURDATE(), s.doj) as tenure from signin s where s.id=agent_id) as tenure,
-						(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
-						(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_hcco_flex_feedback) xx Left Join
-						(Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
-						$fullAray = $this->Common_model->get_query_result_array($qSql);
-						$data["qa_homeadvisor_list"] = $fullAray;
-						$this->create_qa_hcco_flex_CSV($fullAray);
-						$dn_link = base_url()."reports_qa/download_qa_hcco_flex_CSV";
-
-				}else if($pValue=="BCCI"){
-					$qSql="SELECT * from
-					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-					(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-					(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,(select DATEDIFF(CURDATE(), s.doj) as tenure from signin s where s.id=agent_id) as tenure,
-					(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
-					(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_bcci) xx Left Join
-					(Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
-					$fullAray = $this->Common_model->get_query_result_array($qSql);
-					$data["qa_homeadvisor_list"] = $fullAray;
-					$this->create_qa_bcci_CSV($fullAray);
-					$dn_link = base_url()."reports_qa/download_qa_bcci_CSV";
-				}else{
-
-					 $qSql="SELECT * from
-					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,(select DATEDIFF(CURDATE(), s.doj) as tenure from signin s where s.id=agent_id) as tenure, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name from qa_hcco_feedback) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) Left join (Select fd_id, note as agent_note, date(entry_date) as agent_rvw_date from qa_hcco_agent_rvw) zz on (xx.id=zz.fd_id) Left Join (Select fd_id as mgnt_fd_id, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as mgnt_name, note as mgnt_note, date(entry_date) as mgnt_rvw_date from qa_hcco_mgnt_rvw) ww on (xx.id=ww.mgnt_fd_id) $cond $cond1 $cond2 order by audit_date";
-
-					$fullAray = $this->Common_model->get_query_result_array($qSql);
-					$data["qa_homeadvisor_list"] = $fullAray;
-					$this->create_qa_hcco_CSV($fullAray);
-					$dn_link = base_url()."reports_qa/download_qa_hcco_CSV";
-
-				}
-
+		}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+			if(get_user_fusion_id()=='FJAM004099' || get_user_fusion_id()=='FJAM004208' || get_user_fusion_id()=='FJAM004102' || get_user_fusion_id()=='FELS001565'){
+				$cond1 .="";
+				$cond2 .=" and office_id='JAM'";
+			}else{
+				$cond1 .=" And assigned_to='$current_user'";
 			}
-
-			$data['download_link']=$dn_link;
-			$data["action"] = $action;
-			$data['date_from'] = $date_from;
-			$data['date_to'] = $date_to;
-			$data['office_id']=$office_id;
-
-			$this->load->view('dashboard',$data);
+		}else{
+			$cond1 .="";
 		}
+
+		if($this->input->get('show')=='Show'){
+
+			if($pValue=='Home Advisor'){
+
+				$qSql="SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,(select DATEDIFF(CURDATE(), s.doj) as tenure from signin s where s.id=agent_id) as tenure, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name from qa_homeadvisor_feedback) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) Left join (Select fd_id, note as agent_note, date(entry_date) as agent_rvw_date from qa_homeadvisor_agent_rvw) zz on (xx.id=zz.fd_id) Left Join (Select fd_id as mgnt_fd_id, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as mgnt_name, note as mgnt_note, date(entry_date) as mgnt_rvw_date from qa_homeadvisor_mgnt_rvw) ww on (xx.id=ww.mgnt_fd_id) $cond $cond1 order by audit_date";
+
+				$fullAray = $this->Common_model->get_query_result_array($qSql);
+				$data["qa_homeadvisor_list"] = $fullAray;
+				$this->create_qa_homeadvisor_CSV($fullAray);
+				$dn_link = base_url()."reports_qa/download_qa_homeadvisor_CSV";
+
+			}elseif($pValue=='HCCI'){
+				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,(select DATEDIFF(CURDATE(), s.doj) as tenure from signin s where s.id=agent_id) as tenure, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcci_feedback) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, get_process_names(id) as campaign, DATEDIFF(CURDATE(), doj) as tenure, assigned_to from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
+				$fullAray = $this->Common_model->get_query_result_array($qSql);
+				$data["qa_homeadvisor_list"] = $fullAray;
+				// $header_arr=$this->Common_model->get_query_result_array("SELECT column_comment FROM information_schema.COLUMNS WHERE table_name = 'qa_hcci_feedback'");
+				// $cnt=count($header_arr);
+
+				//  for($i=0;$i<$cnt;$i++){
+				// 	$val=$this->getval($header_arr[$i],'column_comment');
+				// 	if($val!=""){
+				// 		$header[]=$val;
+				// 	}
+				//  }
+				// array_unshift($header ,"Auditor Name");
+				// $key = array_search ('Agent', $header);
+				// array_splice($header, $key, 0, 'Fusion Id');
+				// print_r($header);
+				// die;
+				$this->create_qa_hcci_CSV($fullAray);
+				$dn_link = base_url()."reports_qa/download_qa_hcci_CSV";
+
+			}
+			elseif($pValue=='HCCI_new'){
+				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,(select DATEDIFF(CURDATE(), s.doj) as tenure from signin s where s.id=agent_id) as tenure, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcci_feedback_new) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, get_process_names(id) as campaign, DATEDIFF(CURDATE(), doj) as tenure, assigned_to from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
+				$fullAray = $this->Common_model->get_query_result_array($qSql);
+				$data["qa_homeadvisor_list"] = $fullAray;
+
+				$this->create_qa_hcci_CSV_new($fullAray);
+				$dn_link = base_url()."reports_qa/download_qa_hcci_CSV_new";
+
+			}elseif($pValue=='HCCO SR COMPLIANCE'){
+
+				$qSql="SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,(select DATEDIFF(CURDATE(), s.doj) as tenure from signin s where s.id=agent_id) as tenure,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
+				(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_hcco_sr_feedback) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
+				$fullAray = $this->Common_model->get_query_result_array($qSql);
+				$data["qa_homeadvisor_list"] = $fullAray;
+				$this->create_qa_hcco_sr_CSV($fullAray);
+				$dn_link = base_url()."reports_qa/download_qa_hcco_sr_CSV";
+
+			}elseif($pValue=='HCCO_SR'){
+
+				$qSql="SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,(select DATEDIFF(CURDATE(), s.doj) as tenure from signin s where s.id=agent_id) as tenure,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
+				(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_hcco_sr_v2_feedback) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
+				$fullAray = $this->Common_model->get_query_result_array($qSql);
+				$data["qa_homeadvisor_list"] = $fullAray;
+				// echo '<pre>';
+				// print_r($data);
+				// echo '</pre>';
+				// die();
+				$this->create_qa_hcco_sr_v2_CSV($fullAray);
+				$dn_link = base_url()."reports_qa/download_qa_hcco_sr_v2_CSV";
+
+			}elseif($pValue=='HCCO FLEX'){
+
+					$qSql="SELECT * from
+					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+					(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+					(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,(select DATEDIFF(CURDATE(), s.doj) as tenure from signin s where s.id=agent_id) as tenure,
+					(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
+					(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_hcco_flex_feedback) xx Left Join
+					(Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
+					$fullAray = $this->Common_model->get_query_result_array($qSql);
+					$data["qa_homeadvisor_list"] = $fullAray;
+					$this->create_qa_hcco_flex_CSV($fullAray);
+					$dn_link = base_url()."reports_qa/download_qa_hcco_flex_CSV";
+
+				}elseif($pValue=='HCCO_V2'){
+
+					$qSql="SELECT * from
+					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+					(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+					(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,(select DATEDIFF(CURDATE(), s.doj) as tenure from signin s where s.id=agent_id) as tenure,
+					(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
+					(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_hcco_v2_feedback) xx Left Join
+					(Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
+					$fullAray = $this->Common_model->get_query_result_array($qSql);
+					$data["qa_homeadvisor_list"] = $fullAray;
+					// echo '<pre>';
+					// print_r($data);
+					// echo '</pre>';
+					// die();
+					$this->create_qa_hcco_v2_CSV($fullAray);
+					$dn_link = base_url()."reports_qa/download_qa_hcco_v2_CSV";
+
+			}else if($pValue=="BCCI"){
+				$qSql="SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,(select DATEDIFF(CURDATE(), s.doj) as tenure from signin s where s.id=agent_id) as tenure,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
+				(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_bcci) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
+				$fullAray = $this->Common_model->get_query_result_array($qSql);
+				$data["qa_homeadvisor_list"] = $fullAray;
+				$this->create_qa_bcci_CSV($fullAray);
+				$dn_link = base_url()."reports_qa/download_qa_bcci_CSV";
+			}else{
+
+				 $qSql="SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,(select DATEDIFF(CURDATE(), s.doj) as tenure from signin s where s.id=agent_id) as tenure, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name from qa_hcco_feedback) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) Left join (Select fd_id, note as agent_note, date(entry_date) as agent_rvw_date from qa_hcco_agent_rvw) zz on (xx.id=zz.fd_id) Left Join (Select fd_id as mgnt_fd_id, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as mgnt_name, note as mgnt_note, date(entry_date) as mgnt_rvw_date from qa_hcco_mgnt_rvw) ww on (xx.id=ww.mgnt_fd_id) $cond $cond1 $cond2 order by audit_date";
+
+				$fullAray = $this->Common_model->get_query_result_array($qSql);
+				$data["qa_homeadvisor_list"] = $fullAray;
+				$this->create_qa_hcco_CSV($fullAray);
+				$dn_link = base_url()."reports_qa/download_qa_hcco_CSV";
+
+			}
+
+		}
+
+		$data['download_link']=$dn_link;
+		$data["action"] = $action;
+		$data['date_from'] = $date_from;
+		$data['date_to'] = $date_to;
+		$data['office_id']=$office_id;
+
+		$this->load->view('dashboard',$data);
 	}
+}
 
-	// /////////////////// hcci NEW /////////////////////
-	public function download_qa_hcci_CSV()
+// /////////////////// hcci NEW /////////////////////
+public function download_qa_hcci_CSV()
+{
+	$currDate=date("Y-m-d");
+	$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+	$newfile="QA HCCI Audit List-'".$currDate."'.csv";
+
+	header('Content-Disposition: attachment;  filename="'.$newfile.'"');
+	readfile($filename);
+}
+
+public function create_qa_hcci_CSV($rr)
+{
+	$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+	$currentURL = base_url();
+	$controller = "Qa_homeadvisor";
+	$edit_url = "mgnt_hcci_feedback";
+	$main_url =  $currentURL.''.$controller.'/'.$edit_url;
+
+	//$main_url = base_url().'qa_files/qa_homeadvisor/homeadvisor_files/';
+	$fopen = fopen($filename,"w+");
+	$header=array ( "Auditor Name","Tenure","Audit Link","Audit Date","Fusion Id","Agent","TL Name","Call Date/Time","Call Duration","SR NO.","Consumer No.","Call File","AUDIT TYPE","AUDITOR TYPE","VOC","Overall Score","Introduction must include company name","We attempted to overcome all homeowner objections","Kept call simple and brief by not extending the information provided","We educated homeowner on what will happen after their request is submit","Attempt to gather and accurately submit all SR information for the professional","Do you agree to HomeAdvisor's Terms including that HomeAdvisor","HomeAdvisor and our partners may offer discounts and other offers in the future","Note BETTI if homeowner does not agree to 2nd Consent","Suggestive cross sell offered","Offer contact information and a transfer to pro","Compliance Score","Customer Score","Business Score","Call Summary","Feedback","Entry By","Entry Date","Client entry by","Mgnt review by","Mgnt review note","Mgnt review date","Agent review note","Agent review date","Client review by","Client review note","Client rvw date");
+
+	$field_name="SHOW FULL COLUMNS FROM qa_hcci_feedback WHERE Comment!=''";
+	$field_name=$this->Common_model->get_query_result_array($field_name);
+	$fld_cnt=count($field_name);
+	for($i=0;$i<$fld_cnt;$i++){
+					$val=$field_name[$i]['Field'];
+					if($val!=""){
+						$field_val[]=$val;
+					}
+				 }
+	array_unshift($field_val ,"audio_link");
+	array_unshift($field_val ,"tenure");
+	array_unshift($field_val ,"auditor_name");
+
+
+	$key = array_search ('agent_id', $field_val);
+	array_splice($field_val, $key, 0, 'fusion_id');
+	$field_val=array_values($field_val);
+	// echo"<pre>";
+	// print_r($field_val);
+	// echo"</pre>";
+	//die();
+	$count_for_field=count($field_val);
+
+	$row = "";
+	foreach($header as $data) $row .= ''.$data.',';
+	fwrite($fopen,rtrim($row,",")."\r\n");
+	$searches = array("\r", "\n", "\r\n");
+	$row = "";
+	//  print_r($rr);
+	// die;
+	foreach($rr as $user)
 	{
-		$currDate=date("Y-m-d");
-		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
-		$newfile="QA HCCI Audit List-'".$currDate."'.csv";
+		for($z=0;$z<$count_for_field;$z++){
+			 $main_urls = $main_url.'/'.$user['id'];
+			// echo $field_val[$z];
 
-		header('Content-Disposition: attachment;  filename="'.$newfile.'"');
-		readfile($filename);
-	}
+			if($field_val[$z]==="auditor_name"){
+				$row = '"'.$user['auditor_name'].'",';
+			}else if($field_val[$z]==="tenure"){
+				$row .= '"'.$user['tenure'].'",';
+			}else if($field_val[$z]==="audio_link"){
+				$row .= '"'.$main_urls.'",';
+			}else if($field_val[$z]==="fusion_id"){
+				$row .= '"'.$user['fusion_id'].'",';
+			}else if($field_val[$z]==="agent_id"){
+				$row .= '"'.$user['fname']." ".$user['lname'].'",';
+			}else if($field_val[$z]==="tl_id"){
+				$row .= '"'.$user['tl_name'].'",';
+			}else if(in_array($field_val[$z], array('call_summary','feedback','agent_rvw_note','mgnt_rvw_note'))) {
 
-	public function create_qa_hcci_CSV($rr)
-	{
-		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
-		$currentURL = base_url();
-		$controller = "Qa_homeadvisor";
-		$edit_url = "mgnt_hcci_feedback";
-		$main_url =  $currentURL.''.$controller.'/'.$edit_url;
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user[$field_val[$z]])).'",';
 
-		//$main_url = base_url().'qa_files/qa_homeadvisor/homeadvisor_files/';
-		$fopen = fopen($filename,"w+");
-		$header=array ( "Auditor Name","Tenure","Audit Link","Audit Date","Fusion Id","Agent","TL Name","Call Date/Time","Call Duration","SR NO.","Consumer No.","Call File","AUDIT TYPE","AUDITOR TYPE","VOC","Overall Score","Introduction must include company name","We attempted to overcome all homeowner objections","Kept call simple and brief by not extending the information provided","We educated homeowner on what will happen after their request is submit","Attempt to gather and accurately submit all SR information for the professional","Do you agree to HomeAdvisor's Terms including that HomeAdvisor","HomeAdvisor and our partners may offer discounts and other offers in the future","Note BETTI if homeowner does not agree to 2nd Consent","Suggestive cross sell offered","Offer contact information and a transfer to pro","Compliance Score","Customer Score","Business Score","Call Summary","Feedback","Entry By","Entry Date","Client entry by","Mgnt review by","Mgnt review note","Mgnt review date","Agent review note","Agent review date","Client review by","Client review note","Client rvw date");
+			}else{
+				$row .= '"'.$user[$field_val[$z]].'",';
+			}
 
-		$field_name="SHOW FULL COLUMNS FROM qa_hcci_feedback WHERE Comment!=''";
-		$field_name=$this->Common_model->get_query_result_array($field_name);
-		$fld_cnt=count($field_name);
-		for($i=0;$i<$fld_cnt;$i++){
-						$val=$field_name[$i]['Field'];
-						if($val!=""){
-							$field_val[]=$val;
-						}
-					 }
-		array_unshift($field_val ,"audio_link");
-		array_unshift($field_val ,"tenure");
-		array_unshift($field_val ,"auditor_name");
-
-
-		$key = array_search ('agent_id', $field_val);
-		array_splice($field_val, $key, 0, 'fusion_id');
-		$field_val=array_values($field_val);
-		// echo"<pre>";
-		// print_r($field_val);
-		// echo"</pre>";
+		}
 		//die();
-		$count_for_field=count($field_val);
 
-		$row = "";
-		foreach($header as $data) $row .= ''.$data.',';
-		fwrite($fopen,rtrim($row,",")."\r\n");
-		$searches = array("\r", "\n", "\r\n");
-		$row = "";
-		//  print_r($rr);
-		// die;
-		foreach($rr as $user)
-		{
-			for($z=0;$z<$count_for_field;$z++){
-				 $main_urls = $main_url.'/'.$user['id'];
-				// echo $field_val[$z];
-
-				if($field_val[$z]==="auditor_name"){
-					$row = '"'.$user['auditor_name'].'",';
-				}else if($field_val[$z]==="tenure"){
-					$row .= '"'.$user['tenure'].'",';
-				}else if($field_val[$z]==="audio_link"){
-					$row .= '"'.$main_urls.'",';
-				}else if($field_val[$z]==="fusion_id"){
-					$row .= '"'.$user['fusion_id'].'",';
-				}else if($field_val[$z]==="agent_id"){
-					$row .= '"'.$user['fname']." ".$user['lname'].'",';
-				}else if($field_val[$z]==="tl_id"){
-					$row .= '"'.$user['tl_name'].'",';
-				}else if(in_array($field_val[$z], array('call_summary','feedback','agent_rvw_note','mgnt_rvw_note'))) {
-
-    			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user[$field_val[$z]])).'",';
-
-				}else{
-					$row .= '"'.$user[$field_val[$z]].'",';
-				}
-
-			}
-			//die();
-
-				fwrite($fopen,$row."\r\n");
-				$row = "";
-		}
-
-		fclose($fopen);
+			fwrite($fopen,$row."\r\n");
+			$row = "";
 	}
+
+	fclose($fopen);
+}
 
 /* public function getval($arrs, $k) {
-    foreach($arrs as $key=>$val) {
-        if( $key === $k ) {
-            return $val;
-        }
-        else {
-            if(is_array($val)) {
-                $ret = $this->getval($val, $k);
-                if($ret !== NULL) {
-                    return $ret;
-                }
-            }
-        }
-    }
-    return NULL;
-	} */
+foreach($arrs as $key=>$val) {
+	if( $key === $k ) {
+		return $val;
+	}
+	else {
+		if(is_array($val)) {
+			$ret = $this->getval($val, $k);
+			if($ret !== NULL) {
+				return $ret;
+			}
+		}
+	}
+}
+return NULL;
+} */
 
 // public function download_qa_hcci_CSV_new($campaign)
 // 	{
@@ -19077,439 +19196,722 @@ public function qa_romtech_report() // working
 // 	}
 
 
-	// public function create_qa_hcci_CSV_new($rr,$campaign)
-	// {
-	// 	$currDate=date("Y-m-d");
-	// 	$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
-	// 	$fopen = fopen($filename,"w+");
+// public function create_qa_hcci_CSV_new($rr,$campaign)
+// {
+// 	$currDate=date("Y-m-d");
+// 	$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+// 	$fopen = fopen($filename,"w+");
 
-	// 		$header = array("Auditor Name","Audit Date","Fusion Id","Agent","TL Name","Call Date/Time","Call Duration","SR NO.","Consumer No.","Call File","Call scenario","AUDIT TYPE","AUDITOR TYPE","VOC","Overall Score","Use the appropriate HCCI introduction","Demonstrate a willingness to help throughout the call","Use RRA (Repeat, Rephrase, and Affirm)","Used empathetic word choices","Feel, felt, found","Thoroughly probed to identify customer needs","Accurately address all questions/issues presented","Set appropriate expectations on policy and next steps","Use appropriate user-facing terms and Book Now acronyms","Warm transferred when required","Thank customer for their business and brand the call","Completed all actions in Dash as communicated to customer","Did not promise or complete an action out of policy","Completed the appropriate documentation and action in Dash","Completed Lead Audit Interview on SR in BETTI","Cursing / Clear Insults","Speaking Negatively of Handy / Users / Partners / CX Agents","Ignored main issue","Excessive Inappropriate Response or Tone of Voice","Excessive Dead Air","Incorrectly using an Other Disposition when there was a better option available","Compliance Score","Customer Score","Business Score","Call Summary","Feedback","Entry By","Entry Date","Client entry by","Mgnt review by","Mgnt review note","Mgnt review date","Agent review note","Agent review date","Client review by","Client review note","Client rvw date");
+// 		$header = array("Auditor Name","Audit Date","Fusion Id","Agent","TL Name","Call Date/Time","Call Duration","SR NO.","Consumer No.","Call File","Call scenario","AUDIT TYPE","AUDITOR TYPE","VOC","Overall Score","Use the appropriate HCCI introduction","Demonstrate a willingness to help throughout the call","Use RRA (Repeat, Rephrase, and Affirm)","Used empathetic word choices","Feel, felt, found","Thoroughly probed to identify customer needs","Accurately address all questions/issues presented","Set appropriate expectations on policy and next steps","Use appropriate user-facing terms and Book Now acronyms","Warm transferred when required","Thank customer for their business and brand the call","Completed all actions in Dash as communicated to customer","Did not promise or complete an action out of policy","Completed the appropriate documentation and action in Dash","Completed Lead Audit Interview on SR in BETTI","Cursing / Clear Insults","Speaking Negatively of Handy / Users / Partners / CX Agents","Ignored main issue","Excessive Inappropriate Response or Tone of Voice","Excessive Dead Air","Incorrectly using an Other Disposition when there was a better option available","Compliance Score","Customer Score","Business Score","Call Summary","Feedback","Entry By","Entry Date","Client entry by","Mgnt review by","Mgnt review note","Mgnt review date","Agent review note","Agent review date","Client review by","Client review note","Client rvw date");
 
-	// 	$row = "";
-	// 	foreach($header as $data) $row .= ''.$data.',';
-	// 	fwrite($fopen,rtrim($row,",")."\r\n");
-	// 	$searches = array("\r", "\n", "\r\n");
+// 	$row = "";
+// 	foreach($header as $data) $row .= ''.$data.',';
+// 	fwrite($fopen,rtrim($row,",")."\r\n");
+// 	$searches = array("\r", "\n", "\r\n");
 
-	// 		foreach($rr as $user){
-	// 			if($user['entry_by']!=''){
-	// 				$auditorName = $user['auditor_name'];
-	// 			}else{
-	// 				$auditorName = $user['client_name'];
-	// 			}
+// 		foreach($rr as $user){
+// 			if($user['entry_by']!=''){
+// 				$auditorName = $user['auditor_name'];
+// 			}else{
+// 				$auditorName = $user['client_name'];
+// 			}
 
-	// 			if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
-	// 				$interval1 = '---';
-	// 			}else{
-	// 				$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
-	// 			}
+// 			if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+// 				$interval1 = '---';
+// 			}else{
+// 				$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+// 			}
 
-	// 			$row = '"'.$auditorName.'",';
-	// 			$row .= '"'.$user['audit_date'].'",';
-	// 			$row .= '"'.$user['fusion_id'].'",';
-	// 			$row .= '"'.$user['fname']." ".$user['lname'].'",';
-	// 			$row .= '"'.$user['tl_name'].'",';
-	// 			$row .= '"'.$user['call_date'].'",';
-	// 			$row .= '"'.$user['call_duration'].'",';
-	// 			$row .= '"'.$user['sr_no'].'",';
-	// 			$row .= '"'.$user['consumer_no'].'",';
-	// 			$row .= '"'.$user['call_file'].'",';
-	// 			$row .= '"'.$user['call_scenario'].'",';
-	// 			$row .= '"'.$user['audit_type'].'",';
-	// 			$row .= '"'.$user['auditor_type'].'",';
-	// 			$row .= '"'.$user['voc'].'",';
-	// 			$row .= '"'.$user['overall_score'].'",';
+// 			$row = '"'.$auditorName.'",';
+// 			$row .= '"'.$user['audit_date'].'",';
+// 			$row .= '"'.$user['fusion_id'].'",';
+// 			$row .= '"'.$user['fname']." ".$user['lname'].'",';
+// 			$row .= '"'.$user['tl_name'].'",';
+// 			$row .= '"'.$user['call_date'].'",';
+// 			$row .= '"'.$user['call_duration'].'",';
+// 			$row .= '"'.$user['sr_no'].'",';
+// 			$row .= '"'.$user['consumer_no'].'",';
+// 			$row .= '"'.$user['call_file'].'",';
+// 			$row .= '"'.$user['call_scenario'].'",';
+// 			$row .= '"'.$user['audit_type'].'",';
+// 			$row .= '"'.$user['auditor_type'].'",';
+// 			$row .= '"'.$user['voc'].'",';
+// 			$row .= '"'.$user['overall_score'].'",';
 
- //                $row .= '"'.$user['HCCI_introduction'].'",';
-	// 			$row .= '"'.$user['use_RRA'].'",';
-	// 			$row .= '"'.$user['customer_needs'].'",';
-	// 			$row .= '"'.$user['issues_presented'].'",';
-	// 			$row .= '"'.$user['next_steps'].'",';
-	// 			$row .= '"'.$user['now_acronyms'].'",';
-	// 			$row .= '"'.$user['when_required'].'",';
-	// 			$row .= '"'.$user['brand_the_call'].'",';
-	// 			$row .= '"'.$user['communicated_to_customer'].'",';
-	// 			$row .= '"'.$user['out_of_policy'].'",';
-	// 			$row .= '"'.$user['action_in_Dash'].'",';
-	// 			$row .= '"'.$user['SR_in_BETTI'].'",';
-	// 			$row .= '"'.$user['Clear_Insults'].'",';
-	// 			$row .= '"'.$user['CX_Agents'].'",';
-	// 			$row .= '"'.$user['main_issue'].'",';
-	// 			$row .= '"'.$user['tone_of_Voice'].'",';
-	// 			$row .= '"'.$user['Dead_Air'].'",';
-	// 			$row .= '"'.$user['option_available'].'",';
+//                $row .= '"'.$user['HCCI_introduction'].'",';
+// 			$row .= '"'.$user['use_RRA'].'",';
+// 			$row .= '"'.$user['customer_needs'].'",';
+// 			$row .= '"'.$user['issues_presented'].'",';
+// 			$row .= '"'.$user['next_steps'].'",';
+// 			$row .= '"'.$user['now_acronyms'].'",';
+// 			$row .= '"'.$user['when_required'].'",';
+// 			$row .= '"'.$user['brand_the_call'].'",';
+// 			$row .= '"'.$user['communicated_to_customer'].'",';
+// 			$row .= '"'.$user['out_of_policy'].'",';
+// 			$row .= '"'.$user['action_in_Dash'].'",';
+// 			$row .= '"'.$user['SR_in_BETTI'].'",';
+// 			$row .= '"'.$user['Clear_Insults'].'",';
+// 			$row .= '"'.$user['CX_Agents'].'",';
+// 			$row .= '"'.$user['main_issue'].'",';
+// 			$row .= '"'.$user['tone_of_Voice'].'",';
+// 			$row .= '"'.$user['Dead_Air'].'",';
+// 			$row .= '"'.$user['option_available'].'",';
 
- //                $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
-	// 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
-	// 			$row .= '"'.$user['agnt_fd_acpt'].'",';
-	// 			$row .= '"'.$user['agent_rvw_date'].'",';
-	// 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
-	// 			$row .= '"'.$user['mgnt_rvw_date'].'",';
-	// 			$row .= '"'.$user['mgnt_rvw_name'].'",';
-	// 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'"';
+//                $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+// 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+// 			$row .= '"'.$user['agnt_fd_acpt'].'",';
+// 			$row .= '"'.$user['agent_rvw_date'].'",';
+// 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+// 			$row .= '"'.$user['mgnt_rvw_date'].'",';
+// 			$row .= '"'.$user['mgnt_rvw_name'].'",';
+// 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'"';
 
-	// 			fwrite($fopen,$row."\r\n");
-	// 		}
-	// 		fclose($fopen);
-
-
- //        }
+// 			fwrite($fopen,$row."\r\n");
+// 		}
+// 		fclose($fopen);
 
 
+//        }
 
 
 
-	public function download_qa_hcci_CSV_new()
-	{
-		$currDate=date("Y-m-d");
-		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
-		$newfile="QA HCCI NEW Audit List-'".$currDate."'.csv";
 
-		header('Content-Disposition: attachment;  filename="'.$newfile.'"');
-		readfile($filename);
-	}
 
-	public function create_qa_hcci_CSV_new($rr)
-	{
-		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
-		$currentURL = base_url();
-		$controller = "Qa_homeadvisor";
-		$edit_url = "mgnt_hcci_feedback_new";
-		$main_url =  $currentURL.''.$controller.'/'.$edit_url;
-		$fopen = fopen($filename,"w+");
-		$header=array("Auditor Name","Audit Date","Fusion Id","Agent","TL Name","Call Date Time","Call Duration","SR NO.","Consumer No.","Call File","Call scenario","Audit Type","Auditor Type","VOC","Tenure","Audit Link","Overall Score",
-		"Use the appropriate HCCI introduction","Demonstrate a willingness to help throughout the call","Thoroughly probed to identify customer needs","Accurately address all questions issues presented","Set appropriate expectations on policy and next steps","Use appropriate user facing terms and Book Now acronyms","Warm transferred when required","Thank customer for their business and brand the call","Completed all actions in Dash as communicated to customer","** Did not promise or complete an action out of policy","** Completed the appropriate documentation and action in Dash","Completed Lead Audit Interview on SR in BETTI","Asked a strategic SR question","Cursing Clear Insults","Speaking Negatively of Handy Users Partners CX Agents","Ignored main issue","Excessive Inappropriate Response or Tone of Voice","Excessive Dead Air","Incorrectly using an Other Disposition when there was a better option available",
-		"Compliance Score","Customer Score","Business Score",
-		"Call Summary","Feedback","Agent Feedback Acceptance Status","Agent review date","Agent review note","Client review by","Client review note","Mgnt review date","Mgnt review by","Mgnt review note");
+public function download_qa_hcci_CSV_new()
+{
+	$currDate=date("Y-m-d");
+	$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+	$newfile="QA HCCI NEW Audit List-'".$currDate."'.csv";
 
-		$row = "";
-		foreach($header as $data) $row .= ''.$data.',';
-		fwrite($fopen,rtrim($row,",")."\r\n");
-		$searches = array("\r", "\n", "\r\n");
+	header('Content-Disposition: attachment;  filename="'.$newfile.'"');
+	readfile($filename);
+}
 
-		foreach($rr as $user){
-			if($user['entry_by']!=''){
-				$auditorName = $user['auditor_name'];
-			}else{
-				$auditorName = $user['client_name'];
-			}
+public function create_qa_hcci_CSV_new($rr)
+{
+	$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+	$currentURL = base_url();
+	$controller = "Qa_homeadvisor";
+	$edit_url = "mgnt_hcci_feedback_new";
+	$main_url =  $currentURL.''.$controller.'/'.$edit_url;
+	$fopen = fopen($filename,"w+");
+	$header=array("Auditor Name","Audit Date","Fusion Id","Agent","TL Name","Call Date Time","Call Duration","SR NO.","Consumer No.","Call File","Call scenario","Audit Type","Auditor Type","VOC","Tenure","Audit Link","Overall Score",
+	"Use the appropriate HCCI introduction","Demonstrate a willingness to help throughout the call","Thoroughly probed to identify customer needs","Accurately address all questions issues presented","Set appropriate expectations on policy and next steps","Use appropriate user facing terms and Book Now acronyms","Warm transferred when required","Thank customer for their business and brand the call","Completed all actions in Dash as communicated to customer","** Did not promise or complete an action out of policy","** Completed the appropriate documentation and action in Dash","Completed Lead Audit Interview on SR in BETTI","Asked a strategic SR question","Cursing Clear Insults","Speaking Negatively of Handy Users Partners CX Agents","Ignored main issue","Excessive Inappropriate Response or Tone of Voice","Excessive Dead Air","Incorrectly using an Other Disposition when there was a better option available",
+	"Compliance Score","Customer Score","Business Score",
+	"Call Summary","Feedback","Agent Feedback Acceptance Status","Agent review date","Agent review note","Client review by","Client review note","Mgnt review date","Mgnt review by","Mgnt review note");
 
-			if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
-				$interval1 = '---';
-			}else{
-				$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
-			}
-			$main_urls = $main_url.'/'.$user['id'];
+	$row = "";
+	foreach($header as $data) $row .= ''.$data.',';
+	fwrite($fopen,rtrim($row,",")."\r\n");
+	$searches = array("\r", "\n", "\r\n");
 
-			$row = '"'.$auditorName.'",';
-			$row .= '"'.$user['audit_date'].'",';
-			$row .= '"'.$user['fusion_id'].'",';
-			$row .= '"'.$user['fname']." ".$user['lname'].'",';
-			$row .= '"'.$user['tl_name'].'",';
-			$row .= '"'.$user['call_date'].'",';
-			$row .= '"'.$user['call_duration'].'",';
-			$row .= '"'.$user['sr_no'].'",';
-			$row .= '"'.$user['consumer_no'].'",';
-			$row .= '"'.$user['call_file'].'",';
-			$row .= '"'.$user['call_scenario'].'",';
-			$row .= '"'.$user['audit_type'].'",';
-			$row .= '"'.$user['auditor_type'].'",';
-			$row .= '"'.$user['voc'].'",';
-			$row .= '"'.$user['tenure'].'",';
-			$row .= '"'.$main_urls.'",';
-			$row .= '"'.$user['overall_score'].'%'.'",';
-			$row .= '"'.$user['HCCI_introduction'].'",';
-			$row .= '"'.$user['throughout_the_call'].'",';
-			$row .= '"'.$user['customer_needs'].'",';
-			$row .= '"'.$user['issues_presented'].'",';
-			$row .= '"'.$user['next_steps'].'",';
-			$row .= '"'.$user['now_acronyms'].'",';
-			$row .= '"'.$user['when_required'].'",';
-			$row .= '"'.$user['brand_the_call'].'",';
-			$row .= '"'.$user['communicated_to_customer'].'",';
-			$row .= '"'.$user['out_of_policy'].'",';
-			$row .= '"'.$user['action_in_Dash'].'",';
-			$row .= '"'.$user['SR_in_BETTI'].'",';
-			$row .= '"'.$user['SR_question'].'",';
-			$row .= '"'.$user['Clear_Insults'].'",';
-			$row .= '"'.$user['CX_Agents'].'",';
-			$row .= '"'.$user['main_issue'].'",';
-			$row .= '"'.$user['tone_of_Voice'].'",';
-			$row .= '"'.$user['Dead_Air'].'",';
-			$row .= '"'.$user['option_available'].'",';
-
-			$row .= '"'.$user['compliance_score_percent'].'%'.'",';
-			$row .= '"'.$user['customer_score_percent'].'%'.'",';
-			$row .= '"'.$user['business_score_percent'].'%'.'",';
-
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
-			$row .= '"'.$user['agnt_fd_acpt'].'",';
-			$row .= '"'.$user['agent_rvw_date'].'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
-			$row .= '"'.$user['mgnt_rvw_date'].'",';
-			$row .= '"'.$user['mgnt_rvw_name'].'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'"';
-
-			fwrite($fopen,$row."\r\n");
+	foreach($rr as $user){
+		if($user['entry_by']!=''){
+			$auditorName = $user['auditor_name'];
+		}else{
+			$auditorName = $user['client_name'];
 		}
-		fclose($fopen);
 
+		if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+			$interval1 = '---';
+		}else{
+			$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+		}
+		$main_urls = $main_url.'/'.$user['id'];
+
+		$row = '"'.$auditorName.'",';
+		$row .= '"'.$user['audit_date'].'",';
+		$row .= '"'.$user['fusion_id'].'",';
+		$row .= '"'.$user['fname']." ".$user['lname'].'",';
+		$row .= '"'.$user['tl_name'].'",';
+		$row .= '"'.$user['call_date'].'",';
+		$row .= '"'.$user['call_duration'].'",';
+		$row .= '"'.$user['sr_no'].'",';
+		$row .= '"'.$user['consumer_no'].'",';
+		$row .= '"'.$user['call_file'].'",';
+		$row .= '"'.$user['call_scenario'].'",';
+		$row .= '"'.$user['audit_type'].'",';
+		$row .= '"'.$user['auditor_type'].'",';
+		$row .= '"'.$user['voc'].'",';
+		$row .= '"'.$user['tenure'].'",';
+		$row .= '"'.$main_urls.'",';
+		$row .= '"'.$user['overall_score'].'%'.'",';
+		$row .= '"'.$user['HCCI_introduction'].'",';
+		$row .= '"'.$user['throughout_the_call'].'",';
+		$row .= '"'.$user['customer_needs'].'",';
+		$row .= '"'.$user['issues_presented'].'",';
+		$row .= '"'.$user['next_steps'].'",';
+		$row .= '"'.$user['now_acronyms'].'",';
+		$row .= '"'.$user['when_required'].'",';
+		$row .= '"'.$user['brand_the_call'].'",';
+		$row .= '"'.$user['communicated_to_customer'].'",';
+		$row .= '"'.$user['out_of_policy'].'",';
+		$row .= '"'.$user['action_in_Dash'].'",';
+		$row .= '"'.$user['SR_in_BETTI'].'",';
+		$row .= '"'.$user['SR_question'].'",';
+		$row .= '"'.$user['Clear_Insults'].'",';
+		$row .= '"'.$user['CX_Agents'].'",';
+		$row .= '"'.$user['main_issue'].'",';
+		$row .= '"'.$user['tone_of_Voice'].'",';
+		$row .= '"'.$user['Dead_Air'].'",';
+		$row .= '"'.$user['option_available'].'",';
+
+		$row .= '"'.$user['compliance_score_percent'].'%'.'",';
+		$row .= '"'.$user['customer_score_percent'].'%'.'",';
+		$row .= '"'.$user['business_score_percent'].'%'.'",';
+
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+		$row .= '"'.$user['agnt_fd_acpt'].'",';
+		$row .= '"'.$user['agent_rvw_date'].'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+		$row .= '"'.$user['mgnt_rvw_date'].'",';
+		$row .= '"'.$user['mgnt_rvw_name'].'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'"';
+
+		fwrite($fopen,$row."\r\n");
 	}
+	fclose($fopen);
+
+}
 
 ////////////Home Advisor/////////////
-	public function download_qa_homeadvisor_CSV()
+public function download_qa_homeadvisor_CSV()
+{
+	$currDate=date("Y-m-d");
+	$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+	$newfile="QA Home Advisor Audit List-'".$currDate."'.csv";
+
+	header('Content-Disposition: attachment;  filename="'.$newfile.'"');
+	readfile($filename);
+}
+
+public function create_qa_homeadvisor_CSV($rr)
+{
+	$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+	$currentURL = base_url();
+	$controller = "Qa_homeadvisor";
+	$edit_url = "mgnt_homeadvisor_feedback_rvw";
+	$main_url =  $currentURL.''.$controller.'/'.$edit_url;
+	$fopen = fopen($filename,"w+");
+	$header = array("Auditor Name", "Audit Date", "Call Duration", "Fusion ID", "Agent Name", "L1 Supervisor", "Sale Date", "EXT Number", "Phone", "Sale Confirmation", "Call Type", "Audit Type", "VOC","Tenure","Audit Link", "Audit Start Date/Time", "Audit End Date/Time", "Interval(In Second)", "Call Pass/Fail", "Rep clearly communicated that these are leads and not guaranteed jobs", "Rep explains that  SP is only charged for leads they opt into", "Rep clearly communicates the value of opting into leads as the best way to make money with the service", "Rep clearly communicated that SP will be competing on these leads", "Background: Rep communicated the importance of the background check (for homeowners and HA brand)", "Background: Rep communicated what background check looks for (liens judgements bankruptcies felonies)", "Ratings and Reviews: Rep clearly communicated the importance of ratings and reviews and collecte a reference on the sales call", "Lead Response: Rep communicates that leads will be sent via email text message and via mobile app", "Lead Response: Rep reinforces the importance of responding to leads as quickly as possible", "HA Pro App: Rep clearly communicated the importance of the app as the most effective tool for success with HA", "HA Pro App: Rep sent the link to download the HA Pro app on their phone", "Misconduct: Intentionally skirting the screening process", "Falsifying VL: Pressing 1 without the SP specific consent or request OR intentionally hanging up/dropping VL after pressing 2", "Falsifying VL: Speaking over VL at all", "Falsifying VL: Asking SP to hold questions", "Suggesting or implying the SP sign up for multiple accounts", "Adding tasks outside SP scope of work to circumvent licensing requirements", "Misinterpreting lead quality or lead prices", "Implying that friends and family are acceptable for CVRs", "Referring to leads as guaranteed jobs", "Misleading over uses just the background check today", "POC Implies to SP that sales rep can help in any way with credits", "POC Refers to customer care org in a negative manner", "Overusing the word jobs", "Overall Score", "Call Summary", "Feedback", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+
+	$row = "";
+	foreach($header as $data) $row .= ''.$data.',';
+	fwrite($fopen,rtrim($row,",")."\r\n");
+	$searches = array("\r", "\n", "\r\n");
+
+	foreach($rr as $user)
 	{
-		$currDate=date("Y-m-d");
-		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
-		$newfile="QA Home Advisor Audit List-'".$currDate."'.csv";
 
-		header('Content-Disposition: attachment;  filename="'.$newfile.'"');
-		readfile($filename);
-	}
+		if($user['product_communicate']==6) $product_communicate='Yes';
+		else if($user['product_communicate']==0) $product_communicate='No';
+		else $product_communicate='N/A';
 
-	public function create_qa_homeadvisor_CSV($rr)
-	{
-		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
-		$currentURL = base_url();
-		$controller = "Qa_homeadvisor";
-		$edit_url = "mgnt_homeadvisor_feedback_rvw";
-		$main_url =  $currentURL.''.$controller.'/'.$edit_url;
-		$fopen = fopen($filename,"w+");
-		$header = array("Auditor Name", "Audit Date", "Call Duration", "Fusion ID", "Agent Name", "L1 Supervisor", "Sale Date", "EXT Number", "Phone", "Sale Confirmation", "Call Type", "Audit Type", "VOC","Tenure","Audit Link", "Audit Start Date/Time", "Audit End Date/Time", "Interval(In Second)", "Call Pass/Fail", "Rep clearly communicated that these are leads and not guaranteed jobs", "Rep explains that  SP is only charged for leads they opt into", "Rep clearly communicates the value of opting into leads as the best way to make money with the service", "Rep clearly communicated that SP will be competing on these leads", "Background: Rep communicated the importance of the background check (for homeowners and HA brand)", "Background: Rep communicated what background check looks for (liens judgements bankruptcies felonies)", "Ratings and Reviews: Rep clearly communicated the importance of ratings and reviews and collecte a reference on the sales call", "Lead Response: Rep communicates that leads will be sent via email text message and via mobile app", "Lead Response: Rep reinforces the importance of responding to leads as quickly as possible", "HA Pro App: Rep clearly communicated the importance of the app as the most effective tool for success with HA", "HA Pro App: Rep sent the link to download the HA Pro app on their phone", "Misconduct: Intentionally skirting the screening process", "Falsifying VL: Pressing 1 without the SP specific consent or request OR intentionally hanging up/dropping VL after pressing 2", "Falsifying VL: Speaking over VL at all", "Falsifying VL: Asking SP to hold questions", "Suggesting or implying the SP sign up for multiple accounts", "Adding tasks outside SP scope of work to circumvent licensing requirements", "Misinterpreting lead quality or lead prices", "Implying that friends and family are acceptable for CVRs", "Referring to leads as guaranteed jobs", "Misleading over uses just the background check today", "POC Implies to SP that sales rep can help in any way with credits", "POC Refers to customer care org in a negative manner", "Overusing the word jobs", "Overall Score", "Call Summary", "Feedback", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+		if($user['product_explain']==10) $product_explain='Yes';
+		else if($user['product_explain']==0) $product_explain='No';
+		else $product_explain='N/A';
 
-		$row = "";
-		foreach($header as $data) $row .= ''.$data.',';
-		fwrite($fopen,rtrim($row,",")."\r\n");
-		$searches = array("\r", "\n", "\r\n");
+		if($user['product_money']==15) $product_money='Yes';
+		else if($user['product_money']==0) $product_money='No';
+		else $product_money='N/A';
 
-		foreach($rr as $user)
-		{
+		if($user['product_lead']==6) $product_lead='Yes';
+		else if($user['product_lead']==0) $product_lead='No';
+		else $product_lead='N/A';
 
-			if($user['product_communicate']==6) $product_communicate='Yes';
-			else if($user['product_communicate']==0) $product_communicate='No';
-			else $product_communicate='N/A';
+		if($user['product_background']==8) $product_background='Yes';
+		else if($user['product_background']==0) $product_background='No';
+		else $product_background='N/A';
 
-			if($user['product_explain']==10) $product_explain='Yes';
-			else if($user['product_explain']==0) $product_explain='No';
-			else $product_explain='N/A';
+		if($user['product_look']==10) $product_look='Yes';
+		else if($user['product_look']==0) $product_look='No';
+		else $product_look='N/A';
 
-			if($user['product_money']==15) $product_money='Yes';
-			else if($user['product_money']==0) $product_money='No';
-			else $product_money='N/A';
+		if($user['product_rating']==10) $product_rating='Yes';
+		else if($user['product_rating']==0) $product_rating='No';
+		else $product_rating='N/A';
 
-			if($user['product_lead']==6) $product_lead='Yes';
-			else if($user['product_lead']==0) $product_lead='No';
-			else $product_lead='N/A';
+		if($user['product_email']==7) $product_email='Yes';
+		else if($user['product_email']==0) $product_email='No';
+		else $product_email='N/A';
 
-			if($user['product_background']==8) $product_background='Yes';
-			else if($user['product_background']==0) $product_background='No';
-			else $product_background='N/A';
+		if($user['product_reinforce']==10) $product_reinforce='Yes';
+		else if($user['product_reinforce']==0) $product_reinforce='No';
+		else $product_reinforce='N/A';
 
-			if($user['product_look']==10) $product_look='Yes';
-			else if($user['product_look']==0) $product_look='No';
-			else $product_look='N/A';
+		if($user['product_tool']==8) $product_tool='Yes';
+		else if($user['product_tool']==0) $product_tool='No';
+		else $product_tool='N/A';
 
-			if($user['product_rating']==10) $product_rating='Yes';
-			else if($user['product_rating']==0) $product_rating='No';
-			else $product_rating='N/A';
-
-			if($user['product_email']==7) $product_email='Yes';
-			else if($user['product_email']==0) $product_email='No';
-			else $product_email='N/A';
-
-			if($user['product_reinforce']==10) $product_reinforce='Yes';
-			else if($user['product_reinforce']==0) $product_reinforce='No';
-			else $product_reinforce='N/A';
-
-			if($user['product_tool']==8) $product_tool='Yes';
-			else if($user['product_tool']==0) $product_tool='No';
-			else $product_tool='N/A';
-
-			if($user['product_download']==10) $product_download='Yes';
-			else if($user['product_download']==0) $product_download='No';
-			else $product_download='N/A';
+		if($user['product_download']==10) $product_download='Yes';
+		else if($user['product_download']==0) $product_download='No';
+		else $product_download='N/A';
 
 
-			if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
-				$interval = '---';
-			}else{
-				$interval = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
-			}
-			$main_urls = $main_url.'/'.$user['id'];
-
-
-			$row = '"'.$user['auditor_name'].'",';
-			$row .= '"'.$user['audit_date'].'",';
-			$row .= '"'.$user['call_duration'].'",';
-			$row .= '"'.$user['fusion_id'].'",';
-			$row .= '"'.$user['fname']." ".$user['lname'].'",';
-			$row .= '"'.$user['tl_name'].'",';
-			$row .= '"'.$user['sale_date'].'",';
-			$row .= '"'.$user['ext_no'].'",';
-			$row .= '"'.$user['phone'].'",';
-			$row .= '"'.$user['sale_confirm'].'",';
-			$row .= '"'.$user['call_type'].'",';
-			$row .= '"'.$user['audit_type'].'",';
-			$row .= '"'.$user['voc'].'",';
-			$row .= '"'.$user['tenure'].'",';
-			$row .= '"'.$main_urls.'",';
-			$row .= '"'.$user['audit_start_time'].'",';
-			$row .= '"'.$user['entry_date'].'",';
-			$row .= '"'.$interval.'",';
-			$row .= '"'.$user['call_pass_fail'].'",';
-			$row .= '"'.$product_communicate.'",';
-			$row .= '"'.$product_explain.'",';
-			$row .= '"'.$product_money.'",';
-			$row .= '"'.$product_lead.'",';
-			$row .= '"'.$product_background.'",';
-			$row .= '"'.$product_look.'",';
-			$row .= '"'.$product_rating.'",';
-			$row .= '"'.$product_email.'",';
-			$row .= '"'.$product_reinforce.'",';
-			$row .= '"'.$product_tool.'",';
-			$row .= '"'.$product_download.'",';
-			$row .= '"'.$user['auto_misconduct'].'",';
-			$row .= '"'.$user['auto_hanging'].'",';
-			$row .= '"'.$user['auto_speaking'].'",';
-			$row .= '"'.$user['auto_asking'].'",';
-			$row .= '"'.$user['auto_implying'].'",';
-			$row .= '"'.$user['auto_adding'].'",';
-			$row .= '"'.$user['auto_quality'].'",';
-			$row .= '"'.$user['auto_family'].'",';
-			$row .= '"'.$user['auto_lead'].'",';
-			$row .= '"'.$user['auto_background'].'",';
-			$row .= '"'.$user['auto_poc'].'",';
-			$row .= '"'.$user['auto_manner'].'",';
-			$row .= '"'.$user['auto_jobs'].'",';
-			$row .= '"'.$user['overall_score'].'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
-			$row .= '"'.$user['agent_rvw_date'].'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_note'])).'",';
-			$row .= '"'.$user['mgnt_rvw_date'].'",';
-			$row .= '"'.$user['mgnt_name'].'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_note'])).'"';
-
-			fwrite($fopen,$row."\r\n");
+		if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+			$interval = '---';
+		}else{
+			$interval = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
 		}
+		$main_urls = $main_url.'/'.$user['id'];
 
-		fclose($fopen);
+
+		$row = '"'.$user['auditor_name'].'",';
+		$row .= '"'.$user['audit_date'].'",';
+		$row .= '"'.$user['call_duration'].'",';
+		$row .= '"'.$user['fusion_id'].'",';
+		$row .= '"'.$user['fname']." ".$user['lname'].'",';
+		$row .= '"'.$user['tl_name'].'",';
+		$row .= '"'.$user['sale_date'].'",';
+		$row .= '"'.$user['ext_no'].'",';
+		$row .= '"'.$user['phone'].'",';
+		$row .= '"'.$user['sale_confirm'].'",';
+		$row .= '"'.$user['call_type'].'",';
+		$row .= '"'.$user['audit_type'].'",';
+		$row .= '"'.$user['voc'].'",';
+		$row .= '"'.$user['tenure'].'",';
+		$row .= '"'.$main_urls.'",';
+		$row .= '"'.$user['audit_start_time'].'",';
+		$row .= '"'.$user['entry_date'].'",';
+		$row .= '"'.$interval.'",';
+		$row .= '"'.$user['call_pass_fail'].'",';
+		$row .= '"'.$product_communicate.'",';
+		$row .= '"'.$product_explain.'",';
+		$row .= '"'.$product_money.'",';
+		$row .= '"'.$product_lead.'",';
+		$row .= '"'.$product_background.'",';
+		$row .= '"'.$product_look.'",';
+		$row .= '"'.$product_rating.'",';
+		$row .= '"'.$product_email.'",';
+		$row .= '"'.$product_reinforce.'",';
+		$row .= '"'.$product_tool.'",';
+		$row .= '"'.$product_download.'",';
+		$row .= '"'.$user['auto_misconduct'].'",';
+		$row .= '"'.$user['auto_hanging'].'",';
+		$row .= '"'.$user['auto_speaking'].'",';
+		$row .= '"'.$user['auto_asking'].'",';
+		$row .= '"'.$user['auto_implying'].'",';
+		$row .= '"'.$user['auto_adding'].'",';
+		$row .= '"'.$user['auto_quality'].'",';
+		$row .= '"'.$user['auto_family'].'",';
+		$row .= '"'.$user['auto_lead'].'",';
+		$row .= '"'.$user['auto_background'].'",';
+		$row .= '"'.$user['auto_poc'].'",';
+		$row .= '"'.$user['auto_manner'].'",';
+		$row .= '"'.$user['auto_jobs'].'",';
+		$row .= '"'.$user['overall_score'].'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+		$row .= '"'.$user['agent_rvw_date'].'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_note'])).'",';
+		$row .= '"'.$user['mgnt_rvw_date'].'",';
+		$row .= '"'.$user['mgnt_name'].'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_note'])).'"';
+
+		fwrite($fopen,$row."\r\n");
 	}
+
+	fclose($fopen);
+}
 
 ////////////HCCO/////////////
-	public function download_qa_hcco_CSV()
+public function download_qa_hcco_CSV()
+{
+	$currDate=date("Y-m-d");
+	$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+	$newfile="QA HCCO Audit List-'".$currDate."'.csv";
+
+	header('Content-Disposition: attachment;  filename="'.$newfile.'"');
+	readfile($filename);
+}
+
+public function create_qa_hcco_CSV($rr)
+{
+	$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+	$controller = "Qa_homeadvisor";
+	$edit_url = "mgnt_hcco_feedback_rvw";
+	$main_url =  $currentURL.''.$controller.'/'.$edit_url;
+	$fopen = fopen($filename,"w+");
+	$header = array("Auditor Name", "Audit Date", "Time of Call", "Fusion ID", "Agent Name", "L1 Supervisor", "Call Date", "Call Duration", "Consumer1", "Consumer2 (if applicable)", "Consumer3 (if applicable)", "Call Type", "Can be Automated", "Original SR ID", "New SR ID1", "New SR ID2", "EXT No", "Audit Type", "VOC","Tenure","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Call Pass/Fail", "Overall Score", "Compliance Score", "Customer Score", "Business Score",
+	"Verify Address if possible (Address required on IB Appts) Zip code & Email", "The business needs were met", "Offer to transfer the Consumer to the Service Professional", "Informed the consumer of features and benefits of Angi/HA", "Maintain proper tone word choice and rate of speech. Avoid interrupting in a non-collaborative conversation", "Properly presented pros and asked the consumer how many options they want ", "The advisor asked questions about the project and related projects & included detailed descriptions", "Make sure the Consumer knows what to expect after the call and Do what you said you would do. ", "The advisor accurately updated and noted all SRs", "The correct solution was provided", "The advisor asked for a cross sell", "Correct CTT was submitted and included a detailed description of the project", "Brand Angi/HA somewhere other than the Intro", "Your Name/Verify who you are speaking with HA/Angi Branding and stated recorded line", "Recorded line must be stated in the introduction of the call", "All SRs were submitted with the homeowners knowledge and approval ", "5 Star Rating If yes QA score will increase by 5 percent (manager must review and notify QA of 5 star Stella rating)",
+	// "Comments 1","Comments 2","Comments 3","Comments 4","Comments 5","Comments 6","Comments 7","Comments 8","Comments 9","Comments 10","Comments 11","Comments 12","Comments 13","Comments 14","Comments 15","Comments 16","Comments 17",
+	"Call Summary", "Feedback", "Agent Review Date","Agent Fd ACPT", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+
+	$row = "";
+	foreach($header as $data) $row .= ''.$data.',';
+	fwrite($fopen,rtrim($row,",")."\r\n");
+	$searches = array("\r", "\n", "\r\n");
+
+	foreach($rr as $user)
 	{
-		$currDate=date("Y-m-d");
-		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
-		$newfile="QA HCCO Audit List-'".$currDate."'.csv";
-
-		header('Content-Disposition: attachment;  filename="'.$newfile.'"');
-		readfile($filename);
-	}
-
-	public function create_qa_hcco_CSV($rr)
-	{
-		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
-		$controller = "Qa_homeadvisor";
-		$edit_url = "mgnt_hcco_feedback_rvw";
-		$main_url =  $currentURL.''.$controller.'/'.$edit_url;
-		$fopen = fopen($filename,"w+");
-		$header = array("Auditor Name", "Audit Date", "Time of Call", "Fusion ID", "Agent Name", "L1 Supervisor", "Call Date", "Call Duration", "Consumer1", "Consumer2 (if applicable)", "Consumer3 (if applicable)", "Call Type", "Can be Automated", "Original SR ID", "New SR ID1", "New SR ID2", "EXT No", "Audit Type", "VOC","Tenure","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Call Pass/Fail", "Overall Score", "Compliance Score", "Customer Score", "Business Score",
-		"Verify Address if possible (Address required on IB Appts) Zip code & Email", "The business needs were met", "Offer to transfer the Consumer to the Service Professional", "Informed the consumer of features and benefits of Angi/HA", "Maintain proper tone word choice and rate of speech. Avoid interrupting in a non-collaborative conversation", "Properly presented pros and asked the consumer how many options they want ", "The advisor asked questions about the project and related projects & included detailed descriptions", "Make sure the Consumer knows what to expect after the call and Do what you said you would do. ", "The advisor accurately updated and noted all SRs", "The correct solution was provided", "The advisor asked for a cross sell", "Correct CTT was submitted and included a detailed description of the project", "Brand Angi/HA somewhere other than the Intro", "Your Name/Verify who you are speaking with HA/Angi Branding and stated recorded line", "Recorded line must be stated in the introduction of the call", "All SRs were submitted with the homeowners knowledge and approval ", "5 Star Rating If yes QA score will increase by 5 percent (manager must review and notify QA of 5 star Stella rating)",
-		// "Comments 1","Comments 2","Comments 3","Comments 4","Comments 5","Comments 6","Comments 7","Comments 8","Comments 9","Comments 10","Comments 11","Comments 12","Comments 13","Comments 14","Comments 15","Comments 16","Comments 17",
-		"Call Summary", "Feedback", "Agent Review Date","Agent Fd ACPT", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-
-		$row = "";
-		foreach($header as $data) $row .= ''.$data.',';
-		fwrite($fopen,rtrim($row,",")."\r\n");
-		$searches = array("\r", "\n", "\r\n");
-
-		foreach($rr as $user)
-		{
-			if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
-				$interval1 = '---';
-			}else{
-				$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
-			}
-			$main_urls = $main_url.'/'.$user['id'];
-
-			$row = '"'.$user['auditor_name'].'",';
-			$row .= '"'.$user['audit_date'].'",';
-			$row .= '"'.$user['call_time'].'",';
-			$row .= '"'.$user['fusion_id'].'",';
-			$row .= '"'.$user['fname']." ".$user['lname'].'",';
-			$row .= '"'.$user['tl_name'].'",';
-			$row .= '"'.$user['call_date'].'",';
-			$row .= '"'.$user['call_duration'].'",';
-			$row .= '"'.$user['consumer1'].'",';
-			$row .= '"'.$user['consumer2'].'",';
-			$row .= '"'.$user['consumer3'].'",';
-			$row .= '"'.$user['call_type'].'",';
-			$row .= '"'.$user['can_automated'].'",';
-			$row .= '"'.$user['original_sr_id'].'",';
-			$row .= '"'.$user['new_sr_id1'].'",';
-			$row .= '"'.$user['new_sr_id2'].'",';
-			$row .= '"'.$user['ext_no'].'",';
-			$row .= '"'.$user['audit_type'].'",';
-			$row .= '"'.$user['voc'].'",';
-			$row .= '"'.$user['tenure'].'",';
-			$row .= '"'.$main_urls.'",';
-			$row .= '"'.$user['audit_start_time'].'",';
-			$row .= '"'.$user['entry_date'].'",';
-			$row .= '"'.$interval1.'",';
-			$row .= '"'.$user['call_pass_fail'].'",';
-			$row .= '"'.$user['overall_score'].'%'.'",';
-			$row .= '"'.$user['compliance_score_percent'].'%'.'",';
-			$row .= '"'.$user['customer_score_percent'].'%'.'",';
-			$row .= '"'.$user['business_score_percent'].'%'.'",';
-			$row .= '"'.$user['Location_email'].'",';
-			$row .= '"'.$user['Business_expectations'].'",';
-			$row .= '"'.$user['Transfer'].'",';
-			$row .= '"'.$user['educate'].'",';
-			$row .= '"'.$user['professionalism'].'",';
-			$row .= '"'.$user['Proper_presentation'].'",';
-			$row .= '"'.$user['prob'].'",';
-			$row .= '"'.$user['Customer_expectations'].'",';
-			$row .= '"'.$user['account_accuracy'].'",';
-			$row .= '"'.$user['Solution'].'",';
-			$row .= '"'.$user['Cross_sell'].'",';
-			$row .= '"'.$user['Correct_CTT'].'",';
-			$row .= '"'.$user['Branding'].'",';
-			$row .= '"'.$user['Introduction'].'",';
-			$row .= '"'.$user['recorded_line'].'",';
-			$row .= '"'.$user['acknowledgement'].'",';
-			$row .= '"'.$user['stella_survey'].'",';
-			// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt1'])).'",';
-			// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt2'])).'",';
-			// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt3'])).'",';
-			// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt4'])).'",';
-			// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt5'])).'",';
-			// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt6'])).'",';
-			// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt7'])).'",';
-			// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt8'])).'",';
-			// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt9'])).'",';
-			// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt10'])).'",';
-			// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt11'])).'",';
-			// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt12'])).'",';
-			// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt13'])).'",';
-			// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt14'])).'",';
-			// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt15'])).'",';
-			// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt16'])).'",';
-			// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt17'])).'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
-			$row .= '"'.$user['agent_rvw_date'].'",';
-			$row .= '"'.$user['agnt_fd_acpt'].'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_note'])).'",';
-			$row .= '"'.$user['mgnt_rvw_date'].'",';
-			$row .= '"'.$user['mgnt_name'].'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_note'])).'"';
-
-			fwrite($fopen,$row."\r\n");
+		if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+			$interval1 = '---';
+		}else{
+			$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
 		}
+		$main_urls = $main_url.'/'.$user['id'];
 
-		fclose($fopen);
+		$row = '"'.$user['auditor_name'].'",';
+		$row .= '"'.$user['audit_date'].'",';
+		$row .= '"'.$user['call_time'].'",';
+		$row .= '"'.$user['fusion_id'].'",';
+		$row .= '"'.$user['fname']." ".$user['lname'].'",';
+		$row .= '"'.$user['tl_name'].'",';
+		$row .= '"'.$user['call_date'].'",';
+		$row .= '"'.$user['call_duration'].'",';
+		$row .= '"'.$user['consumer1'].'",';
+		$row .= '"'.$user['consumer2'].'",';
+		$row .= '"'.$user['consumer3'].'",';
+		$row .= '"'.$user['call_type'].'",';
+		$row .= '"'.$user['can_automated'].'",';
+		$row .= '"'.$user['original_sr_id'].'",';
+		$row .= '"'.$user['new_sr_id1'].'",';
+		$row .= '"'.$user['new_sr_id2'].'",';
+		$row .= '"'.$user['ext_no'].'",';
+		$row .= '"'.$user['audit_type'].'",';
+		$row .= '"'.$user['voc'].'",';
+		$row .= '"'.$user['tenure'].'",';
+		$row .= '"'.$main_urls.'",';
+		$row .= '"'.$user['audit_start_time'].'",';
+		$row .= '"'.$user['entry_date'].'",';
+		$row .= '"'.$interval1.'",';
+		$row .= '"'.$user['call_pass_fail'].'",';
+		$row .= '"'.$user['overall_score'].'%'.'",';
+		$row .= '"'.$user['compliance_score_percent'].'%'.'",';
+		$row .= '"'.$user['customer_score_percent'].'%'.'",';
+		$row .= '"'.$user['business_score_percent'].'%'.'",';
+		$row .= '"'.$user['Location_email'].'",';
+		$row .= '"'.$user['Business_expectations'].'",';
+		$row .= '"'.$user['Transfer'].'",';
+		$row .= '"'.$user['educate'].'",';
+		$row .= '"'.$user['professionalism'].'",';
+		$row .= '"'.$user['Proper_presentation'].'",';
+		$row .= '"'.$user['prob'].'",';
+		$row .= '"'.$user['Customer_expectations'].'",';
+		$row .= '"'.$user['account_accuracy'].'",';
+		$row .= '"'.$user['Solution'].'",';
+		$row .= '"'.$user['Cross_sell'].'",';
+		$row .= '"'.$user['Correct_CTT'].'",';
+		$row .= '"'.$user['Branding'].'",';
+		$row .= '"'.$user['Introduction'].'",';
+		$row .= '"'.$user['recorded_line'].'",';
+		$row .= '"'.$user['acknowledgement'].'",';
+		$row .= '"'.$user['stella_survey'].'",';
+		// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt1'])).'",';
+		// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt2'])).'",';
+		// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt3'])).'",';
+		// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt4'])).'",';
+		// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt5'])).'",';
+		// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt6'])).'",';
+		// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt7'])).'",';
+		// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt8'])).'",';
+		// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt9'])).'",';
+		// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt10'])).'",';
+		// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt11'])).'",';
+		// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt12'])).'",';
+		// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt13'])).'",';
+		// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt14'])).'",';
+		// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt15'])).'",';
+		// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt16'])).'",';
+		// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt17'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+		$row .= '"'.$user['agent_rvw_date'].'",';
+		$row .= '"'.$user['agnt_fd_acpt'].'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_note'])).'",';
+		$row .= '"'.$user['mgnt_rvw_date'].'",';
+		$row .= '"'.$user['mgnt_name'].'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_note'])).'"';
+
+		fwrite($fopen,$row."\r\n");
 	}
+
+	fclose($fopen);
+}
+
+////////////HCCO VERSION 2/////////////
+public function download_qa_hcco_v2_CSV()
+{
+	$currDate=date("Y-m-d");
+	$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+	$newfile="QA HCCO  VERSION 2 Audit List-'".$currDate."'.csv";
+
+	header('Content-Disposition: attachment;  filename="'.$newfile.'"');
+	readfile($filename);
+}
+
+public function create_qa_hcco_v2_CSV($rr)
+{
+	$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+	$controller = "Qa_homeadvisor";
+	$edit_url = "add_edit_hcco_v2";
+	$main_url =  $currentURL.''.$controller.'/'.$edit_url;
+	$fopen = fopen($filename,"w+");
+	$header = array("Auditor Name", "Audit Date",  "Agent Name", "Fusion ID","L1 Supervisor", "Call Date", "Call Duration", "Audit Type","Auditor Type", "VOC", "Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Compliance Score", "Customer Score", "Business Score",
+	"Name/Company/Recorded Line","Remarks 1","Verify Consumer", "Remarks 2","Reference Project", "Remarks 3","Ask Follow up(ie Hows it going?)","Remarks 4", "Asked Probing Questions", "Remarks 5","If hired find out if our pro","Remarks 6", "If completed offer Review", "Remarks 7","If not hired completed offer Resubmit", "Remarks 8","Heads Up Email if Applicable","Remarks 9", "Any Other Appropriate Solution Based on Consumers Needs","Remarks 10", "SR 1-Confirm ZIP(full address for IB/BN)","Remarks 11", "SR 1-Enter Detailed Description","Remarks 12", "SR 1-Correct CTT Selected for Customer Need","Remarks 13", "SR 1-Present Pro(s) by Name and allow consumer to choose who they want (if IB/CC)","Remarks 14", "SR 1-Inform Consumer that Pro should/could contact Homeowner (if IB/CC/BN)","Remarks 15", "SR 1-Get consumer acknowledgement/approval to submit SR","Remarks 16", "SR 1-Confirm Email","Remarks 17","SR 1-Consumer will receive Pro(s) info via email (Leads Pros Only)","Remarks 18","SR 1-OL - Consumer will be notified if any/additional pros become available (Zero Match or CC below match limit)","Remarks 19","SR 1-OL - Directed Consumer back to website/App (Zero Match Only)","Remarks 20","SR 1-Read Consent Statement (BN only)","Remarks 21","SR 1-Set appointment time/date (BN/IB)","Remarks 22","SR 1-Offer Transfer","Remarks 23","SR 2-Confirm ZIP (full address for IB/BN)","Remarks 24","SR 2-Enter Detailed Description","Remarks 25","SR 2-Correct CTT Selected for Customer Need","Remarks 26","SR 2-Present Pro(s) by Name and allow consumer to choose who they want (if IB/CC)","Remarks 27","SR 2-Inform Consumer that Pro should/could contact Homeowner (if IB/CC/BN)","Remarks 28","SR 2-Get consumer acknowledgement/approval to submit SR","Remarks 29","SR 2-Confirm Email","Remarks 30","SR 2-Consumer will receive Pro(s) info via email (Leads Pros Only)","Remarks 31","SR 2-OL - Consumer will be notified if any/additional pros become available (Zero Match or CC below match limit)","Remarks 32","SR 2- OL- Directed Consumer back to website/App (Zero Match Only)","Remarks 33","SR 2-Read Consent Statement","Remarks 34","SR 2-Set appointment time/date","Remarks 35","SR 2-Offer Transfer","Remarks 36","SR 3-Confirm ZIP (full address for IB/BN)","Remarks 37","SR 3-Enter Detailed Description","Remarks 38","SR 3-Correct CTT Selected for Customer Need","Remarks 39","SR 3-Present Pro(s) by Name and allow consumer to choose who they want (if IB/CC)","Remarks 40","SR 3-Inform Consumer that Pro should/could contact Homeowner (if IB/CC/BN)","Remarks 41","SR 3-Get consumer acknowledgement/approval to submit SR","Remarks 42","SR 3-Confirm Email","Remarks 43","SR 3-Consumer will receive Pro(s) info via email (Leads Pros Only)","Remarks 44","SR 3- OL - Consumer will be notified if any/additional pros become available (Zero Match or CC below match limit)","Remarks 45","SR 3-OL - Directed Consumer back to website/App (Zero Match Only)","Remarks 46","SR 3-Read Consent Statement (BN Only)","Remarks 47","SR 3-Set appointment time/date(BN/IB)","Remarks 48","SR 3-Offer Transfer","Remarks 49","1st Ask","Remarks 50","2nd Ask","Remarks 51","Brand Angi second time","Remarks 52","Provide Scope (inside/outside and/or over 600 categories)","Remarks 53","List Example CTTs (at least 2)","Remarks 54","Feature & Benefit of using Angi(Angi App Angi Key Cost Guide Verified Ratings & Reviews etc)","Remarks 55","Correct Dispo","Remarks 56","Call Notes","Remarks 57","Update Account Info (if necessary)","Remarks 58","Dispo any activity within 14 days (if applicable)","Remarks 59","Sale1 SR-Confirm ZIP (full address for IB/BN)","Remarks 60","Sale1 SR-Enter Detailed Description","Remarks 61","Sale1 SR-Correct CTT Selected for Customer Need","Remarks 62","Sale1 SR-Present Pro(s) by Name and allow consumer to choose who they want (if IB/CC)","Remarks 63","Sale1 SR-Inform Consumer that Pro should/could contact Homeowner (if IB/CC/BN)","Remarks 64","Sale1 SR-Get consumer acknowledgement/approval to submit SR","Remarks 65","Sale1 SR-Confirm Email","Remarks 66","Sale1 SR-Consumer will receive Pro(s) info via email (Leads Pros Only)","Remarks 67","Sale1 SR-OL - Consumer will be notified if any/additional pros become available (Zero Match or CC below match limit)","Remarks 68","Sale1 SR-OL - Directed Consumer back to website/App (Zero Match Only)","Remarks 69","Sale1 SR-Read Consent Statement (BN only)","Remarks 70","Sale1 SR-Set appointment time/date (BN/IB)","Remarks 71","Sale1 SR-Offer Transfer","Remarks 72","Sale2 SR-Confirm ZIP (full address for IB/BN)","Remarks 73","Sale2 SR-Enter Detailed Description","Remarks 74","Sale2 SR-Correct CTT Selected for Customer Need","Remarks 75","Sale2 SR-Present Pro(s) by Name and allow consumer to choose who they want (if IB/CC)","Remarks 76","Sale2 SR-Inform Consumer that Pro should/could contact Homeowner (if IB/CC/BN)","Remarks 77","Sale2 SR-Get consumer acknowledgement/approval to submit SR","Remarks 78","Sale2 SR-Confirm Email","Remarks 79","Sale2 SR-Consumer will receive Pro(s) info via email (Leads Pros Only)","Remarks 80","Sale2 SR-OL - Consumer will be notified if any/additional pros become available (Zero Match or CC below match limit)","Remarks 81","Sale2 SR-OL - Directed Consumer back to website/App (Zero Match Only)","Remarks 82","Sale2 SR-Read Consent Statement (BN only)","Remarks 83","Sale2 SR-Set appointment time/date (BN/IB)","Remarks 84","Sale2 SR-Offer Transfer","Remarks 85","Sale3 SR-Confirm ZIP (full address for IB/BN)","Remarks 86","Sale3 SR-Enter Detailed Description","Remarks 87","Sale3 SR-Correct CTT Selected for Customer Need","Remarks 88","Sale3 SR-Present Pro(s) by Name and allow consumer to choose who they want (if IB/CC)","Remarks 89","Sale3 SR-Inform Consumer that Pro should/could contact Homeowner (if IB/CC/BN)","Remarks 90","Sale3 SR-Get consumer acknowledgement/approval to submit SR","Remarks 91","Sale3 SR-Confirm Email","Remarks 92","Sale3 SR-Consumer will receive Pro(s) info via email (Leads Pros Only)","Remarks 93","Sale3 SR-OL - Consumer will be notified if any/additional pros become available (Zero Match or CC below match limit)","Remarks 94","Sale3 SR-OL - Directed Consumer back to website/App (Zero Match Only)","Remarks 95","Sale3 SR-Read Consent Statement (BN only)","Remarks 96","Sale3 SR-Set appointment time/date (BN/IB)","Remarks 97","Sale3 SR-Offer Transfer","Remarks 98","Set False Expectation","Remarks 99","Extended Silence/Dead Air","Remarks 100","Other","Remarks 101","Acknowledment/Authorization","Remarks 102","Leading (CC & IB Only)","Remarks 103","Recorded Line","Remarks 104","Misconduct","Remarks 105",
+	"Call Summary", "Feedback", "Agent Review Date/Time","agent feedback acceptance", "Agent Comment", "Mgnt Review Date/Time","Mgnt Review By", "Mgnt Comment","Client Review Date/Time", "Client Review Name", "Client Review Note");
+ 
+	$row = "";
+	foreach($header as $data) $row .= ''.$data.',';
+	fwrite($fopen,rtrim($row,",")."\r\n");
+	$searches = array("\r", "\n", "\r\n");
+
+	foreach($rr as $user)
+	{
+		if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+			$interval1 = '---';
+		}else{
+			$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+		}
+		
+		$main_urls = $main_url.'/'.$user['id'];
+
+		$row = '"'.$user['auditor_name'].'",';
+		$row .= '"'.$user['audit_date'].'",';
+		$row .= '"'.$user['fname']." ".$user['lname'].'",';
+		$row .= '"'.$user['fusion_id'].'",';
+		$row .= '"'.$user['tl_name'].'",';
+		$row .= '"'.$user['call_date'].'",';
+		$row .= '"'.$user['call_duration'].'",';
+		$row .= '"'.$user['audit_type'].'",';
+		$row .= '"'.$user['auditor_type'].'",';
+		$row .= '"'.$user['voc'].'",';
+		$row .= '"'.$main_urls.'",';
+		$row .= '"'.$user['audit_start_time'].'",';
+		$row .= '"'.$user['entry_date'].'",';
+		$row .= '"'.$interval1.'",';
+		$row .= '"'.$user['overall_score'].'%'.'",';
+		$row .= '"'.$user['compliance_score_percent'].'%'.'",';
+		$row .= '"'.$user['customer_score_percent'].'%'.'",';
+		$row .= '"'.$user['business_score_percent'].'%'.'",';
+		$row .= '"'.$user['company_name'].'",';
+		$row .= '"'.$user['cmt1'].'",';
+		$row .= '"'.$user['verify_consumer'].'",';
+		$row .= '"'.$user['cmt2'].'",';
+		$row .= '"'.$user['reference_project'].'",';
+		$row .= '"'.$user['cmt3'].'",';
+		$row .= '"'.$user['ask_follow_up'].'",';
+		$row .= '"'.$user['cmt4'].'",';
+		$row .= '"'.$user['probing_questions'].'",';
+		$row .= '"'.$user['cmt5'].'",';
+		$row .= '"'.$user['find_out_pro'].'",';
+		$row .= '"'.$user['cmt6'].'",';
+		$row .= '"'.$user['offer_review'].'",';
+		$row .= '"'.$user['cmt7'].'",';
+		$row .= '"'.$user['offer_resubmit'].'",';
+		$row .= '"'.$user['cmt8'].'",';
+		$row .= '"'.$user['email_application'].'",';
+		$row .= '"'.$user['cmt9'].'",';
+		$row .= '"'.$user['appropriate_solution'].'",';
+		$row .= '"'.$user['cmt10'].'",';
+		$row .= '"'.$user['confirm_zip'].'",';
+		$row .= '"'.$user['cmt11'].'",';
+		$row .= '"'.$user['detailed_description'].'",';
+		$row .= '"'.$user['cmt12'].'",';
+		$row .= '"'.$user['correct_ctt'].'",';
+		$row .= '"'.$user['cmt13'].'",';
+		$row .= '"'.$user['present_pro'].'",';
+		$row .= '"'.$user['cmt14'].'",';
+		$row .= '"'.$user['inform_consumer'].'",';
+		$row .= '"'.$user['cmt15'].'",';
+		$row .= '"'.$user['acknowledgement'].'",';
+		$row .= '"'.$user['cmt16'].'",';
+		$row .= '"'.$user['confirm_email'].'",';
+		$row .= '"'.$user['cmt17'].'",';
+		$row .= '"'.$user['receive_pro'].'",';
+		$row .= '"'.$user['cmt18'].'",';
+		$row .= '"'.$user['additional_pros'].'",';
+		$row .= '"'.$user['cmt19'].'",';
+		$row .= '"'.$user['website'].'",';
+		$row .= '"'.$user['cmt20'].'",';
+		$row .= '"'.$user['consent_statement'].'",';
+		$row .= '"'.$user['cmt21'].'",';
+		$row .= '"'.$user['appointment_time'].'",';
+		$row .= '"'.$user['cmt22'].'",';
+		$row .= '"'.$user['offer_transfer'].'",';
+		$row .= '"'.$user['cmt23'].'",';
+		$row .= '"'.$user['confirm_zip_sr2'].'",';
+		$row .= '"'.$user['cmt24'].'",';
+		$row .= '"'.$user['detailed_description_sr2'].'",';
+		$row .= '"'.$user['cmt25'].'",';
+		$row .= '"'.$user['correct_ctt_sr2'].'",';
+		$row .= '"'.$user['cmt26'].'",';
+		$row .= '"'.$user['present_pro_sr2'].'",';
+		$row .= '"'.$user['cmt27'].'",';
+		$row .= '"'.$user['inform_consumer_sr2'].'",';
+		$row .= '"'.$user['cmt28'].'",';
+		$row .= '"'.$user['acknowledgement_sr2'].'",';
+		$row .= '"'.$user['cmt29'].'",';
+		$row .= '"'.$user['confirm_email_sr2'].'",';
+		$row .= '"'.$user['cmt30'].'",';
+		$row .= '"'.$user['receive_pro_sr2'].'",';
+		$row .= '"'.$user['cmt31'].'",';
+		$row .= '"'.$user['additional_pros_sr2'].'",';
+		$row .= '"'.$user['cmt32'].'",';
+		$row .= '"'.$user['website_sr2'].'",';
+		$row .= '"'.$user['cmt33'].'",';
+		$row .= '"'.$user['consent_statement_sr2'].'",';
+		$row .= '"'.$user['cmt34'].'",';
+		$row .= '"'.$user['appointment_time_sr2'].'",';
+		$row .= '"'.$user['cmt35'].'",';
+		$row .= '"'.$user['offer_transfer_sr2'].'",';
+		$row .= '"'.$user['cmt36'].'",';
+		$row .= '"'.$user['confirm_zip_sr3'].'",';
+		$row .= '"'.$user['cmt37'].'",';
+		$row .= '"'.$user['detailed_description_sr3'].'",';
+		$row .= '"'.$user['cmt38'].'",';
+		$row .= '"'.$user['correct_ctt_sr3'].'",';
+		$row .= '"'.$user['cmt39'].'",';
+		$row .= '"'.$user['present_pro_sr3'].'",';
+		$row .= '"'.$user['cmt40'].'",';
+		$row .= '"'.$user['inform_consumer_sr3'].'",';
+		$row .= '"'.$user['cmt41'].'",';
+		$row .= '"'.$user['acknowledgement_sr3'].'",';
+		$row .= '"'.$user['cmt42'].'",';
+		$row .= '"'.$user['confirm_email_sr3'].'",';
+		$row .= '"'.$user['cmt43'].'",';
+		$row .= '"'.$user['receive_pro_sr3'].'",';
+		$row .= '"'.$user['cmt44'].'",';
+		$row .= '"'.$user['additional_pros_sr3'].'",';
+		$row .= '"'.$user['cmt45'].'",';
+		$row .= '"'.$user['website_sr3'].'",';
+		$row .= '"'.$user['cmt46'].'",';
+		$row .= '"'.$user['consent_statement_sr3'].'",';
+		$row .= '"'.$user['cmt47'].'",';
+		$row .= '"'.$user['appointment_time_sr3'].'",';
+		$row .= '"'.$user['cmt48'].'",';
+		$row .= '"'.$user['offer_transfer_sr3'].'",';
+		$row .= '"'.$user['cmt49'].'",';
+		$row .= '"'.$user['first_ask'].'",';
+		$row .= '"'.$user['cmt50'].'",';
+		$row .= '"'.$user['second_ask'].'",';
+		$row .= '"'.$user['cmt51'].'",';
+		$row .= '"'.$user['brand_angi'].'",';
+		$row .= '"'.$user['cmt52'].'",';
+		$row .= '"'.$user['provide_scope'].'",';
+		$row .= '"'.$user['cmt53'].'",';
+		$row .= '"'.$user['example_ctt'].'",';
+		$row .= '"'.$user['cmt54'].'",';
+		$row .= '"'.$user['feature_benefit'].'",';
+		$row .= '"'.$user['cmt55'].'",';
+		$row .= '"'.$user['correct_dispo'].'",';
+		$row .= '"'.$user['cmt56'].'",';
+		$row .= '"'.$user['call_notes'].'",';
+		$row .= '"'.$user['cmt57'].'",';
+		$row .= '"'.$user['account_info'].'",';
+		$row .= '"'.$user['cmt58'].'",';
+		$row .= '"'.$user['activity'].'",';
+		$row .= '"'.$user['cmt59'].'",';
+		$row .= '"'.$user['confirm_zip_sr_sale1'].'",';
+		$row .= '"'.$user['cmt60'].'",';
+		$row .= '"'.$user['detailed_description_sr_sale1'].'",';
+		$row .= '"'.$user['cmt61'].'",';
+		$row .= '"'.$user['correct_ctt_sr_sale1'].'",';
+		$row .= '"'.$user['cmt62'].'",';
+		$row .= '"'.$user['present_pro_sr_sale1'].'",';
+		$row .= '"'.$user['cmt63'].'",';
+		$row .= '"'.$user['inform_consumer_sr_sale1'].'",';
+		$row .= '"'.$user['cmt64'].'",';
+		$row .= '"'.$user['acknowledgement_sr_sale1'].'",';
+		$row .= '"'.$user['cmt65'].'",';
+		$row .= '"'.$user['confirm_email_sr_sale1'].'",';
+		$row .= '"'.$user['cmt66'].'",';
+		$row .= '"'.$user['receive_pro_sr_sale1'].'",';
+		$row .= '"'.$user['cmt67'].'",';
+		$row .= '"'.$user['additional_pros_sr_sale1'].'",';
+		$row .= '"'.$user['cmt68'].'",';
+		$row .= '"'.$user['website_sr_sale1'].'",';
+		$row .= '"'.$user['cmt69'].'",';
+		$row .= '"'.$user['consent_statement_sr_sale1'].'",';
+		$row .= '"'.$user['cmt70'].'",';
+		$row .= '"'.$user['appointment_time_sr_sale1'].'",';
+		$row .= '"'.$user['cmt71'].'",';
+		$row .= '"'.$user['offer_transfer_sr_sale1'].'",';
+		$row .= '"'.$user['cmt72'].'",';
+		$row .= '"'.$user['confirm_zip_sr_sale2'].'",';
+		$row .= '"'.$user['cmt73'].'",';
+		$row .= '"'.$user['detailed_description_sr_sale2'].'",';
+		$row .= '"'.$user['cmt74'].'",';
+		$row .= '"'.$user['correct_ctt_sr_sale2'].'",';
+		$row .= '"'.$user['cmt75'].'",';
+		$row .= '"'.$user['present_pro_sr_sale2'].'",';
+		$row .= '"'.$user['cmt76'].'",';
+		$row .= '"'.$user['inform_consumer_sr_sale2'].'",';
+		$row .= '"'.$user['cmt77'].'",';
+		$row .= '"'.$user['acknowledgement_sr_sale2'].'",';
+		$row .= '"'.$user['cmt78'].'",';
+		$row .= '"'.$user['confirm_email_sr_sale2'].'",';
+		$row .= '"'.$user['cmt79'].'",';
+		$row .= '"'.$user['receive_pro_sr_sale2'].'",';
+		$row .= '"'.$user['cmt80'].'",';
+		$row .= '"'.$user['additional_pros_sr_sale2'].'",';
+		$row .= '"'.$user['cmt81'].'",';
+		$row .= '"'.$user['website_sr_sale2'].'",';
+		$row .= '"'.$user['cmt82'].'",';
+		$row .= '"'.$user['consent_statement_sr_sale2'].'",';
+		$row .= '"'.$user['cmt83'].'",';
+		$row .= '"'.$user['appointment_time_sr_sale2'].'",';
+		$row .= '"'.$user['cmt84'].'",';
+		$row .= '"'.$user['offer_transfer_sr_sale2'].'",';
+		$row .= '"'.$user['cmt85'].'",';
+		$row .= '"'.$user['confirm_zip_sr_sale3'].'",';
+		$row .= '"'.$user['cmt86'].'",';
+		$row .= '"'.$user['detailed_description_sr_sale3'].'",';
+		$row .= '"'.$user['cmt87'].'",';
+		$row .= '"'.$user['correct_ctt_sr_sale3'].'",';
+		$row .= '"'.$user['cmt88'].'",';
+		$row .= '"'.$user['present_pro_sr_sale3'].'",';
+		$row .= '"'.$user['cmt89'].'",';
+		$row .= '"'.$user['inform_consumer_sr_sale3'].'",';
+		$row .= '"'.$user['cmt90'].'",';
+		$row .= '"'.$user['acknowledgement_sr_sale3'].'",';
+		$row .= '"'.$user['cmt91'].'",';
+		$row .= '"'.$user['confirm_email_sr_sale3'].'",';
+		$row .= '"'.$user['cmt92'].'",';
+		$row .= '"'.$user['receive_pro_sr_sale3'].'",';
+		$row .= '"'.$user['cmt93'].'",';
+		$row .= '"'.$user['additional_pros_sr_sale3'].'",';
+		$row .= '"'.$user['cmt94'].'",';
+		$row .= '"'.$user['website_sr_sale3'].'",';
+		$row .= '"'.$user['cmt95'].'",';
+		$row .= '"'.$user['consent_statement_sr_sale3'].'",';
+		$row .= '"'.$user['cmt96'].'",';
+		$row .= '"'.$user['appointment_time_sr_sale3'].'",';
+		$row .= '"'.$user['cmt97'].'",';
+		$row .= '"'.$user['offer_transfer_sr_sale3'].'",';
+		$row .= '"'.$user['cmt98'].'",';
+		$row .= '"'.$user['expectation'].'",';
+		$row .= '"'.$user['cmt99'].'",';
+		$row .= '"'.$user['dead_air'].'",';
+		$row .= '"'.$user['cmt100'].'",';
+		$row .= '"'.$user['others'].'",';
+		$row .= '"'.$user['cmt101'].'",';
+		$row .= '"'.$user['authorization'].'",';
+		$row .= '"'.$user['cmt102'].'",';
+		$row .= '"'.$user['leading_cc'].'",';
+		$row .= '"'.$user['cmt103'].'",';
+		$row .= '"'.$user['recorded_line'].'",';
+		$row .= '"'.$user['cmt104'].'",';
+		$row .= '"'.$user['misconduct'].'",';
+		$row .= '"'.$user['cmt105'].'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+		$row .= '"'.$user['agent_rvw_date'].'",';
+		$row .= '"'.$user['agnt_fd_acpt'].'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+		$row .= '"'.$user['mgnt_rvw_date'].'",';
+		$row .= '"'.$user['mgnt_rvw_name'].'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
+		$row .= '"'.$user['client_rvw_date'].'",';
+		$row .= '"'.$user['client_rvw_name'].'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
+
+		fwrite($fopen,$row."\r\n");
+	}
+
+	fclose($fopen);
+}
 
 	//Edited BY Samrat 27/11/2021 - QA BCCI
 	public function download_qa_bcci_CSV(){
@@ -22862,1537 +23264,1670 @@ public function qa_sales_carpart_inbound_report(){
 		fclose($fopen);
 	}
 
+///////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////// AMERIDIAL ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 
-	public function qa_ameridial_report(){
-		if(check_logged_in()){
-			$user_office_id=get_user_office_id();
-			$current_user = get_user_id();
-			$is_global_access=get_global_access();
-			$role_dir=get_role_dir();
-			$data["show_download"] = false;
-			$data["download_link"] = "";
-			$data["show_table"] = false;
-			$data["show_table"] = false;
-			$data["aside_template"] = "reports_qa/aside.php";
-			$data["content_template"] = "reports_qa/qa_ameridial_report.php";
-			$audit_type = $this->input->get('audit_type');
-			$data['location_list'] = $this->Common_model->get_office_location_list();
+public function qa_ameridial_report(){
+	if(check_logged_in()){
+		$user_office_id=get_user_office_id();
+		$current_user = get_user_id();
+		$is_global_access=get_global_access();
+		$role_dir=get_role_dir();
+		$data["show_download"] = false;
+		$data["download_link"] = "";
+		$data["show_table"] = false;
+		$data["show_table"] = false;
+		$data["aside_template"] = "reports_qa/aside.php";
+		$data["content_template"] = "reports_qa/qa_ameridial_report.php";
+		$audit_type = $this->input->get('audit_type');
+		$data['location_list'] = $this->Common_model->get_office_location_list();
 
-			$office_id = "";
-			$from_date="";
-			$to_date="";
-			$process_id="";
-			$action="";
-			$dn_link="";
-			$cond="";
-			$cond1="";
-			$cond2="";
-			$cmp1='';
+		$office_id = "";
+		$from_date="";
+		$to_date="";
+		$process_id="";
+		$action="";
+		$dn_link="";
+		$cond="";
+		$cond1="";
+		$cond2="";
+		$cmp1='';
 
-			 $process_id = $this->input->get('p_id');
+		 $process_id = $this->input->get('p_id');
 
-			if($process_id=='fortunebuilder'){
-				$process_id="fortunebuilder";
-			}else if($process_id=='hoveround'){
-				$process_id="hoveround";
-			}else if($process_id=='hoveround_jam'){
-				$process_id="hoveround_jam";
-			}else if($process_id=='ncpssm'){
-				$process_id="ncpssm";
-			}else if($process_id=='stc'){
-				$process_id="stc";
-			}else if($process_id=='touchfuse'){
-				$process_id="touchfuse";
-			}else if($process_id=='touchfuse_new'){
-				$process_id="touchfuse_new";
-			}else if($process_id=='tbn'){
-				$process_id="tbn";
-			}else if($process_id=='275'){
-				$process_id="purity_free_bottle";
-			}else if($process_id=='280'){
-				$process_id="purity_catalog";
-			}else if($process_id=='273'){
-				$process_id="puritycare_new";
-			}else if($process_id=='261'){
-				$process_id="conduent";
-			}else if($process_id=='jfmi'){
-				$process_id="jfmi";
-			}else if($process_id=='tpm'){
-				$process_id="tpm";
-			}else if($process_id=='patchology'){
-				$process_id="patchology";
-			}else if($process_id=='heatsurge'){
-				$process_id="heatsurge";
-			}else if($process_id=='aspca'){
-				$process_id="aspca";
-			}else if($process_id=='lifi'){
-				$process_id="lifi";
-			}else if($process_id=='stauers_sales'){
-				$process_id="stauers_sales";
-			}else if($process_id=='operation_smile'){
-				$process_id="operation_smile";
-			}else if($process_id=='5_11_tactical'){
-				$process_id="5_11_tactical";
-			}else if($process_id=='jmmi'){
-				$process_id="jmmi";
-			}else if($process_id=='non_profit'){
-				$process_id="non_profit";
-			}else if($process_id=='revel'){
-				$process_id="revel";
-			}else if($process_id=='303'){
-				$process_id="revel_new";
-			}
-			else if($process_id=='icario'){
-				$process_id="icario";
-			}
-			else if($process_id=='ica_latest'){
-				$process_id="ica_latest";
-			}
-			else if($process_id=='ica'){
-				$process_id="ica";
-			}
-			else if($process_id=='272'){
-				$process_id="qpc";
-			}else if($process_id=='ancient_nutrition'){
-				$process_id="ancient_nutrition";
-			}else if($process_id=='powerfan'){
-				$process_id="powerfan";
-			}else if($process_id=='sabal'){
-				$process_id="sabal";
-			}else if($process_id=='302'){
-				$process_id="curative";
-			}else if($process_id=='episource'){
-				$process_id="episource";
-			}else if($process_id=='blains'){
-				$process_id="blains";
-			}
-			else if($process_id=='413'){
-				$process_id="pajamagram";
-			}
-			else if($process_id=='377.1'){
-				$process_id="brightway_prescreen";
-			}else if($process_id=='377.2'){
-				$process_id="brightway_prescreen_new";
-			}else if($process_id=='377.4'){
-				$process_id="brightway_evaluation_new";
-			}else if($process_id=='377.3'){
-				$process_id="brightway_evaluation";
-			}else if($process_id=='377.5'){
-				$process_id='brightway_ib_bank';
-			}else if($process_id=='offline'){
-				$process_id='offline';
-			}else if($process_id=='phone_inbound'){
-				$process_id='phone_inbound';
-			}else if($process_id=='phone_inbound_new'){
-				$process_id='phone_inbound_new';
-			}else if($process_id=='processing'){
-				$process_id='processing';
-			}else if($process_id=='processing_new'){
-				$process_id='processing_new';
-			}else if($process_id=='262'){
-				$process_id="delta";
-			}else if($process_id=='delta_iowa'){
-				$process_id="delta_iowa";
-			}else if($process_id=='443'){
-				$process_id="trapollo";
-			}else if($process_id=='465'){
-				$process_id="sontiq";
-			}else if($process_id=='airmethod'){
-				$process_id="airmethod";
-			}else if($process_id=='airmethod_email'){
-				$process_id="airmethod_email";
-			}else if($process_id=='affinity'){
-				$process_id="affinity";
-			}else if($process_id=='affinity_pro'){
-				$process_id="affinity_pro";
-			}else if($process_id=='cci_medicare'){
-				$process_id="cci_medicare";
-			}else if($process_id=='cci_commercial'){
-				$process_id="cci_commercial";
-			}else if($process_id=='lockheed'){
-				$process_id="lockheed";
-			}else if($process_id=='foodsaver'){
-				$process_id="foodsaver";
-			}else if($process_id=='ubp'){
-				$process_id="ubp";
-			}else if($process_id=='471'){
-				$process_id="sas";
-			}else if($process_id=='473'){
-				$process_id="gap";
-			}else if($process_id=='488'){
-				$process_id="sfe";
-			}else if($process_id=='qpc_esal'){
-				$process_id='qpc_esal';
-			}else if($process_id=='mpc'){
-				$process_id='mpc';
-			}else if($pid=='ab_commercial'){
-  			$pname='AB Commercial Offline';
-			}else if($process_id=='754'){
-				$process_id='homeward_health';
-			}else if($process_id=='756'){
-				$process_id='kenny_u_pull';
-			}else if($process_id=='755'){
-				$process_id='ways2well';
-			}
+		if($process_id=='fortunebuilder'){
+			$process_id="fortunebuilder";
+		}else if($process_id=='hoveround'){
+			$process_id="hoveround";
+		}else if($process_id=='hoveround_jam'){
+			$process_id="hoveround_jam";
+		}else if($process_id=='ncpssm'){
+			$process_id="ncpssm";
+		}else if($process_id=='stc'){
+			$process_id="stc";
+		}else if($process_id=='touchfuse'){
+			$process_id="touchfuse";
+		}else if($process_id=='touchfuse_new'){
+			$process_id="touchfuse_new";
+		}else if($process_id=='tbn'){
+			$process_id="tbn";
+		}else if($process_id=='275'){
+			$process_id="purity_free_bottle";
+		}else if($process_id=='280'){
+			$process_id="purity_catalog";
+		}else if($process_id=='273'){
+			$process_id="puritycare_new";
+		}else if($process_id=='261'){
+			$process_id="conduent";
+		}else if($process_id=='jfmi'){
+			$process_id="jfmi";
+		}else if($process_id=='tpm'){
+			$process_id="tpm";
+		}else if($process_id=='patchology'){
+			$process_id="patchology";
+		}else if($process_id=='heatsurge'){
+			$process_id="heatsurge";
+		}else if($process_id=='aspca'){
+			$process_id="aspca";
+		}else if($process_id=='lifi'){
+			$process_id="lifi";
+		}else if($process_id=='stauers_sales'){
+			$process_id="stauers_sales";
+		}else if($process_id=='operation_smile'){
+			$process_id="operation_smile";
+		}else if($process_id=='5_11_tactical'){
+			$process_id="5_11_tactical";
+		}else if($process_id=='jmmi'){
+			$process_id="jmmi";
+		}else if($process_id=='non_profit'){
+			$process_id="non_profit";
+		}else if($process_id=='revel'){
+			$process_id="revel";
+		}else if($process_id=='303'){
+			$process_id="revel_new";
+		}
+		else if($process_id=='icario'){
+			$process_id="icario";
+		}
+		else if($process_id=='ica_latest'){
+			$process_id="ica_latest";
+		}
+		else if($process_id=='ica'){
+			$process_id="ica";
+		}
+		else if($process_id=='272'){
+			$process_id="qpc";
+		}else if($process_id=='ancient_nutrition'){
+			$process_id="ancient_nutrition";
+		}else if($process_id=='powerfan'){
+			$process_id="powerfan";
+		}else if($process_id=='sabal'){
+			$process_id="sabal";
+		}else if($process_id=='302'){
+			$process_id="curative";
+		}else if($process_id=='episource'){
+			$process_id="episource";
+		}else if($process_id=='blains'){
+			$process_id="blains";
+		}else if($process_id=='blains_v2'){
+			$process_id="blains_v2";
+		}else if($process_id=='413'){
+			$process_id="pajamagram";
+		}
+		else if($process_id=='377.1'){
+			$process_id="brightway_prescreen";
+		}else if($process_id=='377.2'){
+			$process_id="brightway_prescreen_new";
+		}else if($process_id=='377.4'){
+			$process_id="brightway_evaluation_new";
+		}else if($process_id=='377.3'){
+			$process_id="brightway_evaluation";
+		}else if($process_id=='377.5'){
+			$process_id='brightway_ib_bank';
+		}else if($process_id=='offline'){
+			$process_id='offline';
+		}else if($process_id=='phone_inbound'){
+			$process_id='phone_inbound';
+		}else if($process_id=='phone_inbound_new'){
+			$process_id='phone_inbound_new';
+		}else if($process_id=='processing'){
+			$process_id='processing';
+		}else if($process_id=='processing_new'){
+			$process_id='processing_new';
+		}else if($process_id=='262'){
+			$process_id="delta";
+		}else if($process_id=='delta_iowa'){
+			$process_id="delta_iowa";
+		}else if($process_id=='443'){
+			$process_id="trapollo";
+		}else if($process_id=='465'){
+			$process_id="sontiq";
+		}else if($process_id=='airmethod'){
+			$process_id="airmethod";
+		}else if($process_id=='airmethod_email'){
+			$process_id="airmethod_email";
+		}else if($process_id=='affinity'){
+			$process_id="affinity";
+		}else if($process_id=='affinity_pro'){
+			$process_id="affinity_pro";
+		}else if($process_id=='cci_medicare'){
+			$process_id="cci_medicare";
+		}else if($process_id=='cci_commercial'){
+			$process_id="cci_commercial";
+		}else if($process_id=='lockheed'){
+			$process_id="lockheed";
+		}else if($process_id=='foodsaver'){
+			$process_id="foodsaver";
+		}else if($process_id=='ubp'){
+			$process_id="ubp";
+		}else if($process_id=='471'){
+			$process_id="sas";
+		}else if($process_id=='473'){
+			$process_id="gap";
+		}else if($process_id=='488'){
+			$process_id="sfe";
+		}else if($process_id=='qpc_esal'){
+			$process_id='qpc_esal';
+		}else if($process_id=='mpc'){
+			$process_id='mpc';
+		}else if($pid=='ab_commercial'){
+		  $pname='AB Commercial Offline';
+		}else if($process_id=='754'){
+			$process_id='homeward_health';
+		}else if($process_id=='756'){
+			$process_id='kenny_u_pull';
+		}else if($process_id=='755'){
+			$process_id='ways2well';
+		}
 
-			$data["qa_ameridial_list"] = array();
+		$data["qa_ameridial_list"] = array();
 
-			if($process_id!=""){
+		if($process_id!=""){
 
-				if($this->input->get('show')=='Show')
-				{
-					$from_date = mmddyy2mysql($this->input->get('from_date'));
-					$to_date = mmddyy2mysql($this->input->get('to_date'));
-					$office_id = $this->input->get('office_id');
-					$office_id='All';
-					$lob = $this->input->get('lob');
+			if($this->input->get('show')=='Show')
+			{
+				// $from_date = mmddyy2mysql($this->input->get('from_date'));
+				// $to_date = mmddyy2mysql($this->input->get('to_date'));
+
+				$from_date = $this->input->get('from_date');
+				$to_date = $this->input->get('to_date');
+
+				if($from_date==""){
+					$from_date=CurrDate();
+				}else{
+					$from_date = mmddyy2mysql($from_date);
+				}
+
+				if($to_date==""){
+					$to_date=CurrDate();
+				}else{
+					$to_date = mmddyy2mysql($to_date);
+				}
+
+				$office_id = $this->input->get('office_id');
+				$office_id='All';
+				$lob = $this->input->get('lob');
 
 
-					if($from_date !="" && $to_date!=="" )  $cond= " Where (date(audit_date) >= '$from_date' and date(audit_date) <= '$to_date' ) ";
+				if($from_date !="" && $to_date!=="" )  $cond= " Where (date(audit_date) >= '$from_date' and date(audit_date) <= '$to_date' ) ";
 
-					if($office_id=="All") $cond .= "";
-					else $cond .=" and office_id='$office_id'";
+				if($office_id=="All") $cond .= "";
+				else $cond .=" and office_id='$office_id'";
 
-					if($audit_type=="All"){
-						if(get_login_type()=="client"){
-							$cond .= "audit_type not in ('Operation Audit','Trainer Audit')";
-						}else{
-							$cond .= "";
-						}
+				if($audit_type=="All"){
+					if(get_login_type()=="client"){
+						$cond .= "audit_type not in ('Operation Audit','Trainer Audit')";
 					}else{
-						$cond .=" and audit_type='$audit_type'";
+						$cond .= "";
 					}
+				}else{
+					$cond .=" and audit_type='$audit_type'";
+				}
 
-					
-					if(get_user_fusion_id()!='FMIN000011' || get_user_fusion_id()!='FUTA000007' || get_user_fusion_id()!='FUTA000012'){
+				
+				if(get_user_fusion_id()!='FMIN000011' || get_user_fusion_id()!='FUTA000007' || get_user_fusion_id()!='FUTA000012'){
+					$ops_cond="";
+				}else{
+					if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+						$ops_cond=" Where (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+					}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+						$ops_cond=" Where assigned_to='$current_user'";
+					}else{
 						$ops_cond="";
-					}else{
-						if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
-							$ops_cond=" Where (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
-						}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
-							$ops_cond=" Where assigned_to='$current_user'";
-						}else{
-							$ops_cond="";
-						}
 					}
+				}
 
-					if($process_id=='pcare_cs'){
-						$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_purity_consciuos_selling_feedback) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, get_process_names(id) as campaign, DATEDIFF(CURDATE(), doj) as tenure, assigned_to from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
-					}else if($process_id == 'homeward_health'){
-							$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_".$process_id."_feedback) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, get_process_names(id) as campaign, DATEDIFF(CURDATE(), doj) as tenure, assigned_to from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
-					}else if($process_id == 'kenny_u_pull'){
-							$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_".$process_id."_feedback) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, get_process_names(id) as campaign, DATEDIFF(CURDATE(), doj) as tenure, assigned_to from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
-					}
-					else{
+				if($process_id=='pcare_cs'){
+					$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_purity_consciuos_selling_feedback) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, get_process_names(id) as campaign, DATEDIFF(CURDATE(), doj) as tenure, assigned_to from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
+				}else if($process_id == 'homeward_health'){
+						$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_".$process_id."_feedback) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, get_process_names(id) as campaign, DATEDIFF(CURDATE(), doj) as tenure, assigned_to from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
+				}else if($process_id == 'kenny_u_pull'){
+						$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_".$process_id."_feedback) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, get_process_names(id) as campaign, DATEDIFF(CURDATE(), doj) as tenure, assigned_to from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
+				}else if($process_id == 'blains_v2'){
 						$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_amd_".$process_id."_feedback) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, get_process_names(id) as campaign, DATEDIFF(CURDATE(), doj) as tenure, assigned_to from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
-					}
+				}else{
+					$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_amd_".$process_id."_feedback) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, get_process_names(id) as campaign, DATEDIFF(CURDATE(), doj) as tenure, assigned_to from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
+				}
 
-					$fullAray = $this->Common_model->get_query_result_array($qSql);
+				$fullAray = $this->Common_model->get_query_result_array($qSql);
 
-					$data["qa_ameridial_list"] = $fullAray;
+				$data["qa_ameridial_list"] = $fullAray;
 
-					if(!in_array($process_id,array('episource','magnilife','blains','pajamagram','delta','brightway_prescreen','brightway_evaluation','trapollo','ubp','sontiq'))){
+				if(!in_array($process_id,array('episource','magnilife','blains','pajamagram','delta','brightway_prescreen','brightway_evaluation','trapollo','ubp','sontiq'))){
 
-						$this->create_qa_ameridial_CSV($fullAray,$process_id);
+					$this->create_qa_ameridial_CSV($fullAray,$process_id);
 
 
-					}else if(in_array($process_id,array('homeward_health'))){
-						$this->create_qa_ameridial_CSV($fullAray,$process_id);
-					}else if(in_array($process_id,array('kenny_u_pull'))){
-						$this->create_qa_ameridial_CSV($fullAray,$process_id);
-					}
-					else{
+				}else if(in_array($process_id,array('homeward_health'))){
+					$this->create_qa_ameridial_CSV($fullAray,$process_id);
+				}else if(in_array($process_id,array('kenny_u_pull'))){
+					$this->create_qa_ameridial_CSV($fullAray,$process_id);
+				}else if(in_array($process_id,array('blains_v2'))){
+					$this->create_qa_ameridial_CSV($fullAray,$process_id);
+				}else{
 
-						$header=$process_id."Header";
-						$header=$this->$header();
+					$header=$process_id."Header";
+					$header=$this->$header();
 
-						$this->create_qa_amd_common_new_CSV($header,$fullAray,$process_id);
-
-					}
-
-					$dn_link = base_url()."reports_qa/download_qa_ameridial_CSV/".$process_id;
-
+					$this->create_qa_amd_common_new_CSV($header,$fullAray,$process_id);
 
 				}
 
+				$dn_link = base_url()."reports_qa/download_qa_ameridial_CSV/".$process_id;
+
+
 			}
 
-			$data['download_link']=$dn_link;
-			$data["action"] = $action;
-			$data['from_date'] = $from_date;
-			$data['to_date'] = $to_date;
-			$data['office_id']=$office_id;
-			$data['process_id']=$process_id;
-			$data['audit_type']=$audit_type;
-			//$data['lob']=$lob;
-
-			$this->load->view('dashboard',$data);
 		}
+
+		$data['download_link']=$dn_link;
+		$data["action"] = $action;
+		$data['from_date'] = $from_date;
+		$data['to_date'] = $to_date;
+		$data['office_id']=$office_id;
+		$data['process_id']=$process_id;
+		$data['audit_type']=$audit_type;
+		//$data['lob']=$lob;
+
+		$this->load->view('dashboard',$data);
+	}
+}
+
+
+public function download_qa_ameridial_CSV($pid)
+{
+	if($pid=='fortunebuilder'){
+		$pname='Fortune Biulder';
+	}else if($pid=='hoveround'){
+		$pname='Hoveround';
+	}else if($pid=='hoveround_jam'){
+		$pname='Hoveround Jamica';
+	}else if($pid=='ncpssm'){
+		$pname='NCPSSM';
+	}else if($pid=='stc'){
+		$pname='STC Scoresheet';
+	}else if($pid=='touchfuse'){
+		$pname='TouchFuse';
+	}else if($pid=='touchfuse_new'){
+		$pname='TouchFuse_new';
+	}else if($pid=='tbn'){
+		$pname='TBN Scoresheet';
+	}else if($pid=='purity_free_bottle'){
+		$pname='Purity Free Bottle';
+	}else if($pid=='purity_catalog'){
+		$pname='Purity Catalog';
+	}else if($pid=='purity_care'){
+		$pname='Purity Care';
+	}else if($pid=='puritycare_new'){
+		$pname='Purity Care New';
+	}else if($pid=='conduent'){
+		$pname='Conduent';
+	}else if($pid=='jfmi'){
+		$pname='JFMI';
+	}else if($pid=='tpm'){
+		$pname='TPM Scoresheet';
+	}else if($pid=='patchology'){
+		$pname='Patchology Agent Improvement';
+	}else if($pid=='aspca'){
+		$pname='ASPCA Scoresheet';
+	}else if($pid=='ffai'){
+		$pname='FilterFast Agent Improvement Scoresheet';
+	}else if($pid=='lifi'){
+		$pname='LIFI Improvement Scoresheet';
+	}else if($pid=='heatsurge'){
+		$pname='Heat Surge';
+	}else if($pid=='stauers_sales'){
+		$pname='Stauers Sales';
+	}else if($pid=='operation_smile'){
+		$pname='Operation Smile';
+	}else if($pid=='5_11_tactical'){
+		$pname='5-11 Tactical';
+	}else if($pid=='jmmi'){
+		$pname='JMMI';
+	}else if($pid=='non_profit'){
+		$pname='Non-Profit';
+	}else if($pid=='revel_new'){
+		$pname='Icario';
+	}
+	else if($pid=='icario'){
+		$pname='Icario New';
+	}
+	else if($pid=='ica'){
+		$pname='Icario New';
+	}
+	else if($pid=='qpc'){
+		$pname='QPC';
+	}else if($pid=='ancient_nutrition'){
+		$pname='Ancient Nutrition';
+	}else if($pid=='powerfan'){
+		$pname='Power Fan';
+	}else if($pid=='nuwave'){
+		$pname='NuWave';
+	}else if($pid=='sabal'){
+		$pname='SABAL';
+	}else if($pid=='curative'){
+		$pname='CURATIVE';
+	}else if($pid=='episource'){
+		$pname='EPISOURCE';
+	}else if($pid=='magnilife'){
+		$pname='MAGNILIFE';
+	}else if($pid=='blains'){
+		$pname='BLAINS';
+	}else if($pid=='blains_v2'){
+		$pname='BLAINS VERSION 2';
+	}else if($pid=='pajamagram'){
+		$pname='PAJAMAGRAM';
+	}
+	else if($pid=='delta'){
+		$pname='DELTA DENTAL [ILLINOIS]';
+	}else if($pid=='delta_iowa'){
+		$pname='DELTA DENTAL [IOWA]';
+	}else if($pid=='brightway_prescreen'){
+		$pname='Brightway Prescreen(Old)';
+	}else if($pid=='brightway_prescreen_new'){
+		$pname='Brightway Prescreen';
+	}else if($pid=='brightway_evaluation'){
+		$pname='Brightway Evaluation(Old)';
+	}else if($pid=='brightway_evaluation_new'){
+		$pname='Brightway Evaluation';
+	}else if($pid=='brightway_ib_bank'){
+		$pname='IB BANKS AND CANCELLATION';
+	}else if($pid=='offline'){
+		$pname='Offline Qa';
+	}else if($pid=='phone_inbound'){
+		$pname='Phone Inbound Qa';
+	}else if($pid=='phone_inbound_new'){
+		$pname='Phone Inbound Qa New';
+	}else if($pid=='processing'){
+		$pname='Processing Qa';
+	}else if($process_id=='processing_new'){
+			$process_id='processing Qa New';
+	}else if($pid=='trapollo'){
+		$pname='TRAPOLLO';
+	}else if($pid=='airmethod'){
+		$pname='Air Method';
+	}else if($pid=='airmethod_email'){
+		$pname='Air Method';
+	}else if($pid=='foodsaver'){
+		$pname='Food Saver';
+	}else if($pid=='ubp'){
+		$pname='UBP';
+	}else if($pid=='sontiq'){
+		$pname='SONTIQ';
+	}else if($pid=='sas'){
+		$pname='SAS';
+	}else if($pid=='gap'){
+		$pname='GAP';
+	}else if($pid=='suarez'){
+		$pname='Suarez';
+	}else if($pid=='sfe'){
+		$pname='SFE';
+	}else if($pid=='qpc_esal'){
+		$pname='QPC ESAL';
+	}else if($pid=='pcare_cs'){
+		$pname='Purity [Conscious Selling]';
+	}else if($pid=='mpc'){
+		$pname='Maryland Physicians Care';
+	}else if($pid=='ab_commercial'){
+		$pname='AB Commercial Offline';
+	}else if($pid=="empire"){
+	  $pname="Empire";
+	}else if($pid=="hcpss"){
+	  $pname="HCPSS";
+	}else if($pid=="cmn"){
+	  $pname="CMN";
+	}else if($pid=="pilgrim"){
+	  $pname="Pilgrim";
+	}else if($pid=="bluebenefits"){
+	  $pname="Blue Benefits";
+	}else if($pid=="healthbridge"){
+	  $pname="Health Bridge";
+	}else if($pid=="healthbridgenew"){
+		$pname="Health Bridge New";
+	}else if($pid=="compliance"){
+	  $pname="Compliance";
+	}else if($pid=="mcKinsey"){
+	  $pname="mcKinsey";
+	}else if($pid=="affinity"){
+	  $pname="affinity";
+	}else if($pid=="affinity_pro"){
+	  $pname="affinity_pro";
+	}else if($pid=="cci_medicare"){
+	  $pname="cci_medicare";
+	}else if($pid=="cci_commercial"){
+	  $pname="cci_commercial";
+	}else if($pid=="lockheed"){
+	  $pname="lockheed";
+	}else if($pid=="754"){
+	  $pname="Homeward Health";
+	}else if($pid=="756"){
+	  $pname="Kenny U Pull";
+	}else if($pid=="ica_latest"){
+	  $pname="Icario Latest";
+	}else if($pid=="ways2well"){
+	  $pname="Ways-2-Well";
 	}
 
 
-	public function download_qa_ameridial_CSV($pid)
-	{
-		if($pid=='fortunebuilder'){
-			$pname='Fortune Biulder';
-		}else if($pid=='hoveround'){
-			$pname='Hoveround';
-		}else if($pid=='hoveround_jam'){
-			$pname='Hoveround Jamica';
-		}else if($pid=='ncpssm'){
-			$pname='NCPSSM';
-		}else if($pid=='stc'){
-			$pname='STC Scoresheet';
-		}else if($pid=='touchfuse'){
-			$pname='TouchFuse';
-		}else if($pid=='touchfuse_new'){
-			$pname='TouchFuse_new';
-		}else if($pid=='tbn'){
-			$pname='TBN Scoresheet';
-		}else if($pid=='purity_free_bottle'){
-			$pname='Purity Free Bottle';
-		}else if($pid=='purity_catalog'){
-			$pname='Purity Catalog';
-		}else if($pid=='purity_care'){
-			$pname='Purity Care';
-		}else if($pid=='puritycare_new'){
-			$pname='Purity Care New';
-		}else if($pid=='conduent'){
-			$pname='Conduent';
-		}else if($pid=='jfmi'){
-			$pname='JFMI';
-		}else if($pid=='tpm'){
-			$pname='TPM Scoresheet';
-		}else if($pid=='patchology'){
-			$pname='Patchology Agent Improvement';
-		}else if($pid=='aspca'){
-			$pname='ASPCA Scoresheet';
-		}else if($pid=='ffai'){
-			$pname='FilterFast Agent Improvement Scoresheet';
-		}else if($pid=='lifi'){
-			$pname='LIFI Improvement Scoresheet';
-		}else if($pid=='heatsurge'){
-			$pname='Heat Surge';
-		}else if($pid=='stauers_sales'){
-			$pname='Stauers Sales';
-		}else if($pid=='operation_smile'){
-			$pname='Operation Smile';
-		}else if($pid=='5_11_tactical'){
-			$pname='5-11 Tactical';
-		}else if($pid=='jmmi'){
-			$pname='JMMI';
-		}else if($pid=='non_profit'){
-			$pname='Non-Profit';
-		}else if($pid=='revel_new'){
-			$pname='Icario';
-		}
-		else if($pid=='icario'){
-			$pname='Icario New';
-		}
-		else if($pid=='ica'){
-			$pname='Icario New';
-		}
-		else if($pid=='qpc'){
-			$pname='QPC';
-		}else if($pid=='ancient_nutrition'){
-			$pname='Ancient Nutrition';
-		}else if($pid=='powerfan'){
-			$pname='Power Fan';
-		}else if($pid=='nuwave'){
-			$pname='NuWave';
-		}else if($pid=='sabal'){
-			$pname='SABAL';
-		}else if($pid=='curative'){
-			$pname='CURATIVE';
-		}else if($pid=='episource'){
-			$pname='EPISOURCE';
-		}else if($pid=='magnilife'){
-			$pname='MAGNILIFE';
-		}else if($pid=='blains'){
-			$pname='BLAINS';
-		}
-		else if($pid=='pajamagram'){
-			$pname='PAJAMAGRAM';
-		}
-		else if($pid=='delta'){
-			$pname='DELTA DENTAL [ILLINOIS]';
-		}else if($pid=='delta_iowa'){
-			$pname='DELTA DENTAL [IOWA]';
-		}else if($pid=='brightway_prescreen'){
-			$pname='Brightway Prescreen(Old)';
-		}else if($pid=='brightway_prescreen_new'){
-			$pname='Brightway Prescreen';
-		}else if($pid=='brightway_evaluation'){
-			$pname='Brightway Evaluation(Old)';
-		}else if($pid=='brightway_evaluation_new'){
-			$pname='Brightway Evaluation';
-		}else if($pid=='brightway_ib_bank'){
-			$pname='IB BANKS AND CANCELLATION';
-		}else if($pid=='offline'){
-			$pname='Offline Qa';
-		}else if($pid=='phone_inbound'){
-			$pname='Phone Inbound Qa';
-		}else if($pid=='phone_inbound_new'){
-			$pname='Phone Inbound Qa New';
-		}else if($pid=='processing'){
-			$pname='Processing Qa';
-		}else if($process_id=='processing_new'){
-				$process_id='processing Qa New';
-		}else if($pid=='trapollo'){
-			$pname='TRAPOLLO';
-		}else if($pid=='airmethod'){
-			$pname='Air Method';
-		}else if($pid=='airmethod_email'){
-			$pname='Air Method';
-		}else if($pid=='foodsaver'){
-			$pname='Food Saver';
-		}else if($pid=='ubp'){
-			$pname='UBP';
-		}else if($pid=='sontiq'){
-			$pname='SONTIQ';
-		}else if($pid=='sas'){
-			$pname='SAS';
-		}else if($pid=='gap'){
-			$pname='GAP';
-		}else if($pid=='suarez'){
-			$pname='Suarez';
-		}else if($pid=='sfe'){
-			$pname='SFE';
-		}else if($pid=='qpc_esal'){
-			$pname='QPC ESAL';
-		}else if($pid=='pcare_cs'){
-			$pname='Purity [Conscious Selling]';
-		}else if($pid=='mpc'){
-			$pname='Maryland Physicians Care';
-		}else if($pid=='ab_commercial'){
-			$pname='AB Commercial Offline';
-		}else if($pid=="empire"){
-		  $pname="Empire";
-		}else if($pid=="hcpss"){
-		  $pname="HCPSS";
-		}else if($pid=="cmn"){
-		  $pname="CMN";
-		}else if($pid=="pilgrim"){
-		  $pname="Pilgrim";
-		}else if($pid=="bluebenefits"){
-		  $pname="Blue Benefits";
-		}else if($pid=="healthbridge"){
-		  $pname="Health Bridge";
-		}else if($pid=="healthbridgenew"){
-			$pname="Health Bridge New";
-		}else if($pid=="compliance"){
-		  $pname="Compliance";
-		}else if($pid=="mcKinsey"){
-		  $pname="mcKinsey";
-		}else if($pid=="affinity"){
-		  $pname="affinity";
-		}else if($pid=="affinity_pro"){
-		  $pname="affinity_pro";
-		}else if($pid=="cci_medicare"){
-		  $pname="cci_medicare";
-		}else if($pid=="cci_commercial"){
-		  $pname="cci_commercial";
-		}else if($pid=="lockheed"){
-		  $pname="lockheed";
-		}else if($pid=="754"){
-		  $pname="Homeward Health";
-		}else if($pid=="756"){
-		  $pname="Kenny U Pull";
-		}else if($pid=="ica_latest"){
-		  $pname="Icario Latest";
-		}else if($pid=="ways2well"){
-		  $pname="Ways-2-Well";
-		}
 
+	$currDate=date("Y-m-d");
+	$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+	$newfile="QA Ameridial ".$pname." Audit List-'".$currDate."'.csv";
 
-
-		$currDate=date("Y-m-d");
-		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
-		$newfile="QA Ameridial ".$pname." Audit List-'".$currDate."'.csv";
-
-		header('Content-Disposition: attachment;  filename="'.$newfile.'"');
-		readfile($filename);
-	}
+	header('Content-Disposition: attachment;  filename="'.$newfile.'"');
+	readfile($filename);
+}
 
 //////////// qa_amd_report_header///////////////////////////////////
 
-	function episourceHeader(){
+function episourceHeader(){
 
-		return Array ("Auditor Name","Audit Date","Call Date","Fusion Id","Agent","L1 Super","Call Reference","Call Status","System","Site","Call Duration","File No.","Audit Type","Auditor Type","VOC", "Overall Score","Did the agent provide the appropriate introduction? ","Did the agent provide a clear reason for the call?","Did the agent accurately respond to the member’s questions?","Did the agent allow the member to speak uninterrupted?","Did the agent avoid long periods of silence?","Did the agent ask to schedule the visit.","Did the agent verify the member?","Did the agent include all relevant details for the appointment?","Did the agent verify the full address?","Did the agent advise member to take note of all confirmation details?","Did the agent accurately document notes to NP?","Did the agent provide two response?","Did the agent advise of a reminder call?","Did the agent provide a fitting  closing for each call?","Did the agent status and document Salesforce correctly?","Did the agent advise the member he/she was on a recorded line?","Did the agent follow verification requirements for the script?","Did the agent maintain security of PHI and abide by HIPAA requirements?","Did the agent Inappropriately release the call prior ot providing an approptiate closing?","Did the agent perform any unauthorized action on a member profile","Did the agent knowingly providing false information?","Did the agent place blame?","Call Summary","Feedback","Entry By","Entry Date","Client entry by","Mgnt review by","Mgnt review note","Mgnt review date","Agent Feedback Acceptance","Agent review note","Agent review date","Client review by","Client review note","Client_rvw_date");
+	return Array ("Auditor Name","Audit Date","Call Date","Fusion Id","Agent","L1 Super","Call Reference","Call Status","System","Site","Call Duration","File No.","Audit Type","Auditor Type","VOC", "Overall Score","Did the agent provide the appropriate introduction? ","Did the agent provide a clear reason for the call?","Did the agent accurately respond to the member’s questions?","Did the agent allow the member to speak uninterrupted?","Did the agent avoid long periods of silence?","Did the agent ask to schedule the visit.","Did the agent verify the member?","Did the agent include all relevant details for the appointment?","Did the agent verify the full address?","Did the agent advise member to take note of all confirmation details?","Did the agent accurately document notes to NP?","Did the agent provide two response?","Did the agent advise of a reminder call?","Did the agent provide a fitting  closing for each call?","Did the agent status and document Salesforce correctly?","Did the agent advise the member he/she was on a recorded line?","Did the agent follow verification requirements for the script?","Did the agent maintain security of PHI and abide by HIPAA requirements?","Did the agent Inappropriately release the call prior ot providing an approptiate closing?","Did the agent perform any unauthorized action on a member profile","Did the agent knowingly providing false information?","Did the agent place blame?","Call Summary","Feedback","Entry By","Entry Date","Client entry by","Mgnt review by","Mgnt review note","Mgnt review date","Agent Feedback Acceptance","Agent review note","Agent review date","Client review by","Client review note","Client_rvw_date");
 
+}
+
+///////////////////////Magnilife/////////////////////////////////////
+
+// function magnilifeHeader(){
+// 	return Array ("Auditor Name","Audit Date","Fusion Id","Agent","L1 Super","File No","Call Date","Call Duration","Audit Type","Auditor Type","VOC", "disposition","Overall Score","Possible Score","Earned Score","Greeting (Agent complied with greeting mentioned Brand and call reason )","Enthusiasm (Agent sounds with enthusiasm good energy when speaking)","Clarity (Agent demonstrate a good level of grammar pronunciation pace and confidence at the time of speaking)","Professionalism (listening skills phone etiquette maintain call control and ethics agent's ethics)","Product knowledge (Agent answers product questions sounds as a product expert)","Accuracy (Agent provides accurate product information to the customer avoid providing false expectation/information to the customer)","Efficiency (Agent works effectively during the call to complete the purpose of the call )","System Knowledge (Agent demonstrates program knowledge)","Offer Information (Agents read offer information to the customer including price and features with good and clear pace)","Purchase confirmation (Agent confirms purchase information including prices provides confirmation number to the customer)","Call Summary","Feedback","Entry By","Entry Date","Client entry by","Mgnt review by","Mgnt review note","Mgnt review date","Agent Feedback Acceptance","Agent review note","Agent review date","Client review by","Client review note","Client_rvw_date" );
+// }
+
+///////////////////////Blains Blains Version 2/////////////////////////////////////
+
+function blainsHeader(){
+	return Array ("Auditor Name","Audit Date","Call Date","Fusion Id","Agent","L1 Supervisor","Phone","Filler 2","Area Code","Site","Call Duration","File No","Audit Type","Auditor Type","VOC", "Possible Score","Earned Score","Overall Score","Customer Score","Business Score","Compliance Score","Call opening with Brand Name (5 secs)","Personalize the call (Address the customer by their name at least once during the call)","Verified the customer's name address email and phone number","Correct use of Flagging & Notating","Transfer to store if required","Did the agent follow training docs along with ACP and Blains Website","Integrity Accountability Teamwork and Results","Demonstrates an attitude with every customer encounter through words and actions to show the customer respect and recgnition","Did the agent avoid dead air did the agent avoid unnecessary hold?","Tone Over talking and pacing","Active Listening to the words a customer is speaking and understanding the request and avoid the customer repeating him/herself.","Empathized with customer","Offering more items to the customer when an order is placed or signing up for newsletter when the time is right","Did the agent close the call properly (with Branding Blains Farms and Fleet)","Did the agent dispose the call properly?","Rude remarks ","Call Avoidance",
+		"Comments 1","Comments 2","Comments 3","Comments 4","Comments 5","Comments 6","Comments 7","Comments 8","Comments 9","Comments 10","Comments 11","Comments 12","Comments 13","Comments 14","Comments 15","Comments 16","Comments 17","Call Summary","Feedback","Entry By","Entry Date","Audit Start Time","Client entry by","Mgnt review by","Mgnt review note","Mgnt review date","Agent Feedback Acceptance","Agent review note","Agent review date","Client review by","Client review note","Client_rvw_date");
+}
+function blains_v2Header(){
+	// return Array ("Auditor Name","Audit Date","Call Date","Fusion Id","Agent","L1 Supervisor","Phone","Filler 2","Area Code","Campaign Code","Call Duration","File No","Audit Type","Auditor Type","VOC","Location","Audit Start Time","Entry Date","Interval Time (in sec.)","Possible Score","Earned Score","Overall Score","Customer Score","Business Score","Compliance Score","Did the agent answer with a positive tone and correct introduction?","Did the agent answer the customers question correctly?","Did the agent provide additional add on services and solution?","Did the agent correctly identify the customers request and information?","Did the agent offer the most appropriate solution to meet the customers need?","Did the agent use probing questions to understand the customers need?","Did the agent follow the correct procedures for transferring the call (if applicable)?","Did the agent follow appropriate procedures with system/technology?","Did the agent use empathetic listening skills?","Did the agent show confidence in their answers and present themselves as the expert?","Did the agent speak clearly and use an appropriate tone/pace?","Did the agent display a professional manner throughout the call?","Did the agent offer further assistance at the end of the call?","Did the agent close the call in an appropriate manner?","Was the customer satisfied with the call?","Rude remarks / Inpropriate language","Call Avoidance","Did the agent dispose the call properly",
+	// "Comments 1","Comments 2","Comments 3","Comments 4","Comments 5","Comments 6","Comments 7","Comments 8","Comments 9","Comments 10","Comments 11","Comments 12","Comments 13","Comments 14","Comments 15","Comments 16","Comments 17","Comments 18","Call Summary","Feedback","Entry By","Client entry by","Mgnt review by","Mgnt review note","Mgnt review date","Agent Feedback Acceptance","Agent review note","Agent review date","Client review by","Client review note","Client_rvw_date");
+}
+
+function brightway_evaluation_newHeader(){
+	return Array ("Auditor Name","Audit Date","Call Date","Fusion Id","Agent","L1 Super","Phone","File No. ","Filler","Campaign Code","Area Code","Call Duration ","Audit Type ","Auditor Type ","VOC ", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Possible Score ","Earned Score ","Overall Score ","1.1 Did the CSR use the appropriate greeting including Brightway branding their own name and ask how he/she can assist?","1.2 Did the CSR confirm and capture all necessary information? (name of caller name of insured policy # coverage location & callback #)","1.3 If outbound did the CSP advise they were on a recorded line?","2.1 Was the CSR professional and use appropriate tone and pace on the call?","2.2 Did the CSR demonstrate emapthy or sympathy as needed?","2.3 Did the CSR actively listen to understand the needs of the customer?","2.4 Did the CSR use probing questions and verbally verify the information obtained and processed?","2.5 Did the CSR follow appropriate hold procedure?","2.6 Did the CSR maintain call control and avoid dead air?","2.7  Did the CSR provide accurate information both verbally and in writing?","3.1  If call was transferred was correct transfer process used?","3.2  Did the CSR attempt a callback if the call was disconnected?","3.3  Did the CSR connect activities to the current/correct policy?","3.4 Did the CSR document correctly in all areas (notes activities templates etc.)","3.5 Did CSR include all attachments including emails fax confirmation documents sent etc.","3.6 Did the CSR successfully resolve all issues and concerns? (If not did the CSR correctly document status?)","3.7 Did the CSR access and effectively utilize all available systems/resources?","3.8  If a renewal payment was processed and there is an open renewal suspense was the suspense updated and closed?","3.9 Did the agent experience any audio issues? (For Tracking Purposes Only)","4.1 Did CSR offer additional assistance and thank the customer?","4.2 Did the CSR offer additional assistance before concluding the call?","5.1 Was the customer adversely impacted in any way?","5.2 Were there any additional adverse impacts?","Comments 1 ","Comments 2 ","Comments 3 ","Comments 4 ","Comments 5 ","Comments 6 ","Comments 7 ","Comments 8 ","Comments 9 ","Comments 10 ","Comments 11 ","Comments 12 ","Comments 13 ","Comments 14 ","Comments 15 ","Comments 16 ","Comments 17 ","Comments 18 ","Comments 19 ","Comments 20 ","Comments 21 ","Comments 22 ","Comments 23 ","Call Summary ","Feedback ","Entry By ","Entry Date ","Audit Start Time ","Client entry by ","Mgnt review by ","Mgnt review note ","Mgnt review date ","Agent review note ","Agent Feedback Acceptance","Agent review date ","Client review by ","Client review note ","Client_rvw_date");
+}
+
+function brightway_evaluationHeader(){
+	return Array ("Auditor Name","Audit Date","Fusion Id","Agent","L1 Super","Phone","Call Date","Call Duration","Audit Type","Auditor Type ","VOC ","Enter Policy Information ","Skill - Select all the Apply ","File No. ", "Overall Score ","Possible Score ","Earned Score ","Did the CSR use the approved greeting ","Did rep advise they were on a recorded line ","Did the associate use the appropriate tone pace and professionalism while avoidinginsurance jargon? ","Did the associate demonstrate the right level of empathy or sympathy? ","Did the associate listen carefully to understand and address the customers needs askingprobing questions and verbally verify the information obtained and processed? ","Did the CSR follow the appropriate hold procedure and provide a wrap-up summary ","The associate maintained call control throughout the call by guiding the conversation ","All verbal and written information provided by associate to insured and other parties wasclear ","If call was transferred was the appropriate transfer process followed? ","Did the CSR attempt to contact the callerback to complete the call? ","Worked correct policy. ","Created all activities corresponding with the interaction with clear ","Were the correct interaction templates used? ","Attached all emails fax confirmations and other documents as needed ","Was the issue or request resolved/completed? ","Effectively accessed and utilized all appropriate systems and resources to obtaininformation ","If a renewal payment was processed and there is an open renewal suspense was thesuspense updated and closed? ","Did the associate offer additional assistance thanked the customer? ","Was the customer adversely impacted? ","Were there any additional adverse impacts? ","Comments 1 ","Comments 2 ","Comments 3 ","Comments 4 ","Comments 5 ","Comments 6 ","Comments 7 ","Comments 8 ","Comments 9 ","Comments 10 ","Comments 11 ","Comments 12 ","Comments 13 ","Comments 14 ","Comments 15 ","Comments 16 ","Comments 17 ","Comments 18 ","Comments 19 ","Comments 20 ","Call Summary ","Feedback ","Entry By ","Entry Date ","Audit Start Time ","Client entry by ","Mgnt review by ","Mgnt review note ","Mgnt review date ","Agent review note ","Agent Feedback Acceptance","Agent review date ","Client review by ","Client review note ","Client_rvw_date");
+}
+
+function brightway_prescreenHeader(){
+	return Array ("Auditor Name","Audit Date","Call Date","Fusion Id","Agent","L1 Super","Phone","Filler 2","Area Code","Site ","Call Duration ","File No. ","Audit Type ","Auditor Type ","VOC ", "Possible Score ","Earned Score ","Overall Score ","Transfer to ","Did the associate use the appropriate greeting? ","Was the Pre-Screen template completed correctly? ","Did the associate disposition the call correctly? ","Did the associate use the appropriate verbiage tone pace and professionalism? ","Did the associate transfer to the correct skill based on the decision flow diagram? ","Was the caller appropriately authenticated? ","If verified and change needed was AMS updated? ","Comments 1 ","Comments 2 ","Comments 3 ","Comments 4 ","Comments 5 ","Comments 6 ","Comments 7 ","Comments 8 ","Call Summary ","Feedback ","Entry By ","Entry Date ","Audit Start Time ","Client entry by ","Mgnt review by ","Mgnt review note ","Mgnt review date ","Agent review note ","Agent Feedback Acceptance","Agent review date ","Client review by ","Client review note ","Client_rvw_date");
+}
+
+function brightway_prescreen_newHeader(){
+	return Array ("Auditor Name","Audit Date","Call Date","Fusion Id","Agent","L1 Super","Phone","File No. ","Filler","Campaign Code","Area Code","Call Duration ","Audit Type ","Auditor Type ","VOC ", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Possible Score ","Earned Score ","Overall Score ","Transfer to ","Did the CSR Transfer to:","1.1 Did the CSR use the appropriate greeting? ","1.2 Was the Pre-Screen template completed correctly?","1.3 Did the CSR disposition the call correctly?","1.4 Did the agent use appropriate soft skills no overtalk and demonstrated professionalism?","1.5 Did the CSR use the proper hold procedure?","1.6  Did the CSR transfer to the correct skill based on the decision flow diagram?","1.7  Was the caller appropriately authenticated?","1.8  Did the CSR experience any audio issues? (For Tracking Puposes Only)","1.9  If verified and change necessary was AMS updated correctly?" ,"Comments 1 ","Comments 2 ","Comments 3 ","Comments 4 ","Comments 5 ","Comments 6 ","Comments 7 ","Comments 8 ","Call Summary ","Feedback ","Entry By ","Entry Date ","Audit Start Time ","Client entry by ","Mgnt review by ","Mgnt review note ","Mgnt review date ","Agent Feedback Acceptance","Agent review note ","Agent review date ","Client review by ","Client review note ","Client_rvw_date");
+}
+
+function pajamagramHeader(){
+	return Array ("Auditor Name","Audit Date","Call Date","Fusion Id","Agent","L1 Super","Phone","Call Duration","File No","Audit Type","Auditor Type","VOC","Campaign", "Possible Score","Earned Score","Overall Score","Compliance Score","Customer Score","Business Score","Agent is ready and logged in to website to handle call","Greet caller and Thank them for calling Pajamagram or Vermont Teddy Bear","Ask caller what can we order for them today","Verify all  caller and product information","Assist search if caller doesn’t know specific item","Offer personalization if available","Offer Upsell","Ask for additional items","Confirm email and phone number","Offer Delivery Option","Energy/enthusiasm","Proper pace","Maintained control of the conversation/Minimal Dead Air","Spoke clearly/utilized proper grammar (NO SLANG)","Good listening skills/Does not interrupt","Empathized with caller","Overall professionalism","Ask for Priority code if caller has catalog","Enter advertising source from CRM screen or ask caller for it","Summarize the order","Close call with order confirmaiton and Thank caller for their order","Did the agent correctly disposition the call?","False/inappropriate information","Hung up inappropriately","Unprofessional or rude behavior","Inappropriate language","Comments 1","Comments 2","Comments 3","Comments 4","Comments 5","Comments 6","Comments 7","Comments 8","Comments 9","Comments 10","Comments 11","Comments 12","Comments 13","Comments 14","Comments 15","Comments 16","Comments 17","Comments 18","Comments 19","Comments 20","Comments 21","Comments 22","Comments 23","Comments 24","Comments 25","Comments 26","Call Summary","Feedback","Entry By","Entry Date","Audit Start Time","Client entry by","Mgnt review by","Mgnt review note","Mgnt review date","Agent Feedback Acceptance","Agent review note","Agent review date","Client review by","Client review note","Client_rvw_date");
+}
+
+public function deltaHeader(){
+
+	return $arrayName = Array ("Auditor Name","Audit Date","Fusion Id","Agent","L1 Super","Phone","Call Date","Call Duration","Audit Type","Auditor Type","VOC","File No.", "Overall Score","Possible Score","Earned Score","Did CER appropriately greet the caller?","Did CER use a pleasant respectful tone and use the callers name at least once during the call?","Did CER answer in a timely manner?","Did CER obtain 3 pieces of PHI?","Did CER obtain members information first and then providers if on provider call?","If Non-Covered Parent did the caller answer yes to all 3 questions on Guidelines tab?","Did CER ask appropriate questions to determine the purpose of the call?","Did CER assess all information before responding to the caller? (BVN)","Did CER pose appropriate questions to clarify the callers issue? (Restate Issue)","Did CER utilize active listening skills throughout the inquiry?","Did CER demonstrate use of call control techniques?","Did CER refrain from interrupting the caller?","Did CER use proper etiquitte Please and Thank you after caller provided CER with requested info?","Did CER avoid use of internal terms technical terms slang and jargon?/speak clearly and concisely at an appropriate pace?","Did CER demonstrate confidence in responses?","Did CER minimize silences and use fillers to obtain additional information?","Did the CER show empathy to the customer and apologizes when applicable.","Did the CER own the call and follow through to find an answer? Did CER refrain from using I dont know statement.","Did CER provide accurate information and/or demonstrate knowledge of clients benefit programs? Was this viewable through screen capture?","Did CER take correct action to resolve the callers issues? Were additional services offered to assist the callers needs?","Did CER promote self-service options where appropriate?","Did CER answer questions clearly and completely?","Was CER proactive by anticipating additional needs of the caller?","Did CER accurately and completely document the calls outcome?","Did the CER document the callers phone number name call type CITS code etc?","Did CER close CITS if it did not require a follow up?","Did CER confirm resolution of the callers question?","Did CER ask if any additional information could be provided?","Did CER thank the individual for calling and release the call within 5 seconds","Comments 1","Comments 2","Comments 3","Comments 4","Comments 5","Comments 6","Comments 7","Comments 8","Comments 9","Comments 10","Comments 11","Comments 12","Comments 13","Comments 14","Comments 15","Comments 16","Comments 17","Comments 18","Comments 19","Comments 20","Comments 21","Comments 22","Comments 23","Comments 24","Comments 25","Comments 26","Comments 27","Comments 28","Comments 29","Call Summary","Feedback","Entry By","Entry Date","Audit Start Time","Client entry by","Mgnt review by","Mgnt review note","Mgnt review date","Agent Feedback Acceptance","Agent review note","Agent review date","Client review by","Client review note","Client_rvw_date");
+}
+
+////////////////////support function for Report///////////////////////
+
+public function getval1($arrs, $k) {
+foreach($arrs as $key=>$val) {
+	if( $key === $k ) {
+		return $val;
 	}
-
-	///////////////////////Magnilife/////////////////////////////////////
-
-	// function magnilifeHeader(){
-	// 	return Array ("Auditor Name","Audit Date","Fusion Id","Agent","L1 Super","File No","Call Date","Call Duration","Audit Type","Auditor Type","VOC", "disposition","Overall Score","Possible Score","Earned Score","Greeting (Agent complied with greeting mentioned Brand and call reason )","Enthusiasm (Agent sounds with enthusiasm good energy when speaking)","Clarity (Agent demonstrate a good level of grammar pronunciation pace and confidence at the time of speaking)","Professionalism (listening skills phone etiquette maintain call control and ethics agent's ethics)","Product knowledge (Agent answers product questions sounds as a product expert)","Accuracy (Agent provides accurate product information to the customer avoid providing false expectation/information to the customer)","Efficiency (Agent works effectively during the call to complete the purpose of the call )","System Knowledge (Agent demonstrates program knowledge)","Offer Information (Agents read offer information to the customer including price and features with good and clear pace)","Purchase confirmation (Agent confirms purchase information including prices provides confirmation number to the customer)","Call Summary","Feedback","Entry By","Entry Date","Client entry by","Mgnt review by","Mgnt review note","Mgnt review date","Agent Feedback Acceptance","Agent review note","Agent review date","Client review by","Client review note","Client_rvw_date" );
-	// }
-
-	///////////////////////Blains/////////////////////////////////////
-
-	function blainsHeader(){
-		return Array ("Auditor Name","Audit Date","Call Date","Fusion Id","Agent","L1 Super","Phone","Filler 2","Area Code","Site","Call Duration","File No","Audit Type","Auditor Type","VOC", "Possible Score","Earned Score","Overall Score","Customer Score","Business Score","Compliance Score","Call opening with Brand Name (5 secs)","Personalize the call (Address the customer by their name at least once during the call)","Verified the customer's name address email and phone number","Correct use of Flagging & Notating","Transfer to store if required","Did the agent follow training docs along with ACP and Blains Website","Integrity Accountability Teamwork and Results","Demonstrates an attitude with every customer encounter through words and actions to show the customer respect and recgnition","Did the agent avoid dead air did the agent avoid unnecessary hold?","Tone Over talking and pacing","Active Listening to the words a customer is speaking and understanding the request and avoid the customer repeating him/herself.","Empathized with customer","Offering more items to the customer when an order is placed or signing up for newsletter when the time is right","Did the agent close the call properly (with Branding Blains Farms and Fleet)","Did the agent dispose the call properly?","Rude remarks ","Call Avoidance",
-			"Comments 1","Comments 2","Comments 3","Comments 4","Comments 5","Comments 6","Comments 7","Comments 8","Comments 9","Comments 10","Comments 11","Comments 12","Comments 13","Comments 14","Comments 15","Comments 16","Comments 17","Call Summary","Feedback","Entry By","Entry Date","Audit Start Time","Client entry by","Mgnt review by","Mgnt review note","Mgnt review date","Agent Feedback Acceptance","Agent review note","Agent review date","Client review by","Client review note","Client_rvw_date");
-	}
-
-	function brightway_evaluation_newHeader(){
-		return Array ("Auditor Name","Audit Date","Call Date","Fusion Id","Agent","L1 Super","Phone","File No. ","Filler","Campaign Code","Area Code","Call Duration ","Audit Type ","Auditor Type ","VOC ", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Possible Score ","Earned Score ","Overall Score ","1.1 Did the CSR use the appropriate greeting including Brightway branding their own name and ask how he/she can assist?","1.2 Did the CSR confirm and capture all necessary information? (name of caller name of insured policy # coverage location & callback #)","1.3 If outbound did the CSP advise they were on a recorded line?","2.1 Was the CSR professional and use appropriate tone and pace on the call?","2.2 Did the CSR demonstrate emapthy or sympathy as needed?","2.3 Did the CSR actively listen to understand the needs of the customer?","2.4 Did the CSR use probing questions and verbally verify the information obtained and processed?","2.5 Did the CSR follow appropriate hold procedure?","2.6 Did the CSR maintain call control and avoid dead air?","2.7  Did the CSR provide accurate information both verbally and in writing?","3.1  If call was transferred was correct transfer process used?","3.2  Did the CSR attempt a callback if the call was disconnected?","3.3  Did the CSR connect activities to the current/correct policy?","3.4 Did the CSR document correctly in all areas (notes activities templates etc.)","3.5 Did CSR include all attachments including emails fax confirmation documents sent etc.","3.6 Did the CSR successfully resolve all issues and concerns? (If not did the CSR correctly document status?)","3.7 Did the CSR access and effectively utilize all available systems/resources?","3.8  If a renewal payment was processed and there is an open renewal suspense was the suspense updated and closed?","3.9 Did the agent experience any audio issues? (For Tracking Purposes Only)","4.1 Did CSR offer additional assistance and thank the customer?","4.2 Did the CSR offer additional assistance before concluding the call?","5.1 Was the customer adversely impacted in any way?","5.2 Were there any additional adverse impacts?","Comments 1 ","Comments 2 ","Comments 3 ","Comments 4 ","Comments 5 ","Comments 6 ","Comments 7 ","Comments 8 ","Comments 9 ","Comments 10 ","Comments 11 ","Comments 12 ","Comments 13 ","Comments 14 ","Comments 15 ","Comments 16 ","Comments 17 ","Comments 18 ","Comments 19 ","Comments 20 ","Comments 21 ","Comments 22 ","Comments 23 ","Call Summary ","Feedback ","Entry By ","Entry Date ","Audit Start Time ","Client entry by ","Mgnt review by ","Mgnt review note ","Mgnt review date ","Agent review note ","Agent Feedback Acceptance","Agent review date ","Client review by ","Client review note ","Client_rvw_date");
-	}
-
-	function brightway_evaluationHeader(){
-		return Array ("Auditor Name","Audit Date","Fusion Id","Agent","L1 Super","Phone","Call Date","Call Duration","Audit Type","Auditor Type ","VOC ","Enter Policy Information ","Skill - Select all the Apply ","File No. ", "Overall Score ","Possible Score ","Earned Score ","Did the CSR use the approved greeting ","Did rep advise they were on a recorded line ","Did the associate use the appropriate tone pace and professionalism while avoidinginsurance jargon? ","Did the associate demonstrate the right level of empathy or sympathy? ","Did the associate listen carefully to understand and address the customers needs askingprobing questions and verbally verify the information obtained and processed? ","Did the CSR follow the appropriate hold procedure and provide a wrap-up summary ","The associate maintained call control throughout the call by guiding the conversation ","All verbal and written information provided by associate to insured and other parties wasclear ","If call was transferred was the appropriate transfer process followed? ","Did the CSR attempt to contact the callerback to complete the call? ","Worked correct policy. ","Created all activities corresponding with the interaction with clear ","Were the correct interaction templates used? ","Attached all emails fax confirmations and other documents as needed ","Was the issue or request resolved/completed? ","Effectively accessed and utilized all appropriate systems and resources to obtaininformation ","If a renewal payment was processed and there is an open renewal suspense was thesuspense updated and closed? ","Did the associate offer additional assistance thanked the customer? ","Was the customer adversely impacted? ","Were there any additional adverse impacts? ","Comments 1 ","Comments 2 ","Comments 3 ","Comments 4 ","Comments 5 ","Comments 6 ","Comments 7 ","Comments 8 ","Comments 9 ","Comments 10 ","Comments 11 ","Comments 12 ","Comments 13 ","Comments 14 ","Comments 15 ","Comments 16 ","Comments 17 ","Comments 18 ","Comments 19 ","Comments 20 ","Call Summary ","Feedback ","Entry By ","Entry Date ","Audit Start Time ","Client entry by ","Mgnt review by ","Mgnt review note ","Mgnt review date ","Agent review note ","Agent Feedback Acceptance","Agent review date ","Client review by ","Client review note ","Client_rvw_date");
-	}
-
-	function brightway_prescreenHeader(){
-		return Array ("Auditor Name","Audit Date","Call Date","Fusion Id","Agent","L1 Super","Phone","Filler 2","Area Code","Site ","Call Duration ","File No. ","Audit Type ","Auditor Type ","VOC ", "Possible Score ","Earned Score ","Overall Score ","Transfer to ","Did the associate use the appropriate greeting? ","Was the Pre-Screen template completed correctly? ","Did the associate disposition the call correctly? ","Did the associate use the appropriate verbiage tone pace and professionalism? ","Did the associate transfer to the correct skill based on the decision flow diagram? ","Was the caller appropriately authenticated? ","If verified and change needed was AMS updated? ","Comments 1 ","Comments 2 ","Comments 3 ","Comments 4 ","Comments 5 ","Comments 6 ","Comments 7 ","Comments 8 ","Call Summary ","Feedback ","Entry By ","Entry Date ","Audit Start Time ","Client entry by ","Mgnt review by ","Mgnt review note ","Mgnt review date ","Agent review note ","Agent Feedback Acceptance","Agent review date ","Client review by ","Client review note ","Client_rvw_date");
-	}
-
-	function brightway_prescreen_newHeader(){
-		return Array ("Auditor Name","Audit Date","Call Date","Fusion Id","Agent","L1 Super","Phone","File No. ","Filler","Campaign Code","Area Code","Call Duration ","Audit Type ","Auditor Type ","VOC ", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Possible Score ","Earned Score ","Overall Score ","Transfer to ","Did the CSR Transfer to:","1.1 Did the CSR use the appropriate greeting? ","1.2 Was the Pre-Screen template completed correctly?","1.3 Did the CSR disposition the call correctly?","1.4 Did the agent use appropriate soft skills no overtalk and demonstrated professionalism?","1.5 Did the CSR use the proper hold procedure?","1.6  Did the CSR transfer to the correct skill based on the decision flow diagram?","1.7  Was the caller appropriately authenticated?","1.8  Did the CSR experience any audio issues? (For Tracking Puposes Only)","1.9  If verified and change necessary was AMS updated correctly?" ,"Comments 1 ","Comments 2 ","Comments 3 ","Comments 4 ","Comments 5 ","Comments 6 ","Comments 7 ","Comments 8 ","Call Summary ","Feedback ","Entry By ","Entry Date ","Audit Start Time ","Client entry by ","Mgnt review by ","Mgnt review note ","Mgnt review date ","Agent Feedback Acceptance","Agent review note ","Agent review date ","Client review by ","Client review note ","Client_rvw_date");
-	}
-
-	function pajamagramHeader(){
-		return Array ("Auditor Name","Audit Date","Call Date","Fusion Id","Agent","L1 Super","Phone","Call Duration","File No","Audit Type","Auditor Type","VOC","Campaign", "Possible Score","Earned Score","Overall Score","Compliance Score","Customer Score","Business Score","Agent is ready and logged in to website to handle call","Greet caller and Thank them for calling Pajamagram or Vermont Teddy Bear","Ask caller what can we order for them today","Verify all  caller and product information","Assist search if caller doesn’t know specific item","Offer personalization if available","Offer Upsell","Ask for additional items","Confirm email and phone number","Offer Delivery Option","Energy/enthusiasm","Proper pace","Maintained control of the conversation/Minimal Dead Air","Spoke clearly/utilized proper grammar (NO SLANG)","Good listening skills/Does not interrupt","Empathized with caller","Overall professionalism","Ask for Priority code if caller has catalog","Enter advertising source from CRM screen or ask caller for it","Summarize the order","Close call with order confirmaiton and Thank caller for their order","Did the agent correctly disposition the call?","False/inappropriate information","Hung up inappropriately","Unprofessional or rude behavior","Inappropriate language","Comments 1","Comments 2","Comments 3","Comments 4","Comments 5","Comments 6","Comments 7","Comments 8","Comments 9","Comments 10","Comments 11","Comments 12","Comments 13","Comments 14","Comments 15","Comments 16","Comments 17","Comments 18","Comments 19","Comments 20","Comments 21","Comments 22","Comments 23","Comments 24","Comments 25","Comments 26","Call Summary","Feedback","Entry By","Entry Date","Audit Start Time","Client entry by","Mgnt review by","Mgnt review note","Mgnt review date","Agent Feedback Acceptance","Agent review note","Agent review date","Client review by","Client review note","Client_rvw_date");
-	}
-
-	public function deltaHeader(){
-
-		return $arrayName = Array ("Auditor Name","Audit Date","Fusion Id","Agent","L1 Super","Phone","Call Date","Call Duration","Audit Type","Auditor Type","VOC","File No.", "Overall Score","Possible Score","Earned Score","Did CER appropriately greet the caller?","Did CER use a pleasant respectful tone and use the callers name at least once during the call?","Did CER answer in a timely manner?","Did CER obtain 3 pieces of PHI?","Did CER obtain members information first and then providers if on provider call?","If Non-Covered Parent did the caller answer yes to all 3 questions on Guidelines tab?","Did CER ask appropriate questions to determine the purpose of the call?","Did CER assess all information before responding to the caller? (BVN)","Did CER pose appropriate questions to clarify the callers issue? (Restate Issue)","Did CER utilize active listening skills throughout the inquiry?","Did CER demonstrate use of call control techniques?","Did CER refrain from interrupting the caller?","Did CER use proper etiquitte Please and Thank you after caller provided CER with requested info?","Did CER avoid use of internal terms technical terms slang and jargon?/speak clearly and concisely at an appropriate pace?","Did CER demonstrate confidence in responses?","Did CER minimize silences and use fillers to obtain additional information?","Did the CER show empathy to the customer and apologizes when applicable.","Did the CER own the call and follow through to find an answer? Did CER refrain from using I dont know statement.","Did CER provide accurate information and/or demonstrate knowledge of clients benefit programs? Was this viewable through screen capture?","Did CER take correct action to resolve the callers issues? Were additional services offered to assist the callers needs?","Did CER promote self-service options where appropriate?","Did CER answer questions clearly and completely?","Was CER proactive by anticipating additional needs of the caller?","Did CER accurately and completely document the calls outcome?","Did the CER document the callers phone number name call type CITS code etc?","Did CER close CITS if it did not require a follow up?","Did CER confirm resolution of the callers question?","Did CER ask if any additional information could be provided?","Did CER thank the individual for calling and release the call within 5 seconds","Comments 1","Comments 2","Comments 3","Comments 4","Comments 5","Comments 6","Comments 7","Comments 8","Comments 9","Comments 10","Comments 11","Comments 12","Comments 13","Comments 14","Comments 15","Comments 16","Comments 17","Comments 18","Comments 19","Comments 20","Comments 21","Comments 22","Comments 23","Comments 24","Comments 25","Comments 26","Comments 27","Comments 28","Comments 29","Call Summary","Feedback","Entry By","Entry Date","Audit Start Time","Client entry by","Mgnt review by","Mgnt review note","Mgnt review date","Agent Feedback Acceptance","Agent review note","Agent review date","Client review by","Client review note","Client_rvw_date");
-	}
-
-	////////////////////support function for Report///////////////////////
-
-	public function getval1($arrs, $k) {
-    foreach($arrs as $key=>$val) {
-        if( $key === $k ) {
-            return $val;
-        }
-        else {
-            if(is_array($val)) {
-                $ret = $this->getval1($val, $k);
-                if($ret !== NULL) {
-                    return $ret;
-                }
-            }
-        }
-    }
-    return NULL;
-	}
-
-
-	// function abc(){
-
-	// 	echo "work please";
-
-	// 	// $this->db->query("create table xyz1 as SELECT phno as phone1,concat(fname,' ',lname) as name,email_id as email FROM `signin` WHERE 1");
-
-
-	// 	$field_name=$this->Common_model->get_query_result_array("SELECT phno as phone1,concat(fname,' ',lname) as name,email_id as email FROM `signin` WHERE 1");
-	// 	// print_r($field_name);
-	// 	$this->create_qa_ameridial_CSV($field_name,"xyz");
-	// 	$dn_link = base_url()."qa_ameridial/download_qa_ameridial_CSV/"."Full User Details";
-
-
-
-	// }
-
-	////////////////Dynamic function for automatic report generation//////////////
-
-	public function create_qa_amd_common_new_CSV($header,$rr,$pid)
-	{
-
-		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
-		$fopen = fopen($filename,"w+");
-
-		$field_name="SHOW FULL COLUMNS FROM qa_amd_".$pid."_feedback WHERE Comment!=''";
-		$field_name=$this->Common_model->get_query_result_array($field_name);
-		$fld_cnt=count($field_name);
-		for($i=0;$i<$fld_cnt;$i++){
-						$val=$field_name[$i]['Field'];
-						if($val!=""){
-							$field_val[]=$val;
-						}
-					 }
-
-		array_unshift($field_val ,"auditor_name");
-		$key = array_search ('agent_id', $field_val);
-		array_splice($field_val, $key, 0, 'fusion_id');
-		$field_val=array_values($field_val);
-
-		$count_for_field=count($field_val);
-
-		$row = "";
-		foreach($header as $data) $row .= ''.$data.',';
-		fwrite($fopen,rtrim($row,",")."\r\n");
-		$searches = array("\r", "\n", "\r\n");
-		$row = "";
-		//print_r($rr);
-		// die;
-		foreach($rr as $user)
-		{
-			for($z=0;$z<$count_for_field;$z++){
-
-				if($field_val[$z]==="auditor_name"){
-					$row = '"'.$user['auditor_name'].'",';
-				}elseif($field_val[$z]==="fusion_id"){
-					$row .= '"'.$user['fusion_id'].'",';
-				}elseif($field_val[$z]==="agent_id"){
-					$row .= '"'.$user['fname']." ".$user['lname'].'",';
-				}elseif($field_val[$z]==="tl_id"){
-					$row .= '"'.$user['tl_name'].'",';
-				}elseif(in_array($field_val[$z], array('call_summary','feedback','agent_rvw_note','mgnt_rvw_note'))) {
-
-    			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user[$field_val[$z]])).'",';
-
-				}else{
-					$row .= '"'.$user[$field_val[$z]].'",';
-				}
-
+	else {
+		if(is_array($val)) {
+			$ret = $this->getval1($val, $k);
+			if($ret !== NULL) {
+				return $ret;
 			}
-
-				fwrite($fopen,$row."\r\n");
-				$row = "";
 		}
-
-		fclose($fopen);
 	}
+}
+return NULL;
+}
 
-	public function create_qa_paynearby_common_new_CSV($header,$rr,$pid)
+
+// function abc(){
+
+// 	echo "work please";
+
+// 	// $this->db->query("create table xyz1 as SELECT phno as phone1,concat(fname,' ',lname) as name,email_id as email FROM `signin` WHERE 1");
+
+
+// 	$field_name=$this->Common_model->get_query_result_array("SELECT phno as phone1,concat(fname,' ',lname) as name,email_id as email FROM `signin` WHERE 1");
+// 	// print_r($field_name);
+// 	$this->create_qa_ameridial_CSV($field_name,"xyz");
+// 	$dn_link = base_url()."qa_ameridial/download_qa_ameridial_CSV/"."Full User Details";
+
+
+
+// }
+
+////////////////Dynamic function for automatic report generation//////////////
+
+public function create_qa_amd_common_new_CSV($header,$rr,$pid)
+{
+
+	$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+	$fopen = fopen($filename,"w+");
+
+	$field_name="SHOW FULL COLUMNS FROM qa_amd_".$pid."_feedback WHERE Comment!=''";
+
+	$field_name=$this->Common_model->get_query_result_array($field_name);
+	// echo'<pre>';
+	// print_r($field_name);
+	// die();
+	$fld_cnt=count($field_name);
+	for($i=0;$i<$fld_cnt;$i++){
+					$val=$field_name[$i]['Field'];
+					if($val!=""){
+						$field_val[]=$val;
+					}
+				 }
+
+	array_unshift($field_val ,"auditor_name");
+	$key = array_search ('agent_id', $field_val);
+	array_splice($field_val, $key, 0, 'fusion_id');
+	$field_val=array_values($field_val);
+
+	$count_for_field=count($field_val);
+
+	$row = "";
+	foreach($header as $data) $row .= ''.$data.',';
+	fwrite($fopen,rtrim($row,",")."\r\n");
+	$searches = array("\r", "\n", "\r\n");
+	$row = "";
+	//print_r($rr);
+	// die;
+	foreach($rr as $user)
 	{
-		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
-		$fopen = fopen($filename,"w+");
+		for($z=0;$z<$count_for_field;$z++){
 
-		$field_name="SHOW FULL COLUMNS FROM qa_paynearby_".$pid."_feedback WHERE Comment!=''";
-		$field_name=$this->Common_model->get_query_result_array($field_name);
-		$fld_cnt=count($field_name);
-		for($i=0;$i<$fld_cnt;$i++){
-						$val=$field_name[$i]['Field'];
-						if($val!=""){
-							$field_val[]=$val;
-						}
-					 }
-
-		array_unshift($field_val ,"auditor_name");
-		$key = array_search ('agent_id', $field_val);
-		array_splice($field_val, $key, 0, 'fusion_id');
-		$field_val=array_values($field_val);
-
-		$count_for_field=count($field_val);
-
-		$row = "";
-		foreach($header as $data) $row .= ''.$data.',';
-		fwrite($fopen,rtrim($row,",")."\r\n");
-		$searches = array("\r", "\n", "\r\n");
-		$row = "";
-		// print_r($rr);
-		// die;
-		foreach($rr as $user)
-		{
-			for($z=0;$z<$count_for_field;$z++){
-
-				if($field_val[$z]==="auditor_name"){
-					$row = '"'.$user['auditor_name'].'",';
-				}elseif($field_val[$z]==="fusion_id"){
-					$row .= '"'.$user['fusion_id'].'",';
-				}elseif($field_val[$z]==="agent_id"){
-					$row .= '"'.$user['fname']." ".$user['lname'].'",';
-				}elseif($field_val[$z]==="tl_id"){
-					$row .= '"'.$user['tl_name'].'",';
-				}elseif(in_array($field_val[$z], array('call_summary','feedback','agent_rvw_note','mgnt_rvw_note'))) {
-
-    			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user[$field_val[$z]])).'",';
-
-				}else{
-					$row .= '"'.$user[$field_val[$z]].'",';
-				}
-
-			}
-
-				fwrite($fopen,$row."\r\n");
-				$row = "";
-		}
-
-		fclose($fopen);
-	}
-
-	public function closeloopHeader(){
-		return Array ("Auditor Name","Audit Date","Fusion Id","Agent","L1 Super","Call Date","Call Duration","Campaign","Incoming_No","Register_No ","Call_Link ","Ticket_No ","Call_Disconnect ","Tagging_Disposition ","Query_Service ","Type_Call ","Audit Type ","Auditor Type ","VOC ","Overall Score ","Possible Score ","Earned Score ","Opening With Greeting (Incl Late Opening/Name Confirmation) ","Did Agent Understood The Query & Necessary Probing Done ","Followed Proper Telephone Etiquettes (Mute Hold Transfer) ","Good In Listening/Repetition Not Happened Due To Lack In Listening Skills/Attentive ","Was ticket closed with in TAT by BO Team ","Did The Agent Was Polite On Call/Not Done Arguments/Professional ","Did The Agent Have Patience ","Correct and complete resolution provided on call ","Tagging and Dispositions ","Feedback on PNB service ","BO Provide correct Resolution or not ","Was customer proper SR raised or not ","Proper Empathy Done Whenever Required ","Did The Agent Maintained Proper Pace/Tone Modulation/Clarity In Speech ","Was Correct Tagging Done/Raised Proper Ticket when ever required ","Effective Rebuttals On Objection Handling/Convincing Skills ","Was Exact Tat Informed by agent ","Did The Agent Followed Proper Call Closing Script As Per Process ","Comments 1 ","Comments 2 ","Comments 3 ","Comments 4 ","Comments 5 ","Comments 6 ","Comments 7 ","Comments 8 ","Comments 9 ","Comments 10 ","Comments 11 ","Comments 12 ","Comments 13 ","Comments 14 ","Comments 15 ","Comments 16 ","Comments 17 ","Comments 18 ","Call Summary ","Feedback ","Entry By ","Entry Date ","Audit Start Time ","Client entry by ","Mgnt review by ","Mgnt review note ","Mgnt review date ","Agent review note ","Agent Feedback Acceptance ","Agent review date ","Client review by ","Client review note ","Client_rvw_date");
-	}
-
-	public function create_qa_ameridial_CSV($rr,$pid)
-	{
-		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
-		$fopen = fopen($filename,"w+");
-
-		if($pid=='brightway_prescreen_new'){
-			$header = array("Auditor Name22","Audit Date","Call Date","Fusion Id","Agent","L1 Super","Phone","File No. ","Filler","Campaign Code","Area Code","Call Duration ","Audit Type ","Auditor Type ","VOC ", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Possible Score ","Earned Score ","Overall Score ","1.1 Did the CSR use the appropriate greeting? ","1.2 Was the Pre-Screen template completed correctly?","1.3 Did the CSR disposition the call correctly?","1.4 Did the agent use appropriate soft skills no overtalk and demonstrated professionalism?","1.5 Did the CSR use the proper hold procedure?","1.6  Did the CSR transfer to the correct skill based on the decision flow diagram?","1.7  Was the caller appropriately authenticated?","1.8  Did the CSR experience any audio issues? (For Tracking Puposes Only)","1.9  If verified and change necessary was AMS updated correctly?" ,"Comments 1 ","Comments 2 ","Comments 3 ","Comments 4 ","Comments 5 ","Comments 6 ","Comments 7 ","Comments 8 ","Comments 9","Call Summary ","Feedback ","Agent Feedback Acceptance","Agent review date ","Agent review note ","Mgnt review date ","Management Review By","Mgnt review note");
-	        } else if($pid=='brightway_evaluation_new'){
-			$header = array("Auditor Name","Audit Date","Call Date","Fusion Id","Agent","L1 Super","Phone","File No. ","Filler","Campaign Code","Area Code","Call Duration ","Audit Type ","Auditor Type ","VOC ", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Possible Score ","Earned Score ","Overall Score ","1.1 Did the CSR use the appropriate greeting including Brightway branding their own name and ask how he/she can assist?","1.2 Did the CSR confirm and capture all necessary information? (name of caller name of insured policy # coverage location & callback #)","1.3 If outbound did the CSP advise they were on a recorded line?","2.1 Was the CSR professional and use appropriate tone and pace on the call?","2.2 Did the CSR demonstrate emapthy or sympathy as needed?","2.3 Did the CSR actively listen to understand the needs of the customer?","2.4 Did the CSR use probing questions and verbally verify the information obtained and processed?","2.5 Did the CSR follow appropriate hold procedure?","2.6 Did the CSR maintain call control and avoid dead air?","2.7  Did the CSR provide accurate information both verbally and in writing?","3.1  If call was transferred was correct transfer process used?","3.2  Did the CSR attempt a callback if the call was disconnected?","3.3  Did the CSR connect activities to the current/correct policy?","3.4 Did the CSR document correctly in all areas (notes activities templates etc.)","3.5 Did CSR include all attachments including emails fax confirmation documents sent etc.","3.6 Did the CSR successfully resolve all issues and concerns? (If not did the CSR correctly document status?)","3.7 Did the CSR access and effectively utilize all available systems/resources?","3.8  If a renewal payment was processed and there is an open renewal suspense was the suspense updated and closed?","3.9 Did the agent experience any audio issues? (For Tracking Purposes Only)","4.1 Did CSR offer additional assistance and thank the customer?","4.2 Did the CSR offer additional assistance before concluding the call?","5.1 Was the customer adversely impacted in any way?","5.2 Were there any additional adverse impacts?","Comments 1 ","Comments 2 ","Comments 3 ","Comments 4 ","Comments 5 ","Comments 6 ","Comments 7 ","Comments 8 ","Comments 9 ","Comments 10 ","Comments 11 ","Comments 12 ","Comments 13 ","Comments 14 ","Comments 15 ","Comments 16 ","Comments 17 ","Comments 18 ","Comments 19 ","Comments 20 ","Comments 21 ","Comments 22 ","Comments 23 ","Call Summary ","Feedback ","Agent Feedback Acceptance","Agent review note ","Mgnt review date ","Mgnt review name","Mgnt review note");
-	    }
-	    else if ($pid=='fortunebuilder'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Was the call answered within 5 seconds?", "Did the agent introduce him/herself to the caller?", "Did the agent advise the call is being recorded?", "Did the agent use the standard greeting?", "Did the agent ask for the zip code?", "Did the agent verify callers first and last name and complete address?", "Did the agent ask for and verify the caller's email address", "Did the agent correctly offer the seminars?", "Did the agent correctly ask for and verify the phone number?", "Did the agent inform the caller about the text reminders he/she will receive?", "Did the agent summarize the call with relevant details?", "Did the agent offer to register a guest?", "Did the agents collect and verify the guests email address?", "Did the agent demonstrate knowledge of Fortune Builders?", "Did the agent use appropriate grammar and pronunciation?", "Did the agent use good pacing and tone?", "Did the agent display professionalism and handle difficult callers appropriately?", "Did the agent maintain call control throughout the call?", "Did the agent use the appropriate Closing?", "Did the agent correctly disposition the call?", "Call Summary", "Feedback", "Agent Feedback Acceptance","Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='xyz'){
-			$header=array("phone1","Name","Email");
-	}else if($pid=='purity_free_bottle'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "Call Type", "Call Duration", "File No", "Call Type/LOB", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Earned Score", "Possible Score", "Did the rep greet the customer promptly and properly?", "Did the rep use their soft skills appropriately?", "Did the rep collect and verify the customers information appropriately?", "Did the rep cover the super saver offer appropriately?", "Did the rep cover the upsell appropriately?", "Did the rep cover the payment procedures appropriately?", "Did the rep demonstrate knowledge of the product/program?", "Did the rep maintain call control?", "Did the rep use the tools/FAQ's appropriately?", "Did the rep use the appropriate objection responses?", "Did the rep use the callers last name to personalize the call at least once per section?", "Did the rep complete the correct confirmation and closing?", "Did the rep cover the frequency and cost of each delivery when applicable?", "Did the rep have any misrepresentation?", "Did the rep response appropriately to a DNC response?", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='purity_catalog'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Proper Greeting", "Customer First Name and Address Verification", "Identifies Type of Account Properly", "Properly transfers the Account", "Accurate Notes Taken/Info Verified Appropriately", "Correct Information Given", "Proper Terminology/Use of Disc Names, etc", "Free Gift Scripting", "Bulk Offer", "Promotions Offered Correctly", "Super Saver Offered and Explained Properly", "Additional Product Offered", "Order Placed Properly/Cancelled Properly", "Order Confirmation", "Uses Tools and FAQ", "Address Verification at Confirmation", "Credit Card Verification/Charged Correct Information", "Attempt to Gather CVV Code", "Daily Special Offer", "Product/Benefits Offered with Daily Special", "Thank You Statement", "Maintained Call Control/Call Flow", "Response Time/Minimal Dead Air", "Used Proper Hold Techniques", "Good Attitude/Maintained Composure", "Energy/Enthusiasm/Attentiveness", "Context Related Responses", "Empathy/Respectfulness/Courteous", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid =='purity_care'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date",
-			"Call 1 Call Duration", "Call 1 File No","Call 2 Call Duration", "Call 2 File No","Call 3 Call Duration", "Call 3 File No", "Audit Type", "VOC","Overall Score","Proper Introduction Call 1","Proper Introduction Call 2","Proper Introduction Call 3","Proper Introduction Review","Proper Introduction Score","Customer First Name and Address Verification Call 1","Customer First Name and Address Verification Call 2","Customer First Name and Address Verification Call 3","Customer First Name and Address Verification Review","Customer First Name and Address Verification Score", "Opening Question Call 1","Opening Question Call 2","Opening Question Call 3","Opening Question Review"
-			,"Opening Question Score","Accurate Notes Taken Call 1","Accurate Notes Taken Call 2","Accurate Notes Taken Call 3","Accurate Notes Taken Review","Accurate Notes Taken Score","Correct Reason Code Call 1","Correct Reason Code Call 2","Correct Reason Code Call 3","Correct Reason Code Review","Correct Reason Code Score","Correct Information Given Call 1","Correct Information Given Call 2","Correct Information Given Call 3","Correct Information Given Review","Correct Information Given Score","Proper Terminology/use of disc names. etc. Call 1","Proper Terminology/use of disc names. etc. Call 2","Proper Terminology/use of disc names. etc. Call 3","Proper Terminology/use of disc names. etc. Review","Proper Terminology/use of disc names. etc. Score","Proper Inquiry Call 1","Proper Inquiry Call 2","Proper Inquiry Call 3","Proper Inquiry Review","Proper Inquiry Score","Company Promotion Call 1","Company Promotion Call 2","Company Promotion Call 3","Company Promotion Review","Company Promotion Score","Correct Use of Actions Call 1","Correct Use of Actions Call 2","Correct Use of Actions 3","Correct Use of Actions Review","Correct Use of Actions Score","Database Follow Up Call 1","Database Follow Up Call 2","Database Follow Up Call 3","Database Follow Up Review","Database Follow Up Score","Product Promotion Call 1","Product Promotion Call 2","Product Promotion Call 3","Product Promotion Review","Product Promotion Score","Reason for Cancel Call 1","Reason for Cancel Call 2","Reason for Cancel Call 3","Reason for Cancel Review","Reason for Cancel Score","Legitimate Offers/Sequence of Offers Call 1","Legitimate Offers/Sequence of Offers Call 2","Legitimate Offers/Sequence of Offers Call 3","Legitimate Offers/Sequence of Offers Review","Legitimate Offers/Sequence of Offers Score","1st Retention Offer Call 1","1st Retention Offer Call 2","1st Retention Offer Call 3","1st Retention Offer Review","1st Retention Offer Score","2nd Retention Offer Call 1","2nd Retention Offer Call 2","2nd Retention Offer Call 3","2nd Retention Offer Review","2nd Retention Offer Score","Valid Delay Call 1","Valid Delay Call 2","Valid Delay Call 3","Valid Delay Review","Valid Delay Score","Preserved Avg # Units/Shipment Call 1","Preserved Avg # Units/Shipment Call 2","Preserved Avg # Units/Shipment Call 3","Preserved Avg # Units/Shipment Review","Preserved Avg # Units/Shipment Score","Proper Confirmation Call 1","Proper Confirmation Call 2","Proper Confirmation Call 3","Proper Confirmation Review","Proper Confirmation Score","Daily Special Offer Call 1","Daily Special Offer Call 2","Daily Special Offer Call 3","Daily Special Offer Review","Daily Special Offer Score","Anything Else Statement Call 1","Anything Else Statement Call 2","Anything Else Statement Call 3","Anything Else Statement Review","Anything Else Statement Score","Thank You Statement Call 1","Thank You Statement Call 2","Thank You Statement Call 3","Thank You Statement Review","Thank You Statement Score","Maintained call control Call 1","Maintained call control Call 2","Maintained call control Call 3","Maintained call control Review","Maintained call control Score","Response Time/Minimal dead air Call 1","Response Time/Minimal dead air Call 2","Response Time/Minimal dead air Call 3","Response Time/Minimal dead air Review","Response Time/Minimal dead air Score","Uses proper hold techniques Call 1","Uses proper hold techniques Call 2","Uses proper hold techniques Call 3","Uses proper hold techniques Review","Uses proper hold techniques Score","Good Attitude/Maintained Composure Call 1","Good Attitude/Maintained Composure Call 2","Good Attitude/Maintained Composure Call 3","Good Attitude/Maintained Composure Review","Good Attitude/Maintained Composure Score","Energy/Enthusiasm/Attentiveness Call 1","Energy/Enthusiasm/Attentiveness Call 2","Energy/Enthusiasm/Attentiveness Call 3","Energy/Enthusiasm/Attentiveness Review","Energy/Enthusiasm/Attentiveness Score","Context Related Responses Call 1","Context Related Responses Call 2","Context Related Responses Call 3","Context Related Responses Review","Context Related Responses Score","Empathy/Respectfulness/Courteous Call 1","Empathy/Respectfulness/Courteous Call 2","Empathy/Respectfulness/Courteous Call 3","Empathy/Respectfulness/Courteous Review","Empathy/Respectfulness/Courteous Score","Badgering Call 1","Badgering Call 2","Badgering Call 3","Badgering Review","Badgering Score","Average Calls Per Hour/4 or More Call 1","Average Calls Per Hour/4 or More Call 2","Average Calls Per Hour/4 or More Call 3","Average Calls Per Hour/4 or More Review","Average Calls Per Hour/4 or More Score","Average Save % Above 44% Call 1","Average Save % Above 44% Call 2","Average Save % Above 44% Call 3","Average Save % Above 44% Review","Average Save % Above 44% Score","Average Call Length Does Not Exceed 8 min. Call 1","Average Call Length Does Not Exceed 8 min. Call 2","Average Call Length Does Not Exceed 8 min. Call 3","Average Call Length Does Not Exceed 8 min. Review","Average Call Length Does Not Exceed 8 min. Score","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid =='puritycare_new'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "Call1 Date", "Call2 Date", "Call3 Date", "Call4 Date", "Call5 Date", "Customer Number1", "Customer Number2", "Customer Number3", "Customer Number4", "Customer Number5", "Call1 Duration", "Call2 Duration", "Call3 Duration", "Call4 Duration", "Call5 Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Call VOC1", "Call VOC2", "Call VOC3", "Call VOC4", "Call VOC5", "Overall Score", "Identification of Agent Call1", "Identification of Agent Call2", "Identification of Agent Call3", "Identification of Agent Call4", "Identification of Agent Call5", "Customer Identification Call1", "Customer Identification Call2", "Customer Identification Call3", "Customer Identification Call4", "Customer Identification Call5", "Customer Verification Call1", "Customer Verification Call2", "Customer Verification Call3", "Customer Verification Call4", "Customer Verification Call5", "Opening question Call1", "Opening question Call2", "Opening question Call3", "Opening question Call4", "Opening question Call5", "Identify Reason for Discovery Call1", "Identify Reason for Discovery Call2", "Identify Reason for Discovery Call3", "Identify Reason for Discovery Call4", "Identify Reason for Discovery Call5", "Acknowledge Response Call1", "Acknowledge Response Call2", "Acknowledge Response Call3", "Acknowledge Response Call4", "Acknowledge Response Call5", "Inquiry Probing Call1", "Inquiry Probing Call2", "Inquiry Probing Call3", "Inquiry Probing Call4", "Inquiry Probing Call5", "Value Proposition Call1", "Value Proposition Call2", "Value Proposition Call3", "Value Proposition Call4", "Value Proposition Call5", "1st Retention Attempt Call1", "1st Retention Attempt Call2", "1st Retention Attempt Call3", "1st Retention Attempt Call4", "1st Retention Attempt Call5", "Tactical Hold Call1", "Tactical Hold Call2", "Tactical Hold Call3", "Tactical Hold Call4", "Tactical Hold Call5", "2nd Retention Attempt Call1", "2nd Retention Attempt Call2", "2nd Retention Attempt Call3", "2nd Retention Attempt Call4", "2nd Retention Attempt Call5", "Correct Delay Length Call1", "Correct Delay Length Call2", "Correct Delay Length Call3", "Correct Delay Length Call4", "Correct Delay Length Call5", "Supersaver Confirmation Call1", "Supersaver Confirmation Call2", "Supersaver Confirmation Call3", "Supersaver Confirmation Call4", "Supersaver Confirmation Call5", "Daily Special Call1", "Daily Special Call2", "Daily Special Call3", "Daily Special Call4", "Daily Special Call5", "Thank you Closing Statement Call1", "Thank you Closing Statement Call2", "Thank you Closing Statement Call3", "Thank you Closing Statement Call4", "Thank you Closing Statement Call5", "Full Conf & Cst Acknowledgement Call1", "Full Conf & Cst Acknowledgement Call2", "Full Conf & Cst Acknowledgement Call3", "Full Conf & Cst Acknowledgement Call4", "Full Conf & Cst Acknowledgement Call5", "Made offer to save package Call1", "Made offer to save package Call2", "Made offer to save package Call3", "Made offer to save package Call4", "Made offer to save package Call5",  "Web Login-if applicable Call1", "Web Login-if applicable Call2", "Web Login-if applicable Call3", "Web Login-if applicable Call4", "Web Login-if applicable Call5", "Email Capture-if applicable Call1", "Email Capture-if applicable Call2", "Email Capture-if applicable Call3", "Email Capture-if applicable Call4", "Email Capture-if applicable Call5", "SMS Opt-In-if applicable Call1", "SMS Opt-In-if applicable Call2", "SMS Opt-In-if applicable Call3", "SMS Opt-In-if applicable Call4", "SMS Opt-In-if applicable Call5", "Proper Reason Code Call1", "Proper Reason Code Call2", "Proper Reason Code Call3", "Proper Reason Code Call4", "Proper Reason Code Call5", "Correctly Used Purity Points Call1", "Correctly Used Purity Points Call2", "Correctly Used Purity Points Call3", "Correctly Used Purity Points Call4", "Correctly Used Purity Points Call5", "Agent provided correct information Call1", "Agent provided correct information Call2", "Agent provided correct information Call3", "Agent provided correct information Call4", "Agent provided correct information Call5", "Soft Skills Call1", "Soft Skills Call2", "Soft Skills Call3", "Soft Skills Call4", "Soft Skills Call5", "Rapport Call1", "Rapport Call2", "Rapport Call3", "Rapport Call4", "Rapport Call5", "Maintaining Call Control Call1", "Maintaining Call Control Call2", "Maintaining Call Control Call3", "Maintaining Call Control Call4", "Maintaining Call Control Call5", "***Unauthorized Shipments Call1", "***Unauthorized Shipments Call2", "***Unauthorized Shipments Call3", "***Unauthorized Shipments Call4", "***Unauthorized Shipments Call5", "***Inappropriate Language Call1", "***Inappropriate Language Call2", "***Inappropriate Language Call3", "***Inappropriate Language Call4", "***Inappropriate Language Call5", "***Badgering Call1", "***Badgering Call2", "***Badgering Call3", "***Badgering Call4", "***Badgering Call5", "***Incorrect use of actions Autofail Call1", "***Incorrect use of actions Autofail Call2", "***Incorrect use of actions Autofail Call3", "***Incorrect use of actions Autofail Call4", "***Incorrect use of actions Autofail Call5", "***Making Health Claims Call1", "***Making Health Claims Call2", "***Making Health Claims Call3", "***Making Health Claims Call4", "***Making Health Claims Call5", "***No Confirmation Call1", "***No Confirmation Call2", "***No Confirmation Call3", "***No Confirmation Call4", "***No Confirmation Call5", "***No Retention Call1", "***No Retention Call2", "***No Retention Call3", "***No Retention Call4", "***No Retention Call5", "Call Summary / Feedback #1", "Call Summary / Feedback #2", "Call Summary / Feedback #3", "Call Summary / Feedback #4", "Call Summary / Feedback #5", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By", "Mgnt Comment");
-			/* "***Hanging up on Customer Call1", "***Hanging up on Customer Call2", "***Hanging up on Customer Call3", "***Hanging up on Customer Call4", "***Hanging up on Customer Call5", */
-		}else if($pid=='conduent'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration","Site", "Phone","Audit Type","Auditor Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Clearly gave name and Branded", "DDid CSP demonstrate a good tone of voice throughout the call", "Did CSP properly verify account & make appropriate updates if necessary", "Did CSP deliver assurance statement after purpose", "Did CSP refer to customer by last name at least once through the call", "Did CSP maintain control of call", "Did CSP follow appropriate Hold/Wait process & avoid DEAD AIR", "Did CSP use soft skills", "Did CSP demonstrate active listening skills", "Proper use of probing questions", "Did CSP use all available systems and tools towards a One Call Resolution", "Did CSP provide complete and accurate information", "Did CSP meet documentation expectations", "Did CSP select the correct disposition", "Did the CSP close the call properly", "CSP released account information or made changes to an unverified Cardholder", "CSP did not resolve the Customer’s issue and did not demonstrate willingness to assist", "CSP hang up on customer","CSP gives blatant incorrect information to Cardholder","CSP used inappropriate condescending /argumentative language or tone during the call","CSP did not successfully complete transaction process","CSP did not leave any memos on accessed account","Call Avoidance", "Courtesy Comment","Throughout Comment", "Product Comment", "Closing Comment","Auto Failure Comment","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='touchfuse'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Call Status", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Was the call answered promptly?", "Did the agent answer with thank you for calling", "Did the agent ask for the zip code?", "Did the agent correctly offer the seminars?", "Did the caller wish to cancel the seminar?", "Did the agent confirm the callers first and last name?", "Did the agent confirm the callers address?", "Did the agent ask for and correctly verify the email phonetically?", "Did the agent correctly ask for and verify the phone number", "Did the agent summarize the call with relevant detail?", "Did the agent offer to register a guest and attempt to collect and verify guests email address phonetically?", "Did the agent correctly disposition the call?", "Did the agent use the appropriate closing?", "Did the agent use appropriate tone/pacing/grammar/pronunciation?", "Did the agent use active listening throughout the call?", "Was the agent professional throughout the call?", "Did the agent show knowledge of TouchFuse throughout the call?", "Did the agent maintain call control throughout the call?", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='touchfuse_new'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Call Status", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Customer Score","Business Score","Compliance Score", "Overall Score",
-			"Was the call answered promptly?", "Did the agent answer with thank you for calling", "Did the agent use appropriate tone/pacing/grammar/pronunciation?", "Did the agent use active listening throughout the call?", "Was the agent professional throughout the call?", "Did the agent maintain call control throughout the call?", "Did the agent show knowledge of TouchFuse throughout the call?", "Did the agent ask for the zip code?", "Did the agent correctly offer the seminars?", "Did the caller wish to cancel the seminar?", "Did the agent confirm the callers address?", "Did the agent correctly ask for and verify the phone number", "Did the agent summarize the call with relevant detail?", "Did the agent correctly disposition the call?", "Did the agent use the appropriate closing?", "Did the agent spell back the customers first and last name?", "Did the agent ask for and correctly verify the email phonetically", "Rude Remarks", "Security Breach/Call Dumping/Avoidance",
-			"Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='tbn'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Call Duration", "Call ID", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Full Recording Between Communicator and Caller is Captured", "Communicator Properly Prepared for Call", "Communicator Gave Her/His First Name", "Stated-This Call May Be Recorded For Training Purposes", "Stated Offer Title as Scripted", "Stated No Offer Disclosure (if applicable)", "Spelled Donors Full Name Back on ALL CALLS", "EXISTING File - Communicator Verified Address", "IF NEW ADDRESS - Communicator Spelled Address", "IF No Existing Email - Asked for Email", "Spelled Back Email", "Asked for Phone Number", "Confirmed Phone Number", "Verified Phone Number Type", "IF Cell Asked for Consent", "Asked for Alternate Phone Number", "Verified Alternate Phone Number", "Verified Alternate Number Type", "IF Alternate Phone Number is Cell - Asked for Consent", "Read First Request as Scripted", "Appropriately Presented Higher Tier Offers (if applicable )", "Read Monthly Ask As Scripted (if applicable)", "Navigates Script With Ease", "Displays TBN Knowledge and Answers Questions Appropriately", "Correctly Pronounces Speaker/Author Name and Title of Offer", "Overall Script Adherence", "Verified Donation Frequency (One-Time/Monthly)", "Verified Donation Amount", "Verified Monthly Donation Beginning and End Date (if applicable)", "Verified Resource Donor Will Be Receiving (if applicable)", "Read Close as Scripted", "Speaks Clearly with Proper Articulation (no slang)", "Pleasant Demeanor", "Speaks at an Appropriate Pace", "Actively Listens and Responds Appropriately", "Exhibits Empathy (if appropriate)", "Communicator Shows Sincere Appreciation for Donor and Donations", "Maintained Control of the Conversation and Talk Time", "Autofail - False and/or Inappropriate Information", "Autofail - Inappropriately Ended Call", "Autofail - Rudeness/Unprofessional Behavior", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='offline'){
-			$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date","Phone","Rep","Enter Policy Information","Florida or National?","Type of Policy","Audit Type", "Auditor Type", "Voc","Audit Start Date Time","Audit End Date Time","Interval","Overall Score", "Possible Score", "Earned Score","Did the associate handle the request according to Brightways standards?","Did the associate handle the request according to the carriers standards?","Did the associate process the change correctly?","Did the associate use the appropriate verbiage tone pace and professionalism?","All verbal and written information provided by associate to insured and other parties was clear accurate and included all relevant information","Was the customer adversely impacted?","Were there any additional adverse impacts?","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-        }else if($pid=='phone_inbound'){
-			$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date","Evaluator Name","ANI","DNIS","Contact Id","Direction Type Description","Skill Name","Segment Duration","Audit Type","Voc","Audit Start Time","Entry Date","Interval","Earn Score","Possible Score","Overall Score","Line of Business", "State of Policy", "Comment","Did the CSR complete the correct caller verification for either a first-party or a third-party caller?", "During the authentication process if any new contact information was provided was this captured?","Did the CSR demonstrate soft skills effectively throughout the call?","Did the CSR provide empathy or sympathy if applicable?","Did the CSR demonstrate call control effectively throughout the call?","Did the CSR provide the proper Brightway-approved greeting?","Did the CSR advise the caller that the call will be recorded?","Did the CSR follow the proper hold process if applicable?","Did the CSR follow the proper transfer process if applicable?","If the call disconnected did the CSR attempt to call back?","Did the CSR use the proper closing?","Did the CSR use the necessary tools and resources to effectively and accurately assist the customer?","Did the CSR demonstrate knowledge of Brightways carriers and lines of business when relaying information to the caller?","Did the CSR accurately document the interaction from start to finish?","Did the CSR provide clear notes that provide clarity and understanding of what happened during the interaction","Did the CSR properly advise the caller of any follow-up expectations and set for themselves?","Did the CSR clearly explain options or solutions to the customer and focus on an end solution?","Were all necessary policies updated in AMS and the carrier website?","Did the CSR offer helpful options as applicable such as webforms etc.?","Was CSR able to retain a customer who had considered cancelling a policy with Brightway?","Did the CSR identify a cross-sell opportunity and put the customer in touch with their agent of record?","Did the CSR receive a kudos for this interaction due to Unchecked exemplary performance?","Did CSR demonstrate behavior that is considered offensive by using unprofessional language tone or any other action that impacted the customer experience?","Did CSR provide information or complete a transaction that could lead to an Errors and Omissions claim or impact the customer in a negative manner?","Authentication: Comment 1","Authentication: Comment 2","Professionalism: Comment 1","Professionalism: Comment 2","Professionalism: Comment 3","Call Handling Skills Comment 1","Call Handling Skills Comment 2","Call Handling Skills Comment 3","Call Handling Skills Comment 4","Call Handling Skills Comment 5","Call Handling Skills Comment 6","Use of Appropriate Resources and Tools/ Brightway Knowledge Comment 1","Use of Appropriate Resources and Tools/ Brightway Knowledge Comment 2","Documentation Comment 1","Documentation Comment 2","Contact Resolution Comment 1","Contact Resolution Comment 2","Contact Resolution Comment 3","Contact Resolution Comment 4","Bonus Questions Comment 1","Bonus Questions Comment 2","Bonus Questions Comment 3","Penalty Questions Comment 1","Penalty Questions Comment 2","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-        }else if($pid=='phone_inbound_new'){
-			$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date","Call Duration","State","Policy Number","Line of Business","Overview","Carrier","Master ID","Rate of Call","Audit Type","Voc","Earn Score","Possible Score","Overall Score","Completed the correct caller verification for either a first-party or a third-party caller", "New contact information was captured","Empathy/ Sympathy was provided on the call","Demonstrated call control effectively throughout the call by listening and acknowledging","Followed a common-sense approach to placing a caller on hold or transferring them","If the call disconnected the customer was called back","Additional assistance offered if applicable","Use the necessary resources to assist the customer effectively and accurately","Accurately document the interaction from start to finish","Properly advised the caller of any follow-up expectations and set a follow-up for themselves if applicable","Clearly explained options or solutions to the customer and focus on an end solution","Properly update necessary policies / information in AMS and the carrier website if applicable","Received kudos for this interaction due to exemplary performance","Did CSR demonstrate behavior that is considered offensive by using unprofessional language tone or any other action that impacted the customer experience?","Did CSR provide information or complete a transaction that could lead to an Errors and Omissions claim or impact the customer in a negative manner?","Comment 1","Comment 2","Comment 3","Comment 4","Comment 5","Comment 6","Comment 7","Comment 8","Comment 9","Comment 10","Comment 11","Comment 12","Comment 13","Comment 14","Comment 15", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-        }else if($pid=='processing'){
-			$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date","Evaluator Name","ANI","DNIS","Contact Id","Direction Type Description","Skill Name","Segment Duration","Audit Type","Voc","Earn Score","Possible Score","Overall Score","Audit Start Time","Entry Date","Interval","Line of Business", "State of Policy", "Comment","2.a. Did the CSR complete the correct caller verification for either a first-party or a third-party caller?","2.b. Was new contact information captured?","3.a. Did the CSR demonstrate soft skills effectively throughout the call?","3.b. Did the CSR provide empathy or sympathy if applicable ?","3.c. Did the CSR demonstrate call control effectively throughout the call?","4.a. Did the CSR provide the proper Brightway-approved greeting?","4.b. Did the CSR advise the caller that the call will be recorded?","4.c. Did the CSR follow the proper hold process if applicable?","4.d. Did the CSR follow the proper transfer process if applicable?","4.e. If the call disconnected did the CSR attempt to call back?","4.f. Did the CSR use the proper closing?","5.a. Did the CSR use the necessary tools and resources to effectively and accurately assist the customer?","5.b. Did the CSR demonstrate knowledge of Brightways carriers and lines of business when relaying information to the caller?","6.a. Did the CSR accurately document the interaction from start to finish?","6.b. Did the CSR provide clear notes that fully captures their whole interaction ?","7.a. Did the CSR use proper spelling grammar and punctuation throughout the whole email interaction?","7.b. Did the CSR personalize the email ensuring the customers name policy information and any other information was mentioned?","8.a. Did the CSR properly advise the caller of any follow-up expectations and set for themselves?","8.b. Did the CSR clearly explain options or solutions to the customer and focus on an end solution?","8.c. Were all necessary policies updated in AMS and the carrier website?","8.d. Did the CSR leave a message with a clear reason for the call along with contact information?","8.e. Did the CSR offer helpful options as applicable such as webforms etc.?","Was CSR able to retain a customer who had considered cancelling a policy with Brightway?","Did the CSR identify a cross-sell opportunity and put the customer in touch with their agent of record?","Did the CSR receive a kudos for this interaction due to exemplary performance?","Did CSR demonstrate behavior that is considered offensive by using unprofessional language tone or any other action that impacted the customer experience?","Did CSR provide information or complete a transaction that could lead to an Errors and Omissions claim or impact the customer in a negative manner?","Authentication: Comment 1","Authentication: Comment 2","Professionalism: Comment 1","Professionalism: Comment 2","Professionalism: Comment 3","Call Handling Skills Comment 1","Call Handling Skills Comment 2","Call Handling Skills Comment 3","Call Handling Skills Comment 4","Call Handling Skills Comment 5","Call Handling Skills Comment 6","Use of Appropriate Resources and Tools/ Brightway Knowledge Comment 1","Use of Appropriate Resources and Tools/ Brightway Knowledge Comment 2","Documentation Comment 1","Documentation Comment 2","Email Writing Skills Comment 1","Email Writing Skills Comment 2","Contact Resolution Comment 1","Contact Resolution Comment 2","Contact Resolution Comment 3","Contact Resolution Comment 4","Contact Resolution Comment 5","Bonus Questions Comment 1","Bonus Questions Comment 2","Bonus Questions Comment 3","Penalty Questions Comment 1","Penalty Questions Comment 2","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='processing_new'){
-			$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date","Evaluator Name","ANI","DNIS","Contact Id","Direction Type Description","Skill Name","Segment Duration","Audit Type","Voc","Earn Score","Possible Score","Overall Score","Audit Start Time","Entry Date","Interval","Completed the correct caller verification for either a first-party or a third-party caller", "New contact information was captured", "Authenticated the information/ documented that was received (correct document to suffice policy) prior to taking actions with the carrier or other","Confirmed the correct policy and eligibility to service prior to taking action","Empathy/ Sympathy was provided on the call","Demonstrated call control effectively throughout the call by listening and acknowledging","Followed a common-sense approach to placing a caller on hold or transferring them","If the call disconnected the customer was called back","Additional assistance offered if applicable","Written communication follows a common sense approach (template standards) or was the applicable template used","Use the necessary resources to assist the customer effectively and accurately","Accurately document the interaction from start to finish"," Properly advised the caller of any follow-up expectations and set a follow-up for themselves if applicable","Clearly explained options or solutions to the customer and focus on an end solution","Properly update necessary policies / information in AMS and the carrier website if applicable","Received kudos for this interaction due to exemplary performance","Did CSR demonstrate behavior that is considered offensive by using unprofessional language tone or any other action that impacted the customer experience?","Did CSR provide information or complete a transaction that could lead to an Errors and Omissions claim or impact the customer in a negative manner?","Comment 1","Comment 2","Comment 3","Comment 4","Comment 5","Comment 6","Comment 7","Comment 8","Comment 9","Comment 10","Comment 11","Comment 12","Comment 13","Comment 14","Comment 15","Comment 16","Comment 17","Comment 18","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='jfmi'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score","Greets the customer promptly and properly","Uses professionalism/courtesy/enthusiasm/proper grammar/no jargon","Shows gratitude throughout the call","Collects and verifies all customer information/uses phonetic when applicable","Follows correct Scripting Path","Collects information to provide to Partner Relations if necessary","Covers all payment scripting and responses properly","Maintains call control","Keeps dead air to a minimum","Uses FAQ's/Agent notes to answer questions properly","Brands the call with proper close", "Not stopping the recording for credit card capture", "Agent read legal scripting to the caller", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='hoveround'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score","Customer Score","Business Score","Compliance Score","Was the agent ready for the call (no dead air)?", "Did the agent give the proper introduction including company name?", "Did the agent correctly probe and transfer if applicable?", "Did the agent close the call with proper branding?", "Did the agent disposition the call properly?","Did the agent maintain call control No dead air?", "Was the agent polite and courteous?", "Did the agent show energy empathy and enthusiasm?", "Did the agent have good tone grammer?", "Did the agent give accurate information and show a complete grasp of information?","Did the agent spell back of email address (NATO)?","Did the agent gather the lead properly","Rude Remarks","Call Dumping /Avoidance", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='hoveround_jam'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "RCA","L1","L2","Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score","Did rep use appropriate greeting?","Remarks 1", "Did rep inform client that call may be recorded for quality assurance purposes?","Remarks 2", "Did rep confirm caller's name?","Remarks 3", "Did rep confirm caller's relationship to client?","Remarks 4", "Did rep verify the current address?","Remarks 5","Did rep verify the current doctor information?","Remarks 6", "Did rep verify the full current insurance information/Eligibility?", "Remarks 7","Did rep attempt to call Dr's office to obtain/confirm mobility examination date?","Remarks 8", "Did rep inform the Dr's office that the visit is specifically for a mobility exam?","Remarks 9", "Did rep ask all survey questions?","Remarks 10","Did rep clearly explain the process to client?","Remarks 11","Did rep effectively use rebuttals (if applicable)?","Remarks 12","Did rep offer to transfer the client to customer solutions?","Remarks 13","Did rep ask if there was anything else they could help them with?","Remarks 14","Did rep thank the client in an appropriate closing?","Remarks 15","Did rep conduct a warm transfer (if applicable)","Remarks 16","Did rep effectively answer client's questions?","Remarks 17","Did the rep display product knowledge?","Remarks 18","Did the rep display a professional manner?","Remarks 19","Did rep avoid long silences during the call?","Remarks 20","Did the rep avoid interrupting or talking over the customer?","Remarks 21","Did the rep speak clearly?","Remarks 22","Did the rep sound friendly empathetic polite and welcoming?","Remarks 23", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='ncpssm'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Thanks caller for calling NCPSSM", "Verified opening info", "Gathered and spelled back all necessary information", "Verified/Asked for Email Address", "Makes thank you/supporting statements", "Familiarity with FAQ -Organization", "Personalized call (Mr./Mrs etc)", "Thanked Caller for being a member/previous support", "Energy/enthusiasm", "Proper pace", "Maintained control of the conversation/Minimal Dead Air", "Spoke clearly/utilized proper grammar (NO SLANG)", "Good listening skills/Does not interrupt", "Empathized with caller", "Overall professionalism", "Proper thanks at call conclusion", "Provided correct and appropriate information", "Confirmed caller has no further questions", "False/inappropriate information", "Hung up inappropriately", "Unprofessional behavior", "Inappropriate language", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='stc'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Did the agent use proper introduction?", "Did the agent correctly capture and verify donor name?", "Did the agent read first request as scripted?", "Did the agent cover second monthly request (if applicable)?", "Did the agent correctly capture and verify donation amount?", "Did the agent offer payment types?", "Did the agent correctly capture and verify donor address?", "Did the agent correctly capture and verify donor phone number?", "Did the agent correctly capture and verify donor email address?", "Did the agent properly present rebuttals (if applicable)?", "Did the agent follow overall script adherence?", "Did the agent show familiarity with Save the Children?", "Did the agent use appropriate script navigation and proper disposition?", "Did the agent follow proper close?", "Did the agent use effective communication?", "Did the agent maintain control of the conversation and talk time?", " Did the agent show appreciation for donor and donations?", "Did the agent give false or inappropriate information?", "Did the agent hang up inappropriately?", "Did the agent show any rudeness or unprofessional behavior?", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='tpm'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Read Call Opening as Scripted", "Are You Calling From the US or Canada", "Verify Form of Payment", "Communicator Asked for Name", "Communicator Spelled Name", "Communicator Asked for Address", "Communicator Spelled Address", "Communicator Asked for Phone Number", "Communicator Verified Phone Number", "Communicator Verified Landline or Cell", "Communicator Read Consent to Call Verbatim", "Communicator Read Consent to Text Verbatim", "Communicator Asked for Email", "Communicator Spelled Email", "Overall Script Adherence", "Appropriately Presented higher Tier Offers (If applicable)", "Navigates Script with Ease", "Displays TPM Knowledge and Answers Questions Appropriately", "Verified Contents of the Cart", "Monthly Ask Presented (If Applicable)", "Reviewed Shipping Time Frame", "Provided Cart Total Including Shipping (If Applicable)", "Read Close As Scripted", "Speaks Clearly and Articulately", "Pleasant Demeanor", "Professionalism", "Speaks at an Appropriate Pace", "Listens and Responds Approriately", "Exibits Empathy If Applicable", "Communicator Shows Sincere Appreciation for Donor and Donations", "Maintained Control of the Conversation and Talk Time", "Blatantly False/Inappropriate Information", "Rudely Hung up on Donor", "Rude/Hostile/Uses Profanity", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='patchology'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Did the agent open the call using their name and the appropriate branding for the call?", "Did the agent close the call using the appropriate branding?", "Remarks1", "Did the agent verify/confirm all necessary information?", "Did agent provide consistent/accurate information regarding products and availability?", "Did agent provide/confirm shipping information/next steps/resolution of issue?", "Remarks2", "Was call answered in a timely manner?", "Was agent engaged/helpful with customer?", "Was customer satisfied/fulfilled?", "If escalated were all resources explored before sending escalation form?", "Remarks3", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='aspca'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Greets the customer promptly and properly","Remark1", "Uses professionalism/courtesy/enthusiasm/proper grammar/no jargon","Remark2",  "Shows gratitude throughout the call","Remark3","Collects and verifies all customer information/ uses phonetic when applicable","Remark4", "Asks if they are calling to join ASPCA guardians program","Remark5",  "Covered one time gift scripting (when applicable)", "Remark6","Covered all payment scripting and responses properly", "Remark7","Offers the Animal Champion T-Shirt", "Remark8","Covers donation processing script",  "Remark9","Covers pet insurance / proper close", "Remark10","Followed correct script path/followed transfer procedures and scripting","Remark11", "Maintains call control", "Remark12","Keeps dead air to a minimum", "Remark13","Uses FAQ's/KB's to answer questions properly","Remark14","Personalizes the call","Remark15","Agent correctly disposed the call","Remark16","Covered monthly guardian/roundup upsell $25","Remark17", "Covers additional one time donation","Remark18","Rude Remarks","Remark19","Call Avoidance","Remark20","Compliance Score","Customer Score","Business Score", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
-		}else if($pid=='ffai'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Customer Score", "Business Score", "Compliance Score",
-			"Did the agent open the call using their name and the appropriate branding for the call?", "Did the agent close the call using the appropriate branding?", "Did the agent verify/confirm all necessary information and spell back email address using NATO?", "Did agent provide consistent/accurate information regarding products and availability?", "Did agent provide confirm shipping information/next steps/resolution of issue to ensure one call resolution?", "Did agent accurately and clearly fill out pulse on Monday.com?", "Was agent engaged/empathetic with customer?", "Did agent offer membership in the Home Filter Club (if applicable)?", "Did agent offer donation to Wine to Water?", "Was customer satisfied/fulfilled?", "Did agent offer the survey?", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
-		}else if($pid=='lifi'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Life Quotes Greeting & Introduction", "Did the agent give positive response to the caller", "Customer Name Capture", "Did the agent capture the address of the customer", "Phone Number confirmation", "Email address", "Customer's DOB", "Overall Script Adherence", "Did the agent ask for coverage amount of the Insurance", "Confirmation of Tobacco or smoking", "Did the agent ask for Height & Weight of the customer", "Did the agent mention about price comparison report", "Overall confidence level professionalism & tone", "Call closing", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
-		}else if($pid=='heatsurge'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score","Compliance Score","Customer Score","Business Score", "Was the agent Prepared for call or answer within 5 seconds","Remark1", "Did the agent use inbound or outbound greeting","Remark2", "Accesses customers accounts or any reports needed", "Remark3","Agent verifies cst name address phone and TPA if needed","Remark4", "Verifies or Asks for email address spelling and gave email disclaimer","Remark5", "Reads mini Miranda and or Recording statement on outbound calls","Remark6", "Gives accurate pricing or refund or return information","Remark7", "Gives accurate shipping or delivery information","Remark8", "Accurately describes product or promo or answers questions","Remark9", "Asks for Upsell or add on product where appropriate","Remark10", "Provides appropriate solution or alternatives","Remark11", "Keyed or coded order correctly and corrected info as needed","Remark12", "Asks for cancelation reason","Remark13", "1st save attempt did agent use PK key buying factors","Remark14", "2nd save attempt used appropriately and per guidelines","Remark15", "Asks for billing Name as it appears on cc or check","Remark16", "agent verified caller is an authorized user of the cc or check","Remark17", "Asks for billing address for payment method used","Remark18", "Asks for permission to authorize payment (cc or check)", "Remark19","Agent verifies shipping address","Remark20", "Notates account with issue or resolution","Remark21", "Did the agent dispose the call correctly?","Remark22","Summarizes and reviews call or appropriate closure to call","Remark23", "Maintains call control","Remark24","Uses hold and transfers properly","Remark25", "Gave CS hours of operation and CS phone number","Remark26", "Was the agent polite courteous and patient","Remark27","Hung up inappropriately (Call Avoidance)","Remark28","Agent refrained from using inappropriate comments/presentation","Remark29", "**Automatic Zero","Remark30", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
-		}else if($pid=='stauers_sales'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score","Possible Score","Earned Score","Customer Score","Business Score","Compliance Score", "Was the call answered within 5 seconds?","Did the agent verify the customer's name and address on the account?","Did the agent capture the correct offer code?","Did the agent verify the phone number with the customer?","Did the agent verify the customer's email address?","Did the agent compliment the caller's purchase choice?","Did the agent recap the item?","Did the agent cover atleast one upsell ( ask if the customer would be interested in any other products)?","Did the agent recap the item and ask if the customer would be interested in any other product(s)?","Did the agent cover at least one upsell?","Did the agent cover the replacement guarantee pitch?","Did the agent use an appropriate rebuttal if the replacement guarantee was declined?","Did the agent cover the membership pitch?","Did the agent use an appropriate rebuttal if the membership pitch was declined?","Did the agent offer the membership accurately?","Did the agent cover the auto-renew offer correctly?","Was the shipping address verified?","Did the agent quote the correct delivery time?","Did the agent give a total product quote appropriately?","Did the agent quote shipping & taxes correctly?","Did the agent give the total to be charged and verify the credit card to be charged correctly?","Did the agent provide the order number correctly?","Did the agent close the call with the brand correctly?","Did the agent disposition the call correctly?","Did the agent maintain call control? No dead air for more than 15 secs?","Was the customer satisfied with his/her experience?","Was the customer dissatisfied with the agent's professionalism and/or tone?","Rude Remarks","Call Avoidance","Was the call answered within 5 seconds? Remarks1","Did the agent verify the customer's name and address on the account? Remarks2","Did the agent capture the correct offer code? Remarks3","Did the agent verify the phone number with the customer? Remarks4","Did the agent verify the customer's email address? Remarks5","Did the agent compliment the caller's purchase choice? Remarks6","Did the agent recap the item? Remarks7","Did the agent cover atleast one upsell ( ask if the customer would be interested in any other products)? Remarks8","Was the shipping address verified? Remarks9","Did the agent quote the correct delivery time? Remarks10","Did the agent give a total product quote appropriately? Remarks11","Did the agent quote shipping & taxes correctly? Remarks12","Did the agent provide the order number correctly? Remarks13","Did the agent close the call with the brand correctly? Remarks14","Did the agent disposition the call correctly? Remarks15","Did the agent maintain call control? No dead air for more than 15 secs? Remarks16","Was the customer satisfied with his/her experience? Remarks17","Was the customer dissatisfied with the agent's professionalism and/or tone? Remarks18"," Did the agent give the total to be charged and verify the credit card to be charged correctly? Remarks19","Rude Remarks Remarks20","Call Avoidance Remarks21",
-			  "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
-		}else if($pid=='operation_smile'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Was the agent ready to handle the call promptly and answer properly?", "Did the agent greet the caller read the scripted opening?", "Did the agent confirm all information and utilize phonetic spell back when necessary?", "Does the agent show gratitude and acknowledge callers concerns?", "Did the agent use rebuttals appropriately?", "Did the agent offer the upsell?", "Did the agent follow the script correctly and with confidence?", "Did the agent address questions about the program and utilize the FAQs correctly?", "Did the agent speak with energy and enthusiasm?", "Did the agent use proper pacing?", "Did the agent maintain control of the conversation and minimize dead air?", "Was the agent professional and speak with proper enunciation grammar and tone?", "Did the agent use good listening skills and does not interrupt?", "Did the agent empathize with the caller?", "Did the agent provide a good donor experience and show appropriate appreciation?", "Did the agent ask what prompted them to call today?", "Did the agent thank the caller for their call today and close appropriately?", "***Did the agent give false or inappropriate information?", "***Did the agent hang up inappropriately?", "***Did the agent use inappropriate language?", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
-		}else if($pid=='5_11_tactical'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Earn Score","Possible Score","Overall Score",
-			"Did the rep greet the customer promptly and properly?","Remark1", "Did the rep confirm the customers item to order (product size colour price)","Remark2", "Did the rep ask is there anything else you would like to add to your order?","Remark3", "Did the rep ask for customer login information or continue as guest appropriately","Remark4", "Did the rep gather/verify the callers information for accuracy","Remark5", "Did the rep cover the final confirmation?","Remark6", "Did the rep give customer their order number?","Remark7", "Did the rep use all applicable search method?","Remark8", "Did the rep cover the returns process appropriately?","Remark9", "Did the rep cover the exchange process appropriately?","Remark10", "Did the rep cover the refund process appropriately?","Remark11", "Did the rep track the package appropriately","Remark12", "Did the agent ask is there anything else I can assist you with today?","Remark13", "Did the agent close and brand the call appropriately?","Remark14", "Did the rep answer questions appropriately","Remark15", "Did the rep maintain call control?","Remark16", "Did the rep properly notate AX?","Remark17", "If an escalation was done was it warranted?","Remark18", "Did the agent disposition the call appropriately?","Remark19", "Did the rep maintain professionalism throughout the call?","Remark20", "If an escalation was done was it warranted?","Remark21","Call dumping or avoidance","Remark22","Rudeness or inappropriate language or behavior","Remark23",
-			"Compliance Score","Customer Score","Business Score","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
-		}else if($pid=='jmmi'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "1) Did the agent give appropriate greeting?",	"2) Did the agent give excellent conversational responses to caller's requests?",	"3) Did the agent verify the opening information (name-zip code-address-phone number)?",	"4) Did the agent follow call flow with caller's initial request (orders what the caller asks for)?",	"5) Did the agent show appropriate gratitude throughout the call?",	"6) Did the agent share upsells when presented?",	"7) Did the agent show familiarity and search all options for offers products?", "8) If partner-did the agent thank the caller specifically?",	"9) Did the agent share HOM/JMM facts as appropriate and make good use of dead air?",	"10) Was the agent professional with communication?",	"11) Did the agent use proper pace energy & enthusiasm?",	"12) Did the agent maintain control of the conversation?",	"13) Did the agent spoke clearly and utilize proper grammar (no slang)?",	"14) Did the agent use good listening skills and appropriate responses?",	"15) Did the agent empathize with the caller and show compassion?",	"16) Did the agent have minimal dead air?",	"17) Did the agent have the caller provide the address if not populated on review screen?",	"18) Did the agent confirm dollar amount and frequency as well as reviewing cart?", "19) Did the agent read shipping information as scripted/share charges as appropriate?", "20) Did the agent ask caller for email and tv information?", "21) Did the agent use proper thanks at the call conclusion?", "22) Did the agent transfer the call to prayer/CS when appropriate?", "23) ***Did the agent follow payment industry compliance policies properly?", "24) ***Did the agent read back the customer's details properly? Like name - phone number etc.", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
-		}else if($pid=='non_profit'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Properly prepared to take calls", "Clearly stated paid caller from Donor Care Center/recorded line", "Communicator stated his/her full name", "Pronounced clients name correctly", "Gave a warm friendly greeting", "Followed scripted 1st request as scripted", "1st request Used correct dollar amounts", "1st request Assumptive gift ask", "Showed empathy/Concern", "Repeated the objection", "Personalized the objection", "Attempted to handle objection", "Did not reinforce the negative", "Exited a dead-end call", "Followed scripted 2nd request as scripted", "2nd request Used correct dollar amounts", "2nd request Assumptive gift ask", "Attempted 3rd request as scripted (when applicable)", "3rd request Used correct dollar amounts", "3rd request Assumptive gift ask", "Confirmation question/Confirmed gift amount & waited for response", "Assumed the higher dollar amount", "Showed meaningful gratitude/Thanked the donor or volunteer", "Read credit card/ACH ask verbatim/assumptively asked for credit card", "Confirmed full name and address", "Followed Maybe Close appropriately", "Read close as scripted", "Ended call in a reasonable time", "Sounded conversational used good voice inflection not read or monotone", "Mirrored donor / Used appropriate pace", "Confident presentation w/out hesitation filler words or uptalking", "Did not lose control of the conversation", "Proper personalization", "Utilized proper grammar & pronunciation", "BAILING", "DID NOT ASK FOR A CREDIT CARD/ACH", "GAVE FALSE INFORMATION", "OMITTED PAID CALLER FROM DONOR CARE CENTER STATEMENT", "DID NOT ASK CONFIRMATION QUESTION", "UNSOLID GIFT", "NOT CODING A REFUSAL/CODING A REFUSAL INAPPROPRIATELY", "UNPROFESSIONAL BEHAVIOR/RUDENESS (not extreme)", "IMPROPER PRESENTATION", "OMITTED DNC CODE/USED DNC CODE INCORRECTLY", "FALSIFICATION OF A GIFT", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
-		}else if($pid=='revel_new'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Possible Score","Earned Score", "Overall Score","Bonus Overallscore","Agent greeted the member used correct client opening introduced themselves and continued following the basic scripting to open the call", "Agent properly authenticated the member", "Did Agent attempt to update Email/SMS/IVR/Phone Number?", "Agent gave Health Care Activity info Correctly", "Agent collected Health Care Activity information correctly", "Agent gave correct Gift Card information", "Agent offered to provide information on the Health Care Activities that the member has remaining to complete", "Agent provided online self-service information", "Agent used correct transfer procedure", "Agent logged call correctly in all appropriate systems", "Agent followed script guidelines ", "Agent gave correct and complete information", "Agent resolved all questions and concerns", "Agent displayed active listening skills and probed for details effectively","Agent effectively engaged with the caller","Agent displayed a polite/appropriate tone", "Agent sounded confident and knowledgeable", "Agent did not interrupt or talk over the customer","Agent used pleasing words and phrases ","Agent maintained call control","Agent used correct grammar avoided slang", "Agent offered additional assistance", "Agent used correct client closing ", "Agent submitted escalation in system when required (Auto-Fail)", "Agent was not rude or inappropriate? (Auto-Fail)", "Agent used the correct client name during the call (Auto-Fail) ", "Agent did not demonstrate call avoidance (Auto-Fail)", "Agent properly authenticated the member (Auto-Fail)", "The agent received direct appreciation from the member ","Is the recording quality acceptable? (Tracking)","Would play this for the client?(Tracking)","Mechanics Comment 1","Mechanics Comment 2","Mechanics Comment 3","Mechanics Comment 4","Mechanics Comment 5","Mechanics Comment 6","Mechanics Comment 7","Mechanics Comment 8","Mechanics Comment 9","Mechanics Comment 10","Mechanics Comment 11","Mechanics Comment 12","Mechanics Comment 13","Soft Skills Comment 1","Soft Skills Comment 2","Soft Skills Comment 3","Soft Skills Comment 4","Soft Skills Comment 5","Soft Skills Comment 6","Soft Skills Comment 7","Soft Skills Comment 8","Soft Skills Comment 9","Soft Skills Comment 10","Auto-fail Comment 1","Auto-fail Comment 2","Auto-fail Comment 3","Auto-fail Comment 4","Auto-fail Comment 5","Bonus Point Comment","Tracking Comment 1","Tracking Comment 2","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
-		}else if($pid=='icario'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Possible Score","Earned Score", "Overall Score","Agent greeted the member used correct client opening introduced themselves and continued following the basic scripting to open the call", "Agent properly authenticated the member", "Agent collected Health Care information/Responses correctly", "Agent gave correct and complete information", "Agent gave correct incentive information", "Agent provided online self-service information", "Agent logged call correctly in all appropriate systems", "Agent followed script guidelines", "Agent resolved all questions and concerns", "Agent displayed active listening skills and probed for details effectively", "Agent effectively engaged with the caller", "Agent maintained appropriate pace with caller", "Agent Displayed a polite and appropriate tone", "Agent sounded confident and knowledgeable","Agent did not interrupt or talk over the member","Agent used pleasing words and phrases between member responses", "Agent used pleasing words and phrases at beginning and end of call", "Agent maintained call control","Agent managed silence/hold times","Agent used correct grammar avoided slang","Agent used correct client closing", "Agent submitted escalation in system when required (Auto-Fail)", "Agent was not rude or inappropriate? (Auto-Fail)", "Agent used incorrect client name during the call (Auto-Fail)", "Agent did not demonstrate call avoidance (Auto-Fail)", "Agent properly authenticated the member (Auto-Fail)", " Comment 1"," Comment 2"," Comment 3"," Comment 4"," Comment 5"," Comment 6"," Comment 7"," Comment 8"," Comment 9"," Comment 10"," Comment 11"," Comment 12"," Comment 13"," Comment 14"," Comment 15"," Comment 16"," Comment 17"," Comment 18"," Comment 19"," Comment 20"," Comment 21"," Comment 22"," Comment 23"," Comment 24"," Comment 25"," Comment 26","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
-		}else if($pid=='ica_latest'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "Audit Type", "VOC","File No","Process Name", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Possible Score","Earned Score", "Overall Score", "mechanics overall score","soft skills overall_score",
-			"Agent greeted the member used correct client opening introduced themselves and continued following the basic scripting to open the call", "Agent properly authenticated the member", "Agent collected Health Care information/Responses correctly", "Agent gave correct and complete information", "Agent gave correct incentive information", "Agent provided online self-service information", "Agent logged call correctly in all appropriate systems", "Agent followed script guidelines", "Agent resolved all questions and concerns", "Agent displayed active listening skills and probed for details effectively", "Agent effectively engaged with the caller", "Agent maintained appropriate pace with caller", "Agent Displayed a polite and appropriate tone", "Agent sounded confident and knowledgeable","Agent did not interrupt or talk over the member","Agent used pleasing words and phrases between member responses", "Agent used pleasing words and phrases at beginning and end of call", "Agent maintained call control","Agent managed silence/hold times","Agent used correct grammar avoided slang","Agent used correct client closing",
-			"Agent submitted escalation in system when required (Auto-Fail)","Agent was not rude or inappropriate? (Auto-Fail)", "Agent used incorrect client name during the call (Auto-Fail)","Agent did not demonstrate call avoidance (Auto-Fail)","Agent properly authenticated the member (Auto-Fail)",
-			" Comment 1"," Comment 2"," Comment 3"," Comment 4"," Comment 5"," Comment 6"," Comment 7"," Comment 8"," Comment 9"," Comment 10"," Comment 11"," Comment 12"," Comment 13"," Comment 14"," Comment 15"," Comment 16"," Comment 17"," Comment 18"," Comment 19"," Comment 20"," Comment 21"," Comment 22"," Comment 23"," Comment 24"," Comment 25"," Comment 26","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
-		}else if($pid=='ica'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "Audit Type", "VOC","File No","Process Name", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Customer Score","Business Score","Compliance Score","Possible Score","Earned Score", "Overall Score",
-			"Agent greeted the member used correct client opening introduced themselves and continued following the basic scripting to open the call", "Agent properly authenticated the member", "Did Agent attempt to update Email/SMS/IVR/Phone Number?", "Agent gave Health Care Activity info Correctly", "Agent collected Health Care Activity information correctly", "Agent gave correct Gift Card information", "Agent offered to provide information on the Health Care Activities that the member has remaining to complete", "Agent provided online self-service information", "Agent used correct transfer procedure", "Agent logged call correctly in all appropriate systems", "Agent followed script guidelines", "Agent gave correct and complete information", "Agent resolved all questions and concerns", "Agent displayed active listening skills and probed for details effectively","Agent effectively engaged with the caller","Agent displayed a polite/appropriate tone", "Agent sounded confident and knowledgeable", "Agent did not interrupt or talk over the customer","Agent used pleasing words and phrases","Agent maintained call control","Agent offered additional assistance", "Agent used correct client closing", "Agent used correct grammar avoided slang", "Agent submitted escalation in system when required (Auto-Fail)", "Agent was not rude or inappropriate? (Auto-Fail)", "Agent used the correct client name during the call (Auto-Fail)","Agent did not demonstrate call avoidance (Auto-Fail)","Agent properly authenticated the member","The agent received direct appreciation from the member","Is the recording quality acceptable? (Tracking)" ,"Would play this for the client? (Tracking)",
-			"Agent greeted the member used correct client opening introduced themselves and continued following the basic scripting to open the call Comment", "Agent properly authenticated the member Comment", "Did Agent attempt to update Email/SMS/IVR/Phone Number? Comment", "Agent gave Health Care Activity info Correctly Comment", "Agent collected Health Care Activity information correctly Comment", "Agent gave correct Gift Card information Comment", "Agent offered to provide information on the Health Care Activities that the member has remaining to complete Comment", "Agent provided online self-service information Comment", "Agent used correct transfer procedure Comment", "Agent logged call correctly in all appropriate systems Comment", "Agent followed script guidelines Comment", "Agent gave correct and complete information Comment", "Agent resolved all questions and concerns Comment", "Agent displayed active listening skills and probed for details effectively Comment","Agent effectively engaged with the caller Comment","Agent displayed a polite/appropriate tone Comment", "Agent sounded confident and knowledgeable Comment", "Agent did not interrupt or talk over the customer Comment","Agent used pleasing words and phrases Comment","Agent maintained call control Comment","Agent offered additional assistance Comment", "Agent used correct client closing Comment", "Agent used correct grammar avoided slang Comment", "Agent submitted escalation in system when required (Auto-Fail) Comment", "Agent was not rude or inappropriate? (Auto-Fail) Comment", "Agent used the correct client name during the call (Auto-Fail) Comment","Agent did not demonstrate call avoidance (Auto-Fail) Comment","Agent properly authenticated the member Comment","The agent received direct appreciation from the member Comment","Is the recording quality acceptable? (Tracking) Comment" ,"Would play this for the client? (Tracking) Comment",
-			"Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
-		}else if($pid=='qpc'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Unprepared to Introduce Call", "Did Not Use Branding", "Data Not Collected or Collected Incorrectly", "Second Data Occurrence", "Inaccurate Call Result Code", "Inappropriate or Unusable After-Call Comments", "Underutilized Call Narration", "Inappropriate FAQ Responses", "No or Improper Transitions", "Under-Acknowledged Caller's Concerns", "Inappropriate Script Navigation", "Did Not Display Ownership", "Incorrect Transfer or Referral", "***Did the agent abruptly end the call or display any rude behavior?", "***Did the agent answer premium/cover questions?", "***Did the agent give a wrong callback or referral number?", "***Did the agent use an incorrect carrier name?", "Open/Close Comment 1.1", "Open/Close Comment 1.2", "Data Accuracy Comment 2.1", "Data Accuracy Comment 2.2", "Data Accuracy Comment 2.3", "Data Accuracy Comment 2.4", "Active Listening Comment 3.1", "Active Listening Comment 3.2", "Customer Experience Comment 4.1", "Customer Experience Comment 4.2", "Customer Experience Comment 4.3", "Customer Experience Comment 4.4", "Customer Experience Comment 4.5", "Auto-Fail Comment 5.1", "Auto-Fail Comment 5.2", "Auto-Fail Comment 5.3", "Auto-Fail Comment 5.4", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
-		}else if($pid=='ancient_nutrition'){
-			$controller = "qa_ameridial";
-		    $edit_url = "mgnt_ancient_nutrition_rvw";
-		    $main_url =  $currentURL.''.$controller.'/'.$edit_url;
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "1.1 Did the rep greet the customer promptly and properly?", "1.2 Did the rep use a pleasant respectful tone and use the callers name at least once?", "1.3 Did the rep answer in a timely manner?", "2.1 Did the rep collect and verify the callers information appropriately and accurately?", "2.2 Did the rep cover the payment procedures appropriately?", "3.1 Did the rep use active listening skills throughout the inquiry so the caller did not have to repeat themselves?", "3.2 Did the rep demonstrate use of call control techniques?", "3.3 Did the rep refrain from interrupting the caller?", "4.1 Did the rep speak clearly and concisely and at an appropriate pace?", "4.2 Did the rep avoid use of internal terms technical terms slang and jargon?", "4.3 Did the rep demonstrate confidence in responses?", "4.4 Did the rep use the callers last name to personalize the call at least once per section?", "4.5 Did the rep minimize silences and use fillers to obtain additional information?", "5.1 Did the rep cover the Auto Shipping appropriately?", "5.2 If rep gathered email did they read the complete email scripting?", "5.3 Did the rep cover the Rush Shipping appropriately?", "5.4 Did the rep complete order confirmation?", "5.5 Did the rep maintain call control?", "5.6 Did the rep use the tools appropriately?", "5.7 Did the rep demonstrate knowledge of the product/program?", "5.8 Did the rep use the appropriate objection responses?", "6.1 Did the rep accurately and completely document the call?", "6.2 Did the rep complete the correct confirmation and closing?", "6.3 Did the rep thank the caller before closing?", "7.1 ***Did the rep attempt give Medical Advice to the caller?", "7.2 ***Did the rep cover the upsell appropriately?", "7.3 ***Did the agent read the confirmation script if email address was obtained?", "Greeting Comment 1.1", "Greeting Comment 1.2", "Greeting Comment 1.3", "Authentication Comment 2.1", "Authentication Comment 2.2", "Listening Skills Comment 3.1", "Listening Skills Comment 3.2", "Listening Skills Comment 3.3", "Soft Skills Comment 4.1", "Soft Skills Comment 4.2", "Soft Skills Comment 4.3", "Soft Skills Comment 4.4", "Soft Skills Comment 4.5", "Knowledge Procedure& Call Flow Comment 5.1", "Knowledge Procedure& Call Flow Comment 5.2", "Knowledge Procedure& Call Flow Comment 5.3", "Knowledge Procedure& Call Flow Comment 5.4", "Knowledge Procedure& Call Flow Comment 5.5", "Knowledge Procedure& Call Flow Comment 5.6", "Knowledge Procedure& Call Flow Comment 5.7", "Knowledge Procedure& Call Flow Comment 5.8", "Closing Comment 6.1", "Closing Comment 6.2", "Closing Comment 6.3", "Auto-Fail Comment 7.1", "Auto-Fail Comment 7.2", "Auto-Fail Comment 7.3", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
-		}else if($pid=='sabal'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Did the agent ask for the individual by Mr. or Mrs. Last Name?", "Did the agent introduce him/herself?", "Did the agent state he/she is a Customer Service Specialist for WellCare?", "Did the agent apologize for the unannounced phone call and state reason for the call?", "Did the agent ask how the individuals Rx plan is currently working for him/her and respond with the appropriate scripted response?", "Did the agent read the listed examples of benefits they could add? Comprehensive Dental i)Complete Vision ii)Extensive Hearing iii)Transportation iv)Free membership to fitness centers and some even come with a free Fitbit!", "Did the agent ask for the individuals red white and blue card and explain why this was needed?", "Did the agent ask for the individuals updated Medicare ID and accurately record the inforamtion?", "Did the agent ask for the individuals Part A effective date and accurately record the information?", "Did the agent use correct rebuttal is individual doesnt want to give ID over the phone?", "Did the agent use scripting if the individual wants to know the cost to him/her?", "Did the agent use correct rebuttal if the agent says he/she is not interested?", "***Did the agent abruptly end the call or display any rude behavior?", "***Did the agent become argumentative with the individual?", "***Did the agent record the incorrect Medicare members information?", "***Did agent provide any false or misleading information?", "Greeting Comment 1.1", "Greeting Comment 1.2", "Greeting Comment 1.3", "Call Flow Comment 2.1", "Call Flow Comment 2.2", "Call Flow Comment 2.3", "Data Collection Comment 3.1", "Data Collection Comment 3.2", "Data Collection Comment 3.3", "Rebuttals Comment 4.1", "Rebuttals Comment 4.2", "Rebuttals Comment 4.3", "Auto-Fail Comment 5.1", "Auto-Fail Comment 5.2", "Auto-Fail Comment 5.3", "Auto-Fail Comment 5.4", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
-		}else if($pid=='curative'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "1.1 Did the rep greet the customer promptly and properly?", "1.2 Did the rep use a pleasant respectful tone?", "1.3 Did the rep answer in a timely manner? (within 5 seconds)", "2.1 Did the rep collect and verify the customers information appropriately and accurately?", "2.2 Did the rep verify patients PHI (name email phone number address email address DOB) is entered correctly in Patient Portal?", "2.3 Did the agent accurately send the email regarding correct use of all PHI?", "2.4 Did the agent escalate to Tier 2 when necessary? (Helpscout ticket tag Tier 2 Escalation) Test Cancelled", "2.5 Did the agent respect the patients privacy and provide results only to the verified caller?", "2.6 Did the agent ensure the email address was correct prior to sending the email message and only send to the verified caller?", "3.1 Did the agent speak clearly concisely and at an appropriate pace?", "3.2 Did the agent avoid use of internal terms technical terms slang and jargon on the call and in email?", "3.3 Did the agent demonstrate a strong use of empathy in responses where required on the call and in email?", "3.4 Did the agent use please and thank you throughout the call and in email communication?", "3.5 Did the agent minimize extended silences throughout the call?", "3.6 Did the agent speak with sincere warmth in his/her voice?", "3.7 Did the agent use correct sentence structure and grammar in email commumnication?", "3.8 Did the agent demonstrate patience with the caller?", "3.9 Did the caller give the agent a KUDOS or express happiness with the rep?", "4.1 Did the rep accurately and completely document the call?", "4.2 Did the rep complete the correct confirmation and closing?", "4.3 Did the rep thank the caller before closing?", "4.4 Did the agent provide accurate results?", "4.5 Did the rep anticipate the caller's needs?", "4.6 Did the rep do everything possible to assist the caller?", "Greeting Comment 1.1", "Greeting Comment 1.2", "Greeting Comment 1.3", "AutoFail Comment 2.1", "AutoFail Comment 2.2", "AutoFail Comment 2.3", "AutoFail Comment 2.4", "AutoFail Comment 2.5", "AutoFail Comment 2.6", "Soft Skills Comment 3.1", "Soft Skills Comment 3.2", "Soft Skills Comment 3.3", "Soft Skills Comment 3.4", "Soft Skills Comment 3.5", "Soft Skills Comment 3.6", "Soft Skills Comment 3.7", "Soft Skills Comment 3.8", "Soft Skills Comment 3.9", "Closing Comment 4.1", "Closing Comment 4.2", "Closing Comment 4.3", "Closing Comment 4.4", "Closing Comment 4.5", "Closing Comment 4.6", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
-		}else if($pid=='powerfan'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Was the agent Prepared for call answer within 5 seconds", "Did the agent identify self and the company?", "Collects intro information Claim code zip code", "Main Sell agent accurately gave terms of offer asks for sale per script quanity", "Did the agent promote upsell downsell asks for sale per script", "Accurately Described Product answered", "Used appropriate Objection Handling", "Asks for billing Name as it appears on cc or check", "If billing name is different than caller agent verified caller is an authorized user of the cc or check", "Asks for billing address for payment method used", "Agent verifies shipping address", "Order was set up and or coded correctly", "Asks for email address spelling and gave email disclaimer", "Gave total amount charged payment information", "Gave correct shipping information", "Gave MBG return info in", "Gave CS phone number", "Asks for permission to authorize payment cc or check", "Was the agent polite courteous and patient", "Agent refrained from using inappropriate comments presentation", "Uses hold and transfers properly", "Auto Fail", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
-		}else if($pid=='nuwave'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Order ID", "Call Duration", "Interaction", "Call Type", "Can be Automated", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Greeting & Identification: Example Thank you for calling NuWave", "Asked and Verified Customer Information: May I please have your Order ID Primary name or e-mail address?", "Used the Callers Name: CSR should address the customer as he/she addresses him/herself Mr. Mrs. Dr. Rev. etc.", "Active Listening: Doesnt interrupt the customer understands customers frame of reference doesnt anticipate or make assumptions", "Communication Skills: Converses in a clear concise manner", "Professionalism: Avoids the use of slang jargon and acronyms", "Empathy Towards Customer: CSR sounds sincere about helping the customer and apologizes", "Courtesy: CSR sounds helpful upbeat friendly and patient", "Put On Hold: Asked customer May I put you on hold or Could you hold while I research this further please?", "Thanked Customer for Holding: CSR thanked customer for holding upon returning to customers call", "Hold Time/Reason Appropriate/Inappropriate: Was it really necessary for the CSR to put the customer on hold?", "Escalation/Referral Procedures: Utilized established guidelines and procedures policy from the leadership team", "Fact Finding: Used probing questions and resources to identify problem", "Verbally Verified Problem Reported: Clearly defined and restated needs reported by the customer", "Managed Customer Expectations: Regarding the order of the product and the shipping time", "Explained: Reason for troubleshooting for possible resolution", "Used Available Resources Well: Referred to knowledge training or other resource programs for order troubleshooting", "Complete & Accurate Customer Documentation: Complete description of the order and or the troubleshooting steps", "Trial Close: Confirmed customer is comfortable with outcome", "Additional Needs Uncovered: CSR asked Is there anything else that I can assist you with today?", "Upsale: Ask customer if the product completely serves their needs", "Used Correct Closing Gave Customer Order Number: Mr. Ms. Mrs. I would like to thank you for ordering with NuWave", "Infractions", "Sub-Infractions", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='delta_iowa'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Call ID", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "1.1 Answered the call promptly (within 5 seconds)", "1.2 Opens the call properly obtains caller name", "1.3 Verifies all identifying information to continue the call", "2.1 Adhered to HIPAA/PCI guidelines depending on the type of call", "2.2 Adhered to Client Policies & Procedures", "2.3 Performed the correct actions for the caller", "2.4 Set approriate expectations", "2.5 Gave accurate and complete information", "2.6 Routed issue to the appropriate department", "2.7 Completed all necessary documentation", "3.1 Used courtesy phrases like please and thank you throughout the call", "3.2 Used the caller's name at least once during the call", "3.3 Followed acceptable hold and transfer procedures", "3.4 Allowed the caller to state the reason for the call", "3.5 Avoided the use of jargon acronyms and slang", "3.6 Allowed the caller to speak without interruption", "3.7 Explained all positives of the plan-type without pushing the caller to purchase", "3.8 Stated a willingness to help the caller usually at the beginning of the call", "3.9 Gained agreement with the caller on the proposed solution", "3.10 Demonstrated an empathetic manner professional tone", "4.1 Closed call by offering further assistance", "4.2 Resolved and followed through on all actions to resolve the customers issue", "4.3 Assured customer their concern will be handled to resolution when possible", "4.4 Made an effective attempt to handle a difficult situation", "*** Agent disconnects customer inappropriately", "*** Agent transfers customer without notifying customer", "*** Agent uses offensive words or profanity", "*** Agent was antagonistic talked back or talked down to caller", "*** Agent discloses confidential information inappropriately", "Greeting Comment 1.1", "Greeting Comment 1.2", "Greeting Comment 1.3", "Call Handling Comment 2.1", "Call Handling Comment 2.2", "Call Handling Comment 2.3", "Call Handling Comment 2.4", "Call Handling Comment 2.5", "Call Handling Comment 2.6", "Call Handling Comment 2.7", "Soft Skills Comment 3.1", "Soft Skills Comment 3.2", "Soft Skills Comment 3.3", "Soft Skills Comment 3.4", "Soft Skills Comment 3.5", "Soft Skills Comment 3.6", "Soft Skills Comment 3.7", "Soft Skills Comment 3.8", "Soft Skills Comment 3.9", "Soft Skills Comment 3.10", "Closing Comment 4.1", "Closing Comment 4.2", "Closing Comment 4.3", "Closing Comment 4.4", "Auto Fail Comment 1.1", "Auto Fail Comment 1.2", "Auto Fail Comment 1.3", "Auto Fail Comment 1.4", "Auto Fail Comment 1.5", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='airmethod'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "1.1 Did the rep greet the customer promptly and properly?", "1.2 Did the rep use a pleasant respectful tone?", "1.3 Did the rep answer in a timely manner? (within 5 seconds)", "2.1 Did the rep collect and verify the customers information appropriately and accurately?", "2.2 Did the rep correctly collect callers work location and store phone number if available?", "2.3 Did the agent correctly define Type of Case?", "2.4 Did the rep correctly mark the Date of Test and Expected Results?", "2.5 Did the rep Contact Trace and ensure this case was/was not connected to any others?", "3.1 Did the agent speak clearly concisely and at an appropriate pace?", "3.3 Did the agent demonstrate a strong use of empathy in responses where required on the call and in email?", "3.4 Did the agent use please and thank you throughout the call and in email communication?", "3.5 Did the agent minimize extended silences throughout the call?", "3.6 Did the agent speak with sincere warmth in his/her voice?", "3.7 Did the agent use correct sentence structure and grammar in email communication?", "3.8 Did the agent demonstrate patience with the caller on call and in email communication?", "3.9 Did the caller give the agent a KUDOS or express happiness with the rep during this call?", "4.1 Did the rep accurately and completely document the call?", "4.2 Did the rep complete the correct confirmation and closing?", "4.3 Did the rep provide the correct instructions based upon the Type of Case?", "4.4 Did the rep do everything provide clear concise direction on isolation or quarantine?", "4.5 Did the rep make appropriate contact to the individual managers departments and Supervisors when required", "Greeting Comment 1.1", "Greeting Comment 1.2", "Greeting Comment 1.3", "Data Collection/Case Details Comment 2.1", "Data Collection/Case Details Comment 2.2", "Data Collection/Case Details Comment 2.3", "Data Collection/Case Details Comment 2.4", "Data Collection/Case Details Comment 2.5", "Soft Skills Comment 3.1", "Soft Skills Comment 3.3", "Soft Skills Comment 3.4", "Soft Skills Comment 3.5", "Soft Skills Comment 3.6", "Soft Skills Comment 3.7", "Soft Skills Comment 3.8", "Soft Skills Comment 3.9", "Status/Condition Comment 4.1", "Status/Condition Comment 4.2", "Status/Condition Comment 4.3", "Status/Condition Comment 4.4", "Status/Condition Comment 4.5", "Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
-		}else if($pid=='airmethod_email'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "1.1 Did the agent use appropriate letter structure for all guidance letters and emails?", "1.2 Did the agent accurately send the email regarding correct use of all client processes (for all situations)?", "1.3 Did the agent verify there are no duplicates in Reliance prior to beginning a case?","1.4 Did the agent enter all details into Reliance thoroughly and accurately?","1.5 Did the agent use an accurate response with correct guidance?","1.6 Did the agent respect the patient's privacy and provide results only to the verified recipient?  (ensure the email was sent only to the correct party)", "2.1 Did the agent avoid use of internal terms, technical terms, slang and jargon on the call and in email?", "2.2 Did the agent demonstrate a strong use of empathy in responses where required on the call and in email (as needed)?", "2.3 Did the agent use please and thank you throughout the email communication?", "2.4 Did the agent use correct sentence structure and grammar in email communication?", "2.5 Did the agent demonstrate patience with the caller in email communication? (is the agent using the correctly provided verbiage)", "3.1 Did the agent email the correct email group on all responses?", "3.2 Did the agent leave the case open until all updates have been received?", "3.3 Did the agent accurately record all data questionnaire feedback into Reliance?", "3.4 Did the agent provide timely feedback to any and all emails received?","Comment1","Comment2","Comment3","Comment4","Comment5","Comment6","Comment7","Comment8","Comment9","Comment10","Comment11","Comment12","Comment13","Comment14","Comment15","Comment16","Comment17","Comment18", "Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
-		}else if($pid=='foodsaver'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "1.1 Did the rep greet the caller promptly and properly with the correct scripted greeting?", "1.2 Did the rep use a pleasant respectful tone?", "2.1 If the caller said no to the initial offer did the rep use the 1st rebuttal", "2.2 Did the rep also include the 2nd and 3rd points to explain how FoodSaver preserves", "2.3 Did the rep ask the question - Which credit or debit card would you like to use?", "2.4 If the caller said no to this first rebuttal did the rep use the 2nd rebuttal advising of the lowered price at just $99.99 with free shipping and handling?", "2.5 If the caller still said no did the rep advise - We appreciate your call and your interest in FoodSaver", "2.6 Did the rep thank the caller for calling today?", "3.1 Did the rep advise of the 2 Pack of 11 x 16 Rolls at $19.99?", "3.3 Did the rep ask - Would you like to add these to your order and confrim how many they want to add?", "3.4 Did the rep offer Auto Delivery at a 20% savings? ", "3.5 Did the rep ask if the caller would like to add another Food Saver as a gift?", "3.6 Did the rep ask for an email address?", "3.7 Did the rep ask which credit card the caller will be using?", "4.1 Did the rep thank the caller for the order?", "4.2 Did the rep review the order summary and total cost?", "4.3 Did the rep ask if there was anything else we could help with?", "4.4 Did the rep end with a positive statement?", "**Did the rep enter an incorrect credit card number?", "**Did the rep speak rudely to the caller in any way?", "**Did the rep badger the caller?", "**Did the rep disconnect the call without reason?", "Greeting Comment 1.1", "Greeting Comment 1.2", "Rebuttals Comment 2.1", "Rebuttals Comment 2.2", "Rebuttals Comment 2.3", "Rebuttals Comment 2.4", "Rebuttals Comment 2.5", "Rebuttals Comment 2.6", "Yes to offer Comment 3.1", " Comment 3.3", "Yes to offer Comment 3.4", "Yes to offer Comment 3.5", "Yes to offer Comment 3.6", "Yes to offer Comment 3.7", "Closure Comment 4.1", "Closure Comment 4.2", "Closure Comment 4.3", "Closure Comment 4.4", "Auto Fail Comment 1.1", "Auto Fail Comment 1.2", "Auto Fail Comment 1.3", "Auto Fail Comment 1.4", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='sas'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Earn Score","Possible Score","Overall Score", "1.1 Did the rep greet the customer promptly?","Greeting Comment 1.1", "1.2 Did the rep use the proper scripting for the Greeting?", "Greeting Comment 1.2","2.1 Did the agent use any inappropriate language?", "Zero Tolerance Violations Comment 2.1","2.2 Did the agent end the call before completing each required step?","Zero Tolerance Violations Comment 2.2", "2.3 Did the agent attempt to give any medical advice?", "Zero Tolerance Violations Comment 2.3","2.4 Did the agent fail to use mute or hold properly? (There should be no background noise)", "Zero Tolerance Violations Comment 2.4","3.1 Did the agent have a pleasant tone?",  "Call Flow & Soft Skills Comment 3.1", "3.2 Did the agent follow all processes and procedures?","Call Flow & Soft Skills Comment 3.2", "3.3 Did the agent use please and thank you throughout the call?",  "Call Flow & Soft Skills Comment 3.3","3.4 Did the agent schedule the appointment correctly if necessary?", "Call Flow & Soft Skills Comment 3.4","3.5 Did the agent minimize extended silences throughout the call?","Call Flow & Soft Skills Comment 3.5", "3.6 Did the agent answer any and all questions the caller had effectively?",  "Call Flow & Soft Skills Comment 3.6","3.7 Did the agent verify the callers information?","Call Flow & Soft Skills Comment 3.7", "3.8 Did the agent use the callers name at least once during the call?", "Call Flow & Soft Skills Comment 3.8","4.1 Did the agent close correctly by thanking the caller?",  "Closing Comment 4.1", "4.2 Did the agent document appropriately?","Closing Comment 4.2", "4.3 Did the agent correctly transfer the call (if necessary)?", "Closing Comment 4.3",
-			"4.4 Did the agent correctly dispose the call?","Closing Comment 4.4",
-			"Compliance Score","Customer Score","Business Score","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='gap'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "1.1 Did the rep greet the customer promptly and properly?", "1.2 Did the rep use a pleasant respectful tone?", "2.1 Did the agent properly identify themselves GAP and the purpose of the call at the beginning of the phone call?", "2.2 Did the agent make all required disclosures during the sales call?", "2.3 Did the agent attempt to alter any customer information", "2.4 Did the agent attempt to obtain any customer information that is not part of GAP enrollment form", "2.5 Did the agent pose as customers to complete TPV or play recorded responses to complete TPV?", "2.6 Did the agent use any intimidation or undue pressure with the customer?", "2.7 Did the agent contact customers that are on the Internal DNC list?", "2.8 Did the agent fail to disposition a call as Do Not Call when a customer states they do not want to be contacted?", "2.9 Did the agent have any Call Center Violations?", "2.10 Did the agent have any Misrepresentation/Deception?", "2.11 Did the agent suggest that customer is required to choose a competitive energy supplier", "2.12 Did the agent represent that the rate guarantees savings?", "3.1 Did the agent must make clear that he/she does not work for", "3.2 Did the agent properly disclose the rate/kWh and the 0.50 cent daily fee?", "3.3 Did the agent disclose the 36-month term and the term during which the rate/kWh is fixed?", "3.4 Did the agent explain that the customer may rescind the contract within 3 business days of receipt", "3.5 Did the agent minimize extended silences throughout the call?", "3.6 Did the agent explain that the customer may cancel the agreement at any time without penalty by calling Great American Power at 1-877-215-4140?", "3.7 Did the agent explain that after the sales call the customer will be sent an electronic copy of the T&Cs", "3.8 Did the agent demonstrate patience with the caller on call and in email communication?", "4.1 Did the agent advise that the verification representative is NOT AUTHORIZED to answer any questions?", "4.2 Did the agent ask if there were any questions he/she could answer before transferring to the verifier?", "4.3 Did the agent ask if the caller could please hold while he/she gets the verifier on the line?", "4.4 Did the agent correctly transfer the call?", "Greeting Comment 1.1", "Greeting Comment 1.2", "Zero Tolerance Violations Comment 2.1", "Zero Tolerance Violations Comment 2.2", "Zero Tolerance Violations Comment 2.3", "Zero Tolerance Violations Comment 2.4", "Zero Tolerance Violations Comment 2.5", "Zero Tolerance Violations Comment 2.6", "Zero Tolerance Violations Comment 2.7", "Zero Tolerance Violations Comment 2.8", "Zero Tolerance Violations Comment 2.9", "Zero Tolerance Violations Comment 2.10", "Zero Tolerance Violations Comment 2.11", "Zero Tolerance Violations Comment 2.12", "Call Flow & Soft Skills Comment 3.1", "Call Flow & Soft Skills Comment 3.2", "Call Flow & Soft Skills Comment 3.3", "Call Flow & Soft Skills Comment 3.4", "Call Flow & Soft Skills Comment 3.5", "Call Flow & Soft Skills Comment 3.6", "Call Flow & Soft Skills Comment 3.7", "Call Flow & Soft Skills Comment 3.8", "Closing Comment 4.1", "Closing Comment 4.2", "Closing Comment 4.3", "Closing Comment 4.4", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='suarez'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Call Duration", "This call was a/an", "Account Identifiers", "Date of Coaching/Copy Received", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Did you answer the call promptly and sound ready to take the call?", "Was your introduction clear and free of excess Unacceptableise and distraction?", "Did you use the correct greeting?", "Did you smile and sound friendly and happy to take the customer call?", "Was the drop code captured correctly?", "Did you adhere to the script correctly and follow the appropriate decision points?", "Did you ask for and verify all information correctly?", "Did you read all disclaimers and special Unacceptabletes offered in the script?", "Did you complete the call properly?", "Did you sound confident about the product and/or offer?", "Were all required upsells offered correctly?", "Did you go above and beyond the requirements to obtain a sale additional units or additional upsell opportunity?", "Additional units or additional upsell opportunity?", "Did you control the call without excessive chatting and Unacceptablen-business conversation?", "Did you lose a sale?", "Did you appropriately answer the customer questions and make every effort to satisfy the customer and the purpose of the call?", "Did the customer have your full attention?/ were you listening while the customer was speaking?", "Were you heard interrupting the customer raising your voice or using an unfriendly or unprofessional tone?", "What is the Specialist impression of customer temperature at the END of the call?", "Was there a Unacceptableticeable change in customer temperature during the call?", "Did you use hold times appropriately in regard to this call?", "Was the order keyed correctly?", "Was there anything regarding this customer account or experience that you missed?", "On this call was it obvious that you use your down time to study products promotions and procedures?", "Were you heard saying anything negative or unprofessional in regard to this call on or off the phone?", "Greeting Comment 1", "Greeting Comment 2", "Greeting Comment 3", "Greeting Comment 4", "Script and Procedure Adherence Comment 1", "Script and Procedure Adherence Comment 2", "Script and Procedure Adherence Comment 3", "Script and Procedure Adherence Comment 4", "Script and Procedure Adherence Comment 5", "Sales Ability Comment 1", "Sales Ability Comment 2", "Sales Ability Comment 3", "Sales Ability Comment 4", "Sales Ability Comment 5", "Sales Ability Comment 6", "Soft Skills Comment 1", "Soft Skills Comment 2", "Soft Skills Comment 3", "Soft Skills Comment 4", "Soft Skills Comment 5", "Additional Details Comment 1", "Additional Details Comment 2", "Additional Details Comment 3", "Additional Details Comment 4", "Additional Details Comment 5", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='sfe'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score",
-				"1.1 Did the agent advise who he/she is who he/she is calling from and who he/she represents?","1.2 Did the agent advise the call is being recorded for quality assurance and training purposes?",
-				"2.1 Did the agent provide all program benefits including rates explanation and benefits?","2.2 Did the agent ask if he/she was speaking with the account holder?","2.3 Did the agent ask if the caller was receiving any government assistance?","2.4 Did the agent ask for the address and email?","2.5 Did the agent ask if the caller was 18 years or older?",
-				"3.1 Did the rep sound confident and polite to the person on the phone?","3.2 Did the agent address the caller by name at least once?","3.3 Did the agent use 'please' and 'thank you' throughout the call?","3.4 Did the agent minimize extended silences throughout the call?","3.5 Did the agent speak clearly?",
-				"4.1 Did the agent use the first rebuttal correctly if the caller was not interested?","4.2 Did the agent use the second rebuttal correctly if the caller was not interested?","4.3 Did the agent provide the phone number for call back it the caller was not interested?",
-				"5.1 Did the agent advise of the Welcome Package would be sent including the program details and contact information?","5.2 Did the agent ask for the sale and gain a 'yes' before proceeding?","5.3 Did the rep finalize the date for the quote?","5.4 Did the rep take complete detailed notes?",
-				"6.1 Did the rep proceed with the call without a firm 'yes'","6.2 Did the rep provide accurate information?","6.3 Did the rep mislead the caller in any way?","6.4 Did the rep advise that he/she uses this service?","6.5 Did the rep advise that he/she uses this service?(need more detail for this)",
-				"Greeting Comment 1.1", "Greeting Comment 1.2","Details Comment 2.1", "Details Comment 2.2", "Details Comment 2.3", "Details Comment 2.4","Details Comment 2.5","Soft Skills Comment 3.1", "Soft Skills Comment 3.2", "Soft Skills Comment 3.3", "Soft Skills Comment 3.4", "Soft Skills Comment 3.5","Rebuttls Comment 4.1", "Rebuttls Comment 4.2", "Rebuttls Comment 4.3","Closure Comment 5.1", "Closure Comment 5.2", "Closure Comment 5.3", "Closure Comment 5.4","Auto Fail Comment 6.1", "Auto Fail Comment 6.2", "Auto Fail Comment 6.3", "Auto Fail Comment 6.4","Auto Fail Comment 6.5",
-				"Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='brightway_ib_bank'){
-			$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date","Audit Type", "Auditor Type", "Voc","Audit Start Date Time","Audit End Date Time","Interval","Overall Score", "Possible Score", "Earned Score","1.  Did the CSR use the approved greeting including Brightway branding name and customer name and policy number and offer assistance?","2. If applicable did rep advise they were on a recorded line?","3. Verified and captured points of contact according to procedure.","1. Did the associate use the appropriate tone pace and professionalism ?","2. Did the associate avoid insurance jargon and used proper grammar throughout the call?","3. Did the associate demonstrate the right level of empathy or sympathy?","4. Did the associate listen carefully to understand and address the customers needs ?","5. Did the associate ask to place the caller on hold set proper time expectations and thank them when returning?","6. The associate maintained call control throughout the call by guiding the conversation to stay on topic","7. There was not any silence dead air or self talking that had a negative impact on the call.","8. All verbal and written information provided by associate to insured and other parties was clear accurate and included all relevant information. (2pts for each)","1. Did the associate ask probing questions and verbally verify the changes requested and information provided?","2. If applicable was the call warm transferred","3. Expectations provided and time frame for follow up if any was met.","4. If the call was disconnected prior to resolution did the CSR attempt to contact the caller back to complete the call?","5. Documented correct policy is AMS","6. Are the notes clear descriptive and fully capture what occurred on the call so others understand what was discussed and if anything additional is needed?","7. Created all activities corresponding with the interaction","8. Were the correct templates used? ","9. Attached all emails fax confirmations and other documents as needed","10. Was the issue or request resolved/completed?","11. Requested all signed documents/supporting documentation when further action is required from the customer. CSR did not request any unnecessary or incorrect documents.","12. CSR offered any possible alternative options or solutions to callers request.","13. Effectively accessed and utilized all appropriate systems and resources.","14. Were all changes made in AMS and/or carrier site ?","15. All associated policies were updated as needed (for example flood and umbrella).","16. Was the appropriate suspense created for follow up if needed?","17. Addressed any service-related suspense items that were open at the time they spoke with the customer.","18. CSR updated any suspense that was addressed during the call and closed if applicable.","19. Was the correct disposition selected","1. Did the CSR provide a wrap-up summary including the CSRs and callers action items?","2. Did the associate offer additional assistance thanked the customer?","1. Bonus Question","1. Was the call an Auto-Fail?","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='qpc_esal'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Call Duration", "Call ID", "Call Type", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "1. Opens the call with a correct introduction", "2. Accurate translation", "3. Provides correct data", "4. Uses correct grammar", "5. Effective communication", "6. Active listening", "7. Avoids long silence gaps", "8. Communicates in a polite and respectful manner", "9. Correctly indicates cannot translate profanity", "10. Closes the call accordingly", "Comment 1", "Comment 2", "Comment 3", "Comment 4", "Comment 5", "Comment 6", "Comment 7", "Comment 8", "Comment 9", "Comment 10", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='pcare_cs'){
-			$header = array("Auditor Name", "Audit Date", "Agent", "Location", "Call Date", "Customer Number", "Call Type", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Greeting - Welcome to the Company and Identification of Agent", "Customer Identification", "Identifying customer persona", "Opening Question", "Acknowledge Customer Reason For Call/Assurance of help", "Thank you statements", "Asking Permission to propose an agenda", "Getting Permission to proceed", "Proposing an Agenda", "Presenting a Timeframe for the Call", "Getting Permission to proceed", "Identify Challenges", "Historical Impact", "Future State",  "Value Proposition", "1st Retention Attempt", "Tactical Hold", "2nd Retention Attempt", "Complete Confirmation of SuperSaver", "Confirmation Daily Special", "Made offer to save package", "Addition Offers Daily Special", "Verify Customer Information", "Web Login", "Email Capture", "SMS Opt-In", "Documentation", "Thank you Closing Statement", "Agent provided correct information to caller and did not mislead", "Correct Delay Length", "Correctly Used Purity Points", "Soft Skills", "Rapport Building", "Maintaining Call Control", "Listening Comprehension", "***Unauthorized Shipments/Not following up in the database", "***Inappropriate Language/Unprofessional Behavior", "***Badgering/Arguing with Customer", "***Incorrect use of SS Actions", "***No S.S. Confirmation", "***Making Health Claims", "***No Retention Offers Made", "Call Feedback", "Agent Review Date", "Agent Feedback Acceptance", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='ab_commercial'){
-			$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super","Call Date","Audit Type", "Auditor Type", "Voc","Audit Start Date Time","Audit End Date Time","Interval","Overall Score","Correct Subject line","Correct Signature/Billing/ Docusign/Bank fax sent if necessary","Subjectivities mentioned on email","Coverage changes mentioned on email","Correct invoice included","Quote included","Correct edits made","Application/forms included if necessary","DE suspense sent if necessary","Prem increase suspense sent if necessary","Coverage Change suspense sent if necessary","Suspense status updated","Renewal sheet updated","Correct activity entered into AMS with email attached","Correct requirements via Docusign (if appliable)","Email 40% Comment 1","Email 40% Comment 2","Email 40% Comment 3","Email 40% Comment 4","Packet 20% Comment 1","Packet 20% Comment 2","Packet 20% Comment 3","Packet 20% Comment 4","Requirements Met 20% Comment 1","Requirements Met 20% Comment 2","Requirements Met 20% Comment 3","Status Update 20 % Comment 1","Status Update 20 % Comment 2","Status Update 20 % Comment 3","Status Update 20 % Comment 4","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=='mpc'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "1.1 Did the rep greet the customer promptly and properly?", "1.2 Did the rep use a pleasant respectful tone?", "2.1 Did the agent properly identify themselves", "2.2 Did the agent advise that the call is being recorded for quality purposes?", "2.3 Did the agent attempt to alter any customer information", "**2.4 Did the agent violate HIPAA in any way?", "3.1 Did the agent speak clearly concisely and at an appropriate pace?", "3.2 Did the agent avoid use of internal terms", "3.3 Did the agent demonstrate a strong use of empathy in responses", "3.4 Did the agent use please and thank you throughout the call", "3.5 Did the agent minimize extended silences throughout the call?", "3.6 Did the agent speak with sincere warmth in his/her voice?", "3.7 Did the agent use correct sentence structure and grammar in email commumnication?", "3.8 Did the agent demonstrate patience with the caller on call and in email communication?", "4.1 Did the agent advise Maryland Medicaid has recently informed us that your MPC HealthChoice benefits", "4.2 Did the agent ask if the caller has recertified for benefits this year?", "4.3 Did the agent provide the MPC Customer Service phone number", "4.4 Did the agent use please and thank you throughout the call?", "4.5 Did the agent transfer to the MD Health Exchange correctly", "4.6 If caller did not want to be transferred, did the agent advise", "5.1 Did the rep accurately and completely document the call?", "5.2 Did the rep complete the correct confirmation and closing?", "5.3 Did the rep thank the caller before closing?", "5.4 Did the rep do everything possible to assist the caller?", "5.5 Did the rep anticipate the caller's needs?",
-			"Greeting Comment 1.1", "Greeting Comment 1.2", "Verification Comment 2.1", "Verification Comment 2.2", "Verification Comment 2.3", "Verification Comment 2.4", "Soft Skills Comment 3.1", "Soft Skills Comment 3.2", "Soft Skills Comment 3.3", "Soft Skills Comment 3.4", "Soft Skills Comment 3.5", "Soft Skills Comment 3.6", "Soft Skills Comment 3.7", "Soft Skills Comment 3.8", "Process Flow Comment 4.1", "Process Flow Comment 4.2", "Process Flow Comment 4.4", "Process Flow Comment 4.5", "Process Flow Comment 4.6", "Closing Comment 5.1", "Closing Comment 5.2", "Closing Comment 5.3", "Closing Comment 5.4", "Closing Comment 5.5",
-			"Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-		}else if($pid=="cinemark"){
-			  $header= Array("Auditor Name","Audit Date","Call Date","Fusion ID","Agent","L1 Supervisor","Call Duration","File Number","Audit Type","VOC","Audit Start Date Time","Audit End Date Time","Interval","QA Score",
-			  "1.1 Did the agent greet the customer appropriately?","1.2 Did the agent provide his/her name?","1.3 Did the agent ask how/he or she could assist the caller?","2.1 Did the agent adhere to the refund rules?",
-			  "2.2 If the customer asked to speak to a supervisor did we transfer to an internal supervisor?","2.3 Did the agent fill out a ticket properly?","2.4 Did the agent include the theater number?",
-			  "2.5 Did the agent leave a correct note?","2.6 Did the agent leave the confirmation number or order number?","2.7 If a Fandango customer called in did the agent supply the correct information?",
-			  "2.8 Was the agent able to access customers past transactions (if applicable)?","3.1 Did the agent have an appropriate tone and use please and thank you throughout the call?",
-			  "3.2 Did the agent close the call correctly?","4.1 Did the agent complete all necessary tasks correctly?","4.2 Did the agent use any inappropriate language or demean the caller?",
-			  "4.3 Did the agent hang up on the caller?","Remarks 1","Remarks 2","Remarks 3","Remarks 4","Remarks 5","Remarks 6","Remarks 7","Remarks 8","Remarks 9","Remarks 10","Remarks 11",
-			  "Remarks 12","Remarks 13","Remarks 14","Remarks 15","Remarks 16","Call Summary","Feedback","Agent Feedback Acceptance","Agent review note","Agent review date",
-			  "Mgnt review date","Mgnt review by","Mgnt review note");
-    }else if($pid=="empire"){
-      $header = array("Auditor Name","Audit Date","Call Date","Fusion ID","Agent","L1 Supervisor","Call Duration","File Number","Audit Type","VOC","Audit Start Date Time","Audit End Date Time","Interval","QA Score","Customer Score","Business Score","Compliance Score",
-      "1.1 Greet the customer on time (within 5 secs)","1.2 Use of standard greeting","1.3 Open the call with an enthusiastic pleasant tone of voice","2.1 Use courtesy phrases",
-      "2.2 Use of customers name appropriately during the call","2.3  Communication skills accent grammar","2.4 Positively represent Empire","2.5 Active listening","2.6  Maintain Call Control/ Dead air exceeded more than 15secs?",
-      "3.1 Probe for accurate understanding of customer need","3.2 Restate customer need correctly","3.3 Set expectations","3.4 Ask customer for appointment","4.1 Verify Customer Account",
-      "4.2 Confirm All Data","4.3 Provide accurate and complete information","4.4 Demonstrate confidence in the information being conveyed","4.5 Did the agent dispose the call correctly?","4.6 Overcome objections",
-      "5.1 Confirm appointment","5.2 Use standard closing","Rude Remarks / Inappropriate Language","Call Avoidance","Remarks 1","Remarks 2","Remarks 3","Remarks 4","Remarks 5","Remarks 6","Remarks 7","Remarks 8","Remarks 9","Remarks 10","Remarks 11",
-      "Remarks 12","Remarks 13","Remarks 14","Remarks 15","Remarks 16","Remarks 17","Remarks 18","Remarks 19","Remarks 20","Remarks 21","Remarks 22","Remarks 23","Call Summary","Feedback","Agent Feedback Acceptance","Agent review note","Agent review date",
-      "Mgnt review date","Mgnt review by","Mgnt review note");
-    }elseif ($pid=="hcpss") {
-      $header=array("Auditor Name","Audit Date","Call Date","Fusion ID","Agent","L1 Supervisor","Call Duration","File Number","Audit Type","VOC","Audit Start Date Time","Audit End Date Time", "Interval","QA Score",
-      "1.1 Did you answer the call promptly and sound ready to take the call?","1.2 Was your introduction clear and free of excess noise and distraction?","1.3 Did you use the correct greeting?",
-      "1.4 Did you smile and sound friendly and happy to take the customers call?","2.1 Was the case captured correctly? Close Contact/ Confirmed Positive","2.2 Did you adhere to the script correctly and Capture all the correct information needed?",
-      "2.3 Did you ask for and verify all information correctly?","2.4 Did you add all the appropriate notes on the call?","2.5 Did you complete the call properly?","3.1 Did you sound confident about the process?",
-      "3.2 Did you go above and beyond the requirements to assure the caller was taken care of?","4.1 Did you appropriately answer the callers questions and make every effort to satisfy the caller and complete your calls purpose?",
-      "4.2 Did the caller have your full attention?/ were you actively listening while the caller was speaking?","4.3 Were you heard interrupting the caller raising your voice or using an unfriendly or unprofessional tone or words/Slang (was your email professional as well)",
-      "5.1 Did you use hold times appropriately?","5.2 Was the call handled correctly/dipostioned correctly?","5.3 If confirmed Postive did the agent correctly list all the close contacts.",
-      "5.4 Were you heard saying anything negative or unprofessional in regard to this call on or off the phone?","Comment 1","Comment 2","Comment 3","Comment 4","Comment 5","Comment 6","Comment 7","Comment 8","Comment 9","Comment 10","Comment 11",
-      "Comment 12","Comment 13","Comment 14","Comment 15","Comment 16","Comment 17","Comment 18","Call Summary","Feedback","Agent Feedback Acceptance","Agent review note","Agent review date",
-      "Mgnt review date","Mgnt review by","Mgnt review note");
-    }else if($pid=="cmn"){
-      $header=array("Auditor Name","Audit Date","Call Date","Fusion ID","Agent","L1 Supervisor","Call Duration","File Number","Audit Type","VOC","Audit Start Date Time","Audit End Date Time", "Interval","QA Score",
-      "Opening","Closing","Empathy/Apology","Ownership/Assurance","Tone / Rate of Speech / Fumbling","Active Listening","Interruption / Parallel Conversation","Issue Identification / Understanding","Probing",
-      "Mode of Payment confirmation","Refund Processed Correctly","Email ID Verification","Phone Number Verification","ZTP","Comment 1","Comment 2","Comment 3","Comment 4","Comment 5","Comment 6","Comment 7","Comment 8",
-      "Comment 9","Comment 10","Comment 11","Comment 12","Comment 13","Comment 14","Call Summary","Feedback","Agent Feedback Acceptance","Agent review note","Agent review date",
-      "Mgnt review date","Mgnt review by","Mgnt review note");
-    }else if($pid=="pilgrim"){
-      $header=array("Auditor Name",
-      "Audit Date",
-      "Call Date",
-      "Fusion ID",
-      "Agent",
-      "L1 Supervisor",
-      "Call Duration",
-      "File Number",
-      "Audit Type",
-      "VOC",
-      "Audit Start Date Time",
-      "Audit End Date Time",
-      "Interval",
-      "Possible Score",
-      "Earned Score",
-      "Compliance Score",
-      "Customer Score",
-      "Business Score",
-      "Compliance Score Percentage",
-      "Customer Score Percentage",
-      "Business Score Percentage",
-      "QA Score",
-      "Did the agent open the call within 5 seconds?",
-      "Did the agent give the proper introduction and include their name?",
-      "Did the agent explain the offer and/or products?","Did the agent give customer proper responses?","Did the agent correctly probe?",
-      "Did the agent disposition the call properly?",
-      "Was the agent polite & courteous?",
-      "Was the agent ready for the call (minimal dead air)?","Did the agent show energy empathy and enthusiasm?",
-      "Did the agent use appropriate tone pacing grammar & pronunciation?",
-      "Did the agent show accurate and complete grasp of information?",
-      "Did the agent set up Gold Card correctly-ideology",
-      "Did the agent properly disengage disruptive/prank caller",
-      "Rude Remarks",
-      "Call Avoidance / Dumping",
-       "Comment 1",
-       "Comment 2",
-       "Comment 3",
-       "Comment 4",
-       "Comment 5",
-       "Comment 6",
-       "Comment 7",
-       "Comment 8",
-       "Comment 9",
-       "Comment 10",
-       "Comment 11",
-       "Comment 12",
-       "Comment 13",
-       "Comment 14",
-       "Comment 15",
-       "Call Summary",
-       "Feedback",
-       "Agent Feedback Acceptance",
-      "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
-    }else if($pid=="bluebenefits"){
-      $header=array("Auditor Name",
-      "Audit Date",
-      "Call Date",
-      "Fusion ID",
-      "Agent",
-      "L1 Supervisor",
-      "Call Duration",
-      "File Number",
-      "Audit Type",
-      "VOC",
-      "Audit Start Date Time",
-      "Audit End Date Time",
-      "Interval",
-      "QA Score",
-      "Did the rep greet the customer promptly and properly?",
-      "Did the rep use a pleasant respectful tone?",
-      "Did the rep correctly verify the callers info prior to proceeding with the call? ",
-      "Did the rep offer a willingness statement? I d be happy to help you with that etc",
-      "Did the rep display a professional manner and refrain from speaking over or interrupting the caller?",
-      "Did the rep have any incomplete provider info?",
-      "Did the rep incorrectly quote any benefits? ",
-      "Did the rep incorrectly quote any copay or coinsurance? Or did they miss the coinsurance copay?",
-      "Did the rep incorrectly give CR RC MAB RAA CY or PY?",
-      "Did the rep incorrectly quote the deductible?",
-      "Did the rep give any other incorrect information or miss any of the following regarding plan Effective Date Frequency Limitation Network OOP Max Precert Pre-X Term Date",
-      "Did the rep provide the correct Claims Address when necessary?",
-      "Did the rep include all information necessary regarding Medical Necessity?",
-      "Did the rep include all details correctly regarding DME coverage when necessary?",
-      "Did the agent speak clearly concisely and at an appropriate pace?",
-      "Did the agent avoid use of internal terms technical terms slang and jargon on the call and in email?",
-      "Did the agent demonstrate a strong use of empathy in responses where required on the call and in email?",
-      "Did the agent use please and thank you throughout the call and in email communication?",
-      "Did the agent minimize extended silences throughout the call?",
-      "Did the agent speak with sincere warmth in his her voice?",
-      "Did the agent use correct sentence structure and grammar in email commumnication?",
-      "Did the agent demonstrate patience with the caller on call and in email communication?",
-      "Did the rep accurately and completely document the call?",
-      "Did the rep complete the correct confirmation and closing?",
-      "Did the rep thank the caller before closing?",
-      "Did the rep do everything possible to assist the caller?",
-      "Did the rep anticipate the callers needs?to avoid unecessary callbacks or confusion",
-
-
-       "Comment 1",
-       "Comment 2",
-       "Comment 3",
-       "Comment 4",
-       "Comment 5",
-       "Comment 6",
-       "Comment 7",
-       "Comment 8",
-       "Comment 9",
-       "Comment 10",
-       "Comment 11",
-       "Comment 12",
-       "Comment 13",
-       "Comment 14",
-       "Comment 15",
-       "Comment 16",
-       "Comment 17",
-       "Comment 18",
-       "Comment 19",
-       "Comment 20",
-       "Comment 21",
-       "Comment 22",
-       "Comment 23",
-       "Comment 24",
-       "Comment 25",
-       "Comment 26",
-       "Comment 27",
-       "Call Summary",
-       "Feedback",
-       "Agent Feedback Acceptance",
-      "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
-    }else if($pid=="healthbridge"){
-      $header=array("Auditor Name",
-      "Audit Date",
-      "Call Date",
-      "Fusion ID",
-      "Agent",
-      "L1 Supervisor",
-      "Call Duration",
-      "File Number",
-      "Audit Type",
-      "VOC",
-      "Audit Start Date Time",
-      "Audit End Date Time",
-      "Interval",
-      "QA Score",
-      "Correct Information provided regarding account details benefit information plan etc",
-      "Resolved all member concerns or questions.",
-      "Added detailed notes to the member account. ",
-      "Disposition the call appropriately.",
-      "Verified the member's name last 4 SS# DOB and zipcode. ",
-      "Used the verification button. ",
-      "Followed all company procedures guidelines and policies.",
-      "Informed the member of call recording (OUTBOUND ONLY)",
-      "Proper Greeting and Closing was used including name company and name. ",
-      "Clear communication active listening call control and efficiency was demonstrated throughout the call. ",
-      "Proper expectations were set empathetic pleasant voice tone and positive attitude during the call. ",
-      "Avoided industry jargon excessive hold time dead air slang interruptions or self talk.",
-      "Verified current address preffered phone number and email address. ",
-      "If applicable requested payment from member and other family members.",
-      "If applicable the member has outstanding balance after payment ask if they would like us to set up a recurring payment.",
-      "Did agent present the authorize payment ask before processing",
-      "Did agent offer confirmation number",
-      "Adhered to HIPAA regulations throughout the entire call.",
-      "Used inappropriate tone and language with the member",
-      "Did agent repeat card numbers back. ",
-      "Call Avoidance",
-       "Comment 1",
-       "Comment 2",
-       "Comment 3",
-       "Comment 4",
-       "Comment 5",
-       "Comment 6",
-       "Comment 7",
-       "Comment 8",
-       "Comment 9",
-       "Comment 10",
-       "Comment 11",
-       "Comment 12",
-       "Comment 13",
-       "Comment 14",
-       "Comment 15",
-       "Comment 16",
-       "Comment 17",
-       "Comment 18",
-       "Comment 19",
-       "Comment 20",
-       "Comment 21",
-       "Comment 22",
-       "Comment 23",
-       "Call Summary",
-       "Feedback",
-       "Agent Feedback Acceptance",
-      "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
-	}else if($pid=="healthbridgenew"){
-		$header=array("Auditor Name",
-		"Audit Date",
-		"Call Date",
-		"Fusion ID",
-		"Agent",
-		"L1 Supervisor",
-		"Call Duration",
-		"File Number",
-		"Audit Type",
-		"Auditor Type",
-		"VOC",
-		"Audit Start Date Time",
-		"Audit End Date Time",
-		"Interval",
-		"Earn Score",
-		"Possible Score",
-		"QA Score",
-		"Resolved all member concerns or questions",
-		"Added detailed notes to the member account and Jira ticket if needed",
-		"Dispositioned the call appropriately",
-		"Use of headset during calls",
-		"Used the verification button",
-		"Followed all company procedures guidelines and policies",
-		"Proper Greeting and Closing was used included company name Offered survey to the member.",
-		"Clear communication active listening call control and efficiency was demonstrated throughout the call",
-		"Proper expectations were set empathetic pleasant voice tone and positive attitude during the call ",
-		"Avoided industry jargon excessive hold time dead air slang interruptions or self talk ",
-		"If applicable requested payment from member and other family members",
-		"If applicable the member has outstanding balance after payment ask if they would like us to set up a recurring payment",
-		"Did agent present the authorize payment ask before processing ",
-		"Did agent offer confirmation number",
-		"Verified the members name last 4 SS# member number DOB and address",
-		"Correct Information provided regarding account details benefit information plan etc",
-		"Adhered to HIPAA regulations throughout the entire call",
-		"Used inappropriate tone and language with the member",
-		"Call Avoidance",
-		 "Comment 1",
-		 "Comment 2",
-		 "Comment 3",
-		 "Comment 4",
-		 "Comment 5",
-		 "Comment 6",
-		 "Comment 7",
-		 "Comment 8",
-		 "Comment 9",
-		 "Comment 10",
-		 "Comment 11",
-		 "Comment 12",
-		 "Comment 13",
-		 "Comment 14",
-		 "Comment 15",
-		 "Comment 16",
-		 "Comment 17",
-		 "Comment 18",
-		 "Comment 19",
-		 "Comment 20",
-		 "Call Summary",
-		 "Feedback",
-		 "Agent Feedback Acceptance",
-		 "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
-    }else if($pid=="mcKinsey"){
-      $header=array("Auditor Name",
-      "Audit Date",
-      "Call Date",
-      "Fusion ID",
-      "Agent",
-      "Call Duration",
-      "L1 Supervisor",
-      "File Number",
-      "Audit Type",
-      "VOC",
-      "Audit Start Date Time",
-      "Audit End Date Time",
-      "QA Score",
-      "Did the rep greet the caller properly? ",
-      "Did the rep use a pleasant respectful tone?",
-      "Did the rep answer in a timely manner? (within 5 seconds) ",
-      "Did the rep collect and verify the customers information appropriately and accurately? ",
-      "Did the agent correctly define Type of Case? ",
-      "Did the rep correctly mark all required dates and data? ",
-      "Did the rep Contact Trace and ensure this case was/was not connected to any others, and report if cleaning was required?",
-      "Did the agent speak clearly concisely and at an appropriate pace?",
-      "Did the agent demonstrate a strong use of empathy in responses where required on the call and in email? ",
-      "Did the agent use please and thank you throughout the call and in email communication? ",
-      "Did the agent minimize extended silences throughout the call? ",
-      "Did the agent speak with sincere warmth in his/her voice?",
-      "Did the agent use correct sentence structure and grammar in email communication? ",
-      "Did the agent demonstrate patience with the caller on call and in email communication?",
-      "Did the rep accurately and completely document the call?",
-      "Did the rep complete the correct confirmation and closing?",
-      "Did the rep provide the correct instructions based upon the Type of Case? ",
-      "Did the rep do everything provide clear concise direction on isolation or quarantine?",
-      "Did the rep make appropriate contact to the individual managers departments and Supervisors when required and/or email any requested files and Guidance Letters?",
-       "Comment 1",
-       "Comment 2",
-       "Comment 3",
-       "Comment 4",
-       "Comment 5",
-       "Comment 6",
-       "Comment 7",
-       "Comment 8",
-       "Comment 9",
-       "Comment 10",
-       "Comment 11",
-       "Comment 12",
-       "Comment 13",
-       "Comment 14",
-       "Comment 15",
-       "Comment 16",
-       "Comment 17",
-       "Comment 18",
-       "Comment 19",
-       "Call Summary",
-       "Feedback",
-       "Agent Feedback Acceptance",
-      "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
-    }else if($pid=="compliance"){
-      $header=array("Auditor Name",
-      "Audit Date",
-      "Call Date",
-      "Fusion ID",
-      "Agent",
-      "L1 Supervisor",
-      "Call Duration",
-      "File Number",
-      "Audit Type",
-      "VOC",
-      "Audit Start Date Time",
-      "Audit End Date Time",
-      "Interval",
-      "QA Score",
-      "Compliance Status",
-      "Issue Type",
-      "Reason",
-       "Call Summary",
-       "Feedback",
-       "Agent Feedback Acceptance",
-      "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
-    }else if($pid=="affinity"){
-      $header=array("Auditor Name",
-      "Audit Date",
-      "Call Date",
-      "Fusion ID",
-      "Agent",
-      "Call Duration",
-      "Audit Type",
-      "VOC",
-      "Audit Start Date Time",
-      "Audit End Date Time",
-      "QA Score",
-      "Did the agent verify the patient's name date of birth and ID number? ",
-      "Did the agent verify the Provider's ID number?",
-      "Did the agent adhere to the approved call opening greeting ?",
-      "Did the agent adhere to the approved call closing script? ",
-      "Did the agent adhere to the approved hold script? ",
-      "Did the agent adhere to the approved transfer script? ",
-      "Did the agent acknowledge the caller and their needs?   ",
-      "Did the agent listen to the caller without interruptions?",
-      "Did the agent sound clear confident friendly polite and welcoming Displayed empathy?",
-      "Did the CRP determine if this was a repeat call and review the history of the issue for the caller? ",
-      "Did the agent keep the caller informed of his her actions?",
-      "Did the agent refrain from using jargon or acronyms?  ",
-      "Did the agent demonstrate control of the call and prevented escalations?",
-      "Did the agent use the caller's name at least once during the call? ",
-      "Did the agent attempt to resolve the caller's issue without needing to escalate the call?",
-      "Did the agent offer the most accurate/up to date information?",
-      "Did the agent offer detailed information/all possible solutions?",
-      "Did the agent use all available resources/tools to assist the caller? ",
-      "Did the agent document the customer/contact information?",
-      "Did the agent use the most appropriate subject/category codes?",
-      "Did the agent document the call in detail including inquiry details and resolution?",
-      "Did the agent accurately route the inquiry to the appropriate party/group?",
-      "Did the agent upload the verbal request form in UMK2?",
-      "Did the agent take time at the beginning of the call to finish noting the previous call?",
-       "Comment 1",
-       "Comment 2",
-       "Comment 3",
-       "Comment 4",
-       "Comment 5",
-       "Comment 6",
-       "Comment 7",
-       "Comment 8",
-       "Comment 9",
-       "Comment 10",
-       "Comment 11",
-       "Comment 12",
-       "Comment 13",
-       "Comment 14",
-       "Comment 15",
-       "Comment 16",
-       "Comment 17",
-       "Comment 18",
-       "Comment 19",
-       "Comment 20",
-       "Comment 21",
-       "Comment 22",
-       "Comment 23",
-       "Comment 24",
-       "Call Summary",
-       "Feedback",
-       "Agent Feedback Acceptance",
-      "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
-    }else if($pid=="affinity_pro"){
-      $header=array("Auditor Name",
-      "Audit Date",
-      "Call Date",
-      "Fusion ID",
-      "Agent",
-      "Call Duration",
-      "Audit Type",
-      "VOC",
-      "Audit Start Date Time",
-      "Audit End Date Time",
-      "Actual Disposition",
-      "Customer Contact Number","LOB","State","Member/Provider",
-      "QA Score",
-      "Appropriately allowed customer to express their feelings and expressed sincere and appropriate empathy",
-      "Enthusiastic smiled and displayed a positive helpful tone throughout the call",
-      "Demonstrated courteous and professional demeanor at all times while personalizing call as appropriate",
-      "Displayed a high level of confidence and demonstrated a can do attitude at all times",
-      "Actively listened avoided interruptions maintained control acknowledged all of the callers concerns and guided call towards a logical resolution",
-      "Spoke clearly at an appropriate pace and was easily understood used appropriate positive word choices phrases and avoided technical jargon",
-      "Remained focused and avoided unexplained dead air and was able to multi-task when appropriate",
-      "Agent is prepared for the call and followed correct opening",
-      "Followed correct closing and exited call in a timely manner",
-      "Utilized correct hold and/or mute procedure",
-      "Utilized correct transfer procedure",
-      "Successfully verified HIPAA and verified caller is authorized",
-      "Verified demographic & PCP information on file as appropriate handled HEDIS alert correctly",
-      "Promoted Self Service options whenever appropriate",
-      "Erroneously referred member to Regulatory Agencies",
-      "Avoided assumptions confirmed understanding of the issue by asking open and/or closed questions correctly identified issue to be resolved and reviewed notes/history appropriately",
-      "Escalated the call appropriately or as requested by the caller",
-      "FCR - Exhausted all available options by utilizing tools/resources/staff effectively to successfully resolve all of the callers concerns",
-      "Provided complete and accurate information answered questions directly and set clear expectations on next steps",
-      "Clearly and accurately documented account ",
-      "Did the agent correctly identify as an Appeal?",
-      "Did the agent correctly identify as a Grievance?",
-      "Did the agent correctly code the call?",
-      "Wow call the agent went the extra step and did the right thing and the call could be used for training",
-       "Pharmacy Related Call",
-       "DSNP Member",
-       "Comment 1",
-       "Comment 2",
-       "Comment 3",
-       "Comment 4",
-       "Comment 5",
-       "Comment 6",
-       "Comment 7",
-       "Comment 8",
-       "Comment 9",
-       "Comment 10",
-       "Comment 11",
-       "Comment 12",
-       "Comment 13",
-       "Comment 14",
-       "Comment 15",
-       "Comment 16",
-       "Comment 17",
-       "Comment 18",
-       "Comment 19",
-       "Comment 20",
-       "Comment 21",
-       "Comment 22",
-       "Comment 23",
-       "Comment 24",
-       "Comment 25",
-       "Comment 26",
-       "Call Summary",
-       "Feedback",
-       "Agent Feedback Acceptance",
-      "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
-    }
-    else if($pid=="cci_medicare"){
-      $header=array("Auditor Name",
-      "Audit Date",
-      "Call Date",
-      "Fusion ID",
-      "Agent",
-      "Call Duration",
-      "Audit Type",
-      "Auditor Type",
-      "VOC",
-      "Audit Start Date Time",
-      "Audit End Date Time",
-      "QA Score",
-      "Call Opening",
-      "Prepared for Call",
-      "Serving with Empathy - Active Listening",
-      "Serving with Empathy - Empathy",
-      "Serving with Empathy - Positive Tone",
-      "Serving with Empathy - Positive Language/Speaking Human",
-      "Address Caller by Name",
-      "Was the Call Documented - Category/Subcategory",
-      "Was the Call Documented - Referral Second Case",
-      "Documentation-Comments",
-      "Entities Linked/Documented",
-      "Hold Policy",
-      "Dead Air",
-      "Hold Verbiage",
-      "Appropriate Transfer",
-      "Accessed Appropriate Systems  ",
-      "Misc. Policies & Procedures",
-      "Timeframes ",
-      "Offers Internal/External Telephone",
-      "Offer Additional Assistance ",
-      "Offer Survey Appropriately",
-      "Thanks Member for Calling Branded Entity  ",
-      "Information Accuracy",
-      "Completeness",
-      "Actions",
-      "Validate for Understanding",
-      "Privacy Compliance",
-       "Call Summary",
-       "Feedback",
-       "Agent Feedback Acceptance",
-      "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
-    }else if($pid=="cci_commercial"){
-      $header=array("Auditor Name",
-      "Audit Date",
-      "Call Date",
-      "Fusion ID",
-      "Agent",
-      "Call Duration",
-      "Audit Type",
-      "VOC",
-      "Audit Start Date Time",
-      "Audit End Date Time",
-      "QA Score",
-      "Call Opening",
-      "Prepared for Call",
-      "Serving with Empathy - Active Listening",
-      "Serving with Empathy - Empathy",
-      "Serving with Empathy - Positive Tone",
-      "Serving with Empathy - Positive Language/Speaking Human",
-      "Address Caller by Name",
-      "Was the Call Documented - Category/Subcategory",
-      "Was the Call Documented - Creating of second case",
-      "Documentation-Comments",
-      "Entities Linked/Documented",
-      "Hold Policy",
-      "Dead Air",
-      "Hold Verbiage",
-      "Appropriate Transfer",
-      "Accessed Appropriate Systems  ",
-      "Misc. Policies & Procedures",
-      "Timeframes ",
-      "Offers Internal/External Telephone",
-      "Offer Additional Assistance ",
-      "Offer Survey Appropriately",
-      "Thanks Member for Calling Branded Entity  ",
-      "Information Accuracy",
-      "Completeness",
-      "Actions",
-      "Validate for Understanding",
-      "Privacy Compliance",
-       "Call Summary",
-       "Feedback",
-       "Agent Feedback Acceptance",
-      "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
-    }else if($pid=="lockheed"){
-      $header=array("Auditor Name",
-      "Audit Date",
-      "Call Date",
-      "Fusion ID",
-      "Agent",
-      "Call Duration",
-      "Audit Type",
-      "VOC",
-      "Audit Start Date Time",
-      "Audit End Date Time",
-      "QA Score",
-      "Opening Script",
-      "Did CSR demonstrate a good tone of voice throughout the call?",
-      "Did CSR properly verify account & make appropriate updates if necessary?",
-      "Did CSR deliver assurance statement after purpose?",
-      "Did CSR followed proper follow up process?",
-      "Did CSR followed follow up script?",
-      "Personable/friendly/ polite?",
-      "Did CSR demonstrate active listening skills?",
-      "Proper use of probing questions?",
-      "Did CSR validated Close Contacts?",
-      "Did CSR initiated cleaning process?",
-      "Did CSR Reviewed Vaccination Record?",
-      "Did CSR corrected CT Dates?",
-      "Did CSR use all available systems and tools?",
-      "Did CSR provide complete and accurate information?",
-      "Additional Case Mgmt Required?",
-      "Did CSR used Template for comments",
-      "Did CSR Marked CT Complete?",
-       "Call Summary",
-       "Feedback",
-       "Agent Feedback Acceptance",
-      "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
-    }else if($pid=="ways2well"){
-    	$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call ID", "Call Duration", "Campaign", "Phone Number", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score","Customer score","Business score","Compliance score",
-		 "Call Opening: Agent Name and Brand Name", "Confirm the Members First Name", "Use the appropriate scripting", "Greeting for inbound: answered within 5 seconds", "Serving with Empathy - Active Listening", "Serving with Empathy - Positive Tone", "Serving with Empathy - Positive Language/ Rapport Building", "Acknowledgements timely and effectively", "Pace of Speech", "Did the agent used effective engagement", "Address Caller by Name", "Did not Interrupt the caller", "Did the agent used correct USP (unique selling point) for retention", "Asked probing questions effectively or timely", "Hold Policy (60 Seconds)",
-		 "Dead Air","Hold Verbiage","Accomplish the resolution accurately and completely","Performed follow-up steps","Answered the caller inquiries","Read out Policies & Procedures","Offers Internal/External Telephone","Verify the Members Full Name/ DOB/ Address/ and Phone Number (All 4)","Offer Additional Assistance","Thanks Member for Calling or taking the time to speak with us","Was the Call Documented appropriately","Unprofessionalism","Critical Error",
-		 "Call Opening: Agent Name and Brand Name Remarks", "Confirm the Members First Name Remarks", "Use the appropriate scripting Remarks", "Greeting for inbound: answered within 5 seconds Remarks", "Serving with Empathy - Active Listening Remarks", "Serving with Empathy - Positive Tone Remarks", "Serving with Empathy - Positive Language/ Rapport Building Remarks", "Acknowledgements timely and effectively Remarks", "Pace of Speech Remarks", "Did the agent used effective engagement Remarks", "Address Caller by Name Remarks", "Did not Interrupt the caller Remarks", "Did the agent used correct USP (unique selling point) for retention Remarks", "Asked probing questions effectively or timely Remarks", "Hold Policy (60 Seconds) Remarks",
-		 "Dead Air Remarks","Hold Verbiage Remarks","Accomplish the resolution accurately and completely Remarks","Performed follow-up steps Remarks","Answered the caller inquiries Remarks","Read out Policies & Procedures Remarks","Offers Internal/External Telephone Remarks","Verify the Members Full Name/ DOB/Address/ and Phone Number (All 4) Remarks","Offer Additional Assistance Remarks","Thanks Member for Calling or taking the time to speak with us Remarks","Was the Call Documented appropriately Remarks","Unprofessionalism Remarks","Critical Error Remarks",
-		 "Call Summary", "Feedback", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
-    }else if($pid=="kenny_u_pull"){
-    	$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call ID", "Call Duration", "Call Type", "case", "Audit Type", "VOC","Site/Location", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score",
-		 "Introducing Self", "Introducing Brand Name", "Greets the customer in a courteous manner", "Is the car complete?", "The Deductions", "Negotiation", "Accessibility – Snow removal (Winter period)", "Expected Price", "Branch Selection", "Phone Number and Postal Code", "File opening", "Vehicle identification Number(NIV – VIN)", "Mileage", "Aesthetic Conditions", "Mechanical Condition", "Towing Address",
-		 "Customer Drops off his Vehicle (Drop-Off)","Active Listening","Interruption","Tone of Voice (from greeting to closing)","Hold & Dead air","Ending the call","Confirmation Phone Number","Address Confirmation","Confirmation of the tow date/time","Process after purchase","Process Adherence","Rude Remarks","Call Avoidance",
-		  "Introducing Self Remarks", "Introducing Brand-Name Remarks", "Greets the customer in a courteous manner Remarks", "Is the car complete? Remarks", "The Deductions Remarks", "Negotiation Remarks", "Accessibility – Snow removal (Winter period) Remarks", "Expected Price Remarks", "Branch Selection Remarks", "Phone Number and Postal Code Remarks", "File opening Remarks", "Vehicle identification Number(NIV – VIN)Remarks", "Mileage Remarks", "Aesthetic Conditions Remarks", "Mechanical Condition Remarks", "Towing Address Remarks","Customer Drops off his Vehicle (Drop-Off) Remarks","Active Listening Remarks","Interruption Remarks","Tone of Voice (from greeting to closing) Remarks","Hold & Dead air Remarks","Ending the call Remarks","Confirmation Phone Number Remarks","Address Confirmation Remarks","Confirmation of the tow date/time Remarks","Process after purchase Remarks","Process Adherence Remarks","Rude Remarks Remarks","Call Avoidance Remarks",
-		 "Call Summary", "Feedback", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
-    }
-
-
-		$row = "";
-		foreach($header as $data) $row .= ''.$data.',';
-		fwrite($fopen,rtrim($row,",")."\r\n");
-		$searches = array("\r", "\n", "\r\n");
-
-		if($pid=='brightway_prescreen_new'){
-			foreach($rr as $user){
-				if($user['entry_by']!=''){
-					$auditorName = $user['auditor_name'];
-				}else{
-					$auditorName = $user['client_name'];
-				}
-
-				if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
-					$interval1 = '---';
-				}else{
-					$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
-				}
-
-
-				$row = '"'.$auditorName.'",';
-				$row .= '"'.$user['audit_date'].'",';
-				$row .= '"'.$user['call_date'].'",';
+			if($field_val[$z]==="auditor_name"){
+				$row = '"'.$user['auditor_name'].'",';
+			}elseif($field_val[$z]==="fusion_id"){
 				$row .= '"'.$user['fusion_id'].'",';
+			}elseif($field_val[$z]==="agent_id"){
 				$row .= '"'.$user['fname']." ".$user['lname'].'",';
+			}elseif($field_val[$z]==="tl_id"){
 				$row .= '"'.$user['tl_name'].'",';
+			}elseif(in_array($field_val[$z], array('call_summary','feedback','agent_rvw_note','mgnt_rvw_note'))) {
 
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user[$field_val[$z]])).'",';
 
-                $row .= '"'.$user['phone'].'",';
-                $row .= '"'.$user['file_no'].'",';
-                $row .= '"'.$user['filler'].'",';
-
-                $row .= '"'.$user['site'].'",';
-                $row .= '"'.$user['area_code'].'",';
-                $row .= '"'.$user['call_duration'].'",';
-
-				$row .= '"'.$user['audit_type'].'",';
-				$row .= '"'.$user['auditor_type'].'",';
-				$row .= '"'.$user['voc'].'",';
-
-				$row .= '"'.$user['audit_start_time'].'",';
-				$row .= '"'.$user['entry_date'].'",';
-				$row .= '"'.$interval1.'",';
-
-				$row .= '"'.$user['possible_score'].'",';
-				$row .= '"'.$user['earned_score'].'",';
-				$row .= '"'.$user['overall_score'].'",';
-
-                //$row .= '"'.$user['transfer_to'].'",';
-
-                $row .= '"'.$user['appropriate_greeting'].'",';
-                $row .= '"'.$user['pre_screen_template'].'",';
-                $row .= '"'.$user['csr_disposition'].'",';
-                $row .= '"'.$user['appropriate_soft_skills'].'",';
-                $row .= '"'.$user['csr_use_the_proper'].'",';
-                $row .= '"'.$user['csr_transfer_correct'].'",';
-                $row .= '"'.$user['appropriately_authenticated'].'",';
-                $row .= '"'.$user['experience_any_audio'].'",';
-                $row .= '"'.$user['verified_and_change'].'",';
-
-                $row .= '"'.$user['cmt1'].'",';
-                $row .= '"'.$user['cmt2'].'",';
-                $row .= '"'.$user['cmt3'].'",';
-                $row .= '"'.$user['cmt4'].'",';
-                $row .= '"'.$user['cmt5'].'",';
-                $row .= '"'.$user['cmt6'].'",';
-                $row .= '"'.$user['cmt7'].'",';
-                $row .= '"'.$user['cmt8'].'",';
-                $row .= '"'.$user['cmt9'].'",';
-
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
-				$row .= '"'.$user['agnt_fd_acpt'].'",';
-				$row .= '"'.$user['agent_rvw_date'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
-				$row .= '"'.$user['mgnt_rvw_date'].'",';
-				$row .= '"'.$user['mgnt_rvw_name'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'"';
-
-				fwrite($fopen,$row."\r\n");
+			}else{
+				$row .= '"'.$user[$field_val[$z]].'",';
 			}
 
-			fclose($fopen);
+		}
+
+			fwrite($fopen,$row."\r\n");
+			$row = "";
+	}
+
+	// if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+	// 	$interval1 = '---';
+	// }else{
+	// 	$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+	// }
+
+	fclose($fopen);
+}
+
+public function create_qa_paynearby_common_new_CSV($header,$rr,$pid)
+{
+	$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+	$fopen = fopen($filename,"w+");
+
+	$field_name="SHOW FULL COLUMNS FROM qa_paynearby_".$pid."_feedback WHERE Comment!=''";
+	$field_name=$this->Common_model->get_query_result_array($field_name);
+	$fld_cnt=count($field_name);
+	for($i=0;$i<$fld_cnt;$i++){
+					$val=$field_name[$i]['Field'];
+					if($val!=""){
+						$field_val[]=$val;
+					}
+				 }
+
+	array_unshift($field_val ,"auditor_name");
+	$key = array_search ('agent_id', $field_val);
+	array_splice($field_val, $key, 0, 'fusion_id');
+	$field_val=array_values($field_val);
+
+	$count_for_field=count($field_val);
+
+	$row = "";
+	foreach($header as $data) $row .= ''.$data.',';
+	fwrite($fopen,rtrim($row,",")."\r\n");
+	$searches = array("\r", "\n", "\r\n");
+	$row = "";
+	// print_r($rr);
+	// die;
+	foreach($rr as $user)
+	{
+		for($z=0;$z<$count_for_field;$z++){
+
+			if($field_val[$z]==="auditor_name"){
+				$row = '"'.$user['auditor_name'].'",';
+			}elseif($field_val[$z]==="fusion_id"){
+				$row .= '"'.$user['fusion_id'].'",';
+			}elseif($field_val[$z]==="agent_id"){
+				$row .= '"'.$user['fname']." ".$user['lname'].'",';
+			}elseif($field_val[$z]==="tl_id"){
+				$row .= '"'.$user['tl_name'].'",';
+			}elseif(in_array($field_val[$z], array('call_summary','feedback','agent_rvw_note','mgnt_rvw_note'))) {
+
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user[$field_val[$z]])).'",';
+
+			}else{
+				$row .= '"'.$user[$field_val[$z]].'",';
+			}
+
+		}
+
+			fwrite($fopen,$row."\r\n");
+			$row = "";
+	}
+
+	fclose($fopen);
+}
+
+public function closeloopHeader(){
+	return Array ("Auditor Name","Audit Date","Fusion Id","Agent","L1 Super","Call Date","Call Duration","Campaign","Incoming_No","Register_No ","Call_Link ","Ticket_No ","Call_Disconnect ","Tagging_Disposition ","Query_Service ","Type_Call ","Audit Type ","Auditor Type ","VOC ","Overall Score ","Possible Score ","Earned Score ","Opening With Greeting (Incl Late Opening/Name Confirmation) ","Did Agent Understood The Query & Necessary Probing Done ","Followed Proper Telephone Etiquettes (Mute Hold Transfer) ","Good In Listening/Repetition Not Happened Due To Lack In Listening Skills/Attentive ","Was ticket closed with in TAT by BO Team ","Did The Agent Was Polite On Call/Not Done Arguments/Professional ","Did The Agent Have Patience ","Correct and complete resolution provided on call ","Tagging and Dispositions ","Feedback on PNB service ","BO Provide correct Resolution or not ","Was customer proper SR raised or not ","Proper Empathy Done Whenever Required ","Did The Agent Maintained Proper Pace/Tone Modulation/Clarity In Speech ","Was Correct Tagging Done/Raised Proper Ticket when ever required ","Effective Rebuttals On Objection Handling/Convincing Skills ","Was Exact Tat Informed by agent ","Did The Agent Followed Proper Call Closing Script As Per Process ","Comments 1 ","Comments 2 ","Comments 3 ","Comments 4 ","Comments 5 ","Comments 6 ","Comments 7 ","Comments 8 ","Comments 9 ","Comments 10 ","Comments 11 ","Comments 12 ","Comments 13 ","Comments 14 ","Comments 15 ","Comments 16 ","Comments 17 ","Comments 18 ","Call Summary ","Feedback ","Entry By ","Entry Date ","Audit Start Time ","Client entry by ","Mgnt review by ","Mgnt review note ","Mgnt review date ","Agent review note ","Agent Feedback Acceptance ","Agent review date ","Client review by ","Client review note ","Client_rvw_date");
+}
+
+public function create_qa_ameridial_CSV($rr,$pid)
+{
+	$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+	$fopen = fopen($filename,"w+");
+
+	if($pid=='brightway_prescreen_new'){
+		$header = array("Auditor Name22","Audit Date","Call Date","Fusion Id","Agent","L1 Super","Phone","File No. ","Filler","Campaign Code","Area Code","Call Duration ","Audit Type ","Auditor Type ","VOC ", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Possible Score ","Earned Score ","Overall Score ","1.1 Did the CSR use the appropriate greeting? ","1.2 Was the Pre-Screen template completed correctly?","1.3 Did the CSR disposition the call correctly?","1.4 Did the agent use appropriate soft skills no overtalk and demonstrated professionalism?","1.5 Did the CSR use the proper hold procedure?","1.6  Did the CSR transfer to the correct skill based on the decision flow diagram?","1.7  Was the caller appropriately authenticated?","1.8  Did the CSR experience any audio issues? (For Tracking Puposes Only)","1.9  If verified and change necessary was AMS updated correctly?" ,"Comments 1 ","Comments 2 ","Comments 3 ","Comments 4 ","Comments 5 ","Comments 6 ","Comments 7 ","Comments 8 ","Comments 9","Call Summary ","Feedback ","Agent Feedback Acceptance","Agent review date ","Agent review note ","Mgnt review date ","Management Review By","Mgnt review note");
+		} else if($pid=='brightway_evaluation_new'){
+		$header = array("Auditor Name","Audit Date","Call Date","Fusion Id","Agent","L1 Super","Phone","File No. ","Filler","Campaign Code","Area Code","Call Duration ","Audit Type ","Auditor Type ","VOC ", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Possible Score ","Earned Score ","Overall Score ","1.1 Did the CSR use the appropriate greeting including Brightway branding their own name and ask how he/she can assist?","1.2 Did the CSR confirm and capture all necessary information? (name of caller name of insured policy # coverage location & callback #)","1.3 If outbound did the CSP advise they were on a recorded line?","2.1 Was the CSR professional and use appropriate tone and pace on the call?","2.2 Did the CSR demonstrate emapthy or sympathy as needed?","2.3 Did the CSR actively listen to understand the needs of the customer?","2.4 Did the CSR use probing questions and verbally verify the information obtained and processed?","2.5 Did the CSR follow appropriate hold procedure?","2.6 Did the CSR maintain call control and avoid dead air?","2.7  Did the CSR provide accurate information both verbally and in writing?","3.1  If call was transferred was correct transfer process used?","3.2  Did the CSR attempt a callback if the call was disconnected?","3.3  Did the CSR connect activities to the current/correct policy?","3.4 Did the CSR document correctly in all areas (notes activities templates etc.)","3.5 Did CSR include all attachments including emails fax confirmation documents sent etc.","3.6 Did the CSR successfully resolve all issues and concerns? (If not did the CSR correctly document status?)","3.7 Did the CSR access and effectively utilize all available systems/resources?","3.8  If a renewal payment was processed and there is an open renewal suspense was the suspense updated and closed?","3.9 Did the agent experience any audio issues? (For Tracking Purposes Only)","4.1 Did CSR offer additional assistance and thank the customer?","4.2 Did the CSR offer additional assistance before concluding the call?","5.1 Was the customer adversely impacted in any way?","5.2 Were there any additional adverse impacts?","Comments 1 ","Comments 2 ","Comments 3 ","Comments 4 ","Comments 5 ","Comments 6 ","Comments 7 ","Comments 8 ","Comments 9 ","Comments 10 ","Comments 11 ","Comments 12 ","Comments 13 ","Comments 14 ","Comments 15 ","Comments 16 ","Comments 17 ","Comments 18 ","Comments 19 ","Comments 20 ","Comments 21 ","Comments 22 ","Comments 23 ","Call Summary ","Feedback ","Agent Feedback Acceptance","Agent review note ","Mgnt review date ","Mgnt review name","Mgnt review note");
+	}
+	else if ($pid=='fortunebuilder'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Was the call answered within 5 seconds?", "Did the agent introduce him/herself to the caller?", "Did the agent advise the call is being recorded?", "Did the agent use the standard greeting?", "Did the agent ask for the zip code?", "Did the agent verify callers first and last name and complete address?", "Did the agent ask for and verify the caller's email address", "Did the agent correctly offer the seminars?", "Did the agent correctly ask for and verify the phone number?", "Did the agent inform the caller about the text reminders he/she will receive?", "Did the agent summarize the call with relevant details?", "Did the agent offer to register a guest?", "Did the agents collect and verify the guests email address?", "Did the agent demonstrate knowledge of Fortune Builders?", "Did the agent use appropriate grammar and pronunciation?", "Did the agent use good pacing and tone?", "Did the agent display professionalism and handle difficult callers appropriately?", "Did the agent maintain call control throughout the call?", "Did the agent use the appropriate Closing?", "Did the agent correctly disposition the call?", "Call Summary", "Feedback", "Agent Feedback Acceptance","Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='xyz'){
+		$header=array("phone1","Name","Email");
+}else if($pid=='purity_free_bottle'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "Call Type", "Call Duration", "File No", "Call Type/LOB", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Earned Score", "Possible Score", "Did the rep greet the customer promptly and properly?", "Did the rep use their soft skills appropriately?", "Did the rep collect and verify the customers information appropriately?", "Did the rep cover the super saver offer appropriately?", "Did the rep cover the upsell appropriately?", "Did the rep cover the payment procedures appropriately?", "Did the rep demonstrate knowledge of the product/program?", "Did the rep maintain call control?", "Did the rep use the tools/FAQ's appropriately?", "Did the rep use the appropriate objection responses?", "Did the rep use the callers last name to personalize the call at least once per section?", "Did the rep complete the correct confirmation and closing?", "Did the rep cover the frequency and cost of each delivery when applicable?", "Did the rep have any misrepresentation?", "Did the rep response appropriately to a DNC response?", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='purity_catalog'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Proper Greeting", "Customer First Name and Address Verification", "Identifies Type of Account Properly", "Properly transfers the Account", "Accurate Notes Taken/Info Verified Appropriately", "Correct Information Given", "Proper Terminology/Use of Disc Names, etc", "Free Gift Scripting", "Bulk Offer", "Promotions Offered Correctly", "Super Saver Offered and Explained Properly", "Additional Product Offered", "Order Placed Properly/Cancelled Properly", "Order Confirmation", "Uses Tools and FAQ", "Address Verification at Confirmation", "Credit Card Verification/Charged Correct Information", "Attempt to Gather CVV Code", "Daily Special Offer", "Product/Benefits Offered with Daily Special", "Thank You Statement", "Maintained Call Control/Call Flow", "Response Time/Minimal Dead Air", "Used Proper Hold Techniques", "Good Attitude/Maintained Composure", "Energy/Enthusiasm/Attentiveness", "Context Related Responses", "Empathy/Respectfulness/Courteous", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid =='purity_care'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date",
+		"Call 1 Call Duration", "Call 1 File No","Call 2 Call Duration", "Call 2 File No","Call 3 Call Duration", "Call 3 File No", "Audit Type", "VOC","Overall Score","Proper Introduction Call 1","Proper Introduction Call 2","Proper Introduction Call 3","Proper Introduction Review","Proper Introduction Score","Customer First Name and Address Verification Call 1","Customer First Name and Address Verification Call 2","Customer First Name and Address Verification Call 3","Customer First Name and Address Verification Review","Customer First Name and Address Verification Score", "Opening Question Call 1","Opening Question Call 2","Opening Question Call 3","Opening Question Review"
+		,"Opening Question Score","Accurate Notes Taken Call 1","Accurate Notes Taken Call 2","Accurate Notes Taken Call 3","Accurate Notes Taken Review","Accurate Notes Taken Score","Correct Reason Code Call 1","Correct Reason Code Call 2","Correct Reason Code Call 3","Correct Reason Code Review","Correct Reason Code Score","Correct Information Given Call 1","Correct Information Given Call 2","Correct Information Given Call 3","Correct Information Given Review","Correct Information Given Score","Proper Terminology/use of disc names. etc. Call 1","Proper Terminology/use of disc names. etc. Call 2","Proper Terminology/use of disc names. etc. Call 3","Proper Terminology/use of disc names. etc. Review","Proper Terminology/use of disc names. etc. Score","Proper Inquiry Call 1","Proper Inquiry Call 2","Proper Inquiry Call 3","Proper Inquiry Review","Proper Inquiry Score","Company Promotion Call 1","Company Promotion Call 2","Company Promotion Call 3","Company Promotion Review","Company Promotion Score","Correct Use of Actions Call 1","Correct Use of Actions Call 2","Correct Use of Actions 3","Correct Use of Actions Review","Correct Use of Actions Score","Database Follow Up Call 1","Database Follow Up Call 2","Database Follow Up Call 3","Database Follow Up Review","Database Follow Up Score","Product Promotion Call 1","Product Promotion Call 2","Product Promotion Call 3","Product Promotion Review","Product Promotion Score","Reason for Cancel Call 1","Reason for Cancel Call 2","Reason for Cancel Call 3","Reason for Cancel Review","Reason for Cancel Score","Legitimate Offers/Sequence of Offers Call 1","Legitimate Offers/Sequence of Offers Call 2","Legitimate Offers/Sequence of Offers Call 3","Legitimate Offers/Sequence of Offers Review","Legitimate Offers/Sequence of Offers Score","1st Retention Offer Call 1","1st Retention Offer Call 2","1st Retention Offer Call 3","1st Retention Offer Review","1st Retention Offer Score","2nd Retention Offer Call 1","2nd Retention Offer Call 2","2nd Retention Offer Call 3","2nd Retention Offer Review","2nd Retention Offer Score","Valid Delay Call 1","Valid Delay Call 2","Valid Delay Call 3","Valid Delay Review","Valid Delay Score","Preserved Avg # Units/Shipment Call 1","Preserved Avg # Units/Shipment Call 2","Preserved Avg # Units/Shipment Call 3","Preserved Avg # Units/Shipment Review","Preserved Avg # Units/Shipment Score","Proper Confirmation Call 1","Proper Confirmation Call 2","Proper Confirmation Call 3","Proper Confirmation Review","Proper Confirmation Score","Daily Special Offer Call 1","Daily Special Offer Call 2","Daily Special Offer Call 3","Daily Special Offer Review","Daily Special Offer Score","Anything Else Statement Call 1","Anything Else Statement Call 2","Anything Else Statement Call 3","Anything Else Statement Review","Anything Else Statement Score","Thank You Statement Call 1","Thank You Statement Call 2","Thank You Statement Call 3","Thank You Statement Review","Thank You Statement Score","Maintained call control Call 1","Maintained call control Call 2","Maintained call control Call 3","Maintained call control Review","Maintained call control Score","Response Time/Minimal dead air Call 1","Response Time/Minimal dead air Call 2","Response Time/Minimal dead air Call 3","Response Time/Minimal dead air Review","Response Time/Minimal dead air Score","Uses proper hold techniques Call 1","Uses proper hold techniques Call 2","Uses proper hold techniques Call 3","Uses proper hold techniques Review","Uses proper hold techniques Score","Good Attitude/Maintained Composure Call 1","Good Attitude/Maintained Composure Call 2","Good Attitude/Maintained Composure Call 3","Good Attitude/Maintained Composure Review","Good Attitude/Maintained Composure Score","Energy/Enthusiasm/Attentiveness Call 1","Energy/Enthusiasm/Attentiveness Call 2","Energy/Enthusiasm/Attentiveness Call 3","Energy/Enthusiasm/Attentiveness Review","Energy/Enthusiasm/Attentiveness Score","Context Related Responses Call 1","Context Related Responses Call 2","Context Related Responses Call 3","Context Related Responses Review","Context Related Responses Score","Empathy/Respectfulness/Courteous Call 1","Empathy/Respectfulness/Courteous Call 2","Empathy/Respectfulness/Courteous Call 3","Empathy/Respectfulness/Courteous Review","Empathy/Respectfulness/Courteous Score","Badgering Call 1","Badgering Call 2","Badgering Call 3","Badgering Review","Badgering Score","Average Calls Per Hour/4 or More Call 1","Average Calls Per Hour/4 or More Call 2","Average Calls Per Hour/4 or More Call 3","Average Calls Per Hour/4 or More Review","Average Calls Per Hour/4 or More Score","Average Save % Above 44% Call 1","Average Save % Above 44% Call 2","Average Save % Above 44% Call 3","Average Save % Above 44% Review","Average Save % Above 44% Score","Average Call Length Does Not Exceed 8 min. Call 1","Average Call Length Does Not Exceed 8 min. Call 2","Average Call Length Does Not Exceed 8 min. Call 3","Average Call Length Does Not Exceed 8 min. Review","Average Call Length Does Not Exceed 8 min. Score","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid =='puritycare_new'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "Call1 Date", "Call2 Date", "Call3 Date", "Call4 Date", "Call5 Date", "Customer Number1", "Customer Number2", "Customer Number3", "Customer Number4", "Customer Number5", "Call1 Duration", "Call2 Duration", "Call3 Duration", "Call4 Duration", "Call5 Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Call VOC1", "Call VOC2", "Call VOC3", "Call VOC4", "Call VOC5", "Overall Score", "Identification of Agent Call1", "Identification of Agent Call2", "Identification of Agent Call3", "Identification of Agent Call4", "Identification of Agent Call5", "Customer Identification Call1", "Customer Identification Call2", "Customer Identification Call3", "Customer Identification Call4", "Customer Identification Call5", "Customer Verification Call1", "Customer Verification Call2", "Customer Verification Call3", "Customer Verification Call4", "Customer Verification Call5", "Opening question Call1", "Opening question Call2", "Opening question Call3", "Opening question Call4", "Opening question Call5", "Identify Reason for Discovery Call1", "Identify Reason for Discovery Call2", "Identify Reason for Discovery Call3", "Identify Reason for Discovery Call4", "Identify Reason for Discovery Call5", "Acknowledge Response Call1", "Acknowledge Response Call2", "Acknowledge Response Call3", "Acknowledge Response Call4", "Acknowledge Response Call5", "Inquiry Probing Call1", "Inquiry Probing Call2", "Inquiry Probing Call3", "Inquiry Probing Call4", "Inquiry Probing Call5", "Value Proposition Call1", "Value Proposition Call2", "Value Proposition Call3", "Value Proposition Call4", "Value Proposition Call5", "1st Retention Attempt Call1", "1st Retention Attempt Call2", "1st Retention Attempt Call3", "1st Retention Attempt Call4", "1st Retention Attempt Call5", "Tactical Hold Call1", "Tactical Hold Call2", "Tactical Hold Call3", "Tactical Hold Call4", "Tactical Hold Call5", "2nd Retention Attempt Call1", "2nd Retention Attempt Call2", "2nd Retention Attempt Call3", "2nd Retention Attempt Call4", "2nd Retention Attempt Call5", "Correct Delay Length Call1", "Correct Delay Length Call2", "Correct Delay Length Call3", "Correct Delay Length Call4", "Correct Delay Length Call5", "Supersaver Confirmation Call1", "Supersaver Confirmation Call2", "Supersaver Confirmation Call3", "Supersaver Confirmation Call4", "Supersaver Confirmation Call5", "Daily Special Call1", "Daily Special Call2", "Daily Special Call3", "Daily Special Call4", "Daily Special Call5", "Thank you Closing Statement Call1", "Thank you Closing Statement Call2", "Thank you Closing Statement Call3", "Thank you Closing Statement Call4", "Thank you Closing Statement Call5", "Full Conf & Cst Acknowledgement Call1", "Full Conf & Cst Acknowledgement Call2", "Full Conf & Cst Acknowledgement Call3", "Full Conf & Cst Acknowledgement Call4", "Full Conf & Cst Acknowledgement Call5", "Made offer to save package Call1", "Made offer to save package Call2", "Made offer to save package Call3", "Made offer to save package Call4", "Made offer to save package Call5",  "Web Login-if applicable Call1", "Web Login-if applicable Call2", "Web Login-if applicable Call3", "Web Login-if applicable Call4", "Web Login-if applicable Call5", "Email Capture-if applicable Call1", "Email Capture-if applicable Call2", "Email Capture-if applicable Call3", "Email Capture-if applicable Call4", "Email Capture-if applicable Call5", "SMS Opt-In-if applicable Call1", "SMS Opt-In-if applicable Call2", "SMS Opt-In-if applicable Call3", "SMS Opt-In-if applicable Call4", "SMS Opt-In-if applicable Call5", "Proper Reason Code Call1", "Proper Reason Code Call2", "Proper Reason Code Call3", "Proper Reason Code Call4", "Proper Reason Code Call5", "Correctly Used Purity Points Call1", "Correctly Used Purity Points Call2", "Correctly Used Purity Points Call3", "Correctly Used Purity Points Call4", "Correctly Used Purity Points Call5", "Agent provided correct information Call1", "Agent provided correct information Call2", "Agent provided correct information Call3", "Agent provided correct information Call4", "Agent provided correct information Call5", "Soft Skills Call1", "Soft Skills Call2", "Soft Skills Call3", "Soft Skills Call4", "Soft Skills Call5", "Rapport Call1", "Rapport Call2", "Rapport Call3", "Rapport Call4", "Rapport Call5", "Maintaining Call Control Call1", "Maintaining Call Control Call2", "Maintaining Call Control Call3", "Maintaining Call Control Call4", "Maintaining Call Control Call5", "***Unauthorized Shipments Call1", "***Unauthorized Shipments Call2", "***Unauthorized Shipments Call3", "***Unauthorized Shipments Call4", "***Unauthorized Shipments Call5", "***Inappropriate Language Call1", "***Inappropriate Language Call2", "***Inappropriate Language Call3", "***Inappropriate Language Call4", "***Inappropriate Language Call5", "***Badgering Call1", "***Badgering Call2", "***Badgering Call3", "***Badgering Call4", "***Badgering Call5", "***Incorrect use of actions Autofail Call1", "***Incorrect use of actions Autofail Call2", "***Incorrect use of actions Autofail Call3", "***Incorrect use of actions Autofail Call4", "***Incorrect use of actions Autofail Call5", "***Making Health Claims Call1", "***Making Health Claims Call2", "***Making Health Claims Call3", "***Making Health Claims Call4", "***Making Health Claims Call5", "***No Confirmation Call1", "***No Confirmation Call2", "***No Confirmation Call3", "***No Confirmation Call4", "***No Confirmation Call5", "***No Retention Call1", "***No Retention Call2", "***No Retention Call3", "***No Retention Call4", "***No Retention Call5", "Call Summary / Feedback #1", "Call Summary / Feedback #2", "Call Summary / Feedback #3", "Call Summary / Feedback #4", "Call Summary / Feedback #5", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By", "Mgnt Comment");
+		/* "***Hanging up on Customer Call1", "***Hanging up on Customer Call2", "***Hanging up on Customer Call3", "***Hanging up on Customer Call4", "***Hanging up on Customer Call5", */
+	}else if($pid=='conduent'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration","Site", "Phone","Audit Type","Auditor Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Clearly gave name and Branded", "DDid CSP demonstrate a good tone of voice throughout the call", "Did CSP properly verify account & make appropriate updates if necessary", "Did CSP deliver assurance statement after purpose", "Did CSP refer to customer by last name at least once through the call", "Did CSP maintain control of call", "Did CSP follow appropriate Hold/Wait process & avoid DEAD AIR", "Did CSP use soft skills", "Did CSP demonstrate active listening skills", "Proper use of probing questions", "Did CSP use all available systems and tools towards a One Call Resolution", "Did CSP provide complete and accurate information", "Did CSP meet documentation expectations", "Did CSP select the correct disposition", "Did the CSP close the call properly", "CSP released account information or made changes to an unverified Cardholder", "CSP did not resolve the Customer’s issue and did not demonstrate willingness to assist", "CSP hang up on customer","CSP gives blatant incorrect information to Cardholder","CSP used inappropriate condescending /argumentative language or tone during the call","CSP did not successfully complete transaction process","CSP did not leave any memos on accessed account","Call Avoidance", "Courtesy Comment","Throughout Comment", "Product Comment", "Closing Comment","Auto Failure Comment","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='touchfuse'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Call Status", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Was the call answered promptly?", "Did the agent answer with thank you for calling", "Did the agent ask for the zip code?", "Did the agent correctly offer the seminars?", "Did the caller wish to cancel the seminar?", "Did the agent confirm the callers first and last name?", "Did the agent confirm the callers address?", "Did the agent ask for and correctly verify the email phonetically?", "Did the agent correctly ask for and verify the phone number", "Did the agent summarize the call with relevant detail?", "Did the agent offer to register a guest and attempt to collect and verify guests email address phonetically?", "Did the agent correctly disposition the call?", "Did the agent use the appropriate closing?", "Did the agent use appropriate tone/pacing/grammar/pronunciation?", "Did the agent use active listening throughout the call?", "Was the agent professional throughout the call?", "Did the agent show knowledge of TouchFuse throughout the call?", "Did the agent maintain call control throughout the call?", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='touchfuse_new'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Call Status", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Customer Score","Business Score","Compliance Score", "Overall Score",
+		"Was the call answered promptly?", "Did the agent answer with thank you for calling", "Did the agent use appropriate tone/pacing/grammar/pronunciation?", "Did the agent use active listening throughout the call?", "Was the agent professional throughout the call?", "Did the agent maintain call control throughout the call?", "Did the agent show knowledge of TouchFuse throughout the call?", "Did the agent ask for the zip code?", "Did the agent correctly offer the seminars?", "Did the caller wish to cancel the seminar?", "Did the agent confirm the callers address?", "Did the agent correctly ask for and verify the phone number", "Did the agent summarize the call with relevant detail?", "Did the agent correctly disposition the call?", "Did the agent use the appropriate closing?", "Did the agent spell back the customers first and last name?", "Did the agent ask for and correctly verify the email phonetically", "Rude Remarks", "Security Breach/Call Dumping/Avoidance",
+		"Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='tbn'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Call Duration", "Call ID", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Full Recording Between Communicator and Caller is Captured", "Communicator Properly Prepared for Call", "Communicator Gave Her/His First Name", "Stated-This Call May Be Recorded For Training Purposes", "Stated Offer Title as Scripted", "Stated No Offer Disclosure (if applicable)", "Spelled Donors Full Name Back on ALL CALLS", "EXISTING File - Communicator Verified Address", "IF NEW ADDRESS - Communicator Spelled Address", "IF No Existing Email - Asked for Email", "Spelled Back Email", "Asked for Phone Number", "Confirmed Phone Number", "Verified Phone Number Type", "IF Cell Asked for Consent", "Asked for Alternate Phone Number", "Verified Alternate Phone Number", "Verified Alternate Number Type", "IF Alternate Phone Number is Cell - Asked for Consent", "Read First Request as Scripted", "Appropriately Presented Higher Tier Offers (if applicable )", "Read Monthly Ask As Scripted (if applicable)", "Navigates Script With Ease", "Displays TBN Knowledge and Answers Questions Appropriately", "Correctly Pronounces Speaker/Author Name and Title of Offer", "Overall Script Adherence", "Verified Donation Frequency (One-Time/Monthly)", "Verified Donation Amount", "Verified Monthly Donation Beginning and End Date (if applicable)", "Verified Resource Donor Will Be Receiving (if applicable)", "Read Close as Scripted", "Speaks Clearly with Proper Articulation (no slang)", "Pleasant Demeanor", "Speaks at an Appropriate Pace", "Actively Listens and Responds Appropriately", "Exhibits Empathy (if appropriate)", "Communicator Shows Sincere Appreciation for Donor and Donations", "Maintained Control of the Conversation and Talk Time", "Autofail - False and/or Inappropriate Information", "Autofail - Inappropriately Ended Call", "Autofail - Rudeness/Unprofessional Behavior", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='offline'){
+		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date","Phone","Rep","Enter Policy Information","Florida or National?","Type of Policy","Audit Type", "Auditor Type", "Voc","Audit Start Date Time","Audit End Date Time","Interval","Overall Score", "Possible Score", "Earned Score","Did the associate handle the request according to Brightways standards?","Did the associate handle the request according to the carriers standards?","Did the associate process the change correctly?","Did the associate use the appropriate verbiage tone pace and professionalism?","All verbal and written information provided by associate to insured and other parties was clear accurate and included all relevant information","Was the customer adversely impacted?","Were there any additional adverse impacts?","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='phone_inbound'){
+		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date","Evaluator Name","ANI","DNIS","Contact Id","Direction Type Description","Skill Name","Segment Duration","Audit Type","Voc","Audit Start Time","Entry Date","Interval","Earn Score","Possible Score","Overall Score","Line of Business", "State of Policy", "Comment","Did the CSR complete the correct caller verification for either a first-party or a third-party caller?", "During the authentication process if any new contact information was provided was this captured?","Did the CSR demonstrate soft skills effectively throughout the call?","Did the CSR provide empathy or sympathy if applicable?","Did the CSR demonstrate call control effectively throughout the call?","Did the CSR provide the proper Brightway-approved greeting?","Did the CSR advise the caller that the call will be recorded?","Did the CSR follow the proper hold process if applicable?","Did the CSR follow the proper transfer process if applicable?","If the call disconnected did the CSR attempt to call back?","Did the CSR use the proper closing?","Did the CSR use the necessary tools and resources to effectively and accurately assist the customer?","Did the CSR demonstrate knowledge of Brightways carriers and lines of business when relaying information to the caller?","Did the CSR accurately document the interaction from start to finish?","Did the CSR provide clear notes that provide clarity and understanding of what happened during the interaction","Did the CSR properly advise the caller of any follow-up expectations and set for themselves?","Did the CSR clearly explain options or solutions to the customer and focus on an end solution?","Were all necessary policies updated in AMS and the carrier website?","Did the CSR offer helpful options as applicable such as webforms etc.?","Was CSR able to retain a customer who had considered cancelling a policy with Brightway?","Did the CSR identify a cross-sell opportunity and put the customer in touch with their agent of record?","Did the CSR receive a kudos for this interaction due to Unchecked exemplary performance?","Did CSR demonstrate behavior that is considered offensive by using unprofessional language tone or any other action that impacted the customer experience?","Did CSR provide information or complete a transaction that could lead to an Errors and Omissions claim or impact the customer in a negative manner?","Authentication: Comment 1","Authentication: Comment 2","Professionalism: Comment 1","Professionalism: Comment 2","Professionalism: Comment 3","Call Handling Skills Comment 1","Call Handling Skills Comment 2","Call Handling Skills Comment 3","Call Handling Skills Comment 4","Call Handling Skills Comment 5","Call Handling Skills Comment 6","Use of Appropriate Resources and Tools/ Brightway Knowledge Comment 1","Use of Appropriate Resources and Tools/ Brightway Knowledge Comment 2","Documentation Comment 1","Documentation Comment 2","Contact Resolution Comment 1","Contact Resolution Comment 2","Contact Resolution Comment 3","Contact Resolution Comment 4","Bonus Questions Comment 1","Bonus Questions Comment 2","Bonus Questions Comment 3","Penalty Questions Comment 1","Penalty Questions Comment 2","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='phone_inbound_new'){
+		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date","Call Duration","State","Policy Number","Line of Business","Overview","Carrier","Master ID","Rate of Call","Audit Type","Voc","Earn Score","Possible Score","Overall Score","Completed the correct caller verification for either a first-party or a third-party caller", "New contact information was captured","Empathy/ Sympathy was provided on the call","Demonstrated call control effectively throughout the call by listening and acknowledging","Followed a common-sense approach to placing a caller on hold or transferring them","If the call disconnected the customer was called back","Additional assistance offered if applicable","Use the necessary resources to assist the customer effectively and accurately","Accurately document the interaction from start to finish","Properly advised the caller of any follow-up expectations and set a follow-up for themselves if applicable","Clearly explained options or solutions to the customer and focus on an end solution","Properly update necessary policies / information in AMS and the carrier website if applicable","Received kudos for this interaction due to exemplary performance","Did CSR demonstrate behavior that is considered offensive by using unprofessional language tone or any other action that impacted the customer experience?","Did CSR provide information or complete a transaction that could lead to an Errors and Omissions claim or impact the customer in a negative manner?","Comment 1","Comment 2","Comment 3","Comment 4","Comment 5","Comment 6","Comment 7","Comment 8","Comment 9","Comment 10","Comment 11","Comment 12","Comment 13","Comment 14","Comment 15", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='processing'){
+		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date","Evaluator Name","ANI","DNIS","Contact Id","Direction Type Description","Skill Name","Segment Duration","Audit Type","Voc","Earn Score","Possible Score","Overall Score","Audit Start Time","Entry Date","Interval","Line of Business", "State of Policy", "Comment","2.a. Did the CSR complete the correct caller verification for either a first-party or a third-party caller?","2.b. Was new contact information captured?","3.a. Did the CSR demonstrate soft skills effectively throughout the call?","3.b. Did the CSR provide empathy or sympathy if applicable ?","3.c. Did the CSR demonstrate call control effectively throughout the call?","4.a. Did the CSR provide the proper Brightway-approved greeting?","4.b. Did the CSR advise the caller that the call will be recorded?","4.c. Did the CSR follow the proper hold process if applicable?","4.d. Did the CSR follow the proper transfer process if applicable?","4.e. If the call disconnected did the CSR attempt to call back?","4.f. Did the CSR use the proper closing?","5.a. Did the CSR use the necessary tools and resources to effectively and accurately assist the customer?","5.b. Did the CSR demonstrate knowledge of Brightways carriers and lines of business when relaying information to the caller?","6.a. Did the CSR accurately document the interaction from start to finish?","6.b. Did the CSR provide clear notes that fully captures their whole interaction ?","7.a. Did the CSR use proper spelling grammar and punctuation throughout the whole email interaction?","7.b. Did the CSR personalize the email ensuring the customers name policy information and any other information was mentioned?","8.a. Did the CSR properly advise the caller of any follow-up expectations and set for themselves?","8.b. Did the CSR clearly explain options or solutions to the customer and focus on an end solution?","8.c. Were all necessary policies updated in AMS and the carrier website?","8.d. Did the CSR leave a message with a clear reason for the call along with contact information?","8.e. Did the CSR offer helpful options as applicable such as webforms etc.?","Was CSR able to retain a customer who had considered cancelling a policy with Brightway?","Did the CSR identify a cross-sell opportunity and put the customer in touch with their agent of record?","Did the CSR receive a kudos for this interaction due to exemplary performance?","Did CSR demonstrate behavior that is considered offensive by using unprofessional language tone or any other action that impacted the customer experience?","Did CSR provide information or complete a transaction that could lead to an Errors and Omissions claim or impact the customer in a negative manner?","Authentication: Comment 1","Authentication: Comment 2","Professionalism: Comment 1","Professionalism: Comment 2","Professionalism: Comment 3","Call Handling Skills Comment 1","Call Handling Skills Comment 2","Call Handling Skills Comment 3","Call Handling Skills Comment 4","Call Handling Skills Comment 5","Call Handling Skills Comment 6","Use of Appropriate Resources and Tools/ Brightway Knowledge Comment 1","Use of Appropriate Resources and Tools/ Brightway Knowledge Comment 2","Documentation Comment 1","Documentation Comment 2","Email Writing Skills Comment 1","Email Writing Skills Comment 2","Contact Resolution Comment 1","Contact Resolution Comment 2","Contact Resolution Comment 3","Contact Resolution Comment 4","Contact Resolution Comment 5","Bonus Questions Comment 1","Bonus Questions Comment 2","Bonus Questions Comment 3","Penalty Questions Comment 1","Penalty Questions Comment 2","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='processing_new'){
+		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date","Evaluator Name","ANI","DNIS","Contact Id","Direction Type Description","Skill Name","Segment Duration","Audit Type","Voc","Earn Score","Possible Score","Overall Score","Audit Start Time","Entry Date","Interval","Completed the correct caller verification for either a first-party or a third-party caller", "New contact information was captured", "Authenticated the information/ documented that was received (correct document to suffice policy) prior to taking actions with the carrier or other","Confirmed the correct policy and eligibility to service prior to taking action","Empathy/ Sympathy was provided on the call","Demonstrated call control effectively throughout the call by listening and acknowledging","Followed a common-sense approach to placing a caller on hold or transferring them","If the call disconnected the customer was called back","Additional assistance offered if applicable","Written communication follows a common sense approach (template standards) or was the applicable template used","Use the necessary resources to assist the customer effectively and accurately","Accurately document the interaction from start to finish"," Properly advised the caller of any follow-up expectations and set a follow-up for themselves if applicable","Clearly explained options or solutions to the customer and focus on an end solution","Properly update necessary policies / information in AMS and the carrier website if applicable","Received kudos for this interaction due to exemplary performance","Did CSR demonstrate behavior that is considered offensive by using unprofessional language tone or any other action that impacted the customer experience?","Did CSR provide information or complete a transaction that could lead to an Errors and Omissions claim or impact the customer in a negative manner?","Comment 1","Comment 2","Comment 3","Comment 4","Comment 5","Comment 6","Comment 7","Comment 8","Comment 9","Comment 10","Comment 11","Comment 12","Comment 13","Comment 14","Comment 15","Comment 16","Comment 17","Comment 18","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='jfmi'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score","Greets the customer promptly and properly","Uses professionalism/courtesy/enthusiasm/proper grammar/no jargon","Shows gratitude throughout the call","Collects and verifies all customer information/uses phonetic when applicable","Follows correct Scripting Path","Collects information to provide to Partner Relations if necessary","Covers all payment scripting and responses properly","Maintains call control","Keeps dead air to a minimum","Uses FAQ's/Agent notes to answer questions properly","Brands the call with proper close", "Not stopping the recording for credit card capture", "Agent read legal scripting to the caller", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='hoveround'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score","Customer Score","Business Score","Compliance Score","Was the agent ready for the call (no dead air)?", "Did the agent give the proper introduction including company name?", "Did the agent correctly probe and transfer if applicable?", "Did the agent close the call with proper branding?", "Did the agent disposition the call properly?","Did the agent maintain call control No dead air?", "Was the agent polite and courteous?", "Did the agent show energy empathy and enthusiasm?", "Did the agent have good tone grammer?", "Did the agent give accurate information and show a complete grasp of information?","Did the agent spell back of email address (NATO)?","Did the agent gather the lead properly","Rude Remarks","Call Dumping /Avoidance", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='hoveround_jam'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "RCA","L1","L2","Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score","Did rep use appropriate greeting?","Remarks 1", "Did rep inform client that call may be recorded for quality assurance purposes?","Remarks 2", "Did rep confirm caller's name?","Remarks 3", "Did rep confirm caller's relationship to client?","Remarks 4", "Did rep verify the current address?","Remarks 5","Did rep verify the current doctor information?","Remarks 6", "Did rep verify the full current insurance information/Eligibility?", "Remarks 7","Did rep attempt to call Dr's office to obtain/confirm mobility examination date?","Remarks 8", "Did rep inform the Dr's office that the visit is specifically for a mobility exam?","Remarks 9", "Did rep ask all survey questions?","Remarks 10","Did rep clearly explain the process to client?","Remarks 11","Did rep effectively use rebuttals (if applicable)?","Remarks 12","Did rep offer to transfer the client to customer solutions?","Remarks 13","Did rep ask if there was anything else they could help them with?","Remarks 14","Did rep thank the client in an appropriate closing?","Remarks 15","Did rep conduct a warm transfer (if applicable)","Remarks 16","Did rep effectively answer client's questions?","Remarks 17","Did the rep display product knowledge?","Remarks 18","Did the rep display a professional manner?","Remarks 19","Did rep avoid long silences during the call?","Remarks 20","Did the rep avoid interrupting or talking over the customer?","Remarks 21","Did the rep speak clearly?","Remarks 22","Did the rep sound friendly empathetic polite and welcoming?","Remarks 23", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='ncpssm'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Thanks caller for calling NCPSSM", "Verified opening info", "Gathered and spelled back all necessary information", "Verified/Asked for Email Address", "Makes thank you/supporting statements", "Familiarity with FAQ -Organization", "Personalized call (Mr./Mrs etc)", "Thanked Caller for being a member/previous support", "Energy/enthusiasm", "Proper pace", "Maintained control of the conversation/Minimal Dead Air", "Spoke clearly/utilized proper grammar (NO SLANG)", "Good listening skills/Does not interrupt", "Empathized with caller", "Overall professionalism", "Proper thanks at call conclusion", "Provided correct and appropriate information", "Confirmed caller has no further questions", "False/inappropriate information", "Hung up inappropriately", "Unprofessional behavior", "Inappropriate language", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='stc'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Did the agent use proper introduction?", "Did the agent correctly capture and verify donor name?", "Did the agent read first request as scripted?", "Did the agent cover second monthly request (if applicable)?", "Did the agent correctly capture and verify donation amount?", "Did the agent offer payment types?", "Did the agent correctly capture and verify donor address?", "Did the agent correctly capture and verify donor phone number?", "Did the agent correctly capture and verify donor email address?", "Did the agent properly present rebuttals (if applicable)?", "Did the agent follow overall script adherence?", "Did the agent show familiarity with Save the Children?", "Did the agent use appropriate script navigation and proper disposition?", "Did the agent follow proper close?", "Did the agent use effective communication?", "Did the agent maintain control of the conversation and talk time?", " Did the agent show appreciation for donor and donations?", "Did the agent give false or inappropriate information?", "Did the agent hang up inappropriately?", "Did the agent show any rudeness or unprofessional behavior?", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='tpm'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Read Call Opening as Scripted", "Are You Calling From the US or Canada", "Verify Form of Payment", "Communicator Asked for Name", "Communicator Spelled Name", "Communicator Asked for Address", "Communicator Spelled Address", "Communicator Asked for Phone Number", "Communicator Verified Phone Number", "Communicator Verified Landline or Cell", "Communicator Read Consent to Call Verbatim", "Communicator Read Consent to Text Verbatim", "Communicator Asked for Email", "Communicator Spelled Email", "Overall Script Adherence", "Appropriately Presented higher Tier Offers (If applicable)", "Navigates Script with Ease", "Displays TPM Knowledge and Answers Questions Appropriately", "Verified Contents of the Cart", "Monthly Ask Presented (If Applicable)", "Reviewed Shipping Time Frame", "Provided Cart Total Including Shipping (If Applicable)", "Read Close As Scripted", "Speaks Clearly and Articulately", "Pleasant Demeanor", "Professionalism", "Speaks at an Appropriate Pace", "Listens and Responds Approriately", "Exibits Empathy If Applicable", "Communicator Shows Sincere Appreciation for Donor and Donations", "Maintained Control of the Conversation and Talk Time", "Blatantly False/Inappropriate Information", "Rudely Hung up on Donor", "Rude/Hostile/Uses Profanity", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='patchology'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Did the agent open the call using their name and the appropriate branding for the call?", "Did the agent close the call using the appropriate branding?", "Remarks1", "Did the agent verify/confirm all necessary information?", "Did agent provide consistent/accurate information regarding products and availability?", "Did agent provide/confirm shipping information/next steps/resolution of issue?", "Remarks2", "Was call answered in a timely manner?", "Was agent engaged/helpful with customer?", "Was customer satisfied/fulfilled?", "If escalated were all resources explored before sending escalation form?", "Remarks3", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='aspca'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Greets the customer promptly and properly","Remark1", "Uses professionalism/courtesy/enthusiasm/proper grammar/no jargon","Remark2",  "Shows gratitude throughout the call","Remark3","Collects and verifies all customer information/ uses phonetic when applicable","Remark4", "Asks if they are calling to join ASPCA guardians program","Remark5",  "Covered one time gift scripting (when applicable)", "Remark6","Covered all payment scripting and responses properly", "Remark7","Offers the Animal Champion T-Shirt", "Remark8","Covers donation processing script",  "Remark9","Covers pet insurance / proper close", "Remark10","Followed correct script path/followed transfer procedures and scripting","Remark11", "Maintains call control", "Remark12","Keeps dead air to a minimum", "Remark13","Uses FAQ's/KB's to answer questions properly","Remark14","Personalizes the call","Remark15","Agent correctly disposed the call","Remark16","Covered monthly guardian/roundup upsell $25","Remark17", "Covers additional one time donation","Remark18","Rude Remarks","Remark19","Call Avoidance","Remark20","Compliance Score","Customer Score","Business Score", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
+	}else if($pid=='ffai'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Customer Score", "Business Score", "Compliance Score",
+		"Did the agent open the call using their name and the appropriate branding for the call?", "Did the agent close the call using the appropriate branding?", "Did the agent verify/confirm all necessary information and spell back email address using NATO?", "Did agent provide consistent/accurate information regarding products and availability?", "Did agent provide confirm shipping information/next steps/resolution of issue to ensure one call resolution?", "Did agent accurately and clearly fill out pulse on Monday.com?", "Was agent engaged/empathetic with customer?", "Did agent offer membership in the Home Filter Club (if applicable)?", "Did agent offer donation to Wine to Water?", "Was customer satisfied/fulfilled?", "Did agent offer the survey?", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
+	}else if($pid=='lifi'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Life Quotes Greeting & Introduction", "Did the agent give positive response to the caller", "Customer Name Capture", "Did the agent capture the address of the customer", "Phone Number confirmation", "Email address", "Customer's DOB", "Overall Script Adherence", "Did the agent ask for coverage amount of the Insurance", "Confirmation of Tobacco or smoking", "Did the agent ask for Height & Weight of the customer", "Did the agent mention about price comparison report", "Overall confidence level professionalism & tone", "Call closing", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
+	}else if($pid=='heatsurge'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score","Compliance Score","Customer Score","Business Score", "Was the agent Prepared for call or answer within 5 seconds","Remark1", "Did the agent use inbound or outbound greeting","Remark2", "Accesses customers accounts or any reports needed", "Remark3","Agent verifies cst name address phone and TPA if needed","Remark4", "Verifies or Asks for email address spelling and gave email disclaimer","Remark5", "Reads mini Miranda and or Recording statement on outbound calls","Remark6", "Gives accurate pricing or refund or return information","Remark7", "Gives accurate shipping or delivery information","Remark8", "Accurately describes product or promo or answers questions","Remark9", "Asks for Upsell or add on product where appropriate","Remark10", "Provides appropriate solution or alternatives","Remark11", "Keyed or coded order correctly and corrected info as needed","Remark12", "Asks for cancelation reason","Remark13", "1st save attempt did agent use PK key buying factors","Remark14", "2nd save attempt used appropriately and per guidelines","Remark15", "Asks for billing Name as it appears on cc or check","Remark16", "agent verified caller is an authorized user of the cc or check","Remark17", "Asks for billing address for payment method used","Remark18", "Asks for permission to authorize payment (cc or check)", "Remark19","Agent verifies shipping address","Remark20", "Notates account with issue or resolution","Remark21", "Did the agent dispose the call correctly?","Remark22","Summarizes and reviews call or appropriate closure to call","Remark23", "Maintains call control","Remark24","Uses hold and transfers properly","Remark25", "Gave CS hours of operation and CS phone number","Remark26", "Was the agent polite courteous and patient","Remark27","Hung up inappropriately (Call Avoidance)","Remark28","Agent refrained from using inappropriate comments/presentation","Remark29", "**Automatic Zero","Remark30", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
+	}else if($pid=='stauers_sales'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score","Possible Score","Earned Score","Customer Score","Business Score","Compliance Score", "Was the call answered within 5 seconds?","Did the agent verify the customer's name and address on the account?","Did the agent capture the correct offer code?","Did the agent verify the phone number with the customer?","Did the agent verify the customer's email address?","Did the agent compliment the caller's purchase choice?","Did the agent recap the item?","Did the agent cover atleast one upsell ( ask if the customer would be interested in any other products)?","Did the agent recap the item and ask if the customer would be interested in any other product(s)?","Did the agent cover at least one upsell?","Did the agent cover the replacement guarantee pitch?","Did the agent use an appropriate rebuttal if the replacement guarantee was declined?","Did the agent cover the membership pitch?","Did the agent use an appropriate rebuttal if the membership pitch was declined?","Did the agent offer the membership accurately?","Did the agent cover the auto-renew offer correctly?","Was the shipping address verified?","Did the agent quote the correct delivery time?","Did the agent give a total product quote appropriately?","Did the agent quote shipping & taxes correctly?","Did the agent give the total to be charged and verify the credit card to be charged correctly?","Did the agent provide the order number correctly?","Did the agent close the call with the brand correctly?","Did the agent disposition the call correctly?","Did the agent maintain call control? No dead air for more than 15 secs?","Was the customer satisfied with his/her experience?","Was the customer dissatisfied with the agent's professionalism and/or tone?","Rude Remarks","Call Avoidance","Was the call answered within 5 seconds? Remarks1","Did the agent verify the customer's name and address on the account? Remarks2","Did the agent capture the correct offer code? Remarks3","Did the agent verify the phone number with the customer? Remarks4","Did the agent verify the customer's email address? Remarks5","Did the agent compliment the caller's purchase choice? Remarks6","Did the agent recap the item? Remarks7","Did the agent cover atleast one upsell ( ask if the customer would be interested in any other products)? Remarks8","Was the shipping address verified? Remarks9","Did the agent quote the correct delivery time? Remarks10","Did the agent give a total product quote appropriately? Remarks11","Did the agent quote shipping & taxes correctly? Remarks12","Did the agent provide the order number correctly? Remarks13","Did the agent close the call with the brand correctly? Remarks14","Did the agent disposition the call correctly? Remarks15","Did the agent maintain call control? No dead air for more than 15 secs? Remarks16","Was the customer satisfied with his/her experience? Remarks17","Was the customer dissatisfied with the agent's professionalism and/or tone? Remarks18"," Did the agent give the total to be charged and verify the credit card to be charged correctly? Remarks19","Rude Remarks Remarks20","Call Avoidance Remarks21",
+		  "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
+	}else if($pid=='operation_smile'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Was the agent ready to handle the call promptly and answer properly?", "Did the agent greet the caller read the scripted opening?", "Did the agent confirm all information and utilize phonetic spell back when necessary?", "Does the agent show gratitude and acknowledge callers concerns?", "Did the agent use rebuttals appropriately?", "Did the agent offer the upsell?", "Did the agent follow the script correctly and with confidence?", "Did the agent address questions about the program and utilize the FAQs correctly?", "Did the agent speak with energy and enthusiasm?", "Did the agent use proper pacing?", "Did the agent maintain control of the conversation and minimize dead air?", "Was the agent professional and speak with proper enunciation grammar and tone?", "Did the agent use good listening skills and does not interrupt?", "Did the agent empathize with the caller?", "Did the agent provide a good donor experience and show appropriate appreciation?", "Did the agent ask what prompted them to call today?", "Did the agent thank the caller for their call today and close appropriately?", "***Did the agent give false or inappropriate information?", "***Did the agent hang up inappropriately?", "***Did the agent use inappropriate language?", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
+	}else if($pid=='5_11_tactical'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Earn Score","Possible Score","Overall Score",
+		"Did the rep greet the customer promptly and properly?","Remark1", "Did the rep confirm the customers item to order (product size colour price)","Remark2", "Did the rep ask is there anything else you would like to add to your order?","Remark3", "Did the rep ask for customer login information or continue as guest appropriately","Remark4", "Did the rep gather/verify the callers information for accuracy","Remark5", "Did the rep cover the final confirmation?","Remark6", "Did the rep give customer their order number?","Remark7", "Did the rep use all applicable search method?","Remark8", "Did the rep cover the returns process appropriately?","Remark9", "Did the rep cover the exchange process appropriately?","Remark10", "Did the rep cover the refund process appropriately?","Remark11", "Did the rep track the package appropriately","Remark12", "Did the agent ask is there anything else I can assist you with today?","Remark13", "Did the agent close and brand the call appropriately?","Remark14", "Did the rep answer questions appropriately","Remark15", "Did the rep maintain call control?","Remark16", "Did the rep properly notate AX?","Remark17", "If an escalation was done was it warranted?","Remark18", "Did the agent disposition the call appropriately?","Remark19", "Did the rep maintain professionalism throughout the call?","Remark20", "If an escalation was done was it warranted?","Remark21","Call dumping or avoidance","Remark22","Rudeness or inappropriate language or behavior","Remark23",
+		"Compliance Score","Customer Score","Business Score","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
+	}else if($pid=='jmmi'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "1) Did the agent give appropriate greeting?",	"2) Did the agent give excellent conversational responses to caller's requests?",	"3) Did the agent verify the opening information (name-zip code-address-phone number)?",	"4) Did the agent follow call flow with caller's initial request (orders what the caller asks for)?",	"5) Did the agent show appropriate gratitude throughout the call?",	"6) Did the agent share upsells when presented?",	"7) Did the agent show familiarity and search all options for offers products?", "8) If partner-did the agent thank the caller specifically?",	"9) Did the agent share HOM/JMM facts as appropriate and make good use of dead air?",	"10) Was the agent professional with communication?",	"11) Did the agent use proper pace energy & enthusiasm?",	"12) Did the agent maintain control of the conversation?",	"13) Did the agent spoke clearly and utilize proper grammar (no slang)?",	"14) Did the agent use good listening skills and appropriate responses?",	"15) Did the agent empathize with the caller and show compassion?",	"16) Did the agent have minimal dead air?",	"17) Did the agent have the caller provide the address if not populated on review screen?",	"18) Did the agent confirm dollar amount and frequency as well as reviewing cart?", "19) Did the agent read shipping information as scripted/share charges as appropriate?", "20) Did the agent ask caller for email and tv information?", "21) Did the agent use proper thanks at the call conclusion?", "22) Did the agent transfer the call to prayer/CS when appropriate?", "23) ***Did the agent follow payment industry compliance policies properly?", "24) ***Did the agent read back the customer's details properly? Like name - phone number etc.", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
+	}else if($pid=='non_profit'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Properly prepared to take calls", "Clearly stated paid caller from Donor Care Center/recorded line", "Communicator stated his/her full name", "Pronounced clients name correctly", "Gave a warm friendly greeting", "Followed scripted 1st request as scripted", "1st request Used correct dollar amounts", "1st request Assumptive gift ask", "Showed empathy/Concern", "Repeated the objection", "Personalized the objection", "Attempted to handle objection", "Did not reinforce the negative", "Exited a dead-end call", "Followed scripted 2nd request as scripted", "2nd request Used correct dollar amounts", "2nd request Assumptive gift ask", "Attempted 3rd request as scripted (when applicable)", "3rd request Used correct dollar amounts", "3rd request Assumptive gift ask", "Confirmation question/Confirmed gift amount & waited for response", "Assumed the higher dollar amount", "Showed meaningful gratitude/Thanked the donor or volunteer", "Read credit card/ACH ask verbatim/assumptively asked for credit card", "Confirmed full name and address", "Followed Maybe Close appropriately", "Read close as scripted", "Ended call in a reasonable time", "Sounded conversational used good voice inflection not read or monotone", "Mirrored donor / Used appropriate pace", "Confident presentation w/out hesitation filler words or uptalking", "Did not lose control of the conversation", "Proper personalization", "Utilized proper grammar & pronunciation", "BAILING", "DID NOT ASK FOR A CREDIT CARD/ACH", "GAVE FALSE INFORMATION", "OMITTED PAID CALLER FROM DONOR CARE CENTER STATEMENT", "DID NOT ASK CONFIRMATION QUESTION", "UNSOLID GIFT", "NOT CODING A REFUSAL/CODING A REFUSAL INAPPROPRIATELY", "UNPROFESSIONAL BEHAVIOR/RUDENESS (not extreme)", "IMPROPER PRESENTATION", "OMITTED DNC CODE/USED DNC CODE INCORRECTLY", "FALSIFICATION OF A GIFT", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
+	}else if($pid=='revel_new'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Possible Score","Earned Score", "Overall Score","Bonus Overallscore","Agent greeted the member used correct client opening introduced themselves and continued following the basic scripting to open the call", "Agent properly authenticated the member", "Did Agent attempt to update Email/SMS/IVR/Phone Number?", "Agent gave Health Care Activity info Correctly", "Agent collected Health Care Activity information correctly", "Agent gave correct Gift Card information", "Agent offered to provide information on the Health Care Activities that the member has remaining to complete", "Agent provided online self-service information", "Agent used correct transfer procedure", "Agent logged call correctly in all appropriate systems", "Agent followed script guidelines ", "Agent gave correct and complete information", "Agent resolved all questions and concerns", "Agent displayed active listening skills and probed for details effectively","Agent effectively engaged with the caller","Agent displayed a polite/appropriate tone", "Agent sounded confident and knowledgeable", "Agent did not interrupt or talk over the customer","Agent used pleasing words and phrases ","Agent maintained call control","Agent used correct grammar avoided slang", "Agent offered additional assistance", "Agent used correct client closing ", "Agent submitted escalation in system when required (Auto-Fail)", "Agent was not rude or inappropriate? (Auto-Fail)", "Agent used the correct client name during the call (Auto-Fail) ", "Agent did not demonstrate call avoidance (Auto-Fail)", "Agent properly authenticated the member (Auto-Fail)", "The agent received direct appreciation from the member ","Is the recording quality acceptable? (Tracking)","Would play this for the client?(Tracking)","Mechanics Comment 1","Mechanics Comment 2","Mechanics Comment 3","Mechanics Comment 4","Mechanics Comment 5","Mechanics Comment 6","Mechanics Comment 7","Mechanics Comment 8","Mechanics Comment 9","Mechanics Comment 10","Mechanics Comment 11","Mechanics Comment 12","Mechanics Comment 13","Soft Skills Comment 1","Soft Skills Comment 2","Soft Skills Comment 3","Soft Skills Comment 4","Soft Skills Comment 5","Soft Skills Comment 6","Soft Skills Comment 7","Soft Skills Comment 8","Soft Skills Comment 9","Soft Skills Comment 10","Auto-fail Comment 1","Auto-fail Comment 2","Auto-fail Comment 3","Auto-fail Comment 4","Auto-fail Comment 5","Bonus Point Comment","Tracking Comment 1","Tracking Comment 2","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
+	}else if($pid=='icario'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Possible Score","Earned Score", "Overall Score","Agent greeted the member used correct client opening introduced themselves and continued following the basic scripting to open the call", "Agent properly authenticated the member", "Agent collected Health Care information/Responses correctly", "Agent gave correct and complete information", "Agent gave correct incentive information", "Agent provided online self-service information", "Agent logged call correctly in all appropriate systems", "Agent followed script guidelines", "Agent resolved all questions and concerns", "Agent displayed active listening skills and probed for details effectively", "Agent effectively engaged with the caller", "Agent maintained appropriate pace with caller", "Agent Displayed a polite and appropriate tone", "Agent sounded confident and knowledgeable","Agent did not interrupt or talk over the member","Agent used pleasing words and phrases between member responses", "Agent used pleasing words and phrases at beginning and end of call", "Agent maintained call control","Agent managed silence/hold times","Agent used correct grammar avoided slang","Agent used correct client closing", "Agent submitted escalation in system when required (Auto-Fail)", "Agent was not rude or inappropriate? (Auto-Fail)", "Agent used incorrect client name during the call (Auto-Fail)", "Agent did not demonstrate call avoidance (Auto-Fail)", "Agent properly authenticated the member (Auto-Fail)", " Comment 1"," Comment 2"," Comment 3"," Comment 4"," Comment 5"," Comment 6"," Comment 7"," Comment 8"," Comment 9"," Comment 10"," Comment 11"," Comment 12"," Comment 13"," Comment 14"," Comment 15"," Comment 16"," Comment 17"," Comment 18"," Comment 19"," Comment 20"," Comment 21"," Comment 22"," Comment 23"," Comment 24"," Comment 25"," Comment 26","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
+	}else if($pid=='ica_latest'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "Audit Type", "VOC","File No","Process Name", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Possible Score","Earned Score", "Overall Score", "mechanics overall score","soft skills overall_score",
+		"Agent greeted the member used correct client opening introduced themselves and continued following the basic scripting to open the call", "Agent properly authenticated the member", "Agent collected Health Care information/Responses correctly", "Agent gave correct and complete information", "Agent gave correct incentive information", "Agent provided online self-service information", "Agent logged call correctly in all appropriate systems", "Agent followed script guidelines", "Agent resolved all questions and concerns", "Agent displayed active listening skills and probed for details effectively", "Agent effectively engaged with the caller", "Agent maintained appropriate pace with caller", "Agent Displayed a polite and appropriate tone", "Agent sounded confident and knowledgeable","Agent did not interrupt or talk over the member","Agent used pleasing words and phrases between member responses", "Agent used pleasing words and phrases at beginning and end of call", "Agent maintained call control","Agent managed silence/hold times","Agent used correct grammar avoided slang","Agent used correct client closing",
+		"Agent submitted escalation in system when required (Auto-Fail)","Agent was not rude or inappropriate? (Auto-Fail)", "Agent used incorrect client name during the call (Auto-Fail)","Agent did not demonstrate call avoidance (Auto-Fail)","Agent properly authenticated the member (Auto-Fail)",
+		" Comment 1"," Comment 2"," Comment 3"," Comment 4"," Comment 5"," Comment 6"," Comment 7"," Comment 8"," Comment 9"," Comment 10"," Comment 11"," Comment 12"," Comment 13"," Comment 14"," Comment 15"," Comment 16"," Comment 17"," Comment 18"," Comment 19"," Comment 20"," Comment 21"," Comment 22"," Comment 23"," Comment 24"," Comment 25"," Comment 26","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
+	}else if($pid=='ica'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "Audit Type", "VOC","File No","Process Name", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Customer Score","Business Score","Compliance Score","Possible Score","Earned Score", "Overall Score",
+		"Agent greeted the member used correct client opening introduced themselves and continued following the basic scripting to open the call", "Agent properly authenticated the member", "Did Agent attempt to update Email/SMS/IVR/Phone Number?", "Agent gave Health Care Activity info Correctly", "Agent collected Health Care Activity information correctly", "Agent gave correct Gift Card information", "Agent offered to provide information on the Health Care Activities that the member has remaining to complete", "Agent provided online self-service information", "Agent used correct transfer procedure", "Agent logged call correctly in all appropriate systems", "Agent followed script guidelines", "Agent gave correct and complete information", "Agent resolved all questions and concerns", "Agent displayed active listening skills and probed for details effectively","Agent effectively engaged with the caller","Agent displayed a polite/appropriate tone", "Agent sounded confident and knowledgeable", "Agent did not interrupt or talk over the customer","Agent used pleasing words and phrases","Agent maintained call control","Agent offered additional assistance", "Agent used correct client closing", "Agent used correct grammar avoided slang", "Agent submitted escalation in system when required (Auto-Fail)", "Agent was not rude or inappropriate? (Auto-Fail)", "Agent used the correct client name during the call (Auto-Fail)","Agent did not demonstrate call avoidance (Auto-Fail)","Agent properly authenticated the member","The agent received direct appreciation from the member","Is the recording quality acceptable? (Tracking)" ,"Would play this for the client? (Tracking)",
+		"Agent greeted the member used correct client opening introduced themselves and continued following the basic scripting to open the call Comment", "Agent properly authenticated the member Comment", "Did Agent attempt to update Email/SMS/IVR/Phone Number? Comment", "Agent gave Health Care Activity info Correctly Comment", "Agent collected Health Care Activity information correctly Comment", "Agent gave correct Gift Card information Comment", "Agent offered to provide information on the Health Care Activities that the member has remaining to complete Comment", "Agent provided online self-service information Comment", "Agent used correct transfer procedure Comment", "Agent logged call correctly in all appropriate systems Comment", "Agent followed script guidelines Comment", "Agent gave correct and complete information Comment", "Agent resolved all questions and concerns Comment", "Agent displayed active listening skills and probed for details effectively Comment","Agent effectively engaged with the caller Comment","Agent displayed a polite/appropriate tone Comment", "Agent sounded confident and knowledgeable Comment", "Agent did not interrupt or talk over the customer Comment","Agent used pleasing words and phrases Comment","Agent maintained call control Comment","Agent offered additional assistance Comment", "Agent used correct client closing Comment", "Agent used correct grammar avoided slang Comment", "Agent submitted escalation in system when required (Auto-Fail) Comment", "Agent was not rude or inappropriate? (Auto-Fail) Comment", "Agent used the correct client name during the call (Auto-Fail) Comment","Agent did not demonstrate call avoidance (Auto-Fail) Comment","Agent properly authenticated the member Comment","The agent received direct appreciation from the member Comment","Is the recording quality acceptable? (Tracking) Comment" ,"Would play this for the client? (Tracking) Comment",
+		"Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
+	}else if($pid=='qpc'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Unprepared to Introduce Call", "Did Not Use Branding", "Data Not Collected or Collected Incorrectly", "Second Data Occurrence", "Inaccurate Call Result Code", "Inappropriate or Unusable After-Call Comments", "Underutilized Call Narration", "Inappropriate FAQ Responses", "No or Improper Transitions", "Under-Acknowledged Caller's Concerns", "Inappropriate Script Navigation", "Did Not Display Ownership", "Incorrect Transfer or Referral", "***Did the agent abruptly end the call or display any rude behavior?", "***Did the agent answer premium/cover questions?", "***Did the agent give a wrong callback or referral number?", "***Did the agent use an incorrect carrier name?", "Open/Close Comment 1.1", "Open/Close Comment 1.2", "Data Accuracy Comment 2.1", "Data Accuracy Comment 2.2", "Data Accuracy Comment 2.3", "Data Accuracy Comment 2.4", "Active Listening Comment 3.1", "Active Listening Comment 3.2", "Customer Experience Comment 4.1", "Customer Experience Comment 4.2", "Customer Experience Comment 4.3", "Customer Experience Comment 4.4", "Customer Experience Comment 4.5", "Auto-Fail Comment 5.1", "Auto-Fail Comment 5.2", "Auto-Fail Comment 5.3", "Auto-Fail Comment 5.4", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
+	}else if($pid=='ancient_nutrition'){
+		$controller = "qa_ameridial";
+		$edit_url = "mgnt_ancient_nutrition_rvw";
+		$main_url =  $currentURL.''.$controller.'/'.$edit_url;
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "1.1 Did the rep greet the customer promptly and properly?", "1.2 Did the rep use a pleasant respectful tone and use the callers name at least once?", "1.3 Did the rep answer in a timely manner?", "2.1 Did the rep collect and verify the callers information appropriately and accurately?", "2.2 Did the rep cover the payment procedures appropriately?", "3.1 Did the rep use active listening skills throughout the inquiry so the caller did not have to repeat themselves?", "3.2 Did the rep demonstrate use of call control techniques?", "3.3 Did the rep refrain from interrupting the caller?", "4.1 Did the rep speak clearly and concisely and at an appropriate pace?", "4.2 Did the rep avoid use of internal terms technical terms slang and jargon?", "4.3 Did the rep demonstrate confidence in responses?", "4.4 Did the rep use the callers last name to personalize the call at least once per section?", "4.5 Did the rep minimize silences and use fillers to obtain additional information?", "5.1 Did the rep cover the Auto Shipping appropriately?", "5.2 If rep gathered email did they read the complete email scripting?", "5.3 Did the rep cover the Rush Shipping appropriately?", "5.4 Did the rep complete order confirmation?", "5.5 Did the rep maintain call control?", "5.6 Did the rep use the tools appropriately?", "5.7 Did the rep demonstrate knowledge of the product/program?", "5.8 Did the rep use the appropriate objection responses?", "6.1 Did the rep accurately and completely document the call?", "6.2 Did the rep complete the correct confirmation and closing?", "6.3 Did the rep thank the caller before closing?", "7.1 ***Did the rep attempt give Medical Advice to the caller?", "7.2 ***Did the rep cover the upsell appropriately?", "7.3 ***Did the agent read the confirmation script if email address was obtained?", "Greeting Comment 1.1", "Greeting Comment 1.2", "Greeting Comment 1.3", "Authentication Comment 2.1", "Authentication Comment 2.2", "Listening Skills Comment 3.1", "Listening Skills Comment 3.2", "Listening Skills Comment 3.3", "Soft Skills Comment 4.1", "Soft Skills Comment 4.2", "Soft Skills Comment 4.3", "Soft Skills Comment 4.4", "Soft Skills Comment 4.5", "Knowledge Procedure& Call Flow Comment 5.1", "Knowledge Procedure& Call Flow Comment 5.2", "Knowledge Procedure& Call Flow Comment 5.3", "Knowledge Procedure& Call Flow Comment 5.4", "Knowledge Procedure& Call Flow Comment 5.5", "Knowledge Procedure& Call Flow Comment 5.6", "Knowledge Procedure& Call Flow Comment 5.7", "Knowledge Procedure& Call Flow Comment 5.8", "Closing Comment 6.1", "Closing Comment 6.2", "Closing Comment 6.3", "Auto-Fail Comment 7.1", "Auto-Fail Comment 7.2", "Auto-Fail Comment 7.3", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
+	}else if($pid=='sabal'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Did the agent ask for the individual by Mr. or Mrs. Last Name?", "Did the agent introduce him/herself?", "Did the agent state he/she is a Customer Service Specialist for WellCare?", "Did the agent apologize for the unannounced phone call and state reason for the call?", "Did the agent ask how the individuals Rx plan is currently working for him/her and respond with the appropriate scripted response?", "Did the agent read the listed examples of benefits they could add? Comprehensive Dental i)Complete Vision ii)Extensive Hearing iii)Transportation iv)Free membership to fitness centers and some even come with a free Fitbit!", "Did the agent ask for the individuals red white and blue card and explain why this was needed?", "Did the agent ask for the individuals updated Medicare ID and accurately record the inforamtion?", "Did the agent ask for the individuals Part A effective date and accurately record the information?", "Did the agent use correct rebuttal is individual doesnt want to give ID over the phone?", "Did the agent use scripting if the individual wants to know the cost to him/her?", "Did the agent use correct rebuttal if the agent says he/she is not interested?", "***Did the agent abruptly end the call or display any rude behavior?", "***Did the agent become argumentative with the individual?", "***Did the agent record the incorrect Medicare members information?", "***Did agent provide any false or misleading information?", "Greeting Comment 1.1", "Greeting Comment 1.2", "Greeting Comment 1.3", "Call Flow Comment 2.1", "Call Flow Comment 2.2", "Call Flow Comment 2.3", "Data Collection Comment 3.1", "Data Collection Comment 3.2", "Data Collection Comment 3.3", "Rebuttals Comment 4.1", "Rebuttals Comment 4.2", "Rebuttals Comment 4.3", "Auto-Fail Comment 5.1", "Auto-Fail Comment 5.2", "Auto-Fail Comment 5.3", "Auto-Fail Comment 5.4", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
+	}else if($pid=='curative'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "1.1 Did the rep greet the customer promptly and properly?", "1.2 Did the rep use a pleasant respectful tone?", "1.3 Did the rep answer in a timely manner? (within 5 seconds)", "2.1 Did the rep collect and verify the customers information appropriately and accurately?", "2.2 Did the rep verify patients PHI (name email phone number address email address DOB) is entered correctly in Patient Portal?", "2.3 Did the agent accurately send the email regarding correct use of all PHI?", "2.4 Did the agent escalate to Tier 2 when necessary? (Helpscout ticket tag Tier 2 Escalation) Test Cancelled", "2.5 Did the agent respect the patients privacy and provide results only to the verified caller?", "2.6 Did the agent ensure the email address was correct prior to sending the email message and only send to the verified caller?", "3.1 Did the agent speak clearly concisely and at an appropriate pace?", "3.2 Did the agent avoid use of internal terms technical terms slang and jargon on the call and in email?", "3.3 Did the agent demonstrate a strong use of empathy in responses where required on the call and in email?", "3.4 Did the agent use please and thank you throughout the call and in email communication?", "3.5 Did the agent minimize extended silences throughout the call?", "3.6 Did the agent speak with sincere warmth in his/her voice?", "3.7 Did the agent use correct sentence structure and grammar in email commumnication?", "3.8 Did the agent demonstrate patience with the caller?", "3.9 Did the caller give the agent a KUDOS or express happiness with the rep?", "4.1 Did the rep accurately and completely document the call?", "4.2 Did the rep complete the correct confirmation and closing?", "4.3 Did the rep thank the caller before closing?", "4.4 Did the agent provide accurate results?", "4.5 Did the rep anticipate the caller's needs?", "4.6 Did the rep do everything possible to assist the caller?", "Greeting Comment 1.1", "Greeting Comment 1.2", "Greeting Comment 1.3", "AutoFail Comment 2.1", "AutoFail Comment 2.2", "AutoFail Comment 2.3", "AutoFail Comment 2.4", "AutoFail Comment 2.5", "AutoFail Comment 2.6", "Soft Skills Comment 3.1", "Soft Skills Comment 3.2", "Soft Skills Comment 3.3", "Soft Skills Comment 3.4", "Soft Skills Comment 3.5", "Soft Skills Comment 3.6", "Soft Skills Comment 3.7", "Soft Skills Comment 3.8", "Soft Skills Comment 3.9", "Closing Comment 4.1", "Closing Comment 4.2", "Closing Comment 4.3", "Closing Comment 4.4", "Closing Comment 4.5", "Closing Comment 4.6", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
+	}else if($pid=='powerfan'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Was the agent Prepared for call answer within 5 seconds", "Did the agent identify self and the company?", "Collects intro information Claim code zip code", "Main Sell agent accurately gave terms of offer asks for sale per script quanity", "Did the agent promote upsell downsell asks for sale per script", "Accurately Described Product answered", "Used appropriate Objection Handling", "Asks for billing Name as it appears on cc or check", "If billing name is different than caller agent verified caller is an authorized user of the cc or check", "Asks for billing address for payment method used", "Agent verifies shipping address", "Order was set up and or coded correctly", "Asks for email address spelling and gave email disclaimer", "Gave total amount charged payment information", "Gave correct shipping information", "Gave MBG return info in", "Gave CS phone number", "Asks for permission to authorize payment cc or check", "Was the agent polite courteous and patient", "Agent refrained from using inappropriate comments presentation", "Uses hold and transfers properly", "Auto Fail", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
+	}else if($pid=='nuwave'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Order ID", "Call Duration", "Interaction", "Call Type", "Can be Automated", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Greeting & Identification: Example Thank you for calling NuWave", "Asked and Verified Customer Information: May I please have your Order ID Primary name or e-mail address?", "Used the Callers Name: CSR should address the customer as he/she addresses him/herself Mr. Mrs. Dr. Rev. etc.", "Active Listening: Doesnt interrupt the customer understands customers frame of reference doesnt anticipate or make assumptions", "Communication Skills: Converses in a clear concise manner", "Professionalism: Avoids the use of slang jargon and acronyms", "Empathy Towards Customer: CSR sounds sincere about helping the customer and apologizes", "Courtesy: CSR sounds helpful upbeat friendly and patient", "Put On Hold: Asked customer May I put you on hold or Could you hold while I research this further please?", "Thanked Customer for Holding: CSR thanked customer for holding upon returning to customers call", "Hold Time/Reason Appropriate/Inappropriate: Was it really necessary for the CSR to put the customer on hold?", "Escalation/Referral Procedures: Utilized established guidelines and procedures policy from the leadership team", "Fact Finding: Used probing questions and resources to identify problem", "Verbally Verified Problem Reported: Clearly defined and restated needs reported by the customer", "Managed Customer Expectations: Regarding the order of the product and the shipping time", "Explained: Reason for troubleshooting for possible resolution", "Used Available Resources Well: Referred to knowledge training or other resource programs for order troubleshooting", "Complete & Accurate Customer Documentation: Complete description of the order and or the troubleshooting steps", "Trial Close: Confirmed customer is comfortable with outcome", "Additional Needs Uncovered: CSR asked Is there anything else that I can assist you with today?", "Upsale: Ask customer if the product completely serves their needs", "Used Correct Closing Gave Customer Order Number: Mr. Ms. Mrs. I would like to thank you for ordering with NuWave", "Infractions", "Sub-Infractions", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='delta_iowa'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Call ID", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "1.1 Answered the call promptly (within 5 seconds)", "1.2 Opens the call properly obtains caller name", "1.3 Verifies all identifying information to continue the call", "2.1 Adhered to HIPAA/PCI guidelines depending on the type of call", "2.2 Adhered to Client Policies & Procedures", "2.3 Performed the correct actions for the caller", "2.4 Set approriate expectations", "2.5 Gave accurate and complete information", "2.6 Routed issue to the appropriate department", "2.7 Completed all necessary documentation", "3.1 Used courtesy phrases like please and thank you throughout the call", "3.2 Used the caller's name at least once during the call", "3.3 Followed acceptable hold and transfer procedures", "3.4 Allowed the caller to state the reason for the call", "3.5 Avoided the use of jargon acronyms and slang", "3.6 Allowed the caller to speak without interruption", "3.7 Explained all positives of the plan-type without pushing the caller to purchase", "3.8 Stated a willingness to help the caller usually at the beginning of the call", "3.9 Gained agreement with the caller on the proposed solution", "3.10 Demonstrated an empathetic manner professional tone", "4.1 Closed call by offering further assistance", "4.2 Resolved and followed through on all actions to resolve the customers issue", "4.3 Assured customer their concern will be handled to resolution when possible", "4.4 Made an effective attempt to handle a difficult situation", "*** Agent disconnects customer inappropriately", "*** Agent transfers customer without notifying customer", "*** Agent uses offensive words or profanity", "*** Agent was antagonistic talked back or talked down to caller", "*** Agent discloses confidential information inappropriately", "Greeting Comment 1.1", "Greeting Comment 1.2", "Greeting Comment 1.3", "Call Handling Comment 2.1", "Call Handling Comment 2.2", "Call Handling Comment 2.3", "Call Handling Comment 2.4", "Call Handling Comment 2.5", "Call Handling Comment 2.6", "Call Handling Comment 2.7", "Soft Skills Comment 3.1", "Soft Skills Comment 3.2", "Soft Skills Comment 3.3", "Soft Skills Comment 3.4", "Soft Skills Comment 3.5", "Soft Skills Comment 3.6", "Soft Skills Comment 3.7", "Soft Skills Comment 3.8", "Soft Skills Comment 3.9", "Soft Skills Comment 3.10", "Closing Comment 4.1", "Closing Comment 4.2", "Closing Comment 4.3", "Closing Comment 4.4", "Auto Fail Comment 1.1", "Auto Fail Comment 1.2", "Auto Fail Comment 1.3", "Auto Fail Comment 1.4", "Auto Fail Comment 1.5", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='airmethod'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "1.1 Did the rep greet the customer promptly and properly?", "1.2 Did the rep use a pleasant respectful tone?", "1.3 Did the rep answer in a timely manner? (within 5 seconds)", "2.1 Did the rep collect and verify the customers information appropriately and accurately?", "2.2 Did the rep correctly collect callers work location and store phone number if available?", "2.3 Did the agent correctly define Type of Case?", "2.4 Did the rep correctly mark the Date of Test and Expected Results?", "2.5 Did the rep Contact Trace and ensure this case was/was not connected to any others?", "3.1 Did the agent speak clearly concisely and at an appropriate pace?", "3.3 Did the agent demonstrate a strong use of empathy in responses where required on the call and in email?", "3.4 Did the agent use please and thank you throughout the call and in email communication?", "3.5 Did the agent minimize extended silences throughout the call?", "3.6 Did the agent speak with sincere warmth in his/her voice?", "3.7 Did the agent use correct sentence structure and grammar in email communication?", "3.8 Did the agent demonstrate patience with the caller on call and in email communication?", "3.9 Did the caller give the agent a KUDOS or express happiness with the rep during this call?", "4.1 Did the rep accurately and completely document the call?", "4.2 Did the rep complete the correct confirmation and closing?", "4.3 Did the rep provide the correct instructions based upon the Type of Case?", "4.4 Did the rep do everything provide clear concise direction on isolation or quarantine?", "4.5 Did the rep make appropriate contact to the individual managers departments and Supervisors when required", "Greeting Comment 1.1", "Greeting Comment 1.2", "Greeting Comment 1.3", "Data Collection/Case Details Comment 2.1", "Data Collection/Case Details Comment 2.2", "Data Collection/Case Details Comment 2.3", "Data Collection/Case Details Comment 2.4", "Data Collection/Case Details Comment 2.5", "Soft Skills Comment 3.1", "Soft Skills Comment 3.3", "Soft Skills Comment 3.4", "Soft Skills Comment 3.5", "Soft Skills Comment 3.6", "Soft Skills Comment 3.7", "Soft Skills Comment 3.8", "Soft Skills Comment 3.9", "Status/Condition Comment 4.1", "Status/Condition Comment 4.2", "Status/Condition Comment 4.3", "Status/Condition Comment 4.4", "Status/Condition Comment 4.5", "Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
+	}else if($pid=='airmethod_email'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "File No", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "1.1 Did the agent use appropriate letter structure for all guidance letters and emails?", "1.2 Did the agent accurately send the email regarding correct use of all client processes (for all situations)?", "1.3 Did the agent verify there are no duplicates in Reliance prior to beginning a case?","1.4 Did the agent enter all details into Reliance thoroughly and accurately?","1.5 Did the agent use an accurate response with correct guidance?","1.6 Did the agent respect the patient's privacy and provide results only to the verified recipient?  (ensure the email was sent only to the correct party)", "2.1 Did the agent avoid use of internal terms, technical terms, slang and jargon on the call and in email?", "2.2 Did the agent demonstrate a strong use of empathy in responses where required on the call and in email (as needed)?", "2.3 Did the agent use please and thank you throughout the email communication?", "2.4 Did the agent use correct sentence structure and grammar in email communication?", "2.5 Did the agent demonstrate patience with the caller in email communication? (is the agent using the correctly provided verbiage)", "3.1 Did the agent email the correct email group on all responses?", "3.2 Did the agent leave the case open until all updates have been received?", "3.3 Did the agent accurately record all data questionnaire feedback into Reliance?", "3.4 Did the agent provide timely feedback to any and all emails received?","Comment1","Comment2","Comment3","Comment4","Comment5","Comment6","Comment7","Comment8","Comment9","Comment10","Comment11","Comment12","Comment13","Comment14","Comment15","Comment16","Comment17","Comment18", "Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By","Mgnt Comment");
+	}else if($pid=='foodsaver'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "1.1 Did the rep greet the caller promptly and properly with the correct scripted greeting?", "1.2 Did the rep use a pleasant respectful tone?", "2.1 If the caller said no to the initial offer did the rep use the 1st rebuttal", "2.2 Did the rep also include the 2nd and 3rd points to explain how FoodSaver preserves", "2.3 Did the rep ask the question - Which credit or debit card would you like to use?", "2.4 If the caller said no to this first rebuttal did the rep use the 2nd rebuttal advising of the lowered price at just $99.99 with free shipping and handling?", "2.5 If the caller still said no did the rep advise - We appreciate your call and your interest in FoodSaver", "2.6 Did the rep thank the caller for calling today?", "3.1 Did the rep advise of the 2 Pack of 11 x 16 Rolls at $19.99?", "3.3 Did the rep ask - Would you like to add these to your order and confrim how many they want to add?", "3.4 Did the rep offer Auto Delivery at a 20% savings? ", "3.5 Did the rep ask if the caller would like to add another Food Saver as a gift?", "3.6 Did the rep ask for an email address?", "3.7 Did the rep ask which credit card the caller will be using?", "4.1 Did the rep thank the caller for the order?", "4.2 Did the rep review the order summary and total cost?", "4.3 Did the rep ask if there was anything else we could help with?", "4.4 Did the rep end with a positive statement?", "**Did the rep enter an incorrect credit card number?", "**Did the rep speak rudely to the caller in any way?", "**Did the rep badger the caller?", "**Did the rep disconnect the call without reason?", "Greeting Comment 1.1", "Greeting Comment 1.2", "Rebuttals Comment 2.1", "Rebuttals Comment 2.2", "Rebuttals Comment 2.3", "Rebuttals Comment 2.4", "Rebuttals Comment 2.5", "Rebuttals Comment 2.6", "Yes to offer Comment 3.1", " Comment 3.3", "Yes to offer Comment 3.4", "Yes to offer Comment 3.5", "Yes to offer Comment 3.6", "Yes to offer Comment 3.7", "Closure Comment 4.1", "Closure Comment 4.2", "Closure Comment 4.3", "Closure Comment 4.4", "Auto Fail Comment 1.1", "Auto Fail Comment 1.2", "Auto Fail Comment 1.3", "Auto Fail Comment 1.4", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='sas'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Earn Score","Possible Score","Overall Score", "1.1 Did the rep greet the customer promptly?","Greeting Comment 1.1", "1.2 Did the rep use the proper scripting for the Greeting?", "Greeting Comment 1.2","2.1 Did the agent use any inappropriate language?", "Zero Tolerance Violations Comment 2.1","2.2 Did the agent end the call before completing each required step?","Zero Tolerance Violations Comment 2.2", "2.3 Did the agent attempt to give any medical advice?", "Zero Tolerance Violations Comment 2.3","2.4 Did the agent fail to use mute or hold properly? (There should be no background noise)", "Zero Tolerance Violations Comment 2.4","3.1 Did the agent have a pleasant tone?",  "Call Flow & Soft Skills Comment 3.1", "3.2 Did the agent follow all processes and procedures?","Call Flow & Soft Skills Comment 3.2", "3.3 Did the agent use please and thank you throughout the call?",  "Call Flow & Soft Skills Comment 3.3","3.4 Did the agent schedule the appointment correctly if necessary?", "Call Flow & Soft Skills Comment 3.4","3.5 Did the agent minimize extended silences throughout the call?","Call Flow & Soft Skills Comment 3.5", "3.6 Did the agent answer any and all questions the caller had effectively?",  "Call Flow & Soft Skills Comment 3.6","3.7 Did the agent verify the callers information?","Call Flow & Soft Skills Comment 3.7", "3.8 Did the agent use the callers name at least once during the call?", "Call Flow & Soft Skills Comment 3.8","4.1 Did the agent close correctly by thanking the caller?",  "Closing Comment 4.1", "4.2 Did the agent document appropriately?","Closing Comment 4.2", "4.3 Did the agent correctly transfer the call (if necessary)?", "Closing Comment 4.3",
+		"4.4 Did the agent correctly dispose the call?","Closing Comment 4.4",
+		"Compliance Score","Customer Score","Business Score","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='gap'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "1.1 Did the rep greet the customer promptly and properly?", "1.2 Did the rep use a pleasant respectful tone?", "2.1 Did the agent properly identify themselves GAP and the purpose of the call at the beginning of the phone call?", "2.2 Did the agent make all required disclosures during the sales call?", "2.3 Did the agent attempt to alter any customer information", "2.4 Did the agent attempt to obtain any customer information that is not part of GAP enrollment form", "2.5 Did the agent pose as customers to complete TPV or play recorded responses to complete TPV?", "2.6 Did the agent use any intimidation or undue pressure with the customer?", "2.7 Did the agent contact customers that are on the Internal DNC list?", "2.8 Did the agent fail to disposition a call as Do Not Call when a customer states they do not want to be contacted?", "2.9 Did the agent have any Call Center Violations?", "2.10 Did the agent have any Misrepresentation/Deception?", "2.11 Did the agent suggest that customer is required to choose a competitive energy supplier", "2.12 Did the agent represent that the rate guarantees savings?", "3.1 Did the agent must make clear that he/she does not work for", "3.2 Did the agent properly disclose the rate/kWh and the 0.50 cent daily fee?", "3.3 Did the agent disclose the 36-month term and the term during which the rate/kWh is fixed?", "3.4 Did the agent explain that the customer may rescind the contract within 3 business days of receipt", "3.5 Did the agent minimize extended silences throughout the call?", "3.6 Did the agent explain that the customer may cancel the agreement at any time without penalty by calling Great American Power at 1-877-215-4140?", "3.7 Did the agent explain that after the sales call the customer will be sent an electronic copy of the T&Cs", "3.8 Did the agent demonstrate patience with the caller on call and in email communication?", "4.1 Did the agent advise that the verification representative is NOT AUTHORIZED to answer any questions?", "4.2 Did the agent ask if there were any questions he/she could answer before transferring to the verifier?", "4.3 Did the agent ask if the caller could please hold while he/she gets the verifier on the line?", "4.4 Did the agent correctly transfer the call?", "Greeting Comment 1.1", "Greeting Comment 1.2", "Zero Tolerance Violations Comment 2.1", "Zero Tolerance Violations Comment 2.2", "Zero Tolerance Violations Comment 2.3", "Zero Tolerance Violations Comment 2.4", "Zero Tolerance Violations Comment 2.5", "Zero Tolerance Violations Comment 2.6", "Zero Tolerance Violations Comment 2.7", "Zero Tolerance Violations Comment 2.8", "Zero Tolerance Violations Comment 2.9", "Zero Tolerance Violations Comment 2.10", "Zero Tolerance Violations Comment 2.11", "Zero Tolerance Violations Comment 2.12", "Call Flow & Soft Skills Comment 3.1", "Call Flow & Soft Skills Comment 3.2", "Call Flow & Soft Skills Comment 3.3", "Call Flow & Soft Skills Comment 3.4", "Call Flow & Soft Skills Comment 3.5", "Call Flow & Soft Skills Comment 3.6", "Call Flow & Soft Skills Comment 3.7", "Call Flow & Soft Skills Comment 3.8", "Closing Comment 4.1", "Closing Comment 4.2", "Closing Comment 4.3", "Closing Comment 4.4", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='suarez'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Call Duration", "This call was a/an", "Account Identifiers", "Date of Coaching/Copy Received", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Did you answer the call promptly and sound ready to take the call?", "Was your introduction clear and free of excess Unacceptableise and distraction?", "Did you use the correct greeting?", "Did you smile and sound friendly and happy to take the customer call?", "Was the drop code captured correctly?", "Did you adhere to the script correctly and follow the appropriate decision points?", "Did you ask for and verify all information correctly?", "Did you read all disclaimers and special Unacceptabletes offered in the script?", "Did you complete the call properly?", "Did you sound confident about the product and/or offer?", "Were all required upsells offered correctly?", "Did you go above and beyond the requirements to obtain a sale additional units or additional upsell opportunity?", "Additional units or additional upsell opportunity?", "Did you control the call without excessive chatting and Unacceptablen-business conversation?", "Did you lose a sale?", "Did you appropriately answer the customer questions and make every effort to satisfy the customer and the purpose of the call?", "Did the customer have your full attention?/ were you listening while the customer was speaking?", "Were you heard interrupting the customer raising your voice or using an unfriendly or unprofessional tone?", "What is the Specialist impression of customer temperature at the END of the call?", "Was there a Unacceptableticeable change in customer temperature during the call?", "Did you use hold times appropriately in regard to this call?", "Was the order keyed correctly?", "Was there anything regarding this customer account or experience that you missed?", "On this call was it obvious that you use your down time to study products promotions and procedures?", "Were you heard saying anything negative or unprofessional in regard to this call on or off the phone?", "Greeting Comment 1", "Greeting Comment 2", "Greeting Comment 3", "Greeting Comment 4", "Script and Procedure Adherence Comment 1", "Script and Procedure Adherence Comment 2", "Script and Procedure Adherence Comment 3", "Script and Procedure Adherence Comment 4", "Script and Procedure Adherence Comment 5", "Sales Ability Comment 1", "Sales Ability Comment 2", "Sales Ability Comment 3", "Sales Ability Comment 4", "Sales Ability Comment 5", "Sales Ability Comment 6", "Soft Skills Comment 1", "Soft Skills Comment 2", "Soft Skills Comment 3", "Soft Skills Comment 4", "Soft Skills Comment 5", "Additional Details Comment 1", "Additional Details Comment 2", "Additional Details Comment 3", "Additional Details Comment 4", "Additional Details Comment 5", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='sfe'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score",
+			"1.1 Did the agent advise who he/she is who he/she is calling from and who he/she represents?","1.2 Did the agent advise the call is being recorded for quality assurance and training purposes?",
+			"2.1 Did the agent provide all program benefits including rates explanation and benefits?","2.2 Did the agent ask if he/she was speaking with the account holder?","2.3 Did the agent ask if the caller was receiving any government assistance?","2.4 Did the agent ask for the address and email?","2.5 Did the agent ask if the caller was 18 years or older?",
+			"3.1 Did the rep sound confident and polite to the person on the phone?","3.2 Did the agent address the caller by name at least once?","3.3 Did the agent use 'please' and 'thank you' throughout the call?","3.4 Did the agent minimize extended silences throughout the call?","3.5 Did the agent speak clearly?",
+			"4.1 Did the agent use the first rebuttal correctly if the caller was not interested?","4.2 Did the agent use the second rebuttal correctly if the caller was not interested?","4.3 Did the agent provide the phone number for call back it the caller was not interested?",
+			"5.1 Did the agent advise of the Welcome Package would be sent including the program details and contact information?","5.2 Did the agent ask for the sale and gain a 'yes' before proceeding?","5.3 Did the rep finalize the date for the quote?","5.4 Did the rep take complete detailed notes?",
+			"6.1 Did the rep proceed with the call without a firm 'yes'","6.2 Did the rep provide accurate information?","6.3 Did the rep mislead the caller in any way?","6.4 Did the rep advise that he/she uses this service?","6.5 Did the rep advise that he/she uses this service?(need more detail for this)",
+			"Greeting Comment 1.1", "Greeting Comment 1.2","Details Comment 2.1", "Details Comment 2.2", "Details Comment 2.3", "Details Comment 2.4","Details Comment 2.5","Soft Skills Comment 3.1", "Soft Skills Comment 3.2", "Soft Skills Comment 3.3", "Soft Skills Comment 3.4", "Soft Skills Comment 3.5","Rebuttls Comment 4.1", "Rebuttls Comment 4.2", "Rebuttls Comment 4.3","Closure Comment 5.1", "Closure Comment 5.2", "Closure Comment 5.3", "Closure Comment 5.4","Auto Fail Comment 6.1", "Auto Fail Comment 6.2", "Auto Fail Comment 6.3", "Auto Fail Comment 6.4","Auto Fail Comment 6.5",
+			"Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='brightway_ib_bank'){
+		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date","Audit Type", "Auditor Type", "Voc","Audit Start Date Time","Audit End Date Time","Interval","Overall Score", "Possible Score", "Earned Score","1.  Did the CSR use the approved greeting including Brightway branding name and customer name and policy number and offer assistance?","2. If applicable did rep advise they were on a recorded line?","3. Verified and captured points of contact according to procedure.","1. Did the associate use the appropriate tone pace and professionalism ?","2. Did the associate avoid insurance jargon and used proper grammar throughout the call?","3. Did the associate demonstrate the right level of empathy or sympathy?","4. Did the associate listen carefully to understand and address the customers needs ?","5. Did the associate ask to place the caller on hold set proper time expectations and thank them when returning?","6. The associate maintained call control throughout the call by guiding the conversation to stay on topic","7. There was not any silence dead air or self talking that had a negative impact on the call.","8. All verbal and written information provided by associate to insured and other parties was clear accurate and included all relevant information. (2pts for each)","1. Did the associate ask probing questions and verbally verify the changes requested and information provided?","2. If applicable was the call warm transferred","3. Expectations provided and time frame for follow up if any was met.","4. If the call was disconnected prior to resolution did the CSR attempt to contact the caller back to complete the call?","5. Documented correct policy is AMS","6. Are the notes clear descriptive and fully capture what occurred on the call so others understand what was discussed and if anything additional is needed?","7. Created all activities corresponding with the interaction","8. Were the correct templates used? ","9. Attached all emails fax confirmations and other documents as needed","10. Was the issue or request resolved/completed?","11. Requested all signed documents/supporting documentation when further action is required from the customer. CSR did not request any unnecessary or incorrect documents.","12. CSR offered any possible alternative options or solutions to callers request.","13. Effectively accessed and utilized all appropriate systems and resources.","14. Were all changes made in AMS and/or carrier site ?","15. All associated policies were updated as needed (for example flood and umbrella).","16. Was the appropriate suspense created for follow up if needed?","17. Addressed any service-related suspense items that were open at the time they spoke with the customer.","18. CSR updated any suspense that was addressed during the call and closed if applicable.","19. Was the correct disposition selected","1. Did the CSR provide a wrap-up summary including the CSRs and callers action items?","2. Did the associate offer additional assistance thanked the customer?","1. Bonus Question","1. Was the call an Auto-Fail?","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='qpc_esal'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Call Duration", "Call ID", "Call Type", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "1. Opens the call with a correct introduction", "2. Accurate translation", "3. Provides correct data", "4. Uses correct grammar", "5. Effective communication", "6. Active listening", "7. Avoids long silence gaps", "8. Communicates in a polite and respectful manner", "9. Correctly indicates cannot translate profanity", "10. Closes the call accordingly", "Comment 1", "Comment 2", "Comment 3", "Comment 4", "Comment 5", "Comment 6", "Comment 7", "Comment 8", "Comment 9", "Comment 10", "Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='pcare_cs'){
+		$header = array("Auditor Name", "Audit Date", "Agent", "Location", "Call Date", "Customer Number", "Call Type", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Greeting - Welcome to the Company and Identification of Agent", "Customer Identification", "Identifying customer persona", "Opening Question", "Acknowledge Customer Reason For Call/Assurance of help", "Thank you statements", "Asking Permission to propose an agenda", "Getting Permission to proceed", "Proposing an Agenda", "Presenting a Timeframe for the Call", "Getting Permission to proceed", "Identify Challenges", "Historical Impact", "Future State",  "Value Proposition", "1st Retention Attempt", "Tactical Hold", "2nd Retention Attempt", "Complete Confirmation of SuperSaver", "Confirmation Daily Special", "Made offer to save package", "Addition Offers Daily Special", "Verify Customer Information", "Web Login", "Email Capture", "SMS Opt-In", "Documentation", "Thank you Closing Statement", "Agent provided correct information to caller and did not mislead", "Correct Delay Length", "Correctly Used Purity Points", "Soft Skills", "Rapport Building", "Maintaining Call Control", "Listening Comprehension", "***Unauthorized Shipments/Not following up in the database", "***Inappropriate Language/Unprofessional Behavior", "***Badgering/Arguing with Customer", "***Incorrect use of SS Actions", "***No S.S. Confirmation", "***Making Health Claims", "***No Retention Offers Made", "Call Feedback", "Agent Review Date", "Agent Feedback Acceptance", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='ab_commercial'){
+		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super","Call Date","Audit Type", "Auditor Type", "Voc","Audit Start Date Time","Audit End Date Time","Interval","Overall Score","Correct Subject line","Correct Signature/Billing/ Docusign/Bank fax sent if necessary","Subjectivities mentioned on email","Coverage changes mentioned on email","Correct invoice included","Quote included","Correct edits made","Application/forms included if necessary","DE suspense sent if necessary","Prem increase suspense sent if necessary","Coverage Change suspense sent if necessary","Suspense status updated","Renewal sheet updated","Correct activity entered into AMS with email attached","Correct requirements via Docusign (if appliable)","Email 40% Comment 1","Email 40% Comment 2","Email 40% Comment 3","Email 40% Comment 4","Packet 20% Comment 1","Packet 20% Comment 2","Packet 20% Comment 3","Packet 20% Comment 4","Requirements Met 20% Comment 1","Requirements Met 20% Comment 2","Requirements Met 20% Comment 3","Status Update 20 % Comment 1","Status Update 20 % Comment 2","Status Update 20 % Comment 3","Status Update 20 % Comment 4","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=='mpc'){
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "File No", "Call Duration", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "1.1 Did the rep greet the customer promptly and properly?", "1.2 Did the rep use a pleasant respectful tone?", "2.1 Did the agent properly identify themselves", "2.2 Did the agent advise that the call is being recorded for quality purposes?", "2.3 Did the agent attempt to alter any customer information", "**2.4 Did the agent violate HIPAA in any way?", "3.1 Did the agent speak clearly concisely and at an appropriate pace?", "3.2 Did the agent avoid use of internal terms", "3.3 Did the agent demonstrate a strong use of empathy in responses", "3.4 Did the agent use please and thank you throughout the call", "3.5 Did the agent minimize extended silences throughout the call?", "3.6 Did the agent speak with sincere warmth in his/her voice?", "3.7 Did the agent use correct sentence structure and grammar in email commumnication?", "3.8 Did the agent demonstrate patience with the caller on call and in email communication?", "4.1 Did the agent advise Maryland Medicaid has recently informed us that your MPC HealthChoice benefits", "4.2 Did the agent ask if the caller has recertified for benefits this year?", "4.3 Did the agent provide the MPC Customer Service phone number", "4.4 Did the agent use please and thank you throughout the call?", "4.5 Did the agent transfer to the MD Health Exchange correctly", "4.6 If caller did not want to be transferred, did the agent advise", "5.1 Did the rep accurately and completely document the call?", "5.2 Did the rep complete the correct confirmation and closing?", "5.3 Did the rep thank the caller before closing?", "5.4 Did the rep do everything possible to assist the caller?", "5.5 Did the rep anticipate the caller's needs?",
+		"Greeting Comment 1.1", "Greeting Comment 1.2", "Verification Comment 2.1", "Verification Comment 2.2", "Verification Comment 2.3", "Verification Comment 2.4", "Soft Skills Comment 3.1", "Soft Skills Comment 3.2", "Soft Skills Comment 3.3", "Soft Skills Comment 3.4", "Soft Skills Comment 3.5", "Soft Skills Comment 3.6", "Soft Skills Comment 3.7", "Soft Skills Comment 3.8", "Process Flow Comment 4.1", "Process Flow Comment 4.2", "Process Flow Comment 4.4", "Process Flow Comment 4.5", "Process Flow Comment 4.6", "Closing Comment 5.1", "Closing Comment 5.2", "Closing Comment 5.3", "Closing Comment 5.4", "Closing Comment 5.5",
+		"Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+	}else if($pid=="cinemark"){
+		  $header= Array("Auditor Name","Audit Date","Call Date","Fusion ID","Agent","L1 Supervisor","Call Duration","File Number","Audit Type","VOC","Audit Start Date Time","Audit End Date Time","Interval","QA Score",
+		  "1.1 Did the agent greet the customer appropriately?","1.2 Did the agent provide his/her name?","1.3 Did the agent ask how/he or she could assist the caller?","2.1 Did the agent adhere to the refund rules?",
+		  "2.2 If the customer asked to speak to a supervisor did we transfer to an internal supervisor?","2.3 Did the agent fill out a ticket properly?","2.4 Did the agent include the theater number?",
+		  "2.5 Did the agent leave a correct note?","2.6 Did the agent leave the confirmation number or order number?","2.7 If a Fandango customer called in did the agent supply the correct information?",
+		  "2.8 Was the agent able to access customers past transactions (if applicable)?","3.1 Did the agent have an appropriate tone and use please and thank you throughout the call?",
+		  "3.2 Did the agent close the call correctly?","4.1 Did the agent complete all necessary tasks correctly?","4.2 Did the agent use any inappropriate language or demean the caller?",
+		  "4.3 Did the agent hang up on the caller?","Remarks 1","Remarks 2","Remarks 3","Remarks 4","Remarks 5","Remarks 6","Remarks 7","Remarks 8","Remarks 9","Remarks 10","Remarks 11",
+		  "Remarks 12","Remarks 13","Remarks 14","Remarks 15","Remarks 16","Call Summary","Feedback","Agent Feedback Acceptance","Agent review note","Agent review date",
+		  "Mgnt review date","Mgnt review by","Mgnt review note");
+}else if($pid=="empire"){
+  $header = array("Auditor Name","Audit Date","Call Date","Fusion ID","Agent","L1 Supervisor","Call Duration","File Number","Audit Type","VOC","Audit Start Date Time","Audit End Date Time","Interval","QA Score","Customer Score","Business Score","Compliance Score",
+  "1.1 Greet the customer on time (within 5 secs)","1.2 Use of standard greeting","1.3 Open the call with an enthusiastic pleasant tone of voice","2.1 Use courtesy phrases",
+  "2.2 Use of customers name appropriately during the call","2.3  Communication skills accent grammar","2.4 Positively represent Empire","2.5 Active listening","2.6  Maintain Call Control/ Dead air exceeded more than 15secs?",
+  "3.1 Probe for accurate understanding of customer need","3.2 Restate customer need correctly","3.3 Set expectations","3.4 Ask customer for appointment","4.1 Verify Customer Account",
+  "4.2 Confirm All Data","4.3 Provide accurate and complete information","4.4 Demonstrate confidence in the information being conveyed","4.5 Did the agent dispose the call correctly?","4.6 Overcome objections",
+  "5.1 Confirm appointment","5.2 Use standard closing","Rude Remarks / Inappropriate Language","Call Avoidance","Remarks 1","Remarks 2","Remarks 3","Remarks 4","Remarks 5","Remarks 6","Remarks 7","Remarks 8","Remarks 9","Remarks 10","Remarks 11",
+  "Remarks 12","Remarks 13","Remarks 14","Remarks 15","Remarks 16","Remarks 17","Remarks 18","Remarks 19","Remarks 20","Remarks 21","Remarks 22","Remarks 23","Call Summary","Feedback","Agent Feedback Acceptance","Agent review note","Agent review date",
+  "Mgnt review date","Mgnt review by","Mgnt review note");
+}elseif ($pid=="hcpss") {
+  $header=array("Auditor Name","Audit Date","Call Date","Fusion ID","Agent","L1 Supervisor","Call Duration","File Number","Audit Type","VOC","Audit Start Date Time","Audit End Date Time", "Interval","QA Score",
+  "1.1 Did you answer the call promptly and sound ready to take the call?","1.2 Was your introduction clear and free of excess noise and distraction?","1.3 Did you use the correct greeting?",
+  "1.4 Did you smile and sound friendly and happy to take the customers call?","2.1 Was the case captured correctly? Close Contact/ Confirmed Positive","2.2 Did you adhere to the script correctly and Capture all the correct information needed?",
+  "2.3 Did you ask for and verify all information correctly?","2.4 Did you add all the appropriate notes on the call?","2.5 Did you complete the call properly?","3.1 Did you sound confident about the process?",
+  "3.2 Did you go above and beyond the requirements to assure the caller was taken care of?","4.1 Did you appropriately answer the callers questions and make every effort to satisfy the caller and complete your calls purpose?",
+  "4.2 Did the caller have your full attention?/ were you actively listening while the caller was speaking?","4.3 Were you heard interrupting the caller raising your voice or using an unfriendly or unprofessional tone or words/Slang (was your email professional as well)",
+  "5.1 Did you use hold times appropriately?","5.2 Was the call handled correctly/dipostioned correctly?","5.3 If confirmed Postive did the agent correctly list all the close contacts.",
+  "5.4 Were you heard saying anything negative or unprofessional in regard to this call on or off the phone?","Comment 1","Comment 2","Comment 3","Comment 4","Comment 5","Comment 6","Comment 7","Comment 8","Comment 9","Comment 10","Comment 11",
+  "Comment 12","Comment 13","Comment 14","Comment 15","Comment 16","Comment 17","Comment 18","Call Summary","Feedback","Agent Feedback Acceptance","Agent review note","Agent review date",
+  "Mgnt review date","Mgnt review by","Mgnt review note");
+}else if($pid=="cmn"){
+  $header=array("Auditor Name","Audit Date","Call Date","Fusion ID","Agent","L1 Supervisor","Call Duration","File Number","Audit Type","VOC","Audit Start Date Time","Audit End Date Time", "Interval","QA Score",
+  "Opening","Closing","Empathy/Apology","Ownership/Assurance","Tone / Rate of Speech / Fumbling","Active Listening","Interruption / Parallel Conversation","Issue Identification / Understanding","Probing",
+  "Mode of Payment confirmation","Refund Processed Correctly","Email ID Verification","Phone Number Verification","ZTP","Comment 1","Comment 2","Comment 3","Comment 4","Comment 5","Comment 6","Comment 7","Comment 8",
+  "Comment 9","Comment 10","Comment 11","Comment 12","Comment 13","Comment 14","Call Summary","Feedback","Agent Feedback Acceptance","Agent review note","Agent review date",
+  "Mgnt review date","Mgnt review by","Mgnt review note");
+}else if($pid=="pilgrim"){
+  $header=array("Auditor Name",
+  "Audit Date",
+  "Call Date",
+  "Fusion ID",
+  "Agent",
+  "L1 Supervisor",
+  "Call Duration",
+  "File Number",
+  "Audit Type",
+  "VOC",
+  "Audit Start Date Time",
+  "Audit End Date Time",
+  "Interval",
+  "Possible Score",
+  "Earned Score",
+  "Compliance Score",
+  "Customer Score",
+  "Business Score",
+  "Compliance Score Percentage",
+  "Customer Score Percentage",
+  "Business Score Percentage",
+  "QA Score",
+  "Did the agent open the call within 5 seconds?",
+  "Did the agent give the proper introduction and include their name?",
+  "Did the agent explain the offer and/or products?","Did the agent give customer proper responses?","Did the agent correctly probe?",
+  "Did the agent disposition the call properly?",
+  "Was the agent polite & courteous?",
+  "Was the agent ready for the call (minimal dead air)?","Did the agent show energy empathy and enthusiasm?",
+  "Did the agent use appropriate tone pacing grammar & pronunciation?",
+  "Did the agent show accurate and complete grasp of information?",
+  "Did the agent set up Gold Card correctly-ideology",
+  "Did the agent properly disengage disruptive/prank caller",
+  "Rude Remarks",
+  "Call Avoidance / Dumping",
+   "Comment 1",
+   "Comment 2",
+   "Comment 3",
+   "Comment 4",
+   "Comment 5",
+   "Comment 6",
+   "Comment 7",
+   "Comment 8",
+   "Comment 9",
+   "Comment 10",
+   "Comment 11",
+   "Comment 12",
+   "Comment 13",
+   "Comment 14",
+   "Comment 15",
+   "Call Summary",
+   "Feedback",
+   "Agent Feedback Acceptance",
+  "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
+}else if($pid=="bluebenefits"){
+  $header=array("Auditor Name",
+  "Audit Date",
+  "Call Date",
+  "Fusion ID",
+  "Agent",
+  "L1 Supervisor",
+  "Call Duration",
+  "File Number",
+  "Audit Type",
+  "VOC",
+  "Audit Start Date Time",
+  "Audit End Date Time",
+  "Interval",
+  "QA Score",
+  "Did the rep greet the customer promptly and properly?",
+  "Did the rep use a pleasant respectful tone?",
+  "Did the rep correctly verify the callers info prior to proceeding with the call? ",
+  "Did the rep offer a willingness statement? I d be happy to help you with that etc",
+  "Did the rep display a professional manner and refrain from speaking over or interrupting the caller?",
+  "Did the rep have any incomplete provider info?",
+  "Did the rep incorrectly quote any benefits? ",
+  "Did the rep incorrectly quote any copay or coinsurance? Or did they miss the coinsurance copay?",
+  "Did the rep incorrectly give CR RC MAB RAA CY or PY?",
+  "Did the rep incorrectly quote the deductible?",
+  "Did the rep give any other incorrect information or miss any of the following regarding plan Effective Date Frequency Limitation Network OOP Max Precert Pre-X Term Date",
+  "Did the rep provide the correct Claims Address when necessary?",
+  "Did the rep include all information necessary regarding Medical Necessity?",
+  "Did the rep include all details correctly regarding DME coverage when necessary?",
+  "Did the agent speak clearly concisely and at an appropriate pace?",
+  "Did the agent avoid use of internal terms technical terms slang and jargon on the call and in email?",
+  "Did the agent demonstrate a strong use of empathy in responses where required on the call and in email?",
+  "Did the agent use please and thank you throughout the call and in email communication?",
+  "Did the agent minimize extended silences throughout the call?",
+  "Did the agent speak with sincere warmth in his her voice?",
+  "Did the agent use correct sentence structure and grammar in email commumnication?",
+  "Did the agent demonstrate patience with the caller on call and in email communication?",
+  "Did the rep accurately and completely document the call?",
+  "Did the rep complete the correct confirmation and closing?",
+  "Did the rep thank the caller before closing?",
+  "Did the rep do everything possible to assist the caller?",
+  "Did the rep anticipate the callers needs?to avoid unecessary callbacks or confusion",
+
+
+   "Comment 1",
+   "Comment 2",
+   "Comment 3",
+   "Comment 4",
+   "Comment 5",
+   "Comment 6",
+   "Comment 7",
+   "Comment 8",
+   "Comment 9",
+   "Comment 10",
+   "Comment 11",
+   "Comment 12",
+   "Comment 13",
+   "Comment 14",
+   "Comment 15",
+   "Comment 16",
+   "Comment 17",
+   "Comment 18",
+   "Comment 19",
+   "Comment 20",
+   "Comment 21",
+   "Comment 22",
+   "Comment 23",
+   "Comment 24",
+   "Comment 25",
+   "Comment 26",
+   "Comment 27",
+   "Call Summary",
+   "Feedback",
+   "Agent Feedback Acceptance",
+  "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
+}else if($pid=="healthbridge"){
+  $header=array("Auditor Name",
+  "Audit Date",
+  "Call Date",
+  "Fusion ID",
+  "Agent",
+  "L1 Supervisor",
+  "Call Duration",
+  "File Number",
+  "Audit Type",
+  "VOC",
+  "Audit Start Date Time",
+  "Audit End Date Time",
+  "Interval",
+  "QA Score",
+  "Correct Information provided regarding account details benefit information plan etc",
+  "Resolved all member concerns or questions.",
+  "Added detailed notes to the member account. ",
+  "Disposition the call appropriately.",
+  "Verified the member's name last 4 SS# DOB and zipcode. ",
+  "Used the verification button. ",
+  "Followed all company procedures guidelines and policies.",
+  "Informed the member of call recording (OUTBOUND ONLY)",
+  "Proper Greeting and Closing was used including name company and name. ",
+  "Clear communication active listening call control and efficiency was demonstrated throughout the call. ",
+  "Proper expectations were set empathetic pleasant voice tone and positive attitude during the call. ",
+  "Avoided industry jargon excessive hold time dead air slang interruptions or self talk.",
+  "Verified current address preffered phone number and email address. ",
+  "If applicable requested payment from member and other family members.",
+  "If applicable the member has outstanding balance after payment ask if they would like us to set up a recurring payment.",
+  "Did agent present the authorize payment ask before processing",
+  "Did agent offer confirmation number",
+  "Adhered to HIPAA regulations throughout the entire call.",
+  "Used inappropriate tone and language with the member",
+  "Did agent repeat card numbers back. ",
+  "Call Avoidance",
+   "Comment 1",
+   "Comment 2",
+   "Comment 3",
+   "Comment 4",
+   "Comment 5",
+   "Comment 6",
+   "Comment 7",
+   "Comment 8",
+   "Comment 9",
+   "Comment 10",
+   "Comment 11",
+   "Comment 12",
+   "Comment 13",
+   "Comment 14",
+   "Comment 15",
+   "Comment 16",
+   "Comment 17",
+   "Comment 18",
+   "Comment 19",
+   "Comment 20",
+   "Comment 21",
+   "Comment 22",
+   "Comment 23",
+   "Call Summary",
+   "Feedback",
+   "Agent Feedback Acceptance",
+  "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
+}else if($pid=="healthbridgenew"){
+	$header=array("Auditor Name",
+	"Audit Date",
+	"Call Date",
+	"Fusion ID",
+	"Agent",
+	"L1 Supervisor",
+	"Call Duration",
+	"File Number",
+	"Audit Type",
+	"Auditor Type",
+	"VOC",
+	"Audit Start Date Time",
+	"Audit End Date Time",
+	"Interval",
+	"Earn Score",
+	"Possible Score",
+	"QA Score",
+	"Resolved all member concerns or questions",
+	"Added detailed notes to the member account and Jira ticket if needed",
+	"Dispositioned the call appropriately",
+	"Use of headset during calls",
+	"Used the verification button",
+	"Followed all company procedures guidelines and policies",
+	"Proper Greeting and Closing was used included company name Offered survey to the member.",
+	"Clear communication active listening call control and efficiency was demonstrated throughout the call",
+	"Proper expectations were set empathetic pleasant voice tone and positive attitude during the call ",
+	"Avoided industry jargon excessive hold time dead air slang interruptions or self talk ",
+	"If applicable requested payment from member and other family members",
+	"If applicable the member has outstanding balance after payment ask if they would like us to set up a recurring payment",
+	"Did agent present the authorize payment ask before processing ",
+	"Did agent offer confirmation number",
+	"Verified the members name last 4 SS# member number DOB and address",
+	"Correct Information provided regarding account details benefit information plan etc",
+	"Adhered to HIPAA regulations throughout the entire call",
+	"Used inappropriate tone and language with the member",
+	"Call Avoidance",
+	 "Comment 1",
+	 "Comment 2",
+	 "Comment 3",
+	 "Comment 4",
+	 "Comment 5",
+	 "Comment 6",
+	 "Comment 7",
+	 "Comment 8",
+	 "Comment 9",
+	 "Comment 10",
+	 "Comment 11",
+	 "Comment 12",
+	 "Comment 13",
+	 "Comment 14",
+	 "Comment 15",
+	 "Comment 16",
+	 "Comment 17",
+	 "Comment 18",
+	 "Comment 19",
+	 "Comment 20",
+	 "Call Summary",
+	 "Feedback",
+	 "Agent Feedback Acceptance",
+	 "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
+}else if($pid=="mcKinsey"){
+  $header=array("Auditor Name",
+  "Audit Date",
+  "Call Date",
+  "Fusion ID",
+  "Agent",
+  "Call Duration",
+  "L1 Supervisor",
+  "File Number",
+  "Audit Type",
+  "VOC",
+  "Audit Start Date Time",
+  "Audit End Date Time",
+  "QA Score",
+  "Did the rep greet the caller properly? ",
+  "Did the rep use a pleasant respectful tone?",
+  "Did the rep answer in a timely manner? (within 5 seconds) ",
+  "Did the rep collect and verify the customers information appropriately and accurately? ",
+  "Did the agent correctly define Type of Case? ",
+  "Did the rep correctly mark all required dates and data? ",
+  "Did the rep Contact Trace and ensure this case was/was not connected to any others, and report if cleaning was required?",
+  "Did the agent speak clearly concisely and at an appropriate pace?",
+  "Did the agent demonstrate a strong use of empathy in responses where required on the call and in email? ",
+  "Did the agent use please and thank you throughout the call and in email communication? ",
+  "Did the agent minimize extended silences throughout the call? ",
+  "Did the agent speak with sincere warmth in his/her voice?",
+  "Did the agent use correct sentence structure and grammar in email communication? ",
+  "Did the agent demonstrate patience with the caller on call and in email communication?",
+  "Did the rep accurately and completely document the call?",
+  "Did the rep complete the correct confirmation and closing?",
+  "Did the rep provide the correct instructions based upon the Type of Case? ",
+  "Did the rep do everything provide clear concise direction on isolation or quarantine?",
+  "Did the rep make appropriate contact to the individual managers departments and Supervisors when required and/or email any requested files and Guidance Letters?",
+   "Comment 1",
+   "Comment 2",
+   "Comment 3",
+   "Comment 4",
+   "Comment 5",
+   "Comment 6",
+   "Comment 7",
+   "Comment 8",
+   "Comment 9",
+   "Comment 10",
+   "Comment 11",
+   "Comment 12",
+   "Comment 13",
+   "Comment 14",
+   "Comment 15",
+   "Comment 16",
+   "Comment 17",
+   "Comment 18",
+   "Comment 19",
+   "Call Summary",
+   "Feedback",
+   "Agent Feedback Acceptance",
+  "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
+}else if($pid=="compliance"){
+  $header=array("Auditor Name",
+  "Audit Date",
+  "Call Date",
+  "Fusion ID",
+  "Agent",
+  "L1 Supervisor",
+  "Call Duration",
+  "File Number",
+  "Audit Type",
+  "VOC",
+  "Audit Start Date Time",
+  "Audit End Date Time",
+  "Interval",
+  "QA Score",
+  "Compliance Status",
+  "Issue Type",
+  "Reason",
+   "Call Summary",
+   "Feedback",
+   "Agent Feedback Acceptance",
+  "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
+}else if($pid=="affinity"){
+  $header=array("Auditor Name",
+  "Audit Date",
+  "Call Date",
+  "Fusion ID",
+  "Agent",
+  "Call Duration",
+  "Audit Type",
+  "VOC",
+  "Audit Start Date Time",
+  "Audit End Date Time",
+  "QA Score",
+  "Did the agent verify the patient's name date of birth and ID number? ",
+  "Did the agent verify the Provider's ID number?",
+  "Did the agent adhere to the approved call opening greeting ?",
+  "Did the agent adhere to the approved call closing script? ",
+  "Did the agent adhere to the approved hold script? ",
+  "Did the agent adhere to the approved transfer script? ",
+  "Did the agent acknowledge the caller and their needs?   ",
+  "Did the agent listen to the caller without interruptions?",
+  "Did the agent sound clear confident friendly polite and welcoming Displayed empathy?",
+  "Did the CRP determine if this was a repeat call and review the history of the issue for the caller? ",
+  "Did the agent keep the caller informed of his her actions?",
+  "Did the agent refrain from using jargon or acronyms?  ",
+  "Did the agent demonstrate control of the call and prevented escalations?",
+  "Did the agent use the caller's name at least once during the call? ",
+  "Did the agent attempt to resolve the caller's issue without needing to escalate the call?",
+  "Did the agent offer the most accurate/up to date information?",
+  "Did the agent offer detailed information/all possible solutions?",
+  "Did the agent use all available resources/tools to assist the caller? ",
+  "Did the agent document the customer/contact information?",
+  "Did the agent use the most appropriate subject/category codes?",
+  "Did the agent document the call in detail including inquiry details and resolution?",
+  "Did the agent accurately route the inquiry to the appropriate party/group?",
+  "Did the agent upload the verbal request form in UMK2?",
+  "Did the agent take time at the beginning of the call to finish noting the previous call?",
+   "Comment 1",
+   "Comment 2",
+   "Comment 3",
+   "Comment 4",
+   "Comment 5",
+   "Comment 6",
+   "Comment 7",
+   "Comment 8",
+   "Comment 9",
+   "Comment 10",
+   "Comment 11",
+   "Comment 12",
+   "Comment 13",
+   "Comment 14",
+   "Comment 15",
+   "Comment 16",
+   "Comment 17",
+   "Comment 18",
+   "Comment 19",
+   "Comment 20",
+   "Comment 21",
+   "Comment 22",
+   "Comment 23",
+   "Comment 24",
+   "Call Summary",
+   "Feedback",
+   "Agent Feedback Acceptance",
+  "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
+}else if($pid=="affinity_pro"){
+  $header=array("Auditor Name",
+  "Audit Date",
+  "Call Date",
+  "Fusion ID",
+  "Agent",
+  "Call Duration",
+  "Audit Type",
+  "VOC",
+  "Audit Start Date Time",
+  "Audit End Date Time",
+  "Actual Disposition",
+  "Customer Contact Number","LOB","State","Member/Provider",
+  "QA Score",
+  "Appropriately allowed customer to express their feelings and expressed sincere and appropriate empathy",
+  "Enthusiastic smiled and displayed a positive helpful tone throughout the call",
+  "Demonstrated courteous and professional demeanor at all times while personalizing call as appropriate",
+  "Displayed a high level of confidence and demonstrated a can do attitude at all times",
+  "Actively listened avoided interruptions maintained control acknowledged all of the callers concerns and guided call towards a logical resolution",
+  "Spoke clearly at an appropriate pace and was easily understood used appropriate positive word choices phrases and avoided technical jargon",
+  "Remained focused and avoided unexplained dead air and was able to multi-task when appropriate",
+  "Agent is prepared for the call and followed correct opening",
+  "Followed correct closing and exited call in a timely manner",
+  "Utilized correct hold and/or mute procedure",
+  "Utilized correct transfer procedure",
+  "Successfully verified HIPAA and verified caller is authorized",
+  "Verified demographic & PCP information on file as appropriate handled HEDIS alert correctly",
+  "Promoted Self Service options whenever appropriate",
+  "Erroneously referred member to Regulatory Agencies",
+  "Avoided assumptions confirmed understanding of the issue by asking open and/or closed questions correctly identified issue to be resolved and reviewed notes/history appropriately",
+  "Escalated the call appropriately or as requested by the caller",
+  "FCR - Exhausted all available options by utilizing tools/resources/staff effectively to successfully resolve all of the callers concerns",
+  "Provided complete and accurate information answered questions directly and set clear expectations on next steps",
+  "Clearly and accurately documented account ",
+  "Did the agent correctly identify as an Appeal?",
+  "Did the agent correctly identify as a Grievance?",
+  "Did the agent correctly code the call?",
+  "Wow call the agent went the extra step and did the right thing and the call could be used for training",
+   "Pharmacy Related Call",
+   "DSNP Member",
+   "Comment 1",
+   "Comment 2",
+   "Comment 3",
+   "Comment 4",
+   "Comment 5",
+   "Comment 6",
+   "Comment 7",
+   "Comment 8",
+   "Comment 9",
+   "Comment 10",
+   "Comment 11",
+   "Comment 12",
+   "Comment 13",
+   "Comment 14",
+   "Comment 15",
+   "Comment 16",
+   "Comment 17",
+   "Comment 18",
+   "Comment 19",
+   "Comment 20",
+   "Comment 21",
+   "Comment 22",
+   "Comment 23",
+   "Comment 24",
+   "Comment 25",
+   "Comment 26",
+   "Call Summary",
+   "Feedback",
+   "Agent Feedback Acceptance",
+  "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
+}
+else if($pid=="cci_medicare"){
+  $header=array("Auditor Name",
+  "Audit Date",
+  "Call Date",
+  "Fusion ID",
+  "Agent",
+  "Call Duration",
+  "Audit Type",
+  "Auditor Type",
+  "VOC",
+  "Audit Start Date Time",
+  "Audit End Date Time",
+  "QA Score",
+  "Call Opening",
+  "Prepared for Call",
+  "Serving with Empathy - Active Listening",
+  "Serving with Empathy - Empathy",
+  "Serving with Empathy - Positive Tone",
+  "Serving with Empathy - Positive Language/Speaking Human",
+  "Address Caller by Name",
+  "Was the Call Documented - Category/Subcategory",
+  "Was the Call Documented - Referral Second Case",
+  "Documentation-Comments",
+  "Entities Linked/Documented",
+  "Hold Policy",
+  "Dead Air",
+  "Hold Verbiage",
+  "Appropriate Transfer",
+  "Accessed Appropriate Systems  ",
+  "Misc. Policies & Procedures",
+  "Timeframes ",
+  "Offers Internal/External Telephone",
+  "Offer Additional Assistance ",
+  "Offer Survey Appropriately",
+  "Thanks Member for Calling Branded Entity  ",
+  "Information Accuracy",
+  "Completeness",
+  "Actions",
+  "Validate for Understanding",
+  "Privacy Compliance",
+   "Call Summary",
+   "Feedback",
+   "Agent Feedback Acceptance",
+  "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
+}else if($pid=="cci_commercial"){
+  $header=array("Auditor Name",
+  "Audit Date",
+  "Call Date",
+  "Fusion ID",
+  "Agent",
+  "Call Duration",
+  "Audit Type",
+  "VOC",
+  "Audit Start Date Time",
+  "Audit End Date Time",
+  "QA Score",
+  "Call Opening",
+  "Prepared for Call",
+  "Serving with Empathy - Active Listening",
+  "Serving with Empathy - Empathy",
+  "Serving with Empathy - Positive Tone",
+  "Serving with Empathy - Positive Language/Speaking Human",
+  "Address Caller by Name",
+  "Was the Call Documented - Category/Subcategory",
+  "Was the Call Documented - Creating of second case",
+  "Documentation-Comments",
+  "Entities Linked/Documented",
+  "Hold Policy",
+  "Dead Air",
+  "Hold Verbiage",
+  "Appropriate Transfer",
+  "Accessed Appropriate Systems  ",
+  "Misc. Policies & Procedures",
+  "Timeframes ",
+  "Offers Internal/External Telephone",
+  "Offer Additional Assistance ",
+  "Offer Survey Appropriately",
+  "Thanks Member for Calling Branded Entity  ",
+  "Information Accuracy",
+  "Completeness",
+  "Actions",
+  "Validate for Understanding",
+  "Privacy Compliance",
+   "Call Summary",
+   "Feedback",
+   "Agent Feedback Acceptance",
+  "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
+}else if($pid=="lockheed"){
+  $header=array("Auditor Name",
+  "Audit Date",
+  "Call Date",
+  "Fusion ID",
+  "Agent",
+  "Call Duration",
+  "Audit Type",
+  "VOC",
+  "Audit Start Date Time",
+  "Audit End Date Time",
+  "QA Score",
+  "Opening Script",
+  "Did CSR demonstrate a good tone of voice throughout the call?",
+  "Did CSR properly verify account & make appropriate updates if necessary?",
+  "Did CSR deliver assurance statement after purpose?",
+  "Did CSR followed proper follow up process?",
+  "Did CSR followed follow up script?",
+  "Personable/friendly/ polite?",
+  "Did CSR demonstrate active listening skills?",
+  "Proper use of probing questions?",
+  "Did CSR validated Close Contacts?",
+  "Did CSR initiated cleaning process?",
+  "Did CSR get detailed location?",
+  "Did CSR corrected CT Dates?",
+  "Did CSR use all available systems and tools?",
+  "Did CSR provide complete and accurate information?",
+  "Additional Case Mgmt Required?",
+  "Did CSR used Template for comments",
+  "Did CSR Marked CT Complete?",
+   "Call Summary",
+   "Feedback",
+   "Agent Feedback Acceptance",
+  "Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note");
+}else if($pid=="ways2well"){
+	$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call ID", "Call Duration", "Campaign", "Phone Number", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score","Customer score","Business score","Compliance score",
+	 "Call Opening: Agent Name and Brand Name", "Confirm the Members First Name", "Use the appropriate scripting", "Greeting for inbound: answered within 5 seconds", "Serving with Empathy - Active Listening", "Serving with Empathy - Positive Tone", "Serving with Empathy - Positive Language/ Rapport Building", "Acknowledgements timely and effectively", "Pace of Speech", "Did the agent used effective engagement", "Address Caller by Name", "Did not Interrupt the caller", "Did the agent used correct USP (unique selling point) for retention", "Asked probing questions effectively or timely", "Hold Policy (60 Seconds)",
+	 "Dead Air","Hold Verbiage","Accomplish the resolution accurately and completely","Performed follow-up steps","Answered the caller inquiries","Read out Policies & Procedures","Offers Internal/External Telephone","Verify the Members Full Name/ DOB/ Address/ and Phone Number (All 4)","Offer Additional Assistance","Thanks Member for Calling or taking the time to speak with us","Was the Call Documented appropriately","Unprofessionalism","Critical Error",
+	 "Call Opening: Agent Name and Brand Name Remarks", "Confirm the Members First Name Remarks", "Use the appropriate scripting Remarks", "Greeting for inbound: answered within 5 seconds Remarks", "Serving with Empathy - Active Listening Remarks", "Serving with Empathy - Positive Tone Remarks", "Serving with Empathy - Positive Language/ Rapport Building Remarks", "Acknowledgements timely and effectively Remarks", "Pace of Speech Remarks", "Did the agent used effective engagement Remarks", "Address Caller by Name Remarks", "Did not Interrupt the caller Remarks", "Did the agent used correct USP (unique selling point) for retention Remarks", "Asked probing questions effectively or timely Remarks", "Hold Policy (60 Seconds) Remarks",
+	 "Dead Air Remarks","Hold Verbiage Remarks","Accomplish the resolution accurately and completely Remarks","Performed follow-up steps Remarks","Answered the caller inquiries Remarks","Read out Policies & Procedures Remarks","Offers Internal/External Telephone Remarks","Verify the Members Full Name/ DOB/Address/ and Phone Number (All 4) Remarks","Offer Additional Assistance Remarks","Thanks Member for Calling or taking the time to speak with us Remarks","Was the Call Documented appropriately Remarks","Unprofessionalism Remarks","Critical Error Remarks",
+	 "Call Summary", "Feedback", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
+}else if($pid=="kenny_u_pull"){
+	$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call ID", "Call Duration", "Call Type", "case", "Audit Type", "VOC","Site/Location", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score",
+	 "Introducing Self", "Introducing Brand Name", "Greets the customer in a courteous manner", "Is the car complete?", "The Deductions", "Negotiation", "Accessibility – Snow removal (Winter period)", "Expected Price", "Branch Selection", "Phone Number and Postal Code", "File opening", "Vehicle identification Number(NIV – VIN)", "Mileage", "Aesthetic Conditions", "Mechanical Condition", "Towing Address",
+	 "Customer Drops off his Vehicle (Drop-Off)","Active Listening","Interruption","Tone of Voice (from greeting to closing)","Hold & Dead air","Ending the call","Confirmation Phone Number","Address Confirmation","Confirmation of the tow date/time","Process after purchase","Process Adherence","Rude Remarks","Call Avoidance",
+	  "Introducing Self Remarks", "Introducing Brand-Name Remarks", "Greets the customer in a courteous manner Remarks", "Is the car complete? Remarks", "The Deductions Remarks", "Negotiation Remarks", "Accessibility – Snow removal (Winter period) Remarks", "Expected Price Remarks", "Branch Selection Remarks", "Phone Number and Postal Code Remarks", "File opening Remarks", "Vehicle identification Number(NIV – VIN)Remarks", "Mileage Remarks", "Aesthetic Conditions Remarks", "Mechanical Condition Remarks", "Towing Address Remarks","Customer Drops off his Vehicle (Drop-Off) Remarks","Active Listening Remarks","Interruption Remarks","Tone of Voice (from greeting to closing) Remarks","Hold & Dead air Remarks","Ending the call Remarks","Confirmation Phone Number Remarks","Address Confirmation Remarks","Confirmation of the tow date/time Remarks","Process after purchase Remarks","Process Adherence Remarks","Rude Remarks Remarks","Call Avoidance Remarks",
+	 "Call Summary", "Feedback", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
+
+}else if($pid=="blains_v2"){
+
+	$header= array ("Auditor Name","Audit Date","Call Date","Fusion Id","Agent","L1 Supervisor","Phone","Filler 2","Area Code","Campaign Code","Call Duration","File No","Audit Type","Auditor Type","VOC","Call Status","Location","Audit Start Date Time", "Audit End Date Time", "Interval In Second","Possible Score","Earned Score","Overall Score","Did the agent answer with a positive tone and correct introduction?","Did the agent answer the customers question correctly?","Did the agent provide additional add on services and solution?","Did the agent correctly identify the customers request and information?","Did the agent offer the most appropriate solution to meet the customers need?","Did the agent use probing questions to understand the customers need?","Did the agent follow the correct procedures for transferring the call if applicable?","Did the agent follow appropriate procedures with system technology?","Did the agent use empathetic listening skills?","Did the agent show confidence in their answers and present themselves as the expert?","Did the agent speak clearly and use an appropriate tone pace?","Did the agent display a professional manner throughout the call?","Did the agent offer further assistance at the end of the call?","Did the agent close the call in an appropriate manner?","Was the customer satisfied with the call?","Rude remarks Inpropriate language","Call Avoidance","Did the agent dispose the call properly",
+	"Comments 1","Comments 2","Comments 3","Comments 4","Comments 5","Comments 6","Comments 7","Comments 8","Comments 9","Comments 10","Comments 11","Comments 12","Comments 13","Comments 14","Comments 15","Comments 16","Comments 17","Comments 18","Customer Score","Business Score","Compliance Score","Call Summary","Feedback","Agent Feedback Acceptance","Agent review note","Agent review date","Mgnt review date","Mgnt review by","Mgnt review note","Entry By","Client entry by","Client review note","Client_rvw_date");
+}
+
+
+	$row = "";
+	foreach($header as $data) $row .= ''.$data.',';
+	fwrite($fopen,rtrim($row,",")."\r\n");
+	$searches = array("\r", "\n", "\r\n");
+
+	if($pid=='brightway_prescreen_new'){
+		foreach($rr as $user){
+			if($user['entry_by']!=''){
+				$auditorName = $user['auditor_name'];
+			}else{
+				$auditorName = $user['client_name'];
+			}
+
+			if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+				$interval1 = '---';
+			}else{
+				$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+			}
+
+
+			$row = '"'.$auditorName.'",';
+			$row .= '"'.$user['audit_date'].'",';
+			$row .= '"'.$user['call_date'].'",';
+			$row .= '"'.$user['fusion_id'].'",';
+			$row .= '"'.$user['fname']." ".$user['lname'].'",';
+			$row .= '"'.$user['tl_name'].'",';
+
+
+			$row .= '"'.$user['phone'].'",';
+			$row .= '"'.$user['file_no'].'",';
+			$row .= '"'.$user['filler'].'",';
+
+			$row .= '"'.$user['site'].'",';
+			$row .= '"'.$user['area_code'].'",';
+			$row .= '"'.$user['call_duration'].'",';
+
+			$row .= '"'.$user['audit_type'].'",';
+			$row .= '"'.$user['auditor_type'].'",';
+			$row .= '"'.$user['voc'].'",';
+
+			$row .= '"'.$user['audit_start_time'].'",';
+			$row .= '"'.$user['entry_date'].'",';
+			$row .= '"'.$interval1.'",';
+
+			$row .= '"'.$user['possible_score'].'",';
+			$row .= '"'.$user['earned_score'].'",';
+			$row .= '"'.$user['overall_score'].'",';
+
+			//$row .= '"'.$user['transfer_to'].'",';
+
+			$row .= '"'.$user['appropriate_greeting'].'",';
+			$row .= '"'.$user['pre_screen_template'].'",';
+			$row .= '"'.$user['csr_disposition'].'",';
+			$row .= '"'.$user['appropriate_soft_skills'].'",';
+			$row .= '"'.$user['csr_use_the_proper'].'",';
+			$row .= '"'.$user['csr_transfer_correct'].'",';
+			$row .= '"'.$user['appropriately_authenticated'].'",';
+			$row .= '"'.$user['experience_any_audio'].'",';
+			$row .= '"'.$user['verified_and_change'].'",';
+
+			$row .= '"'.$user['cmt1'].'",';
+			$row .= '"'.$user['cmt2'].'",';
+			$row .= '"'.$user['cmt3'].'",';
+			$row .= '"'.$user['cmt4'].'",';
+			$row .= '"'.$user['cmt5'].'",';
+			$row .= '"'.$user['cmt6'].'",';
+			$row .= '"'.$user['cmt7'].'",';
+			$row .= '"'.$user['cmt8'].'",';
+			$row .= '"'.$user['cmt9'].'",';
+
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+			$row .= '"'.$user['agnt_fd_acpt'].'",';
+			$row .= '"'.$user['agent_rvw_date'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+			$row .= '"'.$user['mgnt_rvw_date'].'",';
+			$row .= '"'.$user['mgnt_rvw_name'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'"';
+
+			fwrite($fopen,$row."\r\n");
+		}
+
+		fclose($fopen);
+
+	////////////////////////////////////////
+}else if($pid=='blains_v2'){
+	foreach($rr as $user){
+		if($user['entry_by']!=''){
+			$auditorName = $user['auditor_name'];
+		}else{
+			$auditorName = $user['client_name'];
+		}
+
+		if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+			$interval1 = '---';
+		}else{
+			$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+		}
+
+		$row = '"'.$auditorName.'",';
+		$row .= '"'.$user['audit_date'].'",';
+		$row .= '"'.$user['call_date'].'",';
+		$row .= '"'.$user['fusion_id'].'",';
+		$row .= '"'.$user['fname']." ".$user['lname'].'",';
+		$row .= '"'.$user['tl_name'].'",';
+		$row .= '"'.$user['phone'].'",';
+		$row .= '"'.$user['filler'].'",';
+		$row .= '"'.$user['area_code'].'",';
+		$row .= '"'.$user['site'].'",';
+		$row .= '"'.$user['call_duration'].'",';
+		$row .= '"'.$user['file_no'].'",';
+		$row .= '"'.$user['audit_type'].'",';
+		$row .= '"'.$user['auditor_type'].'",';
+		$row .= '"'.$user['voc'].'",';
+		$row .= '"'.$user['call_status'].'",';
+		$row .= '"'.$user['side_location'].'",';
+		$row .= '"'.$user['audit_start_time'].'",';
+		$row .= '"'.$user['entry_date'].'",';
+		$row .= '"'.$interval1.'",';
+		$row .= '"'.$user['possible_score'].'%'.'",';
+		$row .= '"'.$user['earned_score'].'%'.'",';
+		$row .= '"'.$user['overall_score'].'%'.'",';
+		$row .= '"'.$user['brand_name'].'",';
+		$row .= '"'.$user['least_once'].'",';
+		$row .= '"'.$user['phone_number'].'",';
+		$row .= '"'.$user['flagging_notating'].'",';
+		$row .= '"'.$user['if_required'].'",';
+		$row .= '"'.$user['blains_website'].'",';
+		$row .= '"'.$user['and_results'].'",';
+		$row .= '"'.$user['and_recgnition'].'",';
+		$row .= '"'.$user['dead_air'].'",';
+		$row .= '"'.$user['and_pacing'].'",';
+		$row .= '"'.$user['the_request'].'",';
+		$row .= '"'.$user['with_customer'].'",';
+		$row .= '"'.$user['time_is_right'].'",';
+		$row .= '"'.$user['call_properly'].'",';
+		$row .= '"'.$user['call_dispose'].'",';
+		$row .= '"'.$user['rude_remarks'].'",';
+		$row .= '"'.$user['call_avoidance'].'",';
+		$row .= '"'.$user['agent_dispose'].'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt1'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt2'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt3'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt4'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt5'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt6'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt7'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt8'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt9'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt10'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt11'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt12'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt13'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt14'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt15'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt16'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt17'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt18'])).'",';
+		$row .= '"'.$user['customer_score'].'%'.'",';
+		$row .= '"'.$user['business_score'].'%'.'",';
+		$row .= '"'.$user['compliance_score'].'%'.'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+		$row .= '"'.$user['agnt_fd_acpt'].'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+		$row .= '"'.$user['agent_rvw_date'].'",';
+		$row .= '"'.$user['mgnt_rvw_date'].'",';
+		$row .= '"'.$user['mgnt_rvw_name'].'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
+		$row .= '"'.$user['auditor_name'].'",';
+		$row .= '"'.$user['client_rvw_name'].'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'",';
+		$row .= '"'.$user['client_rvw_date'].'",';
+		fwrite($fopen,$row."\r\n");
+	}
+	fclose($fopen);
 
 		}else if($pid=='kenny_u_pull'){
 			foreach($rr as $user){
@@ -24496,8 +25031,11 @@ public function qa_sales_carpart_inbound_report(){
 				fwrite($fopen,$row."\r\n");
 			}
 			fclose($fopen);
-		}
-		else if($pid=='ways2well'){
+		///////////////////////////////
+	
+	
+		///////////////////////////////
+		}else if($pid=='ways2well'){
 			foreach($rr as $user){
 				if($user['entry_by']!=''){
 					$auditorName = $user['auditor_name'];
@@ -28957,11 +29495,11 @@ public function qa_sales_carpart_inbound_report(){
 
 				$row = '"'.$user['auditor_name'].'",';
 				$row .= '"'.$user['audit_date'].'",';
-        $row .= '"'.$user['call_date'].'",';
+       			 $row .= '"'.$user['call_date'].'",';
 				$row .= '"'.$user['fusion_id'].'",';
 				$row .= '"'.$user['fname']." ".$user['lname'].'",';
 				$row .= '"'.$user['tl_name'].'",';
-        $row .= '"'.$user['call_duration'].'",';
+        		$row .= '"'.$user['call_duration'].'",';
 				$row .= '"'.$user['file_no'].'",';
 				$row .= '"'.$user['audit_type'].'",';
 				$row .= '"'.$user['voc'].'",';
@@ -28973,7 +29511,7 @@ public function qa_sales_carpart_inbound_report(){
 				$row .= '"'.$user['greet_customer_appropriately'].'",';
 				$row .= '"'.$user['agent_provide_name'].'",';
 				$row .= '"'.$user['agent_ask_how_assist'].'",';
-
+				$row .= '"'.$user['call_for_personalization'].'",';
 				$row .= '"'.$user['adhere_to_refund_rules'].'",';
 				$row .= '"'.$user['transfer_to_inter_super'].'",';
 				$row .= '"'.$user['agent_fill_ticket'].'",';
@@ -29003,6 +29541,9 @@ public function qa_sales_carpart_inbound_report(){
         $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt14'])).'",';
         $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt15'])).'",';
         $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt16'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt17'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt18'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt19'])).'",';
 
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
@@ -35447,8 +35988,8 @@ public function qa_sales_carpart_inbound_report(){
 		header('Content-Disposition: attachment;  filename="'.$newfile.'"');
 		readfile($filename);
 	}
-
-
+	
+	
 	public function create_qa_clio_CSV($rr,$campaign)
 	{
 		$currDate=date("Y-m-d");
@@ -35459,7 +36000,10 @@ public function qa_sales_carpart_inbound_report(){
 		$main_url =  $currentURL.''.$controller.'/'.$edit_url;
 		$fopen = fopen($filename,"w+");
 
-		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super","Call Date","Call Duration","Call Type","Sampling","reference_id", "Query Type", "Query Sub Type", "Stat / Non-Stat","Auto Fail", "Total Opportunity", "Audit Type", "Auditor Type", "Voc","Audit Link","LOB","Inbound/Outbound","Overall Score", "Possible Score", "Earned Score", "Customer Score","Business Score","Compliance Score", "Did the CSR adhere to all Authentication and Security Policies of the account member?", "Properly verifies the account holder information before providing/discussing any account information.", "For account changes and caller should be authorized on the account (ie wife or dependent)", "Obtain verbal permission from an authenticated account owner before providing any account information.", "Did the agent check if the order is STAT?","Did the agent show empathy and acknowledge patients concern?", "Did the agent utilize all needed information before scheduling an appointment?","Check_list1 - Did the agent utilize all needed information before scheduling an appointment?","Did the agent observe proper Hold Procedure and avoid long silences?", "Did the agent maintain a positive interaction during the call?", "Did the agent asked Covid screening questions?","Did the agent provide accurate reminders for the patient?","Did the agent ask relevant probing questions?","Did the agent select the correct order status and left account notes?","Did the agent check if CPT and diagnosis are both correct?","Did the agent update the patient demographic information?","Did the agent follow up with necessary documents? (Going above and Beyond)","Did the agent offer alternatives to the patient?","Did the agent verify if it needs to be sent to corrections or pre-cert?","Did the agent make sure to set up the correct Modality for the patient?","Comments 1", "Comments 2","Comments 3","Comments 4","Comments 5","Comments 6","Comments 7","Comments 8","Comments 9","Comments 10","Comments 11","Comments 12", "Comments 13", "Comments 14", "Comments 15", "Comments 16", "Comments 17", "Comments 18", "Comments 19","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super","Call Date","Call Duration","Call Type","Sampling","reference_id", "Query Type", "Query Sub Type", "Stat / Non-Stat","Auto Fail", "Total Opportunity", "Audit Type", "Auditor Type", "Voc","Audit Link","LOB","Inbound/Outbound","Overall Score", "Possible Score", "Earned Score", "Customer Score","Business Score","Compliance Score", 
+		"Did the CSR adhere to all Authentication and Security Policies of the account member?", "Properly verifies the account holder information before providing/discussing any account information", "For account changes and caller should be authorized on the account(ie wife or dependent)", "Did the CSR greets the caller by mentioning the branding in the opening spiel and thank the caller on the closing spiel?", "Did the agent check if the order is STAT?", "Did the agent show empathy and acknowledge patients concern?", "Did the agent utilize all needed information before scheduling an appointment?","Check_list", "Did the agent observe proper Hold Procedure and avoid long silences?", "Did the agent maintain a positive interaction during the call?", "Did the agent asked Covid screening questions?", "Did the agent provide accurate reminders for the patient?", "Did the agent select the correct order status and left account notes?", "Did the agent check if CPT and diagnosis are both correct?", "Did the agent update the patient demographic information?", "Did the agent follow up with necessary documents?(Going above and Beyond)", "Did the agent offer alternatives to the patient?", "Did the agent verify if it needs to be sent to corrections or pre-cert?", "Did the agent make sure to set up the correct Modality for the patient?",
+		"Comments 1", "Comments 2", "Comments 3", "Comments 4", "Comments 5", "Comments 6", "Comments 7", "Comments 8", "Comments 9", "Comments 10", "Comments 11", "Comments 12", "Comments 13", "Comments 14", "Comments 15", "Comments 16", "Comments 17", "Comments 18",
+		"Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
 
 
 		$row = "";
@@ -35510,19 +36054,20 @@ public function qa_sales_carpart_inbound_report(){
 			$row .= '"'.$user['customer_score'].'",';
 			$row .= '"'.$user['business_score'].'",';
 			$row .= '"'.$user['compliance_score'].'",';
+			
 			$row .= '"'.$user['do_csr_adhere'].'",';
 			$row .= '"'.$user['properly_verifies_account_holder'].'",';
 			$row .= '"'.$user['is_authorized_account'].'",';
-			$row .= '"'.$user['obtain_verbal_permission'].'",';
+			$row .= '"'.$user['closing_spiel'].'",';
 			$row .= '"'.$user['do_agent_check'].'",';
 			$row .= '"'.$user['do_show_empathy'].'",';
 			$row .= '"'.$user['do_agent_utilize_information'].'",';
-			$row .= '"'.$user['check_list1'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['check_list1'])).'",';
 			$row .= '"'.$user['do_proper_hold_procedure'].'",';
 			$row .= '"'.$user['do_maintain_positive_interaction'].'",';
 			$row .= '"'.$user['do_ask_covid_question'].'",';
 			$row .= '"'.$user['do_provide_accurate_reminders'].'",';
-			$row .= '"'.$user['ask_relevant_probing'].'",';
+			// $row .= '"'.$user['ask_relevant_probing'].'",';
 			$row .= '"'.$user['do_select_correct_order_status'].'",';
 			$row .= '"'.$user['do_check_cpt_diagnosis'].'",';
 			$row .= '"'.$user['do_update_patient_demographic'].'",';
@@ -35530,26 +36075,26 @@ public function qa_sales_carpart_inbound_report(){
 			$row .= '"'.$user['do_check_demog_prescription'].'",';
 			$row .= '"'.$user['do_verify_need_sent_correction'].'",';
 			$row .= '"'.$user['do_make_setup_correct_modality'].'",';
-			$row .= '"'.$user['cmt1'].'",';
-			$row .= '"'.$user['cmt2'].'",';
-			$row .= '"'.$user['cmt3'].'",';
-			$row .= '"'.$user['cmt4'].'",';
-			$row .= '"'.$user['cmt5'].'",';
-			$row .= '"'.$user['cmt6'].'",';
-			$row .= '"'.$user['cmt7'].'",';
-			$row .= '"'.$user['cmt8'].'",';
-			$row .= '"'.$user['cmt9'].'",';
-			$row .= '"'.$user['cmt10'].'",';
-			$row .= '"'.$user['cmt11'].'",';
-			$row .= '"'.$user['cmt12'].'",';
-			$row .= '"'.$user['cmt20'].'",';
-			$row .= '"'.$user['cmt13'].'",';
-			$row .= '"'.$user['cmt14'].'",';
-			$row .= '"'.$user['cmt15'].'",';
-			$row .= '"'.$user['cmt16'].'",';
-			$row .= '"'.$user['cmt17'].'",';
-			$row .= '"'.$user['cmt18'].'",';
-			$row .= '"'.$user['cmt19'].'",';
+			
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt1'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt2'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt3'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt20'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt5'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt6'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt7'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt8'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt9'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt10'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt12'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt21'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt13'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt14'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt15'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt16'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt18'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt19'])).'",';
+			
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
 			$row .= '"'.$user['agnt_fd_acpt'].'",';
@@ -35563,6 +36108,122 @@ public function qa_sales_carpart_inbound_report(){
 		fclose($fopen);
 
 	}
+
+	/* public function create_qa_clio_CSV($rr,$campaign)
+	{
+		$currDate=date("Y-m-d");
+		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+		$currentURL = base_url();
+		$controller = "Qa_clio";
+		$edit_url = "add_edit_clio";
+		$main_url =  $currentURL.''.$controller.'/'.$edit_url;
+		$fopen = fopen($filename,"w+");
+
+		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super","Call Date","Call Duration","Call Type","Sampling","reference_id", "Query Type", "Query Sub Type", "Stat / Non-Stat","Auto Fail", "Total Opportunity", "Audit Type", "Auditor Type", "Voc","Audit Link","LOB","Inbound/Outbound","Overall Score", "Possible Score", "Earned Score", "Customer Score","Business Score","Compliance Score", 
+		"Did the CSR adhere to all Authentication and Security Policies of the account member?","Comments 1", "Properly verifies the account holder information before providing/discussing any account information","Comments 2", "For account changes and caller should be authorized on the account(ie wife or dependent)","Comments 3", "Did the CSR greets the caller by mentioning the branding in the opening spiel and thank the caller on the closing spiel?","Comments 4", "Did the agent check if the order is STAT?","Comments 5", "Did the agent show empathy and acknowledge patients concern?","Comments 6", "Did the agent utilize all needed information before scheduling an appointment?","Check_list","Comments 7", "Did the agent observe proper Hold Procedure and avoid long silences?","Comments 8", "Did the agent maintain a positive interaction during the call?","Comments 9", "Did the agent asked Covid screening questions?","Comments 10", "Did the agent provide accurate reminders for the patient?","Comments 11", "Did the agent select the correct order status and left account notes?","Comments 12", "Did the agent check if CPT and diagnosis are both correct?","Comments 13", "Did the agent update the patient demographic information?","Comments 14", "Did the agent follow up with necessary documents?(Going above and Beyond)","Comments 15", "Did the agent offer alternatives to the patient?","Comments 16", "Did the agent verify if it needs to be sent to corrections or pre-cert?","Comments 17", "Did the agent make sure to set up the correct Modality for the patient?","Comments 18",
+		"Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+
+
+		$row = "";
+		foreach($header as $data) $row .= ''.$data.',';
+		fwrite($fopen,rtrim($row,",")."\r\n");
+		$searches = array("\r", "\n", "\r\n");
+
+
+
+		foreach($rr as $user){
+			if($user['entry_by']!=''){
+				$auditorName = $user['auditor_name'];
+			}else{
+				$auditorName = $user['client_name'];
+			}
+
+			if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+				$interval1 = '---';
+			}else{
+				$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+			}
+			$main_urls = $main_url.'/'.$user['id'];
+
+			$row = '"'.$auditorName.'",';
+			$row .= '"'.$user['audit_date'].'",';
+			$row .= '"'.$user['fname']." ".$user['lname'].'",';
+			$row .= '"'.$user['fusion_id'].'",';
+			$row .= '"'.$user['tl_name'].'",';
+			$row .= '"'.$user['call_date'].'",';
+			$row .= '"'.$user['call_duration'].'",';
+			$row .= '"'.$user['call_type'].'",';
+			$row .= '"'.$user['sampling'].'",';
+			$row .= '"'.$user['reference_id'].'",';
+			$row .= '"'.$user['query_type'].'",';
+			$row .= '"'.$user['query_sub_type'].'",';
+			$row .= '"'.$user['stat'].'",';
+			$row .= '"'.$user['auto_fail'].'",';
+			$row .= '"'.$user['total_opportunity'].'",';
+			$row .= '"'.$user['audit_type'].'",';
+			$row .= '"'.$user['auditor_type'].'",';
+			$row .= '"'.$user['voc'].'",';
+			$row .= '"'.$main_urls.'",';
+			$row .= '"'.$user['lob'].'",';
+			$row .= '"'.$user['in_out'].'",';
+			$row .= '"'.$user['overall_score'].'",';
+			$row .= '"'.$user['possible_score'].'",';
+			$row .= '"'.$user['earned_score'].'",';
+			$row .= '"'.$user['customer_score'].'",';
+			$row .= '"'.$user['business_score'].'",';
+			$row .= '"'.$user['compliance_score'].'",';
+			
+			$row .= '"'.$user['do_csr_adhere'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt1'])).'",';
+			$row .= '"'.$user['properly_verifies_account_holder'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt2'])).'",';
+			$row .= '"'.$user['is_authorized_account'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt3'])).'",';
+			$row .= '"'.$user['closing_spiel'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt20'])).'",';
+			$row .= '"'.$user['do_agent_check'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt5'])).'",';
+			$row .= '"'.$user['do_show_empathy'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt6'])).'",';
+			$row .= '"'.$user['do_agent_utilize_information'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['check_list1'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt7'])).'",';
+			$row .= '"'.$user['do_proper_hold_procedure'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt8'])).'",';
+			$row .= '"'.$user['do_maintain_positive_interaction'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt9'])).'",';
+			$row .= '"'.$user['do_ask_covid_question'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt10'])).'",';
+			$row .= '"'.$user['do_provide_accurate_reminders'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt12'])).'",';
+			// $row .= '"'.$user['ask_relevant_probing'].'",';
+			$row .= '"'.$user['do_select_correct_order_status'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt21'])).'",';
+			$row .= '"'.$user['do_check_cpt_diagnosis'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt13'])).'",';
+			$row .= '"'.$user['do_update_patient_demographic'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt14'])).'",';
+			$row .= '"'.$user['do_check_insurance_auth'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt15'])).'",';
+			$row .= '"'.$user['do_check_demog_prescription'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt16'])).'",';
+			$row .= '"'.$user['do_verify_need_sent_correction'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt18'])).'",';
+			$row .= '"'.$user['do_make_setup_correct_modality'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt19'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+			$row .= '"'.$user['agnt_fd_acpt'].'",';
+			$row .= '"'.$user['agent_rvw_date'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+			$row .= '"'.$user['mgnt_rvw_date'].'",';
+			$row .= '"'.$user['mgnt_rvw_name'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'"';
+			fwrite($fopen,$row."\r\n");
+		}
+		fclose($fopen);
+
+	} */
 
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Clio Spot Check/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41788,13 +42449,12 @@ public function download_qa_one_assist_CSV($campaign)
     $fopen = fopen($filename,"w+");
     if($campaign=='cinemark'){
      $header= Array("Auditor Name","Audit Date","Call Date","Fusion ID","Agent","L1 Supervisor","Call Duration","File Number","Audit Type","VOC","Audit Start Date Time","Audit End Date Time","Interval","QA Score",
-      "1.1 Did the agent greet the customer appropriately?","1.2 Did the agent provide his/her name?","1.3 Did the agent ask how/he or she could assist the caller?","2.1 Did the agent adhere to the refund rules?",
+      "1.1 Did the agent greet the customer appropriately?","1.2 Did the agent provide his/her name?","1.3 Did the agent ask how/he or she could assist the caller?","1.4 Did the agent confirm customers First name over the call for personalization?","2.1 Did the agent adhere to the refund rules?",
       "2.2 If the customer asked to speak to a supervisor did we transfer to an internal supervisor?","2.3 Did the agent fill out a ticket properly?","2.4 Did the agent include the theater number?",
       "2.5 Did the agent leave a correct note?","2.6 Did the agent leave the confirmation number or order number?","2.7 If a Fandango customer called in did the agent supply the correct information?",
       "2.8 Was the agent able to access customers past transactions (if applicable)?","3.1 Did the agent have an appropriate tone and use please and thank you throughout the call?",
       "3.2 Did the agent close the call correctly?","4.1 Did the agent complete all necessary tasks correctly?","4.2 Did the agent use any inappropriate language or demean the caller?",
-      "4.3 Did the agent hang up on the caller?","Remarks 1","Remarks 2","Remarks 3","Remarks 4","Remarks 5","Remarks 6","Remarks 7","Remarks 8","Remarks 9","Remarks 10","Remarks 11",
-      "Remarks 12","Remarks 13","Remarks 14","Remarks 15","Remarks 16","Call Summary","Feedback","Agent Feedback Acceptance","Agent review note","Agent review date",
+      "4.3 Did the agent hang up on the caller?","Remarks 1","Remarks 2","Remarks 3","Remarks 4","Remarks 5","Remarks 6","Remarks 7","Remarks 8","Remarks 9","Remarks 10","Remarks 11","Remarks 12","Remarks 13","Remarks 14","Remarks 15","Remarks 16","Remarks 17","Remarks 18","Remarks 19","Call Summary","Feedback","Agent Feedback Acceptance","Agent review note","Agent review date",
       "Mgnt review date","Mgnt review by","Mgnt review note");
     }
 
@@ -41831,7 +42491,7 @@ public function download_qa_one_assist_CSV($campaign)
         $row .= '"'.$user['greet_customer_appropriately'].'",';
         $row .= '"'.$user['agent_provide_name'].'",';
         $row .= '"'.$user['agent_ask_how_assist'].'",';
-
+		$row .= '"'.$user['call_for_personalization'].'",';
         $row .= '"'.$user['adhere_to_refund_rules'].'",';
         $row .= '"'.$user['transfer_to_inter_super'].'",';
         $row .= '"'.$user['agent_fill_ticket'].'",';
@@ -41861,7 +42521,9 @@ public function download_qa_one_assist_CSV($campaign)
         $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt14'])).'",';
         $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt15'])).'",';
         $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt16'])).'",';
-
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt17'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt18'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt19'])).'",';
         $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
         $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
         $row .= '"'.$user['agnt_fd_acpt'].'",';
@@ -42993,9 +43655,6 @@ public function download_qa_one_assist_CSV($campaign)
 
 public function qa_acc_report()
 {
-
-
-
 	if(check_logged_in()){
 		$user_office_id=get_user_office_id();
 		$current_user = get_user_id();
@@ -43071,7 +43730,7 @@ public function qa_acc_report()
       $data["qa_acc_list"] = $fullAray;
       $this->create_qa_acc_CSV($fullAray);
       $dn_link = base_url()."reports_qa/download_qa_acc_CSV/";
-$data['campaign']=$campaign;
+		$data['campaign']=$campaign;
       ////////////////////////////}//////////////////////////////////////////
       $data['download_link']=$dn_link;
       $data["action"] = $action;
@@ -43083,43 +43742,43 @@ $data['campaign']=$campaign;
       $this->load->view('dashboard',$data);
 
     }else if ($show=='Show' &&	$campaign =='2'){
-////////////////////////////// new one
-//	$data["qa_accs_list"] = array();
-$date_from = mmddyy2mysql($this->input->get('date_from'));
-$date_to = mmddyy2mysql($this->input->get('date_to'));
-$office_id = $this->input->get('office_id');
+	////////////////////////////// new one
+	//	$data["qa_accs_list"] = array();
+	$date_from = mmddyy2mysql($this->input->get('date_from'));
+	$date_to = mmddyy2mysql($this->input->get('date_to'));
+	$office_id = $this->input->get('office_id');
 
-if($date_from !="" && $date_to!=="" )  $cond= " Where (audit_date >= '$date_from' and audit_date <= '$date_to' )";
+	if($date_from !="" && $date_to!=="" )  $cond= " Where (audit_date >= '$date_from' and audit_date <= '$date_to' )";
 
-if($office_id=="All") $cond .= "";
-else $cond .=" and office_id='$office_id'";
+	if($office_id=="All") $cond .= "";
+	else $cond .=" and office_id='$office_id'";
 
-if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
-  $cond1 .=" And (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
-}else if((get_role_dir()=='tl' && get_user_fusion_id()!='FMAN000616') && get_dept_folder()=='operations'){
-  $cond1 .=" And assigned_to='$current_user'";
-}else{
-  $cond1 .="";
-}
+	if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+	  $cond1 .=" And (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+	}else if((get_role_dir()=='tl' && get_user_fusion_id()!='FMAN000616') && get_dept_folder()=='operations'){
+	  $cond1 .=" And assigned_to='$current_user'";
+	}else{
+	  $cond1 .="";
+	}
 
 
-$qSql="SELECT * from
-(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-(select d.description from department d left join signin sd on d.id=sd.dept_id where sd.id=entry_by) as auditor_dept,
-(select r.name from role r left join signin sr on r.id=sr.role_id where sr.id=entry_by) as auditor_role,
-(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
-(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_acc_new_feedback) xx
-Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process, doj, DATEDIFF(CURDATE(), doj) as tenure from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
+	$qSql="SELECT * from
+	(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+	(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+	(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+	(select d.description from department d left join signin sd on d.id=sd.dept_id where sd.id=entry_by) as auditor_dept,
+	(select r.name from role r left join signin sr on r.id=sr.role_id where sr.id=entry_by) as auditor_role,
+	(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
+	(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_acc_new_feedback) xx
+	Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process, doj, DATEDIFF(CURDATE(), doj) as tenure from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
 
-$fullAray = $this->Common_model->get_query_result_array($qSql);
+	$fullAray = $this->Common_model->get_query_result_array($qSql);
 
 
  $data["qa_acc_list"]=$fullAray;
 
   //print_r($fullAray);
-//  $_session['qa_acc_list']=$fullAray;
+	//  $_session['qa_acc_list']=$fullAray;
 
 
   $this->create_qa_accs_CSV($fullAray);
@@ -43133,7 +43792,7 @@ $fullAray = $this->Common_model->get_query_result_array($qSql);
 
 
 
-$data['campaign']=$campaign;
+	$data['campaign']=$campaign;
 
 
   $data['download_link']=$dn_link;
@@ -43142,27 +43801,77 @@ $data['campaign']=$campaign;
   $data['date_to'] = $date_to;
 
 
-$this->load->view('dashboard',$data);
+	$this->load->view('dashboard',$data);
 
   //$data['office_id']=$office_id;
   //$data['campaign']=$campaign;
   //$this->load->view('dashboard',$data);
   /////////////////////////////new one
-}else{
-$data['campaign']=$campaign;
+	}else if ($show=='Show' &&	$campaign =='3'){
 
+	$date_from = mmddyy2mysql($this->input->get('date_from'));
+	$date_to = mmddyy2mysql($this->input->get('date_to'));
+	$office_id = $this->input->get('office_id');
 
-  $data['download_link']=$dn_link;
-  $data["action"] = $action;
-  $data['date_from'] = $date_from;
-  $data['date_to'] = $date_to;
+	if($date_from !="" && $date_to!=="" )  $cond= " Where (audit_date >= '$date_from' and audit_date <= '$date_to' )";
 
-$this->load->view('dashboard',$data);
-}
+	if($office_id=="All") $cond .= "";
+	else $cond .=" and office_id='$office_id'";
 
+	if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+	  $cond1 .=" And (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+	}else if((get_role_dir()=='tl' && get_user_fusion_id()!='FMAN000616') && get_dept_folder()=='operations'){
+	  $cond1 .=" And assigned_to='$current_user'";
+	}else{
+	  $cond1 .="";
 	}
 
-///////////////////////////////old
+
+	$qSql="SELECT * from
+	(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+	(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+	(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+	(select d.description from department d left join signin sd on d.id=sd.dept_id where sd.id=entry_by) as auditor_dept,
+	(select r.name from role r left join signin sr on r.id=sr.role_id where sr.id=entry_by) as auditor_role,
+	(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
+	(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_acg_feedback) xx
+	Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process, doj, DATEDIFF(CURDATE(), doj) as tenure from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
+
+	$fullAray = $this->Common_model->get_query_result_array($qSql);
+
+
+ 	$data["qa_acc_list"]=$fullAray;
+
+  	//print_r($fullAray);
+	//  $_session['qa_acc_list']=$fullAray;
+
+
+  	$this->create_qa_acg_CSV($fullAray);
+  	$dn_link = base_url()."Reports_qa/download_qa_acg_CSV"; //     important link
+
+	$data['campaign']=$campaign;
+
+
+	$data['download_link']=$dn_link;
+	$data["action"] = $action;
+	$data['date_from'] = $date_from;
+	$data['date_to'] = $date_to;
+
+
+	$this->load->view('dashboard',$data);
+	}
+	else{
+		$data['campaign']=$campaign;
+
+
+		  $data['download_link']=$dn_link;
+		  $data["action"] = $action;
+		  $data['date_from'] = $date_from;
+		  $data['date_to'] = $date_to;
+
+		$this->load->view('dashboard',$data);
+		}
+	}
 }
 
 ////////////////////////////////////////////////////22 december
@@ -43177,22 +43886,158 @@ public  function download_qa_accs_CSV() // testing sougata
   readfile($filename);
 }
 
+///////////////////////////////////////////////////////////////////////
+public  function download_qa_acg_CSV() // testing vikas
+{
+  $currDate=date("Y-m-d");
+
+  $filename = "./qa_files/qa_accs/Report".get_user_id().".csv";
+  $newfile="QA acg  List-'".$currDate."'.csv";
+  header('Content-Disposition: attachment;  filename="'.$newfile.'"');
+  readfile($filename);
+}
+
+
+public function create_qa_acg_CSV($rr)
+{
+  $currDate=date("Y-m-d");
+
+
+  $filename = FCPATH . "qa_files/qa_accs/Report".get_user_id().".csv";
+  $fopen = fopen($filename,"w+");
+
+
+  $header = array("Auditor Name", "Audit Date", "Agent Name", "Employee ID ", "L1 Supervisor ", "Call Date ", "Audit Type ", "Type of Auditor ","Call ID ","ACPT","Phone Number","L1","L2", "Earned Score ", "Possible Score ", "Overall Score % ",  "VOC",
+     "Did the agent greeted the customer while opening the call?","Did the agent greeted the customer while opening the call? - Remarks", "Did the agent mentioned his name and the brand name on call? ","Did the agent mentioned his name and the brand name on call? - Remarks", "Did the agent mentioned that the customer is on a recorded line?", "Did the agent mentioned that the customer is on a recorded line? - Remarks","Agent had proper rate of speech on call?","Agent had proper rate of speech on call? - Remarks","Agent did not overlapped the customer while speaking?", "Agent did not overlapped the customer while speaking?  - Remarks", "Agent sounded energrtic and confident on call?","Agent sounded energrtic and confident on call? - Remarks ",  "Agent asked permission before putting the call on hold?","Agent asked permission before putting the call on hold? - Remarks ", "Agent mentioned the reason for putting the customer on hold","Agent mentioned the reason for putting the customer on hold - Remarks ", "Agent thanked the customer after resuming the call from hold","Agent thanked the customer after resuming the call from hold - Remarks ","Agent was able to answer all the customer query and handle the objection","Agent was able to answer all the customer query and handle the objection - Remarks", "Did the agent pause the recording when collecting the SSN-DOB-CC?","Did the agent pause the recording when collecting the SSN-DOB-CC? - Remarks ", "Agent created right amount of urgency on call to convert the call into sales","Agent created right amount of urgency on call to convert the call into sales - Remarks "," Did the agent properly mentioned the pricing and tenurity of the plan?  ", "Did the agent properly mentioned the pricing and tenurity of the plan? - Remarks","Did the agent suggested the right plan to the customer?","Did the agent suggested the right plan to the customer? - Remarks","Did the agent explained what the plan would cover and also complete features of the plan?","Did the agent explained what the plan would cover and also complete features of the plan? - Remarks","Did the agent offer at least 1 digital option to the customer prior to offering the Automated Verbal Approval?","Did the agent offer at least 1 digital option to the customer prior to offering the Automated Verbal Approval? - Remarks","Did the agent inform the customer about emailing the order summary and that this is accessible at xfinity.com/MyAccount?","Did the agent inform the customer about emailing the order summary and that this is accessible at xfinity.com/MyAccount? - Remarks","Did the agent inform about Auto IVR reviewing the order summary?","Did the agent inform about Auto IVR reviewing the order summary? - Remarks","Did the agent inform customer to press 1 for approval?","Did the agent inform customer to press 1 for approval? - Remarks","Did the agent inform about staying online with customer?","Did the agent inform about staying online with customer? - Remarks","Did the agent inform about asking questions before providing approval?","Did the agent inform about asking questions before providing approval? - Remarks","Did the agent accurately answer the customer's questions?","Did the agent accurately answer the customer's questions? - Remarks","Did a technical issue occur on the call?","Did a technical issue occur on the call? - Remarks","Did the agent press 1 in the IVR on the customer's behalf?","Did the agent press 1 in the IVR on the customer's behalf? - Remarks","Did the agent read the disclosure verbatim according to the brand?","Did the agent read the disclosure verbatim according to the brand? - Remarks","Did the agent summrized the ordeer before closing?","Did the agent summrized the ordeer before closing? - Remarks","Did the agent closed the call properly by thanking the customer?","Did the agent closed the call properly by thanking the customer? - Remarks",
+
+     "Audit Start date and  Time ", "Audit End Date and  Time"," Call Interval",
+      "Call Summary ","Feedback ","Agent Feedback Status ", "Feedback Acceptance","Agent Review Date","Management Review Date ", "Management Review Name ","Management Review Note", "Client Review Name","Client Review Note","Client Review Date " );
+
+  $row = "";
+  foreach($header as $data) $row .= ''.$data.',';
+  fwrite($fopen,rtrim($row,",")."\r\n");
+  $searches = array("\r", "\n", "\r\n");
 
 
 
+    foreach($rr as $user)
+    {
+      if($user['entry_by']!=''){
+        $auditorName = $user['auditor_name'];
+      }else{
+        $auditorName = $user['client_name'];
+      }
+
+      if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+        $interval1 = '---';
+      }else{
+        $interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+      }
+
+
+  	$row = '"'.$auditorName.'",';
+  	$row .= '"'.$user['audit_date'].'",';
+  	$row .= '"'.$user['fname']." ".$user['lname'].'",';
+  	$row .= '"'.$user['fusion_id'].'",';
+  	$row .= '"'.$user['tl_name'].'",';
+  	$row .= '"'.$user['call_date'].'",';
+  	$row .= '"'.$user['audit_type'].'",';
+  	$row .= '"'.$user['auditor_type'].'",';
+  	$row .= '"'.$user['call_id'].'",';
+  	$row .= '"'.$user['acpt'].'",';
+  	$row .= '"'.$user['phone'].'",';
+  	$row .= '"'.$user['l1'].'",';
+  	$row .= '"'.$user['l2'].'",';
+  	$row .= '"'.$user['earned_score'].'",';
+  	$row .= '"'.$user['possible_score'].'",';
+  	$row .= '"'.$user['overall_score'].'"% ,';
+  	$row .= '"'.$user['voc'].'",';
+		
+	$row .= '"'.$user['opening_call'].'",';
+	$row .= '"'.$user['cmt1'].'",';
+	$row .= '"'.$user['brand_name'].'",';
+	$row .= '"'.$user['cmt2'].'",';
+	$row .= '"'.$user['recorded_line'].'",';
+	$row .= '"'.$user['cmt3'].'",';
+	$row .= '"'.$user['rate_of_speech'].'",';
+	$row .= '"'.$user['cmt4'].'",';
+	$row .= '"'.$user['overlapped_customer'].'",';
+	$row .= '"'.$user['cmt5'].'",';
+	$row .= '"'.$user['energrtic'].'",';
+	$row .= '"'.$user['cmt6'].'",';
+	$row .= '"'.$user['call_on_hold'].'",';
+	$row .= '"'.$user['cmt7'].'",';
+	$row .= '"'.$user['call_on_hold_reason'].'",';
+	$row .= '"'.$user['cmt8'].'",';
+	$row .= '"'.$user['call_on_hold_resume'].'",';
+	$row .= '"'.$user['cmt9'].'",';
+	$row .= '"'.$user['customer_query'].'",';
+	$row .= '"'.$user['cmt10'].'",';
+	$row .= '"'.$user['pause_recording_ssn'].'",';
+	$row .= '"'.$user['cmt11'].'",';
+	$row .= '"'.$user['convert_call_sales'].'",';
+	$row .= '"'.$user['cmt12'].'",';
+	$row .= '"'.$user['pricing_tenurity'].'",';
+	$row .= '"'.$user['cmt13'].'",';
+	$row .= '"'.$user['right_plan_suggestion'].'",';
+	$row .= '"'.$user['cmt14'].'",';
+	$row .= '"'.$user['plan_cover'].'",';
+	$row .= '"'.$user['cmt15'].'",';
+	$row .= '"'.$user['least_one_digital_option'].'",';
+	$row .= '"'.$user['cmt16'].'",';
+	$row .= '"'.$user['email_order_summary'].'",';
+	$row .= '"'.$user['cmt17'].'",';
+	$row .= '"'.$user['auto_IVR_reviewing'].'",';
+	$row .= '"'.$user['cmt18'].'",';
+	$row .= '"'.$user['press_one_approval'].'",';
+	$row .= '"'.$user['cmt19'].'",';
+	$row .= '"'.$user['staying_online'].'",';
+	$row .= '"'.$user['cmt20'].'",';
+	$row .= '"'.$user['asking_questions'].'",';
+	$row .= '"'.$user['cmt21'].'",';
+	$row .= '"'.$user['accurately_answer'].'",';
+	$row .= '"'.$user['cmt22'].'",';
+	$row .= '"'.$user['technical_issue'].'",';
+	$row .= '"'.$user['cmt23'].'",';
+	$row .= '"'.$user['customers_behalf_IVR'].'",';
+	$row .= '"'.$user['cmt24'].'",';
+	$row .= '"'.$user['disclosure_verbatim'].'",';
+	$row .= '"'.$user['cmt25'].'",';
+	$row .= '"'.$user['summrized_the_order'].'",';
+	$row .= '"'.$user['cmt26'].'",';
+	$row .= '"'.$user['closed_call_properly'].'",';
+	$row .= '"'.$user['cmt27'].'",';
+
+  	$row .= '"'.$user['audit_start_time'].'",';
+  	$row .= '"'.$user['entry_date'].'",';
+  	$row .= '"'.$interval1.'",';
+  	$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+  	$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+  	$row .= '"'.$user['agnt_fd_acpt'].'",';
+
+  	$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+  	$row .= '"'.$user['agent_rvw_date'].'",';
+  	$row .= '"'.$user['mgnt_rvw_date'].'",';
+  	$row .= '"'.$user['mgnt_rvw_name'].'",';
+
+  	$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
+  	$row .= '"'.$user['client_rvw_name'].'",';
+  	$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
+
+  	$row .= '"'.$user['client_rvw_date'].'",';
+
+      fwrite($fopen,$row."\r\n");
+    }
+    fclose($fopen);
+}
 
 
 
+////////////////////////////////////////////////////////////////////////
 
 
 public function create_qa_accs_CSV($rr)
 {
-
-
-
-
-
-
   $currDate=date("Y-m-d");
 
 
@@ -43227,11 +44072,6 @@ public function create_qa_accs_CSV($rr)
       }
 
 
-
-
-
-
-
       $row = '"'.$auditorName.'",';
       $row .= '"'.$user['audit_date'].'",';
       $row .= '"'.$user['fname']." ".$user['lname'].'",';
@@ -43249,80 +44089,75 @@ public function create_qa_accs_CSV($rr)
 
       $row .= '"'.$user['overall_score'].'"% ,';
 
-      $row .= '"'.$user['voc'].'",';
-$row .= '"'.$user['Initial'].'",';
-$row .= '"'.$user['up1'].'",';
-$row .= '"'.$user['up2'].'",';
-$row .= '"'.$user['phone_no'].'",';
-$row .= '"'.$user['sales'].'",';
-$row .= '"'.$user['Disposition'].'",';
-$row .= '"'.$user['UCID'].'",';
-$row .= '"'.$user['Opening'].'",';
-$row .= '"'.$user['Opening_reason'].'",';
-$row .= '"'.$user['Greeting'].'",';
-  $row .= '"'.$user['Greeting_reason'].'",';
-$row .= '"'.$user['Discovery'].'",';
-$row .= '"'.$user['Discovery_reason'].'",';
-$row .= '"'.$user['Professionalism'].'",';
-$row .= '"'.$user['Professionalism_reason'].'",';
-$row .= '"'.$user['Rebuttals'].'",';
-$row .= '"'.$user['Rebuttals_reason'].'",';
-$row .= '"'.$user['Urgency'].'",';
-$row .= '"'.$user['Urgency_reason'].'",';
+      	$row .= '"'.$user['voc'].'",';
+		$row .= '"'.$user['Initial'].'",';
+		$row .= '"'.$user['up1'].'",';
+		$row .= '"'.$user['up2'].'",';
+		$row .= '"'.$user['phone_no'].'",';
+		$row .= '"'.$user['sales'].'",';
+		$row .= '"'.$user['Disposition'].'",';
+		$row .= '"'.$user['UCID'].'",';
+		$row .= '"'.$user['Opening'].'",';
+		$row .= '"'.$user['Opening_reason'].'",';
+		$row .= '"'.$user['Greeting'].'",';
+		$row .= '"'.$user['Greeting_reason'].'",';
+		$row .= '"'.$user['Discovery'].'",';
+		$row .= '"'.$user['Discovery_reason'].'",';
+		$row .= '"'.$user['Professionalism'].'",';
+		$row .= '"'.$user['Professionalism_reason'].'",';
+		$row .= '"'.$user['Rebuttals'].'",';
+		$row .= '"'.$user['Rebuttals_reason'].'",';
+		$row .= '"'.$user['Urgency'].'",';
+		$row .= '"'.$user['Urgency_reason'].'",';
 
 
 
-$row .= '"'.$user['Education'].'",';
-$row .= '"'.$user['Education_reason'].'",';
-  $row .= '"'.$user['Resolution'].'",';
-$row .= '"'.$user['Resolution_reason'].'",';
-$row .= '"'.$user['Probing'].'",';
-$row .= '"'.$user['Probing_reason'].'",';
-$row .= '"'.$user['Knowledge'].'",';
-$row .= '"'.$user['Knowledge_reason'].'",';
+		$row .= '"'.$user['Education'].'",';
+		$row .= '"'.$user['Education_reason'].'",';
+		$row .= '"'.$user['Resolution'].'",';
+		$row .= '"'.$user['Resolution_reason'].'",';
+		$row .= '"'.$user['Probing'].'",';
+		$row .= '"'.$user['Probing_reason'].'",';
+		$row .= '"'.$user['Knowledge'].'",';
+		$row .= '"'.$user['Knowledge_reason'].'",';
 
-$row .= '"'.$user['assistance'].'",';
-$row .= '"'.$user['assistance_reason'].'",';
-$row .= '"'.$user['prompt'].'",';
-  $row .= '"'.$user['prompt_reason'].'",';
-$row .= '"'.$user['Closing'].'",';
-$row .= '"'.$user['Closing_reason'].'",';
-$row .= '"'.$user['Information'].'",';
-$row .= '"'.$user['Information_reason'].'",';
-
-
-
-      $row .= '"'.$user['audit_start_time'].'",';
-      $row .= '"'.$user['entry_date'].'",';
-      $row .= '"'.$interval1.'",';
-      $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
-      $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
-      $row .= '"'.$user['agnt_fd_acpt'].'",';
-
-      $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
-      $row .= '"'.$user['agent_rvw_date'].'",';
-      $row .= '"'.$user['mgnt_rvw_date'].'",';
-      $row .= '"'.$user['mgnt_rvw_name'].'",';
-
-      $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
+		$row .= '"'.$user['assistance'].'",';
+		$row .= '"'.$user['assistance_reason'].'",';
+		$row .= '"'.$user['prompt'].'",';
+		$row .= '"'.$user['prompt_reason'].'",';
+		$row .= '"'.$user['Closing'].'",';
+		$row .= '"'.$user['Closing_reason'].'",';
+		$row .= '"'.$user['Information'].'",';
+		$row .= '"'.$user['Information_reason'].'",';
 
 
 
+	      $row .= '"'.$user['audit_start_time'].'",';
+	      $row .= '"'.$user['entry_date'].'",';
+	      $row .= '"'.$interval1.'",';
+	      $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+	      $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+	      $row .= '"'.$user['agnt_fd_acpt'].'",';
 
-      $row .= '"'.$user['client_rvw_name'].'",';
-      $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
+	      $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+	      $row .= '"'.$user['agent_rvw_date'].'",';
+	      $row .= '"'.$user['mgnt_rvw_date'].'",';
+	      $row .= '"'.$user['mgnt_rvw_name'].'",';
 
-      $row .= '"'.$user['client_rvw_date'].'",';
+	      $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
 
 
 
+
+	      $row .= '"'.$user['client_rvw_name'].'",';
+	      $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
+
+	      $row .= '"'.$user['client_rvw_date'].'",';
 
       fwrite($fopen,$row."\r\n");
     }
     fclose($fopen);
-
-
-  }
+}
 
 
 

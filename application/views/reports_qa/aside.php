@@ -3,15 +3,15 @@
 	.brand-icon img {
 		margin:-25px 0 0 0;
 	}
-	.search-widget {		
+	.search-widget {
 		padding:0 10px;
 	}
 	.form-control-feedback {
 		top: 3px;
 		right: 5px;
-	}	
+	}
 	/*start left side menu css here*/
-	.aside-left-menu .menu-link {	
+	.aside-left-menu .menu-link {
 		border-bottom: 1px solid #eee;
 		transition:all 0.5s ease-in-out 0s;
 	}
@@ -50,7 +50,7 @@
 	<div style="padding:20px 0; clear:both;"></div>
 	<div class="aside-scroll">
 		<div id="aside-scroll-inner" class="aside-scroll-inner">
-			
+
 			<ul class="aside-menu aside-left-menu">
 				<div class="search-widget">
 					<div class="form-group has-feedback has-search">
@@ -58,7 +58,7 @@
 						<input type="text" id="myInput" class="form-control" autocomplete="off" placeholder="Search..">
 					</div>
 				</div>
-				<?php 
+				<?php
 					if(get_login_type() == "client"){
 
 						$qa_report_menu=get_client_qa_report_menu();
@@ -71,29 +71,29 @@
 							echo '</li>';
 						}
 				?>
-				
+
 				<li class="menu-item">
 					<a href="<?php echo base_url('reports_qa/qa_agent_coaching_report')?>" class="menu-link">
 						<span class="menu-icon"><i class="zmdi zmdi-shield-check zmdi-hc-lg"></i></span>
 						<span class=""> Agent Coaching</span>
 					</a>
 				</li>
-				
-				<?php				
+
+				<?php
 					}else{
 				?>
-				
-								
-					<?php if(get_dept_folder()=="qa" || get_global_access()==1 || get_dept_folder()=="mis" || get_dept_folder()== "operations" || get_dept_folder()== "training" || get_dept_folder()=="cs" || is_access_qa_module()==true){ ?>                                     
-						
-							
+
+
+					<?php if(get_dept_folder()=="qa" || get_global_access()==1 || get_dept_folder()=="mis" || get_dept_folder()== "operations" || get_dept_folder()== "training" || get_dept_folder()=="cs" || is_access_qa_module()==true){ ?>
+
+
 							<li class="menu-item">
 								<a href="<?php echo base_url()?>reports_qa/dipcheck" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Dip Check Report</span>
 								</a>
 							</li>
-							
+
 							<li class="menu-item">
 								<a href="<?php echo base_url()?>reports_qa/qa_oyo_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
@@ -155,14 +155,14 @@
 									<span class="menu-caret foldable"><i class="zmdi zmdi-hc-sm zmdi-chevron-right"></i></span>
 								</a>
 								<ul class="submenu">
-						
+
 									<li class="menu-item">
 										<a href="<?php echo base_url()?>reports_qa/qa_process_report/service" class="menu-link">
 											<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 											<span class="">Service</span>
 										</a>
 									</li>
-							
+
 									<li class="menu-item">
 										<a href="<?php echo base_url()?>reports_qa/qa_process_report/sales_carpart" class="menu-link">
 											<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
@@ -181,7 +181,7 @@
 											<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 											<span class="">inbound Version 2</span>
 										</a>
-									</li> -->						
+									</li> -->
 								</ul>
 							</li>
 							<li class="menu-item">
@@ -224,7 +224,7 @@
 									<span class="">Premier Health Solution</span>
 								</a>
 							</li>
-							
+
 							<!-- <li class="menu-item">
 								<a href="<?php echo base_url()?>reports_qa/qa_process_report/telaid" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
@@ -245,7 +245,12 @@
 										<span class="">TELAID</span>
 									</a>
 								</li>
-						
+									<li class="menu-item">
+										<a href="<?php echo base_url()?>qa_telaid/qa_starbucks_report" class="menu-link">
+											<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+											<span class="">Telaid Starbucks</span>
+										</a>
+									</li>
 									<li class="menu-item">
 										<a href="<?php echo base_url()?>reports_qa/qa_telaidqa_report" class="menu-link">
 											<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
@@ -259,15 +264,42 @@
 											<span class="">Telaid QA-OB</span>
 										</a>
 									</li>
-							
-										
+
+
 								</ul>
 							</li>
-							<li class="menu-item">
+							<!-- <li class="menu-item">
 								<a href="<?php echo base_url()?>reports_qa/qa_process_report/awareness" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Awareness TECH</span>
 								</a>
+							</li> -->
+
+
+							<li class="menu-item has-submenu">
+								<a href="" class="menu-link submenu-toggle">
+									<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+									<span class="menu-text foldable">Awareness TECH</span>
+									<span class="menu-caret foldable"><i class="zmdi zmdi-hc-sm zmdi-chevron-right"></i></span>
+								</a>
+								<ul class="submenu">
+
+									<li class="menu-item">
+										<a href="<?php echo base_url()?>reports_qa/qa_process_report/awareness" class="menu-link">
+											<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+											<span class="">Awareness TECH OLD</span>
+										</a>
+									</li>
+
+									<li class="menu-item">
+										<a href="<?php echo base_url()?>Qa_awareness_new/qa_awareness_new_report" class="menu-link">
+											<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+											<span class="">Awareness TECH New</span>
+										</a>
+									</li>
+
+
+								</ul>
 							</li>
 
 							<li class="menu-item">
@@ -463,6 +495,87 @@
 								</a>
 							</li>-->
 							<li class="menu-item">
+								<a href="<?php echo base_url()?>reports_qa/qa_acc_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">ACC </span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>Qa_acg/qa_acg_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">ACG </span>
+								</a>
+							</li>
+<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_cesc/qa_cesc_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">CESC </span>
+								</a>
+							</li>
+
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_intelycare/qa_intelycare_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Intelycare </span>
+								</a>
+							</li>
+
+
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_ash_maples/qa_ash_maples_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class=""> ASH & MAPLE </span>
+								</a>
+							</li>
+
+
+
+
+
+
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_redeo/qa_redeo_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Redeo </span>
+								</a>
+							</li>
+
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_epoch/qa_epoch_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Epoch </span>
+								</a>
+							</li>
+
+
+							
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_arvind/qa_arvind_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Arvind </span>
+								</a>
+							</li>
+
+
+
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_ash_maples/qa_ash_maples_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Ash Maples </span>
+								</a>
+							</li>
+
+
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>reports_qa/qa_romtech_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">RomTech </span>
+								</a>
+							</li>
+
+
+						
+							<li class="menu-item">
 								<a href="<?php echo base_url()?>reports_qa/qa_process_report/service" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Service</span>
@@ -499,7 +612,7 @@
 								</a>
 							</li>
 							<li class="menu-item">
-								<a href="<?php echo base_url()?>reports_qa/qa_vfs_report" class="menu-link">
+								<a href="<?php echo base_url()?>qa_vfs/qa_vfs_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">VFS</span>
 								</a>
@@ -516,6 +629,14 @@
 									<span class="">Sanghvi Beauty and Technologies</span>
 								</a>
 							</li>
+
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_premium/qa_premium_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Premium Choice Insurance Services</span>
+								</a>
+							</li>
+
 							<li class="menu-item">
 								<a href="<?php echo base_url()?>reports_qa/qa_us_da_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
@@ -653,7 +774,7 @@
 									<span class="">CUEMATH</span>
 								</a>
 							</li>
-							
+
 							<li class="menu-item">
 								<a href="<?php echo base_url()?>reports_qa/qa_edtech_beyondskool_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
@@ -674,20 +795,20 @@
 									<span class="menu-caret foldable"><i class="zmdi zmdi-hc-sm zmdi-chevron-right"></i></span>
 								</a>
 								<ul class="submenu">
-						
+
 									<li class="menu-item">
 										<a href="<?php echo base_url()?>reports_qa/qa_sycn_report" class="menu-link">
 											<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 											<span class="">Ship Your Car Now (Inbound)</span>
 										</a>
 									</li>
-							
+
 									<li class="menu-item">
 										<a href="<?php echo base_url()?>reports_qa/qa_sycn_outbound_report" class="menu-link">
 											<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 											<span class="">Ship Your Car Now (Outbound)</span>
 										</a>
-									</li>				
+									</li>
 								</ul>
 							</li>
 							<li class="menu-item">
@@ -734,20 +855,20 @@
 									<span class="menu-caret foldable"><i class="zmdi zmdi-hc-sm zmdi-chevron-right"></i></span>
 								</a>
 								<ul class="submenu">
-						
+
 									<li class="menu-item">
 										<a href="<?php echo base_url()?>reports_qa/qa_clio_report" class="menu-link">
 											<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 											<span class="">Clio</span>
 										</a>
 									</li>
-							
+
 									<li class="menu-item">
 										<a href="<?php echo base_url()?>reports_qa/qa_clio_spot_report" class="menu-link">
 											<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 											<span class="">Clio Spot Check</span>
 										</a>
-									</li>						
+									</li>
 								</ul>
 							</li>
 
@@ -761,6 +882,12 @@
 								<a href="<?php echo base_url()?>reports_qa/qa_stifel_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Stifel</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>Qa_credit_mantri/qa_credit_mantri_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Credit Mantri</span>
 								</a>
 							</li>
 							<li class="menu-item">
@@ -788,17 +915,40 @@
 								</a>
 							</li>
 							<li class="menu-item">
-								<a href="<?php echo base_url()?>reports_qa/qa_revive_rx_report" class="menu-link">
+								<a href="<?php echo base_url()?>qa_revive_rx/qa_revive_rx_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Revive Rx</span>
 								</a>
 							</li>
 							<li class="menu-item">
-								<a href="<?php echo base_url()?>reports_qa/qa_ajio_report" class="menu-link">
+								<a href="<?php echo base_url()?>qa_ajio/qa_ajio_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">AJIO</span>
 								</a>
 							</li>
+<!--- added for wireless--->
+							<li class="menu-item">
+								<a href="<?php echo base_url('qa_wireless_dna/qa_wireless_dna_report'); ?>" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Wireless DNA</span>
+								</a>
+							</li>
+
+
+<!--- end for wireless--->
+
+
+<!--- added for Squad Stack--->
+<li class="menu-item">
+								<a href="<?php echo base_url('qa_cq_squad_stack/qa_stack_report'); ?>" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class=""> Squad Stack</span>
+								</a>
+							</li>
+
+
+<!--- end for Squad Stack--->
+
 							<li class="menu-item">
 								<a href="<?php echo base_url()?>reports_qa/qa_safe_eco_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
@@ -806,7 +956,7 @@
 								</a>
 							</li>
 							<li class="menu-item">
-								<a href="<?php echo base_url()?>reports_qa/qa_stratus_report" class="menu-link">
+								<a href="<?php echo base_url()?>qa_stratus/qa_stratus_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Stratus</span>
 								</a>
@@ -833,6 +983,12 @@
 								<a href="<?php echo base_url()?>reports_qa/qa_ffai_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Filter Fast Agent Improvement</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_ameridial_recruitment/qa_ameridial_recruitment_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Ameridial Recruitment</span>
 								</a>
 							</li>
 							<li class="menu-item">
@@ -877,11 +1033,35 @@
 									<span class="">Bounce Infinity</span>
 								</a>
 							</li>
-							<li class="menu-item">
+							<!-- <li class="menu-item">
 								<a href="<?php echo base_url()?>reports_qa/qa_bsnl_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">BSNL</span>
 								</a>
+							</li> -->
+
+							<li class="menu-item has-submenu">
+								<a href="" class="menu-link submenu-toggle">
+									<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+									<span class="menu-text foldable">BSNL</span>
+									<span class="menu-caret foldable"><i class="zmdi zmdi-hc-sm zmdi-chevron-right"></i></span>
+								</a>
+								<ul class="submenu">
+
+									<li class="menu-item">
+										<a href="<?php echo base_url()?>reports_qa/qa_bsnl_report" class="menu-link">
+											<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+											<span class="">BSNL</span>
+										</a>
+									</li>
+
+									<li class="menu-item">
+										<a href="<?php echo base_url()?>qa_bsnl/qa_bsnl_report_new" class="menu-link">
+											<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+											<span class="">BSNL Outbound</span>
+										</a>
+									</li>
+								</ul>
 							</li>
 							<li class="menu-item">
 								<a href="<?php echo base_url()?>reports_qa/qa_grille_evaluation_report" class="menu-link">
@@ -899,6 +1079,12 @@
 								<a href="<?php echo base_url()?>reports_qa/qa_cholamandlam_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Cholamandlam</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_lcn/qa_lcn_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">LCN Call</span>
 								</a>
 							</li>
 							<li class="menu-item">
@@ -923,6 +1109,48 @@
 								<a href="<?php echo base_url()?>reports_qa/qa_paytail_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Paytail</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>reports_qa/qa_pinelabs_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Pine Labs</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_smileimpress/qa_smileimpress_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Smile To Impress</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>reports_qa/qa_mobikwik_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Mobikwik</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>reports_qa/qa_maalomatia_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Maalomatia</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>reports_qa/qa_heaps_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Heaps </span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_coastline/qa_coastline_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Coastline </span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>reports_qa/qa_actyvAI_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Actyv AI</span>
 								</a>
 							</li>
 								<li class="menu-item">
@@ -973,6 +1201,18 @@
 									<span class="">Avanse</span>
 								</a>
 							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_octafx/qa_octafx_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">OctaFX</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_pinglend/qa_pinglend_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">PingLend</span>
+								</a>
+							</li>
 							<li class="menu-item has-submenu">
 								<a href="" class="menu-link submenu-toggle">
 									<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
@@ -993,10 +1233,18 @@
 											<span class="">INDIAMART</span>
 										</a>
 									</li>
+
+									<li>
+										<a style="padding-left:50px" href="<?php echo base_url('qa_wireless_dna/qa_wireless_dna_report'); ?>">
+											<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+											<span class="">Wireless DNA</span>
+										</a>
+									</li>
+
 								</ul>
 							</li>
-							
-							
+
+
 							<li class="menu-item">
 								<a href="<?php echo base_url()?>reports_qa/qa_agent_coaching_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
@@ -1009,20 +1257,20 @@
 									<span class="">Hygiene</span>
 								</a>
 							</li>
-							
+
 							<li class="menu-item">
 								<a href="<?php echo base_url()?>reports_qa/qa_unacademy_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Unacademy</span>
 								</a>
 							</li>
-							
-							
-							
+
+
+
 					<?php } ?>
-				
+
 				<?php } ?>
-				
+
 				</ul>
 			</footer><!-- #sidebar-footer -->
 		</div><!-- .aside-scroll-inner -->
@@ -1042,8 +1290,8 @@ $(document).ready(function(){
 });
 $(document).ready(function(){
 	$("#myInput").click(function(){
-		$(".submenu").show();	
-    });	
+		$(".submenu").show();
+    });
 	$(".app-main").click(function(){
 		$(".submenu").hide();
     });

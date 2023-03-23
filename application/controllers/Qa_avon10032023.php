@@ -146,11 +146,8 @@ class Qa_avon extends CI_Controller {
             $qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,162) and is_assign_process(id,348) and status=1  order by name";
             $data['agentName'] = $this->Common_model->get_query_result_array( $qSql );
 
-            // $qSql = "SELECT * FROM signin where id not in (select id from role where folder='agent')";
-            // $data['tlname'] = $this->Common_model->get_query_result_array( $qSql );
-
-            $qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1 order by fname ASC";
-            $data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+            $qSql = "SELECT * FROM signin where id not in (select id from role where folder='agent')";
+            $data['tlname'] = $this->Common_model->get_query_result_array( $qSql );
 
             $qSql = "SELECT * from
                 (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
@@ -171,7 +168,6 @@ class Qa_avon extends CI_Controller {
 
                     $field_array = $this->input->post( 'data' );
                     $field_array['audit_date'] = CurrDate();
-                   // $field_array['audit_date'] = CurrDateTimeMDY();
                     $field_array['call_date'] = mmddyy2mysql( $this->input->post( 'call_date' ) );
                     $field_array['entry_date'] = $curDateTime;
                     $field_array['audit_start_time'] = $this->input->post( 'audit_start_time' );
@@ -954,7 +950,7 @@ class Qa_avon extends CI_Controller {
 				$audit_type = $this->input->get('audit_type');
 				$campaign = $this->input->get("campaign");
 
-				if($date_from !="" && $date_to!=="" )  $cond= " Where (DATE(audit_date) >= '$date_from' and DATE(audit_date) <= '$date_to' )";
+				if($date_from !="" && $date_to!=="" )  $cond= " Where (audit_date >= '$date_from' and audit_date <= '$date_to' )";
 		
 				if($office_id=="All") $cond .= "";
 				else $cond .=" and office_id='$office_id'";
@@ -1887,10 +1883,10 @@ class Qa_avon extends CI_Controller {
                 $campaign=$this->input->get("campaign");
 				$from_date = mmddyy2mysql($this->input->get('from_date'));
 				$to_date = mmddyy2mysql($this->input->get('to_date'));
-				if($from_date !="" && $to_date!=="" )  $cond= " Where (DATE(audit_date) >= '$from_date' and DATE(audit_date) <= '$to_date') and agent_id='$current_user'";
+				if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') and agent_id='$current_user'";
                 if ($campaign != '') $cond .= " and lob='$campaign'";
 
-				 $qSql = "SELECT * from
+				$qSql = "SELECT * from
 				(Select *, get_user_name(entry_by) as auditor_name, get_user_name(client_entryby) as client_name, get_user_name(tl_id) as tl_name, get_user_name(mgnt_rvw_by) as mgnt_rvw_name
                 from qa_avon_feedback $cond And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";

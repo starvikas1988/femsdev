@@ -1,15 +1,19 @@
 <?php 
 
- class Qa_randamiser extends CI_Controller{
+ class Qa_randamiser_vikas extends CI_Controller{
 				
 	public function __construct(){
 		parent::__construct();
-		$this->load->library('excel');
+		
 		$this->load->model('user_model');
 		$this->load->model('Common_model');
+		$this->load->model('reports_model');
+		$this->reports_model->set_report_database("report");
+		
+		$this->load->helper(array('form', 'url'));
 		
 		$this->load->model('Qa_randamiser_model');
-		
+		$this->load->library('excel');
 		$this->objPHPExcel = new PHPExcel();
 	}
 	
@@ -33,9 +37,8 @@
 			if($client_id == 288 &&  $pro_id == 614){
 				$clmarr = array("recording_track_id","sap_id_extension","call_date","aht","fusion_id","customer_number","campaign","first_disposed","disconnected_by","audit_sheet");
 			}
-			// Indiamart
-			if($client_id == 202 &&  $pro_id == 426){
-				$clmarr = array("called_no","call_date","out_in","call_type","aht","fusion_id");
+			if($client_id == 202 &&  $pro_id == 411){
+				$clmarr = array("offer_id","contact_date","aht","fusion_id");
 			}
 			//Nurture Farm
 			if($client_id == 314 && $pro_id== 663){
@@ -55,17 +58,15 @@
 				$rand_table = "qa_randamiser_blains_data";
 				$clmarr = array("campaign","call_date","customer_number","aht","fusion_id","customer_disconnection_source");
 			}
-			//Dunzo
-			if($client_id == 312 && $pro_id== 660){
-				$rand_table = "qa_randamiser_dunzo_data";
-				$clmarr = array("interaction_id","customer_number","first_assigned_group","assignedto_group","resolution_group","resolution_label","resolution_label_subcategory","csat_rating_string","avg_response_time_secs","city","jio_flag","call_date","fusion_id");
-			}
+			///VIKAS STARTS///
+
 			//Mobikwik
+
 			if($client_id == 345 && $pro_id== 719){
 				$rand_table = "qa_randamiser_mobikwik_data";
 				$clmarr = array("campaign","call_date","caller_no","aht","fusion_id","call_id","skill","status","dial_status","disposition","hangup_by");
 			}
-			
+
 			//Cholamandlam
 
 			if($client_id == 266 && $pro_id== 554){
@@ -79,22 +80,9 @@
 				$rand_table = "qa_randamiser_debt_solution_123_data";
 				$clmarr = array("call_date","phone_no","fusion_id","call_type","rpc","aht");
 			}
-			//Telaid inbound/outbound/starbucks
-			if($client_id == 153 && $pro_id== 479){
-				 $rand_table = "qa_randamiser_telaid_data";
-				 $clmarr = array("call_id","call_type","call_date","end_time","fusion_id","phone_number","task","result_code","audit_sheet");
-			}
-			//PHS Voice V2
-			if($client_id == 196 && $pro_id== 392){
-				 $rand_table = "qa_randamiser_phs_voice_v2_data";
-				  $clmarr = array("call_date","call_time","phone_number","aht","calls_disconnected","queue","disposition","fusion_id");
-			}
-			//RPM
-			if($client_id == 56 && $pro_id== 68){
-				 $rand_table = "qa_randamiser_rpm_data";
-				 $clmarr = array("recording_file_name","phone_number","call_result","agent_result","aht","fusion_id");
-			}
-			//print_r($clmarr);exit;
+
+			///VIKAS ENDS///
+			
 			foreach($object->getWorksheetIterator() as $worksheet){
 				$highestRow = $worksheet->getHighestRow();
 				$highestColumn = $worksheet->getHighestColumn();
@@ -109,34 +97,53 @@
 				for($col=0; $col<$adjustedColumnIndex; $col++){
 					$colindex = $worksheet->getCellByColumnAndRow($col, 1)->getValue();
 					$adjustedColumn = PHPExcel_Cell::stringFromColumnIndex($col);
-				
+					//print_r($clmarr);
 					foreach($clmarr as $name){
 						if($name == $colindex){
 							 $dd[$colindex]  = $adjustedColumn;
 						}
 					}
 				}
+				//exit;
 			
 				//$random_row = round(($highestRow * (20/100)));				
 				for($row=2; $row<=$highestRow; $row++){
+					//print_r($dd);
 					foreach($dd as $key=>$d){
+					
 						if($key=="call_date"){
-							$user_list[$row][$key] = date('Y-m-d H:i:s',strtotime($worksheet->getCell($d.$row)->getFormattedValue()));
-							if(($client_id == 196 && $pro_id== 392) || ($client_id == 345 && $pro_id== 719)){
+							$user_list[$row][$key] = date('Y-m-d H:i:s',strtotime($worksheet->getCell($d.$row )->getFormattedValue()));
+							if(($client_id == 196 && $pro_id== 392)){
 								$user_list[$row][$key] = mmddyy2mysql($worksheet->getCell($d.$row)->getFormattedValue());	
-							}							
-						}
-						else if($key=="call_time"){
-							$user_list[$row][$key] = date('H:i:s',strtotime($worksheet->getCell($d.$row)->getFormattedValue()));									
-						}
-						else if($key=="end_time"){
-							$user_list[$row][$key]  = date('Y-m-d H:i:s',strtotime($worksheet->getCell($d.$row )->getFormattedValue()));
+							}
+							if(($client_id == 345 && $pro_id== 719)){
+								$user_list[$row][$key] = date('Y-m-d H:i:s',strtotime(mmddyy2mysql($worksheet->getCell($d.$row )->getFormattedValue())));
+							}
+
 						}
 						else if($key=="contact_date"){
 							$user_list[$row][$key] = date('Y-m-d H:i:s',strtotime($worksheet->getCell($d.$row )->getFormattedValue()));
 						}
+						else if(($key=="last_date_time")){
+
+							 $last_date_time=date('Y-m-d H:i:s',strtotime($worksheet->getCell($d.$row )->getFormattedValue()));
+							 //$last_date_time_str = strtotime($last_date_time);
+
+							$user_list[$row][$key] = date('Y-m-d H:i:s',strtotime($worksheet->getCell($d.$row )->getFormattedValue()));
+							
+						}
+						else if(($key=="end_date_time")){
+
+							
+							 $end_date_time=date('Y-m-d H:i:s',strtotime($worksheet->getCell($d.$row )->getFormattedValue()));
+							 //$end_date_time_str = strtotime($end_date_time);
+
+							$user_list[$row][$key] = date('Y-m-d H:i:s',strtotime($worksheet->getCell($d.$row )->getFormattedValue()));
+							
+							
+						}
 						else if($key=="aht"){
-							if(($client_id == 134 && $pro_id== 753) || ($client_id == 134 && $pro_id== 271)  || ($client_id == 266 && $pro_id== 554) || ($client_id == 56 && $pro_id== 68)){
+							if(($client_id == 134 && $pro_id== 753) || ($client_id == 134 && $pro_id== 271) || ($client_id == 266 && $pro_id== 554) ){
 								$user_list[$row][$key] = $this->secToHR($worksheet->getCell($d.$row )->getValue());
 							}
 							else
@@ -145,32 +152,21 @@
 							}
 							
 						}
-						else if($key=="avg_response_time_secs"){
-								$user_list[$row][$key] = $this->secToHR($worksheet->getCell($d.$row )->getValue());
-						}
 						else{
 							$user_list[$row][$key] = $worksheet->getCell($d.$row )->getValue();
 						}
-						// For Telaid AHT calculation is the difference between end_time to call_date
-						if($client_id == 153 && $pro_id== 479){
-							
-							if($key=="call_date"){
-								$start_date_time = date('Y-m-d H:i:s',strtotime($worksheet->getCell($d.$row)->getFormattedValue()));
-								
-							}
-							if($key=="end_time"){
-								$end_date_time = date('Y-m-d H:i:s',strtotime($worksheet->getCell($d.$row )->getFormattedValue()));
-								
-							}
-							
-							$interval =  strtotime($end_date_time) - strtotime($start_date_time);
-							$user_list[$row]['aht'] = $this->secToHR($interval);
-						}
+
+						// if(($client_id == 266 && $pro_id== 554)){
+						// 	//echo "ok ----------- here<br>";
+						// 	$diff= ($last_date_time) - ($end_date_time);
+						// 	$user_list[$row]['aht'] = date('H:i:s',$diff);
+						// }
+						
 						$user_list[$row]['upload_date'] = $localDateTime;
 					}	
 				}
-				
-				//echo "<pre>"; print_r($user_list); echo "</pre>";exit;
+				//exit;
+				 //echo "<pre>"; print_r($user_list); echo "</pre>";exit;
 				 $client_id = $this->input->post('client_id');
 				 $pro_id = $this->input->post('pro_id');
 				 if($client_id == 288 &&  $pro_id == 614){
@@ -180,13 +176,11 @@
 					$this->Qa_randamiser_model->insert_excel_upload($table_name,$user_list);
 					redirect('qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id);
 				 }
-				 // Indiamart
-				 if($client_id == 202 &&  $pro_id == 426){
+				 if($client_id == 202 &&  $pro_id == 411){
 					$table_name = "qa_randamiser_indiamart_data";
 					$this->Qa_randamiser_model->insert_excel_upload($table_name,$user_list);
 					redirect('qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id);
 				 }
-				 // Nurture Farm
 				 if($client_id == 314 && $pro_id== 663){
 					 $table_name = "qa_randamiser_nurture_farm_data";
 					 $this->Qa_randamiser_model->insert_excel_upload($table_name,$user_list);
@@ -210,50 +204,34 @@
 					 $this->Qa_randamiser_model->insert_excel_upload($table_name,$user_list);
 					 redirect('qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id);
 				}
-				//Dunzo
-				if($client_id == 312 && $pro_id== 660){
-					$table_name = "qa_randamiser_dunzo_data";
-					$this->Qa_randamiser_model->insert_excel_upload($table_name,$user_list);
-					 redirect('qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id);
-				}
+				//vikas start//
 				//Mobikwik
 				if($client_id == 345 && $pro_id== 719){
 					 $table_name = "qa_randamiser_mobikwik_data";
 					 $this->Qa_randamiser_model->insert_excel_upload($table_name,$user_list);
-					 redirect('qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id);
+					 redirect('qa_randamiser_vikas/data_upload_freshdesk/'.$client_id.'/'.$pro_id);
 				}
-				
+
 				//Cholamandlam
 				if($client_id == 266 && $pro_id== 554){
 					 $table_name = "qa_randamiser_cholamandlam_data";
+
 					 $this->Qa_randamiser_model->insert_excel_upload($table_name,$user_list);
-					 redirect('qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id);
+					// exit("okk");
+					 redirect('qa_randamiser_vikas/data_upload_freshdesk/'.$client_id.'/'.$pro_id);
 				}
 
 				//Debt Solution 123
 				if($client_id == 37 && $pro_id== 49){
 					 $table_name = "qa_randamiser_debt_solution_123_data";
+
 					 $this->Qa_randamiser_model->insert_excel_upload($table_name,$user_list);
-					 redirect('qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id);
+					// exit("okk");
+					 redirect('qa_randamiser_vikas/data_upload_freshdesk/'.$client_id.'/'.$pro_id);
 				}
-				//Telaid inbound/outbound/starbucks
-				if($client_id == 153 && $pro_id== 479){
-					 $table_name = "qa_randamiser_telaid_data";
-					 $this->Qa_randamiser_model->insert_excel_upload($table_name,$user_list);
-					 redirect('qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id);
-				}
-				//PHS Voice V2
-				if($client_id == 196 && $pro_id== 392){
-					 $table_name = "qa_randamiser_phs_voice_v2_data";
-					 $this->Qa_randamiser_model->insert_excel_upload($table_name,$user_list);
-					 redirect('qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id);
-				}
-				//RPM
-				if($client_id == 56 && $pro_id== 68){
-					 $table_name = "qa_randamiser_rpm_data";
-					 $this->Qa_randamiser_model->insert_excel_upload($table_name,$user_list);
-					 redirect('qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id);
-				}
+
+				//vikas ends//
+
 				//redirect('qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id);
 			}
 		}
@@ -265,6 +243,9 @@
 		$seconds = $seconds % 60;
 		return "$hours:$minutes:$seconds";
 	}
+	
+	
+	
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
@@ -274,17 +255,13 @@
 /*                        UPLOAD DATA                              */
 /*******************************************************************/
 	
-	public function sample_cdr_download(){ /*-- CDR Download --*/
+	public function sample_cdr_download(){ /*-- For BSNL --*/
 		if(check_logged_in()){ 
 			$data['client_id'] = $client_id = $this->uri->segment(3);
 			$data['pro_id'] = $pro_id = $this->uri->segment(4);
-			//BSNL
+			
 			if($client_id == 288 && $pro_id== 614){
 				$file_name = base_url()."qa_files/sampling_randamiser/BSNL_randamiser_file.xlsx";
-			}
-			//Indiamart
-			if($client_id == 202 && $pro_id== 426){
-				$file_name = base_url()."qa_files/sampling_randamiser/indiamart_randamiser_file.xlsx";
 			}
 			if($client_id == 314 && $pro_id== 663){
 				$file_name = base_url()."qa_files/sampling_randamiser/Nurture_farms_randamiser_data.xlsx";
@@ -301,34 +278,26 @@
 			if($client_id == 134 && $pro_id== 271){
 				$file_name = base_url()."qa_files/sampling_randamiser/blains_randamiser_data.xlsx";
 			}
-			// Dunzo
-			if($client_id == 312 && $pro_id== 660){
-				$file_name = base_url()."qa_files/sampling_randamiser/dunzo_randamiser_data.xlsx";
-			}
+
+			//vikas start//
 			//mobikwik
+
 			if($client_id == 345 && $pro_id== 719){
 				$file_name = base_url()."qa_files/sampling_randamiser/mobikwik_sample.xlsx";
 			}
+
 			//Cholamandlam
+
 			if($client_id == 266 && $pro_id== 554){
 				$file_name = base_url()."qa_files/sampling_randamiser/cholamandalam_randamiser_data.xlsx";
 			}
+
 			//Debt Solution 123
-			if($client_id == 37 && $pro_id == 49){
+			if($client_id == 37 && $pro_id== 49){
 				$file_name = base_url()."qa_files/sampling_randamiser/debt_solution_123_inbound_outbound_randamiser_data.xlsx";
 			}
-			//Telaid
-			if($client_id == 153 && $pro_id == 479){
-				$file_name = base_url()."qa_files/sampling_randamiser/telaid_randamiser_data.xlsx";
-			}
-			//PHS Voice V2
-			if($client_id == 196 && $pro_id == 392){
-				$file_name = base_url()."qa_files/sampling_randamiser/phs_voice_v2_randamiser_data.xlsx";
-			}
-			//RPM
-			if($client_id == 56 && $pro_id == 68){
-				$file_name = base_url()."qa_files/sampling_randamiser/rpm_randamiser_data.xlsx";
-			}
+			//vikas ends//
+		
 			//$file_name = base_url()."qa_files/sampling_randamiser/BSNL_randamiser_file.xlsx";
 			header("location:".$file_name);	
 			exit();
@@ -342,21 +311,40 @@
 			$current_user = get_user_id(); 
 			$user_office = get_user_office_id(); 
 			$data["aside_template"] = "qa_randamiser/aside.php";
-			$data["content_template"] = "qa_randamiser/randamiser/data_cdr_upload_freshdesk.php";
-			$data["content_js"] = "qa_randamiser_js.php";
+			$data["content_template"] = "qa_randamiser/randamiser/data_cdr_upload_freshdesk_vikas.php";
+			$data["content_js"] = "qa_randamiser_vikas_js.php";
+			//$dn_link ='';
 			
+			
+			
+			// $client_id = $this->uri->segment(3);
+			// $pro_id = $this->uri->segment(4);
+			// $up_date = $this->uri->segment(5);
+			// if($client_id ==''){
+			// 	$client_id = $this->input->get('client_id');
+			// }
+
+			// if($pro_id ==''){
+			// 	$pro_id = $this->input->get('pro_id');
+			// }
+
+			// if($up_date ==''){
+			// 	$up_date = $this->input->get('up_date');
+			// }
+
 			$data['client_id'] = $client_id = $this->uri->segment(3);
 			$data['pro_id'] = $pro_id = $this->uri->segment(4);
-			//bsnl
+
+			//vikas start
+			$data['up_date'] = $up_date = $this->uri->segment(5);
+			// vikas ends
+			
 			if($client_id == 288 && $pro_id== 614){
 				$rand_table = "qa_randamiser_bsnl_data";
 			}
-			//Indiamart
-			if($client_id == 202 && $pro_id== 426){
+			if($client_id == 202 && $pro_id== 411){
 				$rand_table = "qa_randamiser_indiamart_data";
-			}
-			// Nurture Farm
-			if($client_id == 314 && $pro_id== 663){
+			}if($client_id == 314 && $pro_id== 663){
 				$rand_table = "qa_randamiser_nurture_farm_data";
 			}
 			// Cras 24 Pre-booking
@@ -371,43 +359,453 @@
 			if($client_id == 134 && $pro_id== 271){
 				$rand_table = "qa_randamiser_blains_data";
 			}
-			// Dunzo
-			if($client_id == 312 && $pro_id== 660){
-				$rand_table = "qa_randamiser_dunzo_data";
-			}
+
+			//vikas start//
 			//Mobikwik
 			if($client_id == 345 && $pro_id== 719){
 				 $rand_table = "qa_randamiser_mobikwik_data";
 			}
+
+
 			//Cholamandlam
+
 			if($client_id == 266 && $pro_id== 554){
 				 $rand_table = "qa_randamiser_cholamandlam_data";
 			}
+
 			//Debt Solution 123
+
 			if($client_id == 37 && $pro_id== 49){
 				 $rand_table = "qa_randamiser_debt_solution_123_data";
 			}
-			//Telaid inbound/outbound/starbucks
-			if($client_id == 153 && $pro_id== 479){
-				 $rand_table = "qa_randamiser_telaid_data";
-			}
-			//PHS Voice V2
-			if($client_id == 196 && $pro_id== 392){
-				 $rand_table = "qa_randamiser_phs_voice_v2_data";
-			}
-			//RPM
-			if($client_id == 56 && $pro_id== 68){
-				 $rand_table = "qa_randamiser_rpm_data";
-			}
-			
+
+			//vikas end//
 			$qSql = "Select count(*) as count, date(upload_date) as uplDate from $rand_table group by date(upload_date)";
 			$data["sampling"] = $this->Common_model->get_query_result_array($qSql);
-			
+
 			$this->load->view("dashboard",$data);
 		}
 	}
 	
-	
+	//vikas start
+	public function download_qa_randamiser_CSV($client_id,$pro_id,$up_date)
+	{
+		
+		$client_sql = "Select fullname from client where is_active=1 and id='".$client_id."' ";
+		$client_res = $this->Common_model->get_query_row_array($client_sql);
+		//print_r($client_res);
+		//exit();
+
+		if($client_id == 288 && $pro_id== 614){
+			$header = array("agent_name","tl_name","recording_track_id", "sap_id_extension","call_date","aht","fusion_id","customer_number","campaign","first_disposed","upload_date");
+
+				$rand_table = "qa_randamiser_bsnl_data";
+			}
+			if($client_id == 202 && $pro_id== 411){
+				$header = array("agent_name","tl_name","called_no","call_date","out_in","call_type","aht","fusion_id","upload_date");
+
+				$rand_table = "qa_randamiser_indiamart_data";
+			}if($client_id == 314 && $pro_id== 663){
+				$header = array("agent_name","tl_name","call_id","call_type","call_date","csat","aht","fusion_id","customer_number","ivr_name","call_disposition","disconnection_party","service_name","ivr_language","upload_date");
+				$rand_table = "qa_randamiser_nurture_farm_data";
+			}
+			// Cras 24 Pre-booking
+			if($client_id == 246 && $pro_id== 529){
+				$header = array("agent_name","tl_name","call_id","process_name","call_date", "aht","fusion_id","customer_number","campaign","system_disposition","hangup_details","disposition_code","disposition_class", "upload_date");
+				$rand_table = "qa_randamiser_cars24_data";
+			}
+			// Touch Fuse New
+			if($client_id == 134 && $pro_id== 753){
+				$header = array("agent_name","tl_name","call_date", "aht","fusion_id","customer_number","customer_disconnection_source", "campaign", "upload_date");
+				$rand_table = "qa_randamiser_touchfuse_data";
+			}
+			// Blains
+			if($client_id == 134 && $pro_id== 271){
+				$header = array("agent_name","tl_name","call_date", "aht","fusion_id",
+			 "customer_disconnection_source", "customer_number","campaign", "upload_date");
+				$rand_table = "qa_randamiser_blains_data";
+			}
+
+			//vikas start//
+			//Mobikwik
+			if($client_id == 345 && $pro_id== 719){
+				$header = array("agent_name","tl_name","call_date", "aht","fusion_id",
+			 "caller_no","campaign","call_id","skill","status","dial_status","disposition","hangup_by", "upload_date");
+
+				// $header = array("call_id", "upload_date","campaign",
+    //          "skill", "caller_no","call_date","aht","status","dial_status","disposition","hangup_by", "fusion_id","agent_name","tl_name");
+				  $rand_table = "qa_randamiser_mobikwik_data";
+			}
+
+
+			//Cholamandlam
+
+			if($client_id == 266 && $pro_id== 554){
+				$header = array("agent_name","tl_name","call_date", "aht","fusion_id",
+			 "called_no", "agreement_no","call_status","attempts","paymode","branch","bucket","region", "upload_date");
+				 $rand_table = "qa_randamiser_cholamandlam_data";
+			}
+
+			//Debt Solution 123
+
+			if($client_id == 37 && $pro_id== 49){
+				$header = array("agent_name","tl_name","call_date", "aht","fusion_id",
+			 "phone_no", "call_type", "rpc", "upload_date");
+				 $rand_table = "qa_randamiser_debt_solution_123_data";
+			}
+
+
+		$sqlR="SELECT xx.*,(select concat(fname, ' ', lname) as name from signin s where s.fusion_id=xx.fusion_id) as agent_name,
+		(select concat(fname, ' ', lname) as name from signin s where s.id=(select assigned_to from signin si where si.fusion_id=xx.fusion_id)) as tl_name
+				from $rand_table xx WHERE date(xx.upload_date)='".$up_date."'
+				 "; 				
+
+
+		$fullAray = $this->Common_model->get_query_result_array($sqlR);
+
+				// echo"<pre>";
+				// print_r($fullAray);
+				// echo"</pre>";
+				// exit();
+
+		//$data["sampling_data"] = $fullAray;
+		$this->create_qa_randamiser_CSV($fullAray,$client_id,$pro_id,$header,$rand_table);
+
+
+		$currDate=date("Y-m-d");
+		$filename = "./qa_files/qa_reports_data/Report_".$client_res['fullname'].get_user_id().$client_id.".csv";
+		$newfile="QA randamiser ".$client_res['fullname']." Audit List-'".$currDate."'.csv";
+		header('Content-Disposition: attachment;  filename="'.$newfile.'"');
+		readfile($filename);
+	}
+
+	public function create_qa_randamiser_CSV($rr,$client_id,$pro_id,$header,$rand_table)
+	{
+		$currDate=date("Y-m-d");
+
+		$client_sql = "Select fullname from client where is_active=1 and id='".$client_id."' ";
+		$client_res = $this->Common_model->get_query_row_array($client_sql);
+
+		$filename = "./qa_files/qa_reports_data/Report_".$client_res['fullname'].get_user_id().$client_id.".csv";
+		$fopen = fopen($filename,"w+");
+
+		$field_name="SHOW FULL COLUMNS FROM ".$rand_table." ";
+		$field_name=$this->Common_model->get_query_result_array($field_name);
+		$fld_cnt=count($field_name);
+		for($i=0;$i<$fld_cnt;$i++){
+						$val=$field_name[$i]['Field'];
+						if($val!=""){
+							$field_val[]=$val;
+						}
+					 }
+
+		array_unshift($field_val ,"agent_name","tl_name");
+		$key = array_search ('upload_date', $field_val);
+		//array_splice($field_val, $key, 0, 'call_id');
+		$field_val= array_values($field_val);
+		
+
+		$count_for_field=count($field_val);
+
+		$row = "";
+		foreach($header as $data) $row .= ''.$data.',';
+		fwrite($fopen,rtrim($row,",")."\r\n");
+		$searches = array("\r", "\n", "\r\n");
+		$row = "";
+		// echo"<pre>";
+		// print_r($field_val);
+		// print_r($rr);
+		// echo"</pre>";
+		// die;
+		foreach($rr as $user)
+		{
+			for($z=0;$z<$count_for_field;$z++){
+			
+				/////////////////////////////////
+				if(in_array($field_val[$z], array('id','audit_sheet','compute_status','audit_status','is_distributed','compute_by','non_auditable','non_auditable_comment','non_auditable_by','non_auditable_date','distribution_opend_by','distribution_opened_datetime','log','last_date_time','status','disconnected_by'))) {
+						continue;
+
+					}else{
+						$row .= '"'.$user[$field_val[$z]].'",';
+					}
+
+					/////////////////////////////////
+			}
+
+				fwrite($fopen,$row."\r\n");
+				$row = "";
+		}
+
+		fclose($fopen);
+	}
+
+
+	// public function create_qa_randamiser_CSV($rr,$client_id,$pro_id,$header)
+	// {
+	// 	// echo $client_id;
+	// 	// echo"<br>";
+	// 	// echo $pro_id;
+	// 	// echo"<br>";
+	// 	// print_r($rr);
+	// 	// exit;
+	// 	$currDate=date("Y-m-d");
+
+	// 	$client_sql = "Select fullname from client where is_active=1 and id='".$client_id."' ";
+	// 	$client_res = $this->Common_model->get_query_row_array($client_sql);
+
+	// 	$filename = "./qa_files/qa_reports_data/Report_".$client_res['fullname'].get_user_id().$client_id.".csv";
+	// 	$fopen = fopen($filename,"w+");
+
+	// 	$row = "";
+	// 	foreach($header as $data) $row .= ''.$data.',';
+	// 	fwrite($fopen,rtrim($row,",")."\r\n");
+	// 	$searches = array("\r", "\n", "\r\n");
+			
+	// 	// echo"<pre>";
+	// 	// print_r($rr);
+	// 	// echo"</pre>";
+		
+	// 	// foreach($rr as $key=> $user){
+	// 	// 	//echo $data_each;
+	// 	// 		foreach($header as $key1 =>$data_each){	
+	// 	// 			echo $data_each;
+	// 	// 			echo"<br>";
+	// 	// 			//echo $user[$key1];
+
+
+	// 	// 			if($user[$data_each]== $data_each){
+	// 	// 				$row  .= '"'.$user[$data_each].'",';
+	// 	// 				fwrite($fopen,$row."\r\n");
+						
+	// 	// 			}
+	// 	// 	}
+			
+	// 	// 	//fclose($fopen);
+	// 	// }
+	// 	foreach($rr as $user){
+	// 		foreach($header as $datas){
+	// 			$row  .= '"'.$user[$datas].'",';
+	// 			fwrite($fopen,$row."\r\n");
+	// 		}	
+	// 		}
+
+	// 	//exit();
+	// 	fclose($fopen);
+
+	// 	// if($client_id==37 && $pro_id==49){
+	// 	// 	$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+	// 	// 	 "phone_no", "call_type", "rpc", "upload_date");
+
+	// 	// 	$row = "";
+	// 	// 	foreach($header as $data) $row .= ''.$data.',';
+	// 	// 	fwrite($fopen,rtrim($row,",")."\r\n");
+	// 	// 	$searches = array("\r", "\n", "\r\n");
+
+	// 	// 	foreach($rr as $user){
+	// 	// 		$row  = '"'.$user['fusion_id'].'",';
+	// 	// 		$row .= '"'.$user['agent_name'].'",';
+	// 	// 		$row .= '"'.$user['tl_name'].'",';
+	// 	// 		$row .= '"'.$user['call_date'].'",';
+	// 	// 		$row .= '"'.$user['aht'].'",';
+	// 	// 		$row .= '"'.$user['phone_no'].'",';
+	// 	// 		$row .= '"'.$user['call_type'].'",';
+	// 	// 		$row .= '"'.$user['rpc'].'",';
+	// 	// 		$row .= '"'.$user['upload_date'].'",';
+	// 	// 		fwrite($fopen,$row."\r\n");
+	// 	// 	}
+	// 	// 	//exit;
+	// 	// 	fclose($fopen);
+	// 	// } 
+	// 	// else if($client_id == 288 && $pro_id== 614){
+	// 	// 	//  print_r($rr);
+	// 	// 	// exit;
+	// 	// 	$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+	// 	// 	 "customer_number", "recording_track_id", "sap_id_extension","campaign","first_disposed","disconnected_by", "upload_date");
+	// 	// 	$row = "";
+	// 	// 	foreach($header as $data) $row .= ''.$data.',';
+	// 	// 	fwrite($fopen,rtrim($row,",")."\r\n");
+	// 	// 	$searches = array("\r", "\n", "\r\n");
+
+	// 	// 	foreach($rr as $user){
+	// 	// 		$row  = '"'.$user['fusion_id'].'",';
+	// 	// 		$row .= '"'.$user['agent_name'].'",';
+	// 	// 		$row .= '"'.$user['tl_name'].'",';
+	// 	// 		$row .= '"'.$user['call_date'].'",';
+	// 	// 		$row .= '"'.$user['aht'].'",';
+	// 	// 		$row .= '"'.$user['customer_number'].'",';
+	// 	// 		$row .= '"'.$user['recording_track_id'].'",';
+	// 	// 		$row .= '"'.$user['sap_id_extension'].'",';
+	// 	// 		$row .= '"'.$user['campaign'].'",';
+	// 	// 		$row .= '"'.$user['first_disposed'].'",';
+	// 	// 		$row .= '"'.$user['disconnected_by'].'",';
+	// 	// 		$row .= '"'.$user['upload_date'].'",';
+	// 	// 		fwrite($fopen,$row."\r\n");
+	// 	// 	}
+	// 	// 	//exit;
+	// 	// 	fclose($fopen);
+	// 	// }else if($client_id == 202 && $pro_id== 411){
+	// 	// 	//  print_r($rr);
+	// 	// 	// exit;
+	// 	// 	$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+	// 	// 	 "called_no", "out_in", "call_type", "upload_date");
+	// 	// 	$row = "";
+	// 	// 	foreach($header as $data) $row .= ''.$data.',';
+	// 	// 	fwrite($fopen,rtrim($row,",")."\r\n");
+	// 	// 	$searches = array("\r", "\n", "\r\n");
+
+	// 	// 	foreach($rr as $user){
+	// 	// 		$row  = '"'.$user['fusion_id'].'",';
+	// 	// 		$row .= '"'.$user['agent_name'].'",';
+	// 	// 		$row .= '"'.$user['tl_name'].'",';
+	// 	// 		$row .= '"'.$user['call_date'].'",';
+	// 	// 		$row .= '"'.$user['aht'].'",';
+	// 	// 		$row .= '"'.$user['called_no'].'",';
+	// 	// 		$row .= '"'.$user['out_in'].'",';
+	// 	// 		$row .= '"'.$user['call_type'].'",';
+	// 	// 		$row .= '"'.$user['upload_date'].'",';
+	// 	// 		fwrite($fopen,$row."\r\n");
+	// 	// 	}
+	// 	// 	//exit;
+	// 	// 	fclose($fopen);
+	// 	// }else if($client_id == 246 && $pro_id== 529){
+	// 	// 	//  print_r($rr);
+	// 	// 	// exit;
+	// 	// 	$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+	// 	// 	 "call_id", "process_name", "customer_number","campaign","system_disposition","hangup_details","disposition_code","disposition_class", "upload_date");
+	// 	// 	$row = "";
+	// 	// 	foreach($header as $data) $row .= ''.$data.',';
+	// 	// 	fwrite($fopen,rtrim($row,",")."\r\n");
+	// 	// 	$searches = array("\r", "\n", "\r\n");
+
+	// 	// 	foreach($rr as $user){
+	// 	// 		$row  = '"'.$user['fusion_id'].'",';
+	// 	// 		$row .= '"'.$user['agent_name'].'",';
+	// 	// 		$row .= '"'.$user['tl_name'].'",';
+	// 	// 		$row .= '"'.$user['call_date'].'",';
+	// 	// 		$row .= '"'.$user['aht'].'",';
+	// 	// 		$row .= '"'.$user['call_id'].'",';
+	// 	// 		$row .= '"'.$user['process_name'].'",';
+	// 	// 		$row .= '"'.$user['customer_number'].'",';
+	// 	// 		$row .= '"'.$user['campaign'].'",';
+	// 	// 		$row .= '"'.$user['system_disposition'].'",';
+	// 	// 		$row .= '"'.$user['hangup_details'].'",';
+	// 	// 		$row .= '"'.$user['disposition_code'].'",';
+	// 	// 		$row .= '"'.$user['disposition_class'].'",';
+	// 	// 		$row .= '"'.$user['upload_date'].'",';
+	// 	// 		fwrite($fopen,$row."\r\n");
+	// 	// 	}
+	// 	// 	//exit;
+	// 	// 	fclose($fopen);
+	// 	// }else if($client_id == 134 && $pro_id== 753){
+	// 	// 	//  print_r($rr);
+	// 	// 	// exit;
+	// 	// 	$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+	// 	// 	 "customer_disconnection_source", "customer_number","campaign", "upload_date");
+	// 	// 	$row = "";
+	// 	// 	foreach($header as $data) $row .= ''.$data.',';
+	// 	// 	fwrite($fopen,rtrim($row,",")."\r\n");
+	// 	// 	$searches = array("\r", "\n", "\r\n");
+
+	// 	// 	foreach($rr as $user){
+	// 	// 		$row  = '"'.$user['fusion_id'].'",';
+	// 	// 		$row .= '"'.$user['agent_name'].'",';
+	// 	// 		$row .= '"'.$user['tl_name'].'",';
+	// 	// 		$row .= '"'.$user['call_date'].'",';
+	// 	// 		$row .= '"'.$user['aht'].'",';
+	// 	// 		$row .= '"'.$user['customer_disconnection_source'].'",';
+	// 	// 		$row .= '"'.$user['customer_number'].'",';
+	// 	// 		$row .= '"'.$user['campaign'].'",';
+	// 	// 		$row .= '"'.$user['upload_date'].'",';
+	// 	// 		fwrite($fopen,$row."\r\n");
+	// 	// 	}
+	// 	// 	//exit;
+	// 	// 	fclose($fopen);
+	// 	// }else if($client_id == 134 && $pro_id== 271){
+	// 	// 	//  print_r($rr);
+	// 	// 	// exit;
+	// 	// 	$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+	// 	// 	 "customer_disconnection_source", "customer_number","campaign", "upload_date");
+	// 	// 	$row = "";
+	// 	// 	foreach($header as $data) $row .= ''.$data.',';
+	// 	// 	fwrite($fopen,rtrim($row,",")."\r\n");
+	// 	// 	$searches = array("\r", "\n", "\r\n");
+
+	// 	// 	foreach($rr as $user){
+	// 	// 		$row  = '"'.$user['fusion_id'].'",';
+	// 	// 		$row .= '"'.$user['agent_name'].'",';
+	// 	// 		$row .= '"'.$user['tl_name'].'",';
+	// 	// 		$row .= '"'.$user['call_date'].'",';
+	// 	// 		$row .= '"'.$user['aht'].'",';
+	// 	// 		$row .= '"'.$user['customer_disconnection_source'].'",';
+	// 	// 		$row .= '"'.$user['customer_number'].'",';
+	// 	// 		$row .= '"'.$user['campaign'].'",';
+	// 	// 		$row .= '"'.$user['upload_date'].'",';
+	// 	// 		fwrite($fopen,$row."\r\n");
+	// 	// 	}
+	// 	// 	//exit;
+	// 	// 	fclose($fopen);
+	// 	// }else if($client_id == 345 && $pro_id== 719){
+	// 	// 	//  print_r($rr);
+	// 	// 	// exit;
+	// 	// 	$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+	// 	// 	 "caller_no", "call_id","skill","status","dial_status","disposition","hangup_by","campaign", "upload_date");
+	// 	// 	$row = "";
+	// 	// 	foreach($header as $data) $row .= ''.$data.',';
+	// 	// 	fwrite($fopen,rtrim($row,",")."\r\n");
+	// 	// 	$searches = array("\r", "\n", "\r\n");
+
+	// 	// 	foreach($rr as $user){
+	// 	// 		$row  = '"'.$user['fusion_id'].'",';
+	// 	// 		$row .= '"'.$user['agent_name'].'",';
+	// 	// 		$row .= '"'.$user['tl_name'].'",';
+	// 	// 		$row .= '"'.$user['call_date'].'",';
+	// 	// 		$row .= '"'.$user['aht'].'",';
+	// 	// 		$row .= '"'.$user['caller_no'].'",';
+	// 	// 		$row .= '"'.$user['call_id'].'",';
+	// 	// 		$row .= '"'.$user['skill'].'",';
+	// 	// 		$row .= '"'.$user['status'].'",';
+	// 	// 		$row .= '"'.$user['dial_status'].'",';
+	// 	// 		$row .= '"'.$user['disposition'].'",';
+	// 	// 		$row .= '"'.$user['hangup_by'].'",';
+	// 	// 		$row .= '"'.$user['campaign'].'",';
+	// 	// 		$row .= '"'.$user['upload_date'].'",';
+	// 	// 		fwrite($fopen,$row."\r\n");
+	// 	// 	}
+	// 	// 	//exit;
+	// 	// 	fclose($fopen);
+	// 	// }else if($client_id == 266 && $pro_id== 554){
+	// 	// 	//  print_r($rr);
+	// 	// 	// exit;
+	// 	// 	$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
+	// 	// 	 "called_no", "agreement_no","call_status","attempts","paymode","branch","bucket","region", "upload_date");
+	// 	// 	$row = "";
+	// 	// 	foreach($header as $data) $row .= ''.$data.',';
+	// 	// 	fwrite($fopen,rtrim($row,",")."\r\n");
+	// 	// 	$searches = array("\r", "\n", "\r\n");
+
+	// 	// 	foreach($rr as $user){
+	// 	// 		$row  = '"'.$user['fusion_id'].'",';
+	// 	// 		$row .= '"'.$user['agent_name'].'",';
+	// 	// 		$row .= '"'.$user['tl_name'].'",';
+	// 	// 		$row .= '"'.$user['call_date'].'",';
+	// 	// 		$row .= '"'.$user['aht'].'",';
+	// 	// 		$row .= '"'.$user['called_no'].'",';
+	// 	// 		$row .= '"'.$user['agreement_no'].'",';
+	// 	// 		$row .= '"'.$user['call_status'].'",';
+	// 	// 		$row .= '"'.$user['attempts'].'",';
+	// 	// 		$row .= '"'.$user['paymode'].'",';
+	// 	// 		$row .= '"'.$user['branch'].'",';
+	// 	// 		$row .= '"'.$user['bucket'].'",';
+	// 	// 		$row .= '"'.$user['region'].'",';
+	// 	// 		$row .= '"'.$user['upload_date'].'",';
+	// 	// 		fwrite($fopen,$row."\r\n");
+	// 	// 	}
+	// 	// 	//exit;
+	// 	// 	fclose($fopen);
+	// 	// }
+	// }
+
+	//vikas ends
 	
 /*******************************************************************/
 /*                      COMPUTE SAMPLING                           */
@@ -437,10 +835,10 @@
 				$pro_cond .= " and is_assign_process(S.id,614)";
 			}
 			// Indiamart
-			if($client_id == 202 && $pro_id == 426){
+			if($client_id == 202 && $pro_id == 411){
 				$data["content_template"] = "qa_randamiser/randamiser/indiamart/data_randamise_compute_freshdesk.php";
 				$table = "qa_randamiser_indiamart_data";
-				$pro_cond .= " and is_assign_process(S.id,426)";
+				$pro_cond .= " and is_assign_process(S.id,411)";
 			}
 			// Nurture Farm
 			if($client_id == 314 && $pro_id == 663){
@@ -466,18 +864,8 @@
 				$table = "qa_randamiser_blains_data";
 				$pro_cond .= " and is_assign_process(S.id,271)";
 			}
-			// Blains
-			if($client_id == 312 && $pro_id== 660){
-				$data["content_template"] = "qa_randamiser/randamiser/dunzo/data_randamise_compute_freshdesk.php";
-				$table = "qa_randamiser_dunzo_data";
-				$pro_cond .= " and is_assign_process(S.id,660)";
-			}
-			// Dunzo
-			if($client_id == 312 && $pro_id== 660){
-				$data["content_template"] = "qa_randamiser/randamiser/dunzo/data_randamise_compute_freshdesk.php";
-				$table = "qa_randamiser_dunzo_data";
-				$pro_cond .= " and is_assign_process(S.id,660)";
-			}
+
+			//VIKAS START//
 			//Mobikwik
 
 			if($client_id == 345 && $pro_id== 719){
@@ -486,37 +874,25 @@
 				$pro_cond .= " and is_assign_process(S.id,719)";
 			}
 			//cholamandlam
+
 			if($client_id == 266 && $pro_id== 554){
 				$data["content_template"] = "qa_randamiser/randamiser/cholamandlam/data_randamise_compute_freshdesk.php";
 				$table = "qa_randamiser_cholamandlam_data";
 				$pro_cond .= " and is_assign_process(S.id,554)";
 			}
+
 			//Debt Solution 123
+			
 			if($client_id == 37 && $pro_id== 49){
 				$data["content_template"] = "qa_randamiser/randamiser/debt_solution_123/data_randamise_compute_freshdesk.php";
 				$table = "qa_randamiser_debt_solution_123_data";
 				$pro_cond .= " and is_assign_process(S.id,49)";
 			}
-			//Telaid
-			if($client_id == 153 && $pro_id== 479){
-				$data["content_template"] = "qa_randamiser/randamiser/telaid/data_randamise_compute_freshdesk.php";
-				$table = "qa_randamiser_telaid_data";
-				$pro_cond .= " and is_assign_process(S.id,'479,480,486,482')";
-			}
-			//PHS Voice V2
-			if($client_id == 196 && $pro_id== 392){
-				$data["content_template"] = "qa_randamiser/randamiser/phs_voice_v2/data_randamise_compute_freshdesk.php";
-				$table = "qa_randamiser_phs_voice_v2_data";
-				$pro_cond .= " and is_assign_process(S.id,'392')";
-			}
-			//RPM
-			if($client_id == 56 && $pro_id== 68){
-				$data["content_template"] = "qa_randamiser/randamiser/rpm/data_randamise_compute_freshdesk.php";
-				$table = "qa_randamiser_rpm_data";
-				$pro_cond .= " and is_assign_process(S.id,'68')";
-			}
+
+			$data["content_js"] = "qa_randamiser_vikas_js.php";
+			//VIKAS ENDS//
+
 			
-			$data["content_js"] = "qa_randamiser_js.php";
 			
 			
 			
@@ -599,29 +975,8 @@
 				$data["customer_disconnection_source"]=$this->Common_model->get_query_result_array($customer_disconnection_source_sql);
 				
 			}
-			//Dunzo
-			if($table == 'qa_randamiser_dunzo_data'){
-				$assignedto_group_sql="Select assignedto_group from $table where assignedto_group is not Null and assignedto_group!='' and compute_status=1 group by assignedto_group";
-				$data["assignedto_group"]=$this->Common_model->get_query_result_array($assignedto_group_sql);
-				
-				$resolution_group_sql="Select resolution_group from $table where resolution_group is not Null and resolution_group!='' and compute_status=1 group by resolution_group";
-				$data["resolution_group"]=$this->Common_model->get_query_result_array($resolution_group_sql);
-				
-				$resolution_label_sql="Select resolution_label from $table where resolution_label is not Null and resolution_label!='' and compute_status=1 group by resolution_label";
-				$data["resolution_label"]=$this->Common_model->get_query_result_array($resolution_label_sql);
-				
-				$resolution_label_subcategory_sql="Select resolution_label_subcategory from $table where resolution_label_subcategory is not Null and resolution_label_subcategory!='' and compute_status=1 group by resolution_label_subcategory";
-				$data["resolution_label_subcategory"]=$this->Common_model->get_query_result_array($resolution_label_subcategory_sql);
-				
-				$csat_rating_string_sql="Select csat_rating_string from $table where csat_rating_string is not Null and csat_rating_string!='' and compute_status=1 group by csat_rating_string";
-				$data["csat_rating_string"]=$this->Common_model->get_query_result_array($csat_rating_string_sql);
-				
-				$city_sql="Select city from $table where city is not Null and city!='' and compute_status=1 group by city";
-				$data["city"]=$this->Common_model->get_query_result_array($city_sql);
-				
-				$jio_flag_sql="Select jio_flag from $table where jio_flag is not Null and jio_flag!='' and compute_status=1 group by jio_flag";
-				$data["jio_flag"]=$this->Common_model->get_query_result_array($jio_flag_sql);
-			}
+
+			//VIKAS START//
 			//Mobikwik
 			if($table == 'qa_randamiser_mobikwik_data'){
 				$campaign_sql="Select campaign from $table where campaign is not Null and campaign!='' and compute_status=1 group by campaign";
@@ -637,17 +992,9 @@
 				$data["hangup_by_source"]=$this->Common_model->get_query_result_array($hangup_by_sql);
 				
 			}
-			
-			//Indiamart
-			if($table == 'qa_randamiser_indiamart_data'){
-				$out_in_sql="Select out_in from $table where out_in is not Null and out_in!='' and compute_status=1 group by out_in";
-				$data["out_in"]=$this->Common_model->get_query_result_array($out_in_sql);
-				
-				$call_type_sql="Select call_type from $table where call_type is not Null and call_type!='' and compute_status=1 group by call_type";
-				$data["call_type"]=$this->Common_model->get_query_result_array($call_type_sql);
-				
-			}
+
 			//Cholamandlam
+
 			if($table == 'qa_randamiser_cholamandlam_data'){
 				$call_status_sql="Select call_status from $table where call_status is not Null and call_status!='' and compute_status=1 group by call_status";
 				$data["call_status"]=$this->Common_model->get_query_result_array($call_status_sql);
@@ -670,6 +1017,7 @@
 			}
 
 			//Debt Solution 123
+
 			if($table == 'qa_randamiser_debt_solution_123_data'){
 				$call_type_sql="Select call_type from $table where call_type is not Null and call_type!='' and compute_status=1 group by call_type";
 				$data["call_type"]=$this->Common_model->get_query_result_array($call_type_sql);
@@ -677,35 +1025,8 @@
 				$rpc_sql="Select rpc from $table where rpc is not Null and rpc!='' and compute_status=1 group by rpc";
 				$data["rpc_source"]=$this->Common_model->get_query_result_array($rpc_sql);
 			}
-			
-			//Telaid
-			if($table == 'qa_randamiser_telaid_data'){
-				$call_type_sql="Select call_type from $table where call_type is not Null and call_type!='' and compute_status=1 group by call_type";
-				$data["call_type"]=$this->Common_model->get_query_result_array($call_type_sql);
-				
-				$result_code_sql="Select result_code from $table where result_code is not Null and result_code!='' and compute_status=1 group by result_code";
-				$data["result_code"]=$this->Common_model->get_query_result_array($result_code_sql);
-			}
-			
-			//PHS Voice V2
-			if($table == 'qa_randamiser_phs_voice_v2_data'){
-				$calls_disconnected_sql="Select calls_disconnected from $table where calls_disconnected is not Null and calls_disconnected!='' and compute_status=1 group by calls_disconnected";
-				$data["calls_disconnected"]=$this->Common_model->get_query_result_array($calls_disconnected_sql);
-				
-				$queue_sql="Select queue from $table where queue is not Null and queue!='' and compute_status=1 group by queue";
-				$data["queue"]=$this->Common_model->get_query_result_array($queue_sql);
-				
-				$disposition_sql="Select disposition from $table where disposition is not Null and disposition!='' and compute_status=1 group by disposition";
-				$data["disposition"]=$this->Common_model->get_query_result_array($disposition_sql);
-			}
-			//RPM
-			if($table == 'qa_randamiser_rpm_data'){
-				$call_result_sql="Select call_result from $table where call_result is not Null and call_result!='' and compute_status=1 group by call_result";
-				$data["call_result"]=$this->Common_model->get_query_result_array($call_result_sql);
-				
-				$agent_result_sql="Select agent_result from $table where agent_result is not Null and agent_result!='' and compute_status=1 group by agent_result";
-				$data["agent_result"]=$this->Common_model->get_query_result_array($agent_result_sql);
-			}
+
+			//VIKAS ENDS//
 			
 			$off_cond="";
 			$agent_cond="";
@@ -759,76 +1080,12 @@
 			$customer_disconnection_source ="";
 			$customer_disconnection_source_cond ="";
 			
-			//for Dunzo
-			$assignedto_group="";
-			$resolution_group="";
-			$avg_response_time_secs="";
-			$resolution_label="";
-			$resolution_label_subcategory="";	
-			$csat_rating_string="";
-			$city="";
-			$jio_flag="";
-			
-			$assignedto_group_cond="";
-			$resolution_group_cond="";
-			$avg_response_time_secs_cond="";
-			$resolution_label_cond="";
-			$resolution_label_subcategory_cond="";
-			$csat_rating_string_cond="";
-			$city_cond="";
-			$jio_flag_cond="";
-			
-			// For Indiamart
-			
-			$call_type ="";
-			$call_type_cond ="";
-			
-			//Cholamandlam///
-
-			$call_status_chola = "";
-			$attempts_chola ="";
-			$paymode_chola = "";
-			$branch_chola = "";
-			$bucket_chola = "";
-			$region_chola = "";
-			
-			//Debt Solution 123
-
-			$call_type_debit = "";
-			$rpc_debit       = "";
-			
-			// For Telaid
-			
-			$call_type ="";
-			$result_code="";
-			
-			$call_type_cond ="";
-			$result_code_cond="";
-			
-			// For PHS Voice V2
-			
-			$calls_disconnected ="";
-			$queue="";
-			$disposition="";
-			
-			$calls_disconnected_cond ="";
-			$queue_cond="";
-			$disposition_cond = "";
-			
-			// RPM
-			$call_result ="";
-			$agent_result="";
-			
-			$call_result_cond ="";
-			$agent_result_cond="";
-			
-			
 			
 		/////////////// Filter Part End //////////////
 			
 			$sampling_data = array();
 			if($this->input->post('submit')=='Submit')
-			{				
+			{
 				$from_date = $this->input->post('from_date');
 				$fusion_id = $this->input->post('fusion_id');
 				$qa_id = $this->input->post('qa_id');
@@ -837,10 +1094,6 @@
 				$pro_id = $this->input->post('pro_id');
 				$campaign = $this->input->post('campaign');
 				$first_disposed = $this->input->post('first_disposed');
-				
-				// Get the week number selected
-				$week_number = $this->weekOfMonth($from_date);
-				//SELECT CURRENT_DATE(), FLOOR((DAYOFMONTH(CURRENT_DATE()) - 1) / 7) + 1 AS week_of_month
 				
 				//Nurture Farm
 				$csat=$this->input->post('csat');
@@ -858,18 +1111,8 @@
 				
 				// TouchFuse & Blains
 				$customer_disconnection_source=$this->input->post('customer_disconnection_source');
-				
-				// Dunzo
-				$assignedto_group=$this->input->post('assignedto_group');
-				$resolution_group=$this->input->post('resolution_group');
-				$avg_response_time_secs = $this->input->post('avg_response_time_secs');
-				$resolution_label = $this->input->post('resolution_label');
-				$resolution_label_subcategory = $this->input->post('resolution_label_subcategory');
-				$csat_rating_string = $this->input->post('csat_rating_string');
-				$city = $this->input->post('city');
-				$jio_flag = $this->input->post('jio_flag');
-				
-				// Mobikwik
+				//VIKAS START//
+				//Mobikwik
 				$disposition_mobi = "";
 				$status_details ="";
 				$hangup_by = "";
@@ -879,10 +1122,14 @@
 				$hangup_by = $this->input->post('hangup_by');
 				$disposition_mobi=$this->input->post('disposition');
 				
-				// Indiamart
-				$call_type = $this->input->post('call_type');
-				
 				//Cholamandlam///
+
+				$call_status_chola = "";
+				$attempts_chola ="";
+				$paymode_chola = "";
+				$branch_chola = "";
+				$bucket_chola = "";
+				$region_chola = "";
 
 				$call_status_chola 	=	$this->input->post('call_status');
 				$attempts_chola 	=	$this->input->post('attempts');
@@ -892,21 +1139,13 @@
 				$region_chola		=	$this->input->post('region');
 
 				//Debt Solution 123
+
+				$call_type_debit = "";
+				$rpc_debit       = "";
 				$call_type_debit 	=	$this->input->post('call_type');
 				$rpc_debit 			=	$this->input->post('rpc');
-				
-				//Telaid
-				$call_type 	=	$this->input->post('call_type');
-				$result_code=	$this->input->post('result_code');
-				
-				//PHS Voice V2
-				$calls_disconnected = $this->input->post('calls_disconnected');
-				$queue=	$this->input->post('queue');
-				$disposition= $this->input->post('disposition');
-				
-				//RPM
-				$call_result = $this->input->post('call_result');
-				$agent_result=	$this->input->post('agent_result');
+
+				//VIKAS ENDS//
 				
 				
 				
@@ -965,102 +1204,56 @@
 				// Touchfuse & Blains
 				if(!empty($customer_disconnection_source)) $customer_disconnection_source_sel = implode(',',$customer_disconnection_source);
 				else $customer_disconnection_source_sel = "";
-				
-				// Dunzo
-				if(!empty($assignedto_group)) $assignedto_group_sel = implode(',',$assignedto_group);
-				else $assignedto_group_sel = "";
-				
-				if(!empty($resolution_group)) $resolution_group_sel = implode(',',$resolution_group);
-				else $resolution_group_sel = "";
-				
-				if(!empty($resolution_label)) $resolution_label_sel = implode(',',$resolution_label);
-				else $resolution_label_sel = "";
-				
-				if(!empty($avg_response_time_secs)) $avg_response_time_secs_sel = implode(',',$avg_response_time_secs);
-				else $avg_response_time_secs_sel = "";
-				
-				if(!empty($resolution_label_subcategory)) $resolution_label_subcategory_sel = implode(',',$resolution_label_subcategory);
-				else $resolution_label_subcategory_sel = "";
-				
-				if(!empty($csat_rating_string)) $csat_rating_string_sel = implode(',',$csat_rating_string);
-				else $csat_rating_string_sel = "";
-				
-				if(!empty($city)) $city_sel = implode(',',$city);
-				else $city_sel = "";
-				
-				if(!empty($jio_flag)) $jio_flag_sel = implode(',',$jio_flag);
-				else $jio_flag_sel = "";
-				
-				//Mobikwik
-				if(!empty($hangup_by)) $hangup_by = implode(',',$hangup_by);
-				else $hangup_by = "";
 
-				if(!empty($status_details)) $status_details = implode(',',$status_details);
-				else $status_details = "";
+				//VIKAS START//
+				//Mobikwik
+				if(!empty($hangup_by)) $hangup_by_con = implode(',',$hangup_by);
+				else $hangup_by_con = "";
+
+				if(!empty($status_details)) $status_details_con = implode(',',$status_details);
+				else $status_details_con = "";
 
 				if(!empty($disposition_mobi)) $mobikwik_disposition = implode(',',$disposition_mobi);
 				else $mobikwik_disposition = "";
-				
-				//Indiamart & Telaid
-				if(!empty($call_type)) $call_type_sel = implode(',',$call_type);
-				else $call_type_sel = "";
-				
+
 				//Cholamandlam
-				if(!empty($call_status_chola)) $call_status_chola = implode(',',$call_status_chola);
-				else $call_status_chola = "";
+				if(!empty($call_status_chola)) $call_status_chola_con = implode(',',$call_status_chola);
+				else $call_status_chola_con = "";
 
-				if(!empty($attempts_chola)) $attempts_chola = implode(',',$attempts_chola);
-				else $attempts_chola = "";
+				if(!empty($attempts_chola)) $attempts_chola_con = implode(',',$attempts_chola);
+				else $attempts_chola_con = "";
 
-				if(!empty($paymode_chola)) $paymode_chola = implode(',',$paymode_chola);
-				else $paymode_chola = "";
+				if(!empty($paymode_chola)) $paymode_chola_con = implode(',',$paymode_chola);
+				else $paymode_chola_con = "";
 
-				if(!empty($branch_chola)) $branch_chola = implode(',',$branch_chola);
-				else $branch_chola = "";
+				if(!empty($branch_chola)) $branch_chola_con = implode(',',$branch_chola);
+				else $branch_chola_con = "";
 
-				if(!empty($bucket_chola)) $bucket_chola = implode(',',$bucket_chola);
-				else $bucket_chola = "";
+				if(!empty($bucket_chola)) $bucket_chola_con = implode(',',$bucket_chola);
+				else $bucket_chola_con = "";
 
-				if(!empty($region_chola)) $region_chola = implode(',',$region_chola);
-				else $region_chola = "";
+				if(!empty($region_chola)) $region_chola_con = implode(',',$region_chola);
+				else $region_chola_con = "";
 
 				//Debt Solution 123
 
-				if(!empty($call_type_debit)) $call_type_debit = implode(',',$call_type_debit);
-				else $call_type_debit = "";
+				if(!empty($call_type_debit)) $call_type_debit_con = implode(',',$call_type_debit);
+				else $call_type_debit_con = "";
 
-				if(!empty($rpc_debit)) $rpc_debit = implode(',',$rpc_debit);
-				else $rpc_debit = "";
-				
-				//Telaid
+				if(!empty($rpc_debit)) $rpc_debit_con = implode(',',$rpc_debit);
+				else $rpc_debit_con = "";
 
-				if(!empty($result_code)) $result_code_sel = implode(',',$result_code);
-				else $result_code_sel = "";
-				
-				//PHS Voice V2
-				
-				if(!empty($calls_disconnected)) $calls_disconnected_sel = implode(',',$calls_disconnected);
-				else $calls_disconnected_sel = "";
-				
-				if(!empty($queue)) $queue_sel = implode(',',$queue);
-				else $queue_sel = "";
-				
-				if(!empty($disposition)) $disposition_sel = implode(',',$disposition);
-				else $disposition_sel = "";
-				
-				//RPM
-				
-				if(!empty($call_result)) $call_result_sel = implode(',',$call_result);
-				else $call_result_sel = "";
-				
-				if(!empty($agent_result)) $agent_result_sel = implode(',',$agent_result);
-				else $agent_result_sel = "";
+				//VIKAS ENDS//
 				
 				
 				$ext_cond ="";
 				$sel_field="";
 				
-				
+				//////////////////////////
+				$sqlAgentTar = "SELECT s.fusion_id, audit_target as monthly_target, (audit_target/4) as weekly_target FROM qa_agent_categorisation a LEFT JOIN signin s ON a.agent_id=s.id WHERE a.client_id=$client_id AND a.process_id=$pro_id";
+				$target_data = $this->Common_model->get_query_result_array($sqlAgentTar);
+				//print_r($target_data);exit;
+				//////////////////////////
 				
 				//BSNL		
 				if($client_id ==288 && $pro_id==614){
@@ -1083,13 +1276,11 @@
 					$ext_cond = "";
 				}
 				//Indiamart
-				if($client_id ==202 && $pro_id==426){
+				if($client_id ==202 && $pro_id==411){
 					$_field_array = array(
 						"from_date" => $from_date,
 						"office_id" => $office_id,
 						"agent_id" => $agent_id_sel,
-						"qa_id"=>$qa_id_sel,
-						"call_type"=>$call_type_sel,
 						"aht" => $aht_sel,
 						"log" => $log
 					);	
@@ -1106,7 +1297,6 @@
 						"from_date" => $from_date,
 						"office_id" => $office_id,
 						"agent_id" => $agent_id_sel,
-						"qa_id"=>$qa_id_sel,
 						"aht" => $aht_sel,
 						"csat" => $csat_sel,
 						"ivr_name" => $ivr_name_sel,
@@ -1129,7 +1319,6 @@
 						"from_date" => $from_date,
 						"office_id" => $office_id,
 						"agent_id" => $agent_id_sel,
-						"qa_id"=>$qa_id_sel,
 						"aht" => $aht_sel,
 						"campaign" => $campaign_sel,
 						"system_disposition" => $system_disposition_sel,
@@ -1182,30 +1371,8 @@
 									RCD.compute_status, RCD.audit_status, 
 									S.xpoid, S.fusion_id, DATEDIFF(CURDATE(), S.doj) as tenure";
 				}
-				
-				// Dunzo
-				if($client_id == 312 && $pro_id== 660){
-					$_field_array = array(
-						"from_date" => $from_date,
-						"agent_id" => $agent_id_sel,
-						"qa_id" => $qa_id_sel,
-						"assignedto_group" => $assignedto_group_sel,
-						"resolution_group" => $resolution_group_sel,
-						"avg_response_time_secs" => $avg_response_time_secs_sel,
-						"resolution_label" => $resolution_label_sel,
-						"resolution_label_subcategory" => $resolution_label_subcategory_sel,
-						"csat_rating_string" => $csat_rating_string_sel,
-						"city" => $city_sel,
-						"jio_flag" => $jio_flag_sel,
-						"log" => $log
-					);	
-					$comp_table = "qa_randamiser_compute_logic_dunzo";
-					$rand_table = "qa_randamiser_dunzo_data";
-					$sel_field = "RCD.id as rand_id, RCD.fusion_id, RCD.avg_response_time_secs,
-									TIME_TO_SEC(avg_response_time_secs) as avg_response_time_secs,
-									RCD.compute_status, RCD.audit_status, 
-									S.xpoid, S.fusion_id, DATEDIFF(CURDATE(), S.doj) as tenure";
-				}
+
+				//VIKAS START//
 				//Mobikwik
 				if($client_id == 345 && $pro_id== 719){
 					$_field_array = array(
@@ -1214,8 +1381,8 @@
 						"qa_id" => $qa_id_sel,
 						"aht" => $aht_sel,
 						"campaign" => $campaign_sel,
-						"hangup_by" => $hangup_by,
-						"dial_status" => $status_details,
+						"hangup_by" => $hangup_by_con,
+						"dial_status" => $status_details_con,
 						"disposition" => $mobikwik_disposition,
 						"log" => $log
 					);	
@@ -1227,7 +1394,7 @@
 									RCD.compute_status, RCD.audit_status, 
 									S.xpoid, S.fusion_id, DATEDIFF(CURDATE(), S.doj) as tenure";
 				}
-				
+
 				//Cholamandlam
 				if($client_id == 266 && $pro_id== 554){
 					$_field_array = array(
@@ -1235,15 +1402,16 @@
 						"agent_id" => $agent_id_sel,
 						"qa_id" => $qa_id_sel,
 						"aht" => $aht_sel,
-						"call_status" => $call_status_chola,
-						"attempts" => $attempts_chola,
-						"paymode" => $paymode_chola,
-						"branch" => $branch_chola,
-						"bucket" => $bucket_chola,
-						"region" => $region_chola,
+						"call_status" => $call_status_chola_con,
+						"attempts" => $attempts_chola_con,
+						"paymode" => $paymode_chola_con,
+						"branch" => $branch_chola_con,
+						"bucket" => $bucket_chola_con,
+						"region" => $region_chola_con,
 						"log" => $log
 					);	
 					$comp_table = "qa_randamiser_compute_logic_cholamandlam";
+					//$comp_table = "qa_randamiser_compute_logic_blains";
 					$rand_table = "qa_randamiser_cholamandlam_data";
 					$sel_field = "RCD.id as rand_id, RCD.fusion_id, RCD.aht,
 									TIME_TO_SEC(aht) as aht_sec,
@@ -1252,80 +1420,27 @@
 				}
 
 				//Debt Solution 123
+
 				if($client_id == 37 && $pro_id== 49){
 					$_field_array = array(
 						"from_date" => $from_date,
 						"agent_id" => $agent_id_sel,
 						"qa_id" => $qa_id_sel,
 						"aht" => $aht_sel,
-						"call_type" => $call_type_debit,
-						"rpc" => $rpc_debit,
+						"call_type" => $call_type_debit_con,
+						"rpc" => $rpc_debit_con,
 						"log" => $log
 					);	
 					$comp_table = "qa_randamiser_compute_logic_debt_solution_123";
+					//$comp_table = "qa_randamiser_compute_logic_blains";
 					$rand_table = "qa_randamiser_debt_solution_123_data";
 					$sel_field = "RCD.id as rand_id, RCD.fusion_id, RCD.aht,
 									TIME_TO_SEC(aht) as aht_sec,
 									RCD.compute_status, RCD.audit_status, 
 									S.xpoid, S.fusion_id, DATEDIFF(CURDATE(), S.doj) as tenure";
 				}
-				//Telaid
-				if($client_id == 153 && $pro_id== 479){
-					$_field_array = array(
-						"from_date" => $from_date,
-						"agent_id" => $agent_id_sel,
-						"qa_id" => $qa_id_sel,
-						"aht" => $aht_sel,
-						"call_type" => $call_type_sel,
-						"result_code" => $result_code_sel,
-						"log" => $log
-					);	
-					$comp_table = "qa_randamiser_compute_logic_telaid";
-					$rand_table = "qa_randamiser_telaid_data";
-					$sel_field = "RCD.id as rand_id, RCD.fusion_id, RCD.aht,
-									TIME_TO_SEC(aht) as aht_sec,
-									RCD.compute_status, RCD.audit_status, 
-									S.xpoid, S.fusion_id, DATEDIFF(CURDATE(), S.doj) as tenure";
-				}
-				
-				//PHS Voice V2
-				if($client_id == 196 && $pro_id== 392){
-					$_field_array = array(
-						"from_date" => $from_date,
-						"agent_id" => $agent_id_sel,
-						"qa_id" => $qa_id_sel,
-						"aht" => $aht_sel,
-						"calls_disconnected" => $calls_disconnected_sel,
-						"queue" => $queue_sel,
-						"disposition" => $disposition_sel,
-						"log" => $log
-					);	
-					$comp_table = "qa_randamiser_compute_logic_phs_voice_v2";
-					$rand_table = "qa_randamiser_phs_voice_v2_data";
-					$sel_field = "RCD.id as rand_id, RCD.fusion_id, RCD.aht,
-									TIME_TO_SEC(aht) as aht_sec,
-									RCD.compute_status,
-									S.xpoid, S.fusion_id, DATEDIFF(CURDATE(), S.doj) as tenure";
-				}
-				
-				//RPM
-				if($client_id == 56 && $pro_id== 68){
-					$_field_array = array(
-						"from_date" => $from_date,
-						"agent_id" => $agent_id_sel,
-						"qa_id" => $qa_id_sel,
-						"aht" => $aht_sel,
-						"call_result" => $call_result_sel,
-						"agent_result" => $agent_result_sel,
-						"log" => $log
-					);	
-					$comp_table = "qa_randamiser_compute_logic_rpm";
-					$rand_table = "qa_randamiser_rpm_data";
-					$sel_field = "RCD.id as rand_id, RCD.fusion_id, RCD.aht,
-									TIME_TO_SEC(aht) as aht_sec,
-									RCD.compute_status,
-									S.xpoid, S.fusion_id, DATEDIFF(CURDATE(), S.doj) as tenure";
-				}
+
+				//VIKAS ENDS//
 				
 				$compute_id = data_inserter($comp_table,$_field_array);
 			
@@ -1428,47 +1543,8 @@
 				if($client_id == 134 && $pro_id== 271){
 					$ext_cond .= $customer_disconnection_source_cond;
 				}
-				
-				// Dunzo
-				if($assignedto_group!=""){
-					$assignedto_group=implode("','", $assignedto_group);
-					$assignedto_group_cond .=" and RCD.assignedto_group in ('$assignedto_group')";
-				}
-				if($resolution_group!=""){
-					$resolution_group=implode("','", $resolution_group);
-					$resolution_group_cond .=" and RCD.resolution_group in ('$resolution_group')";
-				}
-				if($resolution_label!=""){
-					$resolution_label=implode("','", $resolution_label);
-					$resolution_label_cond .=" and RCD.resolution_label in ('$resolution_label')";
-				}
-				if($resolution_label_subcategory!=""){
-					$resolution_label_subcategory=implode("','", $resolution_label_subcategory);
-					$resolution_label_subcategory_cond .=" and RCD.resolution_label_subcategory in ('$resolution_label_subcategory')";
-				}
-				if($csat_rating_string!=""){
-					$csat_rating_string=implode("','", $csat_rating_string);
-					$csat_rating_string_cond .=" and RCD.csat_rating_string in ('$csat_rating_string')";
-				}
-				if($city!=""){
-					$city=implode("','", $city);
-					$city_cond .=" and RCD.city in ('$city')";
-				}
-				if($jio_flag!=""){
-					$jio_flag=implode("','", $jio_flag);
-					$jio_flag_cond .=" and RCD.jio_flag in ('$jio_flag')";
-				}
-				
-				if($avg_response_time_secs!=""){
-					$avg_response_time_secs=implode(" OR ", $avg_response_time_secs);
-					$avg_response_time_secs_cond .=" and ($avg_response_time_secs)";
-				}
-				
-				if($client_id == 312 && $pro_id== 660){
-					$ext_cond .= $assignedto_group_cond .$resolution_group_cond.$resolution_label_cond.$resolution_label_subcategory_cond.$csat_rating_string_cond.$city_cond.$jio_flag_cond;
-					$aht_cond .= $avg_response_time_secs_cond;
-				}
-				// Mobikwik
+
+				//vikas start//
 				$hangup_bys=$this->input->post('hangup_by');
 				$dial_status_details=$this->input->post('dial_status');
 				if($hangup_bys!=""){
@@ -1487,17 +1563,15 @@
 				if($client_id == 345 && $pro_id== 719){
 					$ext_cond .= $hangup_details_cond. $status_details_cond.$disposition_class_cond;
 				}
-				// Indiamart & Tealaid
-				if($call_type!=""){
-					$call_type=implode("','", $call_type);
-					$call_type_cond .=" and RCD.call_type in ('$call_type')";
-				}
 
-				if($client_id == 202 && $pro_id== 426){
-					$ext_cond .= $call_type_cond;
-				}
-				
 				//Cholamandlam
+
+				//$call_status_cholas 	=	$this->input->post('call_status');
+				// $attempts_cholas 		=	$this->input->post('attempts');
+				// $paymode_cholas 		=	$this->input->post('paymode');
+				// $branch_cholas			=	$this->input->post('branch');
+				// $bucket_cholas			=	$this->input->post('bucket');
+				// $region_cholas			=	$this->input->post('region');
 
 				if($call_status_chola!=""){
 					$call_statusCholas=implode("','", $call_status_chola);
@@ -1528,84 +1602,39 @@
 				}
 
 				if($client_id == 266 && $pro_id== 554){
-					$ext_cond .= $hangup_details_cond. $status_details_cond.$disposition_class_cond;
+					$ext_cond .= $call_statusCholas_cond. $attemptsCholas_cond.$paymodeCholas_cond.$branchCholas_cond.$bucketCholas_cond.$regionCholas_cond;
 				}
 
 				//Debt Solution 123
 
+				//$call_type_debit 	=	$this->input->post('call_type');
+				//$rpc_debit 			=	$this->input->post('rpc');
+
 				if($call_type_debit!=""){
 					$call_type_debit=implode("','", $call_type_debit);
-					$call_type_debit_cond .=" and RCD.call_status in ('$call_type_debit')";
+					$call_type_debit_cond .=" and RCD.call_type in ('$call_type_debit')";
 				}
 				if($rpc_debit!=""){
 					$rpc_debit=implode("','", $rpc_debit);
-					$rpc_debit_cond .=" and RCD.attempts in ('$rpc_debit')";
+					$rpc_debit_cond .=" and RCD.rpc in ('$rpc_debit')";
 				}
+
 				if($client_id == 37 && $pro_id== 49){
 					$ext_cond .= $call_type_debit_cond. $rpc_debit_cond;
 				}
-				//Telaid
-				if($result_code!=""){
-					$result_code=implode("','", $result_code);
-					$result_code_cond .=" and RCD.result_code in ('$result_code')";
-				}
-				if($client_id == 153 && $pro_id== 479){
-					$ext_cond .= $call_type_cond. $result_code_cond;
-				}
-				
-				//PHS Voice V2
-				if($calls_disconnected!=""){
-					$calls_disconnected=implode("','", $calls_disconnected);
-					$calls_disconnected_cond .=" and RCD.calls_disconnected in ('$calls_disconnected')";
-				}
-				if($queue!=""){
-					$queue=implode("','", $queue);
-					$queue_cond .=" and RCD.queue in ('$queue')";
-				}
-				if($disposition!=""){
-					$disposition=implode("','", $disposition);
-					$disposition_cond .=" and RCD.disposition in ('$disposition')";
-				}
-				if($client_id == 196 && $pro_id== 392){
-					$ext_cond .= $calls_disconnected_cond. $queue_cond. $disposition_cond;
-				}
-				
-				//RPM
-				if($call_result!=""){
-					$call_result=implode("','", $call_result);
-					$call_result_cond .=" and RCD.call_result in ('$call_result')";
-				}
-				if($agent_result!=""){
-					$agent_result=implode("','", $agent_result);
-					$agent_result_cond .=" and RCD.agent_result in ('$agent_result')";
-				}
-				
-				if($client_id == 56 && $pro_id== 68){
-					$ext_cond .= $call_result_cond. $agent_result_cond;
-				}
-				
+
+				//vikas ends//
 				
 			///////// SQL Condition End ////////////
 			
-				/////////////////AGENT TARGET CALCULATION PER WEEK START/////////
-				$sqlAgentTar = "SELECT S.id as agent_id, S.fusion_id, audit_target as monthly_target, CEIL(audit_target/4) as weekly_target FROM qa_agent_categorisation a LEFT JOIN signin S ON a.agent_id=S.id WHERE a.client_id=$client_id AND a.process_id=$pro_id $agent_cond ";
-				$target_data = $this->Common_model->get_query_result_array($sqlAgentTar);
-				//echo "<pre>";print_r($target_data);echo "</pre>";exit;
-				foreach($target_data as $tdata){
-					$targetAchieved = $this->weeklyTargetAchieved($tdata['agent_id'],$client_id, $pro_id);
-					//$data['target'][$tdata['fusion_id']] = $this->weeklyTargetAchieved($tdata['agent_id'],$client_id, $pro_id);
-					if($targetAchieved<$tdata['weekly_target'])
-					{
-						$fusionIDArr[] = $tdata['fusion_id'];
-					}
-				}
-				if(!empty($fusionIDArr)){
-					$fusion_id=implode("','", $fusionIDArr);
-					$agent_cond .=" and S.fusion_id in ('$fusion_id')";
-				}
-				//echo "<pre>"; print_r($fusionIDArr); echo "</pre>";exit;
-				/////////////////AGENT TARGET CALCULATION PER WEEK ENDS/////////
-		
+				
+				
+				/* $randSql="Select $sel_field
+				from $rand_table RCD Left Join signin S On RCD.fusion_id=S.fusion_id
+				where S.status=1 $pro_cond and RCD.compute_status=1 and RCD.audit_status=0
+				and date(RCD.upload_date)='$from_date' $agent_cond $ext_cond $campaign_cond $first_disposed_cond
+				having 1 $aht_cond"; */
+				
 				$randSql="Select $sel_field
 				from $rand_table RCD LEFT JOIN signin S On RCD.fusion_id=S.fusion_id
 				LEFT JOIN qa_agent_categorisation a ON a.agent_id = S.id
@@ -1613,12 +1642,11 @@
 				and date(RCD.upload_date)='$from_date' $agent_cond $ext_cond $campaign_cond $first_disposed_cond $qa_id_cond
 				having 1 $aht_cond";
 				
-				//echo $randSql;
 				//exit;
 				
 				$sampling_data = $this->Common_model->get_query_result_array($randSql);
 				
-				//print_r($sampling_data); exit;
+			//	print_r($sampling_data); exit;
 				foreach($sampling_data as $row){
 					$fusion_id=$row["fusion_id"];
 					$rand_id = $row["rand_id"];
@@ -1626,7 +1654,7 @@
 					$this->db->query("Update $rand_table set compute_status=2, compute_by='$current_user' where id='$rand_id' and date(upload_date)='$from_date'");
 				}
 				
-				$url = "qa_randamiser/data_distribute_freshdesk/".$client_id."/".$pro_id;
+				$url = "qa_randamiser_vikas/data_distribute_freshdesk/".$client_id."/".$pro_id;
 				redirect($url);
 			}
 			$this->load->view('dashboard',$data);
@@ -1656,8 +1684,8 @@
 				$data['pro_id'] = $pro_id = $this->input->get('pro_id');
 			}
 			$data["aside_template"] = "qa_randamiser/aside.php";
-			$data["content_template"] = "qa_randamiser/randamiser/data_distribute_freshdesk.php";
-			$data["content_js"] = "qa_randamiser_js.php";
+			$data["content_template"] = "qa_randamiser/randamiser/data_distribute_freshdesk_vikas.php";
+			$data["content_js"] = "qa_randamiser_vikas_js.php";
 			
 			
 			
@@ -1681,13 +1709,11 @@
 				$sel_fields="";
 				$sel_distribute_fields="";
 				$from_date = $this->input->get('from_date');
-				
-				// Indiamart
-				if($client_id==202 && $pro_id==426){
+				if($client_id==202 && $pro_id==411){
 					$rand_tbl='qa_randamiser_indiamart_data';
-					$sel_fields = "RCD.id as rand_id, RCD.fusion_id, RCD.aht, RCD.compute_status,RCD.audit_sheet, RCD.audit_status, date(RCD.upload_date) as upl_date,S.fusion_id";
-					$sel_distribute_fields="";
-					$compCondTable = "qa_randamiser_compute_logic_indiamart";
+					$sel_fields = "RCD.id as rand_id, RCD.fusion_id, RCD.aht, RCD.compute_status,RCD.audit_sheet, RCD.audit_status, date(RCD.upload_date) as upl_date,RCD.offer_id, S.fusion_id";
+					
+					$sel_distribute_fields=", SA.offer_id as recording_track_id";
 				}
 				//BSNL
 				if($client_id==288 && $pro_id==614){
@@ -1724,20 +1750,16 @@
 					$sel_distribute_fields="";
 					$compCondTable = "qa_randamiser_compute_logic_blains";
 				}
-				// Dunzo
-				if($client_id == 312 && $pro_id== 660){
-					$rand_tbl='qa_randamiser_dunzo_data';
-					$sel_fields = "RCD.id as rand_id, RCD.fusion_id, RCD.avg_response_time_secs,RCD.customer_number, RCD.compute_status,RCD.call_date, RCD.audit_status, date(RCD.upload_date) as upl_date, S.fusion_id, S.id as agent_id";
-					$sel_distribute_fields=", SA.interaction_id as recording_track_id";
-					$compCondTable = "qa_randamiser_compute_logic_dunzo";
-				}
-				// Mobikwik
+
+				//VIKAS START//
+				//Mobikwik
 				if($client_id == 345 && $pro_id== 719){
 					$rand_tbl='qa_randamiser_mobikwik_data';
 					$sel_fields = "RCD.id as rand_id, RCD.fusion_id, RCD.aht,RCD.caller_no, RCD.compute_status,RCD.call_date, RCD.audit_status, date(RCD.upload_date) as upl_date, S.fusion_id, S.id as agent_id";
-					$sel_distribute_fields=", SA.call_id as recording_track_id";
+					$sel_distribute_fields="";
 					$compCondTable = "qa_randamiser_compute_logic_mobikwik";
 				}
+
 				//Cholamandlam
 				if($client_id == 266 && $pro_id== 554){
 					$rand_tbl='qa_randamiser_cholamandlam_data';
@@ -1747,36 +1769,15 @@
 				}
 
 				//Debt Solution 123
+
 				if($client_id == 37 && $pro_id== 49){
 					$rand_tbl='qa_randamiser_debt_solution_123_data';
 					$sel_fields = "RCD.id as rand_id, RCD.fusion_id, RCD.aht,RCD.phone_no, RCD.compute_status,RCD.call_date, RCD.audit_status, date(RCD.upload_date) as upl_date, S.fusion_id, S.id as agent_id";
 					$sel_distribute_fields="";
 					$compCondTable = "qa_randamiser_compute_logic_debt_solution_123";
 				}
-				
-				//Telaid
-				if($client_id == 153 && $pro_id== 479){
-					$rand_tbl='qa_randamiser_telaid_data';
-					$sel_fields = "RCD.id as rand_id, RCD.fusion_id, RCD.aht,RCD.phone_number, RCD.compute_status,RCD.call_date, RCD.audit_status, date(RCD.upload_date) as upl_date, S.fusion_id, S.id as agent_id";
-					$sel_distribute_fields=",SA.call_id as recording_track_id,SA.audit_sheet";
-					$compCondTable = "qa_randamiser_compute_logic_telaid";
-				}
-				
-				//PHS Voice V2
-				if($client_id == 196 && $pro_id== 392){
-					$rand_tbl='qa_randamiser_phs_voice_v2_data';
-					$sel_fields = "RCD.id as rand_id, RCD.fusion_id, RCD.aht,RCD.phone_number, RCD.compute_status,RCD.call_date, RCD.audit_status, date(RCD.upload_date) as upl_date, S.fusion_id, S.id as agent_id";
-					$sel_distribute_fields="";
-					$compCondTable = "qa_randamiser_compute_logic_phs_voice_v2";
-				}
-				//RPM
-				if($client_id == 56 && $pro_id== 68){
-					$rand_tbl='qa_randamiser_rpm_data';
-					$sel_fields = "RCD.id as rand_id, RCD.fusion_id, RCD.aht,RCD.phone_number, RCD.compute_status,RCD.call_date, RCD.audit_status, date(RCD.upload_date) as upl_date, S.fusion_id, S.id as agent_id";
-					$sel_distribute_fields="";
-					$compCondTable = "qa_randamiser_compute_logic_rpm";
-				}
-				$data['rand_table'] = $rand_tbl;
+
+				//VIKAS ENDS//
 				
 				if(get_global_access()==1 || get_user_fusion_id()=='FDUR000199' || is_access_randamiser()){
 					//$cond="";
@@ -1829,8 +1830,8 @@
 					//end
 					//print_r($_GET);
 				
-				if($countDisSameDate['record']==0 || $this->input->get('non_dis')=='non_dis'){
-					$limCond ="LIMIT 2000";
+				if($countDisSameDate['record'] == 0 || $this->input->get('non_dis')=='non_dis'){
+					$limCond ="LIMIT 400";
 					/* if($this->input->get('non_dis')=='non_dis')	{
 						$limCond = "LIMIT 1";
 					} */
@@ -1844,7 +1845,7 @@
 					(select audit_target from qa_agent_categorisation a where a.agent_id=S.id and a.client_id=$client_id and a.process_id=$pro_id) as audit_target
 					FROM $rand_tbl RCD Left Join signin S On RCD.fusion_id=S.fusion_id
 					where RCD.compute_status=2 and RCD.audit_status=0 and date(RCD.upload_date)='$from_date' and RCD.non_auditable=0 $cond ORDER BY RAND() $limCond";
-					
+					//exit;
 					$random_data_set=$this->Common_model->get_query_result_array($rand_sql);
 					//echo "<pre>";print_r($random_data_set); echo "</pre>"; exit;
 					foreach($random_data_set as $sr){
@@ -1855,9 +1856,9 @@
 						$sqlLimit= "SELECT count(*) as record FROM $rand_tbl where date(upload_date)='".$upload_date."' and is_distributed=1 and compute_status=2 and non_auditable=0";
 						$limit = $this->Common_model->get_query_row_array($sqlLimit);
 						
-						if($limit['record']<$qa_target){
+						if($limit['record'] < $qa_target){
 							
-								$sql= "SELECT count(*) as record FROM $rand_tbl where fusion_id='".$fusion_id ."' and date(upload_date)='".$upload_date."' and is_distributed=1 and compute_status=2 and non_auditable=0";
+								 $sql= "SELECT count(*) as record FROM $rand_tbl where fusion_id='".$fusion_id ."' and date(upload_date)='".$upload_date."' and is_distributed=1 and compute_status=2 and non_auditable=0";
 								$count = $this->Common_model->get_query_row_array($sql);
 								if($count['record']<1){
 									$this->db->query("UPDATE $rand_tbl SET is_distributed=1 WHERE fusion_id='".$fusion_id ."' and date(upload_date)='".$upload_date."' and is_distributed=0 and id=$rand_id" );
@@ -1913,8 +1914,8 @@
 				$computeLogicTable = "qa_randamiser_compute_logic";
 			}
 			$data["aside_template"] = "qa_randamiser/aside.php";
-			$data["content_template"] = "qa_randamiser/randamiser/data_randamise_logiclist_freshdesk.php";
-			$data["content_js"] = "qa_randamiser_js.php";
+			$data["content_template"] = "qa_randamiser/randamiser/data_randamise_logiclist_freshdesk_vikas.php";
+			$data["content_js"] = "qa_randamiser_vikas_js.php";
 			
 			$cond ="";
 			$from_date="";
@@ -2088,41 +2089,28 @@
 				$tableName = "qa_randamiser_blains_data";
 				$redURL = 'qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
 			}
-			// Dunzo
-			if($client_id == 312 && $pro_id== 660){
-				$tableName = "qa_randamiser_dunzo_data";
-				$redURL = 'qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
-			}
+
+			//VIKAS START//
 			// Mobikwik
 			if($client_id == 345 && $pro_id== 719){
 				$tableName = "qa_randamiser_mobikwik_data";
-				$redURL = 'qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
+				$redURL = 'qa_randamiser_vikas/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
 			}
+
 			//Cholamandlam
 			if($client_id == 266 && $pro_id== 554){
 				$tableName = "qa_randamiser_cholamandlam_data";
-				$redURL = 'qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
+				$redURL = 'qa_randamiser_vikas/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
 			}
+
 			//Debt Solution 123
+
 			if($client_id == 37 && $pro_id== 49){
 				$tableName = "qa_randamiser_debt_solution_123_data";
-				$redURL = 'qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
+				$redURL = 'qa_randamiser_vikas/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
 			}
-			//Telaid
-			if($client_id == 153 && $pro_id== 479){
-				$tableName = "qa_randamiser_telaid_data";
-				$redURL = 'qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
-			}
-			//PHS Voice V2
-			if($client_id == 196 && $pro_id== 392){
-				$tableName = "qa_randamiser_phs_voice_v2_data";
-				$redURL = 'qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
-			}
-			//RPM
-			if($client_id == 56 && $pro_id== 68){
-				$tableName = "qa_randamiser_rpm_data";
-				$redURL = 'qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
-			}
+
+			//VIKAS ENDS//
 			$sql  = "DELETE FROM $tableName WHERE DATE(upload_date)='".$up_date."'";
 			//echo $sql;exit;
 			$this->db->query($sql);
@@ -2149,6 +2137,8 @@
 							);
 			
 			$header = array('SL No','Agent Name','Fusion ID','Location','Date of Creation','Recording Track ID','Assigned QA','Distributed Data Opened By','Distributed Data Opened Date Time');
+			
+
 			$data = array(
 							array('Distribution Report'),
 							$header
@@ -2265,21 +2255,13 @@
 			$tableName = "qa_randamiser_blains_data";
 			$selField = "";
 		}
-		// Dunzo
-		if($client_id == 312 && $pro_id== 660){
-			$tableName = "qa_randamiser_dunzo_data";
-			$selField = "";
-		}
+		//VIKAS START//
 		//Mobikwik
 		if($client_id==345 && $pro_id==719 ){
 			$tableName = "qa_randamiser_mobikwik_data";
 			$selField = ", SA.call_id as recording_track_id";
 		}
-		//Indiamart
-		if($client_id == 202 && $pro_id== 426){
-			$tableName = "qa_randamiser_indiamart_data";
-			$selField = "";
-		}
+
 		//Cholamandlam
 		if($client_id==266 && $pro_id==554 ){
 			$tableName = "qa_randamiser_cholamandlam_data";
@@ -2287,22 +2269,13 @@
 		}
 
 		//Debt Solution 123
+
 		if($client_id==37 && $pro_id==49 ){
 			$tableName = "qa_randamiser_debt_solution_123_data";
 			$selField = "";
 		}
-		//Telaid
-		if($client_id == 153 && $pro_id== 479){
-			$tableName = "qa_randamiser_telaid_data";
-		}
-		//PHS Voice V2
-		if($client_id == 196 && $pro_id== 392){
-			$tableName = "qa_randamiser_phs_voice_v2_data";
-		}
-		//RPM
-		if($client_id == 56 && $pro_id== 68){
-			$tableName = "qa_randamiser_rpm_data";
-		}
+
+		//VIKAS ENDS//
 		$sqlR = "SELECT SA.id as id,SA.fusion_id,SA.upload_date,
 							concat(S.fname, ' ', S.lname) as agent_name, S.office_id, 
 							SA.distribution_opened_datetime,
@@ -2326,12 +2299,12 @@
 			
 			
 		
-			$this->load->view('qa_randamiser/randamiser/update_non_auditable',$data);
+			$this->load->view('qa_randamiser/randamiser/update_non_auditable_vikas',$data);
 		}
 	}
 	function update_distribution(){
 		if(check_logged_in()){
-			 $randID = $this->input->post('randID');
+			$randID = $this->input->post('randID');
 			$client_id = $this->input->post('client_id');
 			$pro_id = $this->input->post('process_id');
 			$disDate = $this->input->post('distribute_date');
@@ -2358,432 +2331,138 @@
 			if($client_id == 134 && $pro_id== 271){
 				$tableName = "qa_randamiser_blains_data";
 			}
-			// Dunzo
-			if($client_id == 312 && $pro_id== 660){
-				$tableName = "qa_randamiser_dunzo_data";
-			}
-			
+
+			//VIKAS START//
 			//Mobikwik
+
 			if($client_id == 345 && $pro_id== 719){
 				$tableName = "qa_randamiser_mobikwik_data";
 			}
-			//Indiamart
-			if($client_id == 202 && $pro_id== 426){
-				$tableName = "qa_randamiser_indiamart_data";
-			}
+
 			//Cholamandlam
+
 			if($client_id == 266 && $pro_id== 554){
 				$tableName = "qa_randamiser_cholamandlam_data";
 			}
+
 			//Debt Solution 123
+
 			if($client_id == 37 && $pro_id== 49){
 				$tableName = "qa_randamiser_debt_solution_123_data";
 			}
-			//Telaid
-			if($client_id == 153 && $pro_id== 479){
-				$tableName = "qa_randamiser_telaid_data";
-			}
-			//PHS Voice V2
-			if($client_id == 196 && $pro_id== 392){
-				$tableName = "qa_randamiser_phs_voice_v2_data";
-			}
-			//RPM
-			if($client_id == 56 && $pro_id== 68){
-				$tableName = "qa_randamiser_rpm_data";
-			}
+
+			//VIKAS ENDS//
 			$randArr = array('non_auditable'=>1,'non_auditable_comment'=>$non_auditable_comment, 'non_auditable_by'=>$current_user,'non_auditable_date'=>$currentDateTime);
 			$this->db->where('id', $randID);
 		    $this->db->update($tableName,$randArr);
 		
 			$redURL = '?from_date='.$disDate.'&client_id='.$client_id.'&pro_id='.$pro_id.'&submit=Submit&non_dis=non_dis';
-			redirect('Qa_randamiser/data_distribute_freshdesk'.$redURL);
+			redirect('Qa_randamiser_vikas/data_distribute_freshdesk'.$redURL);
 		}
 	}
-	function weekOfMonth($date) {
-		// estract date parts
-		list($y, $m, $d) = explode('-', date('Y-m-d', strtotime($date)));
-		// current week, min 1
-		$w = 1;
-		// for each day since the start of the month
-		for ($i = 1; $i < $d; ++$i) {
-			// if that day was a sunday and is not the first day of month
-			if ($i > 1 && date('w', strtotime("$y-$m-$i")) == 0) {
-				// increment current week
-				++$w;
-			}
-		}
-		// now return
-		return $w;
-		//echo $w;
-	}
-	function weeklyTargetAchieved($agent_id, $client_id, $process_id){
-		$from_date = date('Y-m-d');
-		if($from_date!="")  $cond= "agent_id=$agent_id and year(audit_date)=YEAR('$from_date')  and week(audit_date)=week('$from_date') ";
-		if($client_id == 153){
-			$process_id = "479,480,486";
-		}
-		$defect_sql = "select table_name from qa_defect WHERE client_id=".$client_id." and process_id IN (".$process_id.")";
-		$defect_data = $this->Common_model->get_query_result_array($defect_sql);
-		$auditCound = 0;
-		if(!empty($defect_data)){
-			foreach($defect_data as $defect){
-				$qsql = 'select count(id) as total_audit from '.$defect['table_name'].' where '.$cond;
-				$audit_data = $this->Common_model->get_query_row_array($qsql);
-				$auditCound += $audit_data['total_audit'];
-			}
-		}
-		return $auditCound;
-	}
-	
-	////////////////////////////////////// Download Finction after uploading the CDR//////////////////////////////////
-	//vikas start
-	public function download_qa_randamiser_CSV($client_id,$pro_id,$up_date)
-	{
-		
-		$client_sql = "Select fullname from client where is_active=1 and id='".$client_id."' ";
-		$client_res = $this->Common_model->get_query_row_array($client_sql);
-		//print_r($client_res);
-		//exit();
 
-		if($client_id == 288 && $pro_id== 614){
-				$rand_table = "qa_randamiser_bsnl_data";
-				$header = array("fusion_id","agent_name","tl_name","call_date", "aht", "customer_number", "recording_track_id", "sap_id_extension","campaign","first_disposed","disconnected_by", "upload_date");
-			}
-			if($client_id == 202 && $pro_id== 426){
-				$rand_table = "qa_randamiser_indiamart_data";
-				$header = array("fusion_id","agent_name","tl_name","call_date", "aht", "called_no", "out_in", "call_type", "upload_date");
-			}if($client_id == 314 && $pro_id== 663){
-				$rand_table = "qa_randamiser_nurture_farm_data";
-			}
-			// Cras 24 Pre-booking
-			if($client_id == 246 && $pro_id== 529){
-				$rand_table = "qa_randamiser_cars24_data";
-			}
-			// Touch Fuse New
-			if($client_id == 134 && $pro_id== 753){
-				$rand_table = "qa_randamiser_touchfuse_data";
-			}
-			// Blains
-			if($client_id == 134 && $pro_id== 271){
-				$rand_table = "qa_randamiser_blains_data";
-			}
-			//Mobikwik
-			if($client_id == 345 && $pro_id== 719){
-				 $rand_table = "qa_randamiser_mobikwik_data";
-			}
-			//Cholamandlam
-			if($client_id == 266 && $pro_id== 554){
-				 $rand_table = "qa_randamiser_cholamandlam_data";
-			}
-			//Debt Solution 123
-			if($client_id == 37 && $pro_id== 49){
-				 $rand_table = "qa_randamiser_debt_solution_123_data";
-			}
-			//Telaid
-			if($client_id == 153 && $pro_id== 479){
-				 echo $rand_table = "qa_randamiser_telaid_data";
-			}
+	/********************************vikas start*****************************************/
+	// public function download_data_cdr_upload_freshdesk(){
+	// 	if(check_logged_in()){
+	// 		$up_date = $this->input->get('up_date');
+	// 		$client_id = $this->input->get('client_id');
+	// 		$pro_id = $this->input->get('pro_id');
+
+	// 		$from_date="";
+	// 		$cond="";
+	// 		$randCond="";
+	// 		$rand_tbl="";
+			
+			
+			
+	// 		$loc_sql="Select * from office_location where is_active=1";
+	// 		$data["location"]=$this->Common_model->get_query_result_array($loc_sql);
+			
+	// 		$qa_sql="Select id, fusion_id, office_id, concat(fname, ' ', lname) as name from signin where status=1 and dept_id=5 order by name";
+	// 		$data["qa"]=$this->Common_model->get_query_result_array($qa_sql);
+
+			
+	// 		$data["sampling_data"] = array();
+	// 		$sel_fields="";
+	// 		$sel_distribute_fields="";
+	// 		if($client_id==202 && $pro_id==411)
+	// 		{
+	// 			$tableName = "qa_randamiser_indiamart_data";
+
+	// 		}
+	// 		//BSNL
+	// 		if($client_id==288 && $pro_id==614){
+	// 			$tableName = "qa_randamiser_bsnl_data";
+	// 			$redURL = 'qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
+
+	// 		}
+	// 		// Nurture Farm
+	// 		if($client_id==314 && $pro_id==663){
+	// 			$tableName = "qa_randamiser_nurture_farm_data";
+	// 			$redURL = 'qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
+
+	// 		}
+	// 		// Cars24
+	// 		if($client_id == 246 && $pro_id== 529){
+	// 			$tableName = "qa_randamiser_cars24_data";
+	// 			$redURL = 'qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
+	// 		}
+	// 		// Touchfuse
+	// 		if($client_id == 134 && $pro_id== 753){
+	// 			$tableName = "qa_randamiser_touchfuse_data";
+	// 			$redURL = 'qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
+				
+	// 		}
+	// 		// Blains
+	// 		if($client_id == 134 && $pro_id== 271){
+	// 			$tableName = "qa_randamiser_blains_data";
+	// 			$redURL = 'qa_randamiser/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
+				
+	// 		}
+
+	// 		//VIKAS START//
+	// 		// Mobikwik
+	// 		if($client_id == 345 && $pro_id== 719){
+	// 			$tableName = "qa_randamiser_mobikwik_data";
+	// 			$redURL = 'qa_randamiser_vikas/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
+
+	// 		}
+
+	// 		//Cholamandlam
+	// 		if($client_id == 266 && $pro_id== 554){
+	// 			$tableName = "qa_randamiser_cholamandlam_data";
+	// 			$redURL = 'qa_randamiser_vikas/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
+	// 		}
+
+	// 		//Debt Solution 123
+
+	// 		if($client_id == 37 && $pro_id== 49){
+	// 			$tableName = "qa_randamiser_debt_solution_123_data";
+	// 			$redURL = 'qa_randamiser_vikas/data_upload_freshdesk/'.$client_id.'/'.$pro_id;
+	// 		}
+
+	// 		$sqlR="SELECT xx.*,(select concat(fname, ' ', lname) as name from signin s where s.fusion_id=xx.fusion_id) as agent_name
+	// 			from $tableName xx WHERE date(xx.upload_date)='".$up_date."'
+	// 			 "; 				
+	// 			//echo $sqlR;
+
+	// 			$fullAray = $this->Common_model->get_query_result_array($sqlR);
+
+	// 			// echo"<pre>";
+	// 			// print_r($fullAray);
+	// 			// echo"</pre>";
+	// 			// exit();
+
+	// 			$data["sampling_data"] = $fullAray;
+	// 			$this->create_qa_randamiser_CSV($fullAray,$client_id,$pro_id);
+	// 			$dn_link = base_url()."Qa_randamiser_vikas/download_qa_randamiser_CSV/".$client_id.$pro_id;
+
+	// 		//VIKAS ENDS//
+	// 	}
+	// }
 
 
-		$sqlR="SELECT xx.*,(select concat(fname, ' ', lname) as name from signin s where s.fusion_id=xx.fusion_id) as agent_name,
-		(select concat(fname, ' ', lname) as name from signin s where s.id=(select assigned_to from signin si where si.fusion_id=xx.fusion_id)) as tl_name
-				from $rand_table xx WHERE date(xx.upload_date)='".$up_date."'
-				 "; 				
-				//echo $sqlR;
-
-		$fullAray = $this->Common_model->get_query_result_array($sqlR);
-
-				// echo"<pre>";
-				// print_r($fullAray);
-				// echo"</pre>";
-				// exit();
-
-		//$data["sampling_data"] = $fullAray;
-		$this->create_qa_randamiser_CSV($fullAray,$client_id,$pro_id,$header);
-
-
-		$currDate=date("Y-m-d");
-		$filename = "./qa_files/qa_reports_data/Report_".$client_res['fullname'].get_user_id().$client_id.".csv";
-		$newfile="Randamiser CDR".$client_res['fullname'].".csv";
-		header('Content-Disposition: attachment;  filename="'.$newfile.'"');
-		readfile($filename);
-	}
-
-	public function create_qa_randamiser_CSV($rr,$client_id,$pro_id,$header)
-	{
-		// echo $client_id;
-		// echo"<br>";
-		// echo $pro_id;
-		// echo"<br>";
-		// print_r($rr);
-		// exit;
-		$currDate=date("Y-m-d");
-
-		$client_sql = "Select fullname from client where is_active=1 and id='".$client_id."' ";
-		$client_res = $this->Common_model->get_query_row_array($client_sql);
-
-		$filename = "./qa_files/qa_reports_data/Report_".$client_res['fullname'].get_user_id().$client_id.".csv";
-		$fopen = fopen($filename,"w+");
-		
-		
-		////////////////////////////////////
-		
-
-			$row = "";
-			foreach($header as $data) $row .= ''.$data.',';
-			fwrite($fopen,rtrim($row,",")."\r\n");
-			$searches = array("\r", "\n", "\r\n");
-
-			foreach($rr as $user){
-				$row  ="";
-				foreach($header as $h){
-					$row  .= '"'.$user[$h].'",';
-				}
-				fwrite($fopen,$row."\r\n");
-			}
-			//exit;
-			fclose($fopen);
-		
-		////////////////////////////////////
-
-		/* if($client_id==37 && $pro_id==49){
-			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
-			 "phone_no", "call_type", "rpc", "upload_date");
-
-			$row = "";
-			foreach($header as $data) $row .= ''.$data.',';
-			fwrite($fopen,rtrim($row,",")."\r\n");
-			$searches = array("\r", "\n", "\r\n");
-
-			foreach($rr as $user){
-				$row  = '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['agent_name'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['aht'].'",';
-				$row .= '"'.$user['phone_no'].'",';
-				$row .= '"'.$user['call_type'].'",';
-				$row .= '"'.$user['rpc'].'",';
-				$row .= '"'.$user['upload_date'].'",';
-				fwrite($fopen,$row."\r\n");
-			}
-			//exit;
-			fclose($fopen);
-		} 
-		else if($client_id == 288 && $pro_id== 614){
-			//  print_r($rr);
-			// exit;
-			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
-			 "customer_number", "recording_track_id", "sap_id_extension","campaign","first_disposed","disconnected_by", "upload_date");
-			$row = "";
-			foreach($header as $data) $row .= ''.$data.',';
-			fwrite($fopen,rtrim($row,",")."\r\n");
-			$searches = array("\r", "\n", "\r\n");
-
-			foreach($rr as $user){
-				$row  = '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['agent_name'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['aht'].'",';
-				$row .= '"'.$user['customer_number'].'",';
-				$row .= '"'.$user['recording_track_id'].'",';
-				$row .= '"'.$user['sap_id_extension'].'",';
-				$row .= '"'.$user['campaign'].'",';
-				$row .= '"'.$user['first_disposed'].'",';
-				$row .= '"'.$user['disconnected_by'].'",';
-				$row .= '"'.$user['upload_date'].'",';
-				fwrite($fopen,$row."\r\n");
-			}
-			//exit;
-			fclose($fopen);
-		}else if($client_id == 202 && $pro_id== 411){
-			//  print_r($rr);
-			// exit;
-			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
-			 "called_no", "out_in", "call_type", "upload_date");
-			$row = "";
-			foreach($header as $data) $row .= ''.$data.',';
-			fwrite($fopen,rtrim($row,",")."\r\n");
-			$searches = array("\r", "\n", "\r\n");
-
-			foreach($rr as $user){
-				$row  = '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['agent_name'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['aht'].'",';
-				$row .= '"'.$user['called_no'].'",';
-				$row .= '"'.$user['out_in'].'",';
-				$row .= '"'.$user['call_type'].'",';
-				$row .= '"'.$user['upload_date'].'",';
-				fwrite($fopen,$row."\r\n");
-			}
-			//exit;
-			fclose($fopen);
-		}else if($client_id == 246 && $pro_id== 529){
-			//  print_r($rr);
-			// exit;
-			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
-			 "call_id", "process_name", "customer_number","campaign","system_disposition","hangup_details","disposition_code","disposition_class", "upload_date");
-			$row = "";
-			foreach($header as $data) $row .= ''.$data.',';
-			fwrite($fopen,rtrim($row,",")."\r\n");
-			$searches = array("\r", "\n", "\r\n");
-
-			foreach($rr as $user){
-				$row  = '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['agent_name'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['aht'].'",';
-				$row .= '"'.$user['call_id'].'",';
-				$row .= '"'.$user['process_name'].'",';
-				$row .= '"'.$user['customer_number'].'",';
-				$row .= '"'.$user['campaign'].'",';
-				$row .= '"'.$user['system_disposition'].'",';
-				$row .= '"'.$user['hangup_details'].'",';
-				$row .= '"'.$user['disposition_code'].'",';
-				$row .= '"'.$user['disposition_class'].'",';
-				$row .= '"'.$user['upload_date'].'",';
-				fwrite($fopen,$row."\r\n");
-			}
-			//exit;
-			fclose($fopen);
-		}else if($client_id == 134 && $pro_id== 753){
-			//  print_r($rr);
-			// exit;
-			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
-			 "customer_disconnection_source", "customer_number","campaign", "upload_date");
-			$row = "";
-			foreach($header as $data) $row .= ''.$data.',';
-			fwrite($fopen,rtrim($row,",")."\r\n");
-			$searches = array("\r", "\n", "\r\n");
-
-			foreach($rr as $user){
-				$row  = '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['agent_name'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['aht'].'",';
-				$row .= '"'.$user['customer_disconnection_source'].'",';
-				$row .= '"'.$user['customer_number'].'",';
-				$row .= '"'.$user['campaign'].'",';
-				$row .= '"'.$user['upload_date'].'",';
-				fwrite($fopen,$row."\r\n");
-			}
-			//exit;
-			fclose($fopen);
-		}else if($client_id == 134 && $pro_id== 271){
-			//  print_r($rr);
-			// exit;
-			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
-			 "customer_disconnection_source", "customer_number","campaign", "upload_date");
-			$row = "";
-			foreach($header as $data) $row .= ''.$data.',';
-			fwrite($fopen,rtrim($row,",")."\r\n");
-			$searches = array("\r", "\n", "\r\n");
-
-			foreach($rr as $user){
-				$row  = '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['agent_name'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['aht'].'",';
-				$row .= '"'.$user['customer_disconnection_source'].'",';
-				$row .= '"'.$user['customer_number'].'",';
-				$row .= '"'.$user['campaign'].'",';
-				$row .= '"'.$user['upload_date'].'",';
-				fwrite($fopen,$row."\r\n");
-			}
-			//exit;
-			fclose($fopen);
-		}else if($client_id == 345 && $pro_id== 719){
-			//  print_r($rr);
-			// exit;
-			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
-			 "caller_no", "call_id","skill","status","dial_status","disposition","hangup_by","campaign", "upload_date");
-			$row = "";
-			foreach($header as $data) $row .= ''.$data.',';
-			fwrite($fopen,rtrim($row,",")."\r\n");
-			$searches = array("\r", "\n", "\r\n");
-
-			foreach($rr as $user){
-				$row  = '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['agent_name'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['aht'].'",';
-				$row .= '"'.$user['caller_no'].'",';
-				$row .= '"'.$user['call_id'].'",';
-				$row .= '"'.$user['skill'].'",';
-				$row .= '"'.$user['status'].'",';
-				$row .= '"'.$user['dial_status'].'",';
-				$row .= '"'.$user['disposition'].'",';
-				$row .= '"'.$user['hangup_by'].'",';
-				$row .= '"'.$user['campaign'].'",';
-				$row .= '"'.$user['upload_date'].'",';
-				fwrite($fopen,$row."\r\n");
-			}
-			//exit;
-			fclose($fopen);
-		}else if($client_id == 266 && $pro_id== 554){
-			//  print_r($rr);
-			// exit;
-			$header = array("fusion_id","agent_name","tl_name","call_date", "aht",
-			 "called_no", "agreement_no","call_status","attempts","paymode","branch","bucket","region", "upload_date");
-			$row = "";
-			foreach($header as $data) $row .= ''.$data.',';
-			fwrite($fopen,rtrim($row,",")."\r\n");
-			$searches = array("\r", "\n", "\r\n");
-
-			foreach($rr as $user){
-				$row  = '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['agent_name'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['aht'].'",';
-				$row .= '"'.$user['called_no'].'",';
-				$row .= '"'.$user['agreement_no'].'",';
-				$row .= '"'.$user['call_status'].'",';
-				$row .= '"'.$user['attempts'].'",';
-				$row .= '"'.$user['paymode'].'",';
-				$row .= '"'.$user['branch'].'",';
-				$row .= '"'.$user['bucket'].'",';
-				$row .= '"'.$user['region'].'",';
-				$row .= '"'.$user['upload_date'].'",';
-				fwrite($fopen,$row."\r\n");
-			}
-			//exit;
-			fclose($fopen);
-		}
-		else if($client_id == 153 && $pro_id== 479){
-			//  print_r($rr);
-			// exit;
-			$header = array("fusion_id","agent_name","tl_name","call_date", "aht","phone_number", "call_id","task","result_code","audit_sheet", "upload_date");
-			$row = "";
-			foreach($header as $data) $row .= ''.$data.',';
-			fwrite($fopen,rtrim($row,",")."\r\n");
-			$searches = array("\r", "\n", "\r\n");
-
-			foreach($rr as $user){
-				$row  = '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['agent_name'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['aht'].'",';
-				$row .= '"'.$user['phone_number'].'",';
-				$row .= '"'.$user['call_id'].'",';
-				$row .= '"'.$user['task'].'",';
-				$row .= '"'.$user['result_code'].'",';
-				$row .= '"'.$user['audit_sheet'].'",';
-				$row .= '"'.$user['upload_date'].'",';
-				fwrite($fopen,$row."\r\n");
-			}
-			//exit;
-			fclose($fopen);
-		} */
-	}
+	/********************************vikas ends*****************************************/
  }
  
  ?>
