@@ -40,7 +40,7 @@
 								<table class="table table-striped skt-table" width="100%">
 									<tbody>
 										<tr>
-											<td colspan="6" id="theader" style="font-size:40px">ACG QA FORM Agent</td>
+											<td colspan="6" id="theader" style="font-size:40px">UPDATER QA FORM Agent</td>
 											<input type="hidden" name="audit_start_time" value="<?php echo CurrMySqlDate(); ?>">
 										</tr>
 										
@@ -75,7 +75,7 @@
 											</td>
 										</tr>
 										<tr>
-											<td>ACPT:<span style="font-size:24px;color:red">*</span></td>
+											<td>ACPT:</td>
 											<td>
 												<select class="form-control" id="" name="data[acpt]" disabled>
 											
@@ -91,21 +91,21 @@
 											<td>Phone Number:</td>
 											<td><input type="text" class="form-control" name="data[phone]" value="<?php echo $agent_acg_rvw['phone'] ?>" disabled></td>
 
-											<td>Type of Audit:<span style="font-size:24px;color:red">*</span></td>
+											<td>Type of Audit:</td>
 											<td>
 												<input type="text" class="form-control" name="data[type_of_audit]" value="<?php echo $agent_acg_rvw['type_of_audit'] ?>" disabled>
 											</td>
 										</tr>
 										<tr>
-											<td>Call ID <span style="font-size:24px;color:red">*</span></td>
+											<td>Call ID </td>
 											<td>
 												<input type="text" class="form-control" name="data[call_id]" value="<?php echo $agent_acg_rvw['call_id'] ?>" disabled>
 											</td>
-											<td>L1<span style="font-size:24px;color:red">*</span></td>
+											<td>L1</td>
 											<td>
 												<input type="text" class="form-control" name="data[l1]" value="<?php echo $agent_acg_rvw['l1'] ?>" disabled>
 											</td>
-											<td>L2<span style="font-size:24px;color:red">*</span></td>
+											<td>L2</td>
 											<td>
 												<input type="text" class="form-control" name="data[l2]" value="<?php echo $agent_acg_rvw['l2'] ?>" disabled>
 											</td>
@@ -113,7 +113,7 @@
 										</tr>
 										<tr>
 											
-											<td>VOC:<span style="font-size:24px;color:red">*</span></td>
+											<td>VOC:</td>
 											<td>
 												<select class="form-control" id="voc" name="data[voc]" disabled>
 													
@@ -130,7 +130,7 @@
 													<option value="10"  <?= ($agent_acg_rvw['voc']=="10")?"selected":"" ?>>10</option>
 												</select>
 											</td>
-											<td>Audit Type:<span style="font-size:24px;color:red">*</span></td>
+											<td>Audit Type:</td>
 											<td>
 												<select class="form-control" id="audit_type" name="data[audit_type]" disabled>
                                                     <option value="">-Select-</option>
@@ -143,7 +143,7 @@
                                                     <option value="Trainer Audit"  <?= ($agent_acg_rvw['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option>
                                                 </select>
 											</td>
-											<td class="auType_epi">Auditor Type<span style="font-size:24px;color:red">*</span></td>
+											<td class="auType_epi">Auditor Type</td>
 											<td class="auType_epi">
 												<select class="form-control" id="auditor_type" name="data[auditor_type]" disabled>
                                                     
@@ -583,7 +583,7 @@
 
 														<!-- add--->
 												<tr>
-													<td colspan=2 style="font-size:12px">Feedback Status</td>
+													<td colspan=2 style="font-size:12px">Feedback Status <span style="font-size:24px;color:red">*</span></td>
 													<td colspan=5>
 														<select class="form-control" id="" name="agnt_fd_acpt" required>
 															<option value="">--Select--</option>
@@ -593,8 +593,8 @@
 													</td>
 												</tr>
 												<tr>
-													<td colspan=2 style="font-size:12px">Agent Review</td>
-													<td colspan=5><textarea class="form-control" name="note"><?php echo $agent_acg_rvw['agent_rvw_note'] ?></textarea></td>
+													<td colspan=2 style="font-size:12px">Agent Review <span style="font-size:24px;color:red">*</span></td>
+													<td colspan=5><textarea class="form-control" name="note" required><?php echo $agent_acg_rvw['agent_rvw_note'] ?></textarea></td>
 												</tr>
 
 												<!--end--->

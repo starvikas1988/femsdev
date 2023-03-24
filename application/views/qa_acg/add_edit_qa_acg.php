@@ -47,7 +47,7 @@
 								<table class="table table-striped skt-table" width="100%">
 									<tbody>
 										<tr>
-											<td colspan="6" id="theader" style="font-size:40px">ACG QA FORM</td>
+											<td colspan="6" id="theader" style="font-size:40px">UPDATER QA FORM</td>
 											<input type="hidden" name="audit_start_time" value="<?php echo CurrMySqlDate(); ?>">
 										</tr>
 										<?php
@@ -93,7 +93,7 @@
 														<?php
 													}
 													?>
-													
+													<option value="">Select</option>
 													
 													<?php foreach ($agentName as $row) :  ?>
 													<?php 

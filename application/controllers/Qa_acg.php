@@ -103,7 +103,7 @@
 			$cond='';
 			$cond1='';
 
-			$qSql_agent="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,157) and status=1  order by name";
+			$qSql_agent="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,380) and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql_agent);
 
 			if($from_date==""){
@@ -196,233 +196,6 @@ private function ajio_upload_files($files,$path)   // this is for file uploaging
   }
 
 
-  // public function single_person_acg()
-  // {
-  // 	if(check_logged_in())
-  // 		{
-  // 			$current_user = get_user_id();
-  // 			 $data["aside_template"] = "qa/aside.php"; // no change on this sie bar
-
-  // 			$data["content_template"] = "qa_acg/qa_acg_feedback.php";
-
-
-  // 			$data["content_js"] = "qa_accs_js.php";
-
-  // 		//	$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_process(id,157) and status=1 order by name";
-  // 			/* and is_assign_process(id,495) */
-
-  //       $qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,157) and status=1  order by name";
-
-
-
-  //     	$data["agentName"] = $this->Common_model->get_query_result_array($qSql); // this will display id, name,assigned_to,fusion_id
-
-  // 			$from_date = $this->input->get('from_date');
-  // 			$to_date = $this->input->get('to_date');
-
-
-  // 		//	$fromDate = $this->input->get('from_date');
-  // 			if($from_date!="")
-  // 			{
-  // 				$from_date = mmddyy2mysql($from_date);
-  // 			}
-
-  // 			//$toDate = $this->input->get('to_date');
-  // 			if($to_date!="")
-  // 			{
-  // 				$to_date = mmddyy2mysql($to_date);
-  // 			}
-
-  // 			$agent_id = $this->input->get('agent_id');
-  // 				if($agent_id=='') // if no option is choosen
-  // 				{
-  // 					$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date')";
-
-  // 				}else{
-  // 					$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date' and agent_id='$agent_id')";
-  // 				}
-
-
-
-
-  // 			$qSql = "SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_acg_feedback ) xx Left Join (Select id as sid, fname, lname, fusion_id, get_client_ids(id) as client, get_process_ids(id) as pid, get_process_names(id) as process, assigned_to from signin) yy on (xx.agent_id=yy.sid)  $cond  order by audit_date";
-
-
-  // 			//$data["ajio_inb_v2"] = $this->Common_model->get_query_result_array($qSql); // original
-  // 			$data["qa_acg"] = $this->Common_model->get_query_result_array($qSql);
-
-  // 			$data["from_date"] = $from_date;
-  // 			$data["to_date"] = $to_date;
-  // 			$data["agent_id"] = $agent_id;
-
-  // 			$this->load->view("dashboard",$data);
-  // 		}
-  // }
-
-
-  public function edit_qa_acgs($ajio_id)  // working file sougata
-
-  {
-  	if(check_logged_in()){
-
-  		$_SESSION['id'] = $ajio_id;
-
-
-  		if(isset($_POST['mgnt_rvw_by']) && $_POST['note'])
-  		{
-
-  			//$time_now=mktime(date('h')+5,date('i')+30,date('s'));
-  		//	date_default_timezone_set('Asia/Jamaica');
-  			//$curDateTime = date('d-m-Y H:i');
-
-			  $curDateTime = date('Y-m-d H:i');
-  			$mgnt_rvw_note=$this->input->post('note');
-  			$mgnt_rvw_note=ucwords($mgnt_rvw_note);
-
-			  $mgnt_rvw_by=$this->input->post('mgnt_rvw_by');
-
-
-
-
-
-
-  			$edit_array = array(
-  			"mgnt_rvw_by" => $mgnt_rvw_by,
-  			"mgnt_rvw_note" =>$mgnt_rvw_note,
-  			"mgnt_rvw_date" => $curDateTime
-  		);
-
-
-
-
-  	$this->db->where('id', $ajio_id);
-  	$this->db->update('qa_acg_new_feedback',$edit_array);
-
-
-
-
-
-  	redirect(base_url('qa_acg/single_person'));
-  	}
-     else{
-
-  	$qSql = " SELECT * from
-  	(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-  	(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-  	(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-  	(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_acg_new_feedback where id='$ajio_id') xx Left Join
-  	(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
-
-
-
-
-
-
-  	$data["accs_list"] = $this->Common_model->get_query_result_array($qSql);
-  	$data["aside_template"] = "qa/aside.php";
-
-
-
-  	$data["content_template"] = "qa_acg/edit_qa_acgs.php"; // working disable for testing
-
-
-
-  	$data["content_js"] = "qa_acgs_js.php";// js file for this page
-
-  	$this->load->view('dashboard',$data);
-
-     }
-
-  	}
-  }
-
-
-
-  public function add_qa_acgs($ajio_id)  // working file sougata
- {
-	 if(check_logged_in()){
-	   $current_user=get_user_id();
-	   $user_office_id=get_user_office_id();
-
-	   $data["aside_template"] = "qa/aside.php"; // side bar of the page
-	   //$data["content_template"] = "qa_ajio/add_edit_ajio_inb_v2.php"; // previuos task
-	   $data["content_template"] = "qa_acg/curd_qa_acgs.php"; // working disable for testing
-
-
-
-	   $data["content_js"] = "qa_acgs_js.php";// js file for this page
-
-	   $data['ajio_id']=$ajio_id;
-
-
-
-
-	   $tl_mgnt_cond='';
-
-	   if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
-	     $tl_mgnt_cond=" and (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
-	   }else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
-	     $tl_mgnt_cond=" and assigned_to='$current_user'";
-	   }else{
-	     $tl_mgnt_cond="";
-	   }
-
-
-	   $qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,157) and status=1  order by name";
-
-
-	   $data["agentName"] = $this->Common_model->get_query_result_array($qSql);
-
-	   $qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
-	   $data['tlname'] = $this->Common_model->get_query_result_array($qSql);
-
-
-	        $qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_acg_new_feedback where id='1') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
-
-
-	   $data["qa_acgs_curd"] = $this->Common_model->get_query_row_array($qSql);
-
-	   //$curDateTime=CurrMySqlDate();
-
-	   $curDateTime = date('Y-m-d H:i');
-	   $a = array();
-
-
-	   $field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
-	   if($field_array['agent_id']){
-
-	     if($ajio_id==0){
-
-	       $field_array=$this->input->post('data');
-
-
-
-	       $field_array['audit_date']=CurrDate();
-	       $field_array['call_date']=mdydt2mysql($this->input->post('call_date'));
-	       $field_array['entry_date']=$curDateTime;
-	       $field_array['audit_start_time']=$this->input->post('audit_start_time');
-	       $a = $this->ajio_upload_files($_FILES['attach_file'], $path='./qa_files/qa_acgs/inbound/');
-	       $field_array["attach_file"] = implode(',',$a);
-	       $rowid= data_inserter('qa_acg_new_feedback',$field_array);
-	     ///////////
-	       if(get_login_type()=="client"){
-	         $add_array = array("client_entryby" => $current_user);
-	       }else{
-	         $add_array = array("entry_by" => $current_user);
-	       }
-	       $this->db->where('id', $rowid);
-	       //$this->db->update('qa_ajio_inbound_v2_feedback',$add_array);
-	       $this->db->update('qa_acg_new_feedback',$add_array);
-
-	    }
-
-	     redirect('qa_acg');
-	   }
-	   $data["array"] = $a;
-	   $this->load->view("dashboard",$data);
-	 }
- }
-
 ////////////////////////VIKAS START///////////////////////////
 
 
@@ -445,7 +218,7 @@ private function ajio_upload_files($files,$path)   // this is for file uploaging
                 $tl_mgnt_cond = '';
             }
 
-            $qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,157) and status=1  order by name";
+            $qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,380) and status=1  order by name";
 
             $data['agentName'] = $this->Common_model->get_query_result_array( $qSql );
 
@@ -495,11 +268,14 @@ private function ajio_upload_files($files,$path)   // this is for file uploaging
 
                     $field_array1 = $this->input->post( 'data' );
                     $field_array1['call_date'] = mmddyy2mysql( $this->input->post( 'call_date' ) );
-                    if(!file_exists("./qa_files/qa_acg")){
-                        mkdir("./qa_files/qa_acg");
+                    if($_FILES['attach_file']!=''){
+                    	if(!file_exists("./qa_files/qa_acg")){
+	                        mkdir("./qa_files/qa_acg");
+	                    }
+	                    $a = $this->ajio_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_acg/' );
+	                    $field_array1['attach_file'] = implode( ',', $a );
                     }
-                    $a = $this->ajio_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_acg/' );
-                    $field_array1['attach_file'] = implode( ',', $a );
+                    
 
                     $this->db->where( 'id', $ajio_id );
                     $this->db->update( 'qa_acg_feedback', $field_array1 );
@@ -545,8 +321,8 @@ private function ajio_upload_files($files,$path)   // this is for file uploaging
 
    	$data["content_js"] = "qa_accs_js.php";// js file for this page
 
-    $data["tot_feedback"] = "";
-    $data["yet_rvw"] = "";
+    $tot_feedback = 0;
+    $yet_rvw = 0;
 
      $from_date = '';
      $to_date = '';
@@ -555,11 +331,17 @@ private function ajio_upload_files($files,$path)   // this is for file uploaging
 
      if($this->input->get('btnView')=='View')
      {
-     	 $qSql="Select count(id) as value from qa_acg_feedback where agent_id='$current_user'";
-	     $data["tot_feedback"] =  $this->Common_model->get_single_value($qSql);
+     	 // $qSql="Select count(id) as value from qa_acg_feedback where agent_id='$current_user'";
+     	 $qSql_acg="Select count(id) as value from qa_acg_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
 
-	     $qSql="Select count(id) as value from qa_acg_feedback where agent_id='$current_user' and agent_rvw_date=' '";
-	     $data["yet_rvw"] =  $this->Common_model->get_single_value($qSql);
+	     
+	     $tot_feedback =  $this->Common_model->get_single_value($qSql_acg);
+
+	     // $qSql="Select count(id) as value from qa_acg_feedback where agent_id='$current_user' and agent_rvw_date=' '";
+
+	     $qSql="Select count(id) as value from qa_acg_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit') and agent_rvw_date is Null";
+	     
+	     $yet_rvw =  $this->Common_model->get_single_value($qSql);
 
        $from_date = mmddyy2mysql($this->input->get('from_date'));
        $to_date = mmddyy2mysql($this->input->get('to_date'));
@@ -581,16 +363,17 @@ private function ajio_upload_files($files,$path)   // this is for file uploaging
 	       $data["qa_acg"] = $this->Common_model->get_query_result_array($qSql);
 	     }else{
 
-       $qSql = "SELECT * from
-       (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-       (select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-       (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-       (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_acg_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')) xx Inner Join
-       (Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
+       // $qSql = "SELECT * from
+       // (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+       // (select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+       // (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+       // (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_acg_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')) xx Inner Join
+       // (Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
 
-       $data["qa_acg"] = $this->Common_model->get_query_result_array($qSql);
+       // $data["qa_acg"] = $this->Common_model->get_query_result_array($qSql);
      }
-
+     $data["tot_feedback"] = $tot_feedback;
+     $data["yet_rvw"] = $yet_rvw;
      $data["from_date"] = $from_date;
      $data["to_date"] = $to_date;
 
@@ -700,7 +483,7 @@ public function qa_acg_report()
 
 	if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date' )";
 
-	if($office_id=="All") $cond .= "";
+	if($office_id=="All" || $office_id == '') $cond .= "";
 	else $cond .=" and office_id='$office_id'";
 
 	if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
@@ -712,7 +495,7 @@ public function qa_acg_report()
 	}
 
 
-	 $qSql="SELECT * from
+	  $qSql="SELECT * from
 	(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 	(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 	(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,

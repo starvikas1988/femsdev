@@ -10,7 +10,7 @@
 					<div class="row">
 						<div class="col-md-10">
 							<header class="widget-header">
-								<h4 class="widget-title"> Search Acg </h4>
+								<h4 class="widget-title"> Search Updater </h4>
 							</header>
 						</div>
 						<hr class="widget-separator">
@@ -77,7 +77,7 @@
 						<div class="col-md-12">
 							<header class="widget-header">
 								<h4 class="widget-title">
-									<div class="pull-left">ACG </div>
+									<div class="pull-left">UPDATER </div>
 									<?php if(is_access_qa_module()==true || get_login_type()=="client"){
 									$ajio_id=0; ?>
 									<div class="pull-right">

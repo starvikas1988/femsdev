@@ -8,7 +8,7 @@
 					<div class="row">
 						<div class="col-md-10">
 							<header class="widget-header">
-								<h4 class="widget-title">ACG QA Form Agent Feedback</h4>
+								<h4 class="widget-title">UPDATER QA Form Agent Feedback</h4>
 							</header>
 						</div>
 						<hr class="widget-separator">
@@ -55,7 +55,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<header class="widget-header">
-								<div class="col-md-6"><h4 class="widget-title"> ACG  </h4></div>
+								<div class="col-md-6"><h4 class="widget-title"> UPDATER </h4></div>
 								<div class="col-md-6" style="float:right">
 									<span style="font-weight:bold; color:red">Total Feedback</span> <span class="badge" style="font-size:12px"><?php echo $tot_feedback; ?></span> - <span style="font-weight:bold; color:green">Yet To Review</span> <span class="badge" style="font-size:12px"><?php echo $yet_rvw; ?></span>
 								</div>
@@ -83,7 +83,8 @@
 								</thead>
 								<tbody>
 									<?php $i=1;
-									foreach($qa_acg as $row): ?>
+									if(!empty($qa_acg)){
+										foreach($qa_acg as $row): ?>
 									<tr>
 										<td><?php echo $i++; ?></td>
 										<td><?php echo $row['auditor_name']; ?></td>
@@ -112,7 +113,7 @@
 											<a class="btn btn-success" href="<?php echo base_url(); ?>qa_acg/agent_acg_feedback_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
 										</td>
 									</tr>
-									<?php endforeach; ?>
+									<?php endforeach; }?>
 								</tbody>
 								<tfoot>
 									<tr class="bg-info">

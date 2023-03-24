@@ -6,7 +6,7 @@
 				<div class="widget">
 					<div class="row">
 						<div class="col-md-10">
-							<header class="widget-header"><h4 class="widget-title">QA ACC Report</h4></header>
+							<header class="widget-header"><h4 class="widget-title">QA UPDATER Report</h4></header>
 						</div>
 						<hr class="widget-separator">
 					</div>
@@ -88,13 +88,13 @@
 								</div>
 							</div>
 
-							<?php if($download_link!="" && ($this->input->get('show')=='Show')){ ?>
+							<?php //if($download_link!="" && ($this->input->get('show')=='Show')){ ?>
 								<div style='float:right; margin-top:22px;' class="col-md-1">
 									<div class="form-group" style='float:right;'>
 										<a href='<?php echo $download_link; ?>' <span style="padding:12px;" class="label label-success">Export Report</span></a>
 									</div>
 								</div>
-							<?php } ?>
+							<?php //} ?>
 
 						  </form>
 						</div>
@@ -115,47 +115,33 @@
 								</thead>
 								<tbody>
 									<?php $i=1;
-// echo "<pre>";
-// 						print_r($qa_acc_list)	;
-// echo "</pre>";
 
-	foreach($qa_acg_list as $row){ ?>
-	<tr>
-		<td><?php echo $i++; ?></td>
-		<td><?php
-			if($row['entry_by']!=''){
-				echo $row['auditor_name'];
-			}else{
-				echo $row['client_name'];
-			}
-		?></td>
-		<td><?php echo $row['audit_date']; ?></td>
-		<td><?php echo $row['fname']." ".$row['lname']; ?></td>
-		<td><?php echo $row['tl_name']; ?></td>
-		<?php //if($campaign=='idfc_new'){ ?>
-			<td><?php echo $row['call_date']; ?></td>
-		<?php //}else{  ?>
+									foreach($qa_acg_list as $row){ ?>
+									<tr>
+										<td><?php echo $i++; ?></td>
+										<td><?php
+											if($row['entry_by']!=''){
+												echo $row['auditor_name'];
+											}else{
+												echo $row['client_name'];
+											}
+										?></td>
+										<td><?php echo $row['audit_date']; ?></td>
+										<td><?php echo $row['fname']." ".$row['lname']; ?></td>
+										<td><?php echo $row['tl_name']; ?></td>
+										<?php //if($campaign=='idfc_new'){ ?>
+											<td><?php echo $row['call_date']; ?></td>
+										<?php //}else{  ?>
 
-		<?php //} ?>
-		<td><?php echo $row['overall_score']."%"; ?></td>
-	</tr>
-	<?php } ?>
-</tbody>
-
-
-
-
-
-
-
-
-
+										<?php //} ?>
+										<td><?php echo $row['overall_score']."%"; ?></td>
+									</tr>
+									<?php } ?>
+								</tbody>
 							</table>
 						</div>
 
-
 					</div>
-
 				</div>
 			</div>
 		</div>
