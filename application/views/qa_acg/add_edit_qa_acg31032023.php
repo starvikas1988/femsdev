@@ -91,13 +91,9 @@
 														?>
 														<option value="<?php echo $qa_acg_curd['agent_id'] ?>"><?php echo $qa_acg_curd['fname'] . " " . $qa_acg_curd['lname'] ?></option>
 														<?php
-													}else{
-														?>
-														<option value="">Select</option>
-														<?php
 													}
 													?>
-													
+													<option value="">Select</option>
 													
 													<?php foreach ($agentName as $row) :  ?>
 													<?php 
@@ -211,7 +207,7 @@
 											<td class="auType_epi">Auditor Type<span style="font-size:24px;color:red">*</span></td>
 											<td class="auType_epi">
 												<select class="form-control" id="auditor_type" name="data[auditor_type]">
-                                                    <option value="">Select</option>
+                                                    
                                                     <option value="Master" <?= ($qa_acg_curd['auditor_type']=="Master")?"selected":"" ?>>Master</option>
                                                     <option value="Regular" <?= ($qa_acg_curd['auditor_type']=="Regular")?"selected":"" ?>>Regular</option>
                                                 </select>
@@ -596,14 +592,11 @@
 										<tr>
 											<td colspan=2>Upload Files (avi|mp4|3gp|mpeg|mpg|mov|mp3|flv|wmv|mkv|wav)</td>
 											<?php if ($ajio_id == 0) { ?>
-												<td colspan=4>
-													<!-- <input type="file" multiple class="form-control"  id="attach_file" name="attach_file[]"> -->
-													<input type="file" name="attach_file[]" accept=".avi,.mp4,.3gp,.mpeg,.mpg,.mov,.mp3,.flv,.wmv,.mkv,.wav,audio/*"id="attach_file" />
-												</td>
+												<td colspan=4><input type="file" multiple class="form-control"  id="attach_file" name="attach_file[]"></td>
 												<?php } else {
 												if ($qa_acg_curd['attach_file'] != '') { ?>
 													<td colspan=4>
-														<input type="file" multiple class="form-control"  id="attach_file" name="attach_file[]" accept=".avi,.mp4,.3gp,.mpeg,.mpg,.mov,.mp3,.flv,.wmv,.mkv,.wav,audio/*"> 
+														<input type="file" accept="audio/mp3,audio/*;capture=microphone" multiple class="form-control"  id="attach_file" name="attach_file[]">
 														<?php $attach_file = explode(",", $qa_acg_curd['attach_file']);
 														foreach ($attach_file as $mp) { ?>
 															<audio controls='' style="background-color:#607F93">
@@ -614,7 +607,7 @@
 													</td>
 											<?php } else {
 													echo '<td colspan=6>
-													<input type="file" multiple class="form-control" id="attach_file" name="attach_file[]" accept=".avi,.mp4,.3gp,.mpeg,.mpg,.mov,.mp3,.flv,.wmv,.mkv,.wav,audio/*">
+													<input type="file" accept="audio/mp3,audio/*;capture=microphone" multiple class="form-control" id="attach_file" name="attach_file[]">
 													<b>No Files</b></td>';
 												}
 											} ?>
@@ -648,7 +641,7 @@
 										if ($ajio_id == 0) {
 											if (is_access_qa_module() == true || is_access_qa_operations_module() == true) { ?>
 												<tr>
-													<td colspan=6><button class="btn btn-success blains-effect" type="submit" id="qaformsubmit" style="width:500px">SAVE</button></td>
+													<td colspan=6><button class="btn btn-success waves-effect" type="submit" id="qaformsubmit" style="width:500px">SAVE</button></td>
 												</tr>
 												<?php
 											}
@@ -656,7 +649,7 @@
 											if (is_access_qa_module() == true || is_access_qa_operations_module() == true) {
 												if (is_available_qa_feedback($qa_acg_curd['entry_date'], 72) == true) { ?>
 													<tr>
-														<td colspan="6"><button class="btn btn-success blains-effect" type="submit" id='qaformsubmit' name='btnSave' value="SAVE" style="width:500px">SAVE</button></td>
+														<td colspan="6"><button class="btn btn-success waves-effect" type="submit" id='qaformsubmit' name='btnSave' value="SAVE" style="width:500px">SAVE</button></td>
 													</tr>
 										<?php
 												}

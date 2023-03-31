@@ -11,8 +11,7 @@ $(document).on('change','.handling',function(){ accs_score(); });
 accs_score();
 ///////////////// Date Time Picker ///////////////////////
 	$("#audit_date").datepicker();
-	//$("#call_date").datepicker();
-	$("#call_date").datepicker({maxDate: new Date() });
+	$("#call_date").datepicker();
 	$("#call_date_time").datepicker();
 
 	$("#call_duration").timepicker();
@@ -152,7 +151,6 @@ accs_score();
 				//console.log(el.value);
 				el.value = el.value.substring(0, el.value.length - 1);
 				alert("Number format required!");
-				$("#qaformsubmit").attr("disabled", "disabled");
 				$('#phone').val("");
 				return false;
 			}
@@ -210,77 +208,8 @@ accs_score();
 	});
 
 </script>
-////////////////vikas//////////////////////////////
- <script type="text/javascript">
- 		function acg_calcs(){
-		var score = 0;
-		var scoreable = 0;
-		var quality_score_percent = 0.00;
-		var pass_count = 0;
-		var fail_count = 0;
-		var na_count = 0;
-		$('.acg_point').each(function(index,element){
-			var score_type = $(element).val();
-			
-			if(score_type == 'Pass'){
-				pass_count = pass_count + 1;
-				var w1 = parseInt($(element).children("option:selected").attr('acg_val'));
-				var w2 = parseFloat($(element).children("option:selected").attr('acg_max'));
-				score = score + w1;
-				scoreable = scoreable + w2;
-			}else if(score_type == 'Fail'){
-				fail_count = fail_count + 1;
-				var w1 = parseInt($(element).children("option:selected").attr('acg_val'));
-				var w2 = parseFloat($(element).children("option:selected").attr('acg_max'));
-				//score = score + w1;
-				scoreable = scoreable + w2;
-				//scoreable = scoreable + weightage;
-			}else if(score_type == 'N/A'){
-				na_count = na_count + 1;
-				var w1 = parseInt($(element).children("option:selected").attr('acg_val'));
-				//var w2 = parseFloat($(element).children("option:selected").attr('phs_max'));
-				score = score + w1;
-				//scoreable = scoreable + w2;
-			}
-		});
-		quality_score_percent = ((score*100)/scoreable).toFixed(2);
 
-		if(quality_score_percent == "NaN"){
-			quality_score_percent = (0.00).toFixed(2);
-		}else{
-			quality_score_percent = quality_score_percent;
-		}
-		
-		$('#acg_earned_score').val(score);
-		$('#acg_possible_score').val(scoreable);
-		
-		if(!isNaN(quality_score_percent)){
-			$('#acg_overall_score').val(quality_score_percent+'%');
-		}
-
-		if($('#ajioAF1').val()=='Fail' || $('#ajioAF2').val()=='Fail' || $('#ajioAF3').val()=='Fail' || $('#ajioAF4').val()=='Fail' || $('#ajioAF5').val()=='Fail' || $('#ajioAF6').val()=='Fail' || $('#ajioAF7').val()=='Fail' || $('#ajioAF8').val()=='Fail' || $('#ajioAF9').val()=='Fail' || $('#ajioAF10').val()=='Fail' || $('#ajioAF11').val()=='Fail' || $('#ajioAF12').val()=='Fail'){
-			quality_score_percent = (0.00).toFixed(2);
-			$('.acgFatal').val(quality_score_percent+'%');
-			//$('.phs_chatemail_v2Fatal').val(0.00).toFixed(2);
-		}else{
-			$('.acg_overall_score').val(quality_score_percent+'%');
-		}
-	
-
-		// $('#pass_count').val(pass_count);
-		// $('#fail_count').val(fail_count);
-		// $('#na_count').val(na_count);
-	}
-	
-	$(document).on('change','.acg_point',function(){
-		acg_calcs();
-	});
-	acg_calcs();
-	
-	
- </script>
-
-<!-- <script type="text/javascript">
+<script type="text/javascript">
 	function acg_calc(){
 		var check_fatal=false;
 			$(".acg_point").each(function(){
@@ -343,7 +272,7 @@ accs_score();
 			acg_calc();
 	});
 	acg_calc();
-</script> -->
+</script>
 
 
 

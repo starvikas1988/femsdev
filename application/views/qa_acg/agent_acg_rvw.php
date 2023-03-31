@@ -52,24 +52,24 @@
 												$auditorName = $agent_acg_rvw['client_name'];
 											} ?>
 											<td style="width: 230px;"><input type="text" class="form-control" value="<?php echo $auditorName; ?>" disabled></td>
-											<td>Audit Date:.</td>
+											<td>Audit Date:</td>
 											<td style="width:230px;"><input type="text" class="form-control" value="<?php echo mysql2mmddyy($agent_acg_rvw['audit_date']); ?>" disabled></td>
-											<td>Call Date:.</td>
+											<td>Call Date:</td>
 											<td colspan="2"><input type="text" class="form-control" value="<?php echo mysql2mmddyy($agent_acg_rvw['call_date']); ?>" disabled></td>
 										</tr>
 
 										<tr>
-											<td>Agent Name:.</td>
+											<td>Agent Name:</td>
 											<td>
 												<select class="form-control" id="agent_id" name="data[agent_id]" disabled>
 													<option value="<?php echo $agent_acg_rvw['agent_id'] ?>"><?php echo $agent_acg_rvw['fname'] . " " . $agent_acg_rvw['lname'] ?></option>
 												</select>
 											</td>
-											<td>Fusion ID:.</td>
+											<td>Fusion ID:</td>
 											<td><input type="text" class="form-control" id="fusion_id" value="<?php echo $agent_acg_rvw['fusion_id'] ?>" readonly></td>
-											<td>L1 Supervisor:.</td>
+											<td>L1 Supervisor:</td>
 											<td colspan="2">
-												<select class="form-control" id="tl_id" name="data[tl_id]" readonly>
+												<select class="form-control" id="tl_id" name="data[tl_id]" disabled>
 													<option value="<?php echo $agent_acg_rvw['tl_id'] ?>"><?php echo $agent_acg_rvw['tl_name'] ?></option>
 												</select>
 											</td>
@@ -91,21 +91,21 @@
 											<td>Phone Number:</td>
 											<td><input type="text" class="form-control" name="data[phone]" value="<?php echo $agent_acg_rvw['phone'] ?>" disabled></td>
 
-											<td>Type of Audit:</td>
+											<td>Brand:</td>
 											<td>
 												<input type="text" class="form-control" name="data[type_of_audit]" value="<?php echo $agent_acg_rvw['type_of_audit'] ?>" disabled>
 											</td>
 										</tr>
 										<tr>
-											<td>Call ID </td>
+											<td>Call ID:</td>
 											<td>
 												<input type="text" class="form-control" name="data[call_id]" value="<?php echo $agent_acg_rvw['call_id'] ?>" disabled>
 											</td>
-											<td>L1</td>
+											<td>L1:</td>
 											<td>
 												<input type="text" class="form-control" name="data[l1]" value="<?php echo $agent_acg_rvw['l1'] ?>" disabled>
 											</td>
-											<td>L2</td>
+											<td>L2:</td>
 											<td>
 												<input type="text" class="form-control" name="data[l2]" value="<?php echo $agent_acg_rvw['l2'] ?>" disabled>
 											</td>
@@ -154,11 +154,11 @@
 										</tr>
 										<tr>
 											<td style="font-weight:bold; font-size:16px; text-align:left">Earned Score</td>
-											<td><input type="text" readonly id="acg_earned_score" name="data[earned_score]" class="form-control" value="<?php echo $agent_acg_rvw['earned_score'] ?>" /></td>
+											<td><input type="text" readonly id="" name="data[earned_score]" class="form-control" value="<?php echo $agent_acg_rvw['earned_score'] ?>" /></td>
 											<td style="font-weight:bold; font-size:16px; text-align:left">Possible Score</td>
-											<td><input type="text" readonly id="acg_possible_score" name="data[possible_score]" class="form-control" value="<?php echo $agent_acg_rvw['possible_score'] ?>" /></td>
+											<td><input type="text" readonly id="" name="data[possible_score]" class="form-control" value="<?php echo $agent_acg_rvw['possible_score'] ?>" /></td>
 											<td style="font-weight:bold; font-size:16px; text-align:right">Overall Score:</td>
-											<td><input type="text" readonly id="acg_overall_score" name="data[overall_score]" class="form-control avonFatal" style="font-weight:bold" value="<?php echo $agent_acg_rvw['overall_score'] ?>"></td>
+											<td><input type="text" readonly id="" name="data[overall_score]" class="form-control avonFatal" style="font-weight:bold" value="<?php echo $agent_acg_rvw['overall_score'] ?>"></td>
 										</tr>
 										</table>
 										</div>
@@ -542,7 +542,7 @@
 												$attach_file = explode(",", $agent_acg_rvw['attach_file']);
 												foreach ($attach_file as $mp) {
 											?>
-													<audio controls='' style="width:120px; height:25px; background-color:#607F93">
+													<audio controls=''  controlsList="nodownload" style="width:120px; height:25px; background-color:#607F93">
 														<source src="<?php echo base_url(); ?>qa_files/qa_acg/<?php echo $mp; ?>" type="audio/ogg">
 														<source src="<?php echo base_url(); ?>qa_files/qa_acg/<?php echo $mp; ?>" type="audio/mpeg">
 													</audio>
@@ -571,46 +571,33 @@
 										<input type="hidden" name="pnid" class="form-control" value="<?php echo $pnid; ?>">
 
 										<!--  had--->
-
-
-
-										<!---end-- had-->
+										<tr>
+											<td colspan=2 style="font-size:16px">Feedback Acceptance</td>
+											<td colspan=2>
+												<select class="form-control" id="" name="agnt_fd_acpt" required>
+													<option value="">--Select--</option>
+													<option <?php echo $agent_acg_rvw['agnt_fd_acpt'] == 'Acceptance' ? "selected" : ""; ?> value="Acceptance">Acceptance</option>
+													<option <?php echo $agent_acg_rvw['agnt_fd_acpt'] == 'Not Acceptance' ? "selected" : ""; ?> value="Not Acceptance">Not Acceptance</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td colspan=2 style="font-size:16px">Your Review</td>
+											<td colspan=4><textarea class="form-control" name="note" required><?php echo $agent_acg_rvw['agent_rvw_note'] ?></textarea></td>
+										</tr>
 
 										<?php if (is_access_qa_agent_module() == true) {
 											if (is_available_qa_feedback($agent_acg_rvw['entry_date'], 72) == true) { ?>
 												<tr>
 													<?php if ($agent_acg_rvw['agent_rvw_note'] == '') { ?>
-
-														<!-- add--->
-												<tr>
-													<td colspan=2 style="font-size:12px">Feedback Status <span style="font-size:24px;color:red">*</span></td>
-													<td colspan=5>
-														<select class="form-control" id="" name="agnt_fd_acpt" required>
-															<option value="">--Select--</option>
-															<option <?php echo $agent_acg_rvw['agnt_fd_acpt'] == 'Accepted' ? "selected" : ""; ?> value="Accepted">Acceptaned</option>
-															<option <?php echo $agent_acg_rvw['agnt_fd_acpt'] == 'Not Accepted' ? "selected" : ""; ?> value="Not Accepted">Not Accepted</option>
-														</select>
-													</td>
+														<td colspan="6"><button class="btn btn-success blains-effect" type="submit" id='btnagentSave' name='btnSave' value="SAVE" style="width:500px">SAVE</button></td>
+													<?php } ?>
 												</tr>
-												<tr>
-													<td colspan=2 style="font-size:12px">Agent Review <span style="font-size:24px;color:red">*</span></td>
-													<td colspan=5><textarea class="form-control" name="note" required><?php echo $agent_acg_rvw['agent_rvw_note'] ?></textarea></td>
-												</tr>
-
-												<!--end--->
-
-												<td colspan="8"><button class="btn btn-success waves-effect" type="submit" id='btnagentSave' name='btnSave' value="SAVE" style="width:500px">SAVE</button></td>
-											<?php } else if ($agent_acg_rvw['agent_rvw_note'] != '') { ?>
-												<tr>
-													<td style="font-size:12px">Agent Review:</td>
-													<td colspan="7" style="text-align:left"><?php echo $agent_acg_rvw['agent_rvw_note'] ?></td>
-												</tr><?php
-													}
-
-													?>
-											</tr>
-									<?php }
+										<?php }
 										} ?>
+
+
+										<!---end-- had-->
 
 									</form>
 

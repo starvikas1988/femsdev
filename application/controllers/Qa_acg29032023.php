@@ -43,6 +43,8 @@
     			return true;
     		}
     	}
+
+
 	}
 
     private function edu_upload_files($files,$path)
@@ -266,17 +268,15 @@ private function ajio_upload_files($files,$path)   // this is for file uploaging
 
                     $field_array1 = $this->input->post( 'data' );
                     $field_array1['call_date'] = mmddyy2mysql( $this->input->post( 'call_date' ) );
-
-                    // if(isset($_FILES['attach_file'])){
-                    // 	if(!file_exists("./qa_files/qa_acg")){
-	                   //      mkdir("./qa_files/qa_acg");
-	                   //  }
-	                   //  $a = $this->ajio_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_acg/' );
-	                   //  $field_array1['attach_file'] = implode( ',', $a );
-                    // }
+                    if($_FILES['attach_file']!=''){
+                    	if(!file_exists("./qa_files/qa_acg")){
+	                        mkdir("./qa_files/qa_acg");
+	                    }
+	                    $a = $this->ajio_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_acg/' );
+	                    $field_array1['attach_file'] = implode( ',', $a );
+                    }
                     
-                    //print_r($_FILES['attach_file']);
-                    // exit();
+
                     $this->db->where( 'id', $ajio_id );
                     $this->db->update( 'qa_acg_feedback', $field_array1 );
                     /////////////
@@ -357,7 +357,7 @@ private function ajio_upload_files($files,$path)   // this is for file uploaging
 	 	(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 	 	(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 	 	(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-	 	(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_acg_feedback  $cond And agent_id='$current_user'  And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','Certificate Audit')) xx Inner Join
+	 	(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_acg_feedback  $cond And agent_id='$current_user'  And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')) xx Inner Join
 	 (Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
 
 	       $data["qa_acg"] = $this->Common_model->get_query_result_array($qSql);
@@ -547,11 +547,11 @@ public function create_qa_acg_CSV($rr)
   $fopen = fopen($filename,"w+");
 
 
-  $header = array("Auditor Name", "Audit Date", "Agent Name", "Employee ID ", "L1 Supervisor ", "Call Date ", "Audit Type ", "Auditor Type","Brand","Call ID ","ACPT","Phone Number","L1","L2", "Earned Score ", "Possible Score ", "Overall Score % ",  "VOC",
+  $header = array("Auditor Name", "Audit Date", "Agent Name", "Employee ID ", "L1 Supervisor ", "Call Date ", "Audit Type ", "Type of Auditor ","Call ID ","ACPT","Phone Number","L1","L2", "Earned Score ", "Possible Score ", "Overall Score % ",  "VOC",
      "Did the agent greeted the customer while opening the call?","Did the agent greeted the customer while opening the call? - Remarks", "Did the agent mentioned his name and the brand name on call? ","Did the agent mentioned his name and the brand name on call? - Remarks", "Did the agent mentioned that the customer is on a recorded line?", "Did the agent mentioned that the customer is on a recorded line? - Remarks","Agent had proper rate of speech on call?","Agent had proper rate of speech on call? - Remarks","Agent did not overlapped the customer while speaking?", "Agent did not overlapped the customer while speaking?  - Remarks", "Agent sounded energrtic and confident on call?","Agent sounded energrtic and confident on call? - Remarks ",  "Agent asked permission before putting the call on hold?","Agent asked permission before putting the call on hold? - Remarks ", "Agent mentioned the reason for putting the customer on hold","Agent mentioned the reason for putting the customer on hold - Remarks ", "Agent thanked the customer after resuming the call from hold","Agent thanked the customer after resuming the call from hold - Remarks ","Agent was able to answer all the customer query and handle the objection","Agent was able to answer all the customer query and handle the objection - Remarks", "Did the agent pause the recording when collecting the SSN-DOB-CC?","Did the agent pause the recording when collecting the SSN-DOB-CC? - Remarks ", "Agent created right amount of urgency on call to convert the call into sales","Agent created right amount of urgency on call to convert the call into sales - Remarks "," Did the agent properly mentioned the pricing and tenurity of the plan?  ", "Did the agent properly mentioned the pricing and tenurity of the plan? - Remarks","Did the agent suggested the right plan to the customer?","Did the agent suggested the right plan to the customer? - Remarks","Did the agent explained what the plan would cover and also complete features of the plan?","Did the agent explained what the plan would cover and also complete features of the plan? - Remarks","Did the agent offer at least 1 digital option to the customer prior to offering the Automated Verbal Approval?","Did the agent offer at least 1 digital option to the customer prior to offering the Automated Verbal Approval? - Remarks","Did the agent inform the customer about emailing the order summary and that this is accessible at xfinity.com/MyAccount?","Did the agent inform the customer about emailing the order summary and that this is accessible at xfinity.com/MyAccount? - Remarks","Did the agent inform about Auto IVR reviewing the order summary?","Did the agent inform about Auto IVR reviewing the order summary? - Remarks","Did the agent inform customer to press 1 for approval?","Did the agent inform customer to press 1 for approval? - Remarks","Did the agent inform about staying online with customer?","Did the agent inform about staying online with customer? - Remarks","Did the agent inform about asking questions before providing approval?","Did the agent inform about asking questions before providing approval? - Remarks","Did the agent accurately answer the customer's questions?","Did the agent accurately answer the customer's questions? - Remarks","Did a technical issue occur on the call?","Did a technical issue occur on the call? - Remarks","Did the agent press 1 in the IVR on the customer's behalf?","Did the agent press 1 in the IVR on the customer's behalf? - Remarks","Did the agent read the disclosure verbatim according to the brand?","Did the agent read the disclosure verbatim according to the brand? - Remarks","Did the agent summrized the ordeer before closing?","Did the agent summrized the ordeer before closing? - Remarks","Did the agent closed the call properly by thanking the customer?","Did the agent closed the call properly by thanking the customer? - Remarks",
 
      "Audit Start date and  Time ", "Audit End Date and  Time"," Call Interval",
-      "Call Summary ","Feedback ","Agent Feedback Status ", "Agent Review","Agent Review Date/Time","Management Review Date/Time ", "Management Review Name ","Management Review Note", "Client Review Name","Client Review Note","Client Review Date/Time " );
+      "Call Summary ","Feedback ","Agent Feedback Status ", "Feedback Acceptance","Agent Review Date","Management Review Date ", "Management Review Name ","Management Review Note", "Client Review Name","Client Review Note","Client Review Date " );
 
   $row = "";
   foreach($header as $data) $row .= ''.$data.',';
@@ -583,7 +583,6 @@ public function create_qa_acg_CSV($rr)
   	$row .= '"'.$user['call_date'].'",';
   	$row .= '"'.$user['audit_type'].'",';
   	$row .= '"'.$user['auditor_type'].'",';
-    $row .= '"'.$user['type_of_audit'].'",';
   	$row .= '"'.$user['call_id'].'",';
   	$row .= '"'.$user['acpt'].'",';
   	$row .= '"'.$user['phone'].'",';
@@ -663,8 +662,7 @@ public function create_qa_acg_CSV($rr)
 
   	$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
   	$row .= '"'.$user['client_rvw_name'].'",';
-    $row .= '"'.$user['client_rvw_note'].'",';
-   // $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'",';
+  	$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
 
   	$row .= '"'.$user['client_rvw_date'].'",';
 

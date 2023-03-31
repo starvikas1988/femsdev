@@ -503,7 +503,7 @@
 							<li class="menu-item">
 								<a href="<?php echo base_url()?>Qa_acg/qa_acg_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
-									<span class="">ACG </span>
+									<span class="">Updater </span>
 								</a>
 							</li>
 <li class="menu-item">

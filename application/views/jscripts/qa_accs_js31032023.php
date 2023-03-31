@@ -272,6 +272,7 @@ accs_score();
 		// $('#na_count').val(na_count);
 	}
 	
+/////////////////////////////////////////
 	$(document).on('change','.acg_point',function(){
 		acg_calcs();
 	});
@@ -279,6 +280,8 @@ accs_score();
 	
 	
  </script>
+
+//////////////////////////////////////////////
 
 <!-- <script type="text/javascript">
 	function acg_calc(){

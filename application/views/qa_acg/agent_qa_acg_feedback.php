@@ -38,7 +38,7 @@
 								</div>
 
 								<div class="col-md-1" style="margin-top:20px">
-									<button class="btn btn-success dna-effect" a href="<?php echo base_url()?>qa_acg/agent_acg_feedback" type="submit" id='btnView' name='btnView' value="View">View</button>
+									<button class="btn btn-success blains-effect" a href="<?php echo base_url()?>qa_acg/agent_acg_feedback" type="submit" id='btnView' name='btnView' value="View">View</button>
 								</div>
 							</div>
 						</form>
@@ -74,9 +74,9 @@
 										<th>Agent Name</th>
 										<th>L1 Supervisor</th>
 										<th>Audio</th>
-										<th>Agent Review Date</th>
+										<th>Agent Review Date/Time</th>
 										<th>Mgnt Review By</th>
-										<th>Mgnt Review Date</th>
+										<th>Mgnt Review Date/Time</th>
 
 										<th>Action</th>
 									</tr>
@@ -97,7 +97,7 @@
 											$attach_file = explode(",",$row['attach_file']);
 											foreach($attach_file as $mp){
 										?>
-											<audio controls='' style="width:120px; height:25px; background-color:#607F93">
+											<audio controls=''  controlsList="nodownload" style="width:120px; height:25px; background-color:#607F93">
 											  <source src="<?php echo base_url(); ?>qa_files/qa_acg/<?php echo $mp; ?>" type="audio/ogg">
 											  <source src="<?php echo base_url(); ?>qa_files/qa_acg/<?php echo $mp; ?>" type="audio/mpeg">
 											</audio>
@@ -110,7 +110,7 @@
 
 										<td>
 											<?php $mpid=$row['id']; ?>
-											<a class="btn btn-success" href="<?php echo base_url(); ?>qa_acg/agent_acg_feedback_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
+											<a class="btn btn-success" href="<?php echo base_url(); ?>qa_acg/agent_acg_feedback_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">View/ Review</a>
 										</td>
 									</tr>
 									<?php endforeach; }?>
@@ -123,9 +123,9 @@
 										<th>Agent Name</th>
 										<th>L1 Supervisor</th>
 										<th>Audio</th>
-										<th>Agent Review Date</th>
+										<th>Agent Review Date/Time</th>
 										<th>Mgnt Review By</th>
-										<th>Mgnt Review Date</th>
+										<th>Mgnt Review Date/Time</th>
 
 										<th>Action</th>
 									</tr>

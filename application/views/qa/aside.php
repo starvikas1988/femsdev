@@ -437,7 +437,7 @@ $(document).ready(function(){
 				<?php } ?>
 
 
-				<?php if(is_access_qa_module()==true || is_access_qa_operations_module()==true || is_quality_access_trainer()==true || get_user_fusion_id() == "FALB000144"){ ?>
+				<?php if((is_access_qa_module()==true || is_access_qa_operations_module()==true || is_quality_access_trainer()==true || get_user_fusion_id() == "FALB000144") && is_access_qa_agent_module()==false){ ?>
 
 				<!------- Kayum [25/03/2022] -------->
 
@@ -564,6 +564,12 @@ $(document).ready(function(){
 							<span class="">Acceptance Dashboard</span>
 					        </a>
 						</li>
+						<li>
+							<a href="<?php echo base_url('Qa_acceptance_new/acceptance_dashboard')?>" class="menu-link">
+							<span class="menu-icon"><i class="zmdi zmdi-shield-check zmdi-hc-lg"></i></span>
+							<span class="">New Acceptance Dashboard</span>
+					        </a>
+						</li>
 
 						<li>
 							<a href="<?php echo base_url('qa_graph/defect_level')?>" class="menu-link">
@@ -661,20 +667,20 @@ $(document).ready(function(){
 								<li>
 									<a style="padding-left:50px" href="<?php echo base_url('Qa_agent_coaching_upload/data_cdr_upload_freshdesk'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
-										<span class="">Agent coaching Upload</span>
+										<span class="">Office Depot Agent coaching Upload</span>
 									</a>
 								</li>
 
 								<li>
-									<a style="padding-left:50px" href="<?php echo base_url('Qa_agent_coaching_upload/add_agent_coaching'); ?>">
+									<a style="padding-left:50px" href="<?php echo base_url('Qa_agent_coaching_upload/agent_coaching_list_feedback'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
-										<span class="">Agent coaching Form</span>
+										<span class="">Office Depot Agent coaching Feedback</span>
 									</a>
 								</li>
 								<li>
-									<a style="padding-left:50px" href="<?php echo base_url('Qa_agent_coaching_upload/add_agent_coaching'); ?>">
+									<a style="padding-left:50px" href="<?php echo base_url('Qa_od/qaod_nps_feedback'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
-										<span class="">NPS ACPT Form</span>
+										<span class="">Office Depot NPS ACPT Form</span>
 									</a>
 								</li>
 
@@ -1162,6 +1168,12 @@ $(document).ready(function(){
 									<a style="padding-left:50px" href="<?php echo base_url('qa_oyo/oyo_wallet_recharge'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 										<span class="">SECURE WALLET RECHARGE</span>
+									</a>
+								</li>
+								<li>
+									<a style="padding-left:50px" href="<?php echo base_url('qa_oyo/oyo_esal'); ?>">
+										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+										<span class="">OYO ESAL</span>
 									</a>
 								</li>
 							</ul>
@@ -1771,6 +1783,23 @@ $(document).ready(function(){
 
 <!--- added for wireless--->
 
+						<li class="menu-item">
+							<a href="<?php echo base_url('qa_cesc'); ?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">CESC</span>
+							</a>
+						</li>
+
+
+<!--- end for wireless--->
+
+
+
+
+
+
+<!--- added for wireless--->
+
 <li class="menu-item">
 							<a href="<?php echo base_url('qa_intelycare'); ?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
@@ -1780,7 +1809,12 @@ $(document).ready(function(){
 
 
 <!--- end for wireless--->
-
+<li class="menu-item">
+							<a href="<?php echo base_url('qa_redeo'); ?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Redeo</span>
+							</a>
+						</li>
 <!--- added for wireless--->
 
 <li class="menu-item">
@@ -1790,6 +1824,24 @@ $(document).ready(function(){
 							</a>
 						</li>
 
+
+						<li class="menu-item">
+							<a href="<?php echo base_url('qa_arvind'); ?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Arvind</span>
+							</a>
+						</li>
+
+
+
+
+
+						<li class="menu-item">
+							<a href="<?php echo base_url('qa_ash_maples'); ?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Ash Maples</span>
+							</a>
+						</li>
 
 <!--- end for wireless--->
 
@@ -1963,6 +2015,12 @@ $(document).ready(function(){
 							<a href="<?php echo base_url('Qa_heaps')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 								<span class="">Heaps</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_coastline')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Coastline</span>
 							</a>
 						</li>
 						<li class="menu-item">
@@ -2403,9 +2461,27 @@ $(document).ready(function(){
 							</a>
 						</li>
 						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_acg')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Updater</span>
+							</a>
+						</li>
+						<li class="menu-item">
 							<a href="<?php echo base_url('qa_credit_pro')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 								<span class="">Credit Pro</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('qa_octafx')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">OctaFX</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('qa_pinglend')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Pinglend</span>
 							</a>
 						</li>
 
@@ -2452,7 +2528,7 @@ $(document).ready(function(){
 			<?php } ?>
 
 			<!-------------------------------->
-			<?php if(((is_access_qa_module()==true || is_access_qa_operations_module()==true) && get_user_office_id()=="CHA") || get_global_access()=='1' || get_user_fusion_id()=='FKOL000023'){ ?>
+			<?php if(((is_access_qa_module()==true || is_access_qa_operations_module()==true) && get_user_office_id()=="CHA") || get_global_access()=='1' || get_user_fusion_id()=='FKOL000023' || get_user_fusion_id()=='FBLR000155'){ ?>
 				<li class="menu-item has-submenu">
 					<a href="" class="menu-link submenu-toggle">
 						<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
@@ -2509,6 +2585,12 @@ $(document).ready(function(){
 							</a>
 						</li>
 						<li>
+							<a style="padding-left:50px" href="<?php echo base_url('qa_arvind'); ?>" >
+								<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+								<span class="">Arvind</span>
+							</a>
+						</li>
+						<li>
 							<a style="padding-left:50px" href="<?php echo base_url('Qa_cars24')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 								<span class="">Cars24</span>
@@ -2538,13 +2620,19 @@ $(document).ready(function(){
 								<span class="">Actyv AI</span>
 							</a>
 						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_cholamandlam')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Cholamandlam</span>
+							</a>
+						</li>
 					</ul>
 				</li>
 			<?php } ?>
 			<!-------------------------------->
 
 			<!------------ IT Help Desk --------------->
-				<?php if(is_access_qa_module()==true){ ?>
+				<?php if(is_access_qa_module()==true && is_access_qa_agent_module()==false){ ?>
 					<li class="menu-item">
 						<a href="<?php echo base_url('Qa_it_helpdesk_feedback')?>" class="menu-link">
 							<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>

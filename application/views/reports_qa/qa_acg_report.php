@@ -84,7 +84,7 @@
 
 							<div class="col-md-1" style='margin-top:22px;'>
 								<div class="form-group">
-									<button class="btn btn-primary waves-effect" a href="<?php echo base_url()?>qa_acg/qa_acg_report" type="submit" id='show' name='show' value="Show">SHOW</button>
+									<button class="btn btn-primary blains-effect" a href="<?php echo base_url()?>qa_acg/qa_acg_report" type="submit" id='show' name='show' value="Show">SHOW</button>
 								</div>
 							</div>
 
@@ -109,7 +109,7 @@
 										<th>Audit Date</th>
 										<th>Agent Name</th>
 										<th>L1 Supervisor</th>
-										<th>Call Date Time</th>
+										<th>Call Date</th>
 										<th>Total Score</th>
 									</tr>
 								</thead>

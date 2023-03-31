@@ -44,7 +44,7 @@
 									<div class="form-group">
 										<label>Agent</label>
 										<select class="form-control" id="" name="agent_id">
-											<option value="">-Select-</option>
+											<option value="">-ALL-</option>
 											<?php
 
 											foreach($agentName as $row):
@@ -57,7 +57,7 @@
 									</div>
 								</div>
 								<div class="col-md-10" style="margin-top:20px">
-									<button class="btn btn-success dna-effect" a href="<?php echo base_url()?>qa_acg" type="submit" id='btnView' name='btnView' value="View">View</button>
+									<button class="btn btn-success blains-effect" a href="<?php echo base_url()?>qa_acg" type="submit" id='btnView' name='btnView' value="View">View</button>
 								</div>
 							</div>
 
@@ -98,14 +98,14 @@
 										<th>SL</th>
 										<th>Auditor</th>
 										<th>Audit Date</th>
-										<th>Fusion ID</th>
+										<th>Employee ID</th>
 										<th>Agent Name</th>
 										<th> OverAll  Score  </th>
 										<th>L1 Supervisor</th>
 										<th>Audio</th>
-										<th>Agent Review Date</th>
+										<th>Agent Review Date/Time</th>
 										<th>Mgnt Review By</th>
-										<th>Mgnt Review Date</th>
+										<th>Mgnt Review Date/Time</th>
 
 										<th>Action</th>
 									</tr>
@@ -159,15 +159,14 @@
 									<th>SL</th>
 										<th>Auditor</th>
 										<th>Audit Date</th>
-										<th>Fusion ID</th>
+										<th>Employee ID</th>
 										<th>Agent Name</th>
 										<th> OverAll  Score  </th>
 										<th>L1 Supervisor</th>
 										<th>Audio</th>
-										<th>Agent Review Date</th>
+										<th>Agent Review Date/Time</th>
 										<th>Mgnt Review By</th>
-										<th>Mgnt Review Date</th>
-
+										<th>Mgnt Review Date/Time</th>
 										<th>Action</th>
 									</tr>
 								</tfoot>

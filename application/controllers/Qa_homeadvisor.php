@@ -53,8 +53,7 @@
 	public function getTLname(){
 		if(check_logged_in()){
 			$aid=$this->input->post('aid');
-			$qSql = "Select id, assigned_to, fusion_id, get_process_names(id) as process_name, office_id FROM signin where id = '$aid'";
-				//echo $qSql;
+			$qSql = "Select id, assigned_to, fusion_id, get_process_names(id) as process_name, office_id, (select concat(s.fname, ' ', s.lname) as name from signin s where s.id=signin.assigned_to) as tl_name FROM signin where id = '$aid'";
 			echo json_encode($this->Common_model->get_query_result_array($qSql));
 		}
 	}
@@ -460,7 +459,7 @@
 			if($office_id=="All") $cond .= "";
 				else $cond .=" and office_id='$office_id'";
 			
-			if(get_user_fusion_id()=='FELS000025' || get_user_fusion_id()=='FJAM004099'){
+			if(get_user_fusion_id()=='FELS000025' || get_user_fusion_id()=='FJAM004099' || get_user_fusion_id()=='FJAM005935'){
 				$cond1="";
 			}else if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
 				$cond1 .=" And (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
@@ -475,12 +474,29 @@
 			$data["qa_hcco_data"] = $this->Common_model->get_query_result_array($qSql);	
 		/////////////
 			$qSql = "SELECT * from
+			(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+			(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+			(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+			(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcco_v2_feedback) xx Left Join
+			(Select id as sid, fname, lname, fusion_id, office_id, get_client_ids(id) as client, get_process_ids(id) as pid, get_process_names(id) as process, assigned_to from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
+		$data["qa_hcco_v2_data"] = $this->Common_model->get_query_result_array($qSql);
+		/////////////
+		
+			$qSql = "SELECT * from
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
 				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcco_sr_feedback) xx Left Join
 				(Select id as sid, fname, lname, fusion_id, office_id, get_client_ids(id) as client, get_process_ids(id) as pid, get_process_names(id) as process, assigned_to from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
 			$data["hcco_sr_data"] = $this->Common_model->get_query_result_array($qSql);
+		/////////////
+				$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcco_sr_v2_feedback) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, office_id, get_client_ids(id) as client, get_process_ids(id) as pid, get_process_names(id) as process, assigned_to from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
+			$data["hcco_sr_v2_data"] = $this->Common_model->get_query_result_array($qSql);
 		////////////
 			$qSql = "SELECT * from
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
@@ -717,6 +733,101 @@
 		}
 	}
 
+	public function add_edit_hcco_v2($hccov2_id){
+		if(check_logged_in())
+		{
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+			
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_homeadvisor/add_edit_hcco_v2.php";
+			$data['hccov2_id']=$hccov2_id;
+			$tl_mgnt_cond='';
+			
+			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and assigned_to='$current_user'";
+			}else{
+				$tl_mgnt_cond="";
+			}
+			
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id, office_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,17) and is_assign_process(id,213)  and status=1  order by name";
+			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
+			
+			/* $qSql = "SELECT id, concat(fname, ' ', lname) as name, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1 order by name ASC";
+			$data['tlname'] = $this->Common_model->get_query_result_array($qSql); */
+			
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
+				from qa_hcco_v2_feedback where id='$hccov2_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			$data["hcco_v2"] = $this->Common_model->get_query_row_array($qSql);
+			
+			//$currDate=CurrDate();
+			$curDateTime=CurrMySqlDate();
+			$a = array();
+			
+			
+			$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
+			if($field_array['agent_id']){
+				
+				if($hccov2_id==0){
+					
+					$field_array=$this->input->post('data');
+					$field_array['audit_date']=CurrDate();
+					$field_array['call_date']=mmddyy2mysql($this->input->post('call_date'));
+				//	$field_array['shift_date']=mmddyy2mysql($this->input->post('shift_date'));
+					//$field_array['new_sr_date']=mmddyy2mysql($this->input->post('new_sr_date'));
+					$field_array['entry_date']=$curDateTime;
+					$field_array['audit_start_time']=$this->input->post('audit_start_time');
+					$a = $this->ha_upload_files($_FILES['attach_file'], $path='./qa_files/qa_homeadvisor/hcco_files/');
+					$field_array["attach_file"] = implode(',',$a);
+					$rowid= data_inserter('qa_hcco_v2_feedback',$field_array);
+				///////////
+					if(get_login_type()=="client"){
+						$add_array = array("client_entryby" => $current_user);
+					}else{
+						$add_array = array("entry_by" => $current_user);
+					}
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_hcco_v2_feedback',$add_array);
+					
+				}else{
+					
+					$field_array1=$this->input->post('data');
+					$field_array1['call_date']=mmddyy2mysql($this->input->post('call_date'));
+				//	$field_array1['shift_date']=mmddyy2mysql($this->input->post('shift_date'));
+					//$field_array1['new_sr_date']=mmddyy2mysql($this->input->post('new_sr_date'));
+					$this->db->where('id', $hccov2_id);
+					$this->db->update('qa_hcco_v2_feedback',$field_array1);
+				/////////////
+					if(get_login_type()=="client"){
+						$edit_array = array(
+							"client_rvw_by" => $current_user,
+							"client_rvw_note" => $this->input->post('note'),
+							"client_rvw_date" => $curDateTime
+						);
+					}else{
+						$edit_array = array(
+							"mgnt_rvw_by" => $current_user,
+							"mgnt_rvw_note" => $this->input->post('note'),
+							"mgnt_rvw_date" => $curDateTime
+						);
+					}
+					$this->db->where('id', $hccov2_id);
+					$this->db->update('qa_hcco_v2_feedback',$edit_array);
+					
+				}
+				redirect('qa_homeadvisor/qa_hcco_feedback');
+			}
+			$data["array"] = $a;
+			$this->load->view("dashboard",$data);
+		}
+	} 
+
 	public function add_edit_hcco_sr($hcco_sr_id){
 		if(check_logged_in())
 		{
@@ -801,6 +912,101 @@
 					}
 					$this->db->where('id', $hcco_sr_id);
 					$this->db->update('qa_hcco_sr_feedback',$edit_array);
+					
+				}
+				redirect('qa_homeadvisor/qa_hcco_feedback');
+			}
+			$data["array"] = $a;
+			$this->load->view("dashboard",$data);
+		}
+	} 
+
+	public function add_edit_hcco_sr_v2($hccosr_id){
+		if(check_logged_in())
+		{
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+			
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_homeadvisor/add_edit_hcco_sr_v2.php";
+			$data['hccosr_id']=$hccosr_id;
+			$tl_mgnt_cond='';
+			
+			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and assigned_to='$current_user'";
+			}else{
+				$tl_mgnt_cond="";
+			}
+			
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id, office_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,17) and is_assign_process(id,213)  and status=1  order by name";
+			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
+			
+			/* $qSql = "SELECT id, concat(fname, ' ', lname) as name, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1 order by name ASC";
+			$data['tlname'] = $this->Common_model->get_query_result_array($qSql); */
+			
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
+				from qa_hcco_sr_v2_feedback where id='$hccosr_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			$data["hcco_sr"] = $this->Common_model->get_query_row_array($qSql);
+			
+			//$currDate=CurrDate();
+			$curDateTime=CurrMySqlDate();
+			$a = array();
+			
+			
+			$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
+			if($field_array['agent_id']){
+				
+				if($hccosr_id==0){
+					
+					$field_array=$this->input->post('data');
+					$field_array['audit_date']=CurrDate();
+					$field_array['call_date']=mmddyy2mysql($this->input->post('call_date'));
+					$field_array['shift_date']=mmddyy2mysql($this->input->post('shift_date'));
+					$field_array['new_sr_date']=mmddyy2mysql($this->input->post('new_sr_date'));
+					$field_array['entry_date']=$curDateTime;
+					$field_array['audit_start_time']=$this->input->post('audit_start_time');
+					$a = $this->ha_upload_files($_FILES['attach_file'], $path='./qa_files/qa_homeadvisor/hcco_sr/');
+					$field_array["attach_file"] = implode(',',$a);
+					$rowid= data_inserter('qa_hcco_sr_v2_feedback',$field_array);
+				///////////
+					if(get_login_type()=="client"){
+						$add_array = array("client_entryby" => $current_user);
+					}else{
+						$add_array = array("entry_by" => $current_user);
+					}
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_hcco_sr_v2_feedback',$add_array);
+					
+				}else{
+					
+					$field_array1=$this->input->post('data');
+					$field_array1['call_date']=mmddyy2mysql($this->input->post('call_date'));
+					$field_array1['shift_date']=mmddyy2mysql($this->input->post('shift_date'));
+					$field_array1['new_sr_date']=mmddyy2mysql($this->input->post('new_sr_date'));
+					$this->db->where('id', $hccosr_id);
+					$this->db->update('qa_hcco_sr_v2_feedback',$field_array1);
+				/////////////
+					if(get_login_type()=="client"){
+						$edit_array = array(
+							"client_rvw_by" => $current_user,
+							"client_rvw_note" => $this->input->post('note'),
+							"client_rvw_date" => $curDateTime
+						);
+					}else{
+						$edit_array = array(
+							"mgnt_rvw_by" => $current_user,
+							"mgnt_rvw_note" => $this->input->post('note'),
+							"mgnt_rvw_date" => $curDateTime
+						);
+					}
+					$this->db->where('id', $hccosr_id);
+					$this->db->update('qa_hcco_sr_v2_feedback',$edit_array);
 					
 				}
 				redirect('qa_homeadvisor/qa_hcco_feedback');
@@ -900,8 +1106,7 @@
 			$this->load->view("dashboard",$data);
 		}
 	}
-	
-	
+
 	public function agent_hcco_feedback()
 	{
 		if(check_logged_in()){
@@ -912,29 +1117,41 @@
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_homeadvisor/agent_hcco_feedback.php";
 			$data["agentUrl"] = "qa_homeadvisor/agent_hcco_feedback";
-			
-			
-			$qSql="Select count(id) as value from qa_hcco_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
-			$data["tot_hcco_agent_feedback"] =  $this->Common_model->get_single_value($qSql);
-			
-			$qSql="Select count(id) as value from qa_hcco_feedback where id  not in (select fd_id from qa_hcco_agent_rvw) and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
-			$data["tot_hcco_agent_yet_rvw"] =  $this->Common_model->get_single_value($qSql);
-		/////////////
-			$sr_Sql1="Select count(id) as value from qa_hcco_sr_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
-			$data["tot_sr"] =  $this->Common_model->get_single_value($sr_Sql1);
-			
-			$sr_Sql2="Select count(id) as value from qa_hcco_sr_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit') and agent_rvw_date is Null";
-			$data["yet_sr"] =  $this->Common_model->get_single_value($sr_Sql2);
-		////////////
-			$flex_Sql1="Select count(id) as value from qa_hcco_flex_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
-			$data["tot_flex"] =  $this->Common_model->get_single_value($flex_Sql1);
-			
-			$flex_Sql2="Select count(id) as value from qa_hcco_flex_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit') and agent_rvw_date is Null";
-			$data["yet_flex"] =  $this->Common_model->get_single_value($flex_Sql2);
-				
+			$campaign='';
 			$from_date = '';
 			$to_date = '';
 			$cond="";
+
+			$campaign=$this->input->get('campaign');
+
+			if($campaign){
+			$qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
+			$data["tot_feedback"] =  $this->Common_model->get_single_value($qSql);
+			
+			$qSql1="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit') and agent_rvw_date is Null";
+			$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql1);
+			
+			// $qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
+			// $data["tot_feedback"] =  $this->Common_model->get_single_value($qSql);
+			
+			// $qSql1="Select count(id) as value from qa_".$campaign."_feedback where id  not in (select fd_id from qa_hcco_agent_rvw) and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
+			// $data["yet_rvw"] =  $this->Common_model->get_single_value($qSql1);
+		// /////////////
+		// 	$sr_Sql1="Select count(id) as value from qa_hcco_sr_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
+		// 	$data["tot_sr"] =  $this->Common_model->get_single_value($sr_Sql1);
+			
+		// 	$sr_Sql2="Select count(id) as value from qa_hcco_sr_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit') and agent_rvw_date is Null";
+		// 	$data["yet_sr"] =  $this->Common_model->get_single_value($sr_Sql2);
+		// ////////////
+		// 	$flex_Sql1="Select count(id) as value from qa_hcco_flex_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
+		// 	$data["tot_flex"] =  $this->Common_model->get_single_value($flex_Sql1);
+			
+		// 	$flex_Sql2="Select count(id) as value from qa_hcco_flex_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit') and agent_rvw_date is Null";
+		// 	$data["yet_flex"] =  $this->Common_model->get_single_value($flex_Sql2);
+				
+			// $from_date = '';
+			// $to_date = '';
+			// $cond="";
 			
 			
 			if($this->input->get('btnView')=='View')
@@ -944,51 +1161,58 @@
 					
 				if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date' ) ";
 		
-				$qSql = "SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name from qa_hcco_feedback $cond and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id from signin) yy on (xx.agent_id=yy.sid) Left join (Select fd_id, note as agent_note, date(entry_date) as agent_rvw_date from qa_hcco_agent_rvw) zz on (xx.id=zz.fd_id) Left Join (Select fd_id as mgnt_fd_id, note as mgnt_note, date(entry_date) as mgnt_rvw_date, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as mgnt_name from qa_hcco_mgnt_rvw) ww on (xx.id=ww.mgnt_fd_id) order by audit_date";
-				$data["agent_hcco_review_list"] = $this->Common_model->get_query_result_array($qSql);
-			///////////
-				$srSql1 = "SELECT * from
+				// $qSql = "SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name from qa_".$campaign."_feedback $cond and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id from signin) yy on (xx.agent_id=yy.sid) Left join (Select fd_id, note as agent_note, date(entry_date) as agent_rvw_date from qa_hcco_agent_rvw) zz on (xx.id=zz.fd_id) Left Join (Select fd_id as mgnt_fd_id, note as mgnt_note, date(entry_date) as mgnt_rvw_date, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as mgnt_name from qa_hcco_mgnt_rvw) ww on (xx.id=ww.mgnt_fd_id) order by audit_date";
+			$srSql1 = "SELECT * from
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcco_sr_feedback $cond and agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_".$campaign."_feedback $cond and agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
-				$data["sr_agent_rvw"] = $this->Common_model->get_query_result_array($srSql1);	
-			///////////
-				$flexSql1 = "SELECT * from
-				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcco_flex_feedback $cond and agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
-				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
-				$data["flex_agent_rvw"] = $this->Common_model->get_query_result_array($flexSql1);
+				$data["agent_hcco_review_list"] = $this->Common_model->get_query_result_array($srSql1);
+			// ///////////
+			// 	$srSql1 = "SELECT * from
+			// 	(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+			// 	(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+			// 	(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+			// 	(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcco_sr_feedback $cond and agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
+			// 	(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			// 	$data["sr_agent_rvw"] = $this->Common_model->get_query_result_array($srSql1);	
+			// ///////////
+			// 	$flexSql1 = "SELECT * from
+			// 	(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+			// 	(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+			// 	(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+			// 	(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcco_flex_feedback $cond and agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
+			// 	(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			// 	$data["flex_agent_rvw"] = $this->Common_model->get_query_result_array($flexSql1);
 					
 			}else{	
 			
-				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name from qa_hcco_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id from signin) yy on (xx.agent_id=yy.sid) Left join (Select fd_id, note as agent_note, date(entry_date) as agent_rvw_date from qa_hcco_agent_rvw) zz on (xx.id=zz.fd_id) Left Join (Select fd_id as mgnt_fd_id, note as mgnt_note, date(entry_date) as mgnt_rvw_date, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as mgnt_name from qa_hcco_mgnt_rvw) ww on (xx.id=ww.mgnt_fd_id) where xx.id not in (select fd_id from qa_hcco_agent_rvw) order by audit_date";
+				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name from qa_".$campaign."_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id from signin) yy on (xx.agent_id=yy.sid) Left join (Select fd_id, note as agent_note, date(entry_date) as agent_rvw_date from qa_hcco_agent_rvw) zz on (xx.id=zz.fd_id) Left Join (Select fd_id as mgnt_fd_id, note as mgnt_note, date(entry_date) as mgnt_rvw_date, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as mgnt_name from qa_hcco_mgnt_rvw) ww on (xx.id=ww.mgnt_fd_id) where xx.id not in (select fd_id from qa_hcco_agent_rvw) order by audit_date";
 				$data["agent_hcco_review_list"] = $this->Common_model->get_query_result_array($qSql);
 			///////////
-				$srSql1="SELECT * from
-				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcco_sr_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
-				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
-				$data["sr_agent_rvw"] = $this->Common_model->get_query_result_array($srSql1);	
-			///////////
-				$flexSql1="SELECT * from
-				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcco_flex_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
-				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
-				$data["flex_agent_rvw"] = $this->Common_model->get_query_result_array($flexSql1);
+			// 	$srSql1="SELECT * from
+			// 	(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+			// 	(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+			// 	(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+			// 	(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcco_sr_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
+			// 	(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
+			// 	$data["sr_agent_rvw"] = $this->Common_model->get_query_result_array($srSql1);	
+			// ///////////
+			// 	$flexSql1="SELECT * from
+			// 	(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+			// 	(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+			// 	(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+			// 	(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcco_flex_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
+			// 	(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
+			// 	$data["flex_agent_rvw"] = $this->Common_model->get_query_result_array($flexSql1);
 			
 			}
+		}
 			
 			$data["from_date"] = $from_date;
 			$data["to_date"] = $to_date;
-			
+			$data['campaign'] = $campaign;
 			$this->load->view('dashboard',$data);
 		}
 	}
@@ -1037,6 +1261,46 @@
 					$this->db->where('fd_id', $hcco_id);
 					$this->db->update('qa_hcco_agent_rvw',$field_array1);
 				}	
+				redirect('Qa_homeadvisor/agent_hcco_feedback');
+				
+			}else{
+				$this->load->view('dashboard',$data);
+			}
+		}
+	}
+
+	public function agent_hcco_v2_rvw($id){
+		if(check_logged_in()){
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_homeadvisor/agent_hcco_v2_rvw.php";
+			$data["agentUrl"] = "qa_homeadvisor/agent_hcco_feedback";
+			
+			$qSql="SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcco_v2_feedback where id='$id') xx Left Join
+				(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			$data["hcco_v2"] = $this->Common_model->get_query_row_array($qSql);
+			
+			$data["pnid"]=$id;
+			
+			if($this->input->post('pnid'))
+			{
+				$pnid=$this->input->post('pnid');
+				$curDateTime=CurrMySqlDate();
+				$log=get_logs();
+					
+				$field_array1=array(
+					"agnt_fd_acpt" => $this->input->post('agnt_fd_acpt'),
+					"agent_rvw_note" => $this->input->post('note'),
+					"agent_rvw_date" => $curDateTime
+				);
+				$this->db->where('id', $pnid);
+				$this->db->update('qa_hcco_v2_feedback',$field_array1);
+					
 				redirect('Qa_homeadvisor/agent_hcco_feedback');
 				
 			}else{
@@ -1125,6 +1389,46 @@
 			}
 		}
 	}
+
+	public function agent_hcco_sr_v2_rvw($id){
+		if(check_logged_in()){
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_homeadvisor/agent_hcco_sr_v2_rvw.php";
+			$data["agentUrl"] = "qa_homeadvisor/agent_hcco_feedback";
+			
+			$qSql="SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcco_sr_v2_feedback where id='$id') xx Left Join
+				(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			$data["hcco_sr"] = $this->Common_model->get_query_row_array($qSql);
+			
+			$data["pnid"]=$id;
+			
+			if($this->input->post('pnid'))
+			{
+				$pnid=$this->input->post('pnid');
+				$curDateTime=CurrMySqlDate();
+				$log=get_logs();
+					
+				$field_array1=array(
+					"agnt_fd_acpt" => $this->input->post('agnt_fd_acpt'),
+					"agent_rvw_note" => $this->input->post('note'),
+					"agent_rvw_date" => $curDateTime
+				);
+				$this->db->where('id', $pnid);
+				$this->db->update('qa_hcco_sr_v2_feedback',$field_array1);
+					
+				redirect('Qa_homeadvisor/agent_hcco_feedback');
+				
+			}else{
+				$this->load->view('dashboard',$data);
+			}
+		}
+	}
 	
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////// HCCI ///////////////////////////////////
@@ -1146,7 +1450,7 @@
 			$office_id = $this->input->get('office_id');
 			$agent_id = $this->input->get('agent_id');
 			
-			if($office_id=='') $office_id=get_user_office_id();
+			//if($office_id=='') $office_id=get_user_office_id();
 			
 			$cond="";
 			$cond1="";
@@ -1169,8 +1473,11 @@
 			if($from_date !="" && $to_date!=="" )  $cond= " Where (date(audit_date) >= '$from_date' and date(audit_date) <= '$to_date' ) ";
 			if($agent_id !="")	$cond .=" and agent_id='$agent_id'";
 			
-			// if($office_id=="All") $cond .= "";
-			// 	else $cond .=" and office_id='$office_id'";
+			if($office_id =='' || $office_id=="All"){
+				$cond .= "";
+			}else{
+				$cond .=" and office_id='$office_id'";
+			} 
 				
 			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
 				if(get_user_fusion_id()=='FELS000025'){
@@ -1200,6 +1507,14 @@
 				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcci_feedback_new) xx Left Join
 				(Select id as sid, fname, lname, fusion_id, get_process_names(id) as campaign, assigned_to, office_id from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
 			$data["hcci_data_new"] = $this->Common_model->get_query_result_array($qSql);
+
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcci_core_feedback) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, get_process_names(id) as campaign, assigned_to, office_id from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
+			$data["hcci_core"] = $this->Common_model->get_query_result_array($qSql);
 			
 			// print_r($data["hcci_data_new"]);
 			// die();
@@ -1329,6 +1644,7 @@
 			
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_homeadvisor/agent_hcci_feedback.php";
+			$data['content_js'] = 'qa_avon_js.php';
 			$data["agentUrl"] = "qa_homeadvisor/agent_hcci_feedback";
 			
 			$from_date = '';
@@ -1340,12 +1656,18 @@
 
 			$qSql="Select count(id) as value from qa_hcci_feedback_new where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')";
 			$data["tot_feedback_new"] =  $this->Common_model->get_single_value($qSql);
+
+			$qSql="Select count(id) as value from qa_hcci_core_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')";
+			$data["tot_feedback_core_v2"] =  $this->Common_model->get_single_value($qSql);
 			
 			$qSql="Select count(id) as value from qa_hcci_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit') ";
 			$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql);
 
 			$qSql="Select count(id) as value from qa_hcci_feedback_new where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit') ";
 			$data["yet_rvw_new"] =  $this->Common_model->get_single_value($qSql);
+
+			$qSql="Select count(id) as value from qa_hcci_core_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit') ";
+			$data["yet_rvw_core_v2"] =  $this->Common_model->get_single_value($qSql);
 				
 			if($this->input->get('btnView')=='View')
 			{
@@ -1366,13 +1688,21 @@
 				$data["agent_list"] = $this->Common_model->get_query_result_array($qSql);
 
 				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_hcci_feedback_new $cond) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
-				$data["agent_list_new"] = $this->Common_model->get_query_result_array($qSql);	
-			}else{
-				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_hcci_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
-				$data["agent_list"] = $this->Common_model->get_query_result_array($qSql);
-
-				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_hcci_feedback_new where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
 				$data["agent_list_new"] = $this->Common_model->get_query_result_array($qSql);
+
+				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_hcci_core_feedback $cond And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','Certificate Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
+				$data["agent_list_core_v2"] = $this->Common_model->get_query_result_array($qSql);
+
+			}else{
+				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_hcci_feedback where  agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
+				$data["agent_list"] = $this->Common_model->get_query_result_array($qSql);
+				//agent_rvw_date is null and
+				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_hcci_feedback_new where  agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
+				$data["agent_list_new"] = $this->Common_model->get_query_result_array($qSql);
+				//agent_rvw_date is null and
+				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_hcci_core_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','Certificate Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
+				$data["agent_list_core_v2"] = $this->Common_model->get_query_result_array($qSql);
+				//agent_rvw_date is null and 
 			}
 			
 			$data["from_date"] = $from_date;
@@ -1417,8 +1747,178 @@
 		}
 	}
 
+	public function agent_hcci_rvw_core_v2($id){
+		if(check_logged_in()){
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+			
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_homeadvisor/agent_hcci_rvw_core_v2.php";
+			$data["agentUrl"] = "qa_homeadvisor/agent_hcci_feedback";
+			
+			$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name,agent_rvw_note as agent_note,mgnt_rvw_note as mgnt_note from qa_hcci_core_feedback where id=$id) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
+			$data["agnt_feedback"] = $this->Common_model->get_query_row_array($qSql);
+			
+			$data["pnid"]=$id;			
+			
+			if($this->input->post('pnid'))
+			{
+				$pnid=$this->input->post('pnid');
+				$curDateTime=CurrMySqlDate();
+				$log=get_logs();
+				
+				$field_array=array(
+					"agnt_fd_acpt" => $this->input->post('agnt_fd_acpt'),
+					"agent_rvw_note" => $this->input->post('note'),
+					"agent_rvw_date" => $curDateTime
+				);
+				$this->db->where('id', $pnid);
+				$this->db->update('qa_hcci_core_feedback',$field_array);
+				
+				redirect('Qa_homeadvisor/agent_hcci_feedback');
+				
+			}else{
+				$this->load->view('dashboard',$data);
+			}
+		}
+	}
 
 
+	////////////////////vikas starts/////////////////////////////////////////
+	public function add_edit_hcci_core($hcci_id) {
+        if ( check_logged_in() ) {
+            $current_user = get_user_id();
+            $user_office_id = get_user_office_id();
+
+            $data['aside_template'] = 'qa/aside.php';
+            $data["content_template"] = "qa_homeadvisor/add_hcci_core_feedback.php";
+            $data['content_js'] = 'qa_avon_js.php';
+            $data['hcci_id'] = $hcci_id;
+            $tl_mgnt_cond = '';
+
+            if ( get_role_dir() == 'manager' && get_dept_folder() == 'operations' ) {
+                $tl_mgnt_cond = " and (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+            } else if ( get_role_dir() == 'tl' && get_dept_folder() == 'operations' ) {
+                $tl_mgnt_cond = " and assigned_to='$current_user'";
+            } else {
+                $tl_mgnt_cond = '';
+            }
+
+            $qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,17) and is_assign_process(id,295) and status=1  order by name";
+            $data['agentName'] = $this->Common_model->get_query_result_array( $qSql );
+
+            $qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1 order by fname ASC";
+            $data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+
+            $qSql = "SELECT * from
+                (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+                (select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+                (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+                (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
+                from qa_hcci_core_feedback where id='$hcci_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+            $data['hcci_data'] = $this->Common_model->get_query_row_array( $qSql );
+
+            //$currDate = CurrDate();
+            $curDateTime = CurrMySqlDate();
+            $a = array();
+
+            $field_array['agent_id'] = !empty( $_POST['data']['agent_id'] )?$_POST['data']['agent_id']:'';
+            if ( $field_array['agent_id'] ) {
+
+                if ( $hcci_id == 0 ) {
+
+                    $field_array = $this->input->post( 'data' );
+                    echo"<pre>";
+                    print_r($field_array);
+                    echo"</pre>";
+                    $field_array['audit_date'] = CurrDate();
+                   // $field_array['audit_date'] = CurrDateTimeMDY();
+                    $field_array['call_date'] = mmddyy2mysql( $this->input->post( 'call_date' ) );
+                    $field_array['entry_date'] = $curDateTime;
+                    $field_array['audit_start_time'] = $this->input->post( 'audit_start_time' );
+                    if(!file_exists("./qa_files/qa_homeadvisor/hcci_files/")){
+                        mkdir("./qa_files/qa_homeadvisor/hcci_files/");
+                    }
+                    $a = $this->ha_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_homeadvisor/hcci_files/' );
+                    $field_array['attach_file'] = implode( ',', $a );
+                    $rowid = data_inserter( 'qa_hcci_core_feedback', $field_array );
+                    ///////////
+                    if ( get_login_type() == 'client' ) {
+                        $add_array = array( 'client_entryby' => $current_user );
+                    } else {
+                        $add_array = array( 'entry_by' => $current_user );
+                    }
+                    $this->db->where( 'id', $rowid );
+                    $this->db->update( 'qa_hcci_core_feedback', $add_array );
+
+                } else {
+
+                    $field_array1 = $this->input->post( 'data' );
+                    $field_array1['call_date'] = mmddyy2mysql( $this->input->post( 'call_date' ) );
+                    $this->db->where( 'id', $hcci_id );
+                    $this->db->update( 'qa_hcci_core_feedback', $field_array1 );
+                    /////////////
+                    if ( get_login_type() == 'client' ) {
+                        $edit_array = array(
+                            'client_rvw_by' => $current_user,
+                            'client_rvw_note' => $this->input->post( 'note' ),
+                            'client_rvw_date' => $curDateTime
+                        );
+                    } else {
+                        $edit_array = array(
+                            'mgnt_rvw_by' => $current_user,
+                            'mgnt_rvw_note' => $this->input->post( 'note' ),
+                            'mgnt_rvw_date' => $curDateTime
+                        );
+                    }
+                    $this->db->where( 'id', $hcci_id );
+                    $this->db->update( 'qa_hcci_core_feedback', $edit_array );
+
+                }
+                redirect('Qa_homeadvisor/hcci');
+            }
+            $data['array'] = $a;
+            $this->load->view( 'dashboard', $data );
+        }
+    }
+
+    public function agent_hcci_core_rvw($id){
+		if(check_logged_in()){
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+			
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_homeadvisor/agent_hcci_core_rvw.php";
+			$data["agentUrl"] = "qa_homeadvisor/agent_hcci_feedback";
+			
+			$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name,agent_rvw_note as agent_note,mgnt_rvw_note as mgnt_note from qa_hcci_core_feedback where id=$id) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
+			$data["agnt_feedback"] = $this->Common_model->get_query_row_array($qSql);
+			
+			$data["pnid"]=$id;			
+			
+			if($this->input->post('pnid'))
+			{
+				$pnid=$this->input->post('pnid');
+				$curDateTime=CurrMySqlDate();
+				$log=get_logs();
+				
+				$field_array=array(
+					"agnt_fd_acpt" => $this->input->post('agnt_fd_acpt'),
+					"agent_rvw_note" => $this->input->post('note'),
+					"agent_rvw_date" => $curDateTime
+				);
+				$this->db->where('id', $pnid);
+				$this->db->update('qa_hcci_core_feedback',$field_array);
+				
+				redirect('Qa_homeadvisor/agent_hcci_feedback');
+				
+			}else{
+				$this->load->view('dashboard',$data);
+			}
+		}
+	}
+
+	////////////////////vikas ends/////////////////////////////////////////
 
 	public function add_hcci_feedback_new(){
 	

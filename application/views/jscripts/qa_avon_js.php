@@ -341,11 +341,77 @@ function date_validation(val,type){
 			}
 	}
 </script>
+
+<script type="text/javascript">
+	function hcci_core_calc(){
+		var check_fatal=false;
+			$(".hcci_point").each(function(){
+				if($(this).hasClass("hcci_fatal") && ($(this).val()=="Fail") ){
+					check_fatal=true;
+					$("#hcci_overall_score").val("0.00%");
+				}
+			});
+			if(!check_fatal){
+				//var earned_score = 0, possible_score=0, overall_score="";
+				var earned_score = 0, possible_score=0, overall_score="", cust_earned=0, cust_possible=0, cust_overall=0;
+			    var comp_earned=0, comp_possible=0, comp_overall=0, business_earned=0, business_possible=0, business_overall=0;
+				$(".hcci_point").each(function(index, element){
+					if($(element).val()!="N/A" && $(element).val()!=""){
+						var earned_weightage = parseFloat($(element).children("option:selected").attr('hcci_val'));
+						earned_score += earned_weightage;
+						var weightage = parseFloat($(element).children("[value='Pass']").attr('hcci_val'));
+						possible_score += weightage;
+						overall_score=parseFloat((earned_score/possible_score)*100);
+						
+						if($(this).hasClass("customer")){
+							cust_earned+=earned_weightage;
+							cust_possible+=weightage;
+							console.log(cust_earned);
+							$("#customer_earned_score").val(cust_earned);
+							$("#customer_possible_score").val(cust_possible);
+							$("#customer_overall_score").val(parseFloat((cust_earned/cust_possible)*100).toFixed(2)+"%");
+						}
+						if($(this).hasClass("compliance")){
+							comp_earned+=earned_weightage;
+							comp_possible+=weightage;
+							console.log(comp_earned);
+							$("#compliance_earned_score").val(comp_earned);
+							$("#compliance_possible_score").val(comp_possible);
+							$("#compliance_overall_score").val(parseFloat((comp_earned/comp_possible)*100).toFixed(2)+"%");
+						}
+						if($(this).hasClass("business")){
+							business_earned+=earned_weightage;
+							business_possible+=weightage;
+							console.log(business_earned);
+							$("#business_earned_score").val(business_earned);
+							$("#business_possible_score").val(business_possible);
+							$("#business_overall_score").val(parseFloat((business_earned/business_possible)*100).toFixed(2)+"%");
+						}
+
+						$("#hcci_overall_score").val(parseFloat((earned_score/possible_score)*100).toFixed(2)+"%");
+						
+					}
+				});
+			}
+			if(!isNaN(earned_score)){
+				$("#hcci_earned_score").val(earned_score);
+			}
+			if(!isNaN(possible_score)){
+				$("#hcci_possible_score").val(possible_score);
+			}
+	}
+</script>
+
 <script type="text/javascript">
 	$(document).on("change", ".avon_point", function(){
 			avon_calc();
 	});
 	avon_calc();
+
+	$(document).on("change", ".hcci_point", function(){
+			hcci_core_calc();
+	});
+	hcci_core_calc();
 
 	///////////////// Agent and TL names ///////////////////////
 	$( "#agent_id" ).on('change' , function() {
@@ -382,7 +448,6 @@ function date_validation(val,type){
 			}
 		});
 	});		
-
 </script>
 <script>
 	//$( "#datepicker" ).datepicker({ minDate: 0});
