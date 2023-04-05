@@ -158,7 +158,7 @@
 											<td style="font-weight:bold; font-size:16px; text-align:left">Possible Score</td>
 											<td><input type="text" readonly id="" name="data[possible_score]" class="form-control" value="<?php echo $agent_acg_rvw['possible_score'] ?>" /></td>
 											<td style="font-weight:bold; font-size:16px; text-align:right">Overall Score:</td>
-											<td><input type="text" readonly id="" name="data[overall_score]" class="form-control avonFatal" style="font-weight:bold" value="<?php echo $agent_acg_rvw['overall_score'].'%' ?>"></td>
+											<td><input type="text" readonly id="" name="data[overall_score]" class="form-control avonFatal" style="font-weight:bold" value="<?php echo $agent_acg_rvw['overall_score'] ?>"></td>
 										</tr>
 										</table>
 										</div>
@@ -590,7 +590,7 @@
 											if (is_available_qa_feedback($agent_acg_rvw['entry_date'], 72) == true) { ?>
 												<tr>
 													<?php if ($agent_acg_rvw['agent_rvw_note'] == '') { ?>
-														<td colspan="6"><button class="btn btn-success waves-effect" type="submit" id='btnagentSave' name='btnSave' value="SAVE" style="width:500px">SAVE</button></td>
+														<td colspan="6"><button class="btn btn-success blains-effect" type="submit" id='btnagentSave' name='btnSave' value="SAVE" style="width:500px">SAVE</button></td>
 													<?php } ?>
 												</tr>
 										<?php }

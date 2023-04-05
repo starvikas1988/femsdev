@@ -151,7 +151,7 @@
 								</table>
 							</div>
 										<div class="table-responsive top-space">
-								<table class="table table-bordered table-striped skt-table" width="100%">
+								<table class="table table-striped skt-table" width="100%">
 									<tbody>
 										<tr class="eml" style="height:25px; font-weight:bold">
 											
@@ -160,8 +160,8 @@
 											<td colspan=2>PARAMETER</td>
 											<td>WEIGHTAGE</td>
 											<td>STATUS</td>
-											<td colspan="0" style="width:150px;display:block;margin:auto;border:none;">REMARKS</td>
-											<td colspan="2">Critical Accuracy</td>
+											<td colspan=2>REMARKS</td>
+											<td>Critical Accuracy</td>
 										</tr>
 
 										<tr>
@@ -170,7 +170,7 @@
 											<td>Brand</td>
 											<td colspan=2>Did the agent use the correct brand? The agent correctly identified as Angi, and if applicable, the partnership the customer booked through.</td>
 											<td>5</td>
-											<td style="width:100px;">
+											<td>
 												<select class="form-control hcci_point business" name="data[brand]" disabled>
 													
 													<option hcci_val=5 <?php echo $agnt_feedback['brand'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
