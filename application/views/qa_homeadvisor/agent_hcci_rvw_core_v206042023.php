@@ -661,7 +661,7 @@
 										</tr>
 										<?php if($agnt_feedback['attach_file']!=''){ ?>
 									<tr oncontextmenu="return false;">
-										<td colspan="2">Audio Files (Mp4/Mp3/M4a/Wav)</td>
+										<td colspan="2">Audio Files (avi|mp4|3gp|mpeg|mpg|mov|mp3|flv|wmv|mkv|wav)</td>
 										<td colspan="4">
 											<?php $attach_file = explode(",",$agnt_feedback['attach_file']);
 											 foreach($attach_file as $af){ ?>

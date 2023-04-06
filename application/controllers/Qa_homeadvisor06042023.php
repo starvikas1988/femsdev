@@ -1821,7 +1821,6 @@
             //$currDate = CurrDate();
             $curDateTime = CurrMySqlDate();
             $a = array();
-            $b = array();
 
             $field_array['agent_id'] = !empty( $_POST['data']['agent_id'] )?$_POST['data']['agent_id']:'';
             if ( $field_array['agent_id'] ) {
@@ -1829,7 +1828,9 @@
                 if ( $hcci_id == 0 ) {
 
                     $field_array = $this->input->post( 'data' );
-                    
+                    echo"<pre>";
+                    print_r($field_array);
+                    echo"</pre>";
                     $field_array['audit_date'] = CurrDate();
                    // $field_array['audit_date'] = CurrDateTimeMDY();
                     $field_array['call_date'] = mmddyy2mysql( $this->input->post( 'call_date' ) );
@@ -1854,14 +1855,6 @@
 
                     $field_array1 = $this->input->post( 'data' );
                     $field_array1['call_date'] = mmddyy2mysql( $this->input->post( 'call_date' ) );
-                    if(!file_exists("./qa_files/qa_homeadvisor/hcci_files/")){
-                        mkdir("./qa_files/qa_homeadvisor/hcci_files/");
-                    }
-                    $b = $this->ha_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_homeadvisor/hcci_files/' );
-                    $field_array1['attach_file'] = implode( ',', $b );
-                    echo"<pre>";
-                    print_r($field_array1);
-                    echo"</pre>";
                     $this->db->where( 'id', $hcci_id );
                     $this->db->update( 'qa_hcci_core_feedback', $field_array1 );
                     /////////////

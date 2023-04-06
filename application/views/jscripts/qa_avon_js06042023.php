@@ -26,204 +26,6 @@
    //-->
 </script>
 
-<script type="text/javascript">
-		function checkDec(el) {
-			var ex = /^[0-9]+\.?[0-9]*$/;
-
-			if (ex.test(el.value) == false) {
-				//console.log(el.value);
-				el.value = el.value.substring(0, el.value.length - 1);
-				alert("Number format required!");
-				$("#qaformsubmit").attr("disabled", "disabled");
-				$('#phone').val("");
-				return false;
-			}
-			if(el.value.length >10){
-       			//alert("required 10 digits, match requested format!");
-       			$("#start_phone").html("Required 10 digits, match requested format!");
-       			$("#qaformsubmit").attr("disabled", "disabled");
-       			return false;
-		    }else if(el.value.length <10){
-		    	$("#start_phone").html("Phone number can not be less than 10 digits!");
-		    	$("#qaformsubmit").attr("disabled", "disabled");
-       			return false;
-		    }
-		    else if(el.value.length == 10){
-		    	$("#start_phone").html("");
-		    	 $("#qaformsubmit").removeAttr("disabled");
-       			return false;
-		    }
-		    // else{
-		    // 	$("#start_phone").html("");
-		    // 	 $("#qaformsubmit").removeAttr("disabled");
-		    // }
-			console.log(el.value);
-		}
-</script> 
-<script type="text/javascript">
-	// $(function () {
-	// 	$( "#audit_type" ).on('change' , function() {
-	// 		let val = $(this).val();
-	// 		if(val == 'Calibration'){
-	// 			$('#auditor_type').attr('required','required');
-	// 		}else{
-	// 			$('#auditor_type').attr('required', false);
-	// 		}
-	// 	});
-	// });
-</script>
-
-<script type="text/javascript">
-// 	function selectOption(index){ 
-//   document.getElementById("select_id").options.selectedIndex = index;
-// }
-	$(function () {
-		$( "#status_points1" ).on('change' , function() {
-			//var val = this.value;
-			let val1 = $(this).val();
-			console.log(val1);
-			if(val1 == 'Pass'){
-				document.getElementById("remarks1").options.selectedIndex = 0;
-				$('#remarks1').attr('disabled','disabled');
-			}else{
-				$('#remarks1').attr('disabled', false);
-				//$('#remarks1').removeAttribute('disabled');
-			}
-		});
-
-		$("#status_points2").on('change' , function() {
-			//var val = this.value;
-			let val2 = $(this).val();
-			console.log(val2);
-			if(val2 == 'Pass'){
-				document.getElementById("remarks2").options.selectedIndex = 0;
-				$('#remarks2').attr('disabled','disabled');
-			}else{
-				$('#remarks2').attr('disabled', false);
-				//$('#remarks1').removeAttribute('disabled');
-			}
-		});
-
-		$( "#status_points3" ).on('change' , function() {
-			//var val = this.value;
-			let val3 = $(this).val();
-			console.log(val3);
-			if(val3 == 'Pass'){
-				document.getElementById("remarks3").options.selectedIndex = 0;
-				$('#remarks3').attr('disabled','disabled');
-			}else{
-				$('#remarks3').attr('disabled', false);
-				//$('#remarks1').removeAttribute('disabled');
-			}
-		});
-
-		$( "#status_points4" ).on('change' , function() {
-			//var val = this.value;
-			let val4 = $(this).val();
-			console.log(val4);
-			if(val4 == 'Pass'){
-				document.getElementById("remarks4").options.selectedIndex = 0;
-				$('#remarks4').attr('disabled','disabled');
-			}else{
-				$('#remarks4').attr('disabled', false);
-				//$('#remarks1').removeAttribute('disabled');
-			}
-		});
-
-		$( "#status_points5" ).on('change' , function() {
-			//var val = this.value;
-			let val5 = $(this).val();
-			console.log(val5);
-			if(val5 == 'Pass'){
-				document.getElementById("remarks5").options.selectedIndex = 0;
-				$('#remarks5').attr('disabled','disabled');
-			}else{
-				$('#remarks5').attr('disabled', false);
-				//$('#remarks1').removeAttribute('disabled');
-			}
-		});
-
-		$( "#status_points6" ).on('change' , function() {
-			//var val = this.value;
-			let val6 = $(this).val();
-			console.log(val6);
-			if(val6 == 'Pass'){
-				document.getElementById("remarks6").options.selectedIndex = 0;
-				$('#remarks6').attr('disabled','disabled');
-			}else{
-				$('#remarks6').attr('disabled', false);
-				//$('#remarks1').removeAttribute('disabled');
-			}
-		});
-
-		$( "#status_points7" ).on('change' , function() {
-			//var val = this.value;
-			let val7 = $(this).val();
-			console.log(val7);
-			if(val7 == 'Pass'){
-				document.getElementById("remarks7").options.selectedIndex = 0;
-				$('#remarks7').attr('disabled','disabled');
-			}else{
-				$('#remarks7').attr('disabled', false);
-				//$('#remarks1').removeAttribute('disabled');
-			}
-		});
-
-		$( "#status_points8" ).on('change' , function() {
-			//var val = this.value;
-			let val8 = $(this).val();
-			console.log(val8);
-			if(val8 == 'Pass'){
-				document.getElementById("remarks8").options.selectedIndex = 0;
-				$('#remarks8').attr('disabled','disabled');
-			}else{
-				$('#remarks8').attr('disabled', false);
-				//$('#remarks1').removeAttribute('disabled');
-			}
-		});
-
-		$( "#status_points9" ).on('change' , function() {
-			//var val = this.value;
-			let val9 = $(this).val();
-			console.log(val9);
-			if(val9 == 'Pass'){
-				document.getElementById("remarks9").options.selectedIndex = 0;
-				$('#remarks9').attr('disabled','disabled');
-			}else{
-				$('#remarks9').attr('disabled', false);
-				//$('#remarks1').removeAttribute('disabled');
-			}
-		});
-
-		$( "#status_points10" ).on('change' , function() {
-			//var val = this.value;
-			let val10 = $(this).val();
-			console.log(val10);
-			if(val10 == 'Pass'){
-				document.getElementById("remarks10").options.selectedIndex = 0;
-				$('#remarks10').attr('disabled','disabled');
-			}else{
-				$('#remarks10').attr('disabled', false);
-				//$('#remarks1').removeAttribute('disabled');
-			}
-		});
-
-		$( "#status_points11" ).on('change' , function() {
-			//var val = this.value;
-			let val11 = $(this).val();
-			console.log(val11);
-			if(val11 == 'Pass'){
-				document.getElementById("remarks11").options.selectedIndex = 0;
-				$('#remarks11').attr('disabled','disabled');
-			}else{
-				$('#remarks11').attr('disabled', false);
-				//$('#remarks1').removeAttribute('disabled');
-			}
-		});
-
-	});
-</script>
-
 <script>
 	$("#audit_date").datepicker();
 	$("#call_date").datepicker({maxDate: new Date() });
@@ -235,7 +37,7 @@
 
 	 $(function () {
 		$('input[type=file]').change(function () {
-			var val = $(this).val().toLowerCase();
+			var val = $(this).val().toLowerCase(),
 				//regex = new RegExp("(.*?)\.(mp3|avi|mp4|wmv|wav)$");
 				regex = new RegExp("(.*?)\.(avi|mp4|3gp|mpeg|mpg|mov|mp3|flv|wmv|mkv|wav)$");
 				
@@ -504,7 +306,7 @@ function date_validation(val,type){
 						if($(this).hasClass("customer")){
 							cust_earned+=earned_weightage;
 							cust_possible+=weightage;
-							//console.log(cust_earned);
+							console.log(cust_earned);
 							$("#customer_earned_score").val(cust_earned);
 							$("#customer_possible_score").val(cust_possible);
 							$("#customer_overall_score").val(parseFloat((cust_earned/cust_possible)*100).toFixed(2)+"%");
@@ -512,7 +314,7 @@ function date_validation(val,type){
 						if($(this).hasClass("compliance")){
 							comp_earned+=earned_weightage;
 							comp_possible+=weightage;
-							//console.log(comp_earned);
+							console.log(comp_earned);
 							$("#compliance_earned_score").val(comp_earned);
 							$("#compliance_possible_score").val(comp_possible);
 							$("#compliance_overall_score").val(parseFloat((comp_earned/comp_possible)*100).toFixed(2)+"%");
@@ -520,7 +322,7 @@ function date_validation(val,type){
 						if($(this).hasClass("business")){
 							business_earned+=earned_weightage;
 							business_possible+=weightage;
-							//console.log(business_earned);
+							console.log(business_earned);
 							$("#business_earned_score").val(business_earned);
 							$("#business_possible_score").val(business_possible);
 							$("#business_overall_score").val(parseFloat((business_earned/business_possible)*100).toFixed(2)+"%");
@@ -564,7 +366,7 @@ function date_validation(val,type){
 						if($(this).hasClass("customer")){
 							cust_earned+=earned_weightage;
 							cust_possible+=weightage;
-							//console.log(cust_earned);
+							console.log(cust_earned);
 							$("#customer_earned_score").val(cust_earned);
 							$("#customer_possible_score").val(cust_possible);
 							$("#customer_overall_score").val(parseFloat((cust_earned/cust_possible)*100).toFixed(2)+"%");
@@ -572,7 +374,7 @@ function date_validation(val,type){
 						if($(this).hasClass("compliance")){
 							comp_earned+=earned_weightage;
 							comp_possible+=weightage;
-							//console.log(comp_earned);
+							console.log(comp_earned);
 							$("#compliance_earned_score").val(comp_earned);
 							$("#compliance_possible_score").val(comp_possible);
 							$("#compliance_overall_score").val(parseFloat((comp_earned/comp_possible)*100).toFixed(2)+"%");
@@ -580,7 +382,7 @@ function date_validation(val,type){
 						if($(this).hasClass("business")){
 							business_earned+=earned_weightage;
 							business_possible+=weightage;
-							//console.log(business_earned);
+							console.log(business_earned);
 							$("#business_earned_score").val(business_earned);
 							$("#business_possible_score").val(business_possible);
 							$("#business_overall_score").val(parseFloat((business_earned/business_possible)*100).toFixed(2)+"%");

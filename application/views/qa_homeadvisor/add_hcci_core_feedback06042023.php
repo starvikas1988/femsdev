@@ -169,7 +169,7 @@
 											<td class="auType">Auditor Type<span style="font-size:24px;color:red">*</span></td>
 											<td class="auType">
 												<select class="form-control" id="auditor_type" name="data[auditor_type]">
-                                                    <option value="">-Select-</option>
+                                                    
                                                     <option value="Master" <?= ($hcci_data['auditor_type']=="Master")?"selected":"" ?>>Master</option>
                                                     <option value="Regular" <?= ($hcci_data['auditor_type']=="Regular")?"selected":"" ?>>Regular</option>
                                                 </select>
@@ -197,7 +197,7 @@
 											<td colspan=2>PARAMETER</td>
 											<td>WEIGHTAGE</td>
 											<td>STATUS</td>
-											<td colspan="0" style="width:150px;display:block;margin:auto;border:none;">REMARKS (Only in case status is Fail)</td>
+											<td colspan="0" style="width:150px;display:block;margin:auto;border:none;">REMARKS</td>
 											<td colspan="2">Critical Accuracy</td>
 										</tr>
 
@@ -224,7 +224,7 @@
 											<td colspan=2>Did the agent correctly identify the issue(s) or, if unclear, did they ask the right kind of clarifying question? "Yes" here means the agent completely understood every part of the issue(s), including the root cause of the issue(s), and identified when multiple issues were raised by the customer. If the agent misunderstood some of the issue(s) or all of the issue(s) they should be scored "No."</td>
 											<td>25</td>
 											<td>
-												<select class="form-control hcci_point customer" id="status_points1" name="data[issue_identification]" required>
+												<select class="form-control hcci_point customer" name="data[issue_identification]" required>
 													
 													<option hcci_val=25 <?php echo $hcci_data['issue_identification'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
 													<option hcci_val=0 <?php echo $hcci_data['issue_identification'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
@@ -232,8 +232,8 @@
 											</td>
 											<td colspan=2>
 												
-											    <select class="form-control" name="data[cmt1]" id="remarks1" disabled>
-													<option  value="">-Select-</option>
+											    <select class="form-control" name="data[cmt1]" required>
+													<option value="">-Select-</option>
 													<option value="Did not understand the issue(s)" <?= ($hcci_data['cmt1']=="Did not understand the issue(s)")?"selected":"" ?>>Did not understand the issue(s)</option>
 													<option value="Did not probe to identify customer issue(s)" <?= ($hcci_data['cmt1']=="Did not probe to identify customer issue(s)")?"selected":"" ?>>Did not probe to identify customer issue(s)</option>
 													<option value="Did not ask the right kind of follow up question" <?= ($hcci_data['cmt1']=="Did not ask the right kind of follow up question")?"selected":"" ?>>Did not ask the right kind of follow up question</option>
@@ -247,14 +247,14 @@
 											<td colspan=2>Did the agent resolve the issue(s) in a manner that does not require additional outreach from the customer? (One Call Resolution) "Yes" here means all of the customer's issues were addressed and don't require any additional assistance from our team.</td>
 											<td>25</td>
 											<td>
-												<select class="form-control hcci_point customer" id="status_points2" name="data[issue_resolution]" required>
+												<select class="form-control hcci_point customer" name="data[issue_resolution]" required>
 													
 													<option hcci_val=25 <?php echo $hcci_data['issue_resolution'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
 													<option hcci_val=0 <?php echo $hcci_data['issue_resolution'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 											<td colspan=2>
-												<select class="form-control" name="data[cmt2]" id="remarks2" disabled>
+												<select class="form-control" name="data[cmt2]" required>
 													<option value="">-Select-</option>
 													<option value="Did not resolve one or more issues" <?= ($hcci_data['cmt2']=="Did not resolve one or more issues")?"selected":"" ?>>Did not resolve one or more issues</option>
 													<option value="Did not proactively offer help when it was warranted" <?= ($hcci_data['cmt2']=="Did not proactively offer help when it was warranted")?"selected":"" ?>>Did not proactively offer help when it was warranted</option>
@@ -271,14 +271,14 @@
 											<td colspan=2>Did the agent verify the customer's identity before making changes to the booking or user profile? The agent must confirm 3 points of verification before making changes to the booking or the user's profile. User must be the one to state identification details. Agent should not read from information on the screen. If AGENT states these details, the answer should be 'NO'.</td>
 											<td>20</td>
 											<td>
-												<select class="form-control hcci_point business" id="status_points3" name="data[identify_verification]" required>
+												<select class="form-control hcci_point business" name="data[identify_verification]" required>
 													
 													<option hcci_val=20 <?php echo $hcci_data['identify_verification'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
 													<option hcci_val=0 <?php echo $hcci_data['identify_verification'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 											<td colspan=2>
-												<select class="form-control" name="data[cmt3]" id="remarks3" disabled>
+												<select class="form-control" name="data[cmt3]" required>
 													<option value="">-Select-</option>
 													<option value="Did not request accepted point(s) of verification" <?= ($hcci_data['cmt3']=="Did not request accepted point(s) of verification")?"selected":"" ?>>Did not request accepted point(s) of verification</option>
 													<option value="Points of verification provided by user did not match account details, but agent proceeded" <?= ($hcci_data['cmt3']=="Points of verification provided by user did not match account details, but agent proceeded")?"selected":"" ?>>Points of verification provided by user did not match account details, but agent proceeded</option>
@@ -293,14 +293,14 @@
 											<td colspan=2>Did the agent adhere to the designated policy for the customer's situation? "Yes" here means the agent scored "Yes" on criteria 1b, Issue Identification, chose the correct policy to address the issue raised, and followed the affiliated decision tree accurately. "No" here means the agent used the wrong policy for the customer's situation, did not follow the decision tree correctly, or misunderstood how to address the issue.</td>
 											<td>25</td>
 											<td>
-												<select class="form-control hcci_point business" id="status_points4" name="data[situational_policy]" required>
+												<select class="form-control hcci_point business" name="data[situational_policy]" required>
 													
 													<option hcci_val=25 <?php echo $hcci_data['situational_policy'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
 													<option hcci_val=0 <?php echo $hcci_data['situational_policy'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 											<td colspan=2>
-												<select class="form-control" name="data[cmt4]" id="remarks4" disabled>
+												<select class="form-control" name="data[cmt4]" required>
 													<option value="">-Select-</option>
 													<option value="Did not follow the workflow correctly" <?= ($hcci_data['cmt4']=="Did not follow the workflow correctly")?"selected":"" ?>>Did not follow the workflow correctly</option>
 													<option value="Followed incorrect workflow" <?= ($hcci_data['cmt4']=="Followed incorrect workflow")?"selected":"" ?>>Followed incorrect workflow</option>
@@ -316,7 +316,7 @@
 											<td colspan=2>Did the agent offer a Strategic (or Seasonal) Cross-Sale that is related to the current or upcoming Seaon or the user's current or past projects? The answer is "Yes", if the Cross Sale is related to the current SR or booking (or that of a project found in the User's SR activity within the past 30 days-in BETTI), or if the cross sale offered is Seasonal. If the agent offers a "Random" cross sale, the answer should be "No".</td>
 											<td>15</td>
 											<td>
-												<select class="form-control hcci_point business"  name="data[strategic_Cross_Sale_Offered]" required>
+												<select class="form-control hcci_point business" name="data[strategic_Cross_Sale_Offered]" required>
 													
 													<option hcci_val=15 <?php echo $hcci_data['strategic_Cross_Sale_Offered'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
 													<option hcci_val=0 <?php echo $hcci_data['strategic_Cross_Sale_Offered'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
@@ -333,14 +333,14 @@
 											<td colspan=2>Did the agent begin the call appropriately? This includes confirming understanding of the customer's issue(s) and, if necessary, empathizing for the situation. This does not mean following the workflow - it's instead asking if the agent began the call pleasantly, and apologizing for the customer's experience if needed.</td>
 											<td>5</td>
 											<td>
-												<select class="form-control hcci_point customer" id="status_points5" name="data[call_Beginning]" required>
+												<select class="form-control hcci_point customer" name="data[call_Beginning]" required>
 													
 													<option hcci_val=5 <?php echo $hcci_data['call_Beginning'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
 													<option hcci_val=0 <?php echo $hcci_data['call_Beginning'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 											<td colspan=2>
-												<select class="form-control" name="data[cmt5]" id="remarks5" disabled>
+												<select class="form-control" name="data[cmt5]" required>
 													<option value="">-Select-</option>
 													<option value="Did not empathize when empathy was needed" <?= ($hcci_data['cmt5']=="Did not empathize when empathy was needed")?"selected":"" ?>>Did not empathize when empathy was needed</option>
 													<option value="Over-apologized" <?= ($hcci_data['cmt5']=="Over-apologized")?"selected":"" ?>>Over-apologized</option>
@@ -355,14 +355,14 @@
 											<td colspan=2>Did the agent effectively lead the call and, if applicable, communicate resolution steps they were taking? If yes, the agent should be in control of the call and be able to help guide the user through the interaction. They should also communicate clearly which steps they are taking and what the resolution is.</td>
 											<td>5</td>
 											<td>
-												<select class="form-control hcci_point customer" id="status_points6" name="data[call_Control]" required>
+												<select class="form-control hcci_point customer" name="data[call_Control]" required>
 													
 													<option hcci_val=5 <?php echo $hcci_data['call_Control'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
 													<option hcci_val=0 <?php echo $hcci_data['call_Control'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 											<td colspan=2>
-												<select class="form-control" name="data[cmt6]" id="remarks6" disabled>
+												<select class="form-control" name="data[cmt6]" required>
 													<option value="">-Select-</option>
 													<option value="Did not communicate steps taken to the user" <?= ($hcci_data['cmt6']=="Did not communicate steps taken to the user")?"selected":"" ?>>Did not communicate steps taken to the user</option>
 													<option value="Agent was not in control of the call" <?= ($hcci_data['cmt6']=="Agent was not in control of the call")?"selected":"" ?>>Agent was not in control of the call</option>
@@ -377,14 +377,14 @@
 											<td colspan=2>Was the agent's pace consistent? This includes avoiding long silences without explanation, allowing the user to speak if you're both trying to talk at the same time, allowing the user to finish their thoughts before responding, avoiding speaking too fast, and maintaining consistent tone throughout the call</td>
 											<td>5</td>
 											<td>
-												<select class="form-control hcci_point customer" id="status_points7" name="data[pace]" required>
+												<select class="form-control hcci_point customer" name="data[pace]" required>
 													
 													<option hcci_val=5 <?php echo $hcci_data['pace'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
 													<option hcci_val=0 <?php echo $hcci_data['pace'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 											<td colspan=2>
-												<select class="form-control" name="data[cmt7]" id="remarks7" disabled>
+												<select class="form-control" name="data[cmt7]" required>
 													<option value="">-Select-</option>
 													<option value="Long silences were present during the interaction" <?= ($hcci_data['cmt7']=="Long silences were present during the interaction")?"selected":"" ?>>Long silences were present during the interaction</option>
 													<option value="Agent did not allow user to finish their thoughts before responding" <?= ($hcci_data['cmt7']=="Agent did not allow user to finish their thoughts before responding")?"selected":"" ?>>Agent did not allow user to finish their thoughts before responding</option>
@@ -400,14 +400,14 @@
 											<td colspan=2>Did agent follow appropriate guidance for placing customer on hold? This includes requesting permission and estimating how long you will be before placing user on hold, completing work within estimated hold time, and, if exceeding estimated hold time, checking in with the user to update estimated time and confirming they're still able to wait on the line. If no hold was present, the answer is YES.</td>
 											<td>5</td>
 											<td>
-												<select class="form-control hcci_point customer" id="status_points8" name="data[holds]" required>
+												<select class="form-control hcci_point customer" name="data[holds]" required>
 													
 													<option hcci_val=5 <?php echo $hcci_data['pace'] == "holds" ? "selected" : ""; ?> value="Pass">Pass</option>
 													<option hcci_val=0 <?php echo $hcci_data['holds'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 											<td colspan=2>
-												<select class="form-control" name="data[cmt8]" id="remarks8" disabled>
+												<select class="form-control" name="data[cmt8]" required>
 													<option value="">-Select-</option>
 													<option value="Agent did not request permission to place user on hold" <?= ($hcci_data['cmt8']=="Agent did not request permission to place user on hold")?"selected":"" ?>>Agent did not request permission to place user on hold</option>
 													<option value="Agent did not convey a hold duration to the customer" <?= ($hcci_data['cmt8']=="Agent did not convey a hold duration to the customer")?"selected":"" ?>>Agent did not convey a hold duration to the customer</option>
@@ -425,14 +425,14 @@
 											<td colspan=2>Did the agent correctly document this interaction in Dash? This includes leaving the date, agent name, relevant notes of actions taken, and the Zendesk ticket number.</td>
 											<td>5</td>
 											<td>
-												<select class="form-control hcci_point compliance" id="status_points9" name="data[dash_Documentation]" required>
+												<select class="form-control hcci_point compliance" name="data[dash_Documentation]" required>
 													
 													<option hcci_val=5 <?php echo $hcci_data['pace'] == "dash_Documentation" ? "selected" : ""; ?> value="Pass">Pass</option>
 													<option hcci_val=0 <?php echo $hcci_data['dash_Documentation'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 											<td colspan=2>
-												<select class="form-control" name="data[cmt9]" id="remarks9" disabled>
+												<select class="form-control" name="data[cmt9]" required>
 													<option value="">-Select-</option>
 													<option value="Missing date" <?= ($hcci_data['cmt9']=="Missing date")?"selected":"" ?>>Missing date</option>
 													<option value="Missing agent name" <?= ($hcci_data['cmt9']=="Missing agent name")?"selected":"" ?>>Missing agent name</option>
@@ -449,14 +449,14 @@
 											<td colspan=2>Did the agent select the best available ticket disposition? Tagging should reflect the inbound ticket. "Yes" here means the agent scored "Yes" on criteria 1b, Issue Identification, as well as criteria 2b, Situational Policy, and tagged the ticket according to the issue(s) and policies addressed by criteria 1b and 2b.</td>
 											<td>20</td>
 											<td>
-												<select class="form-control hcci_point business" id="status_points10" name="data[disposition_Tagging]" required>
+												<select class="form-control hcci_point business" name="data[disposition_Tagging]" required>
 													
 													<option hcci_val=20 <?php echo $hcci_data['pace'] == "disposition_Tagging" ? "selected" : ""; ?> value="Pass">Pass</option>
 													<option hcci_val=0 <?php echo $hcci_data['disposition_Tagging'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 											<td colspan=2>
-												<select class="form-control" name="data[cmt10]" id="remarks10" disabled>
+												<select class="form-control" name="data[cmt10]" required>
 													<option value="">-Select-</option>
 													<option value="Disposition was not updated correctly with new reply" <?= ($hcci_data['cmt10']=="Disposition was not updated correctly with new reply")?"selected":"" ?>>Disposition was not updated correctly with new reply</option>
 													<option value="Incorrect disposition chosen" <?= ($hcci_data['cmt10']=="Incorrect disposition chosen")?"selected":"" ?>>Incorrect disposition chosen</option>
@@ -470,14 +470,14 @@
 											<td colspan=2>Did the agent perform the Lead Audit Interview in BETTI? A Lead Audit Interview must be performed in BETTI, on the SR corresponding to the booking ID in DASH, whenever changes or updates are made in DASH. "YES" means the agent performed the Lead Audit Interview, on the correct SR in BETTI, and selected "Customer Serious".</td>
 											<td>5</td>
 											<td>
-												<select class="form-control hcci_point business" id="status_points11" name="data[betti_SR_Audit]" required>
+												<select class="form-control hcci_point business" name="data[betti_SR_Audit]" required>
 													
 													<option hcci_val=5 <?php echo $hcci_data['pace'] == "betti_SR_Audit" ? "selected" : ""; ?> value="Pass">Pass</option>
 													<option hcci_val=0 <?php echo $hcci_data['betti_SR_Audit'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 											<td colspan=2>
-												<select class="form-control" name="data[cmt11]" id="remarks11" disabled>
+												<select class="form-control" name="data[cmt11]" required>
 													<option value="">-Select-</option>
 													<option value="The Agent did NOT perform Lead Audit Interview in BETTI." <?= ($hcci_data['cmt11']=="The Agent did NOT perform Lead Audit Interview in BETTI.")?"selected":"" ?>>The Agent did NOT perform Lead Audit Interview in BETTI.</option>
 													<option value="The Agent did NOT perform the Audit on the CORRECT SR in BETTI." <?= ($hcci_data['cmt11']=="The Agent did NOT perform the Audit on the CORRECT SR in BETTI.")?"selected":"" ?>>The Agent did NOT perform the Audit on the CORRECT SR in BETTI.</option>
@@ -697,13 +697,13 @@
 											<td colspan=2><textarea class="form-control" name="data[feedback]"><?php echo $hcci_data['feedback'] ?></textarea></td>
 										</tr>
 										<tr>
-											<td colspan=2>Upload Files (Mp4/Mp3/M4a/Wav)</td>
+											<td colspan=2>Upload Files (avi|mp4|3gp|mpeg|mpg|mov|mp3|flv|wmv|mkv|wav)</td>
 											<?php if ($hcci_id == 0) { ?>
-												<td colspan=4><input type="file" multiple class="form-control" id="attach_file" name="attach_file[]" accept=".avi,.mp4,.3gp,.mpeg,.mpg,.mov,.mp3,.flv,.wmv,.mkv,.wav,audio/*"></td>
+												<td colspan=4><input type="file" multiple class="form-control" data-file_types="audio/*,video/*" id="attach_file" name="attach_file[]" accept="audio/mp3,audio/*;capture=microphone"></td>
 												<?php } else {
 												if ($hcci_data['attach_file'] != '') { ?>
 													<td colspan=4>
-														<input type="file" multiple class="form-control"  id="attach_file" name="attach_file[]" accept=".avi,.mp4,.3gp,.mpeg,.mpg,.mov,.mp3,.flv,.wmv,.mkv,.wav,audio/*">
+														<input type="file" multiple class="form-control" data-file_types="audio/*,video/*" id="attach_file" name="attach_file[]" accept="audio/mp3,audio/*;capture=microphone">
 														<?php $attach_file = explode(",", $hcci_data['attach_file']);
 														foreach ($attach_file as $mp) { ?>
 															<audio controls='' style="background-color:#607F93">
@@ -714,7 +714,7 @@
 													</td>
 											<?php } else {
 													echo '<td colspan=6>
-													<input type="file" multiple class="form-control" id="attach_file" name="attach_file[]" accept=".avi,.mp4,.3gp,.mpeg,.mpg,.mov,.mp3,.flv,.wmv,.mkv,.wav,audio/*">
+													<input type="file" multiple class="form-control" data-file_types="audio/*,video/*" id="attach_file" name="attach_file[]" accept="audio/mp3,audio/*;capture=microphone">
 													<b>No Files</b></td>';
 												}
 											} ?>
