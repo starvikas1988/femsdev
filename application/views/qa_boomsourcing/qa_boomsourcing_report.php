@@ -115,10 +115,10 @@
 									?>
 									<tr>
 										<td><?php echo $i++; ?></td>
-										<td><?php echo $row['xpoid']; ?></td>
+										<td><?php echo $row['fusion_id']; ?></td>
 										<td><?php echo $row['agent_name']; ?></td>
 										<td><?php echo $row['tl_name']; ?></td>
-										<td><?php echo ConvServerToLocal($row['entry_date']); ?></td>
+										<td><?php echo $row['entry_date']; ?></td>
 										<td><?php 
 											if($row['entry_by']!=''){
 												echo $row['auditor_name'];

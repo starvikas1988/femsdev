@@ -1822,7 +1822,6 @@
             $curDateTime = CurrMySqlDate();
             $a = array();
             $b = array();
-            //$multicomments1 = array();
 
             $field_array['agent_id'] = !empty( $_POST['data']['agent_id'] )?$_POST['data']['agent_id']:'';
             if ( $field_array['agent_id'] ) {
@@ -1830,85 +1829,7 @@
                 if ( $hcci_id == 0 ) {
 
                     $field_array = $this->input->post( 'data' );
-
-                   
-                   
-                    // echo"<pre>";
-                    // print_r($field_array);
-                    // echo"</pre>";
-                    // exit();
-                    if(isset($field_array['cmt1'])){
-                    	$field_array['cmt1A'] = $field_array['cmt1'][0];
-	  					$field_array['cmt1B'] = $field_array['cmt1'][1];
-	  					$field_array['cmt1C'] = $field_array['cmt1'][2];
-	  					unset($field_array['cmt1']);
-                    }
-                    if(isset($field_array['cmt2'])){
-                    	$field_array['cmt2A'] = $field_array['cmt2'][0];
-	  					$field_array['cmt2B'] = $field_array['cmt2'][1];
-	  					$field_array['cmt2C'] = $field_array['cmt2'][2];
-	  					unset($field_array['cmt2']);
-                    }
-                    if(isset($field_array['cmt3'])){
-                    	$field_array['cmt3A'] = $field_array['cmt3'][0];
-	  					$field_array['cmt3B'] = $field_array['cmt3'][1];
-	  					unset($field_array['cmt3']);
-                    }
-                    if(isset($field_array['cmt4'])){
-                    	$field_array['cmt4A'] = $field_array['cmt4'][0];
-	  					$field_array['cmt4B'] = $field_array['cmt4'][1];
-	  					$field_array['cmt4C'] = $field_array['cmt4'][2];
-	  					$field_array['cmt4D'] = $field_array['cmt4'][3];
-	  					unset($field_array['cmt4']);
-                    }
-                    if(isset($field_array['cmt5'])){
-                    	$field_array['cmt5A'] = $field_array['cmt5'][0];
-	  					$field_array['cmt5B'] = $field_array['cmt5'][1];
-	  					$field_array['cmt5C'] = $field_array['cmt5'][2];
-	  					unset($field_array['cmt5']);
-                    }
-                    if(isset($field_array['cmt6'])){
-                    	$field_array['cmt6A'] = $field_array['cmt6'][0];
-	  					$field_array['cmt6B'] = $field_array['cmt6'][1];
-	  					$field_array['cmt6C'] = $field_array['cmt6'][2];
-	  					unset($field_array['cmt6']);
-                    }
-                    if(isset($field_array['cmt7'])){
-                    	$field_array['cmt7A'] = $field_array['cmt7'][0];
-	  					$field_array['cmt7B'] = $field_array['cmt7'][1];
-	  					$field_array['cmt7C'] = $field_array['cmt7'][2];
-	  					$field_array['cmt7D'] = $field_array['cmt7'][3];
-	  					unset($field_array['cmt7']);
-                    }
-                    if(isset($field_array['cmt8'])){
-                    	$field_array['cmt8A'] = $field_array['cmt8'][0];
-	  					$field_array['cmt8B'] = $field_array['cmt8'][1];
-	  					$field_array['cmt8C'] = $field_array['cmt8'][2];
-	  					$field_array['cmt8D'] = $field_array['cmt8'][3];
-	  					$field_array['cmt8E'] = $field_array['cmt8'][4];
-	  					unset($field_array['cmt8']);
-                    }
-                    if(isset($field_array['cmt9'])){
-                    	$field_array['cmt9A'] = $field_array['cmt9'][0];
-	  					$field_array['cmt9B'] = $field_array['cmt9'][1];
-	  					$field_array['cmt9C'] = $field_array['cmt9'][2];
-	  					$field_array['cmt9D'] = $field_array['cmt9'][3];
-	  					$field_array['cmt9E'] = $field_array['cmt9'][4];
-	  					unset($field_array['cmt9']);
-                    }
-                    if(isset($field_array['cmt10'])){
-                    	$field_array['cmt10A'] = $field_array['cmt10'][0];
-	  					$field_array['cmt10B'] = $field_array['cmt10'][1];
-	  					unset($field_array['cmt10']);
-                    }
-                    if(isset($field_array['cmt11'])){
-                    	$field_array['cmt11A'] = $field_array['cmt11'][0];
-	  					$field_array['cmt11B'] = $field_array['cmt11'][1];
-	  					$field_array['cmt11C'] = $field_array['cmt11'][2];
-	  					unset($field_array['cmt11']);
-                    }
-  					
-
+                    
                     $field_array['audit_date'] = CurrDate();
                    // $field_array['audit_date'] = CurrDateTimeMDY();
                     $field_array['call_date'] = mmddyy2mysql( $this->input->post( 'call_date' ) );
@@ -1932,157 +1853,15 @@
                 } else {
 
                     $field_array1 = $this->input->post( 'data' );
-
-                    if(isset($field_array1['cmt1'])){
-                    	$field_array1['cmt1A'] = $field_array1['cmt1'][0];
-	  					$field_array1['cmt1B'] = $field_array1['cmt1'][1];
-	  					$field_array1['cmt1C'] = $field_array1['cmt1'][2];
-	  					unset($field_array1['cmt1']);
-                    }
-                    if(isset($field_array1['cmt2'])){
-                    	$field_array1['cmt2A'] = $field_array1['cmt2'][0];
-	  					$field_array1['cmt2B'] = $field_array1['cmt2'][1];
-	  					$field_array1['cmt2C'] = $field_array1['cmt2'][2];
-	  					unset($field_array1['cmt2']);
-                    }
-                    if(isset($field_array1['cmt3'])){
-                    	$field_array1['cmt3A'] = $field_array1['cmt3'][0];
-	  					$field_array1['cmt3B'] = $field_array1['cmt3'][1];
-	  					unset($field_array1['cmt3']);
-                    }
-                    if(isset($field_array1['cmt4'])){
-                    	$field_array1['cmt4A'] = $field_array1['cmt4'][0];
-	  					$field_array1['cmt4B'] = $field_array1['cmt4'][1];
-	  					$field_array1['cmt4C'] = $field_array1['cmt4'][2];
-	  					$field_array1['cmt4D'] = $field_array1['cmt4'][3];
-	  					unset($field_array1['cmt4']);
-                    }
-                    if(isset($field_array1['cmt5'])){
-                    	$field_array1['cmt5A'] = $field_array1['cmt5'][0];
-	  					$field_array1['cmt5B'] = $field_array1['cmt5'][1];
-	  					$field_array1['cmt5C'] = $field_array1['cmt5'][2];
-	  					unset($field_array1['cmt5']);
-                    }
-                    if(isset($field_array1['cmt6'])){
-                    	$field_array1['cmt6A'] = $field_array1['cmt6'][0];
-	  					$field_array1['cmt6B'] = $field_array1['cmt6'][1];
-	  					$field_array1['cmt6C'] = $field_array1['cmt6'][2];
-	  					unset($field_array1['cmt6']);
-                    }
-                    if(isset($field_array1['cmt7'])){
-                    	$field_array1['cmt7A'] = $field_array1['cmt7'][0];
-	  					$field_array1['cmt7B'] = $field_array1['cmt7'][1];
-	  					$field_array1['cmt7C'] = $field_array1['cmt7'][2];
-	  					$field_array1['cmt7D'] = $field_array1['cmt7'][3];
-	  					unset($field_array1['cmt7']);
-                    }
-                    if(isset($field_array1['cmt8'])){
-                    	$field_array1['cmt8A'] = $field_array1['cmt8'][0];
-	  					$field_array1['cmt8B'] = $field_array1['cmt8'][1];
-	  					$field_array1['cmt8C'] = $field_array1['cmt8'][2];
-	  					$field_array1['cmt8D'] = $field_array1['cmt8'][3];
-	  					$field_array1['cmt8E'] = $field_array1['cmt8'][4];
-	  					unset($field_array1['cmt8']);
-                    }
-                    if(isset($field_array1['cmt9'])){
-                    	$field_array1['cmt9A'] = $field_array1['cmt9'][0];
-	  					$field_array1['cmt9B'] = $field_array1['cmt9'][1];
-	  					$field_array1['cmt9C'] = $field_array1['cmt9'][2];
-	  					$field_array1['cmt9D'] = $field_array1['cmt9'][3];
-	  					$field_array1['cmt9E'] = $field_array1['cmt9'][4];
-	  					unset($field_array1['cmt9']);
-                    }
-                    if(isset($field_array1['cmt10'])){
-                    	$field_array1['cmt10A'] = $field_array1['cmt10'][0];
-	  					$field_array1['cmt10B'] = $field_array1['cmt10'][1];
-	  					unset($field_array1['cmt10']);
-                    }
-                    if(isset($field_array1['cmt11'])){
-                    	$field_array1['cmt11A'] = $field_array1['cmt11'][0];
-	  					$field_array1['cmt11B'] = $field_array1['cmt11'][1];
-	  					$field_array1['cmt11C'] = $field_array1['cmt11'][2];
-	  					unset($field_array1['cmt11']);
-                    }
-                    
-
-     //                $field_array1['cmt1A'] = $field_array1['cmt1'][0];
-  			// 		$field_array1['cmt1B'] = $field_array1['cmt1'][1];
-  			// 		$field_array1['cmt1C'] = $field_array1['cmt1'][2];
-  			// 		unset($field_array1['cmt1']);
-
-  			// 		$field_array1['cmt2A'] = $field_array1['cmt2'][0];
-  			// 		$field_array1['cmt2B'] = $field_array1['cmt2'][1];
-  			// 		$field_array1['cmt2C'] = $field_array1['cmt2'][2];
-  			// 		unset($field_array1['cmt2']);
-					
-					// $field_array1['cmt3A'] = $field_array1['cmt3'][0];
-  			// 		$field_array1['cmt3B'] = $field_array1['cmt3'][1];
-  			// 		unset($field_array1['cmt3']);
-
-
-  			// 		$field_array1['cmt4A'] = $field_array1['cmt4'][0];
-  			// 		$field_array1['cmt4B'] = $field_array1['cmt4'][1];
-  			// 		$field_array1['cmt4C'] = $field_array1['cmt4'][2];
-  			// 		$field_array1['cmt4D'] = $field_array1['cmt4'][3];
-  			// 		unset($field_array1['cmt4']);
-
-  			// 		$field_array1['cmt5A'] = $field_array1['cmt5'][0];
-  			// 		$field_array1['cmt5B'] = $field_array1['cmt5'][1];
-  			// 		$field_array1['cmt5C'] = $field_array1['cmt5'][2];
-  			// 		unset($field_array1['cmt5']);
-
-  			// 		$field_array1['cmt6A'] = $field_array1['cmt6'][0];
-  			// 		$field_array1['cmt6B'] = $field_array1['cmt6'][1];
-  			// 		$field_array1['cmt6C'] = $field_array1['cmt6'][2];
-  			// 		unset($field_array1['cmt6']);
-
-  			// 		$field_array1['cmt7A'] = $field_array1['cmt7'][0];
-  			// 		$field_array1['cmt7B'] = $field_array1['cmt7'][1];
-  			// 		$field_array1['cmt7C'] = $field_array1['cmt7'][2];
-  			// 		$field_array1['cmt7D'] = $field_array1['cmt7'][3];
-  			// 		unset($field_array1['cmt7']);
-
-  			// 		$field_array1['cmt8A'] = $field_array1['cmt8'][0];
-  			// 		$field_array1['cmt8B'] = $field_array1['cmt8'][1];
-  			// 		$field_array1['cmt8C'] = $field_array1['cmt8'][2];
-  			// 		$field_array1['cmt8D'] = $field_array1['cmt8'][3];
-  			// 		$field_array1['cmt8E'] = $field_array1['cmt8'][4];
-  			// 		unset($field_array1['cmt8']);
-
-  			// 		$field_array1['cmt9A'] = $field_array1['cmt9'][0];
-  			// 		$field_array1['cmt9B'] = $field_array1['cmt9'][1];
-  			// 		$field_array1['cmt9C'] = $field_array1['cmt9'][2];
-  			// 		$field_array1['cmt9D'] = $field_array1['cmt9'][3];
-  			// 		$field_array1['cmt9E'] = $field_array1['cmt9'][4];
-  			// 		unset($field_array1['cmt9']);
-
-  			// 		$field_array1['cmt10A'] = $field_array1['cmt10'][0];
-  			// 		$field_array1['cmt10B'] = $field_array1['cmt10'][1];
-  			// 		unset($field_array1['cmt10']);
-
-  			// 		$field_array1['cmt11A'] = $field_array1['cmt11'][0];
-  			// 		$field_array1['cmt11B'] = $field_array1['cmt11'][1];
-  			// 		$field_array1['cmt11C'] = $field_array1['cmt11'][2];
-  			// 		unset($field_array1['cmt11']);
-
                     $field_array1['call_date'] = mmddyy2mysql( $this->input->post( 'call_date' ) );
-                    // if(!file_exists("./qa_files/qa_homeadvisor/hcci_files/")){
-                    //     mkdir("./qa_files/qa_homeadvisor/hcci_files/");
-                    // }
-                    // $b = $this->ha_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_homeadvisor/hcci_files/' );
-                    // $field_array1['attach_file'] = implode( ',', $b );
-                    // echo"<pre>";
-                    // print_r($field_array1);
-                    // echo"</pre>";
-
-                    if($_FILES['attach_file']['tmp_name'][0]!=''){
-						if(!file_exists("./qa_files/qa_homeadvisor/hcci_files/")){
+                    if(!file_exists("./qa_files/qa_homeadvisor/hcci_files/")){
                         mkdir("./qa_files/qa_homeadvisor/hcci_files/");
-                    	}
-						$a = $this->ha_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_homeadvisor/hcci_files/' );
-						$field_array1['attach_file'] = implode( ',', $a );
-					}
-
+                    }
+                    $b = $this->ha_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_homeadvisor/hcci_files/' );
+                    $field_array1['attach_file'] = implode( ',', $b );
+                    echo"<pre>";
+                    print_r($field_array1);
+                    echo"</pre>";
                     $this->db->where( 'id', $hcci_id );
                     $this->db->update( 'qa_hcci_core_feedback', $field_array1 );
                     /////////////

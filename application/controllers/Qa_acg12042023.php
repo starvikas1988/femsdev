@@ -266,13 +266,17 @@ private function ajio_upload_files($files,$path)   // this is for file uploaging
 
                     $field_array1 = $this->input->post( 'data' );
                     $field_array1['call_date'] = mmddyy2mysql( $this->input->post( 'call_date' ) );
-					if($_FILES['attach_file']['tmp_name'][0]!=''){
-						if(!file_exists("./qa_files/qa_acg")){
-							mkdir("./qa_files/qa_acg");
-						}
-						$a = $this->ajio_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_acg/' );
-						$field_array1['attach_file'] = implode( ',', $a );
-					}
+
+                    // if(isset($_FILES['attach_file'])){
+                    // 	if(!file_exists("./qa_files/qa_acg")){
+	                   //      mkdir("./qa_files/qa_acg");
+	                   //  }
+	                   //  $a = $this->ajio_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_acg/' );
+	                   //  $field_array1['attach_file'] = implode( ',', $a );
+                    // }
+                    
+                    //print_r($_FILES['attach_file']);
+                    // exit();
                     $this->db->where( 'id', $ajio_id );
                     $this->db->update( 'qa_acg_feedback', $field_array1 );
                     /////////////

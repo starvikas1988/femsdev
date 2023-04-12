@@ -116,7 +116,7 @@ input[type=submit] {
 									<div class="form-group">
 										<label>Agent</label>
 										<select class="form-control" id="" name="agent_id">
-											<option value="">-Select-</option>
+											<option value="">ALL</option>
 											<?php foreach($agentName as $row):
 												$sCss='';
 												if($row['id']==$agent_id) $sCss='Selected';
@@ -127,7 +127,7 @@ input[type=submit] {
 									</div>
 								</div>
 								<div class="col-md-1" style="margin-top:20px">
-									<button class="btn btn-success waves-effect" a href="<?php echo base_url()?>Qa_homeadvisor/hcci" type="submit" id='btnView' name='btnView' value="View">View</button>
+									<button class="btn btn-success blains-effect" a href="<?php echo base_url()?>Qa_homeadvisor/hcci" type="submit" id='btnView' name='btnView' value="View">View</button>
 								</div>
 							</div>
 							
@@ -202,7 +202,7 @@ input[type=submit] {
 										<th>Score</th>
 										<th>VOC</th>
 										<th>Audio</th>
-										<th>Agent Review Date</th>
+										<th>Agent Review Date/Time</th>
 										<th>Mgnt Review By</th>
 										<th>Mgnt Review Date</th>
 										<th>Action</th>
@@ -259,7 +259,7 @@ input[type=submit] {
 										<th>Score</th>
 										<th>VOC</th>
 										<th>Audio</th>
-										<th>Agent Review Date</th>
+										<th>Agent Review Date/Time</th>
 										<th>Mgnt Review By</th>
 										<th>Mgnt Review Date</th>
 										<th>Action</th>
@@ -311,9 +311,9 @@ input[type=submit] {
 										<th>Score</th>
 										<th>VOC</th>
 										<th>Audio</th>
-										<th>Agent Review Date</th>
+										<th>Agent Review Date/Time</th>
 										<th>Mgnt Review By</th>
-										<th>Mgnt Review Date</th>
+										<th>Mgnt Review Date/Time</th>
 										<th>Action</th>
 									</tr>
 								</thead>
@@ -368,9 +368,9 @@ input[type=submit] {
 										<th>Score</th>
 										<th>VOC</th>
 										<th>Audio</th>
-										<th>Agent Review Date</th>
+										<th>Agent Review Date/Time</th>
 										<th>Mgnt Review By</th>
-										<th>Mgnt Review Date</th>
+										<th>Mgnt Review Date/Time</th>
 										<th>Action</th>
 									</tr>
 								</tfoot>

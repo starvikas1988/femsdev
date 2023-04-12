@@ -53,13 +53,13 @@
 											<td><input type="text" class="form-control" value="<?= $auditorName; ?>" disabled></td>
 											<td>Audit Date:</td>
 											<td><input type="text" class="form-control" value="<?php echo mysql2mmddyy($agnt_feedback['audit_date']); ?>" disabled></td>
-											<td>Contact Date:</td>
+											<td>Contact Date:<span style="font-size:24px;color:red">*</span></td>
 											<td>
 												<input type="text" id="call_date" name="call_date"  onkeydown="return false;" value="<?php echo mysql2mmddyy($agnt_feedback['call_date']); ?>" max="<?php echo date("Y-m-d"); ?>" class="form-control" disabled>
 											</td>
 										</tr>
 										<tr>
-											<td>Agent Name:</td>
+											<td>Agent Name:<span style="font-size:24px;color:red">*</span></td>
 											<td>
 												<select class="form-control" id="agent_id" name="data[agent_id]" disabled="">
 												<option value="<?php echo $agnt_feedback['agent_id'] ?>"><?php echo $agnt_feedback['fname']." ".$agnt_feedback['lname'] ?></option>
@@ -71,7 +71,7 @@
 											</td>
 											<td>Employee ID:</td>
 											<td><input type="text" disabled class="form-control" id="fusion_id" value="<?php echo $agnt_feedback['fusion_id'] ?>"></td>
-											<td> TL Name:</td>
+											<td> TL Name:<span style="font-size:24px;color:red">*</span></td>
 											<td>
 												
 								
@@ -80,24 +80,24 @@
 											</td>
 										</tr>
 										<tr>
-											<td>Call File:</td>
+											<td>Call File:<span style="font-size:24px;color:red">*</span></td>
 											<td>
 												<input type="text" class="form-control" id="call_file" name="data[call_file]" disabled value="<?php echo $agnt_feedback['call_file'] ?>">
 											</td>
-											<td>Contact Duration:</td>
+											<td>Contact Duration:<span style="font-size:24px;color:red">*</span></td>
 											<td><input type="text" class="form-control" onkeydown="return false;" id="call_duration" name="data[call_duration]" value="<?php echo $agnt_feedback['call_duration']?>" disabled></td>
 										
-											<td>SR No:</td>
+											<td>SR No:<span style="font-size:24px;color:red">*</span></td>
 											<td>
 												<input type="text" class="form-control" id="sr_no" name="data[sr_no]" disabled value="<?php echo $agnt_feedback['sr_no'] ?>">
 											</td>
 										</tr>
 										<tr>
-											<td>Consumer No:</td>
+											<td>Consumer No:<span style="font-size:24px;color:red">*</span></td>
 											<td><input type="text" class="form-control" id="phone" name="data[consumer_no]" value="<?php echo $agnt_feedback['consumer_no'] ?>" onkeyup="checkDec(this);" disabled>
 												<span id="start_phone" style="color:red"></span></td>
 
-											<td>VOC:</td>
+											<td>VOC:<span style="font-size:24px;color:red">*</span></td>
 											<td>
 												<select class="form-control" id="voc" name="data[voc]" disabled>
 													
@@ -114,7 +114,7 @@
 													<option value="10"  <?= ($agnt_feedback['voc']=="10")?"selected":"" ?>>10</option>
 												</select>
 											</td>
-											<td>Audit Type:</td>
+											<td>Audit Type:<span style="font-size:24px;color:red">*</span></td>
 											<td>
 												<select class="form-control" id="audit_type" name="data[audit_type]" disabled>
                                                     <option value="">-Select-</option>
@@ -129,7 +129,7 @@
 											</td>
 										</tr>
 										<tr>
-											<td class="auType">Auditor Type</td>
+											<td class="auType">Auditor Type<span style="font-size:24px;color:red">*</span></td>
 											<td class="auType">
 												<select class="form-control" id="auditor_type" name="data[auditor_type]">
                                                     
@@ -145,7 +145,7 @@
 											<td style="font-weight:bold; font-size:16px; text-align:left">Possible Score</td>
 											<td><input type="text" readonly id="hcci_possible_score" name="data[possible_score]" class="form-control" value="<?php echo $agnt_feedback['possible_score'] ?>" /></td>
 											<td style="font-weight:bold; font-size:16px; text-align:right">Overall Score:</td>
-											<td><input type="text" readonly id="hcci_overall_score" name="data[overall_score]" class="form-control avonFatal" style="font-weight:bold" value="<?php echo $agnt_feedback['overall_score'].'%' ?>"></td>
+											<td><input type="text" readonly id="hcci_overall_score" name="data[overall_score]" class="form-control avonFatal" style="font-weight:bold" value="<?php echo $agnt_feedback['overall_score'] ?>"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -483,10 +483,10 @@
 											<td style="font-weight:bold; background-color:#D7BDE2">Business</td>
 										</tr>
 										
-										<tr>
+										<tr class="fatal">
 											<td class="eml" rowspan=6 colspan=2>Critical Fail Behaviors</td>
 											<!-- <td rowspan=6 >Critical Fail Behaviors</td> -->
-											<td class="text-danger" colspan=2>Unintelligible language</td>
+											<td colspan=2>Unintelligible language</td>
 											<td>0</td>
 											<td>
 												<select class="form-control hcci_point hcci_fatal" name="data[unintelligible_language]" disabled>
@@ -502,7 +502,7 @@
 										</tr>
 										<tr>
 											
-											<td class="text-danger" colspan=2>Failed to address one or more of the customer's issue(s)</td>
+											<td colspan=2>Failed to address one or more of the customer's issue(s)</td>
 											<td>0</td>
 											<td>
 												<select class="form-control hcci_point hcci_fatal" name="data[address_customer_issues]" disabled>
@@ -518,7 +518,7 @@
 										</tr>
 										<tr>
 											
-											<td class="text-danger" colspan=2>Failed to validate customer's account</td>
+											<td colspan=2>Failed to validate customer's account</td>
 											<td>0</td>
 											<td>
 												<select class="form-control hcci_point hcci_fatal" name="data[validate_customers_account]" disabled>
@@ -534,7 +534,7 @@
 										</tr>
 										<tr>
 											
-											<td class="text-danger" colspan=2>Failed to implement correct outcome according to workflow or policy</td>
+											<td colspan=2>Failed to implement correct outcome according to workflow or policy</td>
 											<td>0</td>
 											<td>
 												<select class="form-control hcci_point hcci_fatal" name="data[correct_outcome]" disabled>
@@ -550,7 +550,7 @@
 										</tr>
 										<tr>
 											
-											<td class="text-danger" colspan=2>Egregious policy error (excessive OOP, gave out personal information w/o permission, etc.) - DISCIPLINARY ACTION disabled</td>
+											<td colspan=2>Egregious policy error (excessive OOP, gave out personal information w/o permission, etc.) - DISCIPLINARY ACTION disabled</td>
 											<td>0</td>
 											<td>
 												<select class="form-control hcci_point hcci_fatal" name="data[egregious_policy_error]" disabled>
@@ -566,7 +566,7 @@
 										</tr>
 										<tr>
 											
-											<td class="text-danger" colspan=2>Flagrantly inappropriate response (cursing, insulting, speaking negatively of company/agent/pro, etc.) - DISCIPLINARY ACTION disabled</td>
+											<td colspan=2>Flagrantly inappropriate response (cursing, insulting, speaking negatively of company/agent/pro, etc.) - DISCIPLINARY ACTION disabled</td>
 											<td>0</td>
 											<td>
 												<select class="form-control hcci_point hcci_fatal" name="data[flagrantly_inappropriate_response]" disabled>
@@ -673,18 +673,13 @@
 										</td>
 									</tr>
 									<?php } ?>
-
-									<tr>
-										<td style="font-size:12px">Manager Review:</td>
-										<td colspan="8" style="text-align:left"><?php echo $agnt_feedback['mgnt_rvw_note'] ?></td>
-									</tr>
 									<tr><td colspan="6" style="background-color:#C5C8C8"></td></tr>
 									
 									 <form id="form_agent_user" method="POST" action="">
 										<input type="hidden" name="pnid" class="form-control" value="<?php echo $pnid; ?>">
 										
 										<tr>
-											<td colspan=2 style="font-size:16px">Feedback Acceptance<span style="font-size:24px;color:red">*</span></td>
+											<td colspan=2 style="font-size:16px">Feedback Acceptance</td>
 											<td colspan=2>
 												<select class="form-control" id="" name="agnt_fd_acpt" required="">
 													<option value="">--Select--</option>
@@ -694,7 +689,7 @@
 											</td>
 										</tr>
 										<tr>
-											<td colspan=2 style="font-size:16px">Your Review<span style="font-size:24px;color:red">*</span></td>
+											<td colspan=2 style="font-size:16px">Your Review</td>
 											<td colspan=4><textarea class="form-control" name="note" required><?php echo $agnt_feedback['agent_rvw_note'] ?></textarea></td>
 										</tr>
 										

@@ -32,15 +32,15 @@
 								<h4 class="widget-title">Search Audit</h4>
 							</header>
 						</div>
-						<div class="col-md-3">
+						<!--<div class="col-md-3">
 							<header class="widget-header">
 								<h4 class="widget-title">
-									<?php if(get_dept_folder()=="qa" || get_global_access()=='1'){ ?>
-										<a href="<?php echo base_url(); ?>Qa_boomsourcing/qa_boomsourcing_rebuttal" class="rebuttal rebuttal_body" target="_blank">Rebuttal Raised: <?php echo $rebuttal ?></a>
-									<?php } ?>
+									<?php //if(get_dept_folder()=="qa" || get_global_access()=='1'){ ?>
+										<a href="<?php //echo base_url(); ?>Qa_boomsourcing/qa_boomsourcing_rebuttal" class="rebuttal rebuttal_body" target="_blank">Rebuttal Raised: <?php //echo $rebuttal ?></a>
+									<?php //} ?>
 								</h4>
 							</header>
-						</div>
+						</div>-->
 						<hr class="widget-separator">
 					</div>
 					<div class="widget-body">
@@ -162,7 +162,7 @@
 											
 											<td><?php echo $i++; ?></td>
 											<td><?php echo $row['auditor_name']; ?></td>
-											<td><?php echo ConvServerToLocal($row['entry_date']); ?></td>
+											<td><?php echo $row['entry_date']; ?></td>
 											<td><?php echo $row['fname']." ".$row['lname']; ?></td>
 											<td><?php echo $row['tl_name']; ?></td>
 											<td><?php echo $row['ticket_id']; ?></td>

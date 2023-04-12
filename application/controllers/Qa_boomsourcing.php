@@ -210,16 +210,17 @@ class Qa_boomsourcing extends CI_Controller {
 		if(check_logged_in())
 		{
 			//checking if any survey assigned for this user or not, if exist it ill redirect to home page
-			$mySurvey = $this->user_model->checkUsersSurvey();
+			/* $mySurvey = $this->user_model->checkUsersSurvey();
 			if(!empty($mySurvey[1])){
 				redirect(base_url().'home');
-			}
+			} */
+			
 			$current_user = get_user_id();
 			$data["aside_template"] = "qa_boomsourcing_aside/aside.php";
 			$data["content_template"] = "qa_boomsourcing/qa_boomsourcing_feedback.php";
 			$data["content_js"] = "qa_boomsourcing_js.php";
 			
-			if(((get_role_dir()=='manager' || get_role_dir()=='tl') && get_dept_folder()=='operations') || get_dept_folder()=='training'){
+			/* if(((get_role_dir()=='manager' || get_role_dir()=='tl') && get_dept_folder()=='operations') || get_dept_folder()=='training'){
 				$data["rebuttal"]='';
 			}else{
 				if(get_global_access()=='1'){
@@ -230,9 +231,9 @@ class Qa_boomsourcing extends CI_Controller {
 					$rebuttalSql="Select count(id) as value from qa_boomsourcing_feedback where entry_by='$current_user' and agnt_fd_acpt='Not Accepted' and qa_rebuttal is Null";
 				}
 				$data["rebuttal"]=$this->Common_model->get_single_value($rebuttalSql);
-			}
+			} */
 			
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id, office_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,275) and status=1 order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id, office_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id in (6,14) and is_assign_client(id,275) and status=1 and office_id in ('LEZ','ORT','SLG','SPI') order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 			
 			$qaSql="Select entry_by, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name from qa_boomsourcing_feedback group by entry_by";
@@ -301,12 +302,19 @@ class Qa_boomsourcing extends CI_Controller {
 			$data["content_js"] = "qa_boomsourcing_js.php";
 			$data['ss_id']=$ss_id;
 			
-			
+			/*campaign & vertical*/
+			$data['campaign_list'] = $this->db->query("SELECT * FROM boomsourcing_campaign bc WHERE bc.is_active = 1")->result_array();
+			$data['vertical_list'] = $this->db->query("SELECT * FROM boomsourcing_vertical bv WHERE bv.is_active = 1")->result_array();
+			/*campaign & vertical*/
+
 			$qSql="Select office_name as value from office_location where abbr='$user_office_id'";
 			$data["auditorLocation"] =  $this->Common_model->get_single_value($qSql);
 			
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id, xpoid FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,275) and status=1 order by name";
+			$qSql="SELECT id, fname, lname, assigned_to, fusion_id, xpoid, office_id, doj FROM signin where role_id in (select id from role where folder ='agent') and dept_id in (6,14) and is_assign_client(id,275) and status=1 and office_id in ('LEZ','ORT','SLG','SPI') order by fname";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
+			
+			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1 order by fname";
+			$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
 			
 			$qSql = "SELECT * from
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
@@ -316,7 +324,7 @@ class Qa_boomsourcing extends CI_Controller {
 				(select concat(fname, ' ', lname) as name from signin sqr where sqr.id=qa_rebuttal_by) as qa_rebuttal_name,
 				(select concat(fname, ' ', lname) as name from signin sqmr where sqmr.id=qa_mgnt_rebuttal_by) as qa_mgnt_rebuttal_name
 				from qa_boomsourcing_feedback where id='$ss_id') xx Left Join 
-				(Select id as sid, fname, lname, fusion_id, xpoid, office_id, assigned_to, get_process_names(id) as campaign, DATEDIFF(CURDATE(), doj) as tenure
+				(Select id as sid, fname, lname, fusion_id, xpoid, office_id, assigned_to, doj, get_process_names(id) as campaign, DATEDIFF(CURDATE(), doj) as tenure
 				 from signin) yy on (xx.agent_id=yy.sid)
 				Left Join (select ss_id as ata_audit_id from qa_boomsourcing_client_feedback) zz On (xx.id=zz.ata_audit_id)";
 			$data["boomsourcing"] = $this->Common_model->get_query_row_array($qSql);
@@ -425,7 +433,12 @@ class Qa_boomsourcing extends CI_Controller {
 			$data['ss_id']=$ss_id;
 			$data['ata_edit']=$ata_edit;
 			
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id, xpoid FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_process(id,275) and status=1 order by name";
+			/*campaign & vertical*/
+			$data['campaign_list'] = $this->db->query("SELECT * FROM boomsourcing_campaign bc WHERE bc.is_active = 1")->result_array();
+			$data['vertical_list'] = $this->db->query("SELECT * FROM boomsourcing_vertical bv WHERE bv.is_active = 1")->result_array();
+			/*campaign & vertical*/
+			
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id, xpoid FROM signin where role_id in (select id from role where folder ='agent') and dept_id in (6,14) and is_assign_process(id,275) and status=1 and office_id in ('LEZ','ORT','SLG','SPI') order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 			
 			if($ata_edit==0){
@@ -549,7 +562,7 @@ class Qa_boomsourcing extends CI_Controller {
 			
 			$data['pValue']=$pValue;
 			
-			$locSql="SELECT * FROM office_location WHERE is_active=1 ORDER BY office_name";
+			$locSql="SELECT * FROM office_location WHERE is_active=1 and abbr in ('LEZ','ORT','SLG','SPI') ORDER BY office_name";
 			$data['location_list'] = $this->Common_model->get_query_result_array($locSql);
 			
 			$date_from="";
@@ -621,11 +634,13 @@ class Qa_boomsourcing extends CI_Controller {
 				$marge_array_List=array_unique(array_merge($process_arr11,$process_arr22));
 				
 				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+					(select vertical from boomsourcing_vertical bv where bv.id=tmp.vertical) as vertical_name,
+					(select campaign from boomsourcing_campaign bc where bc.id=campaign_process) as campaign_process_name,
 				(select office_name from office_location where abbr=(select office_id from signin os where os.id=entry_by)) as qa_location,
 				(select email_id_off from info_personal ip where ip.user_id=entry_by) as auditor_email,
 				(select email_id_off from info_personal ips where ips.user_id=agent_id) as agent_email,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from ".$pValue.") xx 
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from ".$pValue." as tmp) xx 
 				Left Join (Select id as sid, concat(fname, ' ', lname) as agent_name, xpoid, fusion_id, doj, assigned_to, office_id, get_process_names(id) as campaign, DATEDIFF(CURDATE(), doj) as tenure from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 $cond2 $cond3";
 				
 				$fullAray = $this->Common_model->get_query_result_array($qSql);
@@ -651,7 +666,7 @@ class Qa_boomsourcing extends CI_Controller {
 	{
 		$currDate=date("Y-m-d");
 		$filename = "./assets/reports/Report".get_user_id().".csv";
-		$newfile="QA Otipy ".$pid." List-'".$currDate."'.csv";
+		$newfile="Audit ".$pid." List-'".$currDate."'.csv";
 		
 		header('Content-Disposition: attachment;  filename="'.$newfile.'"');
 		readfile($filename);
@@ -666,7 +681,7 @@ class Qa_boomsourcing extends CI_Controller {
 
 			$header = array();
 			$header = explode(",",$marge_array_List[0]['param_coloum_desc']);
-			$header_first = array("QA name", "QA Location", "Agent Name", "TL Name", "Tenure", "Earn Score", "Possible Score", "Quality Score", "PreFatal Score", "Fatal Count", "Week", "Audit Date", "Zone","Phone","Link","Reps Name","Center","Disposition", "Call Date", "AHT", "Customer VOC", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)");
+			$header_first = array("QA name", "Agent Name", "Employee ID", "TL Name", "Tenure", "Quality Score", "PreFatal Score", "Fatal Count", "Week", "Audit Date", "Zone","Phone", "Link","Vertical", "Campaign", "Disposition", "Q Score", "Call Date", "AHT", "Customer VOC", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)");
 			$header_second = explode(",",$marge_array_List[0]['param_coloum_desc']);
 			$header_third = array("Call Summary", "Feedback","Agent Review Date", "Agent Feedback Acceptance Status", "Agent Feedback Review By", "Agent Comment", "Management Review By", "Management Review Date", "Management Comment", "Attach Audio File","Attach Image File");
 			$header_fourth = array_merge($header_first,$header_second);
@@ -704,13 +719,13 @@ class Qa_boomsourcing extends CI_Controller {
 				if($user['qa_rebuttal_date']=="" || $user['qa_rebuttal_date']=='0000-00-00 00:00:00'){
 					$qa_rebuttal_date='---';
 				}else{
-					$qa_rebuttal_date=ConvServerToLocal($user['qa_rebuttal_date']);
+					$qa_rebuttal_date=$user['qa_rebuttal_date'];
 				}
 				
 				if($user['qa_mgnt_rebuttal_date']=="" || $user['qa_mgnt_rebuttal_date']=='0000-00-00 00:00:00'){
 					$qa_mgnt_rebuttal_date='---';
 				}else{
-					$qa_mgnt_rebuttal_date=ConvServerToLocal($user['qa_mgnt_rebuttal_date']);
+					$qa_mgnt_rebuttal_date=$user['qa_mgnt_rebuttal_date'];
 				}
 				
 				if($user['agent_fd_rvw_by']==$user['agent_id']){
@@ -719,17 +734,15 @@ class Qa_boomsourcing extends CI_Controller {
 					$agnt_rvw_by='TL/Manager';
 				}
 				
-				$adtdate=ConvServerToLocal($user['entry_date']);
+				$adtdate=$user['entry_date'];
 				$time = strtotime($adtdate);
 				$auditDate = date('Y-m-d',$time);
 				
-				$row = '"'.$user['auditor_name'].'",';  
-				$row .= '"'.$user['qa_location'].'",';  
+				$row = '"'.$user['auditor_name'].'",'; 
 				$row .= '"'.$user['agent_name'].'",'; 
+				$row .= '"'.$user['fusion_id'].'",'; 
 				$row .= '"'.$user['tl_name'].'",'; 
-				$row .= '"'.$user['tenure'].' Days'.'",';
-				$row .= '"'.$user['earn_score'].'",'; 
-				$row .= '"'.$user['possible_score'].'",'; 
+				$row .= '"'.$user['tenure'].' Days'.'",'; 
 				$row .= '"'.$user['overall_score'].'%'.'",'; 
 				$row .= '"'.$user['pre_fatal_score'].'",'; 
 				$row .= '"'.$user['fatal_count'].'",'; 
@@ -738,8 +751,9 @@ class Qa_boomsourcing extends CI_Controller {
 				$row .= '"'.$user['zone'].'",';
 				$row .= '"'.$user['phone'].'",';
 				$row .= '"'.$user['link'].'",';
-				$row .= '"'.$user['reps_name'].'",';
-				$row .= '"'.$user['center'].'",';
+				$row .= '"'.$user['vertical_name'].'",';
+				$row .= '"'.$user['campaign_process_name'].'",';
+				$row .= '"'.$user['q_score'].'",';
 				$row .= '"'.$user['disposition'].'",';
 				$row .= '"'.$user['call_date'].'",';
 				$row .= '"'.$user['call_duration'].'",';

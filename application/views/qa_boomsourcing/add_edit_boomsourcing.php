@@ -16,6 +16,7 @@
 	font-size:18px;
 	background-color:#85C1E9;
 }
+
 </style>
 
 
@@ -70,54 +71,106 @@ if((get_role_dir()!='manager' || get_role_dir()!='tl') && get_dept_folder()=='qa
 										<td style="width:230px"><input type="text" class="form-control" value="<?php echo $auditorName; ?>" disabled></td>
 										<td>Date of Audit:</td>
 										<td style="width:230px"><input type="text" class="form-control" value="<?php echo $auditDate; ?>" disabled></td>
-										<td>Ticket/Transaction ID:</td>
+										<td>Ticket/Transaction ID:<span style="color:red">*</span></td>
 										<td><input type="text" class="form-control" name="data[ticket_id]" value="<?php echo $boomsourcing['ticket_id']; ?>" required></td>
 									</tr>
 									<tr>
-										<td>Agent:</td>
+										<td>Agent/Rep's Name:<span style="color:red">*</span></td>
 										<td>
 											<select class="form-control" id="agent_id" name="data[agent_id]" required>
-												<option value="<?php echo $boomsourcing['agent_id']; ?>"><?php echo $boomsourcing['fname']." ".$boomsourcing['lname']; ?></option>
+												<?php
+													$date1 = str_replace('-"', '', $boomsourcing['doj']);
+													$newDate1 = date("mY", strtotime($date1)); 
+												?>
+												<option value="<?php echo $boomsourcing['agent_id']; ?>"><?php echo $boomsourcing['fname']."".$boomsourcing['office_id']."".$newDate1; ?></option>
 												<option value="">-Select-</option>
-												<?php foreach($agentName as $row):  ?>
-													<option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
+												<?php foreach($agentName as $row):  
+													$date2 = str_replace('-"', '', $row['doj']);
+													$newDate2 = date("mY", strtotime($date2)); 
+												?>
+													<option value="<?php echo $row['id']; ?>"><?php echo $row['fname']."".$row['office_id']."".$newDate2; ?></option>
 												<?php endforeach; ?>
 											</select>
 										</td>
 										<td>USER ID:</td>
-										<td><input type="text" readonly class="form-control" id="xpoid" value="<?php echo $boomsourcing['xpoid'] ?>"></td>
-										<td>L1 Supervisor:</td>
+										<td><input type="text" readonly class="form-control" id="fusion_id" value="<?php echo $boomsourcing['fusion_id'] ?>"></td>
+										<td>L1 Supervisor:<span style="color:red">*</span></td>
 										<td>
-											<input type="text" readonly class="form-control" id="tl_name" value="<?php echo $boomsourcing['tl_name'] ?>">
-											<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $boomsourcing['tl_id'] ?>">
+											<select class="form-control" id="tl_id" name="data[tl_id]" required>
+												<option value="<?php echo $boomsourcing['tl_id'] ?>"><?php echo $boomsourcing['tl_name'] ?></option>
+												<option value="">--Select--</option>
+												<?php foreach($tlname as $tl): ?>
+													<option value="<?php echo $tl['id']; ?>"><?php echo $tl['fname']." ".$tl['lname']; ?></option>
+												<?php endforeach; ?>	
+											</select>
+											<!--<input type="text" readonly class="form-control" id="tl_name" value="<?php echo $boomsourcing['tl_name'] ?>">-->
+											<!--<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $boomsourcing['tl_id'] ?>">-->
 										</td>
 									</tr>
 									<tr>
-										<td>Call/Transaction Date:</td>
+										<td>Call/Transaction Date:<span style="color:red">*</span></td>
 										<td><input type="text" class="form-control" id="call_date" name="call_date" value="<?php echo $clDate_val; ?>" required></td>
-										<td>Call Duration:</td>
-										<td><input type="text" class="form-control" id="call_duration" name="data[call_duration]" value="<?php echo $boomsourcing['call_duration'] ?>" required ></td>
-										<td>Zone:</td>
-										<td><input type="text" class="form-control" id="office_name" name="data[zone]" value="<?php echo $boomsourcing['zone'] ?>" readonly></td>		
-									</tr>
-									<tr>
-										<td>Phone:</td>
-										<td><input type="text" class="form-control" title="Please enter valid phone number" id="phone" name="data[phone]" onkeyup="checkDec(this);" value="<?php echo $boomsourcing['phone'] ?>" ></td>
-										<td>Link:</td>
+										<!-- <td>Call Duration:</td>
+										<td><input type="text" class="form-control" id="call_duration" name="data[call_duration]" value="<?php echo $boomsourcing['call_duration'] ?>" required ></td> -->
+										<td>Zone/Center:</td>
+										<td><input type="text" class="form-control" id="office_name" name="data[zone]" value="<?php echo $boomsourcing['zone'] ?>" readonly></td>
+										<td>Link:<span style="color:red">*</span></td>
 										<td><input type="text" class="form-control" id="link" name="data[link]" value="<?php echo $boomsourcing['link'] ?>" required ></td>
-										<td>Rep's Name:</td>
-										<td><input type="text" class="form-control" name="data[reps_name]" value="<?php echo $boomsourcing['reps_name'] ?>" required ></td>
 									</tr>
 									<tr>
-										<td>Center:</td>
-										<td><input type="text" class="form-control" name="data[center]" value="<?php echo $boomsourcing['center'] ?>"></td>
-										<td>Disposition:</td>
-										<td><input type="text" class="form-control" name="data[disposition]" value="<?php echo $boomsourcing['disposition'] ?>"></td>
+										<td>Phone:<span style="color:red">*</span></td>
+										<td><input type="text" class="form-control" id="phone" name="data[phone]" onkeyup="checkDec(this);" value="<?php echo $boomsourcing['phone'] ?>" required></td>
 										<td>Week No:</td>
-										<td><input type="number" class="form-control"  name="data[week]" value="<?php echo $boomsourcing['week'] ?>"></td>
+										<td>
+										<?php
+											if($ss_id==0){
+												$curr_week=date("W");
+											}else{
+												$curr_week=$boomsourcing['week'];
+											}
+										?>
+											<input type="number" class="form-control"  name="data[week]" value="<?php echo $curr_week ?>" readonly>
+										</td>
+										<td>Disposition:<span style="color:red">*</span></td>
+										<td><input type="text" class="form-control" name="data[disposition]" value="<?php echo $boomsourcing['disposition'] ?>" required></td>
 									</tr>
 									<tr>
-										<td>Audit Type:</td>
+										<!-- <td>Campaign:</td>
+										<td><input type="text" class="form-control" name="data[campaign]" value="<?php //echo $boomsourcing['campaign'] ?>" required></td> -->
+										<td>Q Score:</td>
+										<td>
+											<select class="form-control" name="data[q_score]" required>
+												<option value="">-Select-</option>
+												<option <?php echo $boomsourcing['q_score']=='Q3'?"selected":""; ?> value="Q3">Q3</option>
+												<option <?php echo $boomsourcing['q_score']=='Q2'?"selected":""; ?> value="Q2">Q2</option>
+												<option <?php echo $boomsourcing['q_score']=='Q1'?"selected":""; ?> value="Q1">Q1</option>
+												<option <?php echo $boomsourcing['q_score']=='Q0'?"selected":""; ?> value="Q0">Q0</option>
+												<option <?php echo $boomsourcing['q_score']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+										<!--<td><input type="text" class="form-control" id="ncs" readonly name="data[ncs]" value="<?php echo $boomsourcing['ncs'] ?>"></td>-->
+										<td>Vertical:<span style="color:red">*</span></td>
+										<td>
+											<select class="form-control" id="vertical" name="data[vertical]" required>
+												<option value="" selected disabled>Select Vertical</option>
+												<?php foreach($vertical_list as $vertical):?>
+														<option value="<?php echo $vertical['id']?>" <?php echo $vertical['id'] == $boomsourcing['vertical'] ? 'selected' : '' ?>><?php echo $vertical['vertical']?></option>
+												<?php endforeach;?>
+											</select>
+										</td>
+
+										<td>Campaign:<span style="color:red">*</span></td>
+										<td>
+											<select class="form-control" id="campaign_process" name="data[campaign_process]" required>
+												<option value="" selected disabled>Select Campaign</option>
+												<?php foreach($campaign_list as $campaign):?>
+														<option value="<?php echo $campaign['id']?>" <?php echo $campaign['id'] == $boomsourcing['campaign_process'] ? 'selected' : '' ?>><?php echo $campaign['campaign']?></option>
+												<?php endforeach;?>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td>Audit Type:<span style="color:red">*</span></td>
 										<td>
 											<select class="form-control" id="audit_type" name="data[audit_type]" required>
 												<option value="">-Select-</option>
@@ -147,22 +200,18 @@ if((get_role_dir()!='manager' || get_role_dir()!='tl') && get_dept_folder()=='qa
 												<option value="Regular">Regular</option>
 											</select>
 										</td>
-										<td>VOC::</td>
+										<td>VOC:<span style="color:red">*</span></td>
 										<td>
 											<select class="form-control" id="voc" name="data[voc]" required>
 												<option value="">-Select-</option>
-												<option <?php echo $boomsourcing['voc']=='1'?"selected":""; ?> value="1">1</option>
-												<option <?php echo $boomsourcing['voc']=='2'?"selected":""; ?> value="2">2</option>
 												<option <?php echo $boomsourcing['voc']=='3'?"selected":""; ?> value="3">3</option>
-												<option <?php echo $boomsourcing['voc']=='4'?"selected":""; ?> value="4">4</option>
-												<option <?php echo $boomsourcing['voc']=='5'?"selected":""; ?> value="5">5</option>
+												<option <?php echo $boomsourcing['voc']=='2'?"selected":""; ?> value="2">2</option>
+												<option <?php echo $boomsourcing['voc']=='1'?"selected":""; ?> value="1">1</option>
+												<option <?php echo $boomsourcing['voc']=='0'?"selected":""; ?> value="0">0</option>
 											</select>
 										</td>
 									</tr>
-									<tr>
-										<td>NSC Type</td>
-										<td><input type="text" class="form-control" id="ncs" readonly name="data[ncs]" value="<?php echo $boomsourcing['ncs'] ?>"></td>
-									</tr>
+									
 									<tr style="font-weight:bold">
 										<td style="font-size:18px; text-align:right">Earn Score:</td>
 										<td><input type="text" class="form-control" id="earnScore" name="data[earned_score]"value="<?php echo $boomsourcing['earned_score'] ?>" readonly></td>
@@ -434,7 +483,7 @@ if((get_role_dir()!='manager' || get_role_dir()!='tl') && get_dept_folder()=='qa
 										<td><input type="text" class="form-control" name="data[comm21]" value="<?php echo $boomsourcing['comm21'] ?>"></td>
 									</tr>
 									
-									<tr>
+									<!--<tr>
 										<td>Very Interested/No objection (Q3):</td>
 										<td colspan=2><textarea class="form-control" name="data[no_objection]"><?php echo $boomsourcing['no_objection'] ?></textarea></td>
 										<td>Asked a question but no objection/Hung Up within 10 seconds of transferring (Q2):</td>
@@ -445,7 +494,7 @@ if((get_role_dir()!='manager' || get_role_dir()!='tl') && get_dept_folder()=='qa
 										<td colspan=2><textarea class="form-control" name="data[rep_rebut]"><?php echo $boomsourcing['rep_rebut'] ?></textarea></td>
 										<td>Failed to meet the qualifications. INVALID (Q0):</td>
 										<td colspan=2><textarea class="form-control" name="data[meet_qualifications]"><?php echo $boomsourcing['meet_qualifications'] ?></textarea></td>
-									</tr>
+									</tr>-->
 									<tr>
 										<td>Incorrectly Disposed/None qualified tagged as Transfers:</td>
 										<td colspan=3><textarea class="form-control" name="data[incorrectly_disposed]"><?php echo $boomsourcing['incorrectly_disposed'] ?></textarea></td>

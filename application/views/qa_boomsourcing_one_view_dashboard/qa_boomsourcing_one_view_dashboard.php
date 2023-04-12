@@ -539,8 +539,8 @@ li.oneItem.active {
                <li class="oneItem" data-open-tab="evaluatorWise">EVALUATOR WISE</li>
                <li class="oneItem" data-open-tab="tlWise">TL WISE</li>
                <li class="oneItem" data-open-tab="agentWise">AGENT WISE</li>
-               <li class="oneItem" data-open-tab="verticalWise">VERTICAL WISE</li>
-               <li class="oneItem" data-open-tab="channelWise">CHANNEL WISE</li>
+               <!--<li class="oneItem" data-open-tab="verticalWise">VERTICAL WISE</li>
+               <li class="oneItem" data-open-tab="channelWise">CHANNEL WISE</li>-->
                <li class="oneItem" data-open-tab="tenurityWise">Tenurity WISE</li>
             </ul>
             <div class="tabs" data-tab-name="dataWise">
@@ -805,7 +805,8 @@ li.oneItem.active {
 						</div> -->
                </div>
             </div>
-            <div class="tabs" data-tab-name="verticalWise" style="display:none;">
+            
+			<!--<div class="tabs" data-tab-name="verticalWise" style="display:none;">
                <div class="widget-head clearfix" style="background-color: #f1f2f3;padding: 10px;color: #a70000;">
                   <div class="row">
                      <div class="col-md-4">
@@ -890,7 +891,8 @@ li.oneItem.active {
                      </table>
                   </div>
                </div>
-            </div>
+            </div>-->
+			
             <div class="tabs" data-tab-name="tenurityWise" style="display:none;">
                <div class="widget-head clearfix" style="background-color: #f1f2f3;padding: 10px;color: #a70000;">
                   <div class="row">

@@ -1,24 +1,5 @@
 <!-- AVON SCRIPT -->
 <!-- Score Counter Script-->
-<script src="<?php echo base_url() ?>assets/css/search-filter/js/bootstrap-multiselect.js"></script>
-<link rel="stylesheet" href="<?php echo base_url() ?>assets/css/search-filter/css/selectize.bootstrap3.min.css" />
-<script src="<?php echo base_url() ?>assets/css/search-filter/js/chart.js"></script>
-
-<script>
-//     $(document).ready(function(e){
-//     $('#batch_code').select2(); 
-    
-// });
-$(function() {
-    $('#multiselect').multiselect();
-    $('.multiple-select').multiselect({
-        includeSelectAllOption: true,
-        enableFiltering: true,
-        enableCaseInsensitiveFiltering: true,
-        filterPlaceholder: 'Search for something...'
-    });
-});
-</script>
 <script type = "text/javascript">
    <!--
       // Form validation code will come here.
@@ -97,72 +78,16 @@ $(function() {
 //   document.getElementById("select_id").options.selectedIndex = index;
 // }
 	$(function () {
-		let status_points1 = $( "#status_points1" ).val();
-		let status_points2 = $( "#status_points2" ).val();
-		let status_points3 = $( "#status_points3" ).val();
-		let status_points4 = $( "#status_points4" ).val();
-		let status_points5 = $( "#status_points5" ).val();
-		let status_points6 = $( "#status_points6" ).val();
-		let status_points7 = $( "#status_points7" ).val();
-		let status_points8 = $( "#status_points8" ).val();
-		let status_points9 = $( "#status_points9" ).val();
-		let status_points10 = $( "#status_points10" ).val();
-		let status_points11 = $( "#status_points11" ).val();
-		if(status_points1 == 'Fail'){
-			$("#remarks1").multiselect("enable");
-			//$('#remarks1').prop('required', 'required');
-			//$('#remarks1').removeAttr('required');
-
-			//$('#remarks1').attr('required', 'required');
-			//$("#remarks1").prop('required',true);
-		}
-		if(status_points2 == 'Fail'){
-			$("#remarks2").multiselect("enable");
-		}
-		if(status_points3 == 'Fail'){
-			$("#remarks3").multiselect("enable");
-		}
-		if(status_points4 == 'Fail'){
-			$("#remarks4").multiselect("enable");
-		}
-		if(status_points5 == 'Fail'){
-			$("#remarks5").multiselect("enable");
-		}
-		if(status_points6 == 'Fail'){
-			$("#remarks6").multiselect("enable");
-		}
-		if(status_points7 == 'Fail'){
-			$("#remarks7").multiselect("enable");
-		}
-		if(status_points8 == 'Fail'){
-			$("#remarks8").multiselect("enable");
-		}
-		if(status_points9 == 'Fail'){
-			$("#remarks9").multiselect("enable");
-		}
-		if(status_points10 == 'Fail'){
-			$("#remarks10").multiselect("enable");
-		}
-		if(status_points11 == 'Fail'){
-			$("#remarks11").multiselect("enable");
-		}
 		$( "#status_points1" ).on('change' , function() {
 			//var val = this.value;
 			let val1 = $(this).val();
 			console.log(val1);
 			if(val1 == 'Pass'){
-				
-				//$("#remarks1").options.selectedIndex = 0;
-				$("#remarks1").multiselect("clearSelection");
-
- 				$("#remarks1").multiselect( 'refresh' );
-				$("#remarks1").multiselect("disable");
-				//$('#remarks1').attr('disabled','disabled');
-			}else if(val1 == 'Fail'){
-				 $("#remarks1").multiselect("enable");
-				 $("#remarks1").attr('required',true);
-				//$('#remarks1').attr('disabled', false);
-				
+				document.getElementById("remarks1").options.selectedIndex = 0;
+				$('#remarks1').attr('disabled','disabled');
+			}else{
+				$('#remarks1').attr('disabled', false);
+				//$('#remarks1').removeAttribute('disabled');
 			}
 		});
 
@@ -171,15 +96,10 @@ $(function() {
 			let val2 = $(this).val();
 			console.log(val2);
 			if(val2 == 'Pass'){
-				$("#remarks2").multiselect("clearSelection");
- 				$("#remarks2").multiselect( 'refresh' );
-				$("#remarks2").multiselect("disable");
-				//document.getElementById("remarks2").options.selectedIndex = 0;
-				//$('#remarks2').attr('disabled','disabled');
-			}else if(val2 == 'Fail'){
-				 $("#remarks2").multiselect("enable");
-				 $("#remarks2").attr('required',true);
-				//$('#remarks2').attr('disabled', false);
+				document.getElementById("remarks2").options.selectedIndex = 0;
+				$('#remarks2').attr('disabled','disabled');
+			}else{
+				$('#remarks2').attr('disabled', false);
 				//$('#remarks1').removeAttribute('disabled');
 			}
 		});
@@ -189,15 +109,10 @@ $(function() {
 			let val3 = $(this).val();
 			console.log(val3);
 			if(val3 == 'Pass'){
-				$("#remarks3").multiselect("clearSelection");
- 				$("#remarks3").multiselect( 'refresh' );
-				$("#remarks3").multiselect("disable");
-				// document.getElementById("remarks3").options.selectedIndex = 0;
-				// $('#remarks3').attr('disabled','disabled');
-			}else if(val3 == 'Fail'){
-				$("#remarks3").multiselect("enable");
-				$("#remarks3").attr('required',true);
-				//$('#remarks3').attr('disabled', false);
+				document.getElementById("remarks3").options.selectedIndex = 0;
+				$('#remarks3').attr('disabled','disabled');
+			}else{
+				$('#remarks3').attr('disabled', false);
 				//$('#remarks1').removeAttribute('disabled');
 			}
 		});
@@ -207,15 +122,10 @@ $(function() {
 			let val4 = $(this).val();
 			console.log(val4);
 			if(val4 == 'Pass'){
-				$("#remarks4").multiselect("clearSelection");
- 				$("#remarks4").multiselect( 'refresh' );
-				$("#remarks4").multiselect("disable");
-				//document.getElementById("remarks4").options.selectedIndex = 0;
-				//$('#remarks4').attr('disabled','disabled');
-			}else if(val4 == 'Fail'){
-				$("#remarks4").multiselect("enable");
-				$("#remarks4").attr('required',true);
-				//$('#remarks4').attr('disabled', false);
+				document.getElementById("remarks4").options.selectedIndex = 0;
+				$('#remarks4').attr('disabled','disabled');
+			}else{
+				$('#remarks4').attr('disabled', false);
 				//$('#remarks1').removeAttribute('disabled');
 			}
 		});
@@ -225,15 +135,10 @@ $(function() {
 			let val5 = $(this).val();
 			console.log(val5);
 			if(val5 == 'Pass'){
-				$("#remarks5").multiselect("clearSelection");
- 				$("#remarks5").multiselect( 'refresh' );
-				$("#remarks5").multiselect("disable");
-				//document.getElementById("remarks5").options.selectedIndex = 0;
-				//$('#remarks5').attr('disabled','disabled');
-			}else if(val5 == 'Fail'){
-				$("#remarks5").multiselect("enable");
-				$("#remarks5").attr('required',true);
-				//$('#remarks5').attr('disabled', false);
+				document.getElementById("remarks5").options.selectedIndex = 0;
+				$('#remarks5').attr('disabled','disabled');
+			}else{
+				$('#remarks5').attr('disabled', false);
 				//$('#remarks1').removeAttribute('disabled');
 			}
 		});
@@ -243,15 +148,10 @@ $(function() {
 			let val6 = $(this).val();
 			console.log(val6);
 			if(val6 == 'Pass'){
-				$("#remarks6").multiselect("clearSelection");
- 				$("#remarks6").multiselect( 'refresh' );
-				$("#remarks6").multiselect("disable");
-				//document.getElementById("remarks6").options.selectedIndex = 0;
-				//$('#remarks6').attr('disabled','disabled');
-			}else if(val6 == 'Fail'){
-				$("#remarks6").multiselect("enable");
-				$("#remarks6").attr('required',true);
-				//$('#remarks6').attr('disabled', false);
+				document.getElementById("remarks6").options.selectedIndex = 0;
+				$('#remarks6').attr('disabled','disabled');
+			}else{
+				$('#remarks6').attr('disabled', false);
 				//$('#remarks1').removeAttribute('disabled');
 			}
 		});
@@ -261,15 +161,10 @@ $(function() {
 			let val7 = $(this).val();
 			console.log(val7);
 			if(val7 == 'Pass'){
-				$("#remarks7").multiselect("clearSelection");
- 				$("#remarks7").multiselect( 'refresh' );
-				$("#remarks7").multiselect("disable");
-				//document.getElementById("remarks7").options.selectedIndex = 0;
-				//$('#remarks7').attr('disabled','disabled');
-			}else if(val7 == 'Fail'){
-				$("#remarks7").multiselect("enable");
-				$("#remarks7").attr('required',true);
-				//$('#remarks7').attr('disabled', false);
+				document.getElementById("remarks7").options.selectedIndex = 0;
+				$('#remarks7').attr('disabled','disabled');
+			}else{
+				$('#remarks7').attr('disabled', false);
 				//$('#remarks1').removeAttribute('disabled');
 			}
 		});
@@ -279,15 +174,10 @@ $(function() {
 			let val8 = $(this).val();
 			console.log(val8);
 			if(val8 == 'Pass'){
-				$("#remarks8").multiselect("clearSelection");
- 				$("#remarks8").multiselect( 'refresh' );
-				$("#remarks8").multiselect("disable");
-				//document.getElementById("remarks8").options.selectedIndex = 0;
-				//$('#remarks8').attr('disabled','disabled');
-			}else if(val8 == 'Fail'){
-				$("#remarks8").multiselect("enable");
-				$("#remarks8").attr('required',true);
-				//$('#remarks8').attr('disabled', false);
+				document.getElementById("remarks8").options.selectedIndex = 0;
+				$('#remarks8').attr('disabled','disabled');
+			}else{
+				$('#remarks8').attr('disabled', false);
 				//$('#remarks1').removeAttribute('disabled');
 			}
 		});
@@ -297,15 +187,10 @@ $(function() {
 			let val9 = $(this).val();
 			console.log(val9);
 			if(val9 == 'Pass'){
-				$("#remarks9").multiselect("clearSelection");
- 				$("#remarks9").multiselect( 'refresh' );
-				$("#remarks9").multiselect("disable");
-				//document.getElementById("remarks9").options.selectedIndex = 0;
-				//$('#remarks9').attr('disabled','disabled');
-			}else if(val9 == 'Fail'){
-				$("#remarks9").multiselect("enable");
-				$("#remarks9").attr('required',true);
-				//$('#remarks9').attr('disabled', false);
+				document.getElementById("remarks9").options.selectedIndex = 0;
+				$('#remarks9').attr('disabled','disabled');
+			}else{
+				$('#remarks9').attr('disabled', false);
 				//$('#remarks1').removeAttribute('disabled');
 			}
 		});
@@ -315,15 +200,10 @@ $(function() {
 			let val10 = $(this).val();
 			console.log(val10);
 			if(val10 == 'Pass'){
-				$("#remarks10").multiselect("clearSelection");
- 				$("#remarks10").multiselect( 'refresh' );
-				$("#remarks10").multiselect("disable");
-				//document.getElementById("remarks10").options.selectedIndex = 0;
-				//$('#remarks10').attr('disabled','disabled');
-			}else if(val10 == 'Fail'){
-				$("#remarks10").multiselect("enable");
-				$("#remarks10").attr('required',true);
-				//$('#remarks10').attr('disabled', false);
+				document.getElementById("remarks10").options.selectedIndex = 0;
+				$('#remarks10').attr('disabled','disabled');
+			}else{
+				$('#remarks10').attr('disabled', false);
 				//$('#remarks1').removeAttribute('disabled');
 			}
 		});
@@ -333,37 +213,15 @@ $(function() {
 			let val11 = $(this).val();
 			console.log(val11);
 			if(val11 == 'Pass'){
-				$("#remarks11").multiselect("clearSelection");
- 				$("#remarks11").multiselect( 'refresh' );
-				$("#remarks11").multiselect("disable");
-				//document.getElementById("remarks11").options.selectedIndex = 0;
-				//$('#remarks11').attr('disabled','disabled');
-			}else if(val11 == 'Fail'){
-				$("#remarks11").multiselect("enable");
-				$("#remarks11").attr('required',true);
-				//$('#remarks11').attr('disabled', false);
+				document.getElementById("remarks11").options.selectedIndex = 0;
+				$('#remarks11').attr('disabled','disabled');
+			}else{
+				$('#remarks11').attr('disabled', false);
 				//$('#remarks1').removeAttribute('disabled');
 			}
 		});
 
 	});
-</script>
-
-<script>
-$('INPUT[type="file"]').change(function () {
-    var ext = this.value.match(/\.(.+)$/)[1];
-    switch (ext) {
-        case 'mp4':
-        case 'mp3':
-		case 'wav':
-		case 'm4a':
-			$('#qaformsubmit').attr('disabled', false);
-        break;
-        default:
-            alert('This is not an allowed file type. Please upload allowed file type like [m4a,mp4,mp3,wav]');
-            this.value = '';
-    }
-});
 </script>
 
 <script>
@@ -375,69 +233,22 @@ $('INPUT[type="file"]').change(function () {
 	$("#from_date").datepicker({maxDate: new Date() });
 	$("#to_date").datepicker({maxDate: new Date() });
 
-	//  $(function () {
-	// 	$('input[type=file]').change(function () {
-	// 		var val = $(this).val().toLowerCase();
-	// 			 regex = new RegExp("(.*?)\.(mp3|avi|mp4|wmv|wav)$");
-	// 			//regex = new RegExp("(.*?)\.(avi|mp4|3gp|mpeg|mpg|mov|mp3|flv|wmv|mkv|wav)$");
+	 $(function () {
+		$('input[type=file]').change(function () {
+			var val = $(this).val().toLowerCase();
+				//regex = new RegExp("(.*?)\.(mp3|avi|mp4|wmv|wav)$");
+				regex = new RegExp("(.*?)\.(avi|mp4|3gp|mpeg|mpg|mov|mp3|flv|wmv|mkv|wav)$");
 				
 
-	// 		if (!(regex.test(val))) {
-	// 			$(this).val('');
-	// 			alert('This is not an allowed file type. Please upload correct file format');
-	// 			return false;
-	// 		}
-	// 	});
-	// });
+			if (!(regex.test(val))) {
+				$(this).val('');
+				alert('This is not an allowed file type. Please upload correct file format');
+				return false;
+			}
+		});
+	});
 
-// function date_validation(val,type){ 
-// 	// alert(val);
-// 		$(".end_date_error").html("");
-// 		$(".start_date_error").html("");
-// 		if(type=='E'){
-// 		var start_date=$("#from_date").val();
-// 		//if(val<start_date)
-// 		if(Date.parse(val) < Date.parse(start_date))
-// 		{
-// 			$(".end_date_error").html("To Date must be greater or equal to From Date");
-// 			 $(".blains-effect").attr("disabled",true);
-// 			 $(".blains-effect").css('cursor', 'no-drop');
-// 			 $(':input[type="submit"]').prop('disabled', true);
-// 		}
-// 		else{
-// 			 $(".blains-effect").attr("disabled",false);
-// 			 $(".blains-effect").css('cursor', 'pointer');
-// 			 $(':input[type="submit"]').prop('disabled', false);
-// 			}
-// 		}
-// 		else{
-// 			var end_date=$("#to_date").val();
-// 		//if(val>end_date && end_date!='')
-		
-// 		if(Date.parse(val) > Date.parse(end_date) && end_date!='')
-// 		{
-// 			$(".start_date_error").html("From  Date  must be less or equal to  To Date");
-// 			 $(".blains-effect").attr("disabled",true);
-// 			 $(".blains-effect").css('cursor', 'no-drop');
-// 			 $(':input[type="submit"]').prop('disabled', true);
-			
-// 		}
-// 		else{
-// 			 $(".blains-effect").attr("disabled",false);
-// 			 $(".blains-effect").css('cursor', 'pointer');
-// 			 $(':input[type="submit"]').prop('disabled', false);
-// 			}
-
-// 		}
-		
-		
-// 	}
-
-</script>
-
-<script type="text/javascript">
-	
-	function date_validation(val,type){
+function date_validation(val,type){ 
 	// alert(val);
 		$(".end_date_error").html("");
 		$(".start_date_error").html("");
@@ -449,10 +260,12 @@ $('INPUT[type="file"]').change(function () {
 			$(".end_date_error").html("To Date must be greater or equal to From Date");
 			 $(".blains-effect").attr("disabled",true);
 			 $(".blains-effect").css('cursor', 'no-drop');
+			 $(':input[type="submit"]').prop('disabled', true);
 		}
 		else{
 			 $(".blains-effect").attr("disabled",false);
 			 $(".blains-effect").css('cursor', 'pointer');
+			 $(':input[type="submit"]').prop('disabled', false);
 			}
 		}
 		else{
@@ -464,17 +277,38 @@ $('INPUT[type="file"]').change(function () {
 			$(".start_date_error").html("From  Date  must be less or equal to  To Date");
 			 $(".blains-effect").attr("disabled",true);
 			 $(".blains-effect").css('cursor', 'no-drop');
+			 $(':input[type="submit"]').prop('disabled', true);
 			
 		}
 		else{
 			 $(".blains-effect").attr("disabled",false);
 			 $(".blains-effect").css('cursor', 'pointer');
+			 $(':input[type="submit"]').prop('disabled', false);
 			}
 
 		}
+		
+		
 	}
-</script>
 
+	// var todayDate = new Date();
+    // var month = todayDate.getMonth();
+    // var year = todayDate.getUTCFullYear() - 0;
+    // var tdate = todayDate.getDate();
+    // if (month < 10) {
+    //     month = "0" + month
+    // }
+    // if (tdate < 10) {
+    //     tdate = "0" + tdate;
+    // }
+    // var maxDate = year + "-" + month + "-" + tdate;
+    // document.getElementById("call_date_time").setAttribute("min", maxDate);
+   // console.log(maxDate);
+
+
+
+
+</script>
 <!-- <script type="text/javascript">
 	//////////////////////Kenny-U-Pull////////////////////////////
 	
@@ -625,12 +459,6 @@ $('INPUT[type="file"]').change(function () {
 <script type="text/javascript">
 	///////////////// Calibration - Auditor Type ///////////////////////	
 	$('.auType').hide();
-	
-	if($("#audit_type").val() == "Calibration"){
-		$('.auType').show();
-		$('#auditor_type').attr('required',true);
-		$('#auditor_type').prop('disabled',false);
-	}
 	
 	$('#audit_type').on('change', function(){
 		if($(this).val()=='Calibration'){
@@ -786,7 +614,7 @@ $('INPUT[type="file"]').change(function () {
 	///////////////// Agent and TL names ///////////////////////
 	$( "#agent_id" ).on('change' , function() {
 		var aid = this.value;
-		if(aid=="") //alert("Please Select Agent")
+		if(aid=="") alert("Please Select Agent")
 		var URL='<?php echo base_url();?>qa_ameridial/getTLname';
 		$('#sktPleaseWait').modal('show');
 		$.ajax({

@@ -593,19 +593,18 @@
 											<td>Feedback:</td>
 											<td colspan=2><textarea class="form-control" name="data[feedback]"><?php echo $qa_acg_curd['feedback'] ?></textarea></td>
 										</tr>
-										
 										<tr>
-											<td colspan=2>Upload Files [m4a,mp4,mp3,wav]</td>
-											<?php /* if($ajio_id!=0 && $qa_acg_curd['entry_by']==get_user_id()){ 
-												$form_control_class='class="form-control1"';
-											}else{
-												$form_control_class='class="form-control"';
-											} */
-											?>
-											<td colspan=2><input type="file" multiple class="form-control" name="attach_file[]" accept=".m4a,.mp4,.mp3,.wav,audio/*" id="attach_file"></td>
-											<?php if($ajio_id!=0){
-												if ($qa_acg_curd['attach_file']!=''){ ?>
-													<td colspan=2><?php $attach_file = explode(",", $qa_acg_curd['attach_file']);
+											<td colspan=2>Upload Files (avi|mp4|3gp|mpeg|mpg|mov|mp3|flv|wmv|mkv|wav)</td>
+											<?php if ($ajio_id == 0) { ?>
+												<td colspan=4>
+													<!-- <input type="file" multiple class="form-control"  id="attach_file" name="attach_file[]"> -->
+													<input type="file" name="attach_file[]" accept=".avi,.mp4,.3gp,.mpeg,.mpg,.mov,.mp3,.flv,.wmv,.mkv,.wav,audio/*"id="attach_file" />
+												</td>
+												<?php } else {
+												if ($qa_acg_curd['attach_file'] != '') { ?>
+													<td colspan=4>
+														<input type="file" multiple class="form-control"  id="attach_file" name="attach_file[]" accept=".avi,.mp4,.3gp,.mpeg,.mpg,.mov,.mp3,.flv,.wmv,.mkv,.wav,audio/*"> 
+														<?php $attach_file = explode(",", $qa_acg_curd['attach_file']);
 														foreach ($attach_file as $mp) { ?>
 															<audio controls='' style="background-color:#607F93">
 																<source src="<?php echo base_url(); ?>qa_files/qa_acg/<?php echo $mp; ?>" type="audio/ogg">
@@ -613,9 +612,11 @@
 															</audio> </br>
 														<?php } ?>
 													</td>
-											<?php }else{
-													echo '<td colspan=2><b>No Files are uploaded</b></td>';
-												} 
+											<?php } else {
+													echo '<td colspan=6>
+													<input type="file" multiple class="form-control" id="attach_file" name="attach_file[]" accept=".avi,.mp4,.3gp,.mpeg,.mpg,.mov,.mp3,.flv,.wmv,.mkv,.wav,audio/*">
+													<b>No Files</b></td>';
+												}
 											} ?>
 										</tr>
 

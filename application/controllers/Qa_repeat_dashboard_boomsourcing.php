@@ -45,12 +45,8 @@ class Qa_repeat_dashboard_boomsourcing extends CI_Controller {
 				}
 			}
 			
-			if($process_id==""){
-				$data['location_list'] = $this->Common_model->get_office_location_list();
-			}else{
-				$qSql="Select qd.process_id, qd.client_id, iac.user_id, iac.client_id, s.id, concat(s.fname, ' ', s.lname) as m_name, s.office_id, o.abbr, o.office_name as location from qa_boomsourcing_defect qd Left Join info_assign_client iac ON qd.client_id=iac.client_id Left Join signin s ON iac.user_id=s.id Left Join office_location o On s.office_id=o.abbr where qd.process_id='$process_id' and s.status=1 group by o.abbr";
-				$data['location_list'] = $this->Common_model->get_query_result_array($qSql);
-			}
+			$locSql="SELECT * FROM office_location WHERE is_active=1 and abbr in ('LEZ','ORT','SLG','SPI') ORDER BY office_name";
+			$data['location_list'] = $this->Common_model->get_query_result_array($locSql);
 
 
 		/////////////////////////////

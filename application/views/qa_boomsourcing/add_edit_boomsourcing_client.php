@@ -74,7 +74,7 @@ if((get_role_dir()!='manager' || get_role_dir()!='tl') && get_dept_folder()=='qa
 										<td><input type="text" class="form-control" name="data[ticket_id]" value="<?php echo $boomsourcing['ticket_id']; ?>" required></td>
 									</tr>
 									<tr>
-										<td>Agent:</td>
+										<td>Agent/Rep's Name:</td>
 										<td>
 											<select class="form-control" id="agent_id" name="data[agent_id]" required>
 												<option value="<?php echo $boomsourcing['agent_id']; ?>"><?php echo $boomsourcing['fname']." ".$boomsourcing['lname']; ?></option>
@@ -85,7 +85,7 @@ if((get_role_dir()!='manager' || get_role_dir()!='tl') && get_dept_folder()=='qa
 											</select>
 										</td>
 										<td>USER ID:</td>
-										<td><input type="text" readonly class="form-control" id="xpoid" value="<?php echo $boomsourcing['xpoid'] ?>"></td>
+										<td><input type="text" readonly class="form-control" id="fusion_id" value="<?php echo $boomsourcing['fusion_id'] ?>"></td>
 										<td>L1 Supervisor:</td>
 										<td>
 											<input type="text" readonly class="form-control" id="tl_name" value="<?php echo $boomsourcing['tl_name'] ?>">
@@ -95,26 +95,54 @@ if((get_role_dir()!='manager' || get_role_dir()!='tl') && get_dept_folder()=='qa
 									<tr>
 										<td>Call/Transaction Date:</td>
 										<td><input type="text" class="form-control" id="call_date" name="call_date" value="<?php echo $clDate_val; ?>" required></td>
-										<td>Call Duration:</td>
-										<td><input type="text" class="form-control" id="call_duration" name="data[call_duration]" value="<?php echo $boomsourcing['call_duration'] ?>" required ></td>
-										<td>Zone:</td>
-										<td><input type="text" class="form-control" id="office_name" name="data[zone]" value="<?php echo $boomsourcing['zone'] ?>" readonly></td>		
+										<!-- <td>Call Duration:</td>
+										<td><input type="text" class="form-control" id="call_duration" name="data[call_duration]" value="<?php echo $boomsourcing['call_duration'] ?>" required ></td> -->
+										<td>Zone/Center:</td>
+										<td><input type="text" class="form-control" id="office_name" name="data[zone]" value="<?php echo $boomsourcing['zone'] ?>" readonly></td>	
 									</tr>
 									<tr>
 										<td>Phone:</td>
-										<td><input type="text" class="form-control" id="phone" name="data[phone]" onkeyup="checkDec(this);" value="<?php echo $boomsourcing['phone'] ?>"></td>
+										<td><input type="text" class="form-control" id="phone" name="data[phone]" onkeyup="checkDec(this);" value="<?php echo $boomsourcing['phone'] ?>" required></td>
 										<td>Link:</td>
 										<td><input type="text" class="form-control" id="link" name="data[link]" value="<?php echo $boomsourcing['link'] ?>" required ></td>
-										<td>Rep's Name:</td>
-										<td><input type="text" class="form-control" name="data[reps_name]" value="<?php echo $boomsourcing['reps_name'] ?>" required ></td>
+										<td>Week No:</td>
+										<td><input type="number" class="form-control"  name="data[week]" value="<?php echo $boomsourcing['week'] ?>"></td>
 									</tr>
 									<tr>
-										<td>Center:</td>
-										<td><input type="text" class="form-control" name="data[center]" value="<?php echo $boomsourcing['center'] ?>"></td>
+										<!-- <td>Campaign:</td>
+										<td><input type="text" class="form-control" name="data[campaign]" value="<?php echo $boomsourcing['campaign'] ?>" required></td> -->
 										<td>Disposition:</td>
-										<td><input type="text" class="form-control" name="data[disposition]" value="<?php echo $boomsourcing['disposition'] ?>"></td>
-										<td>Week No:</td>
-										<td><input type="number" class="form-control" name="data[week]" value="<?php echo $boomsourcing['week'] ?>"></td>
+										<td><input type="text" class="form-control" name="data[disposition]" value="<?php echo $boomsourcing['disposition'] ?>" required></td>
+										<!-- <td>Q Score:</td>
+										<td>
+											<select class="form-control" name="data[q_score]" required>
+												<option value="">-Select-</option>
+												<option <?php echo $boomsourcing['q_score']=='Q3'?"selected":""; ?> value="Q3">Q3</option>
+												<option <?php echo $boomsourcing['q_score']=='Q2'?"selected":""; ?> value="Q2">Q2</option>
+												<option <?php echo $boomsourcing['q_score']=='Q1'?"selected":""; ?> value="Q1">Q1</option>
+												<option <?php echo $boomsourcing['q_score']=='Q0'?"selected":""; ?> value="Q0">Q0</option>
+											</select>
+										</td> -->
+										<!--<td><input type="text" class="form-control" id="ncs" readonly name="data[ncs]" value="<?php echo $boomsourcing['ncs'] ?>"></td>-->
+										<td>Vertical</td>
+										<td>
+											<select class="form-control" id="vertical" name="data[vertical]" required>
+												<option value="" selected disabled>Select Vertical</option>
+												<?php foreach($vertical_list as $vertical):?>
+														<option value="<?php echo $vertical['id']?>" <?php echo $vertical['id'] == $boomsourcing['vertical'] ? 'selected' : '' ?>><?php echo $vertical['vertical']?></option>
+												<?php endforeach;?>
+											</select>
+										</td>
+
+										<td>Campaign</td>
+										<td>
+											<select class="form-control" id="campaign_process" name="data[campaign_process]" required>
+												<option value="" selected disabled>Select Campaign</option>
+												<?php foreach($campaign_list as $campaign):?>
+														<option value="<?php echo $campaign['id']?>" <?php echo $campaign['id'] == $boomsourcing['campaign_process'] ? 'selected' : '' ?>><?php echo $campaign['campaign']?></option>
+												<?php endforeach;?>
+											</select>
+										</td>
 									</tr>
 									<tr>
 										<td>Audit Type:</td>
@@ -162,6 +190,7 @@ if((get_role_dir()!='manager' || get_role_dir()!='tl') && get_dept_folder()=='qa
 									<tr>
 										<td>NSC Type</td>
 										<td><input type="text" class="form-control" id="ncs" readonly name="data[ncs]" value="<?php echo $boomsourcing['ncs'] ?>"></td>
+										
 									</tr>
 									<tr style="font-weight:bold">
 										<td style="font-size:18px; text-align:right">Earn Score:</td>

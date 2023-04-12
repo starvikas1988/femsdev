@@ -352,14 +352,22 @@ accs_score();
 $('INPUT[type="file"]').change(function () {
     var ext = this.value.match(/\.(.+)$/)[1];
     switch (ext) {
-        case 'mp4':
-        case 'mp3':
-		case 'wav':
-		case 'm4a':
-			$('#qaformsubmit').attr('disabled', false);
-        break;
+        case 'avi':
+			case 'mp4':
+				case '3gp':
+					case 'mpeg':
+						case 'mpg':
+							case 'mov':
+								case 'mp3':
+								case 'wav':
+        case 'flv':
+        case 'wmv':
+			case'mkv':
+            $('#qaformsubmit').attr('disabled', false);
+            break;
         default:
-            alert('This is not an allowed file type. Please upload allowed file type like [m4a,mp4,mp3,wav]');
+            alert('This is not an allowed file type.');
+			//$('#qaformsubmit').attr('disabled', true);
             this.value = '';
     }
 });
