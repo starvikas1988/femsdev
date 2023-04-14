@@ -18,47 +18,6 @@ $(function() {
         filterPlaceholder: 'Search for something...'
     });
 });
-
-</script>
-<script type="text/javascript">
-	
-		$(function() {
-		$( "#agent_id" ).on('change' , function() {
-		var aid = this.value;
-		//alert(aid);
-		if(aid=="") alert("Please Select Agent")
-		var URL='<?php echo base_url();?>qa_ameridial/getTLname';
-		$('#sktPleaseWait').modal('show');
-		$.ajax({
-			type: 'POST',
-			url:URL,
-			data:'aid='+aid,
-			success: function(aList){
-				var json_obj = $.parseJSON(aList);
-				$('#tl_name').empty();
-				$('#tl_name').append($('#tl_name').val(''));
-				//for (var i in json_obj) $('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
-				for (var i in json_obj) $('#tl_id').append($('#tl_id').val(json_obj[i].assigned_to));
-				for (var i in json_obj){
-					if($('#tl_name').val(json_obj[i].tl_name)!=''){
-						$('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
-
-					}else{
-						alert("Agent is not assigned any TL.Please assign one from manage user section or contact your HR/Manager");
-					}
-					
-				} 
-				for (var i in json_obj) $('#fusion_id').append($('#fusion_id').val(json_obj[i].fusion_id));
-				for (var i in json_obj) $('#campaign').append($('#campaign').val(json_obj[i].process_name));
-				for (var i in json_obj) $('#office_id').append($('#office_id').val(json_obj[i].office_id));
-				$('#sktPleaseWait').modal('hide');
-			},
-			error: function(){
-				alert('Fail!');
-			}
-		});
-	});
-});
 </script>
 <script type = "text/javascript">
    <!--
@@ -813,150 +772,6 @@ $('INPUT[type="file"]').change(function () {
 	}
 </script>
 
-////////////////vikas//////////////////////////////
- <script type="text/javascript">
- 		function craftjack_mtl_calcs(){
-		var score = 0;
-		var scoreable = 0;
-		var quality_score_percent = 0.00;
-		var pass_count = 0;
-		var fail_count = 0;
-		var na_count = 0;
-		$('.mtl_point').each(function(index,element){
-			var score_type = $(element).val();
-			
-			if(score_type == 'Pass'){
-				pass_count = pass_count + 1;
-				var w1 = parseInt($(element).children("option:selected").attr('mtl_val'));
-				var w2 = parseFloat($(element).children("option:selected").attr('mtl_max'));
-				score = score + w1;
-				scoreable = scoreable + w2;
-
-			}else if(score_type == 'Fail'){
-				fail_count = fail_count + 1;
-				var w1 = parseInt($(element).children("option:selected").attr('mtl_val'));
-				var w2 = parseFloat($(element).children("option:selected").attr('mtl_max'));
-				//score = score + w1;
-				scoreable = scoreable + w2;
-				//scoreable = scoreable + weightage;
-			}else if(score_type == 'N/A'){
-				na_count = na_count + 1;
-				var w1 = parseInt($(element).children("option:selected").attr('mtl_val'));
-				//var w2 = parseFloat($(element).children("option:selected").attr('phs_max'));
-				score = score + w1;
-				//scoreable = scoreable + w2;
-			}
-		});
-		quality_score_percent = ((score*100)/scoreable).toFixed(2);
-
-		if(quality_score_percent == "NaN"){
-			quality_score_percent = (0.00).toFixed(2);
-		}else{
-			quality_score_percent = quality_score_percent;
-		}
-		
-		$('#mtl_earned_score').val(score);
-		$('#mtl_possible_score').val(scoreable);
-		
-		if(!isNaN(quality_score_percent)){
-			$('#mtl_overall_score').val(quality_score_percent+'%');
-		}
-
-		if($('#ajioAF1').val()=='Fail' || $('#ajioAF2').val()=='Fail' || $('#ajioAF3').val()=='Fail' || $('#ajioAF4').val()=='Fail' || $('#ajioAF5').val()=='Fail'){
-			quality_score_percent = (0.00).toFixed(2);
-			$('.acgFatal').val(quality_score_percent+'%');
-			//$('.phs_chatemail_v2Fatal').val(0.00).toFixed(2);
-		}else{
-			$('.mtl_overall_score').val(quality_score_percent+'%');
-		}
-	
-		//////////////// Customer/Business/Compliance //////////////////
-		var customerScore = 0;
-		var customerScoreable = 0;
-		var customerPercentage = 0;
-		$('.customer').each(function(index,element){
-			var sc1 = $(element).val();
-			if(sc1 == 'Pass'){
-				var w1 = parseFloat($(element).children("option:selected").attr('mtl_val'));
-				customerScore = customerScore + w1;
-				customerScoreable = customerScoreable + w1;
-			}else if(sc1 == 'Fail'){
-				var w1 = parseFloat($(element).children("option:selected").attr('mtl_val'));
-				customerScoreable = customerScoreable + w1;
-			}else if(sc1 == 'N/A'){
-				var w1 = parseFloat($(element).children("option:selected").attr('mtl_val'));
-				customerScore = customerScore + w1;
-				customerScoreable = customerScoreable + w1;
-			}
-		});
-		$('#customer_earned_score').val(customerScore);
-		$('#customer_possible_score').val(customerScoreable);
-		customerPercentage = ((customerScore*100)/customerScoreable).toFixed(2);
-		if(!isNaN(customerPercentage)){
-			$('#customer_overall_score').val(customerPercentage+'%');
-		}
-	////////////
-		var businessScore = 0;
-		var businessScoreable = 0;
-		var businessPercentage = 0;
-		$('.business').each(function(index,element){
-			var sc2 = $(element).val();
-			if(sc2 == 'Pass'){
-				var w2 = parseFloat($(element).children("option:selected").attr('mtl_val'));
-				businessScore = businessScore + w2;
-				businessScoreable = businessScoreable + w2;
-			}else if(sc2 == 'Fail'){
-				var w2 = parseFloat($(element).children("option:selected").attr('mtl_val'));
-				businessScoreable = businessScoreable + w2;
-			}else if(sc2 == 'N/A'){
-				var w2 = parseFloat($(element).children("option:selected").attr('mtl_val'));
-				businessScore = businessScore + w2;
-				businessScoreable = businessScoreable + w2;
-			}
-		});
-		$('#business_earned_score').val(businessScore);
-		$('#business_possible_score').val(businessScoreable);
-		businessPercentage = ((businessScore*100)/businessScoreable).toFixed(2);
-		if(!isNaN(businessPercentage)){
-			$('#business_overall_score').val(businessPercentage+'%');
-		}
-	////////////
-		var complianceScore = 0;
-		var complianceScoreable = 0;
-		var compliancePercentage = 0;
-		$('.compliance').each(function(index,element){
-			var sc3 = $(element).val();
-			if(sc3 == 'Pass'){
-				var w3 = parseFloat($(element).children("option:selected").attr('mtl_val'));
-				complianceScore = complianceScore + w3;
-				complianceScoreable = complianceScoreable + w3;
-			}else if(sc3 == 'Fail'){
-				var w3 = parseFloat($(element).children("option:selected").attr('mtl_val'));
-				complianceScoreable = complianceScoreable + w3;
-			}else if(sc3 == 'N/A'){
-				var w3 = parseFloat($(element).children("option:selected").attr('mtl_val'));
-				complianceScore = complianceScore + w3;
-				complianceScoreable = complianceScoreable + w3;
-			}
-		});
-		$('#compliance_earned_score').val(complianceScore);
-		$('#compliance_possible_score').val(complianceScoreable);
-		compliancePercentage = ((complianceScore*100)/complianceScoreable).toFixed(2);
-		if(!isNaN(compliancePercentage)){
-			$('#compliance_overall_score').val(compliancePercentage+'%');
-		}
-		
-		///////////////////////////////////////////////////////////////////////
-	}
-	
-	$(document).on('change','.mtl_point',function(){
-		craftjack_mtl_calcs();
-	});
-	craftjack_mtl_calcs();
-	
-	
- </script>
-
 <script type="text/javascript">
 	$(document).on("change", ".avon_point", function(){
 			avon_calc();
@@ -969,7 +784,40 @@ $('INPUT[type="file"]').change(function () {
 	hcci_core_calc();
 
 	///////////////// Agent and TL names ///////////////////////
-			
+	$( "#agent_id" ).on('change' , function() {
+		var aid = this.value;
+		if(aid=="") //alert("Please Select Agent")
+		var URL='<?php echo base_url();?>qa_ameridial/getTLname';
+		$('#sktPleaseWait').modal('show');
+		$.ajax({
+			type: 'POST',
+			url:URL,
+			data:'aid='+aid,
+			success: function(aList){
+				var json_obj = $.parseJSON(aList);
+				$('#tl_name').empty();
+				$('#tl_name').append($('#tl_name').val(''));
+				//for (var i in json_obj) $('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
+				for (var i in json_obj) $('#tl_id').append($('#tl_id').val(json_obj[i].assigned_to));
+				for (var i in json_obj){
+					if($('#tl_name').val(json_obj[i].tl_name)!=''){
+						$('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
+
+					}else{
+						alert("Agent is not assigned any TL.Please assign one from manage user section or contact your HR/Manager");
+					}
+					
+				} 
+				for (var i in json_obj) $('#fusion_id').append($('#fusion_id').val(json_obj[i].fusion_id));
+				for (var i in json_obj) $('#campaign').append($('#campaign').val(json_obj[i].process_name));
+				for (var i in json_obj) $('#office_id').append($('#office_id').val(json_obj[i].office_id));
+				$('#sktPleaseWait').modal('hide');
+			},
+			error: function(){
+				alert('Fail!');
+			}
+		});
+	});		
 </script>
 <script>
 	//$( "#datepicker" ).datepicker({ minDate: 0});

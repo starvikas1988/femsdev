@@ -19266,10 +19266,20 @@ public function create_qa_hcci_core_v2_CSV($rr)
 
 	//$main_url = base_url().'qa_files/qa_homeadvisor/homeadvisor_files/';
 	$fopen = fopen($filename,"w+");
-	$header=array ( "Auditor Name","Tenure","Audit Link","Audit Date","Employee Id","Agent","TL Name","Call Date","AUDIT TYPE","AUDITOR TYPE","Call Duration","Call File","SR NO.","Consumer No.","VOC","Overall Score","Customer Score","Business Score","Compliance Score",
+	$header=array ( "Auditor Name","Tenure","Audit Link","Audit Date","Fusion Id","Agent","L1 Supervisor","Contact Date","AUDIT TYPE","AUDITOR TYPE","Call Duration","Call File","SR NO.","Consumer No.","VOC","Overall Score","Customer Score","Business Score","Compliance Score",
 		"Brand","Issue Identification","Issue Resolution","Identify Verification","Situational Policy","Strategic Cross-Sale Offered","Call Beginning","Call Control","Pace","Holds","Dash Documentation","Disposition Tagging","Betti SR Audit","Escalation","Correct Action","Unintelligible language","Failed to address one or more of the customer's issue(s)","Failed to validate customer's account","Failed to implement correct outcome according to workflow or policy","Egregious policy error (excessive OOP gave out personal information w/o permission etc.) - DISCIPLINARY ACTION REQUIRED","Flagrantly inappropriate response (cursing insulting speaking negatively of company/agent/pro etc.) - DISCIPLINARY ACTION REQUIRED","Failed to build Value in ANGI Services","Failed to mention Stella Survey","Failed to mention the ANGI APP",
-		"Issue Identification Remarks","Issue Resolution Remarks","Identify Verification Remarks","Situational Policy Remarks","Call Beginning Remarks","Call Control Remarks","Pace Remarks","Holds Remarks","Dash Documentation Remarks","Disposition Tagging Remarks","Betti SR Audit Remarks",
-		"Call Summary","Feedback","Entry By","Entry Date","Client entry by","Mgnt review by","Mgnt review note","Mgnt review date","Agent review note","Agent Feedback Acceptance ","Agent review date","Client review by","Client review note","Client rvw date");
+		"Issue Identification Remarks1","Issue Identification Remarks2","Issue Identification Remarks3",
+		"Issue Resolution Remarks1","Issue Resolution Remarks2","Issue Resolution Remarks3",
+		"Identify Verification Remarks1","Identify Verification Remarks2",
+		"Situational Policy Remarks1","Situational Policy Remarks2","Situational Policy Remarks3","Situational Policy Remarks4",
+		"Call Beginning Remarks1","Call Beginning Remarks2","Call Beginning Remarks3",
+		"Call Control Remarks1","Call Control Remarks2","Call Control Remarks3",
+		"Pace Remarks1","Pace Remarks2","Pace Remarks3","Pace Remarks4",
+		"Holds Remarks1","Holds Remarks2","Holds Remarks3","Holds Remarks4","Holds Remarks5",
+		"Dash Documentation Remarks1","Dash Documentation Remarks2","Dash Documentation Remarks3","Dash Documentation Remarks4","Dash Documentation Remarks5",
+		"Disposition Tagging Remarks1","Disposition Tagging Remarks2",
+		"Betti SR Audit Remarks1","Betti SR Audit Remarks2","Betti SR Audit Remarks3",
+		"Call Summary","Feedback","Interval(In Second)","Audit Start Date/Time","Audit End Date/Time","Mgnt review by","Mgnt review note","Mgnt review date/time","Agent review note","Agent Feedback Acceptance ","Agent review date/time","Client review by","Client review note","Client rvw date/time");
 
 	//$field_name="SHOW FULL COLUMNS FROM qa_hcci_feedback WHERE Comment!=''";
 	$field_name="SHOW FULL COLUMNS FROM qa_hcci_core_feedback WHERE Comment!=''";
@@ -19304,12 +19314,23 @@ public function create_qa_hcci_core_v2_CSV($rr)
 	// die;
 	foreach($rr as $user)
 	{
+		 if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+			 	$interval1 = '---';
+			 }else{
+			 	$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+			 }
+			 if($user['entry_by']!=''){
+				$auditorName = $user['auditor_name'];
+			}else{
+				$auditorName = $user['client_name'];
+			}
+
 		for($z=0;$z<$count_for_field;$z++){
 			 $main_urls = $main_url.'/'.$user['id'];
 			// echo $field_val[$z];
 
 			if($field_val[$z]==="auditor_name"){
-				$row = '"'.$user['auditor_name'].'",';
+				$row = '"'.$auditorName.'",';
 			}else if($field_val[$z]==="tenure"){
 				$row .= '"'.$user['tenure'].'",';
 			}else if($field_val[$z]==="audio_link"){
@@ -19320,6 +19341,10 @@ public function create_qa_hcci_core_v2_CSV($rr)
 				$row .= '"'.$user['fname']." ".$user['lname'].'",';
 			}else if($field_val[$z]==="tl_id"){
 				$row .= '"'.$user['tl_name'].'",';
+			}else if($field_val[$z]==="mgnt_rvw_by"){
+				$row .= '"'.$auditorName.'",';
+			}else if($field_val[$z]==="entry_by"){
+				$row .= '"'.$interval1.'",';
 			}else if(in_array($field_val[$z], array('call_summary','feedback','agent_rvw_note','mgnt_rvw_note'))) {
 
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user[$field_val[$z]])).'",';
@@ -19327,6 +19352,7 @@ public function create_qa_hcci_core_v2_CSV($rr)
 			}else{
 				$row .= '"'.$user[$field_val[$z]].'",';
 			}
+			
 
 		}
 		//die();
