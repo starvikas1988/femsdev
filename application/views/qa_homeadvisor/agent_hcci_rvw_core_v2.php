@@ -69,9 +69,9 @@
 												<?php endforeach; ?>
 											</select>
 											</td>
-											<td>Employee ID:</td>
+											<td>Fusion ID:</td>
 											<td><input type="text" disabled class="form-control" id="fusion_id" value="<?php echo $agnt_feedback['fusion_id'] ?>"></td>
-											<td> TL Name:</td>
+											<td>L1 Supervisor:</td>
 											<td>
 												
 								
@@ -195,11 +195,11 @@
 											</td>
 											<td colspan=2>
 												
-											    <select class="form-control" name="data[cmt1]" disabled>
+											    <select class="form-control multiple-select" name="data[cmt1]" multiple="multiple" disabled>
 													<option value="">-Select-</option>
-													<option value="Did not understand the issue(s)" <?= ($agnt_feedback['cmt1']=="Did not understand the issue(s)")?"selected":"" ?>>Did not understand the issue(s)</option>
-													<option value="Did not probe to identify customer issue(s)" <?= ($agnt_feedback['cmt1']=="Did not probe to identify customer issue(s)")?"selected":"" ?>>Did not probe to identify customer issue(s)</option>
-													<option value="Did not ask the right kind of follow up question" <?= ($agnt_feedback['cmt1']=="Did not ask the right kind of follow up question")?"selected":"" ?>>Did not ask the right kind of follow up question</option>
+													<option value="Did not understand the issue(s)" <?= ($agnt_feedback['cmt1A']=="Did not understand the issue(s)")?"selected":"" ?>>Did not understand the issue(s)</option>
+													<option value="Did not probe to identify customer issue(s)" <?= ($agnt_feedback['cmt1B']=="Did not probe to identify customer issue(s)")?"selected":"" ?>>Did not probe to identify customer issue(s)</option>
+													<option value="Did not ask the right kind of follow up question" <?= ($agnt_feedback['cmt1C']=="Did not ask the right kind of follow up question")?"selected":"" ?>>Did not ask the right kind of follow up question</option>
 												</select>
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $agnt_feedback['cmt2'] ?>"></td> -->
 											<td style="font-weight:bold; background-color:#D7BDE2">Customer Citical</td>
@@ -217,11 +217,11 @@
 												</select>
 											</td>
 											<td colspan=2>
-												<select class="form-control" name="data[cmt2]" disabled>
+												<select class="form-control multiple-select" name="data[cmt2]" multiple="multiple" disabled>
 													<option value="">-Select-</option>
-													<option value="Did not resolve one or more issues" <?= ($agnt_feedback['cmt2']=="Did not resolve one or more issues")?"selected":"" ?>>Did not resolve one or more issues</option>
-													<option value="Did not proactively offer help when it was warranted" <?= ($agnt_feedback['cmt2']=="Did not proactively offer help when it was warranted")?"selected":"" ?>>Did not proactively offer help when it was warranted</option>
-													<option value="Information given to user was inaccurate" <?= ($agnt_feedback['cmt2']=="Information given to user was inaccurate")?"selected":"" ?>>Information given to user was inaccurate</option>
+													<option value="Did not resolve one or more issues" <?= ($agnt_feedback['cmt2A']=="Did not resolve one or more issues")?"selected":"" ?>>Did not resolve one or more issues</option>
+													<option value="Did not proactively offer help when it was warranted" <?= ($agnt_feedback['cmt2B']=="Did not proactively offer help when it was warranted")?"selected":"" ?>>Did not proactively offer help when it was warranted</option>
+													<option value="Information given to user was inaccurate" <?= ($agnt_feedback['cmt2C']=="Information given to user was inaccurate")?"selected":"" ?>>Information given to user was inaccurate</option>
 												</select>
 
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $agnt_feedback['cmt3'] ?>"> -->
@@ -241,10 +241,10 @@
 												</select>
 											</td>
 											<td colspan=2>
-												<select class="form-control" name="data[cmt3]" disabled>
+												<select class="form-control multiple-select" name="data[cmt3]" multiple="multiple" disabled>
 													<option value="">-Select-</option>
-													<option value="Did not request accepted point(s) of verification" <?= ($agnt_feedback['cmt3']=="Did not request accepted point(s) of verification")?"selected":"" ?>>Did not request accepted point(s) of verification</option>
-													<option value="Points of verification provided by user did not match account details, but agent proceeded" <?= ($agnt_feedback['cmt3']=="Points of verification provided by user did not match account details, but agent proceeded")?"selected":"" ?>>Points of verification provided by user did not match account details, but agent proceeded</option>
+													<option value="Did not request accepted point(s) of verification" <?= ($agnt_feedback['cmt3A']=="Did not request accepted point(s) of verification")?"selected":"" ?>>Did not request accepted point(s) of verification</option>
+													<option value="Points of verification provided by user did not match account details, but agent proceeded" <?= ($agnt_feedback['cmt3B']=="Points of verification provided by user did not match account details, but agent proceeded")?"selected":"" ?>>Points of verification provided by user did not match account details, but agent proceeded</option>
 												</select>
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $agnt_feedback['cmt1'] ?>"> -->
 											</td>
@@ -263,12 +263,12 @@
 												</select>
 											</td>
 											<td colspan=2>
-												<select class="form-control" name="data[cmt4]" disabled>
+												<select class="form-control multiple-select" name="data[cmt4]" multiple="multiple" disabled>
 													<option value="">-Select-</option>
-													<option value="Did not follow the workflow correctly" <?= ($agnt_feedback['cmt4']=="Did not follow the workflow correctly")?"selected":"" ?>>Did not follow the workflow correctly</option>
-													<option value="Followed incorrect workflow" <?= ($agnt_feedback['cmt4']=="Followed incorrect workflow")?"selected":"" ?>>Followed incorrect workflow</option>
-													<option value="Did not adhere to policy" <?= ($agnt_feedback['cmt4']=="Did not adhere to policy")?"selected":"" ?>>Did not adhere to policy</option>
-													<option value="Misunderstood how to address the issue(s)" <?= ($agnt_feedback['cmt4']=="Misunderstood how to address the issue(s)")?"selected":"" ?>>Misunderstood how to address the issue(s)</option>
+													<option value="Did not follow the workflow correctly" <?= ($agnt_feedback['cmt4A']=="Did not follow the workflow correctly")?"selected":"" ?>>Did not follow the workflow correctly</option>
+													<option value="Followed incorrect workflow" <?= ($agnt_feedback['cmt4B']=="Followed incorrect workflow")?"selected":"" ?>>Followed incorrect workflow</option>
+													<option value="Did not adhere to policy" <?= ($agnt_feedback['cmt4C']=="Did not adhere to policy")?"selected":"" ?>>Did not adhere to policy</option>
+													<option value="Misunderstood how to address the issue(s)" <?= ($agnt_feedback['cmt4D']=="Misunderstood how to address the issue(s)")?"selected":"" ?>>Misunderstood how to address the issue(s)</option>
 												</select>
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $agnt_feedback['cmt1'] ?>"> -->
 											</td>
@@ -303,11 +303,11 @@
 												</select>
 											</td>
 											<td colspan=2>
-												<select class="form-control" name="data[cmt5]" disabled>
+												<select class="form-control multiple-select" name="data[cmt5]" multiple="multiple" disabled>
 													<option value="">-Select-</option>
-													<option value="Did not empathize when empathy was needed" <?= ($agnt_feedback['cmt5']=="Did not empathize when empathy was needed")?"selected":"" ?>>Did not empathize when empathy was needed</option>
-													<option value="Over-apologized" <?= ($agnt_feedback['cmt5']=="Over-apologized")?"selected":"" ?>>Over-apologized</option>
-													<option value="Did not introduce themselves to the user" <?= ($agnt_feedback['cmt5']=="Did not introduce themselves to the user")?"selected":"" ?>>Did not introduce themselves to the user</option>
+													<option value="Did not empathize when empathy was needed" <?= ($agnt_feedback['cmt5A']=="Did not empathize when empathy was needed")?"selected":"" ?>>Did not empathize when empathy was needed</option>
+													<option value="Over-apologized" <?= ($agnt_feedback['cmt5B']=="Over-apologized")?"selected":"" ?>>Over-apologized</option>
+													<option value="Did not introduce themselves to the user" <?= ($agnt_feedback['cmt5C']=="Did not introduce themselves to the user")?"selected":"" ?>>Did not introduce themselves to the user</option>
 												</select>
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $agnt_feedback['cmt1'] ?>"> -->
 											</td>
@@ -325,11 +325,11 @@
 												</select>
 											</td>
 											<td colspan=2>
-												<select class="form-control" name="data[cmt6]" disabled>
+												<select class="form-control multiple-select" name="data[cmt6]" multiple="multiple"  disabled>
 													<option value="">-Select-</option>
-													<option value="Did not communicate steps taken to the user" <?= ($agnt_feedback['cmt6']=="Did not communicate steps taken to the user")?"selected":"" ?>>Did not communicate steps taken to the user</option>
-													<option value="Agent was not in control of the call" <?= ($agnt_feedback['cmt6']=="Agent was not in control of the call")?"selected":"" ?>>Agent was not in control of the call</option>
-													<option value="Gave inaccurate information to the user" <?= ($agnt_feedback['cmt6']=="Gave inaccurate information to the user")?"selected":"" ?>>Gave inaccurate information to the user</option>
+													<option value="Did not communicate steps taken to the user" <?= ($agnt_feedback['cmt6A']=="Did not communicate steps taken to the user")?"selected":"" ?>>Did not communicate steps taken to the user</option>
+													<option value="Agent was not in control of the call" <?= ($agnt_feedback['cmt6B']=="Agent was not in control of the call")?"selected":"" ?>>Agent was not in control of the call</option>
+													<option value="Gave inaccurate information to the user" <?= ($agnt_feedback['cmt6C']=="Gave inaccurate information to the user")?"selected":"" ?>>Gave inaccurate information to the user</option>
 												</select>
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $agnt_feedback['cmt1'] ?>"> -->
 											</td>
@@ -347,12 +347,12 @@
 												</select>
 											</td>
 											<td colspan=2>
-												<select class="form-control" name="data[cmt7]" disabled>
+												<select class="form-control multiple-select" name="data[cmt7]" multiple="multiple"  disabled>
 													<option value="">-Select-</option>
-													<option value="Long silences were present during the interaction" <?= ($agnt_feedback['cmt7']=="Long silences were present during the interaction")?"selected":"" ?>>Long silences were present during the interaction</option>
-													<option value="Agent did not allow user to finish their thoughts before responding" <?= ($agnt_feedback['cmt7']=="Agent did not allow user to finish their thoughts before responding")?"selected":"" ?>>Agent did not allow user to finish their thoughts before responding</option>
-													<option value="Agent's tone was not consistent throughout conversation" <?= ($agnt_feedback['cmt7']=="Agent's tone was not consistent throughout conversation")?"selected":"" ?>>Agent's tone was not consistent throughout conversation</option>
-													<option value="Pace of speech made the agent difficult to follow" <?= ($agnt_feedback['cmt7']=="Pace of speech made the agent difficult to follow")?"selected":"" ?>>Pace of speech made the agent difficult to follow</option>
+													<option value="Long silences were present during the interaction" <?= ($agnt_feedback['cmt7A']=="Long silences were present during the interaction")?"selected":"" ?>>Long silences were present during the interaction</option>
+													<option value="Agent did not allow user to finish their thoughts before responding" <?= ($agnt_feedback['cmt7B']=="Agent did not allow user to finish their thoughts before responding")?"selected":"" ?>>Agent did not allow user to finish their thoughts before responding</option>
+													<option value="Agent's tone was not consistent throughout conversation" <?= ($agnt_feedback['cmt7C']=="Agent's tone was not consistent throughout conversation")?"selected":"" ?>>Agent's tone was not consistent throughout conversation</option>
+													<option value="Pace of speech made the agent difficult to follow" <?= ($agnt_feedback['cmt7D']=="Pace of speech made the agent difficult to follow")?"selected":"" ?>>Pace of speech made the agent difficult to follow</option>
 												</select>
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $agnt_feedback['cmt1'] ?>"> -->
 											</td>
@@ -370,13 +370,13 @@
 												</select>
 											</td>
 											<td colspan=2>
-												<select class="form-control" name="data[cmt8]" disabled>
+												<select class="form-control multiple-select" name="data[cmt8]" multiple="multiple" disabled>
 													<option value="">-Select-</option>
-													<option value="Agent did not request permission to place user on hold" <?= ($agnt_feedback['cmt8']=="Agent did not request permission to place user on hold")?"selected":"" ?>>Agent did not request permission to place user on hold</option>
-													<option value="Agent did not convey a hold duration to the customer" <?= ($agnt_feedback['cmt8']=="Agent did not convey a hold duration to the customer")?"selected":"" ?>>Agent did not convey a hold duration to the customer</option>
-													<option value="Agent did not check in with the user to update estimated time" <?= ($agnt_feedback['cmt8']=="Agent did not check in with the user to update estimated time")?"selected":"" ?>>Agent did not check in with the user to update estimated time</option>
-													<option value="Hold was inappropriate or unnecessary" <?= ($agnt_feedback['cmt8']=="Hold was inappropriate or unnecessary")?"selected":"" ?>>Hold was inappropriate or unnecessary</option>
-													<option value="Agent placed the user on 'Mute' rather than using the hold button" <?= ($agnt_feedback['cmt8']=="Agent placed the user on 'Mute' rather than using the hold button")?"selected":"" ?>>Agent placed the user on 'Mute' rather than using the hold button</option>
+													<option value="Agent did not request permission to place user on hold" <?= ($agnt_feedback['cmt8A']=="Agent did not request permission to place user on hold")?"selected":"" ?>>Agent did not request permission to place user on hold</option>
+													<option value="Agent did not convey a hold duration to the customer" <?= ($agnt_feedback['cmt8B']=="Agent did not convey a hold duration to the customer")?"selected":"" ?>>Agent did not convey a hold duration to the customer</option>
+													<option value="Agent did not check in with the user to update estimated time" <?= ($agnt_feedback['cmt8C']=="Agent did not check in with the user to update estimated time")?"selected":"" ?>>Agent did not check in with the user to update estimated time</option>
+													<option value="Hold was inappropriate or unnecessary" <?= ($agnt_feedback['cmt8D']=="Hold was inappropriate or unnecessary")?"selected":"" ?>>Hold was inappropriate or unnecessary</option>
+													<option value="Agent placed the user on 'Mute' rather than using the hold button" <?= ($agnt_feedback['cmt8E']=="Agent placed the user on 'Mute' rather than using the hold button")?"selected":"" ?>>Agent placed the user on 'Mute' rather than using the hold button</option>
 												</select>
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $agnt_feedback['cmt1'] ?>"> -->
 											</td>
@@ -395,13 +395,13 @@
 												</select>
 											</td>
 											<td colspan=2>
-												<select class="form-control" name="data[cmt9]" disabled>
+												<select class="form-control multiple-select" name="data[cmt9]" multiple="multiple" disabled>
 													<option value="">-Select-</option>
-													<option value="Missing date" <?= ($agnt_feedback['cmt9']=="Missing date")?"selected":"" ?>>Missing date</option>
-													<option value="Missing agent name" <?= ($agnt_feedback['cmt9']=="Missing agent name")?"selected":"" ?>>Missing agent name</option>
-													<option value="Missing or incomplete note of action taken" <?= ($agnt_feedback['cmt9']=="Missing or incomplete note of action taken")?"selected":"" ?>>Missing or incomplete note of action taken</option>
-													<option value="Incorrect Dash note format used" <?= ($agnt_feedback['cmt9']=="Incorrect Dash note format used")?"selected":"" ?>>Incorrect Dash note format used</option>
-													<option value="Incomplete relevant information in notes" <?= ($agnt_feedback['cmt9']=="Incomplete relevant information in notes")?"selected":"" ?>>Incomplete relevant information in notes</option>
+													<option value="Missing date" <?= ($agnt_feedback['cmt9A']=="Missing date")?"selected":"" ?>>Missing date</option>
+													<option value="Missing agent name" <?= ($agnt_feedback['cmt9B']=="Missing agent name")?"selected":"" ?>>Missing agent name</option>
+													<option value="Missing or incomplete note of action taken" <?= ($agnt_feedback['cmt9C']=="Missing or incomplete note of action taken")?"selected":"" ?>>Missing or incomplete note of action taken</option>
+													<option value="Incorrect Dash note format used" <?= ($agnt_feedback['cmt9D']=="Incorrect Dash note format used")?"selected":"" ?>>Incorrect Dash note format used</option>
+													<option value="Incomplete relevant information in notes" <?= ($agnt_feedback['cmt9E']=="Incomplete relevant information in notes")?"selected":"" ?>>Incomplete relevant information in notes</option>
 												</select>
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $agnt_feedback['cmt1'] ?>"> -->
 											</td>
@@ -419,10 +419,10 @@
 												</select>
 											</td>
 											<td colspan=2>
-												<select class="form-control" name="data[cmt10]" disabled>
+												<select class="form-control multiple-select" name="data[cmt10]" multiple="multiple" disabled>
 													<option value="">-Select-</option>
-													<option value="Disposition was not updated correctly with new reply" <?= ($agnt_feedback['cmt10']=="Disposition was not updated correctly with new reply")?"selected":"" ?>>Disposition was not updated correctly with new reply</option>
-													<option value="Incorrect disposition chosen" <?= ($agnt_feedback['cmt10']=="Incorrect disposition chosen")?"selected":"" ?>>Incorrect disposition chosen</option>
+													<option value="Disposition was not updated correctly with new reply" <?= ($agnt_feedback['cmt10A']=="Disposition was not updated correctly with new reply")?"selected":"" ?>>Disposition was not updated correctly with new reply</option>
+													<option value="Incorrect disposition chosen" <?= ($agnt_feedback['cmt10B']=="Incorrect disposition chosen")?"selected":"" ?>>Incorrect disposition chosen</option>
 												</select>
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $agnt_feedback['cmt1'] ?>"> -->
 											</td>
@@ -440,11 +440,11 @@
 												</select>
 											</td>
 											<td colspan=2>
-												<select class="form-control" name="data[cmt11]" disabled>
+												<select class="form-control multiple-select" name="data[cmt11]" multiple="multiple" disabled>
 													<option value="">-Select-</option>
-													<option value="The Agent did NOT perform Lead Audit Interview in BETTI." <?= ($agnt_feedback['cmt11']=="The Agent did NOT perform Lead Audit Interview in BETTI.")?"selected":"" ?>>The Agent did NOT perform Lead Audit Interview in BETTI.</option>
-													<option value="The Agent did NOT perform the Audit on the CORRECT SR in BETTI." <?= ($agnt_feedback['cmt11']=="The Agent did NOT perform the Audit on the CORRECT SR in BETTI.")?"selected":"" ?>>The Agent did NOT perform the Audit on the CORRECT SR in BETTI.</option>
-													<option value="Performed Lead Audit Interview in BETTI, did NOT Select Customer Serious" <?= ($agnt_feedback['cmt11']=="Performed Lead Audit Interview in BETTI, did NOT Select Customer Serious")?"selected":"" ?>>Performed Lead Audit Interview in BETTI, did NOT Select Customer Serious</option>
+													<option value="The Agent did NOT perform Lead Audit Interview in BETTI." <?= ($agnt_feedback['cmt11A']=="The Agent did NOT perform Lead Audit Interview in BETTI.")?"selected":"" ?>>The Agent did NOT perform Lead Audit Interview in BETTI.</option>
+													<option value="The Agent did NOT perform the Audit on the CORRECT SR in BETTI." <?= ($agnt_feedback['cmt11B']=="The Agent did NOT perform the Audit on the CORRECT SR in BETTI.")?"selected":"" ?>>The Agent did NOT perform the Audit on the CORRECT SR in BETTI.</option>
+													<option value="Performed Lead Audit Interview in BETTI, did NOT Select Customer Serious" <?= ($agnt_feedback['cmt11C']=="Performed Lead Audit Interview in BETTI, did NOT Select Customer Serious")?"selected":"" ?>>Performed Lead Audit Interview in BETTI, did NOT Select Customer Serious</option>
 												</select>
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $agnt_feedback['cmt1'] ?>"> -->
 											</td>
@@ -639,14 +639,14 @@
 
 									<tr style="font-weight:bold; background-color:#D7BDE2"><td colspan=2>Customer Score</td><td colspan=2>Business Score</td><td colspan=2>Compliance Score</td></tr>
 									<tr style="font-weight:bold; background-color:#D7BDE2">
-										<td>Earned Point:</td><td ><input type="text" readonly class="form-control" id="customer_earned_score" name="data[customer_earned_score]" value="<?php echo $agnt_feedback['customer_earned_score'] ?>"></td>
-										<td>Earned Point:</td><td ><input type="text" readonly class="form-control" id="business_earned_score" name="data[business_earned_score]" value="<?php echo $agnt_feedback['business_earned_score'] ?>"></td>
-										<td>Earned Point:</td><td ><input type="text" readonly class="form-control" id="compliance_earned_score" name="data[compliance_earned_score]" value="<?php echo $agnt_feedback['compliance_earned_score'] ?>"></td>
+										<td>Earned Point:</td><td ><input type="text" readonly class="form-control" id="customer_earnedCore_score" name="data[customer_earned_score]" value="<?php echo $agnt_feedback['customer_earned_score'] ?>"></td>
+										<td>Earned Point:</td><td ><input type="text" readonly class="form-control" id="business_earnedCore_score" name="data[business_earned_score]" value="<?php echo $agnt_feedback['business_earned_score'] ?>"></td>
+										<td>Earned Point:</td><td ><input type="text" readonly class="form-control" id="compliance_earnedCore_score" name="data[compliance_earned_score]" value="<?php echo $agnt_feedback['compliance_earned_score'] ?>"></td>
 									</tr>
 									<tr style="font-weight:bold; background-color:#D7BDE2">
-										<td>Possible Point:</td><td ><input type="text" readonly class="form-control" id="customer_possible_score" name="data[customer_possible_score]" value="<?php echo $agnt_feedback['customer_possible_score'] ?>"></td>
-										<td>Possible Point:</td><td ><input type="text" readonly class="form-control" id="business_possible_score" name="data[business_possible_score]" value="<?php echo $agnt_feedback['business_possible_score'] ?>"></td>
-										<td>Possible Point:</td><td ><input type="text" readonly class="form-control" id="compliance_possible_score" name="data[compliance_possible_score]" value="<?php echo $agnt_feedback['compliance_possible_score'] ?>"></td>
+										<td>Possible Point:</td><td ><input type="text" readonly class="form-control" id="customer_possibleCore_score" name="data[customer_possible_score]" value="<?php echo $agnt_feedback['customer_possible_score'] ?>"></td>
+										<td>Possible Point:</td><td ><input type="text" readonly class="form-control" id="business_possibleCore_score" name="data[business_possible_score]" value="<?php echo $agnt_feedback['business_possible_score'] ?>"></td>
+										<td>Possible Point:</td><td ><input type="text" readonly class="form-control" id="compliance_possibleCore_score" name="data[compliance_possible_score]" value="<?php echo $agnt_feedback['compliance_possible_score'] ?>"></td>
 									</tr>
 									<tr style="font-weight:bold; background-color:#D7BDE2">
 										<td>Overall Percentage:</td><td ><input type="text" readonly class="form-control" id="customer_overall_score" name="data[customer_overall_score]" value="<?php echo $agnt_feedback['customer_overall_score'] ?>"></td>
@@ -677,6 +677,10 @@
 									<tr>
 										<td style="font-size:12px">Manager Review:</td>
 										<td colspan="8" style="text-align:left"><?php echo $agnt_feedback['mgnt_rvw_note'] ?></td>
+									</tr>
+									<tr>
+										<td style="font-size:12px">Client Review:</td>
+										<td colspan="8" style="text-align:left"><?php echo $agnt_feedback['client_rvw_note'] ?></td>
 									</tr>
 									<tr><td colspan="6" style="background-color:#C5C8C8"></td></tr>
 									
@@ -722,3 +726,6 @@
 
 	</section>
 </div>
+
+<script>$(function() { $('#multiselect').multiselect(); $('.multiple-select').multiselect({ includeSelectAllOption: true, enableFiltering: true, numberDisplayed: 0, enableCaseInsensitiveFiltering: true, filterPlaceholder: 'Search for something...' }); }); </script>
+

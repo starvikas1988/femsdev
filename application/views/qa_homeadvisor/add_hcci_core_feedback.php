@@ -24,6 +24,12 @@
 	.top-space{
 		margin-top: -20px;
 	}
+
+	/*start custom 18-04-2023*/
+	.checkbox input[type="checkbox"], .checkbox input[type="radio"] {
+		opacity: 1;
+	}
+	/*end custom 18-04-2023*/
 </style>
 
 
@@ -34,9 +40,21 @@
 				pointer-events: none;
 				background-color: #D5DBDB;
 			}
+			.btn-group {
+				pointer-events: none;
+				background-color: #D5DBDB;
+			}
+			.btn-default {
+				pointer-events: none;
+				background-color: #eee;
+				width: 100%;
+    			text-align: left;
+			}
 		</style>
 <?php }
 } ?>
+
+
 
 <div class="wrap">
 	<section class="app-content">
@@ -51,7 +69,7 @@
 								<table class="table table-striped skt-table" width="100%">
 									<tbody>
 										<tr>
-											<td colspan="10" id="theader" style="font-size:40px">HCCI [CORE V2]</td>
+											<td colspan="10" id="theader" style="font-size:40px;text-align:center!important;">HCCI [CORE V2]</td>
 											<input type="hidden" name="audit_start_time" value="<?php echo CurrMySqlDate(); ?>">
 										</tr>
 										<?php
@@ -126,6 +144,7 @@
 								
 												<input type="text" class="form-control" id="tl_name" required value="<?php echo $hcci_data['tl_name'] ?>" readonly>
 												<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $hcci_data['tl_id'] ?>" required>
+												<!-- <input type="hidden" class="form-control" id="hcci_id" name="hcci_id" value="<?php //echo $hcci_id ?>" required> -->
 											</td>
 										</tr>
 										<tr>
@@ -143,10 +162,10 @@
 										</tr>
 										<tr>
 											<td>Consumer No:<span style="font-size:24px;color:red">*</span></td>
-											<!-- <td><input type="text" class="form-control" id="phone" name="data[consumer_no]" value="<?php //echo $hcci_data['consumer_no'] ?>" onkeyup="checkDec(this);" required>
-												<span id="start_phone" style="color:red"></span></td> -->
-											<td><input type="text" class="form-control" id="phone" name="data[consumer_no]" value="<?php echo $hcci_data['consumer_no'] ?>"  required>
-											</td>	
+											<td><input type="text" class="form-control" id="consumer_no" name="data[consumer_no]" value="<?php echo $hcci_data['consumer_no'] ?>" onkeyup="checkDecConsumer(this);" required>
+												<span id="start_phone" style="color:red"></span></td> 
+											<!-- <td><input type="text" class="form-control" id="phone" name="data[consumer_no]" value="<?php //echo $hcci_data['consumer_no'] ?>"  required>
+											</td> -->	
 
 											<td>VOC:<span style="font-size:24px;color:red">*</span></td>
 											<td>
@@ -180,8 +199,8 @@
 											</td>
 										</tr>
 										<tr>
-											<td class="auType">Auditor Type<span style="font-size:24px;color:red">*</span></td>
-											<td class="auType">
+											<td class="auType_epi">Auditor Type<span style="font-size:24px;color:red">*</span></td>
+											<td class="auType_epi">
 												<select class="form-control" id="auditor_type" name="data[auditor_type]">
                                                     <option value="">-Select-</option>
                                                     <option value="Master" <?= ($hcci_data['auditor_type']=="Master")?"selected":"" ?>>Master</option>
@@ -691,14 +710,14 @@
 
 									<tr style="font-weight:bold; background-color:#D7BDE2"><td colspan=2>Customer Score</td><td colspan=2>Business Score</td><td colspan=2>Compliance Score</td></tr>
 									<tr style="font-weight:bold; background-color:#D7BDE2">
-										<td>Earned Point:</td><td ><input type="text" readonly class="form-control" id="customer_earned_score" name="data[customer_earned_score]" value="<?php echo $hcci_data['customer_earned_score'] ?>"></td>
-										<td>Earned Point:</td><td ><input type="text" readonly class="form-control" id="business_earned_score" name="data[business_earned_score]" value="<?php echo $hcci_data['business_earned_score'] ?>"></td>
-										<td>Earned Point:</td><td ><input type="text" readonly class="form-control" id="compliance_earned_score" name="data[compliance_earned_score]" value="<?php echo $hcci_data['compliance_earned_score'] ?>"></td>
+										<td>Earned Point:</td><td ><input type="text" readonly class="form-control" id="customer_earnedCore_score" name="data[customer_earned_score]" value="<?php echo $hcci_data['customer_earned_score']; ?>"></td>
+										<td>Earned Point:</td><td ><input type="text" readonly class="form-control" id="business_earnedCore_score" name="data[business_earned_score]" value="<?php echo $hcci_data['business_earned_score']; ?>"></td>
+										<td>Earned Point:</td><td ><input type="text" readonly class="form-control" id="compliance_earnedCore_score" name="data[compliance_earned_score]" value="<?php echo $hcci_data['compliance_earned_score']; ?>"></td>
 									</tr>
 									<tr style="font-weight:bold; background-color:#D7BDE2">
-										<td>Possible Point:</td><td ><input type="text" readonly class="form-control" id="customer_possible_score" name="data[customer_possible_score]" value="<?php echo $hcci_data['customer_possible_score'] ?>"></td>
-										<td>Possible Point:</td><td ><input type="text" readonly class="form-control" id="business_possible_score" name="data[business_possible_score]" value="<?php echo $hcci_data['business_possible_score'] ?>"></td>
-										<td>Possible Point:</td><td ><input type="text" readonly class="form-control" id="compliance_possible_score" name="data[compliance_possible_score]" value="<?php echo $hcci_data['compliance_possible_score'] ?>"></td>
+										<td>Possible Point:</td><td ><input type="text" readonly class="form-control" id="customer_possibleCore_score" name="data[customer_possible_score]" value="<?php echo $hcci_data['customer_possible_score']; ?>"></td>
+										<td>Possible Point:</td><td ><input type="text" readonly class="form-control" id="business_possibleCore_score" name="data[business_possible_score]" value="<?php echo $hcci_data['business_possible_score']; ?>"></td>
+										<td>Possible Point:</td><td ><input type="text" readonly class="form-control" id="compliance_possibleCore_score" name="data[compliance_possible_score]" value="<?php echo $hcci_data['compliance_possible_score']; ?>"></td>
 									</tr>
 									<tr style="font-weight:bold; background-color:#D7BDE2">
 										<td>Overall Percentage:</td><td ><input type="text" readonly class="form-control" id="customer_overall_score" name="data[customer_overall_score]" value="<?php echo $hcci_data['customer_overall_score'] ?>"></td>
@@ -763,7 +782,7 @@
 										if ($hcci_id == 0) {
 											if (is_access_qa_module() == true || is_access_qa_operations_module() == true) { ?>
 												<tr>
-													<td colspan=6><button class="btn btn-success waves-effect" type="submit" id="qaformsubmit" style="width:500px">SAVE</button></td>
+													<td colspan=6><button class="btn btn-success waves-effect" type="submit" id="qaformsubmit" style="width:500px;margin:auto;display:block;">SAVE</button></td>
 												</tr>
 												<?php
 											}
@@ -771,7 +790,7 @@
 											if (is_access_qa_module() == true || is_access_qa_operations_module() == true) {
 												if (is_available_qa_feedback($hcci_data['entry_date'], 72) == true) { ?>
 													<tr>
-														<td colspan="6"><button class="btn btn-success waves-effect" type="submit" id='qaformsubmit' name='btnSave' value="SAVE" style="width:500px">SAVE</button></td>
+														<td colspan="6"><button class="btn btn-success waves-effect" type="submit" id='qaformsubmit' name='btnSave' value="SAVE" style="width:500px;margin:auto;display:block;">SAVE</button></td>
 													</tr>
 										<?php
 												}

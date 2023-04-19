@@ -121,41 +121,6 @@ $(function() {
 		}
 </script> 
 <script type="text/javascript">
-	function checkDecConsumer(el) {
-			var ex = /^[0-9]+\.?[0-9]*$/;
-
-			if (ex.test(el.value) == false) {
-				//console.log(el.value);
-				el.value = el.value.substring(0, el.value.length - 1);
-				alert("Number format required!");
-				$("#qaformsubmit").attr("disabled", "disabled");
-				$('#consumer_no').val("");
-				return false;
-			}
-			// if(el.value.length >25){
-   //     			//alert("required 10 digits, match requested format!");
-   //     			$("#start_phone").html("Consumer number can not be more than 25 digits!");
-   //     			$("#qaformsubmit").attr("disabled", "disabled");
-   //     			return false;
-		 //    }
-		    if(el.value.length < 1){
-		    	$("#start_phone").html("Consumer number can not be a negative digits!");
-		    	$("#qaformsubmit").attr("disabled", "disabled");
-       			return false;
-		    }
-		    else{
-		    	$("#start_phone").html("");
-		    	 $("#qaformsubmit").removeAttr("disabled");
-       			return false;
-		    }
-		    // else{
-		    // 	$("#start_phone").html("");
-		    // 	 $("#qaformsubmit").removeAttr("disabled");
-		    // }
-			console.log(el.value);
-		}
-</script>
-<script type="text/javascript">
 	// $(function () {
 	// 	$( "#audit_type" ).on('change' , function() {
 	// 		let val = $(this).val();
@@ -186,8 +151,6 @@ $(function() {
 		let status_points11 = $( "#status_points11" ).val();
 		if(status_points1 == 'Fail'){
 			$("#remarks1").multiselect("enable");
-
-			
 			//$('#remarks1').prop('required', 'required');
 			//$('#remarks1').removeAttr('required');
 
@@ -702,7 +665,7 @@ $('INPUT[type="file"]').change(function () {
 </script> -->
 <script type="text/javascript">
 	///////////////// Calibration - Auditor Type ///////////////////////	
-	//$('.auType').hide();
+	$('.auType').hide();
 	
 	if($("#audit_type").val() == "Calibration"){
 		$('.auType').show();
@@ -710,20 +673,6 @@ $('INPUT[type="file"]').change(function () {
 		$('#auditor_type').prop('disabled',false);
 	}
 	
-	$('#audit_type').each(function(){
-		$valdet=$(this).val();
-		console.log($valdet);
-		if($valdet=="Calibration"){
-			$('.auType').show();
-			$('#auditor_type').attr('required',true);
-			$('#auditor_type').prop('disabled',false);
-		}else{
-			$('.auType').hide();
-			$('#auditor_type').attr('required',false);
-			$('#auditor_type').prop('disabled',true);
-		}
-	});
-
 	$('#audit_type').on('change', function(){
 		if($(this).val()=='Calibration'){
 			$('.auType').show();
@@ -731,30 +680,6 @@ $('INPUT[type="file"]').change(function () {
 			$('#auditor_type').prop('disabled',false);
 		}else{
 			$('.auType').hide();
-			$('#auditor_type').attr('required',false);
-			$('#auditor_type').prop('disabled',true);
-		}
-	});
-
-	///////////////////hcci core/////////////////
-
-	$('#audit_type').each(function(){
-		$valdet=$(this).val();
-		if($valdet=="Calibration"){
-			$('.auType_epi').show();
-		}else{
-			$('.auType_epi').hide();
-		}
-	});
-
-	$('#audit_type').on('change', function(){
-		if($(this).val()=='Calibration'){
-			$('.auType_epi').show();
-			$('#auditor_type').attr('required',true);
-			$('#auditor_type').prop('disabled',false);
-		}else{
-			//alert(222);
-			$('.auType_epi').hide();
 			$('#auditor_type').attr('required',false);
 			$('#auditor_type').prop('disabled',true);
 		}
@@ -853,24 +778,24 @@ $('INPUT[type="file"]').change(function () {
 							cust_earned+=earned_weightage;
 							cust_possible+=weightage;
 							//console.log(cust_earned);
-							$("#customer_earnedCore_score").val(cust_earned);
-							$("#customer_possibleCore_score").val(cust_possible);
+							$("#customer_earned_score").val(cust_earned);
+							$("#customer_possible_score").val(cust_possible);
 							$("#customer_overall_score").val(parseFloat((cust_earned/cust_possible)*100).toFixed(2)+"%");
 						}
 						if($(this).hasClass("compliance")){
 							comp_earned+=earned_weightage;
 							comp_possible+=weightage;
 							//console.log(comp_earned);
-							$("#compliance_earnedCore_score").val(comp_earned);
-							$("#compliance_possibleCore_score").val(comp_possible);
+							$("#compliance_earned_score").val(comp_earned);
+							$("#compliance_possible_score").val(comp_possible);
 							$("#compliance_overall_score").val(parseFloat((comp_earned/comp_possible)*100).toFixed(2)+"%");
 						}
 						if($(this).hasClass("business")){
 							business_earned+=earned_weightage;
 							business_possible+=weightage;
 							//console.log(business_earned);
-							$("#business_earnedCore_score").val(business_earned);
-							$("#business_possibleCore_score").val(business_possible);
+							$("#business_earned_score").val(business_earned);
+							$("#business_possible_score").val(business_possible);
 							$("#business_overall_score").val(parseFloat((business_earned/business_possible)*100).toFixed(2)+"%");
 						}
 

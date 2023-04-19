@@ -13,7 +13,7 @@
 	private function ha_upload_files($files,$path)
     {
         $config['upload_path'] = $path;
-		$config['allowed_types'] = 'mp3|m4a|mp4|wav';
+		$config['allowed_types'] = 'mp3|avi|mp4|wmv|wav';
 		$config['max_size'] = '2024000';
 		$this->load->library('upload', $config);
 		$this->upload->initialize($config);
@@ -1657,7 +1657,7 @@
 			$qSql="Select count(id) as value from qa_hcci_feedback_new where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')";
 			$data["tot_feedback_new"] =  $this->Common_model->get_single_value($qSql);
 
-			 $qSql="Select count(id) as value from qa_hcci_core_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','Certificate Audit')";
+			$qSql="Select count(id) as value from qa_hcci_core_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')";
 			$data["tot_feedback_core_v2"] =  $this->Common_model->get_single_value($qSql);
 			
 			$qSql="Select count(id) as value from qa_hcci_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit') ";
@@ -1666,7 +1666,7 @@
 			$qSql="Select count(id) as value from qa_hcci_feedback_new where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit') ";
 			$data["yet_rvw_new"] =  $this->Common_model->get_single_value($qSql);
 
-			$qSql="Select count(id) as value from qa_hcci_core_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','Certificate Audit') ";
+			$qSql="Select count(id) as value from qa_hcci_core_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit') ";
 			$data["yet_rvw_core_v2"] =  $this->Common_model->get_single_value($qSql);
 				
 			if($this->input->get('btnView')=='View')

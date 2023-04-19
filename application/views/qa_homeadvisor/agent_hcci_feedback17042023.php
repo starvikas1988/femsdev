@@ -91,9 +91,9 @@
 										<th>Agent Name</th>
 										<th>L1 Supervisor</th>
 										<th>Total Score</th>
-										<th>Agent Review Date</th>
+										<th>Agent Review Date/Time</th>
 										<th>Mgnt Review By</th>
-										<th>Mgnt Review Date</th>
+										<th>Mgnt Review Date/Time</th>
 										<th>Action</th>
 									</tr>
 								</thead>
@@ -128,9 +128,9 @@
 										<th>Agent Name</th>
 										<th>L1 Supervisor</th>
 										<th>Total Score</th>
-										<th>Agent Review Date</th>
+										<th>Agent Review Date/Time</th>
 										<th>Mgnt Review By</th>
-										<th>Mgnt Review Date</th>
+										<th>Mgnt Review Date/Time</th>
 										<th>Action</th>
 									</tr>
 								</tfoot>
@@ -171,9 +171,9 @@
 										<th>Agent Name</th>
 										<th>L1 Supervisor</th>
 										<th>Total Score</th>
-										<th>Agent Review Date</th>
+										<th>Agent Review Date/Time</th>
 										<th>Mgnt Review By</th>
-										<th>Mgnt Review Date</th>
+										<th>Mgnt Review Date/Time</th>
 										<th>Action</th>
 									</tr>
 								</thead>
@@ -208,9 +208,9 @@
 										<th>Agent Name</th>
 										<th>L1 Supervisor</th>
 										<th>Total Score</th>
-										<th>Agent Review Date</th>
+										<th>Agent Review Date/Time</th>
 										<th>Mgnt Review By</th>
-										<th>Mgnt Review Date</th>
+										<th>Mgnt Review Date/Time</th>
 										<th>Action</th>
 									</tr>
 								</tfoot>
