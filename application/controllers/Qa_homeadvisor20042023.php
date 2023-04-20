@@ -983,69 +983,6 @@
 					$this->db->where('id', $rowid);
 					$this->db->update('qa_hcco_sr_v2_feedback',$add_array);
 					
-					/*******************Fatal Call Email Send functionality added on 12-12-22 START ***********************/
-					if($field_array['valid_sr'] == 'No'){
-						$aud_tbl = "qa_hcco_sr_v2_feedback";
-						/* $sql = "SELECT tname.*, ip.email_id_off, ip_tl.email_id_off as tl_email, concat(s.fname, ' ', s.lname) as fullname,
-							(SELECT concat(tls.fname, ' ', tls.lname) as tl_fullname FROM signin tls WHERE tls.id=tname.tl_id) as tl_fullname
-							FROM $tablename tname
-							LEFT JOIN info_personal ip ON ip.user_id=tname.agent_id 
-							LEFT JOIN signin s ON s.id=tname.agent_id
-							LEFT JOIN signin tl ON tl.id = tname.tl_id
-							LEFT JOIN info_personal ip_tl ON ip_tl.user_id = tname.tl_id
-							WHERE tname.id=$rowid"; */
-						$sql = "Select at.*, concat(s.fname, ' ', s.lname) as agent, concat(ts.fname, ' ', ts.lname) as tl, concat(qs.fname, ' ', qs.lname) as qa, ip.email_id_off, ip_tl.email_id_off as tl_email, ip_qa.email_id_off as qa_email
-						from $aud_tbl at
-						Left Join signin s On s.id=at.agent_id
-						Left Join signin ts On ts.id=at.tl_id
-						Left Join signin qs On qs.id=at.entry_by
-						Left Join info_personal ip On ip.user_id=at.agent_id
-						Left Join info_personal ip_tl On ip_tl.user_id=at.tl_id
-						Left Join info_personal ip_qa On ip_qa.user_id=at.entry_by
-						Where at.id=$rowid";
-						$result= $this->Common_model->get_query_row_array($sql);				
-						
-						$etoA=array();
-						$eccA=array();
-						
-						$ebody = "Hello ". $result['tl'].",".$result['qa']."<br>";
-						$ebody .= "<p>Please find the below <b>Test audit</b> details.</br></p>";
-						$ebody .= "<p>Agent Name : ".$result['agent']."</p>";
-						$ebody .= "<p>Call Date :  ".$result['call_date']."</p>";
-						$ebody .= "<p>Call Duration :  ".$result['call_duration']."</p>";
-						$ebody .= "<p>SR # :  ".$result['sr_number']."</p>";
-						$ebody .= "<p>Trigger :  ".$result['trigger_point']."</p>";
-						$ebody .= "<p>New SR# :  ".$result['sr_mother']."</p>";
-						$ebody .= "<p>Disposition Selected :  ".$result['selected_dispo']."</p>";
-						$ebody .= "<p>Correct Disposition :  ".$result['correct_dispo']."</p><br><br>";
-						$ebody .= "<p>Please find the URL to review the Audit <br> 
-									Audit URL: ".base_url()."qa_homeadvisor/add_edit_hcco_sr_v2/".$result['id']." <br>
-									Agent URL: ".base_url()."qa_homeadvisor/agent_hcco_feedback</p><br><br><br>";
-						$ebody .= "<p>Regards,</p>";
-						$ebody .= "<p>MWP Team</p>";
-						$esubject = "Email Alert for Valid SR-No in HCCO SR COMPLIANCE Version-2 - ".$result['audit_date'];
-						
-						/*$etoA[]=$result['email_id_off'];
-						$etoA[]=$result['tl_email'];
-						$etoA[]=$result['qa_email'];
-						
-						$eccA[]="hcco_fusion@fusionbposervices.com";
-						$eccA[]="Reynaldo.Brown@fusionbposervices.com";
-						$eccA[]="keir.lovell@fusionbposervices.com";
-						$eccA[]="homer.acha@fusionbposervices.com"; */
-						
-						//$to = implode(',',$etoA);
-						$to = 'deb.dasgupta@omindtech.com';
-						//$ecc = implode(',',$eccA);
-						$ecc = 'somnath.bhattacharya@omindtech.com';
-						$path = "";
-						$from_email="";
-						$from_name="";
-						
-						$send = $this->Email_model->send_email_sox("",$to, $ecc, $ebody, $esubject, $path, $from_email, $from_name, $isBcc="Y");
-						unset($eccA);
-					}
-					
 				}else{
 					
 					$field_array1=$this->input->post('data');
@@ -1720,7 +1657,7 @@
 			$qSql="Select count(id) as value from qa_hcci_feedback_new where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')";
 			$data["tot_feedback_new"] =  $this->Common_model->get_single_value($qSql);
 
-			 $qSql="Select count(id) as value from qa_hcci_core_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
+			 $qSql="Select count(id) as value from qa_hcci_core_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','Certificate Audit')";
 			$data["tot_feedback_core_v2"] =  $this->Common_model->get_single_value($qSql);
 			
 			$qSql="Select count(id) as value from qa_hcci_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit') ";
@@ -1729,7 +1666,7 @@
 			$qSql="Select count(id) as value from qa_hcci_feedback_new where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit') ";
 			$data["yet_rvw_new"] =  $this->Common_model->get_single_value($qSql);
 
-			$qSql="Select count(id) as value from qa_hcci_core_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit') ";
+			$qSql="Select count(id) as value from qa_hcci_core_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','Certificate Audit') ";
 			$data["yet_rvw_core_v2"] =  $this->Common_model->get_single_value($qSql);
 				
 			if($this->input->get('btnView')=='View')
@@ -1753,7 +1690,7 @@
 				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_hcci_feedback_new $cond) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
 				$data["agent_list_new"] = $this->Common_model->get_query_result_array($qSql);
 
-				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_hcci_core_feedback $cond And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
+				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_hcci_core_feedback $cond And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','Certificate Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
 				$data["agent_list_core_v2"] = $this->Common_model->get_query_result_array($qSql);
 
 			}else{
@@ -1763,7 +1700,7 @@
 				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_hcci_feedback_new where  agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
 				$data["agent_list_new"] = $this->Common_model->get_query_result_array($qSql);
 				//agent_rvw_date is null and
-				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_hcci_core_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
+				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_hcci_core_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','Certificate Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
 				$data["agent_list_core_v2"] = $this->Common_model->get_query_result_array($qSql);
 				//agent_rvw_date is null and 
 			}
@@ -1817,7 +1754,6 @@
 			
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_homeadvisor/agent_hcci_rvw_core_v2.php";
-			$data["content_js"] = "qa_avon_js.php";
 			$data["agentUrl"] = "qa_homeadvisor/agent_hcci_feedback";
 			
 			$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name,agent_rvw_note as agent_note,mgnt_rvw_note as mgnt_note from qa_hcci_core_feedback where id=$id) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
@@ -1871,9 +1807,6 @@
             $qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,17) and is_assign_process(id,295) and status=1  order by name";
             $data['agentName'] = $this->Common_model->get_query_result_array( $qSql );
 
-            // $qSql_remarks = "SELECT id, cmt FROM `qa_hcci_core_remarks` where  status=1  order by cmt";
-            // $data['cmt_remarks'] = $this->Common_model->get_query_result_array( $qSql_remarks );
-
             $qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1 order by fname ASC";
             $data['tlname'] = $this->Common_model->get_query_result_array($qSql);
 
@@ -1892,8 +1825,6 @@
             //$multicomments1 = array();
 
             $field_array['agent_id'] = !empty( $_POST['data']['agent_id'] )?$_POST['data']['agent_id']:'';
-             
-
             if ( $field_array['agent_id'] ) {
 
                 if ( $hcci_id == 0 ) {
@@ -1906,164 +1837,74 @@
                     // print_r($field_array);
                     // echo"</pre>";
                     // exit();
-
                     if(isset($field_array['cmt1'])){
-                    	// $cmt1A = implode(":",$field_array['cmt1']);
-                    	// $field_array['cmt1A'] = $cmt1A;
-
-                    	if(isset($field_array['cmt1'][0])){
-                    		$field_array['cmt1A'] = $field_array['cmt1'][0];
-                    	}
-
-                    	if(isset($field_array['cmt1'][1])){
-                    		$field_array['cmt1B'] = $field_array['cmt1'][1];
-                    	}
-
-                    	if(isset($field_array['cmt1'][2])){
-                    		$field_array['cmt1C'] = $field_array['cmt1'][2];
-                    	}
-
+                    	$field_array['cmt1A'] = $field_array['cmt1'][0];
+	  					$field_array['cmt1B'] = $field_array['cmt1'][1];
+	  					$field_array['cmt1C'] = $field_array['cmt1'][2];
 	  					unset($field_array['cmt1']);
                     }
                     if(isset($field_array['cmt2'])){
-
-                    	if(isset($field_array['cmt2'][0])){
-                    		$field_array['cmt2A'] = $field_array['cmt2'][0];
-                    	}
-
-                    	if(isset($field_array['cmt2'][1])){
-                    		$field_array['cmt2B'] = $field_array['cmt2'][1];
-                    	}
-
-                    	if(isset($field_array['cmt2'][2])){
-                    		$field_array['cmt2C'] = $field_array['cmt2'][2];
-                    	}
+                    	$field_array['cmt2A'] = $field_array['cmt2'][0];
+	  					$field_array['cmt2B'] = $field_array['cmt2'][1];
+	  					$field_array['cmt2C'] = $field_array['cmt2'][2];
 	  					unset($field_array['cmt2']);
                     }
                     if(isset($field_array['cmt3'])){
-                    	if(isset($field_array['cmt3'][0])){
-                    		$field_array['cmt3A'] = $field_array['cmt3'][0];
-                    	}
-                    	if(isset($field_array['cmt3'][1])){
-                    		$field_array['cmt3B'] = $field_array['cmt3'][1];
-                    	}
-
+                    	$field_array['cmt3A'] = $field_array['cmt3'][0];
+	  					$field_array['cmt3B'] = $field_array['cmt3'][1];
 	  					unset($field_array['cmt3']);
                     }
                     if(isset($field_array['cmt4'])){
-                    	if(isset($field_array['cmt4'][0])){
-                    		$field_array['cmt4A'] = $field_array['cmt4'][0];
-                    	}
-                    	if(isset($field_array['cmt4'][1])){
-                    		$field_array['cmt4B'] = $field_array['cmt4'][1];
-                    	}
-                    	if(isset($field_array['cmt4'][2])){
-                    		$field_array['cmt4C'] = $field_array['cmt4'][2];
-                    	}
-                    	if(isset($field_array['cmt4'][3])){
-                    		$field_array['cmt4D'] = $field_array['cmt4'][3];
-                    	}
-	  					
+                    	$field_array['cmt4A'] = $field_array['cmt4'][0];
+	  					$field_array['cmt4B'] = $field_array['cmt4'][1];
+	  					$field_array['cmt4C'] = $field_array['cmt4'][2];
+	  					$field_array['cmt4D'] = $field_array['cmt4'][3];
 	  					unset($field_array['cmt4']);
                     }
                     if(isset($field_array['cmt5'])){
-                    	if(isset($field_array['cmt5'][0])){
-                    		$field_array['cmt5A'] = $field_array['cmt5'][0];
-                    	}
-                    	if(isset($field_array['cmt5'][1])){
-                    		$field_array['cmt5B'] = $field_array['cmt5'][1];
-                    	}
-                    	if(isset($field_array['cmt5'][2])){
-                    		$field_array['cmt5C'] = $field_array['cmt5'][2];
-                    	}
+                    	$field_array['cmt5A'] = $field_array['cmt5'][0];
+	  					$field_array['cmt5B'] = $field_array['cmt5'][1];
+	  					$field_array['cmt5C'] = $field_array['cmt5'][2];
 	  					unset($field_array['cmt5']);
                     }
                     if(isset($field_array['cmt6'])){
-                    	if(isset($field_array['cmt6'][0])){
-                    		$field_array['cmt6A'] = $field_array['cmt6'][0];
-                    	}
-                    	if(isset($field_array['cmt6'][1])){
-                    		$field_array['cmt6B'] = $field_array['cmt6'][1];
-                    	}
-                    	if(isset($field_array['cmt6'][2])){
-                    		$field_array['cmt6C'] = $field_array['cmt6'][2];
-                    	}
+                    	$field_array['cmt6A'] = $field_array['cmt6'][0];
+	  					$field_array['cmt6B'] = $field_array['cmt6'][1];
+	  					$field_array['cmt6C'] = $field_array['cmt6'][2];
 	  					unset($field_array['cmt6']);
                     }
                     if(isset($field_array['cmt7'])){
-                    	if(isset($field_array['cmt7'][0])){
-                    		$field_array['cmt7A'] = $field_array['cmt7'][0];
-                    	}
-                    	if(isset($field_array['cmt7'][1])){
-                    		$field_array['cmt7B'] = $field_array['cmt7'][1];
-                    	}
-                    	if(isset($field_array['cmt7'][2])){
-                    		$field_array['cmt7C'] = $field_array['cmt7'][2];
-                    	}
-                    	if(isset($field_array['cmt7'][3])){
-                    		$field_array['cmt7D'] = $field_array['cmt7'][3];
-                    	}
-	  					
+                    	$field_array['cmt7A'] = $field_array['cmt7'][0];
+	  					$field_array['cmt7B'] = $field_array['cmt7'][1];
+	  					$field_array['cmt7C'] = $field_array['cmt7'][2];
+	  					$field_array['cmt7D'] = $field_array['cmt7'][3];
 	  					unset($field_array['cmt7']);
                     }
                     if(isset($field_array['cmt8'])){
-                    	if(isset($field_array['cmt8'][0])){
-                    		$field_array['cmt8A'] = $field_array['cmt8'][0];
-                    	}
-                    	if(isset($field_array['cmt8'][1])){
-                    		$field_array['cmt8B'] = $field_array['cmt8'][1];
-                    	}
-                    	if(isset($field_array['cmt8'][2])){
-                    		$field_array['cmt8C'] = $field_array['cmt8'][2];
-                    	}
-                    	if(isset($field_array['cmt8'][3])){
-                    		$field_array['cmt8D'] = $field_array['cmt8'][3];
-                    	}
-                    	if(isset($field_array['cmt8'][4])){
-                    		$field_array['cmt8E'] = $field_array['cmt8'][4];
-                    	}
+                    	$field_array['cmt8A'] = $field_array['cmt8'][0];
+	  					$field_array['cmt8B'] = $field_array['cmt8'][1];
+	  					$field_array['cmt8C'] = $field_array['cmt8'][2];
+	  					$field_array['cmt8D'] = $field_array['cmt8'][3];
+	  					$field_array['cmt8E'] = $field_array['cmt8'][4];
 	  					unset($field_array['cmt8']);
                     }
                     if(isset($field_array['cmt9'])){
-                    	if(isset($field_array['cmt9'][0])){
-                    		$field_array['cmt9A'] = $field_array['cmt9'][0];
-                    	}
-                    	if(isset($field_array['cmt9'][1])){
-                    		$field_array['cmt9B'] = $field_array['cmt9'][1];
-                    	}
-                    	if(isset($field_array['cmt9'][2])){
-                    		$field_array['cmt9C'] = $field_array['cmt9'][2];
-                    	}
-                    	if(isset($field_array['cmt9'][3])){
-                    		$field_array['cmt9D'] = $field_array['cmt9'][3];
-                    	}
-                    	if(isset($field_array['cmt9'][4])){
-                    		$field_array['cmt9E'] = $field_array['cmt9'][4];
-                    	}
-	  					
+                    	$field_array['cmt9A'] = $field_array['cmt9'][0];
+	  					$field_array['cmt9B'] = $field_array['cmt9'][1];
+	  					$field_array['cmt9C'] = $field_array['cmt9'][2];
+	  					$field_array['cmt9D'] = $field_array['cmt9'][3];
+	  					$field_array['cmt9E'] = $field_array['cmt9'][4];
 	  					unset($field_array['cmt9']);
                     }
                     if(isset($field_array['cmt10'])){
-                    	if(isset($field_array['cmt10'][0])){
-                    		$field_array['cmt10A'] = $field_array['cmt10'][0];
-                    	}
-                    	if(isset($field_array['cmt10'][1])){
-                    		$field_array['cmt10B'] = $field_array['cmt10'][1];
-                    	}
-                    	
+                    	$field_array['cmt10A'] = $field_array['cmt10'][0];
+	  					$field_array['cmt10B'] = $field_array['cmt10'][1];
 	  					unset($field_array['cmt10']);
                     }
                     if(isset($field_array['cmt11'])){
-                    	if(isset($field_array['cmt11'][0])){
-                    		$field_array['cmt11A'] = $field_array['cmt11'][0];
-                    	}
-                    	if(isset($field_array['cmt11'][1])){
-                    		$field_array['cmt11B'] = $field_array['cmt11'][1];
-                    	}
-                    	if(isset($field_array['cmt11'][2])){
-                    		$field_array['cmt11C'] = $field_array['cmt11'][2];
-                    	}
-                    	
+                    	$field_array['cmt11A'] = $field_array['cmt11'][0];
+	  					$field_array['cmt11B'] = $field_array['cmt11'][1];
+	  					$field_array['cmt11C'] = $field_array['cmt11'][2];
 	  					unset($field_array['cmt11']);
                     }
   					
@@ -2078,8 +1919,6 @@
                     }
                     $a = $this->ha_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_homeadvisor/hcci_files/' );
                     $field_array['attach_file'] = implode( ',', $a );
-
-                    
                     $rowid = data_inserter( 'qa_hcci_core_feedback', $field_array );
                     ///////////
                     if ( get_login_type() == 'client' ) {
@@ -2095,163 +1934,146 @@
                     $field_array1 = $this->input->post( 'data' );
 
                     if(isset($field_array1['cmt1'])){
-                    	if(isset($field_array1['cmt1'][0])){
-                    		$field_array1['cmt1A'] = $field_array1['cmt1'][0];
-                    	}
-
-                    	if(isset($field_array1['cmt1'][1])){
-                    		$field_array1['cmt1B'] = $field_array1['cmt1'][1];
-                    	}
-
-                    	if(isset($field_array1['cmt1'][2])){
-                    		$field_array1['cmt1C'] = $field_array1['cmt1'][2];
-                    	}
-
+                    	$field_array1['cmt1A'] = $field_array1['cmt1'][0];
+	  					$field_array1['cmt1B'] = $field_array1['cmt1'][1];
+	  					$field_array1['cmt1C'] = $field_array1['cmt1'][2];
 	  					unset($field_array1['cmt1']);
                     }
                     if(isset($field_array1['cmt2'])){
-
-                    	if(isset($field_array1['cmt2'][0])){
-                    		$field_array1['cmt2A'] = $field_array1['cmt2'][0];
-                    	}
-
-                    	if(isset($field_array1['cmt2'][1])){
-                    		$field_array1['cmt2B'] = $field_array1['cmt2'][1];
-                    	}
-
-                    	if(isset($field_array1['cmt2'][2])){
-                    		$field_array1['cmt2C'] = $field_array1['cmt2'][2];
-                    	}
+                    	$field_array1['cmt2A'] = $field_array1['cmt2'][0];
+	  					$field_array1['cmt2B'] = $field_array1['cmt2'][1];
+	  					$field_array1['cmt2C'] = $field_array1['cmt2'][2];
 	  					unset($field_array1['cmt2']);
                     }
                     if(isset($field_array1['cmt3'])){
-                    	if(isset($field_array1['cmt3'][0])){
-                    		$field_array1['cmt3A'] = $field_array1['cmt3'][0];
-                    	}
-                    	if(isset($field_array1['cmt3'][1])){
-                    		$field_array1['cmt3B'] = $field_array1['cmt3'][1];
-                    	}
-
+                    	$field_array1['cmt3A'] = $field_array1['cmt3'][0];
+	  					$field_array1['cmt3B'] = $field_array1['cmt3'][1];
 	  					unset($field_array1['cmt3']);
                     }
                     if(isset($field_array1['cmt4'])){
-                    	if(isset($field_array1['cmt4'][0])){
-                    		$field_array1['cmt4A'] = $field_array1['cmt4'][0];
-                    	}
-                    	if(isset($field_array1['cmt4'][1])){
-                    		$field_array1['cmt4B'] = $field_array1['cmt4'][1];
-                    	}
-                    	if(isset($field_array1['cmt4'][2])){
-                    		$field_array1['cmt4C'] = $field_array1['cmt4'][2];
-                    	}
-                    	if(isset($field_array1['cmt4'][3])){
-                    		$field_array1['cmt4D'] = $field_array1['cmt4'][3];
-                    	}
-	  					
+                    	$field_array1['cmt4A'] = $field_array1['cmt4'][0];
+	  					$field_array1['cmt4B'] = $field_array1['cmt4'][1];
+	  					$field_array1['cmt4C'] = $field_array1['cmt4'][2];
+	  					$field_array1['cmt4D'] = $field_array1['cmt4'][3];
 	  					unset($field_array1['cmt4']);
                     }
                     if(isset($field_array1['cmt5'])){
-                    	if(isset($field_array1['cmt5'][0])){
-                    		$field_array1['cmt5A'] = $field_array1['cmt5'][0];
-                    	}
-                    	if(isset($field_array1['cmt5'][1])){
-                    		$field_array1['cmt5B'] = $field_array1['cmt5'][1];
-                    	}
-                    	if(isset($field_array1['cmt5'][2])){
-                    		$field_array1['cmt5C'] = $field_array1['cmt5'][2];
-                    	}
+                    	$field_array1['cmt5A'] = $field_array1['cmt5'][0];
+	  					$field_array1['cmt5B'] = $field_array1['cmt5'][1];
+	  					$field_array1['cmt5C'] = $field_array1['cmt5'][2];
 	  					unset($field_array1['cmt5']);
                     }
                     if(isset($field_array1['cmt6'])){
-                    	if(isset($field_array1['cmt6'][0])){
-                    		$field_array1['cmt6A'] = $field_array1['cmt6'][0];
-                    	}
-                    	if(isset($field_array1['cmt6'][1])){
-                    		$field_array1['cmt6B'] = $field_array1['cmt6'][1];
-                    	}
-                    	if(isset($field_array1['cmt6'][2])){
-                    		$field_array1['cmt6C'] = $field_array1['cmt6'][2];
-                    	}
+                    	$field_array1['cmt6A'] = $field_array1['cmt6'][0];
+	  					$field_array1['cmt6B'] = $field_array1['cmt6'][1];
+	  					$field_array1['cmt6C'] = $field_array1['cmt6'][2];
 	  					unset($field_array1['cmt6']);
                     }
                     if(isset($field_array1['cmt7'])){
-                    	if(isset($field_array1['cmt7'][0])){
-                    		$field_array1['cmt7A'] = $field_array1['cmt7'][0];
-                    	}
-                    	if(isset($field_array1['cmt7'][1])){
-                    		$field_array1['cmt7B'] = $field_array1['cmt7'][1];
-                    	}
-                    	if(isset($field_array1['cmt7'][2])){
-                    		$field_array1['cmt7C'] = $field_array1['cmt7'][2];
-                    	}
-                    	if(isset($field_array1['cmt7'][3])){
-                    		$field_array1['cmt7D'] = $field_array1['cmt7'][3];
-                    	}
-	  					
+                    	$field_array1['cmt7A'] = $field_array1['cmt7'][0];
+	  					$field_array1['cmt7B'] = $field_array1['cmt7'][1];
+	  					$field_array1['cmt7C'] = $field_array1['cmt7'][2];
+	  					$field_array1['cmt7D'] = $field_array1['cmt7'][3];
 	  					unset($field_array1['cmt7']);
                     }
                     if(isset($field_array1['cmt8'])){
-                    	if(isset($field_array1['cmt8'][0])){
-                    		$field_array1['cmt8A'] = $field_array1['cmt8'][0];
-                    	}
-                    	if(isset($field_array1['cmt8'][1])){
-                    		$field_array1['cmt8B'] = $field_array1['cmt8'][1];
-                    	}
-                    	if(isset($field_array1['cmt8'][2])){
-                    		$field_array1['cmt8C'] = $field_array1['cmt8'][2];
-                    	}
-                    	if(isset($field_array1['cmt8'][3])){
-                    		$field_array1['cmt8D'] = $field_array1['cmt8'][3];
-                    	}
-                    	if(isset($field_array1['cmt8'][4])){
-                    		$field_array1['cmt8E'] = $field_array1['cmt8'][4];
-                    	}
+                    	$field_array1['cmt8A'] = $field_array1['cmt8'][0];
+	  					$field_array1['cmt8B'] = $field_array1['cmt8'][1];
+	  					$field_array1['cmt8C'] = $field_array1['cmt8'][2];
+	  					$field_array1['cmt8D'] = $field_array1['cmt8'][3];
+	  					$field_array1['cmt8E'] = $field_array1['cmt8'][4];
 	  					unset($field_array1['cmt8']);
                     }
                     if(isset($field_array1['cmt9'])){
-                    	if(isset($field_array1['cmt9'][0])){
-                    		$field_array1['cmt9A'] = $field_array1['cmt9'][0];
-                    	}
-                    	if(isset($field_array1['cmt9'][1])){
-                    		$field_array1['cmt9B'] = $field_array1['cmt9'][1];
-                    	}
-                    	if(isset($field_array1['cmt9'][2])){
-                    		$field_array1['cmt9C'] = $field_array1['cmt9'][2];
-                    	}
-                    	if(isset($field_array1['cmt9'][3])){
-                    		$field_array1['cmt9D'] = $field_array1['cmt9'][3];
-                    	}
-                    	if(isset($field_array1['cmt9'][4])){
-                    		$field_array1['cmt9E'] = $field_array1['cmt9'][4];
-                    	}
-	  					
+                    	$field_array1['cmt9A'] = $field_array1['cmt9'][0];
+	  					$field_array1['cmt9B'] = $field_array1['cmt9'][1];
+	  					$field_array1['cmt9C'] = $field_array1['cmt9'][2];
+	  					$field_array1['cmt9D'] = $field_array1['cmt9'][3];
+	  					$field_array1['cmt9E'] = $field_array1['cmt9'][4];
 	  					unset($field_array1['cmt9']);
                     }
                     if(isset($field_array1['cmt10'])){
-                    	if(isset($field_array1['cmt10'][0])){
-                    		$field_array1['cmt10A'] = $field_array1['cmt10'][0];
-                    	}
-                    	if(isset($field_array1['cmt10'][1])){
-                    		$field_array1['cmt10B'] = $field_array1['cmt10'][1];
-                    	}
-                    	
+                    	$field_array1['cmt10A'] = $field_array1['cmt10'][0];
+	  					$field_array1['cmt10B'] = $field_array1['cmt10'][1];
 	  					unset($field_array1['cmt10']);
                     }
                     if(isset($field_array1['cmt11'])){
-                    	if(isset($field_array1['cmt11'][0])){
-                    		$field_array1['cmt11A'] = $field_array1['cmt11'][0];
-                    	}
-                    	if(isset($field_array1['cmt11'][1])){
-                    		$field_array1['cmt11B'] = $field_array1['cmt11'][1];
-                    	}
-                    	if(isset($field_array1['cmt11'][2])){
-                    		$field_array1['cmt11C'] = $field_array1['cmt11'][2];
-                    	}
-                    	
+                    	$field_array1['cmt11A'] = $field_array1['cmt11'][0];
+	  					$field_array1['cmt11B'] = $field_array1['cmt11'][1];
+	  					$field_array1['cmt11C'] = $field_array1['cmt11'][2];
 	  					unset($field_array1['cmt11']);
                     }
+                    
+
+     //                $field_array1['cmt1A'] = $field_array1['cmt1'][0];
+  			// 		$field_array1['cmt1B'] = $field_array1['cmt1'][1];
+  			// 		$field_array1['cmt1C'] = $field_array1['cmt1'][2];
+  			// 		unset($field_array1['cmt1']);
+
+  			// 		$field_array1['cmt2A'] = $field_array1['cmt2'][0];
+  			// 		$field_array1['cmt2B'] = $field_array1['cmt2'][1];
+  			// 		$field_array1['cmt2C'] = $field_array1['cmt2'][2];
+  			// 		unset($field_array1['cmt2']);
+					
+					// $field_array1['cmt3A'] = $field_array1['cmt3'][0];
+  			// 		$field_array1['cmt3B'] = $field_array1['cmt3'][1];
+  			// 		unset($field_array1['cmt3']);
+
+
+  			// 		$field_array1['cmt4A'] = $field_array1['cmt4'][0];
+  			// 		$field_array1['cmt4B'] = $field_array1['cmt4'][1];
+  			// 		$field_array1['cmt4C'] = $field_array1['cmt4'][2];
+  			// 		$field_array1['cmt4D'] = $field_array1['cmt4'][3];
+  			// 		unset($field_array1['cmt4']);
+
+  			// 		$field_array1['cmt5A'] = $field_array1['cmt5'][0];
+  			// 		$field_array1['cmt5B'] = $field_array1['cmt5'][1];
+  			// 		$field_array1['cmt5C'] = $field_array1['cmt5'][2];
+  			// 		unset($field_array1['cmt5']);
+
+  			// 		$field_array1['cmt6A'] = $field_array1['cmt6'][0];
+  			// 		$field_array1['cmt6B'] = $field_array1['cmt6'][1];
+  			// 		$field_array1['cmt6C'] = $field_array1['cmt6'][2];
+  			// 		unset($field_array1['cmt6']);
+
+  			// 		$field_array1['cmt7A'] = $field_array1['cmt7'][0];
+  			// 		$field_array1['cmt7B'] = $field_array1['cmt7'][1];
+  			// 		$field_array1['cmt7C'] = $field_array1['cmt7'][2];
+  			// 		$field_array1['cmt7D'] = $field_array1['cmt7'][3];
+  			// 		unset($field_array1['cmt7']);
+
+  			// 		$field_array1['cmt8A'] = $field_array1['cmt8'][0];
+  			// 		$field_array1['cmt8B'] = $field_array1['cmt8'][1];
+  			// 		$field_array1['cmt8C'] = $field_array1['cmt8'][2];
+  			// 		$field_array1['cmt8D'] = $field_array1['cmt8'][3];
+  			// 		$field_array1['cmt8E'] = $field_array1['cmt8'][4];
+  			// 		unset($field_array1['cmt8']);
+
+  			// 		$field_array1['cmt9A'] = $field_array1['cmt9'][0];
+  			// 		$field_array1['cmt9B'] = $field_array1['cmt9'][1];
+  			// 		$field_array1['cmt9C'] = $field_array1['cmt9'][2];
+  			// 		$field_array1['cmt9D'] = $field_array1['cmt9'][3];
+  			// 		$field_array1['cmt9E'] = $field_array1['cmt9'][4];
+  			// 		unset($field_array1['cmt9']);
+
+  			// 		$field_array1['cmt10A'] = $field_array1['cmt10'][0];
+  			// 		$field_array1['cmt10B'] = $field_array1['cmt10'][1];
+  			// 		unset($field_array1['cmt10']);
+
+  			// 		$field_array1['cmt11A'] = $field_array1['cmt11'][0];
+  			// 		$field_array1['cmt11B'] = $field_array1['cmt11'][1];
+  			// 		$field_array1['cmt11C'] = $field_array1['cmt11'][2];
+  			// 		unset($field_array1['cmt11']);
 
                     $field_array1['call_date'] = mmddyy2mysql( $this->input->post( 'call_date' ) );
+                    // if(!file_exists("./qa_files/qa_homeadvisor/hcci_files/")){
+                    //     mkdir("./qa_files/qa_homeadvisor/hcci_files/");
+                    // }
+                    // $b = $this->ha_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_homeadvisor/hcci_files/' );
+                    // $field_array1['attach_file'] = implode( ',', $b );
+                    // echo"<pre>";
+                    // print_r($field_array1);
+                    // echo"</pre>";
 
                     if($_FILES['attach_file']['tmp_name'][0]!=''){
 						if(!file_exists("./qa_files/qa_homeadvisor/hcci_files/")){
@@ -2263,7 +2085,7 @@
 
                     $this->db->where( 'id', $hcci_id );
                     $this->db->update( 'qa_hcci_core_feedback', $field_array1 );
-                    
+                    /////////////
                     if ( get_login_type() == 'client' ) {
                         $edit_array = array(
                             'client_rvw_by' => $current_user,

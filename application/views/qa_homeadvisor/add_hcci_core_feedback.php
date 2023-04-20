@@ -268,9 +268,17 @@
 												
 											    <select class="form-control multiple-select" name="data[cmt1][]"  id="remarks1"  multiple="multiple" disabled>
 													<!-- <option  value="">-Select-</option> -->
-													<option value="Did not understand the issue(s)" <?= ($hcci_data['cmt1A']=="Did not understand the issue(s)")?"selected":"" ?>>Did not understand the issue(s)</option>
-													<option value="Did not probe to identify customer issue(s)" <?= ($hcci_data['cmt1B']=="Did not probe to identify customer issue(s)")?"selected":"" ?>>Did not probe to identify customer issue(s)</option>
-													<option value="Did not ask the right kind of follow up question" <?= ($hcci_data['cmt1C']=="Did not ask the right kind of follow up question")?"selected":"" ?>>Did not ask the right kind of follow up question</option>
+													<option value="Did not understand the issue(s)" <?= ($hcci_data['cmt1A']=="Did not understand the issue(s)")?"selected":"" ?>
+													<?= ($hcci_data['cmt1B']=="Did not understand the issue(s)")?"selected":"" ?>
+													<?= ($hcci_data['cmt1C']=="Did not understand the issue(s)")?"selected":"" ?>
+													>Did not understand the issue(s)</option>
+													<option value="Did not probe to identify customer issue(s)" <?= ($hcci_data['cmt1B']=="Did not probe to identify customer issue(s)")?"selected":"" ?>
+													<?= ($hcci_data['cmt1A']=="Did not probe to identify customer issue(s)")?"selected":"" ?>
+													<?= ($hcci_data['cmt1C']=="Did not probe to identify customer issue(s)")?"selected":"" ?>>Did not probe to identify customer issue(s)</option>
+													<option value="Did not ask the right kind of follow up question" <?= ($hcci_data['cmt1C']=="Did not ask the right kind of follow up question")?"selected":"" ?>
+													<?= ($hcci_data['cmt1A']=="Did not ask the right kind of follow up question")?"selected":"" ?>
+													<?= ($hcci_data['cmt1B']=="Did not ask the right kind of follow up question")?"selected":"" ?>
+													>Did not ask the right kind of follow up question</option>
 												</select>
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $hcci_data['cmt2'] ?>"></td> -->
 											<td style="font-weight:bold; background-color:#D7BDE2">Customer Citical</td>
@@ -290,9 +298,18 @@
 											<td colspan=2>
 												<select class="form-control multiple-select" name="data[cmt2][]" id="remarks2" multiple="multiple" disabled>
 													<!-- <option value="">-Select-</option> -->
-													<option value="Did not resolve one or more issues" <?= ($hcci_data['cmt2A']=="Did not resolve one or more issues")?"selected":"" ?>>Did not resolve one or more issues</option>
-													<option value="Did not proactively offer help when it was warranted" <?= ($hcci_data['cmt2B']=="Did not proactively offer help when it was warranted")?"selected":"" ?>>Did not proactively offer help when it was warranted</option>
-													<option value="Information given to user was inaccurate" <?= ($hcci_data['cmt2C']=="Information given to user was inaccurate")?"selected":"" ?>>Information given to user was inaccurate</option>
+													<option value="Did not resolve one or more issues" <?= ($hcci_data['cmt2A']=="Did not resolve one or more issues")?"selected":"" ?>
+													<?= ($hcci_data['cmt2B']=="Did not resolve one or more issues")?"selected":"" ?>
+													<?= ($hcci_data['cmt2C']=="Did not resolve one or more issues")?"selected":"" ?>
+													>Did not resolve one or more issues</option>
+													<option value="Did not proactively offer help when it was warranted" <?= ($hcci_data['cmt2B']=="Did not proactively offer help when it was warranted")?"selected":"" ?>
+													<?= ($hcci_data['cmt2A']=="Did not proactively offer help when it was warranted")?"selected":"" ?>
+													<?= ($hcci_data['cmt2C']=="Did not proactively offer help when it was warranted")?"selected":"" ?>
+													>Did not proactively offer help when it was warranted</option>
+													<option value="Information given to user was inaccurate" <?= ($hcci_data['cmt2C']=="Information given to user was inaccurate")?"selected":"" ?>
+													<?= ($hcci_data['cmt2A']=="Information given to user was inaccurate")?"selected":"" ?>
+													<?= ($hcci_data['cmt2B']=="Information given to user was inaccurate")?"selected":"" ?>
+													>Information given to user was inaccurate</option>
 												</select>
 
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $hcci_data['cmt3'] ?>"> -->
@@ -314,8 +331,12 @@
 											<td colspan=2>
 												<select class="form-control multiple-select" name="data[cmt3][]" id="remarks3" multiple="multiple" disabled>
 													<!-- <option value="">-Select-</option> -->
-													<option value="Did not request accepted point(s) of verification" <?= ($hcci_data['cmt3A']=="Did not request accepted point(s) of verification")?"selected":"" ?>>Did not request accepted point(s) of verification</option>
-													<option value="Points of verification provided by user did not match account details, but agent proceeded" <?= ($hcci_data['cmt3B']=="Points of verification provided by user did not match account details, but agent proceeded")?"selected":"" ?>>Points of verification provided by user did not match account details, but agent proceeded</option>
+													<option value="Did not request accepted point(s) of verification" <?= ($hcci_data['cmt3A']=="Did not request accepted point(s) of verification")?"selected":"" ?>
+													<?= ($hcci_data['cmt3B']=="Did not request accepted point(s) of verification")?"selected":"" ?>
+													>Did not request accepted point(s) of verification</option>
+													<option value="Points of verification provided by user did not match account details, but agent proceeded" <?= ($hcci_data['cmt3B']=="Points of verification provided by user did not match account details, but agent proceeded")?"selected":"" ?>
+													<?= ($hcci_data['cmt3A']=="Points of verification provided by user did not match account details, but agent proceeded")?"selected":"" ?>
+													>Points of verification provided by user did not match account details, but agent proceeded</option>
 												</select>
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $hcci_data['cmt1'] ?>"> -->
 											</td>
@@ -336,10 +357,26 @@
 											<td colspan=2>
 												<select class="form-control multiple-select" name="data[cmt4][]" id="remarks4" multiple="multiple" disabled>
 													<!-- <option value="">-Select-</option> -->
-													<option value="Did not follow the workflow correctly" <?= ($hcci_data['cmt4A']=="Did not follow the workflow correctly")?"selected":"" ?>>Did not follow the workflow correctly</option>
-													<option value="Followed incorrect workflow" <?= ($hcci_data['cmt4B']=="Followed incorrect workflow")?"selected":"" ?>>Followed incorrect workflow</option>
-													<option value="Did not adhere to policy" <?= ($hcci_data['cmt4C']=="Did not adhere to policy")?"selected":"" ?>>Did not adhere to policy</option>
-													<option value="Misunderstood how to address the issue(s)" <?= ($hcci_data['cmt4D']=="Misunderstood how to address the issue(s)")?"selected":"" ?>>Misunderstood how to address the issue(s)</option>
+													<option value="Did not follow the workflow correctly" <?= ($hcci_data['cmt4A']=="Did not follow the workflow correctly")?"selected":"" ?>
+													<?= ($hcci_data['cmt4B']=="Did not follow the workflow correctly")?"selected":"" ?>
+													<?= ($hcci_data['cmt4C']=="Did not follow the workflow correctly")?"selected":"" ?>
+													<?= ($hcci_data['cmt4D']=="Did not follow the workflow correctly")?"selected":"" ?>
+													>Did not follow the workflow correctly</option>
+													<option value="Followed incorrect workflow" <?= ($hcci_data['cmt4B']=="Followed incorrect workflow")?"selected":"" ?>
+													<?= ($hcci_data['cmt4A']=="Followed incorrect workflow")?"selected":"" ?>
+													<?= ($hcci_data['cmt4C']=="Followed incorrect workflow")?"selected":"" ?>
+													<?= ($hcci_data['cmt4D']=="Followed incorrect workflow")?"selected":"" ?>
+													>Followed incorrect workflow</option>
+													<option value="Did not adhere to policy" <?= ($hcci_data['cmt4C']=="Did not adhere to policy")?"selected":"" ?>
+													<?= ($hcci_data['cmt4A']=="Did not adhere to policy")?"selected":"" ?>
+													<?= ($hcci_data['cmt4B']=="Did not adhere to policy")?"selected":"" ?>
+													<?= ($hcci_data['cmt4D']=="Did not adhere to policy")?"selected":"" ?>
+													>Did not adhere to policy</option>
+													<option value="Misunderstood how to address the issue(s)" <?= ($hcci_data['cmt4D']=="Misunderstood how to address the issue(s)")?"selected":"" ?>
+													<?= ($hcci_data['cmt4A']=="Misunderstood how to address the issue(s)")?"selected":"" ?>
+													<?= ($hcci_data['cmt4B']=="Misunderstood how to address the issue(s)")?"selected":"" ?>
+													<?= ($hcci_data['cmt4C']=="Misunderstood how to address the issue(s)")?"selected":"" ?>
+													>Misunderstood how to address the issue(s)</option>
 												</select>
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $hcci_data['cmt1'] ?>"> -->
 											</td>
@@ -376,9 +413,18 @@
 											<td colspan=2>
 												<select class="form-control multiple-select" name="data[cmt5][]" id="remarks5" multiple="multiple" disabled>
 													<!-- <option value="">-Select-</option> -->
-													<option value="Did not empathize when empathy was needed" <?= ($hcci_data['cmt5A']=="Did not empathize when empathy was needed")?"selected":"" ?>>Did not empathize when empathy was needed</option>
-													<option value="Over-apologized" <?= ($hcci_data['cmt5B']=="Over-apologized")?"selected":"" ?>>Over-apologized</option>
-													<option value="Did not introduce themselves to the user" <?= ($hcci_data['cmt5C']=="Did not introduce themselves to the user")?"selected":"" ?>>Did not introduce themselves to the user</option>
+													<option value="Did not empathize when empathy was needed" <?= ($hcci_data['cmt5A']=="Did not empathize when empathy was needed")?"selected":"" ?>
+													<?= ($hcci_data['cmt5B']=="Did not empathize when empathy was needed")?"selected":"" ?>
+													<?= ($hcci_data['cmt5C']=="Did not empathize when empathy was needed")?"selected":"" ?>
+													>Did not empathize when empathy was needed</option>
+													<option value="Over-apologized" <?= ($hcci_data['cmt5B']=="Over-apologized")?"selected":"" ?>
+													<?= ($hcci_data['cmt5A']=="Over-apologized")?"selected":"" ?>
+													<?= ($hcci_data['cmt5C']=="Over-apologized")?"selected":"" ?>
+													>Over-apologized</option>
+													<option value="Did not introduce themselves to the user" <?= ($hcci_data['cmt5C']=="Did not introduce themselves to the user")?"selected":"" ?>
+													<?= ($hcci_data['cmt5A']=="Did not introduce themselves to the user")?"selected":"" ?>
+													<?= ($hcci_data['cmt5B']=="Did not introduce themselves to the user")?"selected":"" ?>
+													>Did not introduce themselves to the user</option>
 												</select>
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $hcci_data['cmt1'] ?>"> -->
 											</td>
@@ -398,9 +444,18 @@
 											<td colspan=2>
 												<select class="form-control multiple-select" name="data[cmt6][]" id="remarks6" multiple="multiple"disabled>
 													<!-- <option value="">-Select-</option> -->
-													<option value="Did not communicate steps taken to the user" <?= ($hcci_data['cmt6A']=="Did not communicate steps taken to the user")?"selected":"" ?>>Did not communicate steps taken to the user</option>
-													<option value="Agent was not in control of the call" <?= ($hcci_data['cmt6B']=="Agent was not in control of the call")?"selected":"" ?>>Agent was not in control of the call</option>
-													<option value="Gave inaccurate information to the user" <?= ($hcci_data['cmt6C']=="Gave inaccurate information to the user")?"selected":"" ?>>Gave inaccurate information to the user</option>
+													<option value="Did not communicate steps taken to the user" <?= ($hcci_data['cmt6A']=="Did not communicate steps taken to the user")?"selected":"" ?>
+													<?= ($hcci_data['cmt6B']=="Did not communicate steps taken to the user")?"selected":"" ?>
+													<?= ($hcci_data['cmt6C']=="Did not communicate steps taken to the user")?"selected":"" ?>
+													>Did not communicate steps taken to the user</option>
+													<option value="Agent was not in control of the call" <?= ($hcci_data['cmt6B']=="Agent was not in control of the call")?"selected":"" ?>
+													<?= ($hcci_data['cmt6A']=="Agent was not in control of the call")?"selected":"" ?>
+													<?= ($hcci_data['cmt6C']=="Agent was not in control of the call")?"selected":"" ?>
+													>Agent was not in control of the call</option>
+													<option value="Gave inaccurate information to the user" <?= ($hcci_data['cmt6C']=="Gave inaccurate information to the user")?"selected":"" ?>
+													<?= ($hcci_data['cmt6A']=="Gave inaccurate information to the user")?"selected":"" ?>
+													<?= ($hcci_data['cmt6B']=="Gave inaccurate information to the user")?"selected":"" ?>
+													>Gave inaccurate information to the user</option>
 												</select>
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $hcci_data['cmt1'] ?>"> -->
 											</td>
@@ -420,10 +475,26 @@
 											<td colspan=2>
 												<select class="form-control multiple-select" name="data[cmt7][]" id="remarks7" multiple="multiple" disabled>
 													<!-- <option value="">-Select-</option> -->
-													<option value="Long silences were present during the interaction" <?= ($hcci_data['cmt7A']=="Long silences were present during the interaction")?"selected":"" ?>>Long silences were present during the interaction</option>
-													<option value="Agent did not allow user to finish their thoughts before responding" <?= ($hcci_data['cmt7B']=="Agent did not allow user to finish their thoughts before responding")?"selected":"" ?>>Agent did not allow user to finish their thoughts before responding</option>
-													<option value="Agent's tone was not consistent throughout conversation" <?= ($hcci_data['cmt7C']=="Agent's tone was not consistent throughout conversation")?"selected":"" ?>>Agent's tone was not consistent throughout conversation</option>
-													<option value="Pace of speech made the agent difficult to follow" <?= ($hcci_data['cmt7D']=="Pace of speech made the agent difficult to follow")?"selected":"" ?>>Pace of speech made the agent difficult to follow</option>
+													<option value="Long silences were present during the interaction" <?= ($hcci_data['cmt7A']=="Long silences were present during the interaction")?"selected":"" ?>
+													<?= ($hcci_data['cmt7B']=="Long silences were present during the interaction")?"selected":"" ?>
+													<?= ($hcci_data['cmt7C']=="Long silences were present during the interaction")?"selected":"" ?>
+													<?= ($hcci_data['cmt7D']=="Long silences were present during the interaction")?"selected":"" ?>
+													>Long silences were present during the interaction</option>
+													<option value="Agent did not allow user to finish their thoughts before responding" <?= ($hcci_data['cmt7B']=="Agent did not allow user to finish their thoughts before responding")?"selected":"" ?>
+													<?= ($hcci_data['cmt7A']=="Agent did not allow user to finish their thoughts before responding")?"selected":"" ?>
+													<?= ($hcci_data['cmt7C']=="Agent did not allow user to finish their thoughts before responding")?"selected":"" ?>
+													<?= ($hcci_data['cmt7D']=="Agent did not allow user to finish their thoughts before responding")?"selected":"" ?>
+													>Agent did not allow user to finish their thoughts before responding</option>
+													<option value="Agent's tone was not consistent throughout conversation" <?= ($hcci_data['cmt7C']=="Agent's tone was not consistent throughout conversation")?"selected":"" ?>
+													<?= ($hcci_data['cmt7A']=="Agent's tone was not consistent throughout conversation")?"selected":"" ?>
+													<?= ($hcci_data['cmt7B']=="Agent's tone was not consistent throughout conversation")?"selected":"" ?>
+													<?= ($hcci_data['cmt7D']=="Agent's tone was not consistent throughout conversation")?"selected":"" ?>
+													>Agent's tone was not consistent throughout conversation</option>
+													<option value="Pace of speech made the agent difficult to follow" <?= ($hcci_data['cmt7D']=="Pace of speech made the agent difficult to follow")?"selected":"" ?>
+													<?= ($hcci_data['cmt7A']=="Pace of speech made the agent difficult to follow")?"selected":"" ?>
+													<?= ($hcci_data['cmt7B']=="Pace of speech made the agent difficult to follow")?"selected":"" ?>
+													<?= ($hcci_data['cmt7C']=="Pace of speech made the agent difficult to follow")?"selected":"" ?>
+													>Pace of speech made the agent difficult to follow</option>
 												</select>
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $hcci_data['cmt1'] ?>"> -->
 											</td>
@@ -443,11 +514,36 @@
 											<td colspan=2>
 												<select class="form-control multiple-select" name="data[cmt8][]" id="remarks8" multiple="multiple" disabled>
 													<!-- <option value="">-Select-</option> -->
-													<option value="Agent did not request permission to place user on hold" <?= ($hcci_data['cmt8A']=="Agent did not request permission to place user on hold")?"selected":"" ?>>Agent did not request permission to place user on hold</option>
-													<option value="Agent did not convey a hold duration to the customer" <?= ($hcci_data['cmt8B']=="Agent did not convey a hold duration to the customer")?"selected":"" ?>>Agent did not convey a hold duration to the customer</option>
-													<option value="Agent did not check in with the user to update estimated time" <?= ($hcci_data['cmt8C']=="Agent did not check in with the user to update estimated time")?"selected":"" ?>>Agent did not check in with the user to update estimated time</option>
-													<option value="Hold was inappropriate or unnecessary" <?= ($hcci_data['cmt8D']=="Hold was inappropriate or unnecessary")?"selected":"" ?>>Hold was inappropriate or unnecessary</option>
-													<option value="Agent placed the user on 'Mute' rather than using the hold button" <?= ($hcci_data['cmt8E']=="Agent placed the user on 'Mute' rather than using the hold button")?"selected":"" ?>>Agent placed the user on 'Mute' rather than using the hold button</option>
+													<option value="Agent did not request permission to place user on hold" <?= ($hcci_data['cmt8A']=="Agent did not request permission to place user on hold")?"selected":"" ?>
+													<?= ($hcci_data['cmt8B']=="Agent did not request permission to place user on hold")?"selected":"" ?>
+													<?= ($hcci_data['cmt8C']=="Agent did not request permission to place user on hold")?"selected":"" ?>
+													<?= ($hcci_data['cmt8D']=="Agent did not request permission to place user on hold")?"selected":"" ?>
+													<?= ($hcci_data['cmt8E']=="Agent did not request permission to place user on hold")?"selected":"" ?>
+													>Agent did not request permission to place user on hold</option>
+													<option value="Agent did not convey a hold duration to the customer" <?= ($hcci_data['cmt8B']=="Agent did not convey a hold duration to the customer")?"selected":"" ?>
+													<?= ($hcci_data['cmt8A']=="Agent did not convey a hold duration to the customer")?"selected":"" ?>
+													<?= ($hcci_data['cmt8C']=="Agent did not convey a hold duration to the customer")?"selected":"" ?>
+													<?= ($hcci_data['cmt8D']=="Agent did not convey a hold duration to the customer")?"selected":"" ?>
+													<?= ($hcci_data['cmt8E']=="Agent did not convey a hold duration to the customer")?"selected":"" ?>
+													>Agent did not convey a hold duration to the customer</option>
+													<option value="Agent did not check in with the user to update estimated time" <?= ($hcci_data['cmt8C']=="Agent did not check in with the user to update estimated time")?"selected":"" ?>
+													<?= ($hcci_data['cmt8A']=="Agent did not check in with the user to update estimated time")?"selected":"" ?>
+													<?= ($hcci_data['cmt8B']=="Agent did not check in with the user to update estimated time")?"selected":"" ?>
+													<?= ($hcci_data['cmt8D']=="Agent did not check in with the user to update estimated time")?"selected":"" ?>
+													<?= ($hcci_data['cmt8E']=="Agent did not check in with the user to update estimated time")?"selected":"" ?>
+													>Agent did not check in with the user to update estimated time</option>
+													<option value="Hold was inappropriate or unnecessary" <?= ($hcci_data['cmt8D']=="Hold was inappropriate or unnecessary")?"selected":"" ?>
+													<?= ($hcci_data['cmt8A']=="Hold was inappropriate or unnecessary")?"selected":"" ?>
+													<?= ($hcci_data['cmt8B']=="Hold was inappropriate or unnecessary")?"selected":"" ?>
+													<?= ($hcci_data['cmt8C']=="Hold was inappropriate or unnecessary")?"selected":"" ?>
+													<?= ($hcci_data['cmt8E']=="Hold was inappropriate or unnecessary")?"selected":"" ?>
+													>Hold was inappropriate or unnecessary</option>
+													<option value="Agent placed the user on 'Mute' rather than using the hold button" <?= ($hcci_data['cmt8E']=="Agent placed the user on 'Mute' rather than using the hold button")?"selected":"" ?>
+													<?= ($hcci_data['cmt8A']=="Agent placed the user on 'Mute' rather than using the hold button")?"selected":"" ?>
+													<?= ($hcci_data['cmt8B']=="Agent placed the user on 'Mute' rather than using the hold button")?"selected":"" ?>
+													<?= ($hcci_data['cmt8C']=="Agent placed the user on 'Mute' rather than using the hold button")?"selected":"" ?>
+													<?= ($hcci_data['cmt8D']=="Agent placed the user on 'Mute' rather than using the hold button")?"selected":"" ?>
+													>Agent placed the user on 'Mute' rather than using the hold button</option>
 												</select>
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $hcci_data['cmt1'] ?>"> -->
 											</td>
@@ -468,11 +564,36 @@
 											<td colspan=2>
 												<select class="form-control multiple-select" name="data[cmt9][]" id="remarks9" multiple="multiple" disabled>
 													<!-- <option value="">-Select-</option> -->
-													<option value="Missing date" <?= ($hcci_data['cmt9A']=="Missing date")?"selected":"" ?>>Missing date</option>
-													<option value="Missing agent name" <?= ($hcci_data['cmt9B']=="Missing agent name")?"selected":"" ?>>Missing agent name</option>
-													<option value="Missing or incomplete note of action taken" <?= ($hcci_data['cmt9C']=="Missing or incomplete note of action taken")?"selected":"" ?>>Missing or incomplete note of action taken</option>
-													<option value="Incorrect Dash note format used" <?= ($hcci_data['cmt9D']=="Incorrect Dash note format used")?"selected":"" ?>>Incorrect Dash note format used</option>
-													<option value="Incomplete relevant information in notes" <?= ($hcci_data['cmt9E']=="Incomplete relevant information in notes")?"selected":"" ?>>Incomplete relevant information in notes</option>
+													<option value="Missing date" <?= ($hcci_data['cmt9A']=="Missing date")?"selected":"" ?>
+													<?= ($hcci_data['cmt9B']=="Missing date")?"selected":"" ?>
+													<?= ($hcci_data['cmt9C']=="Missing date")?"selected":"" ?>
+													<?= ($hcci_data['cmt9D']=="Missing date")?"selected":"" ?>
+													<?= ($hcci_data['cmt9E']=="Missing date")?"selected":"" ?>
+													>Missing date</option>
+													<option value="Missing agent name" <?= ($hcci_data['cmt9B']=="Missing agent name")?"selected":"" ?>
+													<?= ($hcci_data['cmt9A']=="Missing agent name")?"selected":"" ?>
+													<?= ($hcci_data['cmt9C']=="Missing agent name")?"selected":"" ?>
+													<?= ($hcci_data['cmt9D']=="Missing agent name")?"selected":"" ?>
+													<?= ($hcci_data['cmt9E']=="Missing agent name")?"selected":"" ?>
+													>Missing agent name</option>
+													<option value="Missing or incomplete note of action taken" <?= ($hcci_data['cmt9C']=="Missing or incomplete note of action taken")?"selected":"" ?>
+													<?= ($hcci_data['cmt9A']=="Missing or incomplete note of action taken")?"selected":"" ?>
+													<?= ($hcci_data['cmt9B']=="Missing or incomplete note of action taken")?"selected":"" ?>
+													<?= ($hcci_data['cmt9D']=="Missing or incomplete note of action taken")?"selected":"" ?>
+													<?= ($hcci_data['cmt9E']=="Missing or incomplete note of action taken")?"selected":"" ?>
+													>Missing or incomplete note of action taken</option>
+													<option value="Incorrect Dash note format used" <?= ($hcci_data['cmt9D']=="Incorrect Dash note format used")?"selected":"" ?>
+													<?= ($hcci_data['cmt9A']=="Incorrect Dash note format used")?"selected":"" ?>
+													<?= ($hcci_data['cmt9B']=="Incorrect Dash note format used")?"selected":"" ?>
+													<?= ($hcci_data['cmt9C']=="Incorrect Dash note format used")?"selected":"" ?>
+													<?= ($hcci_data['cmt9E']=="Incorrect Dash note format used")?"selected":"" ?>
+													>Incorrect Dash note format used</option>
+													<option value="Incomplete relevant information in notes" <?= ($hcci_data['cmt9E']=="Incomplete relevant information in notes")?"selected":"" ?>
+													<?= ($hcci_data['cmt9A']=="Incomplete relevant information in notes")?"selected":"" ?>
+													<?= ($hcci_data['cmt9B']=="Incomplete relevant information in notes")?"selected":"" ?>
+													<?= ($hcci_data['cmt9C']=="Incomplete relevant information in notes")?"selected":"" ?>
+													<?= ($hcci_data['cmt9D']=="Incomplete relevant information in notes")?"selected":"" ?>
+													>Incomplete relevant information in notes</option>
 												</select>
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $hcci_data['cmt1'] ?>"> -->
 											</td>
@@ -492,8 +613,12 @@
 											<td colspan=2>
 												<select class="form-control multiple-select" name="data[cmt10][]" id="remarks10" multiple="multiple" disabled>
 													<!-- <option value="">-Select-</option> -->
-													<option value="Disposition was not updated correctly with new reply" <?= ($hcci_data['cmt10A']=="Disposition was not updated correctly with new reply")?"selected":"" ?>>Disposition was not updated correctly with new reply</option>
-													<option value="Incorrect disposition chosen" <?= ($hcci_data['cmt10B']=="Incorrect disposition chosen")?"selected":"" ?>>Incorrect disposition chosen</option>
+													<option value="Disposition was not updated correctly with new reply" <?= ($hcci_data['cmt10A']=="Disposition was not updated correctly with new reply")?"selected":"" ?>
+													<?= ($hcci_data['cmt10B']=="Disposition was not updated correctly with new reply")?"selected":"" ?>
+													>Disposition was not updated correctly with new reply</option>
+													<option value="Incorrect disposition chosen" <?= ($hcci_data['cmt10B']=="Incorrect disposition chosen")?"selected":"" ?>
+													<?= ($hcci_data['cmt10A']=="Incorrect disposition chosen")?"selected":"" ?>
+													>Incorrect disposition chosen</option>
 												</select>
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $hcci_data['cmt1'] ?>"> -->
 											</td>
@@ -513,9 +638,18 @@
 											<td colspan=2>
 												<select class="form-control multiple-select" name="data[cmt11][]" id="remarks11" multiple="multiple" disabled>
 													<!-- <option value="">-Select-</option> -->
-													<option value="The Agent did NOT perform Lead Audit Interview in BETTI." <?= ($hcci_data['cmt11A']=="The Agent did NOT perform Lead Audit Interview in BETTI.")?"selected":"" ?>>The Agent did NOT perform Lead Audit Interview in BETTI.</option>
-													<option value="The Agent did NOT perform the Audit on the CORRECT SR in BETTI." <?= ($hcci_data['cmt11B']=="The Agent did NOT perform the Audit on the CORRECT SR in BETTI.")?"selected":"" ?>>The Agent did NOT perform the Audit on the CORRECT SR in BETTI.</option>
-													<option value="Performed Lead Audit Interview in BETTI, did NOT Select Customer Serious" <?= ($hcci_data['cmt11C']=="Performed Lead Audit Interview in BETTI, did NOT Select Customer Serious")?"selected":"" ?>>Performed Lead Audit Interview in BETTI, did NOT Select Customer Serious</option>
+													<option value="The Agent did NOT perform Lead Audit Interview in BETTI." <?= ($hcci_data['cmt11A']=="The Agent did NOT perform Lead Audit Interview in BETTI.")?"selected":"" ?>
+													<?= ($hcci_data['cmt11B']=="The Agent did NOT perform Lead Audit Interview in BETTI.")?"selected":"" ?>
+													<?= ($hcci_data['cmt11C']=="The Agent did NOT perform Lead Audit Interview in BETTI.")?"selected":"" ?>
+													>The Agent did NOT perform Lead Audit Interview in BETTI.</option>
+													<option value="The Agent did NOT perform the Audit on the CORRECT SR in BETTI." <?= ($hcci_data['cmt11B']=="The Agent did NOT perform the Audit on the CORRECT SR in BETTI.")?"selected":"" ?>
+													<?= ($hcci_data['cmt11A']=="The Agent did NOT perform the Audit on the CORRECT SR in BETTI.")?"selected":"" ?>
+													<?= ($hcci_data['cmt11C']=="The Agent did NOT perform the Audit on the CORRECT SR in BETTI.")?"selected":"" ?>
+													>The Agent did NOT perform the Audit on the CORRECT SR in BETTI.</option>
+													<option value="Performed Lead Audit Interview in BETTI, did NOT Select Customer Serious" <?= ($hcci_data['cmt11C']=="Performed Lead Audit Interview in BETTI, did NOT Select Customer Serious")?"selected":"" ?>
+													<?= ($hcci_data['cmt11A']=="Performed Lead Audit Interview in BETTI, did NOT Select Customer Serious")?"selected":"" ?>
+													<?= ($hcci_data['cmt11B']=="Performed Lead Audit Interview in BETTI, did NOT Select Customer Serious")?"selected":"" ?>
+													>Performed Lead Audit Interview in BETTI, did NOT Select Customer Serious</option>
 												</select>
 												<!-- <input type="text" name="data[cmt1]" class="form-control" value="<?php //echo $hcci_data['cmt1'] ?>"> -->
 											</td>
