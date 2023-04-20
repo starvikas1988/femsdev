@@ -112,10 +112,10 @@
   {
     $result=$this->createPath($path);
     if($result){
-      $config['upload_path'] = $path;
+    $config['upload_path'] = $path;
     $config['allowed_types'] = '*';
 
- //  $config['allowed_types'] = 'avi|mp4|3gp|mpeg|mpg|mov|mp3|flv|wmv|mkv';
+  $config['allowed_types'] = 'm4a|mp4|mp3|wav';
   $config['max_size'] = '2024000';
   $this->load->library('upload', $config);
   $this->upload->initialize($config);
@@ -346,8 +346,11 @@
 				$tl_mgnt_cond="";
 			}
 
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,19) and is_assign_process (id,31) and status=1  order by name";
-			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
+			// $qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,19) and is_assign_process (id,31) and status=1  order by name";
+			// $data["agentName"] = $this->Common_model->get_query_result_array($qSql);
+
+			 $qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,19) and is_assign_process(id,31) and status=1  order by name";
+        $data['agentName'] = $this->Common_model->get_query_result_array( $qSql );
 
 			// $qSql = "SELECT * FROM signin where id not in (select id from role where folder='agent')";
 			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
@@ -725,7 +728,8 @@
 			$qSql="Select count(id) as value from qa_craftjack_mtl_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')";
 			$data["tot_mtl_agent_feedback"] =  $this->Common_model->get_single_value($qSql);
 
-			$qSql="Select count(id) as value from qa_craftjack_mtl_feedback where id  not in (select fd_id from qa_craftjack_agent_rvw) and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')";
+			$qSql="Select count(id) as value from qa_craftjack_mtl_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit') ";
+
 			$data["tot_mtl_agent_yet_rvw"] =  $this->Common_model->get_single_value($qSql);
 		
 			// $qSql="Select count(id) as value from qa_craftjack_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')";
@@ -878,7 +882,7 @@
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_craftjack/agent_craftjack_mtl_feedback_rvw.php";
 			$data["agentUrl"] = "qa_craftjack/agent_craftjack_feedback";
-			$data["content_js"] = "qa_clio_js.php";
+			$data["content_js"] = "qa_avon_js.php";
 			
 			
 			$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name,agent_rvw_note as agent_note,mgnt_rvw_note as mgnt_note from qa_craftjack_mtl_feedback where id=$id) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";

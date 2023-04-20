@@ -36,7 +36,7 @@
 								<table class="table table-striped skt-table" width="100%">
 									<tbody>
 										<tr>
-											<td colspan="8" id="theader" style="font-size:40px; text-align:center!important;"> Craftjack MTL AGENT FORM</td>
+											<td colspan="8" id="theader" style="font-size:40px"> Craftjack MTL AGENT FORM</td>
 											<input type="hidden" name="audit_start_time" value="<?php echo CurrMySqlDate(); ?>">
 										</tr>
 									
@@ -190,7 +190,7 @@
 											<td style="font-weight:bold; font-size:16px; text-align:left">Possible Score</td>
 											<td colspan="2"><input type="text" readonly id="mtl_possible_score" name="data[possible_score]" class="form-control" value="<?php echo $craftjack_mtl['possible_score'] ?>" /></td>
 											<td style="font-weight:bold; font-size:16px; text-align:right">Overall Score:</td>
-											<td colspan="2"><input type="text" readonly id="mtl_overall_score" name="data[overall_score]" class="form-control acgFatal" style="font-weight:bold" value="<?php echo $craftjack_mtl['overall_score'].'%' ?>"></td>
+											<td colspan="2"><input type="text" readonly id="mtl_overall_score" name="data[overall_score]" class="form-control acgFatal" style="font-weight:bold" value="<?php echo $craftjack_mtl['overall_score'] ?>"></td>
 										</tr>
 										<tr class="eml" style="height:25px; font-weight:bold">
 											<td>PARAMETER</td>
@@ -246,7 +246,7 @@
 											<td style="font-weight:bold; background-color:#D7BDE2">Compliance Citical</td>
 										</tr>
 										<tr>
-											<td colspan="2">1.4 Did the agent ask how/he or she could assist the caller?</td>
+											<td colspan="2" class="text-danger">1.4 Did the agent ask how/he or she could assist the caller?</td>
 											<td>7</td>
 											<td>
 												<select class="form-control mtl_point customer" id ="" name="data[assist_caller]" disabled>
@@ -490,9 +490,9 @@
 
 										<tr>
 											<td>Call Summary:</td>
-											<td colspan=2><textarea class="form-control" disabled name="data[call_summary]"><?php echo $craftjack_mtl['call_summary'] ?></textarea></td>
+											<td colspan=2><textarea class="form-control" name="data[call_summary]"><?php echo $craftjack_mtl['call_summary'] ?></textarea></td>
 											<td>Feedback:</td>
-											<td colspan=4><textarea class="form-control" disabled name="data[feedback]"><?php echo $craftjack_mtl['feedback'] ?></textarea></td>
+											<td colspan=4><textarea class="form-control" name="data[feedback]"><?php echo $craftjack_mtl['feedback'] ?></textarea></td>
 										</tr>
 
 										<?php if($craftjack_mtl['attach_file']!=''){ ?>
@@ -513,10 +513,6 @@
 									<tr>
 										<td style="font-size:12px">Manager Review:</td>
 										<td colspan="8" style="text-align:left"><?php echo $craftjack_mtl['mgnt_rvw_note'] ?></td>
-									</tr>
-									<tr>
-										<td style="font-size:12px">Client Review:</td>
-										<td colspan="8" style="text-align:left"><?php echo $craftjack_mtl['client_rvw_note'] ?></td>
 									</tr>
 
 									<tr><td colspan="8" style="background-color:#C5C8C8"></td></tr>
@@ -543,7 +539,7 @@
 										if(is_available_qa_feedback($craftjack_mtl['entry_date'],72) == true){ ?>
 											<tr>
 												<?php if($craftjack_mtl['agent_rvw_note']==''){ ?>
-													<td colspan="8"><button class="btn btn-success waves-effect" type="submit" id='btnagentSave' name='btnSave' value="SAVE" style="width:500px;margin:auto;display:block;">SAVE</button></td>
+													<td colspan="8"><button class="btn btn-success waves-effect" type="submit" id='btnagentSave' name='btnSave' value="SAVE" style="width:500px">SAVE</button></td>
 												<?php } ?>
 											</tr>
 										<?php } 

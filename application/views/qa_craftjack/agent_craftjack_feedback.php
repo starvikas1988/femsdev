@@ -111,7 +111,7 @@
 										<td>
 											<?php $craftjack_id=$row['id']; ?>
 											
-											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_craftjack/agent_craftjack_mtl_feedback_rvw/<?php echo $craftjack_id ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
+											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_craftjack/agent_craftjack_mtl_feedback_rvw/<?php echo $craftjack_id ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">View/Review</a>
 										</td>
 									</tr>
 									<?php endforeach; ?>

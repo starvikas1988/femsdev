@@ -47,7 +47,7 @@
 								<table class="table table-striped skt-table" width="100%">
 									<tbody>
 										<tr>
-											<td colspan="8" id="theader" style="font-size:40px">Craftjack MTL QA FORM</td>
+											<td colspan="8" id="theader" style="font-size:40px; text-align:center!important; ">Craftjack MTL QA FORM</td>
 											<input type="hidden" name="audit_start_time" value="<?php echo CurrMySqlDate(); ?>">
 										</tr>
 										<?php
@@ -85,7 +85,7 @@
 										<tr>
 											<td>Agent Name:<span style="font-size:24px;color:red">*</span></td>
 											<td colspan="2">
-												<select class="form-control" id="agent_id" name="data[agent_id]" required>
+												<select class="form-control" id="agent_ids" name="data[agent_id]" required>
 													<?php 
 													if($craftjack_mtl['agent_id']!=''){
 														?>
@@ -135,8 +135,7 @@
 													?>
 												</select>  -->
 
-
-												<input type="text" class="form-control" name = "tl_name" id="tl_name"  value="<?php echo $craftjack_mtl['tl_name']; ?>" readonly >
+												<input type="text" class="form-control" id="tl_names"  value="<?php echo $craftjack_mtl['tl_name'] ?>" readonly>
 												<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $craftjack_mtl['tl_id'] ?>" required>
 											</td>
 										</tr>
@@ -179,8 +178,8 @@
 											
 										</tr>
 										<tr>
-											<td>Contact Duration:<span style="font-size:24px;color:red">*</span></td>
-											<td colspan="2"><input type="text" class="form-control" id="call_duration" name="data[call_duration]" value="<?php echo $craftjack_mtl['call_duration']?>" required></td>
+											<td>Call Duration:<span style="font-size:24px;color:red">*</span></td>
+											<td colspan="2"><input type="text" class="form-control" onkeydown="return false;" id="call_duration" name="data[call_duration]" value="<?php echo $craftjack_mtl['call_duration']?>" required></td>
 
 											<td>Week No:<span style="font-size:24px;color:red">*</span></td>
 											<td colspan="2"><input type="text" class="form-control" id="week_no" name="data[week_no]" value="<?php echo $craftjack_mtl['week_no']?>" required></td>
@@ -215,12 +214,13 @@
                                                     <option value="Calibration" <?= ($craftjack_mtl['audit_type']=="Calibration")?"selected":"" ?>>Calibration</option>
                                                     <option value="Pre-Certificate Mock Call" <?= ($craftjack_mtl['audit_type']=="Pre-Certificate Mock Call")?"selected":"" ?>>Pre-Certificate Mock Call</option>
                                                     <option value="Certification Audit" <?= ($craftjack_mtl['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
-                                                    <option value="Operation Audit" <?= ($craftjack_mtl['audit_type']=="Operation Audit")?"selected":"" ?>>Operation Audit</option>
-                                                    <option value="Trainer Audit"  <?= ($craftjack_mtl['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option>
+                                                    <option value="WoW Call Audit"  <?= ($craftjack_mtl['audit_type']=="WoW Call Audit")?"selected":"" ?>>WoW Call Audit</option>
+                                                   
+                                                    
                                                 </select>
 											</td>
-											<td class="auType">Auditor Type<span style="font-size:24px;color:red">*</span></td>
-											<td class="auType">
+											<td class="auType_epi">Auditor Type<span style="font-size:24px;color:red">*</span></td>
+											<td class="auType_epi">
 												<select class="form-control" id="auditor_type" name="data[auditor_type]">
                                                     <option value="">Select</option>
                                                     <option value="Master" <?= ($craftjack_mtl['auditor_type']=="Master")?"selected":"" ?>>Master</option>
@@ -290,10 +290,10 @@
 											<td style="font-weight:bold; background-color:#D7BDE2">Compliance Citical</td>
 										</tr>
 										<tr>
-											<td colspan="2" class="text-danger">1.4 Did the agent ask how/he or she could assist the caller?</td>
+											<td colspan="2">1.4 Did the agent ask how/he or she could assist the caller?</td>
 											<td>7</td>
 											<td>
-												<select class="form-control mtl_point customer" id ="" name="data[assist_caller]" required>
+												<select class="form-control mtl_point customer"  name="data[assist_caller]" required>
 													
 													<option mtl_val=7 mtl_max="7" <?= $craftjack_mtl["assist_caller"] == "Pass" ? "selected" : "" ?> value="Pass">Pass</option>
 													<option mtl_val=0 mtl_max="7" <?= $craftjack_mtl["assist_caller"] == "Fail" ? "selected" : "" ?> value="Fail">Fail</option>
@@ -393,7 +393,7 @@
 											<td style="font-weight:bold; background-color:#D7BDE2">Customer Citical</td>
 										</tr>
 										<tr>
-											<td  colspan="2">2.5 Did the agent leave detailed notes?</td>
+											<td  colspan="2">2.7 Did the agent educate the customer properly?</td>
 											<td>10</td>
 											<td>
 												<select class="form-control mtl_point customer" id ="" name="data[educate_customer]" required>
@@ -543,12 +543,12 @@
 											<?php if ($craftjack_id == 0) { ?>
 												<td colspan=6>
 													<!-- <input type="file" multiple class="form-control"  id="attach_file" name="attach_file[]"> -->
-													<input type="file" name="attach_file[]" accept=".avi,.mp4,.3gp,.mpeg,.mpg,.mov,.mp3,.flv,.wmv,.mkv,.wav,audio/*"id="attach_file" />
+													<input type="file" name="attach_file[]" id="attach_file" accept=".m4a,.mp4,.mp3,.wav,audio/*" />
 												</td>
 												<?php } else {
 												if ($craftjack_mtl['attach_file'] != '') { ?>
 													<td colspan=6>
-														<input type="file" multiple class="form-control"  id="attach_file" name="attach_file[]" accept=".avi,.mp4,.3gp,.mpeg,.mpg,.mov,.mp3,.flv,.wmv,.mkv,.wav,audio/*"> 
+														<input type="file" multiple class="form-control"  id="attach_file" name="attach_file[]" accept=".m4a,.mp4,.mp3,.wav,audio/*"> 
 														<?php $attach_file = explode(",", $craftjack_mtl['attach_file']);
 														foreach ($attach_file as $mp) { ?>
 															<audio controls='' style="background-color:#607F93">
@@ -559,7 +559,7 @@
 													</td>
 											<?php } else {
 													echo '<td colspan=6>
-													<input type="file" multiple class="form-control" id="attach_file" name="attach_file[]" accept=".avi,.mp4,.3gp,.mpeg,.mpg,.mov,.mp3,.flv,.wmv,.mkv,.wav,audio/*">
+													<input type="file" multiple class="form-control" id="attach_file" name="attach_file[]" accept=".m4a,.mp4,.mp3,.wav,audio/*">
 													<b>No Files</b></td>';
 												}
 											} ?>
@@ -593,7 +593,7 @@
 										if ($craftjack_id == 0) {
 											if (is_access_qa_module() == true || is_access_qa_operations_module() == true) { ?>
 												<tr>
-													<td colspan=8><button class="btn btn-success blains-effect" type="submit" id="qaformsubmit" style="width:500px">SAVE</button></td>
+													<td colspan=8><button class="btn btn-success blains-effect" type="submit" id="qaformsubmit" style="width:500px;margin:auto;display:block;">SAVE</button></td>
 												</tr>
 												<?php
 											}
@@ -601,7 +601,7 @@
 											if (is_access_qa_module() == true || is_access_qa_operations_module() == true) {
 												if (is_available_qa_feedback($craftjack_mtl['entry_date'], 72) == true) { ?>
 													<tr>
-														<td colspan="8"><button class="btn btn-success blains-effect" type="submit" id='qaformsubmit' name='btnSave' value="SAVE" style="width:500px">SAVE</button></td>
+														<td colspan="8"><button class="btn btn-success blains-effect" type="submit" id='qaformsubmit' name='btnSave' value="SAVE" style="width:500px;margin:auto;display:block;">SAVE</button></td>
 													</tr>
 										<?php
 												}

@@ -98,12 +98,11 @@ input[type=submit] {
 										<span class="end_date_error" style="color:red"></span>
 									</div>
 								</div>
-								
 								<div class="col-md-3">
-									<div class="form-group">
+									<div class="form-control">
 										<label>Agent</label>
 										<select class="form-control" id="" name="agent_id">
-											<option value="">ALL</option>
+											<option value="">-Select-</option>
 											<?php foreach($agentName as $row):
 												$sCss='';
 												if($row['id']==$agent_id) $sCss='Selected';
@@ -114,7 +113,7 @@ input[type=submit] {
 									</div>
 								</div>
 								<div class="col-md-1" style="margin-top:20px">
-									<button class="btn btn-success blains-effect" href="<?php echo base_url()?>Qa_craftjack" type="submit" id='btnView' name='btnView' value="View">View</button>
+									<button class="btn btn-success waves-effect" href="<?php echo base_url()?>Qa_craftjack" type="submit" id='btnView' name='btnView' value="View">View</button>
 								</div>
 							</div>
 							
@@ -183,7 +182,7 @@ input[type=submit] {
 										<td>
 											<?php $cjid=$row['id']; ?>
 											
-											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_craftjack/add_edit_craftjack_mtl/<?php echo $cjid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit/Review</a>
+											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_craftjack/add_edit_craftjack_mtl/<?php echo $cjid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
 										</td>
 									</tr>
 									<?php endforeach; ?>

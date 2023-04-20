@@ -14,7 +14,6 @@ $(function() {
     $('.multiple-select').multiselect({
         includeSelectAllOption: true,
         enableFiltering: true,
-		numberDisplayed: 0,
         enableCaseInsensitiveFiltering: true,
         filterPlaceholder: 'Search for something...'
     });
@@ -22,6 +21,7 @@ $(function() {
 
 </script>
 <script type="text/javascript">
+	
 		$(function() {
 		$( "#agent_id" ).on('change' , function() {
 		var aid = this.value;
@@ -35,76 +35,13 @@ $(function() {
 			data:'aid='+aid,
 			success: function(aList){
 				var json_obj = $.parseJSON(aList);
-			
 				$('#tl_name').empty();
 				$('#tl_name').append($('#tl_name').val(''));
-				//$('#tl_name').append($('#tl_name').val(json_obj[0].tl_name));
-				// if($('#tl_name').val(json_obj[0].tl_name)!=''){
-				// 		console.log(json_obj[0].tl_name);
-				// 		$('#tl_name').append($('#tl_name').val(json_obj[0].tl_name));
-
-				// 	}else{
-				// 		alert("Agent is not assigned any TL.Please assign one from manage user section or contact your HR/Manager");
-				// 	}
-
-				// for (var i in json_obj) $('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
+				//for (var i in json_obj) $('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
 				for (var i in json_obj) $('#tl_id').append($('#tl_id').val(json_obj[i].assigned_to));
 				for (var i in json_obj){
 					if($('#tl_name').val(json_obj[i].tl_name)!=''){
-						console.log(json_obj[0].tl_name);
 						$('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
-
-					}else{
-						alert("Agent is not assigned any TL.Please assign one from manage user section or contact your HR/Manager");
-					}
-					
-				} 
-				for (var i in json_obj) $('#fusion_id').append($('#fusion_id').val(json_obj[i].fusion_id));
-				for (var i in json_obj) $('#campaign').append($('#campaign').val(json_obj[i].process_name));
-				for (var i in json_obj) $('#office_id').append($('#office_id').val(json_obj[i].office_id));
-				$('#sktPleaseWait').modal('hide');
-			},
-			error: function(){
-				alert('Fail!');
-			}
-		});
-	});
-});
-</script>
-
-<script type="text/javascript">
-	
-		$(function() {
-		$( "#agent_ids" ).on('change' , function() {
-		var aid = this.value;
-		//alert(aid);
-		if(aid=="") alert("Please Select Agent")
-		var URL='<?php echo base_url();?>qa_ameridial/getTLname';
-		$('#sktPleaseWait').modal('show');
-		$.ajax({
-			type: 'POST',
-			url:URL,
-			data:'aid='+aid,
-			success: function(aList){
-				var json_obj = $.parseJSON(aList);
-			
-				$('#tl_names').empty();
-				$('#tl_names').append($('#tl_names').val(''));
-				//$('#tl_name').append($('#tl_name').val(json_obj[0].tl_name));
-				// if($('#tl_name').val(json_obj[0].tl_name)!=''){
-				// 		console.log(json_obj[0].tl_name);
-				// 		$('#tl_name').append($('#tl_name').val(json_obj[0].tl_name));
-
-				// 	}else{
-				// 		alert("Agent is not assigned any TL.Please assign one from manage user section or contact your HR/Manager");
-				// 	}
-
-				// for (var i in json_obj) $('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
-				for (var i in json_obj) $('#tl_id').append($('#tl_id').val(json_obj[i].assigned_to));
-				for (var i in json_obj){
-					if($('#tl_names').val(json_obj[i].tl_name)!=''){
-						console.log(json_obj[0].tl_name);
-						$('#tl_names').append($('#tl_names').val(json_obj[i].tl_name));
 
 					}else{
 						alert("Agent is not assigned any TL.Please assign one from manage user section or contact your HR/Manager");
@@ -1019,7 +956,7 @@ $('INPUT[type="file"]').change(function () {
 				customerScore = customerScore + w1;
 				customerScoreable = customerScoreable + w1;
 			}else if(sc1 == 'Fail'){
-				var w1 = parseFloat($(element).children("option:selected").attr('mtl_max'));
+				var w1 = parseFloat($(element).children("option:selected").attr('mtl_val'));
 				customerScoreable = customerScoreable + w1;
 			}else if(sc1 == 'N/A'){
 				var w1 = parseFloat($(element).children("option:selected").attr('mtl_val'));
@@ -1044,7 +981,7 @@ $('INPUT[type="file"]').change(function () {
 				businessScore = businessScore + w2;
 				businessScoreable = businessScoreable + w2;
 			}else if(sc2 == 'Fail'){
-				var w2 = parseFloat($(element).children("option:selected").attr('mtl_max'));
+				var w2 = parseFloat($(element).children("option:selected").attr('mtl_val'));
 				businessScoreable = businessScoreable + w2;
 			}else if(sc2 == 'N/A'){
 				var w2 = parseFloat($(element).children("option:selected").attr('mtl_val'));
@@ -1069,7 +1006,7 @@ $('INPUT[type="file"]').change(function () {
 				complianceScore = complianceScore + w3;
 				complianceScoreable = complianceScoreable + w3;
 			}else if(sc3 == 'Fail'){
-				var w3 = parseFloat($(element).children("option:selected").attr('mtl_max'));
+				var w3 = parseFloat($(element).children("option:selected").attr('mtl_val'));
 				complianceScoreable = complianceScoreable + w3;
 			}else if(sc3 == 'N/A'){
 				var w3 = parseFloat($(element).children("option:selected").attr('mtl_val'));
@@ -1118,6 +1055,34 @@ $('INPUT[type="file"]').change(function () {
 		<?php if($this->uri->segment(2)=="qa_avon" && $this->uri->segment(4)=="0"){?>
 			$("#avon_earned_score, #avon_possible_score").val("0");
 		<?php }?>
+		
+		// $( "#agent_id" ).on('change' , function() {
+		// 	var aid = this.value;
+		// 	if(aid=="") alert("Please Select Agent")
+		// 	var URL='<?php echo base_url();?>qa_avon/getTLname';
+		// 	$('#sktPleaseWait').modal('show');
+		// 	$.ajax({
+		// 		type: 'POST',
+		// 		url:URL,
+		// 		data:'aid='+aid,
+		// 		success: function(aList){
+		// 			var json_obj = $.parseJSON(aList);
+		// 			console.log(json_obj);
+		// 			$('#tl_name').empty();
+		// 			$('#tl_name').append($('#tl_name').val(''));
+		// 			//for (var i in json_obj) $('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
+		// 			for (var i in json_obj){
+		// 				$('#tl_id').val(json_obj[i].assigned_to);//$('#tl_id').append();
+		// 				$('#fusion_id').append($('#fusion_id').val(json_obj[i].fusion_id));
+		// 				$('#campaign').append($('#campaign').val(json_obj[i].process_name));
+		// 				$('#office_id').append($('#office_id').val(json_obj[i].office_id));
+		// 			}
+		// 			$('#sktPleaseWait').modal('hide');
+		// 		},
+		// 		error: function(){
+		// 			alert('Fail!');
+		// 		}
+		// });
 	});
 </script>
 
