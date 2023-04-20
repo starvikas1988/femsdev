@@ -19210,7 +19210,7 @@ public function qa_homeadvisor_report(){
 				$this->create_qa_bcci_CSV($fullAray);
 				$dn_link = base_url()."reports_qa/download_qa_bcci_CSV";
 			}else if($pValue=="HCCI_core_v2"){
-				$qSql="SELECT * from
+				 $qSql="SELECT * from
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,(select DATEDIFF(CURDATE(), s.doj) as tenure from signin s where s.id=agent_id) as tenure,
@@ -19266,7 +19266,7 @@ public function create_qa_hcci_core_v2_CSV($rr)
 
 	//$main_url = base_url().'qa_files/qa_homeadvisor/homeadvisor_files/';
 	$fopen = fopen($filename,"w+");
-	$header=array ( "Auditor Name","Tenure","Audit Link","Audit Date","Fusion Id","Agent","L1 Supervisor","Contact Date","AUDIT TYPE","AUDITOR TYPE","Call Duration","Call File","SR NO.","Consumer No.","VOC","Overall Score","Customer Score","Business Score","Compliance Score",
+	$header=array ( "Auditor Name","Tenure","Audit Link","Audit Date","Fusion Id","Agent","L1 Supervisor","Contact Date","AUDIT TYPE","AUDITOR TYPE","Contact Duration","Call File","SR NO.","Consumer No.","VOC","Overall Score","Customer Score","Business Score","Compliance Score",
 		"Brand","Issue Identification","Issue Resolution","Identify Verification","Situational Policy","Strategic Cross-Sale Offered","Call Beginning","Call Control","Pace","Holds","Dash Documentation","Disposition Tagging","Betti SR Audit","Escalation","Correct Action","Unintelligible language","Failed to address one or more of the customer's issue(s)","Failed to validate customer's account","Failed to implement correct outcome according to workflow or policy","Egregious policy error (excessive OOP gave out personal information w/o permission etc.) - DISCIPLINARY ACTION REQUIRED","Flagrantly inappropriate response (cursing insulting speaking negatively of company/agent/pro etc.) - DISCIPLINARY ACTION REQUIRED","Failed to build Value in ANGI Services","Failed to mention Stella Survey","Failed to mention the ANGI APP",
 		"Issue Identification Remarks1","Issue Identification Remarks2","Issue Identification Remarks3",
 		"Issue Resolution Remarks1","Issue Resolution Remarks2","Issue Resolution Remarks3",
@@ -19279,7 +19279,7 @@ public function create_qa_hcci_core_v2_CSV($rr)
 		"Dash Documentation Remarks1","Dash Documentation Remarks2","Dash Documentation Remarks3","Dash Documentation Remarks4","Dash Documentation Remarks5",
 		"Disposition Tagging Remarks1","Disposition Tagging Remarks2",
 		"Betti SR Audit Remarks1","Betti SR Audit Remarks2","Betti SR Audit Remarks3",
-		"Call Summary","Feedback","Interval(In Second)","Audit Start Date/Time","Audit End Date/Time","Mgnt review by","Mgnt review note","Mgnt review date/time","Agent review note","Agent Feedback Acceptance ","Agent review date/time","Client review by","Client review note","Client rvw date/time");
+		"Call Summary","Feedback","Interval(In Second)","Audit Start Date/Time","Audit End Date/Time","Mgnt review by","Mgnt review note","Mgnt review date/time","Agent review note","Agent Feedback Acceptance ","Agent review date/time","Client review by","Client review note","Client review date/time");
 
 	//$field_name="SHOW FULL COLUMNS FROM qa_hcci_feedback WHERE Comment!=''";
 	$field_name="SHOW FULL COLUMNS FROM qa_hcci_core_feedback WHERE Comment!=''";
@@ -19324,6 +19324,8 @@ public function create_qa_hcci_core_v2_CSV($rr)
 			}else{
 				$auditorName = $user['client_name'];
 			}
+			
+			$mgnt_rvw_name = $user['mgnt_rvw_name'];
 
 		for($z=0;$z<$count_for_field;$z++){
 			 $main_urls = $main_url.'/'.$user['id'];
@@ -19342,7 +19344,7 @@ public function create_qa_hcci_core_v2_CSV($rr)
 			}else if($field_val[$z]==="tl_id"){
 				$row .= '"'.$user['tl_name'].'",';
 			}else if($field_val[$z]==="mgnt_rvw_by"){
-				$row .= '"'.$auditorName.'",';
+				$row .= '"'.$mgnt_rvw_name.'",';
 			}else if($field_val[$z]==="entry_by"){
 				$row .= '"'.$interval1.'",';
 			}else if(in_array($field_val[$z], array('call_summary','feedback','agent_rvw_note','mgnt_rvw_note'))) {
@@ -21635,7 +21637,8 @@ public function qa_craftjack_report(){
 		$data["show_table"] = false;
 		$data["aside_template"] = "reports_qa/aside.php";
 		$data["content_template"] = "reports_qa/qa_craftjack_report.php";
-		$data["content_js"] = "qa_loanxm_js.php";
+		//$data["content_js"] = "qa_loanxm_js.php";
+		$data["content_js"] = "qa_avon_js.php";
 
 		$data['location_list'] = $this->Common_model->get_office_location_list();
 
@@ -21650,11 +21653,25 @@ public function qa_craftjack_report(){
 		$cond1="";
 
 		$data["qa_craftjack_list"] = array();
+		$date_from = $this->input->get('date_from');
+		$date_to = $this->input->get('date_to');
+
+		if($date_from==""){
+			$date_from=CurrDate();
+		}else{
+			$date_from = mmddyy2mysql($date_from);
+		}
+
+		if($date_to==""){
+			$date_to=CurrDate();
+		}else{
+			$date_to = mmddyy2mysql($date_to);
+		}
 
 		if($this->input->get('show')=='Show')
 		{
-			$date_from 	= mmddyy2mysql($this->input->get('date_from'));
-			$date_to 	= mmddyy2mysql($this->input->get('date_to'));
+			//$date_from 	= mmddyy2mysql($this->input->get('date_from'));
+			//$date_to 	= mmddyy2mysql($this->input->get('date_to'));
 			$office_id 	= $this->input->get('office_id');
 			$audit_type = $this->input->get('audit_type');
 			$campaign 	= $this->input->get('campaign');
@@ -21683,14 +21700,14 @@ public function qa_craftjack_report(){
 			}
 
 
-			$qSql="SELECT * from
+			 $qSql="SELECT * from
 			(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 			(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 			(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
 			(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
 			(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_".$campaign."_feedback) xx Left Join
 			(Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process, doj, DATEDIFF(CURDATE(), doj) as tenure from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
-		
+		//exit();
 			$fullAray = $this->Common_model->get_query_result_array($qSql);
 			$data["qa_craftjack_list"] = $fullAray;
 			$this->create_qa_craftjack_CSV($fullAray,$campaign);
@@ -21843,9 +21860,147 @@ public function create_qa_craftjack_CSV($rr,$campaign)
 		}
 		fclose($fopen);
 		////////////////////////////////////////////////////////
-	}else{
+	}else if($campaign == 'craftjack_mtl'){
+		///////////////////vikas////////////////////////
+		$currentURL = base_url();
+		$controller = "Qa_craftjack";
+		$edit_url = "add_edit_craftjack_mtl";
+		$main_url =  $currentURL.''.$controller.'/'.$edit_url;
+		
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent Name", "L1 Supervisor", "Customer Name", "Customer Phone No", "Call Date", "Call Duration","Audit Start Date Time", "Audit End Date Time","Interval(In Second)",
+		 "AHT RCA","L1","L2","Type of Call","Week No","Reason of Cancellation","Audit Type","Auditor Type", "VOC","Tenure","Audit Link","Possible Score", "Earned Score", "Overall Score","Business Score","Customer Score","Compliance Score",
+		"1.1 Did the agent greet the customer promptly?","Comment 1",
+		"1.2 Did the agent provide his/her name?","Comment 2",
+		"1.3 Did the agent informed the customer about the recorded line?","Comment 3",
+		"1.4 Did the agent ask how/he or she could assist the caller?","Comment 4",
+		"2.1 Did the agent checked the Customers Account?","Comment 5",
+		"2.2 Did the agent tried to solve the customers Issue?","Comment 6",
+		"2.3 Did the agent ask the customer the cancellation reason?","Comment 7",
+		"2.4 Did the agent make an offer or an attempt to try to save the account?","Comment 8",
+		"2.5 Did the agent leave detailed notes?","Comment 9",
+		"2.6 Did the agent inform the SP about the statement that will be sent after the call?","Comment 10",
+		"2.5 Did the agent leave detailed notes?","Comment 11",
+		"3.1 Did the agent have an appropriate tone and Pacing? Did the agent rush the call?","Comment 12",
+		"3.2 Did the agent use empathy & assurance to help statements over the call (if applicable)?","Comment 13",
+		"3.3 Did the agent intentionally interrupted the customer?","Comment 14",
+		"3.4 Professionalism","Comment 15",
+		"3.5 Did the agent follow the hold procedure/ dead air?","Comment 16",
+		"4.1 Did the agent offer further assistance once the primary issue of the customer is addressed?","Comment 17",
+		"4.2 Did the agent close the call correctly?","Comment 18",
+    	
+		"Call Summary", "Feedback", "Agent Review Date/Time", "Agent Comment","Feedback Acceptance", "Management Review Date/Time","Management Review By", "Management Comment","Client Review Date/Time", "Client Review Name", "Client Review Note" );
+
+		$row = "";
+		foreach($header as $data) $row .= ''.$data.',';
+		fwrite($fopen,rtrim($row,",")."\r\n");
+		$searches = array("\r", "\n", "\r\n");
+
+		foreach($rr as $user){
+			$call_summary = '';
+			$aoi = '';
+			if($user['entry_by']!=''){
+				$auditorName = $user['auditor_name'];
+			}else{
+				$auditorName = $user['client_name'];
+			}
+
+			if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+				$interval1 = '---';
+			}else{
+				$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+			}
+			$main_urls = $main_url.'/'.$user['id'];
+			$row = '"'.$user['auditor_name'].'",';
+				$row .= '"'.$user['audit_date'].'",';
+				$row .= '"'.$user['fusion_id'].'",';
+				$row .= '"'.$user['fname']." ".$user['lname'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				$row .= '"'.$user['customer_name'].'",';
+				$row .= '"'.$user['phone_no'].'",';
+				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['call_duration'].'",';
+				$row .= '"'.$user['audit_start_time'].'",';
+		        $row .= '"'.$user['entry_date'].'",';
+		        $row .= '"'.$interval1.'",';
+				$row .= '"'.$user['AHT_RCA'].'",';
+				$row .= '"'.$user['L1'].'",';
+				$row .= '"'.$user['L2'].'",';
+				//$row .= '"'.$user['interaction_id'].'",';
+				$row .= '"'.$user['call_type'].'",';
+				$row .= '"'.$user['week_no'].'",';
+				$row .= '"'.$user['reason_of_cancellation'].'",';
+				$row .= '"'.$user['audit_type'].'",';
+				$row .= '"'.$user['auditor_type'].'",';
+				$row .= '"'.$user['voc'].'",';
+				$row .= '"'.$user['tenure'].'",';
+				$row .= '"'.$main_urls.'",';
+				//$row .= '"'.$user['pass_fail'].'",';
+				$row .= '"'.$user['possible_score'].'",';
+				$row .= '"'.$user['earned_score'].'",';
+				$row .= '"'.$user['overall_score'].'",';
+				$row .= '"'.$user['business_overall_score'].'",';
+				$row .= '"'.$user['customer_overall_score'].'",';
+				$row .= '"'.$user['compliance_overall_score'].'",';
+
+				$row .= '"'.$user['greet_customer'].'",';
+				$row .= '"'.$user['cmt1'].'",';
+				$row .= '"'.$user['provide_name'].'",';
+				$row .= '"'.$user['cmt2'].'",';
+				$row .= '"'.$user['inform_recorded_line'].'",';
+				$row .= '"'.$user['cmt3'].'",';
+				$row .= '"'.$user['assist_caller'].'",';
+				$row .= '"'.$user['cmt4'].'",';
+				$row .= '"'.$user['checked_customer_account'].'",';
+				$row .= '"'.$user['cmt5'].'",';
+				$row .= '"'.$user['solve_customer_issue'].'",';
+				$row .= '"'.$user['cmt6'].'",';
+				$row .= '"'.$user['cancellation_reason'].'",';
+				$row .= '"'.$user['cmt7'].'",';
+				$row .= '"'.$user['save_account'].'",';
+				$row .= '"'.$user['cmt8'].'",';
+				$row .= '"'.$user['leave_detailed_note'].'",';
+				$row .= '"'.$user['cmt9'].'",';
+				$row .= '"'.$user['inform_SP'].'",';
+				$row .= '"'.$user['cmt10'].'",';
+				$row .= '"'.$user['educate_customer'].'",';
+				$row .= '"'.$user['cmt11'].'",';
+				$row .= '"'.$user['appropriate_tone'].'",';
+				$row .= '"'.$user['cmt12'].'",';
+				$row .= '"'.$user['use_empathy'].'",';
+				$row .= '"'.$user['cmt13'].'",';
+				$row .= '"'.$user['intentionally_interrupted'].'",';
+				$row .= '"'.$user['cmt14'].'",';
+				$row .= '"'.$user['professionalism'].'",';
+				$row .= '"'.$user['cmt15'].'",';
+				$row .= '"'.$user['dead_air'].'",';
+				$row .= '"'.$user['cmt16'].'",';
+				$row .= '"'.$user['further_assistance'].'",';
+				$row .= '"'.$user['cmt17'].'",';
+				$row .= '"'.$user['close_call'].'",';
+				$row .= '"'.$user['cmt18'].'",';
+			
+				
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+				$row .= '"'.$user['agent_rvw_date'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+				$row .= '"'.$user['agnt_fd_acpt'].'",';
+				$row .= '"'.$user['mgnt_rvw_date'].'",';
+				$row .= '"'.$user['mgnt_rvw_name'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'"';
+				$row .= '"'.$user['client_rvw_date'].'",';
+				$row .= '"'.$user['client_rvw_name'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
+
+			fwrite($fopen,$row."\r\n");
+		}
+		fclose($fopen);
+
+		///////////////////vikas////////////////////////
+	}
+	else{
 			////////////////////////////////////////////////////////
-			$header = array("Auditor Name", "Audit Date", "Call Duration", "Fusion ID", "Agent Name", "Customer Name", "Call Date", "Call Type", "Audit Type", "VOC","Tenure","Audit Link", "Overall Score","Did the agent enthusiastically welcome or greet the caller/customer?","Did the agent mentioned her name?","Did the agent ask the caller's name?","Did the agent understand the correct project Request?","Did the agent ask probing questions?","Did the agent select the correct panel?","Did the agent follow the questions to  the panel?","Did the agent ask for brief description about the project?","Did the agent get all of the information? (Email- Optional)","Did the agent mention this statement Do you agree to Improvenet terms including that Improvenet our service professionals partners will reach out to you via automated call text at the phone number you provided this project before submitting the SR","Active Listening Skills","Did the agent sound conversational?","Did the agent use proper tone and speed?","Did the agent avoid dead air?","Was the agent polite?","Did the agent ended the call with the closure greeting?Thank you for calling improvenet" ,"Comment1","Comment2","Comment3","Comment4","Comment5","Comment6","Comment7","Comment8","Comment9","Comment10","Comment11","Comment12","Comment13","Comment14","Comment15","Comment16","Call Summary", "Feedback", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment" );
+			$header = array("Auditor Name", "Audit Date", "Call Duration", "Fusion ID", "Agent Name", "Customer Name", "Call Date", "Call Type", "Audit Type", "VOC","Tenure","Audit Link", "Overall Score","Did the agent enthusiastically welcome or greet the caller/customer?","Did the agent mentioned her name?","Did the agent ask the caller's name?","Did the agent understand the correct project Request?","Did the agent ask probing questions?","Did the agent select the correct panel?","Did the agent follow the questions to  the panel?","Did the agent ask for brief description about the project?","Did the agent get all of the information? (Email- Optional)","Did the agent mention this statement Do you agree to Improvenet terms including that Improvenet our service professionals partners will reach out to you via automated call text at the phone number you provided this project before submitting the SR","Active Listening Skills","Did the agent sound conversational?","Did the agent use proper tone and speed?","Did the agent avoid dead air?","Was the agent polite?","Did the agent ended the call with the closure greeting?Thank you for calling improvenet" ,"Comment1","Comment2","Comment3","Comment4","Comment5","Comment6","Comment7","Comment8","Comment9","Comment10","Comment11","Comment12","Comment13","Comment14","Comment15","Comment16","Call Summary", "Feedback", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment" );
 		}
 	$row = "";
 	foreach($header as $data) $row .= ''.$data.',';
