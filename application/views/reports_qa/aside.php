@@ -93,7 +93,12 @@
 									<span class="">Dip Check Report</span>
 								</a>
 							</li>
-
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_belmont/qa_belmont_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Belmont</span>
+								</a>
+							</li>
 							<li class="menu-item">
 								<a href="<?php echo base_url()?>reports_qa/qa_oyo_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
@@ -345,9 +350,15 @@
 								</a>
 							</li>
 							<li class="menu-item">
-								<a href="<?php echo base_url()?>reports_qa/qa_paynearby_report" class="menu-link">
+								<a href="<?php echo base_url()?>reports_qa/qa_paynearby_report" class="menu-link"> 
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Paynearby</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_avon/qa_avon_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">AVON</span>
 								</a>
 							</li>
 							<li class="menu-item">
@@ -506,7 +517,19 @@
 									<span class="">Updater </span>
 								</a>
 							</li>
-<li class="menu-item">
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>Qa_norther_tools_equipment/qa_norther_tools_equipment_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Norther Tools & Equipment </span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>Qa_park_west/qa_park_west_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Park West</span>
+								</a>
+							</li>
+							<li class="menu-item">
 								<a href="<?php echo base_url()?>qa_cesc/qa_cesc_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">CESC </span>

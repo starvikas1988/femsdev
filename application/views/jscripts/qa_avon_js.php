@@ -1091,9 +1091,77 @@ $('INPUT[type="file"]').change(function () {
 		craftjack_mtl_calcs();
 	});
 	craftjack_mtl_calcs();
-	
-	
  </script>
+
+ <script type="text/javascript">
+ 		function park_west_calcs(){
+		let score_park = 0;
+		let scoreable_park = 0;
+		let quality_score_percent_park = 0.00;
+		let pass_count_park = 0;
+		let fail_count_park = 0;
+		let na_count_park = 0;
+		let score_park_final = 0;
+		let scoreable_park_final = 0;
+
+		$('.park_west_point').each(function(index,element){
+			let score_type_park = $(element).val();
+			
+			if(score_type_park == 'Pass'){
+				pass_count_park = pass_count_park + 1;
+				let w1_park = parseFloat($(element).children("option:selected").attr('park_west_val'));
+				let w2_park = parseFloat($(element).children("option:selected").attr('park_west_max'));
+				
+				score_park = score_park + w1_park;
+				scoreable_park = scoreable_park + w2_park;
+
+			}else if(score_type_park == 'Fail'){
+				fail_count_park = fail_count_park + 1;
+				let w1_park = parseFloat($(element).children("option:selected").attr('park_west_val'));
+				let w2_park = parseFloat($(element).children("option:selected").attr('park_west_max'));
+
+				//score = score + w1;
+				scoreable_park = scoreable_park + w2_park;
+				//scoreable = scoreable + weightage;
+			}else if(score_type_park == 'N/A'){
+				na_count_park = na_count_park + 1;
+				let w1_park = parseFloat($(element).children("option:selected").attr('park_west_val'));
+				score_park = score_park + w1_park;
+			}
+		});
+		quality_score_percent_park = ((score_park*100)/scoreable_park).toFixed(2);
+
+		if(quality_score_percent_park == "NaN"){
+			quality_score_percent_park = (0.00).toFixed(2);
+		}else{
+			quality_score_percent_park = quality_score_percent_park;
+		}
+		
+      score_park_final     = (score_park).toFixed(2);
+      scoreable_park_final = (scoreable_park).toFixed(2);
+
+		$('#park_earned_score').val(score_park_final);
+		$('#park_possible_score').val(scoreable_park_final);
+		
+		if(!isNaN(quality_score_percent_park)){
+			$('#park_overall_score').val(quality_score_percent_park+'%');
+		}
+
+		if($('#parkAF1').val()=='Fail' || $('#parkAF2').val()=='Fail' || $('#parkAF3').val()=='Fail' || $('#parkAF4').val()=='Fail' || $('#parkAF5').val()=='Fail' || $('#parkAF6').val()=='Fail' || $('#parkAF7').val()=='Fail' || $('#parkAF8').val()=='Fail' || $('#parkAF9').val()=='Fail'  || $('#parkAF10').val()=='Fail' || $('#parkAF11').val()=='Fail' || $('#parkAF12').val()=='Fail' || $('#parkAF13').val()=='Fail' || $('#parkAF14').val()=='Fail' || $('#parkAF15').val()=='Fail' || $('#parkAF16').val()=='Fail' || $('#parkAF17').val()=='Fail' || $('#parkAF18').val()=='Fail' || $('#parkAF19').val()=='Fail' || $('#parkAF20').val()=='Fail' || $('#parkAF21').val()=='Fail' || $('#parkAF22').val()=='Fail' || $('#parkAF23').val()=='Fail' || $('#parkAF24').val()=='Fail' || $('#parkAF25').val()=='Fail' || $('#parkAF26').val()=='Fail' || $('#parkAF27').val()=='Fail' || $('#parkAF28').val()=='Fail' || $('#parkAF29').val()=='Fail'){
+			console.log($('#parkAF1').val());
+
+			quality_score_percent_park = (0.00).toFixed(2);
+			$('.parkFatal').val(quality_score_percent_park+'%');
+		}else{
+			$('#park_overall_score').val(quality_score_percent_park+'%');
+		}
+	}
+	
+	$(document).on('change','.park_west_point',function(){
+		park_west_calcs();
+	});
+	park_west_calcs();
+</script>
 
 <script type="text/javascript">
 	$(document).on("change", ".avon_point", function(){

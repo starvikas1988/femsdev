@@ -998,6 +998,18 @@ $(document).ready(function(){
 							</a>
 						</li>
 						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_norther_tools_equipment')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Norther Tools & Equipment scorecard</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_park_west')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Park West</span>
+							</a>
+						</li>
+						<li class="menu-item">
 							<a href="<?php echo base_url('Qa_kabbage')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 								<span class="">Kabbage</span>
@@ -1178,7 +1190,13 @@ $(document).ready(function(){
 								</li>
 							</ul>
 						</li>
-						<li class="menu-item has-submenu">
+						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_jurys_inn')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Leonardo Hotels</span>
+							</a>
+						</li>
+						<!--<li class="menu-item has-submenu">
 							<a href="" class="menu-link submenu-toggle">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 								<span class="menu-text foldable">Jurys Inn</span>
@@ -1209,7 +1227,7 @@ $(document).ready(function(){
 										<span class="">GDS</span>
 									</a>
 								</li>
-
+								-->
 
 								<!--<li>
 									<a style="padding-left:50px" href="<?php echo base_url('Qa_jurys_inn'); ?>">
@@ -1253,8 +1271,8 @@ $(document).ready(function(){
 										<span class="">GDS & Pre Arrival</span>
 									</a>
 								</li>-->
-							</ul>
-						</li>
+							<!--</ul>
+						</li>-->
 						<li class="menu-item">
 							<a href="<?php echo base_url('qa_docusign')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
@@ -1756,6 +1774,12 @@ $(document).ready(function(){
 						<span class="menu-caret foldable"><i class="zmdi zmdi-hc-sm zmdi-chevron-right"></i></span>
 					</a>
 					<ul class="submenu">
+						<li class="menu-item">
+							<a href="<?php echo base_url('qa_belmont/qa_feedback')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Belmont</span>
+							</a>
+						</li>
 						<li class="menu-item">
 							<a href="<?php echo base_url('Qa_att/fiberconnect')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
