@@ -798,8 +798,13 @@
 				$row .= '"'.$user['mgnt_rvw_date'].'",';
 				$row .= '"'.$user['mgnt_rvw_name'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_name'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'",';
+				if($user['client_rvw_name']!=''){
+					$row .= '"'.$user['client_rvw_name'].'",';
+				}else{
+					$row .= '';
+				}
+				
+  			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
 
   			$row .= '"'.$user['client_rvw_date'].'",';
 

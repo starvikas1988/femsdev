@@ -1008,8 +1008,8 @@
 						$etoA=array();
 						$eccA=array();
 						
-						$ebody = "Hello ". $result['tl'].", ".$result['qa']."<br>";
-						$ebody .= "<p>Please find the below Audit details.</br></p>";
+						$ebody = "Hello ". $result['tl'].",".$result['qa']."<br>";
+						$ebody .= "<p>Please find the below <b>Test audit</b> details.</br></p>";
 						$ebody .= "<p>Agent Name : ".$result['agent']."</p>";
 						$ebody .= "<p>Call Date :  ".$result['call_date']."</p>";
 						$ebody .= "<p>Call Duration :  ".$result['call_duration']."</p>";
@@ -1025,20 +1025,19 @@
 						$ebody .= "<p>MWP Team</p>";
 						$esubject = "Email Alert for Valid SR-No in HCCO SR COMPLIANCE Version-2 - ".$result['audit_date'];
 						
-						$etoA[]=$result['email_id_off'];
+						/*$etoA[]=$result['email_id_off'];
 						$etoA[]=$result['tl_email'];
 						$etoA[]=$result['qa_email'];
 						
 						$eccA[]="hcco_fusion@fusionbposervices.com";
 						$eccA[]="Reynaldo.Brown@fusionbposervices.com";
 						$eccA[]="keir.lovell@fusionbposervices.com";
-						$eccA[]="homer.acha@fusionbposervices.com";
-						$eccA[]="somnath.bhattacharya@omindtech.com";
+						$eccA[]="homer.acha@fusionbposervices.com"; */
 						
-						$to = implode(',',$etoA);
-						$ecc = implode(',',$eccA);
-						//$to = 'deb.dasgupta@omindtech.com';
-						//$ecc = 'somnath.bhattacharya@omindtech.com';
+						//$to = implode(',',$etoA);
+						$to = 'deb.dasgupta@omindtech.com';
+						//$ecc = implode(',',$eccA);
+						$ecc = 'somnath.bhattacharya@omindtech.com';
 						$path = "";
 						$from_email="";
 						$from_name="";
@@ -1743,9 +1742,9 @@
 				if($todate!="") $to_date = mmddyy2mysql($todate);
 				
 				if($from_date !=="" && $to_date!=="" ){ 
-					$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit','Operation Audit','Trainer Audit')";
+					$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')";
 				}else{
-					$cond= " Where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit','Operation Audit','Trainer Audit')";
+					$cond= " Where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')";
 				}
 				
 				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_hcci_feedback $cond) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
