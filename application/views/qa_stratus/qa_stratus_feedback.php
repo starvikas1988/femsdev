@@ -21,16 +21,26 @@
 						<form id="form_new_user" method="GET" action="<?php echo base_url('qa_stratus'); ?>">
 							<div class="row">
 								<div class="col-md-2">
-									<div class="form-group">
+									<!-- <div class="form-group">
 										<label>From Date (mm/dd/yyyy)</label>
-										<input type="text" id="from_date" name="from_date" value="<?php echo mysql2mmddyy($from_date); ?>" class="form-control">
+										<input type="text" id="from_date" name="from_date" value="<?php //echo mysql2mmddyy($from_date); ?>" class="form-control">
+									</div> -->
+									<div class="form-group">
+										<label>From Date (MM/DD/YYYY)</label>
+										<input type="text" id="from_date"      name="from_date" onchange="date_validation(this.value,'S')" value="<?php $date= mysql2mmddyy($from_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="start_date_error" style="color:red"></span>
 									</div>
 								</div>  
 								<div class="col-md-2"> 
-									<div class="form-group">
+									<!-- <div class="form-group">
 										<label>To Date (mm/dd/yyyy)</label>
-										<input type="text" id="to_date" name="to_date" value="<?php echo mysql2mmddyy($to_date); ?>" class="form-control">
-									</div> 
+										<input type="text" id="to_date" name="to_date" value="<?php //echo mysql2mmddyy($to_date); ?>" class="form-control">
+									</div>  -->
+									<div class="form-group">
+										<label>To Date (MM/DD/YYYY)</label>
+										<input type="text" id="to_date" name="to_date" onchange="date_validation(this.value,'E')"       value="<?php $date= mysql2mmddyy($to_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="end_date_error" style="color:red"></span>
+									</div>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -47,7 +57,7 @@
 									</div>
 								</div>
 								<div class="col-md-1" style="margin-top:20px">
-									<button class="btn btn-success waves-effect" a href="<?php echo base_url()?>qa_stratus" type="submit" id='btnView' name='btnView' value="View">View</button>
+									<button class="btn btn-success blains-effect" a href="<?php echo base_url()?>qa_stratus" type="submit" id='btnView' name='btnView' value="View">View</button>
 								</div>
 							</div>
 							
@@ -71,28 +81,9 @@
 									<div class="pull-left">Stratus Audit</div>
 									<?php if(is_access_qa_module()==true || get_login_type()=="client"){ 
 									$stratus_id=0; ?>
-									<!-- <div class="pull-right">
+									<div class="pull-right">
 										<a class="btn btn-primary" href="<?php echo base_url(); ?>qa_stratus/add_edit_stratus/<?php echo $stratus_id ?>">Add Audit</a>
-									</div>	 -->
-									<div class="col-sm-8">
-									<div class="form-group">
-										<?= $this->session->flashdata('Success');?>
-										<?php $stratAuditTimes=date('Y-m-d H:i:s'); ?>
-											<?= form_open( base_url('Qa_philipines_raw/import_stratus_excel_data'),array('method'=>'post','enctype'=>'multipart/form-data'));?>
-												<input class="upload-path" disabled />
-												<label class="upload">
-												<span>Upload Sample</span>
-												<input type="hidden" name="star_time" value="<?php echo $stratAuditTimes;?>">
-													<input type="file" id="upl_file2" name="file" required>  </label>
-												<input type="submit" id="uploadsubmitdata2" name="submit" class="btn-submit btn-primary">
-												<?= form_close();?>
-									</div>
-								</div>
-								<div class="col-sm-12">
-									<div class="form-group pull-right" > <a href="<?php echo base_url();?>Qa_philipines_raw/sample_stratus_download" class="btn btn-success" title="Download Sample stratus Excel" download="Sample stratus Excel.xlsx" style="margin-right:5px;">Sample Excel</a>
-									<a class="btn btn-primary" href="<?php echo base_url(); ?>qa_stratus/add_edit_stratus/<?php echo $stratus_id ?>">Add Audit</a>
-								</div>
-								</div>
+									</div>	
 									<?php } ?>
 								</h4>
 							</header>
@@ -198,28 +189,9 @@
 									<div class="pull-left">Stratus CSR Audit</div>
 									<?php if(is_access_qa_module()==true || get_login_type()=="client"){ 
 									$stratus_id=0; ?>
-									<!-- <div class="pull-right">
+									<div class="pull-right">
 										<a class="btn btn-primary" href="<?php echo base_url(); ?>qa_stratus/add_edit_stratus_csr/<?php echo $stratus_id ?>">Add Audit</a>
-									</div>	 -->
-										<div class="col-sm-8">
-									<div class="form-group">
-										<?= $this->session->flashdata('Success');?>
-										<?php $stratAuditTimes=date('Y-m-d H:i:s'); ?>
-											<?= form_open( base_url('Qa_philipines_raw/import_stratus_csr_excel_data'),array('method'=>'post','enctype'=>'multipart/form-data'));?>
-												<input class="upload-path" disabled />
-												<label class="upload">
-												<span>Upload Sample</span>
-												<input type="hidden" name="star_time" value="<?php echo $stratAuditTimes;?>">
-													<input type="file" id="upl_file2" name="file" required>  </label>
-												<input type="submit" id="uploadsubmitdata2" name="submit" class="btn-submit btn-primary">
-												<?= form_close();?>
-									</div>
-								</div>
-								<div class="col-sm-12">
-									<div class="form-group pull-right" > <a href="<?php echo base_url();?>Qa_philipines_raw/sample_stratus_csr_download" class="btn btn-success" title="Download Sample stratus_csr Excel" download="Sample stratus_csr Excel.xlsx" style="margin-right:5px;">Sample Excel</a>
-									<a class="btn btn-primary" href="<?php echo base_url(); ?>qa_stratus/add_edit_stratus_csr/<?php echo $stratus_id ?>">Add Audit</a>
-								</div>
-								</div>
+									</div>	
 									<?php } ?>
 								</h4>
 							</header>
@@ -325,28 +297,9 @@
 									<div class="pull-left">Stratus Outbound Audit</div>
 									<?php if(is_access_qa_module()==true || get_login_type()=="client"){ 
 									$stratus_id=0; ?>
-									<!-- <div class="pull-right">
+									<div class="pull-right">
 										<a class="btn btn-primary" href="<?php echo base_url(); ?>qa_stratus/add_edit_stratus_outbound/<?php echo $stratus_id ?>">Add Audit</a>
-									</div> -->	
-										<div class="col-sm-8">
-									<div class="form-group">
-										<?= $this->session->flashdata('Success');?>
-										<?php $stratAuditTimes=date('Y-m-d H:i:s'); ?>
-											<?= form_open( base_url('Qa_philipines_raw/import_stratus_outbound_excel_data'),array('method'=>'post','enctype'=>'multipart/form-data'));?>
-												<input class="upload-path" disabled />
-												<label class="upload">
-												<span>Upload Sample</span>
-												<input type="hidden" name="star_time" value="<?php echo $stratAuditTimes;?>">
-													<input type="file" id="upl_file2" name="file" required>  </label>
-												<input type="submit" id="uploadsubmitdata2" name="submit" class="btn-submit btn-primary">
-												<?= form_close();?>
-									</div>
-								</div>
-								<div class="col-sm-12">
-									<div class="form-group pull-right" > <a href="<?php echo base_url();?>Qa_philipines_raw/sample_stratus_outbound_download" class="btn btn-success" title="Download Sample stratus Excel" download="Sample at_voice Excel.xlsx" style="margin-right:5px;">Sample Excel</a>
-									<a class="btn btn-primary" href="<?php echo base_url(); ?>qa_stratus/add_edit_stratus_outbound/<?php echo $stratus_id ?>">Add Audit</a>
-								</div>
-								</div>
+									</div>	
 									<?php } ?>
 								</h4>
 							</header>
@@ -451,28 +404,9 @@
 									<div class="pull-left">Call Tech Audit</div>
 									<?php if(is_access_qa_module()==true || get_login_type()=="client"){ 
 									$stratus_id=0; ?>
-									<!-- <div class="pull-right">
+									<div class="pull-right">
 										<a class="btn btn-primary" href="<?php echo base_url(); ?>qa_stratus/add_edit_call_tech/<?php echo $stratus_id ?>">Add Audit</a>
-									</div>	 -->
-										<div class="col-sm-8">
-									<div class="form-group">
-										<?= $this->session->flashdata('Success');?>
-										<?php $stratAuditTimes=date('Y-m-d H:i:s'); ?>
-											<?= form_open( base_url('Qa_philipines_raw/import_stratus_call_tech_excel_data'),array('method'=>'post','enctype'=>'multipart/form-data'));?>
-												<input class="upload-path" disabled />
-												<label class="upload">
-												<span>Upload Sample</span>
-												<input type="hidden" name="star_time" value="<?php echo $stratAuditTimes;?>">
-													<input type="file" id="upl_file2" name="file" required>  </label>
-												<input type="submit" id="uploadsubmitdata2" name="submit" class="btn-submit btn-primary">
-												<?= form_close();?>
-									</div>
-								</div>
-								<div class="col-sm-12">
-									<div class="form-group pull-right" > <a href="<?php echo base_url();?>Qa_philipines_raw/sample_stratus_call_tech_download" class="btn btn-success" title="Download Sample stratus call_tech Excel" download="Sample stratus call_tech Excel.xlsx" style="margin-right:5px;">Sample Excel</a>
-									<a class="btn btn-primary" href="<?php echo base_url(); ?>qa_stratus/add_edit_call_tech/<?php echo $stratus_id ?>">Add Audit</a>
-								</div>
-								</div>
+									</div>	
 									<?php } ?>
 								</h4>
 							</header>
@@ -577,29 +511,9 @@
 									<div class="pull-left">Tech Monitoring Audit</div>
 									<?php if(is_access_qa_module()==true || get_login_type()=="client"){ 
 									$stratus_id=0; ?>
-								<!-- 	<div class="pull-right">
+									<div class="pull-right">
 										<a class="btn btn-primary" href="<?php echo base_url(); ?>qa_stratus/add_edit_monitoring_tech/<?php echo $stratus_id ?>">Add Audit</a>
-									</div> -->
-
-										<div class="col-sm-8">
-									<div class="form-group">
-										<?= $this->session->flashdata('Success');?>
-										<?php $stratAuditTimes=date('Y-m-d H:i:s'); ?>
-											<?= form_open( base_url('Qa_philipines_raw/import_stratus_monitoring_tech_excel_data'),array('method'=>'post','enctype'=>'multipart/form-data'));?>
-												<input class="upload-path" disabled />
-												<label class="upload">
-												<span>Upload Sample</span>
-												<input type="hidden" name="star_time" value="<?php echo $stratAuditTimes;?>">
-													<input type="file" id="upl_file2" name="file" required>  </label>
-												<input type="submit" id="uploadsubmitdata2" name="submit" class="btn-submit btn-primary">
-												<?= form_close();?>
-									</div>
-								</div>
-								<div class="col-sm-12">
-									<div class="form-group pull-right" > <a href="<?php echo base_url();?>Qa_philipines_raw/sample_stratus_monitoring_tech_download" class="btn btn-success" title="Download Sample stratus monitoring_tech Excel" download="Sample stratus monitoring_tech Excel.xlsx" style="margin-right:5px;">Sample Excel</a>
-									<a class="btn btn-primary" href="<?php echo base_url(); ?>qa_stratus/add_edit_monitoring_tech/<?php echo $stratus_id ?>">Add Audit</a>
-								</div>
-								</div>	
+									</div>	
 									<?php } ?>
 								</h4>
 							</header>

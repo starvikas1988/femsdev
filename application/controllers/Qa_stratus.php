@@ -12,7 +12,8 @@
 	private function stratus_upload_files($files,$path)
     {
         $config['upload_path'] = $path;
-		$config['allowed_types'] = 'mp3|avi|mp4|wmv|wav';
+		//$config['allowed_types'] = 'mp3|avi|mp4|wmv|wav';
+		$config['allowed_types'] = 'm4a|mp4|mp3|wav';
 		$config['max_size'] = '2024000';
 		$this->load->library('upload', $config);
 		$this->upload->initialize($config);
@@ -48,6 +49,49 @@
         }
         return $images;
     }
+
+	// private function park_west_upload_files($files,$path)// this is for file uploaging purpose
+	// {
+	// 	$result=$this->createPath($path);
+	// 	if($result){
+	// 	$config['upload_path'] = $path;
+	// 	$config['allowed_types'] = '*';
+
+	// 	  $config['allowed_types'] = 'm4a|mp4|mp3|wav';
+	// 	  $config['max_size'] = '2024000';
+	// 	  $this->load->library('upload', $config);
+	// 	  $this->upload->initialize($config);
+	// 	  $images = array();
+	// 	  foreach ($files['name'] as $key => $image) {
+	// 	$_FILES['uFiles']['name']= $files['name'][$key];
+	// 	$_FILES['uFiles']['type']= $files['type'][$key];
+	// 	$_FILES['uFiles']['tmp_name']= $files['tmp_name'][$key];
+	// 	$_FILES['uFiles']['error']= $files['error'][$key];
+	// 	$_FILES['uFiles']['size']= $files['size'][$key];
+
+	// 	      if ($this->upload->do_upload('uFiles')) {
+	// 	  $info = $this->upload->data();
+	// 	  $ext = $info['file_ext'];
+	// 	  $file_path = $info['file_path'];
+	// 	  $full_path = $info['full_path'];
+	// 	  $file_name = $info['file_name'];
+	// 	  if(strtolower($ext)== '.wav'){
+
+	// 	    $file_name = str_replace(".","_",$file_name).".mp3";
+	// 	    $new_path = $file_path.$file_name;
+	// 	    $comdFile=FCPATH."assets/script/wavtomp3.sh '$full_path' '$new_path'";
+	// 	    $output = shell_exec( $comdFile);
+	// 	    sleep(2);
+	// 	  }
+	// 	  $images[] = $file_name;
+	// 	      }else{
+	// 	          return false;
+	// 	      }
+	// 	  }
+	// 	  return $images;
+	// 	}
+	// }
+
 
 
 	public function index(){
@@ -205,6 +249,91 @@
 					}
 					$this->db->where('id', $rowid);
 					$this->db->update('qa_stratus_feedback',$add_array);
+					/*******************Fatal Call Email Send functionality added on 14-12-22 START ***********************/
+					if($field_array['overall_score'] == 0){
+						$tablename = "qa_stratus_feedback";
+						$sql = "SELECT tname.*, ip.email_id_off, ip_tl.email_id_off as tl_email, concat(s.fname, ' ', s.lname) as fullname,
+							(SELECT concat(tls.fname, ' ', tls.lname) as tl_fullname FROM signin tls WHERE tls.id=tname.tl_id) as tl_fullname
+							FROM $tablename tname
+							LEFT JOIN info_personal ip ON ip.user_id=tname.agent_id 
+							LEFT JOIN signin s ON s.id=tname.agent_id
+							LEFT JOIN signin tl ON tl.id = tname.tl_id
+							LEFT JOIN info_personal ip_tl ON ip_tl.user_id = tname.tl_id
+							WHERE tname.id=$rowid";
+						$result= $this->Common_model->get_query_row_array($sql);				
+						$sqlParam ="SELECT process_id,params_columns, fatal_param, param_column_desc FROM qa_defect where table_name='$tablename'"; 
+						$resultParams = $this->Common_model->get_query_row_array($sqlParam);
+						
+						$process = floor($resultParams['process_id']);
+						$sqlProcess ="SELECT name FROM process where id='$process'"; 
+						$resultProcess = $this->Common_model->get_query_row_array($sqlProcess);
+						
+						$params = explode(",", $resultParams['params_columns']);
+						$fatal_params = explode(",", $resultParams['fatal_param']);
+						$descArr = explode(",", $resultParams['param_column_desc']);
+						
+						$msgTable = "<Table BORDER=1>";
+						$msgTable .= "<TR><TH>SL.</TH> <TH>CALL AUDIT PARAMETERS</TH><TH>QA Rating</TH> <TH>QA Remarks</TH></TR>";
+						
+						$i=1;
+						$j=0;
+						foreach($params as $par){
+							//echo $str = str_replace('_', ' ', $par)."<BR>";
+							if($result[$par]=='No'){
+								$msgTable .= "<TR><TD>".$i."</TD><TD>". $descArr[$j]."</TD> <TD style='color:#FF0000'>".$result[$par]."</TD><TD>".$result['cmt'.$i]."</TD></TR>";
+							}else{
+								$msgTable .= "<TR><TD>".$i."</TD><TD>". $descArr[$j]."</TD> <TD>".$result[$par]."</TD><TD>".$result['cmt'.$i]."</TD></TR>";
+							}
+							
+							$i++;
+							$j++;
+						}
+						///////////////////////////
+						//$j=1;
+						/* if(!empty($fatal_params)){
+							foreach($fatal_params as $fatal_par){
+								if(!empty($fatal_par)){
+								$msgTable .= "<TR><TD>".$i."</TD><TD style='color:#FF0000'>".ucwords( str_replace('_', ' ',$fatal_par))."</TD> <TD>".$result[$fatal_par]."</TD><TD>".$result['cmt'.($i-10)]."</TD></TR>";
+								
+								$i++;
+								}
+							}
+						} */
+						$msgTable .= "<TR><TD colspan='3'>Overall Score</TD> <TD>".$result['overall_score']."%</TD></TR>";
+						$msgTable .= "</Table>";
+
+						$eccA=array();
+						//$to = $result['tl_email']; // Have to open when email will trigger to the Respective TL of the Agent
+						$to = 'cherry.daluraya@fusionbposervices.com,sherryl.demape@fusionbposervices.com,vincent.butaya@fusionbposervices.com,Zephaniah.Satiembre@fusionbposervices.com,bryan.carpio@fusionbposervices.com,Acha.Joseph@fusionbposervices.com';
+						$ebody = "Hello ". $result['tl_fullname'].",<br>";
+						$ebody .= "<p>Agent Name : ".$result['fullname']."</p>";
+						$ebody .= "<p>Order Number :  ".$result['order_number']."</p>";
+						$ebody .= "<p>Call Date : ".$result['call_date']."</p>";
+						$ebody .= "<p>Audit Date time : ".ConvServerToLocal($result['entry_date'])."</p>";
+						$ebody .= "<p>Call Summary : ".$result['call_summary']."</p>";
+						$ebody .= "<p>Feedback : ".$result['feedback']."</p><br><br>";
+						$ebody .= "<p>Please listen the call from the MWP Tool and share feedback acceptancy :</p>";
+						$ebody .=  $msgTable;
+						$ebody .= "<p>Regards,</p>";
+						$ebody .= "<p>MWP Team</p>";
+						$esubject = "Fatal Call Alert - "." For Process - ".$resultProcess['name'].", Agent Name - ".$result['fullname']." Audit Date - ".$result['audit_date'];
+						$eccA[]="Bompalli.Somasundaram@omindtech.com";
+						$eccA[]="deb.dasgupta@omindtech.com";
+						$eccA[]="sumitra.bagchi@omindtech.com";
+						$eccA[]="anshuman.sarkar@fusionbposervices.com";
+						/* $eccA[]="danish.khan@fusionbposervices.com";
+						$eccA[]="Faisal.Anwar@fusionbposervices.com"; */
+						$ecc = implode(',',$eccA);
+						$path = "";
+						$from_email="";
+						$from_name="";
+						//echo $esubject."<br>";
+						//echo $ebody."<br>";
+						//exit;
+						//$send = $this->Email_model->send_email_sox("",$to, $ecc, $ebody, $esubject, $path, $from_email, $from_name, $isBcc="Y");
+						unset($eccA);
+					}
+					/*******************Fatal Call Email Send functionality added on 14-12-22 END ***********************/
 					
 				}else{
 					
@@ -299,7 +428,91 @@
 					}
 					$this->db->where('id', $rowid);
 					$this->db->update('qa_stratus_csr_feedback',$add_array);
-					
+					/*******************Fatal Call Email Send functionality added on 14-12-22 START ***********************/
+					if($field_array['overall_score'] == 0){
+						$tablename = "qa_stratus_csr_feedback";
+						$sql = "SELECT tname.*, ip.email_id_off, ip_tl.email_id_off as tl_email, concat(s.fname, ' ', s.lname) as fullname,
+							(SELECT concat(tls.fname, ' ', tls.lname) as tl_fullname FROM signin tls WHERE tls.id=tname.tl_id) as tl_fullname
+							FROM $tablename tname
+							LEFT JOIN info_personal ip ON ip.user_id=tname.agent_id 
+							LEFT JOIN signin s ON s.id=tname.agent_id
+							LEFT JOIN signin tl ON tl.id = tname.tl_id
+							LEFT JOIN info_personal ip_tl ON ip_tl.user_id = tname.tl_id
+							WHERE tname.id=$rowid";
+						$result= $this->Common_model->get_query_row_array($sql);				
+						$sqlParam ="SELECT process_id,params_columns, fatal_param, param_column_desc FROM qa_defect where table_name='$tablename'"; 
+						$resultParams = $this->Common_model->get_query_row_array($sqlParam);
+						
+						$process = floor($resultParams['process_id']);
+						$sqlProcess ="SELECT name FROM process where id='$process'"; 
+						$resultProcess = $this->Common_model->get_query_row_array($sqlProcess);
+						
+						$params = explode(",", $resultParams['params_columns']);
+						$fatal_params = explode(",", $resultParams['fatal_param']);
+						$descArr = explode(",", $resultParams['param_column_desc']);
+						
+						$msgTable = "<Table BORDER=1>";
+						$msgTable .= "<TR><TH>SL.</TH> <TH>CALL AUDIT PARAMETERS</TH><TH>QA Rating</TH> <TH>QA Remarks</TH></TR>";
+						
+						$i=1;
+						$j=0;
+						foreach($params as $par){
+							//echo $str = str_replace('_', ' ', $par)."<BR>";
+							if($result[$par]=='No'){
+								$msgTable .= "<TR><TD>".$i."</TD><TD>". $descArr[$j]."</TD> <TD style='color:#FF0000'>".$result[$par]."</TD><TD>".$result['cmt'.$i]."</TD></TR>";
+							}else{
+								$msgTable .= "<TR><TD>".$i."</TD><TD>". $descArr[$j]."</TD> <TD>".$result[$par]."</TD><TD>".$result['cmt'.$i]."</TD></TR>";
+							}
+							
+							$i++;
+							$j++;
+						}
+						///////////////////////////
+						//$j=1;
+						/* if(!empty($fatal_params)){
+							foreach($fatal_params as $fatal_par){
+								if(!empty($fatal_par)){
+								$msgTable .= "<TR><TD>".$i."</TD><TD style='color:#FF0000'>".ucwords( str_replace('_', ' ',$fatal_par))."</TD> <TD>".$result[$fatal_par]."</TD><TD>".$result['cmt'.($i-10)]."</TD></TR>";
+								
+								$i++;
+								}
+							}
+						} */
+						$msgTable .= "<TR><TD colspan='3'>Overall Score</TD> <TD>".$result['overall_score']."%</TD></TR>";
+						$msgTable .= "</Table>";
+
+						$eccA=array();
+						//$to = $result['tl_email']; // Have to open when email will trigger to the Respective TL of the Agent
+						$to = 'cherry.daluraya@fusionbposervices.com,sherryl.demape@fusionbposervices.com,vincent.butaya@fusionbposervices.com,Zephaniah.Satiembre@fusionbposervices.com,bryan.carpio@fusionbposervices.com,Acha.Joseph@fusionbposervices.com';
+						$ebody = "Hello ". $result['tl_fullname'].",<br>";
+						$ebody .= "<p>Agent Name : ".$result['fullname']."</p>";
+						$ebody .= "<p>Order Number :  ".$result['order_number']."</p>";
+						$ebody .= "<p>Call Date : ".$result['call_date']."</p>";
+						$ebody .= "<p>Audit Date time : ".ConvServerToLocal($result['entry_date'])."</p>";
+						$ebody .= "<p>Call Summary : ".$result['call_summary']."</p>";
+						$ebody .= "<p>Feedback : ".$result['feedback']."</p><br><br>";
+						$ebody .= "<p>Please listen the call from the MWP Tool and share feedback acceptancy :</p>";
+						$ebody .=  $msgTable;
+						$ebody .= "<p>Regards,</p>";
+						$ebody .= "<p>MWP Team</p>";
+						$esubject = "Fatal Call Alert - "." For Process - ".$resultProcess['name'].", Agent Name - ".$result['fullname']." Audit Date - ".$result['audit_date'];
+						$eccA[]="Bompalli.Somasundaram@omindtech.com";
+						$eccA[]="deb.dasgupta@omindtech.com";
+						$eccA[]="sumitra.bagchi@omindtech.com";
+						$eccA[]="anshuman.sarkar@fusionbposervices.com";
+						/* $eccA[]="danish.khan@fusionbposervices.com";
+						$eccA[]="Faisal.Anwar@fusionbposervices.com"; */
+						$ecc = implode(',',$eccA);
+						$path = "";
+						$from_email="";
+						$from_name="";
+						//echo $esubject."<br>";
+						//echo $ebody."<br>";
+						//exit;
+						//$send = $this->Email_model->send_email_sox("",$to, $ecc, $ebody, $esubject, $path, $from_email, $from_name, $isBcc="Y");
+						unset($eccA);
+					}
+					/*******************Fatal Call Email Send functionality added on 14-12-22 END ***********************/
 				}else{
 					
 					$field_array1=$this->input->post('data');
@@ -393,6 +606,91 @@
 					}
 					$this->db->where('id', $rowid);
 					$this->db->update('qa_stratus_outbound_feedback',$add_array);
+					/*******************Fatal Call Email Send functionality added on 14-12-22 START ***********************/
+					if($field_array['overall_score'] == 0){
+						$tablename = "qa_stratus_outbound_feedback";
+						$sql = "SELECT tname.*, ip.email_id_off, ip_tl.email_id_off as tl_email, concat(s.fname, ' ', s.lname) as fullname,
+							(SELECT concat(tls.fname, ' ', tls.lname) as tl_fullname FROM signin tls WHERE tls.id=tname.tl_id) as tl_fullname
+							FROM $tablename tname
+							LEFT JOIN info_personal ip ON ip.user_id=tname.agent_id 
+							LEFT JOIN signin s ON s.id=tname.agent_id
+							LEFT JOIN signin tl ON tl.id = tname.tl_id
+							LEFT JOIN info_personal ip_tl ON ip_tl.user_id = tname.tl_id
+							WHERE tname.id=$rowid";
+						$result= $this->Common_model->get_query_row_array($sql);				
+						$sqlParam ="SELECT process_id,params_columns, fatal_param, param_column_desc FROM qa_defect where table_name='$tablename'"; 
+						$resultParams = $this->Common_model->get_query_row_array($sqlParam);
+						
+						$process = floor($resultParams['process_id']);
+						$sqlProcess ="SELECT name FROM process where id='$process'"; 
+						$resultProcess = $this->Common_model->get_query_row_array($sqlProcess);
+						
+						$params = explode(",", $resultParams['params_columns']);
+						$fatal_params = explode(",", $resultParams['fatal_param']);
+						$descArr = explode(",", $resultParams['param_column_desc']);
+						
+						$msgTable = "<Table BORDER=1>";
+						$msgTable .= "<TR><TH>SL.</TH> <TH>CALL AUDIT PARAMETERS</TH><TH>QA Rating</TH> <TH>QA Remarks</TH></TR>";
+						
+						$i=1;
+						$j=0;
+						foreach($params as $par){
+							//echo $str = str_replace('_', ' ', $par)."<BR>";
+							if($result[$par]=='No'){
+								$msgTable .= "<TR><TD>".$i."</TD><TD>". $descArr[$j]."</TD> <TD style='color:#FF0000'>".$result[$par]."</TD><TD>".$result['cmt'.$i]."</TD></TR>";
+							}else{
+								$msgTable .= "<TR><TD>".$i."</TD><TD>". $descArr[$j]."</TD> <TD>".$result[$par]."</TD><TD>".$result['cmt'.$i]."</TD></TR>";
+							}
+							
+							$i++;
+							$j++;
+						}
+						///////////////////////////
+						//$j=1;
+						/* if(!empty($fatal_params)){
+							foreach($fatal_params as $fatal_par){
+								if(!empty($fatal_par)){
+								$msgTable .= "<TR><TD>".$i."</TD><TD style='color:#FF0000'>".ucwords( str_replace('_', ' ',$fatal_par))."</TD> <TD>".$result[$fatal_par]."</TD><TD>".$result['cmt'.($i-10)]."</TD></TR>";
+								
+								$i++;
+								}
+							}
+						} */
+						$msgTable .= "<TR><TD colspan='3'>Overall Score</TD> <TD>".$result['overall_score']."%</TD></TR>";
+						$msgTable .= "</Table>";
+
+						$eccA=array();
+						//$to = $result['tl_email']; // Have to open when email will trigger to the Respective TL of the Agent
+						$to = 'cherry.daluraya@fusionbposervices.com,sherryl.demape@fusionbposervices.com,vincent.butaya@fusionbposervices.com,Zephaniah.Satiembre@fusionbposervices.com,bryan.carpio@fusionbposervices.com,Acha.Joseph@fusionbposervices.com';
+						$ebody = "Hello ". $result['tl_fullname'].",<br>";
+						$ebody .= "<p>Agent Name : ".$result['fullname']."</p>";
+						$ebody .= "<p>Order Number :  ".$result['order_number']."</p>";
+						$ebody .= "<p>Call Date : ".$result['call_date']."</p>";
+						$ebody .= "<p>Audit Date time : ".ConvServerToLocal($result['entry_date'])."</p>";
+						$ebody .= "<p>Call Summary : ".$result['call_summary']."</p>";
+						$ebody .= "<p>Feedback : ".$result['feedback']."</p><br><br>";
+						$ebody .= "<p>Please listen the call from the MWP Tool and share feedback acceptancy :</p>";
+						$ebody .=  $msgTable;
+						$ebody .= "<p>Regards,</p>";
+						$ebody .= "<p>MWP Team</p>";
+						$esubject = "Fatal Call Alert - "." For Process - ".$resultProcess['name'].", Agent Name - ".$result['fullname']." Audit Date - ".$result['audit_date'];
+						$eccA[]="Bompalli.Somasundaram@omindtech.com";
+						$eccA[]="deb.dasgupta@omindtech.com";
+						$eccA[]="sumitra.bagchi@omindtech.com";
+						$eccA[]="anshuman.sarkar@fusionbposervices.com";
+						/* $eccA[]="danish.khan@fusionbposervices.com";
+						$eccA[]="Faisal.Anwar@fusionbposervices.com"; */
+						$ecc = implode(',',$eccA);
+						$path = "";
+						$from_email="";
+						$from_name="";
+						//echo $esubject."<br>";
+						//echo $ebody."<br>";
+						//exit;
+						//$send = $this->Email_model->send_email_sox("",$to, $ecc, $ebody, $esubject, $path, $from_email, $from_name, $isBcc="Y");
+						unset($eccA);
+					}
+					/*******************Fatal Call Email Send functionality added on 14-12-22 END ***********************/
 					
 				}else{
 					
@@ -487,6 +785,91 @@
 					}
 					$this->db->where('id', $rowid);
 					$this->db->update('qa_stratus_calltech_feedback',$add_array);
+					/*******************Fatal Call Email Send functionality added on 14-12-22 START ***********************/
+					if($field_array['overall_score'] == 0){
+						$tablename = "qa_stratus_calltech_feedback";
+						$sql = "SELECT tname.*, ip.email_id_off, ip_tl.email_id_off as tl_email, concat(s.fname, ' ', s.lname) as fullname,
+							(SELECT concat(tls.fname, ' ', tls.lname) as tl_fullname FROM signin tls WHERE tls.id=tname.tl_id) as tl_fullname
+							FROM $tablename tname
+							LEFT JOIN info_personal ip ON ip.user_id=tname.agent_id 
+							LEFT JOIN signin s ON s.id=tname.agent_id
+							LEFT JOIN signin tl ON tl.id = tname.tl_id
+							LEFT JOIN info_personal ip_tl ON ip_tl.user_id = tname.tl_id
+							WHERE tname.id=$rowid";
+						$result= $this->Common_model->get_query_row_array($sql);				
+						$sqlParam ="SELECT process_id,params_columns, fatal_param, param_column_desc FROM qa_defect where table_name='$tablename'"; 
+						$resultParams = $this->Common_model->get_query_row_array($sqlParam);
+						
+						$process = floor($resultParams['process_id']);
+						$sqlProcess ="SELECT name FROM process where id='$process'"; 
+						$resultProcess = $this->Common_model->get_query_row_array($sqlProcess);
+						
+						$params = explode(",", $resultParams['params_columns']);
+						$fatal_params = explode(",", $resultParams['fatal_param']);
+						$descArr = explode(",", $resultParams['param_column_desc']);
+						
+						$msgTable = "<Table BORDER=1>";
+						$msgTable .= "<TR><TH>SL.</TH> <TH>CALL AUDIT PARAMETERS</TH><TH>QA Rating</TH> <TH>QA Remarks</TH></TR>";
+						
+						$i=1;
+						$j=0;
+						foreach($params as $par){
+							//echo $str = str_replace('_', ' ', $par)."<BR>";
+							if($result[$par]=='No'){
+								$msgTable .= "<TR><TD>".$i."</TD><TD>". $descArr[$j]."</TD> <TD style='color:#FF0000'>".$result[$par]."</TD><TD>".$result['cmt'.$i]."</TD></TR>";
+							}else{
+								$msgTable .= "<TR><TD>".$i."</TD><TD>". $descArr[$j]."</TD> <TD>".$result[$par]."</TD><TD>".$result['cmt'.$i]."</TD></TR>";
+							}
+							
+							$i++;
+							$j++;
+						}
+						///////////////////////////
+						//$j=1;
+						/* if(!empty($fatal_params)){
+							foreach($fatal_params as $fatal_par){
+								if(!empty($fatal_par)){
+								$msgTable .= "<TR><TD>".$i."</TD><TD style='color:#FF0000'>".ucwords( str_replace('_', ' ',$fatal_par))."</TD> <TD>".$result[$fatal_par]."</TD><TD>".$result['cmt'.($i-10)]."</TD></TR>";
+								
+								$i++;
+								}
+							}
+						} */
+						$msgTable .= "<TR><TD colspan='3'>Overall Score</TD> <TD>".$result['overall_score']."%</TD></TR>";
+						$msgTable .= "</Table>";
+
+						$eccA=array();
+						//$to = $result['tl_email']; // Have to open when email will trigger to the Respective TL of the Agent
+						$to = 'cherry.daluraya@fusionbposervices.com,sherryl.demape@fusionbposervices.com,vincent.butaya@fusionbposervices.com,Zephaniah.Satiembre@fusionbposervices.com,bryan.carpio@fusionbposervices.com,Acha.Joseph@fusionbposervices.com';
+						$ebody = "Hello ". $result['tl_fullname'].",<br>";
+						$ebody .= "<p>Agent Name : ".$result['fullname']."</p>";
+						$ebody .= "<p>Order Number :  ".$result['order_number']."</p>";
+						$ebody .= "<p>Call Date : ".$result['call_date']."</p>";
+						$ebody .= "<p>Audit Date time : ".ConvServerToLocal($result['entry_date'])."</p>";
+						$ebody .= "<p>Call Summary : ".$result['call_summary']."</p>";
+						$ebody .= "<p>Feedback : ".$result['feedback']."</p><br><br>";
+						$ebody .= "<p>Please listen the call from the MWP Tool and share feedback acceptancy :</p>";
+						$ebody .=  $msgTable;
+						$ebody .= "<p>Regards,</p>";
+						$ebody .= "<p>MWP Team</p>";
+						$esubject = "Fatal Call Alert - "." For Process - ".$resultProcess['name'].", Agent Name - ".$result['fullname']." Audit Date - ".$result['audit_date'];
+						$eccA[]="Bompalli.Somasundaram@omindtech.com";
+						$eccA[]="deb.dasgupta@omindtech.com";
+						$eccA[]="sumitra.bagchi@omindtech.com";
+						$eccA[]="anshuman.sarkar@fusionbposervices.com";
+						/* $eccA[]="danish.khan@fusionbposervices.com";
+						$eccA[]="Faisal.Anwar@fusionbposervices.com"; */
+						$ecc = implode(',',$eccA);
+						$path = "";
+						$from_email="";
+						$from_name="";
+						//echo $esubject."<br>";
+						//echo $ebody."<br>";
+						//exit;
+						//$send = $this->Email_model->send_email_sox("",$to, $ecc, $ebody, $esubject, $path, $from_email, $from_name, $isBcc="Y");
+						unset($eccA);
+					}
+					/*******************Fatal Call Email Send functionality added on 14-12-22 END ***********************/
 					
 				}else{
 					
@@ -581,11 +964,105 @@
 					}
 					$this->db->where('id', $rowid);
 					$this->db->update('qa_stratus_monitoringtech_feedback',$add_array);
+					/*******************Fatal Call Email Send functionality added on 14-12-22 START ***********************/
+					if($field_array['overall_score'] == 0){
+						$tablename = "qa_stratus_monitoringtech_feedback";
+						$sql = "SELECT tname.*, ip.email_id_off, ip_tl.email_id_off as tl_email, concat(s.fname, ' ', s.lname) as fullname,
+							(SELECT concat(tls.fname, ' ', tls.lname) as tl_fullname FROM signin tls WHERE tls.id=tname.tl_id) as tl_fullname
+							FROM $tablename tname
+							LEFT JOIN info_personal ip ON ip.user_id=tname.agent_id 
+							LEFT JOIN signin s ON s.id=tname.agent_id
+							LEFT JOIN signin tl ON tl.id = tname.tl_id
+							LEFT JOIN info_personal ip_tl ON ip_tl.user_id = tname.tl_id
+							WHERE tname.id=$rowid";
+						$result= $this->Common_model->get_query_row_array($sql);				
+						$sqlParam ="SELECT process_id,params_columns, fatal_param, param_column_desc FROM qa_defect where table_name='$tablename'"; 
+						$resultParams = $this->Common_model->get_query_row_array($sqlParam);
+						
+						$process = floor($resultParams['process_id']);
+						$sqlProcess ="SELECT name FROM process where id='$process'"; 
+						$resultProcess = $this->Common_model->get_query_row_array($sqlProcess);
+						
+						$params = explode(",", $resultParams['params_columns']);
+						$fatal_params = explode(",", $resultParams['fatal_param']);
+						$descArr = explode(",", $resultParams['param_column_desc']);
+						
+						$msgTable = "<Table BORDER=1>";
+						$msgTable .= "<TR><TH>SL.</TH> <TH>CALL AUDIT PARAMETERS</TH><TH>QA Rating</TH> <TH>QA Remarks</TH></TR>";
+						
+						$i=1;
+						$j=0;
+						foreach($params as $par){
+							//echo $str = str_replace('_', ' ', $par)."<BR>";
+							if($result[$par]=='No'){
+								$msgTable .= "<TR><TD>".$i."</TD><TD>". $descArr[$j]."</TD> <TD style='color:#FF0000'>".$result[$par]."</TD><TD>".$result['cmt'.$i]."</TD></TR>";
+							}else{
+								$msgTable .= "<TR><TD>".$i."</TD><TD>". $descArr[$j]."</TD> <TD>".$result[$par]."</TD><TD>".$result['cmt'.$i]."</TD></TR>";
+							}
+							
+							$i++;
+							$j++;
+						}
+						///////////////////////////
+						//$j=1;
+						/* if(!empty($fatal_params)){
+							foreach($fatal_params as $fatal_par){
+								if(!empty($fatal_par)){
+								$msgTable .= "<TR><TD>".$i."</TD><TD style='color:#FF0000'>".ucwords( str_replace('_', ' ',$fatal_par))."</TD> <TD>".$result[$fatal_par]."</TD><TD>".$result['cmt'.($i-10)]."</TD></TR>";
+								
+								$i++;
+								}
+							}
+						} */
+						$msgTable .= "<TR><TD colspan='3'>Overall Score</TD> <TD>".$result['overall_score']."%</TD></TR>";
+						$msgTable .= "</Table>";
+
+						$eccA=array();
+						//$to = $result['tl_email']; // Have to open when email will trigger to the Respective TL of the Agent
+						$to = 'cherry.daluraya@fusionbposervices.com,sherryl.demape@fusionbposervices.com,vincent.butaya@fusionbposervices.com,Zephaniah.Satiembre@fusionbposervices.com,bryan.carpio@fusionbposervices.com,Acha.Joseph@fusionbposervices.com';
+						$ebody = "Hello ". $result['tl_fullname'].",<br>";
+						$ebody .= "<p>Agent Name : ".$result['fullname']."</p>";
+						$ebody .= "<p>Order Number :  ".$result['order_number']."</p>";
+						$ebody .= "<p>Call Date : ".$result['call_date']."</p>";
+						$ebody .= "<p>Audit Date time : ".ConvServerToLocal($result['entry_date'])."</p>";
+						$ebody .= "<p>Call Summary : ".$result['call_summary']."</p>";
+						$ebody .= "<p>Feedback : ".$result['feedback']."</p><br><br>";
+						$ebody .= "<p>Please listen the call from the MWP Tool and share feedback acceptancy :</p>";
+						$ebody .=  $msgTable;
+						$ebody .= "<p>Regards,</p>";
+						$ebody .= "<p>MWP Team</p>";
+						$esubject = "Fatal Call Alert - "." For Process - ".$resultProcess['name'].", Agent Name - ".$result['fullname']." Audit Date - ".$result['audit_date'];
+						$eccA[]="Bompalli.Somasundaram@omindtech.com";
+						$eccA[]="deb.dasgupta@omindtech.com";
+						$eccA[]="sumitra.bagchi@omindtech.com";
+						$eccA[]="anshuman.sarkar@fusionbposervices.com";
+						/* $eccA[]="danish.khan@fusionbposervices.com";
+						$eccA[]="Faisal.Anwar@fusionbposervices.com"; */
+						$ecc = implode(',',$eccA);
+						$path = "";
+						$from_email="";
+						$from_name="";
+						//echo $esubject."<br>";
+						//echo $ebody."<br>";
+						//exit;
+						//$send = $this->Email_model->send_email_sox("",$to, $ecc, $ebody, $esubject, $path, $from_email, $from_name, $isBcc="Y");
+						unset($eccA);
+					}
+					/*******************Fatal Call Email Send functionality added on 14-12-22 END ***********************/
 					
 				}else{
 					
 					$field_array1=$this->input->post('data');
 					$field_array1['call_date']=mmddyy2mysql($this->input->post('call_date'));
+
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						if(!file_exists("./qa_files/qa_stratus/")){
+							mkdir("./qa_files/qa_stratus/");
+						}
+						$a = $this->stratus_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_stratus/' );
+						$field_array1['attach_file'] = implode( ',', $a );
+					}
+
 					$this->db->where('id', $monitoringtech_id);
 					$this->db->update('qa_stratus_monitoringtech_feedback',$field_array1);
 				/////////////

@@ -95,8 +95,10 @@ function stratus_calc() {
     ////////////////Fatal  Score ///////////////////
     if ($('#stratusAF1').val() == 'No' || $('#stratusAF2').val() == 'No' || $('#stratusAF3').val() == 'Yes') {
         $('#stratus_overall_score').val(0);
-    }else{
+
+    } else {
         $('#stratus_overall_score').val(quality_score_percent + '%');
+       
     }
 
 /////////////Monitoring Tech /////////////////////////
@@ -525,12 +527,72 @@ $(document).on('change', '.loanxm_point', function() {
 loanxm_calc();
 </script>
 
+<script>
+$('INPUT[type="file"]').change(function () {
+    var ext = this.value.match(/\.(.+)$/)[1];
+    switch (ext) {
+        case 'mp4':
+        case 'mp3':
+        case 'wav':
+        case 'm4a':
+            $('#qaformsubmit').attr('disabled', false);
+        break;
+        default:
+            alert('This is not an allowed file type. Please upload allowed file type like [m4a,mp4,mp3,wav]');
+            this.value = '';
+    }
+});
+</script>
+
+<script type="text/javascript">
+    
+    function date_validation(val,type){
+    // alert(val);
+        $(".end_date_error").html("");
+        $(".start_date_error").html("");
+        if(type=='E'){
+        var start_date=$("#from_date").val();
+        //if(val<start_date)
+        if(Date.parse(val) < Date.parse(start_date))
+        {
+            $(".end_date_error").html("To Date must be greater or equal to From Date");
+             $(".blains-effect").attr("disabled",true);
+             $(".blains-effect").css('cursor', 'no-drop');
+        }
+        else{
+             $(".blains-effect").attr("disabled",false);
+             $(".blains-effect").css('cursor', 'pointer');
+            }
+        }
+        else{
+            var end_date=$("#to_date").val();
+        //if(val>end_date && end_date!='')
+        
+        if(Date.parse(val) > Date.parse(end_date) && end_date!='')
+        {
+            $(".start_date_error").html("From  Date  must be less or equal to  To Date");
+             $(".blains-effect").attr("disabled",true);
+             $(".blains-effect").css('cursor', 'no-drop');
+            
+        }
+        else{
+             $(".blains-effect").attr("disabled",false);
+             $(".blains-effect").css('cursor', 'pointer');
+            }
+
+        }
+    }
+</script>
+
 
 <script>
 $(document).ready(function() {
 
     $("#audit_date").datepicker();
-    $("#call_date").datepicker();
+   // $("#call_date").datepicker();
+    $("#call_date").datepicker({maxDate: new Date() });
+    //$("#dob_date").datepicker();
+    $("#dob_date").datepicker({maxDate: new Date() });
     $("#booking_date").datepicker();
     $("#video_duration").timepicker({
         timeFormat: 'HH:mm:ss'
@@ -538,8 +600,10 @@ $(document).ready(function() {
     $("#call_duration").timepicker({
         timeFormat: 'HH:mm:ss'
     });
-    $("#from_date").datepicker();
-    $("#to_date").datepicker();
+    //$("#from_date").datepicker();
+    //$("#to_date").datepicker();
+    $("#from_date").datepicker({maxDate: new Date() });
+    $("#to_date").datepicker({maxDate: new Date() });
     $("#go_live_date").datepicker();
 
 
