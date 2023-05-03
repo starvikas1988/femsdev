@@ -637,6 +637,18 @@ $(document).ready(function() {
                 $('#tl_name').empty();
                 $('#tl_name').append($('#tl_name').val(''));
                 //for (var i in json_obj) $('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
+
+                for (var i in json_obj){
+                    if($('#tl_name').val(json_obj[i].tl_name)!=''){
+                        console.log(json_obj[0].tl_name);
+                        $('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
+
+                    }else{
+                        alert("Agent is not assigned any TL.Please assign one from manage user section or contact your HR/Manager");
+                    }
+                    
+                } 
+                
                 for (var i in json_obj) $('#tl_id').append($('#tl_id').val(json_obj[i]
                     .assigned_to));
                 for (var i in json_obj) $('#fusion_id').append($('#fusion_id').val(json_obj[

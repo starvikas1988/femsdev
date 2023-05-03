@@ -14,6 +14,11 @@
 	font-weight:bold;
 	background-color:#F4D03F;
 }
+.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
+float:left;
+background: #900;
+display: none;
+}
 </style>
 
 <?php if($ameriflex_id!=0){
@@ -57,21 +62,49 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											$auditDate = mysql2mmddyy($auditData['audit_date']);
 											$clDate_val = mysql2mmddyy($auditData['call_date']);
 										}
+										/////////////////////////////////////
+
+										if ($rand_id != 0) {
+											$agent_id = $rand_data['sid'];
+											$fusion_id = $rand_data['fusion_id'];
+											$agent_name = $rand_data['fname'] . " " . $rand_data['lname'];
+											$tl_id = $rand_data['assigned_to'];
+											$tl_name = $rand_data['tl_name'];
+											$interaction_id = $rand_data['contact_id'];
+											$call_duration = $rand_data['call_duration'];
+											$channel = $rand_data['channel'];
+											$clDate_val = date('m-d-Y',strtotime($rand_data['call_date']));
+											
+										} else {
+											$agent_id = $auditData['agent_id'];
+											$fusion_id = $auditData['fusion_id'];
+											$agent_name = $auditData['fname'] . " " . $auditData['lname'] ;
+											$tl_id = $auditData['tl_id'];
+											$tl_name = $auditData['tl_name'];
+											$interaction_id = $auditData['interaction_id'];
+											$call_duration = $auditData['call_duration'];
+											$channel =$auditData['type'];
+											if ($ameriflex_id == 0) {
+												$clDate_val = '';
+											} else {
+												$clDate_val = date('m-d-Y',strtotime($auditData['call_date']));
+											}
+										}
 									?>
 									<tr>
-										<td>Auditor Name:</td>
+										<td>Auditor Name: <span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" value="<?php echo $auditorName; ?>" required></td>
-										<td>Audit Date:</td>
+										<td>Audit Date: <span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" value="<?php echo $auditDate; ?>" required></td>
-										<td>Call Date:</td>
+										<td>Call Date: <span style="font-size:24px;color:red">*</span></td>
 										<td style="width:200px"><input type="text" class="form-control" id="call_date" name="call_date" value="<?php echo $clDate_val; ?>" required></td>
 									</tr>
 									<tr>
-										<td>Agent Name:</td>
+										<td>Agent Name: <span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="agent_id" name="data[agent_id]" required >
-												<?php if($auditData['agent_id']){ ?>
-												<option value="<?php echo $auditData['agent_id'] ?>"><?php echo $auditData['fname']." ".$auditData['lname'] ?></option>
+												<?php if($agent_id){ ?>
+												<option value="<?php echo $agent_id; ?>"><?php echo $agent_name ?></option>
 											   <?php } ?>
 												<option value="">--Select--</option>
 												<?php foreach($agentName as $row):  ?>
@@ -79,35 +112,60 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<?php endforeach; ?>
 											</select>
 										</td>
-										<td>Agent ID:</td>
-										<td><input type="text" class="form-control" id="fusion_id" value="<?php echo $auditData['fusion_id'] ?>" readonly ></td>
-										<td>L1 Supervisor:</td>
+										<td>Agent ID: <span style="font-size:24px;color:red">*</span></td>
+										<td><input type="text" class="form-control" id="fusion_id" value="<?php echo $fusion_id; ?>" readonly ></td>
+										<td>L1 Supervisor: <span style="font-size:24px;color:red">*</span></td>
 										<td>
-											<select class="form-control" id="tl_id" name="data[tl_id]" readonly>
-												<option value="<?php echo $auditData['tl_id'] ?>"><?php echo $auditData['tl_name'] ?></option>
+										<input type="hidden" id="tl_id" name="data[tl_id]" class="form-control" value="<?php echo $tl_id; ?>">
+										<input type="text" id="tl_name" class="form-control" value="<?php echo $tl_name; ?>" readonly>
+											<!--<select class="form-control" id="tl_id" name="data[tl_id]" readonly>
+												<option value="<?php //echo $tl_id; ?>"><?php //echo $tl_name; ?></option>
 												<option value="">--Select--</option>
-												<?php foreach($tlname as $tl): ?>
-													<option value="<?php echo $tl['id']; ?>"><?php echo $tl['fname']." ".$tl['lname']; ?></option>
-												<?php endforeach; ?>	
-											</select>
+												<?php //foreach($tlname as $tl): ?>
+													<option value="<?php //echo $tl['id']; ?>"><?php //echo $tl['fname']." ".$tl['lname']; ?></option>
+												<?php //endforeach; ?>	
+											</select>-->
 										</td>
 									</tr>
 									<tr>
-										<td>Call Duration:</td>
-										<td><input type="text" class="form-control" id="call_duration" name="data[call_duration]" value="<?php echo $auditData['call_duration'] ?>" required ></td>
-										<td>Type:</td>
+										<td>Call Duration: <span style="font-size:24px;color:red">*</span></td>
+										<td><input type="text" class="form-control" id="call_duration" name="data[call_duration]" value="<?php echo $call_duration; ?>" required ></td>
+										<td>Type: <span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="process_type" name="data[type]" required>
 												<option value="">-Select-</option>
-												<option value="call" <?php echo $auditData['type']=='call'?"selected":""; ?>>Call</option>
-												<option value="chat" <?php echo $auditData['type']=='chat'?"selected":""; ?>>Chat</option>
+												<option value="call" <?php echo strtolower($channel)=='call'?"selected":""; ?>>Call</option>
+												<option value="chat" <?php echo strtolower($channel)=='chat'?"selected":""; ?>>Chat</option>
 											</select>
 										</td>
-										<td>Interaction ID</td>
-										<td><input type="text" class="form-control" value="<?php echo $auditData['interaction_id']; ?>" name="data[interaction_id]" required></td>
+										<td>Interaction ID: <span style="font-size:24px;color:red">*</span></td>
+										<td><input type="text" class="form-control" value="<?php echo $interaction_id; ?>" name="data[interaction_id]" required></td>
 									</tr>
 									<tr>
-										<td>Audit Type:</td>
+										<td>ACPT: <span style="font-size:24px;color:red">*</span></td>
+										<td>
+											<select class="form-control" id="acpt" name="data[acpt]" required>
+											<option value="<?php echo $auditData['acpt'] ?>"><?php echo $auditData['acpt'] ?></option>	
+											<option value="">-Select-</option>
+											<option <?php echo $auditData['acpt']=='Agent'?"selected":""; ?> value="Agent">Agent</option>
+											<option <?php echo $auditData['acpt']=='Customer'?"selected":""; ?> value="Customer">Customer</option>
+											<option <?php echo $auditData['acpt']=='Process'?"selected":""; ?> value="Process">Process</option>
+											<option <?php echo $auditData['acpt']=='Technical'?"selected":""; ?> value="Technical">Technical</option>
+											<option <?php echo $auditData['acpt']=='NA'?"selected":""; ?> value="NA">NA</option>
+											</select>
+										</td>
+										<td>VOC: <span style="font-size:24px;color:red">*</span></td>
+										<td>
+											<select class="form-control" id="voc" name="data[voc]" required>
+												<option value="">-Select-</option>
+												<option <?php echo $auditData['voc']=='1'?"selected":""; ?> value="1">1</option>
+												<option <?php echo $auditData['voc']=='2'?"selected":""; ?> value="2">2</option>
+												<option <?php echo $auditData['voc']=='3'?"selected":""; ?> value="3">3</option>
+												<option <?php echo $auditData['voc']=='4'?"selected":""; ?> value="4">4</option>
+												<option <?php echo $auditData['voc']=='5'?"selected":""; ?> value="5">5</option>
+											</select>
+										</td>
+										<td>Audit Type: <span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="audit_type" name="data[audit_type]" required>
 											<option value="<?php echo $auditData['audit_type'] ?>"><?php echo $auditData['audit_type'] ?></option>	
@@ -120,25 +178,16 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<option value="WOW Call">WOW Call</option>
 											</select>
 										</td>
+									</tr>
+									<tr>
 										
-										<td class="auType">Auditor Type</td>
+										<td class="auType">Auditor Type: <span style="font-size:24px;color:red">*</span></td>
 										<td class="auType">
 											<select class="form-control" id="auditor_type" name="data[auditor_type]">
 												<option value="<?php echo $auditData['auditor_type'] ?>"><?php echo $auditData['auditor_type'] ?></option>
 												<option value="">-Select-</option>
 												<option value="Master">Master</option>
 												<option value="Regular">Regular</option>
-											</select>
-										</td>
-										<td>VOC:</td>
-										<td>
-											<select class="form-control" id="voc" name="data[voc]" required>
-												<option value="">-Select-</option>
-												<option <?php echo $auditData['voc']=='1'?"selected":""; ?> value="1">1</option>
-												<option <?php echo $auditData['voc']=='2'?"selected":""; ?> value="2">2</option>
-												<option <?php echo $auditData['voc']=='3'?"selected":""; ?> value="3">3</option>
-												<option <?php echo $auditData['voc']=='4'?"selected":""; ?> value="4">4</option>
-												<option <?php echo $auditData['voc']=='5'?"selected":""; ?> value="5">5</option>
 											</select>
 										</td>
 									</tr>
@@ -202,7 +251,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt4]" value="<?php echo $auditData['cmt4'] ?>"></td>
 									</tr>
 									<tr>
-										<td class="eml1" colspan=3>Did we sound as though we wanted to assist the caller? Did we use a helpful tone of voice and word choice?</td>
+										<td class="eml1" colspan=3>Did we sound as though we wanted to assist the caller? Did we use a helpful tone of voice and word choice? Would the participant assess the interaction as polite/courteous?</td>
 										<td>
 											<select class="form-control bsnl_point " name="data[sound_though_assist_caller]" required>
 												<option bsnl_val=8 <?php echo $auditData['sound_though_assist_caller'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
@@ -216,8 +265,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td class="eml1" colspan=3>Did we avoid interruptions and speaking over the caller?</td>
 										<td>
 											<select class="form-control bsnl_point " name="data[avoid_interruption_caller_speaking]" required>
-												<option bsnl_val=0 <?php echo $auditData['avoid_interruption_caller_speaking'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option bsnl_val=0 <?php echo $auditData['avoid_interruption_caller_speaking'] == "No"?"selected":"";?> value="No">No</option>
+												<option bsnl_val=5 <?php echo $auditData['avoid_interruption_caller_speaking'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option bsnl_val=5 <?php echo $auditData['avoid_interruption_caller_speaking'] == "No"?"selected":"";?> value="No">No</option>
 												<option bsnl_val=0 <?php echo $auditData['avoid_interruption_caller_speaking'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
@@ -249,8 +298,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td class="eml1" colspan=3>Did we avoid dead air?</td>
 										<td>
 											<select class="form-control bsnl_point " name="data[avoid_dead_air]" required>
-												<option bsnl_val=0 <?php echo $auditData['avoid_dead_air'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option bsnl_val=0 <?php echo $auditData['avoid_dead_air'] == "No"?"selected":"";?> value="No">No</option>
+												<option bsnl_val=5 <?php echo $auditData['avoid_dead_air'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option bsnl_val=5 <?php echo $auditData['avoid_dead_air'] == "No"?"selected":"";?> value="No">No</option>
 												<option bsnl_val=0 <?php echo $auditData['avoid_dead_air'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
@@ -280,11 +329,11 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt11]" value="<?php echo $auditData['cmt11'] ?>"></td>
 									</tr>
 									<tr>
-										<td class="eml1" colspan=3>Did we repeat the caller's question/issue, verify or confirm our understanding?</td>
+										<td class="eml1" colspan=3>Did we ask appropriate clarifying and probing questions?  Did we repeat the caller's question/issue, verify or confirm our understanding?</td>
 										<td>
 											<select class="form-control bsnl_point" name="data[repeat_caller_question_issue]" required>
-												<option bsnl_val=0 <?php echo $auditData['repeat_caller_question_issue'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option bsnl_val=0 <?php echo $auditData['repeat_caller_question_issue'] == "No"?"selected":"";?> value="No">No</option>
+												<option bsnl_val=3 <?php echo $auditData['repeat_caller_question_issue'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option bsnl_val=3 <?php echo $auditData['repeat_caller_question_issue'] == "No"?"selected":"";?> value="No">No</option>
 												<option bsnl_val=0 <?php echo $auditData['repeat_caller_question_issue'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
@@ -294,8 +343,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td class="eml1" colspan=3>Did we provide professional, accurate details via call/chat?</td>
 										<td>
 											<select class="form-control bsnl_point" name="data[provide_professional_accurate]" required>
-												<option bsnl_val=0 <?php echo $auditData['provide_professional_accurate'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option bsnl_val=0 <?php echo $auditData['provide_professional_accurate'] == "No"?"selected":"";?> value="No">No</option>
+												<option bsnl_val=6 <?php echo $auditData['provide_professional_accurate'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option bsnl_val=6 <?php echo $auditData['provide_professional_accurate'] == "No"?"selected":"";?> value="No">No</option>
 												<option bsnl_val=0 <?php echo $auditData['provide_professional_accurate'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
@@ -305,8 +354,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td class="eml1" colspan=3>Did we take appropriate actions in Ameriflex Systems?</td>
 										<td>
 											<select class="form-control bsnl_point" name="data[take_appropiate_actiona]" required>
-												<option bsnl_val=0 <?php echo $auditData['take_appropiate_actiona'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option bsnl_val=0 <?php echo $auditData['take_appropiate_actiona'] == "No"?"selected":"";?> value="No">No</option>
+												<option bsnl_val=2 <?php echo $auditData['take_appropiate_actiona'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option bsnl_val=2 <?php echo $auditData['take_appropiate_actiona'] == "No"?"selected":"";?> value="No">No</option>
 												<option bsnl_val=0 <?php echo $auditData['take_appropiate_actiona'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
@@ -327,8 +376,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td class="eml1" colspan=3>Did we avoid internal jargon?</td>
 										<td>
 											<select class="form-control bsnl_point" name="data[avoid_internal_jargon]" required>
-												<option bsnl_val=0 <?php echo $auditData['avoid_internal_jargon'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option bsnl_val=0 <?php echo $auditData['avoid_internal_jargon'] == "No"?"selected":"";?> value="No">No</option>
+												<option bsnl_val=3 <?php echo $auditData['avoid_internal_jargon'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option bsnl_val=3 <?php echo $auditData['avoid_internal_jargon'] == "No"?"selected":"";?> value="No">No</option>
 												<option bsnl_val=0 <?php echo $auditData['avoid_internal_jargon'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>

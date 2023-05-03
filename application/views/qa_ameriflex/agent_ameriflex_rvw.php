@@ -46,15 +46,15 @@
 										}
 									?>
 									<tr>
-										<td>Auditor Name:</td>
+										<td>Auditor Name: <span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" value="<?php echo $auditorName; ?>" disabled></td>
-										<td>Audit Date:</td>
+										<td>Audit Date: <span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" value="<?php echo $auditDate; ?>" disabled></td>
-										<td>Call Date:</td>
+										<td>Call Date: <span style="font-size:24px;color:red">*</span></td>
 										<td style="width:200px"><input type="text" class="form-control" id="call_date" name="data[call_date]" value="<?php echo $ameriflex['call_date'] ?>" disabled></td>
 									</tr>
 									<tr>
-										<td>Agent:</td>
+										<td>Agent: <span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="agent_id" name="data[agent_id]" disabled >
 												<?php if($ameriflex['agent_id']){ ?>
@@ -66,9 +66,9 @@
 												<?php endforeach; ?>
 											</select>
 										</td>
-										<td>Agent ID:</td>
+										<td>Agent ID: <span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" id="fusion_id" value="<?php echo $ameriflex['fusion_id'] ?>" readonly ></td>
-										<td>L1 Supervisor:</td>
+										<td>L1 Supervisor: <span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="tl_id" name="data[tl_id]" readonly>
 												<option value="<?php echo $ameriflex['tl_id'] ?>"><?php echo $ameriflex['tl_name'] ?></option>
@@ -80,30 +80,65 @@
 										</td>
 									</tr>
 									<tr>
-										<td>Call Duration:</td>
+										<td>Call Duration: <span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" id="call_duration" name="data[call_duration]" value="<?php echo $ameriflex['call_duration'] ?>" disabled ></td>
 										<td>Type:</td>
 										<td>
-											<select class="form-control" id="process_type" name="data[type]" required>
+											<select class="form-control" id="process_type" name="data[type]" disabled>
 												<option value="">-Select-</option>
 												<option value="call" <?php echo $ameriflex['type']=='call'?"selected":""; ?>>Call</option>
 												<option value="chat" <?php echo $ameriflex['type']=='chat'?"selected":""; ?>>Chat</option>
 											</select>
 										</td>
-										<td>Interaction ID:</td>
-										<td><input type="text" class="form-control" value="<?php echo $ameriflex['interaction_id']; ?>" name="data[interaction_id]" required></td>
+										<td>Interaction ID: <span style="font-size:24px;color:red">*</span></td>
+										<td><input type="text" class="form-control" value="<?php echo $ameriflex['interaction_id']; ?>" name="data[interaction_id]" disabled></td>
 									</tr>
 									<tr>
-										<td>Audit Type:</td>
+										<td>ACPT: <span style="font-size:24px;color:red">*</span></td>
 										<td>
-											<select class="form-control" id="audit_type" name="data[audit_type]" disabled>
-												<option value="<?php echo $ameriflex['audit_type'] ?>"><?php echo $ameriflex['audit_type'] ?></option>
+											<select class="form-control" id="acpt" name="data[acpt]" disabled>
+											<option value="<?php echo $ameriflex['acpt'] ?>"><?php echo $ameriflex['acpt'] ?></option>	
+											<option value="">-Select-</option>
+											<option <?php echo $ameriflex['acpt']=='Agent'?"selected":""; ?> value="Agent">Agent</option>
+											<option <?php echo $ameriflex['acpt']=='Customer'?"selected":""; ?> value="Customer">Customer</option>
+											<option <?php echo $ameriflex['acpt']=='Process'?"selected":""; ?> value="Process">Process</option>
+											<option <?php echo $ameriflex['acpt']=='Technical'?"selected":""; ?> value="Technical">Technical</option>
+											<option <?php echo $ameriflex['acpt']=='NA'?"selected":""; ?> value="NA">NA</option>
 											</select>
 										</td>
-										<td>VOC:</td>
+										<td>VOC: <span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="voc" name="data[voc]" disabled>
-												<option value="<?php echo $ameriflex['voc'] ?>"><?php echo $ameriflex['voc'] ?></option>
+												<option value="">-Select-</option>
+												<option <?php echo $ameriflex['voc']=='1'?"selected":""; ?> value="1">1</option>
+												<option <?php echo $ameriflex['voc']=='2'?"selected":""; ?> value="2">2</option>
+												<option <?php echo $ameriflex['voc']=='3'?"selected":""; ?> value="3">3</option>
+												<option <?php echo $ameriflex['voc']=='4'?"selected":""; ?> value="4">4</option>
+												<option <?php echo $ameriflex['voc']=='5'?"selected":""; ?> value="5">5</option>
+											</select>
+										</td>
+										<td>Audit Type: <span style="font-size:24px;color:red">*</span></td>
+										<td>
+											<select class="form-control" id="audit_type" name="data[audit_type]" disabled>
+											<option value="<?php echo $ameriflex['audit_type'] ?>"><?php echo $ameriflex['audit_type'] ?></option>	
+											<option value="">-Select-</option>
+											<option <?php echo $ameriflex['audit_type']=='CQ Audit'?"selected":""; ?> value="CQ Audit">CQ Audit</option>
+											<option <?php echo $ameriflex['audit_type']=='BQ Audit'?"selected":""; ?> value="BQ Audit">BQ Audit</option>
+											<option <?php echo $ameriflex['audit_type']=='Calibration'?"selected":""; ?> value="Calibration">Calibration</option>
+											<option <?php echo $ameriflex['audit_type']=='Pre-Certificate Mock Call'?"selected":""; ?> value="Pre-Certificate Mock Call">Pre-Certificate Mock Call</option>
+											<option <?php echo $ameriflex['audit_type']=='Certificate Audit'?"selected":""; ?> value="Certificate Audit">Certificate Audit</option>
+											<option value="WOW Call">WOW Call</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td class="auType">Auditor Type: <span style="font-size:24px;color:red">*</span></td>
+										<td class="auType">
+											<select class="form-control" id="auditor_type" name="data[auditor_type]" disabled>
+												<option value="<?php echo $ameriflex['auditor_type'] ?>"><?php echo $ameriflex['auditor_type'] ?></option>
+												<option value="">-Select-</option>
+												<option value="Master">Master</option>
+												<option value="Regular">Regular</option>
 											</select>
 										</td>
 									</tr>
@@ -167,7 +202,7 @@
 										<td colspan=2><input type="text" class="form-control" name="data[cmt4]" value="<?php echo $ameriflex['cmt4'] ?>"></td>
 									</tr>
 									<tr>
-										<td class="eml1" colspan=3>Did we sound as though we wanted to assist the caller? Did we use a helpful tone of voice and word choice?</td>
+										<td class="eml1" colspan=3>Did we sound as though we wanted to assist the caller? Did we use a helpful tone of voice and word choice? Would the participant assess the interaction as polite/courteous?</td>
 										<td>
 											<select class="form-control bsnl_point " name="data[sound_though_assist_caller]" disabled>
 												<option bsnl_val=8 <?php echo $ameriflex['sound_though_assist_caller'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
@@ -181,8 +216,8 @@
 										<td class="eml1" colspan=3>Did we avoid interruptions and speaking over the caller?</td>
 										<td>
 											<select class="form-control bsnl_point " name="data[avoid_interruption_caller_speaking]" disabled>
-												<option bsnl_val=0 <?php echo $ameriflex['avoid_interruption_caller_speaking'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option bsnl_val=0 <?php echo $ameriflex['avoid_interruption_caller_speaking'] == "No"?"selected":"";?> value="No">No</option>
+												<option bsnl_val=5 <?php echo $ameriflex['avoid_interruption_caller_speaking'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option bsnl_val=5 <?php echo $ameriflex['avoid_interruption_caller_speaking'] == "No"?"selected":"";?> value="No">No</option>
 												<option bsnl_val=0 <?php echo $ameriflex['avoid_interruption_caller_speaking'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
@@ -214,8 +249,8 @@
 										<td class="eml1" colspan=3>Did we avoid dead air?</td>
 										<td>
 											<select class="form-control bsnl_point " name="data[avoid_dead_air]" disabled>
-												<option bsnl_val=0 <?php echo $ameriflex['avoid_dead_air'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option bsnl_val=0 <?php echo $ameriflex['avoid_dead_air'] == "No"?"selected":"";?> value="No">No</option>
+												<option bsnl_val=5 <?php echo $ameriflex['avoid_dead_air'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option bsnl_val=5 <?php echo $ameriflex['avoid_dead_air'] == "No"?"selected":"";?> value="No">No</option>
 												<option bsnl_val=0 <?php echo $ameriflex['avoid_dead_air'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
@@ -245,11 +280,11 @@
 										<td colspan=2><input type="text" class="form-control" name="data[cmt11]" value="<?php echo $ameriflex['cmt11'] ?>"></td>
 									</tr>
 									<tr>
-										<td class="eml1" colspan=3>Did we repeat the caller's question/issue, verify or confirm our understanding?</td>
+										<td class="eml1" colspan=3>Did we ask appropriate clarifying and probing questions? Did we repeat the caller's question/issue, verify or confirm our understanding?</td>
 										<td>
 											<select class="form-control bsnl_point" name="data[repeat_caller_question_issue]" disabled>
-												<option bsnl_val=0 <?php echo $ameriflex['repeat_caller_question_issue'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option bsnl_val=0 <?php echo $ameriflex['repeat_caller_question_issue'] == "No"?"selected":"";?> value="No">No</option>
+												<option bsnl_val=3 <?php echo $ameriflex['repeat_caller_question_issue'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option bsnl_val=3 <?php echo $ameriflex['repeat_caller_question_issue'] == "No"?"selected":"";?> value="No">No</option>
 												<option bsnl_val=0 <?php echo $ameriflex['repeat_caller_question_issue'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
@@ -259,8 +294,8 @@
 										<td class="eml1" colspan=3>Did we provide professional, accurate details via call/chat?</td>
 										<td>
 											<select class="form-control bsnl_point" name="data[provide_professional_accurate]" disabled>
-												<option bsnl_val=0 <?php echo $ameriflex['provide_professional_accurate'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option bsnl_val=0 <?php echo $ameriflex['provide_professional_accurate'] == "No"?"selected":"";?> value="No">No</option>
+												<option bsnl_val=6 <?php echo $ameriflex['provide_professional_accurate'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option bsnl_val=6 <?php echo $ameriflex['provide_professional_accurate'] == "No"?"selected":"";?> value="No">No</option>
 												<option bsnl_val=0 <?php echo $ameriflex['provide_professional_accurate'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
@@ -270,8 +305,8 @@
 										<td class="eml1" colspan=3>Did we take appropriate actions in Ameriflex Systems?</td>
 										<td>
 											<select class="form-control bsnl_point" name="data[take_appropiate_actiona]" disabled>
-												<option bsnl_val=0 <?php echo $ameriflex['take_appropiate_actiona'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option bsnl_val=0 <?php echo $ameriflex['take_appropiate_actiona'] == "No"?"selected":"";?> value="No">No</option>
+												<option bsnl_val=2 <?php echo $ameriflex['take_appropiate_actiona'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option bsnl_val=2 <?php echo $ameriflex['take_appropiate_actiona'] == "No"?"selected":"";?> value="No">No</option>
 												<option bsnl_val=0 <?php echo $ameriflex['take_appropiate_actiona'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
@@ -292,8 +327,8 @@
 										<td class="eml1" colspan=3>Did we avoid internal jargon?</td>
 										<td>
 											<select class="form-control bsnl_point" name="data[avoid_internal_jargon]" disabled>
-												<option bsnl_val=0 <?php echo $ameriflex['avoid_internal_jargon'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option bsnl_val=0 <?php echo $ameriflex['avoid_internal_jargon'] == "No"?"selected":"";?> value="No">No</option>
+												<option bsnl_val=3 <?php echo $ameriflex['avoid_internal_jargon'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option bsnl_val=3 <?php echo $ameriflex['avoid_internal_jargon'] == "No"?"selected":"";?> value="No">No</option>
 												<option bsnl_val=0 <?php echo $ameriflex['avoid_internal_jargon'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>

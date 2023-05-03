@@ -1799,7 +1799,7 @@
 	{
 		$edit_url = "add_edit_stratus_csr";
 		$main_url =  $currentURL.''.$controller.'/'.$edit_url;
-	$header = array("Auditor Name", "Audit Date","Call Date", "Agent", "Fusion ID", "L1 Super","Order Number", "Customer Name", "Audit Type", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(in sec)", "Possible Score","Earned Score","Overall Score",
+	    $header = array("Auditor Name", "Audit Date","Call Date", "Agent", "Fusion ID", "L1 Super","Order Number", "Customer Name", "Audit Type", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(in sec)", "Possible Score","Earned Score","Overall Score",
 	
 	"Did the agent deliver the opening spiel in 3 seconds.",
 	"Markdown Comments1",
@@ -2004,7 +2004,7 @@
 		{
 		$edit_url = "add_edit_monitoring_tech";
 		$main_url =  $currentURL.''.$controller.'/'.$edit_url;
-		$header = array("Auditor Name", "Audit Date","Call Date", "Agent", "Fusion ID", "L1 Super","Dr", "Patient", "Rep","DOB","Tech", "Audit Type", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(in sec)", "Possible Score","Earn Score","Overall Score",
+		$header = array("Auditor Name", "Audit Date","Call Date", "Agent", "Fusion ID", "L1 Super","Order Number", "Customer Name", "Auto Fail", "Audit Type", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(in sec)", "Possible Score","Earn Score","Overall Score",
 
 		"Did the agent do his/her routine checks.",
 		"Comments1",
@@ -2022,28 +2022,26 @@
 		"Comments7",
 		"Did the agent call the patient whenever they are not seen on cam or out of range after two checks?",
 		"Comments8",
-		"Did the agent places initial on the Master Setup once the study has been cleared (box is checked) which is verifying that they have received this patient in their Team Monitor?",
-		"Comments9",
 		"Did the agent transfer the information that is on the Master Setup List on to their patient report?",
-		"Comments10",
+		"Comments9",
 		"Did the agent verify and document the patients name DOB and BT ID number.",
-		"Comments11",
+		"Comments10",
 		"Did the agent document all phone numbers listed for the patient?",
-		"Comments12",
+		"Comments11",
 		"Did the agent document the exact start time?",
-		"Comments13",
+		"Comments12",
 		"Did the agent document if the patient has 2 cams 1 cam or no cameras?",
-		"Comments14",
+		"Comments13",
 		"Did the agent document the state and time zone the patient is located in?",
-		"Comments15",
+		"Comments14",
 		"Did the agent update WIP state in Bright Tree?",
-		"Comments16",
+		"Comments15",
 		"Did the agent sync the time on units if it is the incorrect time zone or has not been completed in the past ten days?",
-		"Comments17",
+		"Comments16",
 		"Did the agent format the data card?",
-		"Comments18",
+		"Comments17",
 		"Did the agent check the A/V Log to ensure audio is on the cameras are configured properly",
-		"Comments19",
+		"Comments18",
 		"Compliance Score Percent",
 		"Customer Score Percent",
 		"Business Score Percent",
@@ -2075,11 +2073,9 @@
 			$row .= '"'.$user['fname']." ".$user['lname'].'",';
 			$row .= '"'.$user['fusion_id'].'",';
 			$row .= '"'.$user['tl_name'].'",';
-			$row .= '"'.$user['dr'].'",';
+			$row .= '"'.$user['order_number'].'",';
 			$row .= '"'.$user['customer_name'].'",';
-			$row .= '"'.$user['rep'].'",';
-			$row .= '"'.$user['dob'].'",';
-			$row .= '"'.$user['tech'].'",';
+			$row .= '"'.$user['auto_fail'].'",';
 			$row .= '"'.$user['audit_type'].'",';
 			$row .= '"'.$user['voc'].'",';
 			$row .= '"'.$main_urls.'",';
@@ -2105,28 +2101,26 @@
 			$row .= '"'.$user['cmt7'].'",';
 			$row .= '"'.$user['patient_call'].'",';
 			$row .= '"'.$user['cmt8'].'",';
-			$row .= '"'.$user['master_setup'].'",';
-			$row .= '"'.$user['cmt9'].'",';
 			$row .= '"'.$user['patient_rept'].'",';
-			$row .= '"'.$user['cmt10'].'",';
+			$row .= '"'.$user['cmt9'].'",';
 			$row .= '"'.$user['patient_id'].'",';
-			$row .= '"'.$user['cmt11'].'",';
+			$row .= '"'.$user['cmt10'].'",';
 			$row .= '"'.$user['patient_phone'].'",';
-			$row .= '"'.$user['cmt12'].'",';
+			$row .= '"'.$user['cmt11'].'",';
 			$row .= '"'.$user['start_time'].'",';
-			$row .= '"'.$user['cmt13'].'",';
+			$row .= '"'.$user['cmt12'].'",';
 			$row .= '"'.$user['patient_cameras'].'",';
-			$row .= '"'.$user['cmt14'].'",';
+			$row .= '"'.$user['cmt13'].'",';
 			$row .= '"'.$user['patient_location'].'",';
-			$row .= '"'.$user['cmt15'].'",';
+			$row .= '"'.$user['cmt14'].'",';
 			$row .= '"'.$user['bright_tree'].'",';
-			$row .= '"'.$user['cmt16'].'",';
+			$row .= '"'.$user['cmt15'].'",';
 			$row .= '"'.$user['incorrect_time'].'",';
-			$row .= '"'.$user['cmt17'].'",';
+			$row .= '"'.$user['cmt16'].'",';
 			$row .= '"'.$user['data_card'].'",';
-			$row .= '"'.$user['cmt18'].'",';
+			$row .= '"'.$user['cmt17'].'",';
 			$row .= '"'.$user['configured'].'",';
-			$row .= '"'.$user['cmt19'].'",';
+			$row .= '"'.$user['cmt18'].'",';
 			$row .= '"'.$user['compliance_score_percent'].'%'.'",';
 			$row .= '"'.$user['customer_score_percent'].'%'.'",';
 			$row .= '"'.$user['business_score_percent'].'%'.'",';

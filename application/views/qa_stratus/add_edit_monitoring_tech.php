@@ -61,15 +61,15 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										}
 									?>
 									<tr>
-										<td style="width:16%">Auditor Name:</td>
+										<td style="width:16%">Auditor Name: <span style="font-size:24px;color:red">*</span></td>
 										<td style="width:16%"><input type="text" class="form-control" value="<?php echo $auditorName; ?>" disabled></td>
-										<td style="width:16%">Audit Date:</td>
+										<td style="width:16%">Audit Date: <span style="font-size:24px;color:red">*</span></td>
 										<td style="width:16%"><input type="text" class="form-control" value="<?php echo $auditDate; ?>" disabled></td>
-										<td style="width:16%">Call Date:</td>
+										<td style="width:16%">Call Date: <span style="font-size:24px;color:red">*</span></td>
 										<td style="width:16%"><input type="text" class="form-control" id="call_date" name="call_date" value="<?php echo $clDate_val; ?>" required></td>
 									</tr>
 									<tr>
-										<td>Agent:</td>
+										<td>Agent: <span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="agent_id" name="data[agent_id]" required >
 												<option value="<?php echo $monitoring_tech['agent_id'] ?>"><?php echo $monitoring_tech['fname']." ".$monitoring_tech['lname'] ?></option>
@@ -79,19 +79,12 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<?php endforeach; ?>
 											</select>
 										</td>
-											<td>Fusion ID:</td>
+											<td>Fusion ID: <span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" id="fusion_id" value="<?php echo $monitoring_tech['fusion_id'] ?>" readonly ></td>
-											<td>L1 Supervisor:</td>
+											<td>L1 Supervisor: <span style="font-size:24px;color:red">*</span></td>
 										<td>
-											<!-- <select class="form-control" id="tl_id" name="data[tl_id]" readonly>
-												<option value="<?php echo $monitoring_tech['tl_id'] ?>"><?php echo $monitoring_tech['tl_name'] ?></option>
-												<option value="">--Select--</option>
-												<?php foreach($tlname as $tl): ?>
-													<option value="<?php echo $tl['id']; ?>"><?php echo $tl['name']; ?></option>
-												<?php endforeach; ?>	
-											</select> -->
 
-											<input type="text" class="form-control" id="tl_names"  value="<?php echo $monitoring_tech['tl_name'] ?>" readonly>
+											<input type="text" class="form-control" id="tl_name"  value="<?php echo $monitoring_tech['tl_name'] ?>" readonly>
 											<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $monitoring_tech['tl_id'] ?>" required>
 										</td>
 									</tr>
@@ -107,21 +100,21 @@ if(is_access_qa_edit_feedback()==false){ ?>
 
 									<tr>
 										
-										<td>Dr:</td>
+										<td>Dr: <span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" name="data[dr]" value="<?php echo $monitoring_tech['dr'] ?>" required ></td>
-										<td>Patient:</td>
+										<td>Patient: <span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" name="data[customer_name]" value="<?php echo $monitoring_tech['customer_name'] ?>" required ></td>
-										<td >Rep</td>
-										<td><input type="text" class="form-control" name="data[rep]" id="" value="<?php echo $monitoring_tech['rep'] ?>"> required</td>
+										<td >Rep: <span style="font-size:24px;color:red">*</span></td>
+										<td><input type="text" class="form-control" name="data[rep]" id="" value="<?php echo $monitoring_tech['rep'] ?>" required> </td>
 									</tr>
 
 									<tr>
 										
-										<td>DOB:</td>
-										<td><input type="text" class="form-control" name="data[dob]" id="dob_date" value="<?php echo $dobDate_val; ?>" required ></td>
-										<td>Tech:</td>
-										<td><input type="text" class="form-control" name="data[customer_name]" value="<?php echo $monitoring_tech['customer_name'] ?>" required ></td>
-										<td>VOC:</td>
+										<td>DOB: <span style="font-size:24px;color:red">*</span></td>
+										<td><input type="text" class="form-control" name="dob" id="dob_date" value="<?php echo $dobDate_val; ?>" required ></td>
+										<td>Tech: <span style="font-size:24px;color:red">*</span></td>
+										<td><input type="text" class="form-control" name="data[tech]" value="<?php echo $monitoring_tech['tech'] ?>" required ></td>
+										<td>VOC: <span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="voc" name="data[voc]" required>
 												<option value="<?php echo $monitoring_tech['voc'] ?>"><?php echo $monitoring_tech['voc'] ?></option>
@@ -141,7 +134,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									</tr>
 							
 									<tr>
-										<td>Audit Type:</td>
+										<td>Audit Type: <span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="audit_type" name="data[audit_type]" required>
 												<option value="<?php echo $monitoring_tech['audit_type'] ?>"><?php echo $monitoring_tech['audit_type'] ?></option>
@@ -157,7 +150,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											</select>
 										</td>
 										
-										<td class="auType">Auditor Type</td>
+										<td class="auType">Auditor Type: <span style="font-size:24px;color:red">*</span></td>
 										<td class="auType">
 											<select class="form-control" id="auditor_type" name="data[auditor_type]">
 												<option value="">-Select-</option>

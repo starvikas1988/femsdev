@@ -89,7 +89,8 @@
 			$current_user = get_user_id();
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_ameriflex/qa_ameriflex.php";
-			$data["content_js"] = "qa_bsnl_js.php";
+			//$data["content_js"] = "qa_bsnl_js.php";
+			$data["content_js"] = "qa_ameriflex_js.php";
 			
 			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,328) and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
@@ -145,7 +146,8 @@
 			$user_office_id=get_user_office_id();
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_ameriflex/add_edit_ameriflex.php";
-			$data["content_js"] = "qa_bsnl_js.php";
+			//$data["content_js"] = "qa_bsnl_js.php";
+			$data["content_js"] = "qa_ameriflex_js.php";
 			$data['ameriflex_id']=$ameriflex_id;
 			$tl_mgnt_cond='';
 			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
@@ -161,6 +163,29 @@
 			
 			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
 			$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+			
+			/******** Randamiser Start***********/
+			$rand_id=0;
+			if(!empty($this->uri->segment(4))){
+				$rand_id=$this->uri->segment(4);
+			}
+			$data['rand_id']=$rand_id;
+			$data["rand_data"] = "";			
+			if($rand_id!=0){
+				$client_id=328;
+				$pro_id = 699;
+				$curDateTime=CurrMySqlDate();
+				$upArr = array('distribution_opend_by' =>$current_user,'distribution_opened_datetime'=>$curDateTime);
+				$this->db->where('id', $rand_id);
+				$this->db->update('qa_randamiser_ameriflex_data',$upArr);
+				$randSql="Select srd.*,srd.aht as call_duration, S.id as sid, S.fname, S.lname, S.xpoid, S.assigned_to,
+				(select concat(fname, ' ', lname) as name from signin s1 where s1.id=S.assigned_to) as tl_name,DATEDIFF(CURDATE(), S.doj) as tenure
+				from qa_randamiser_ameriflex_data srd Left Join signin S On srd.fusion_id=S.fusion_id where srd.audit_status=0 and srd.id='$rand_id'";
+				$data["rand_data"] = $rand_data =  $this->Common_model->get_query_row_array($randSql);
+				
+			}
+			//print_r($data["rand_data"]);
+			/******** Randamiser Ends**********/
 			
 			$qSql = "SELECT * from
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
@@ -196,6 +221,16 @@
 					}
 					$this->db->where('id', $rowid);
 					$this->db->update('qa_ameriflex_feedback',$add_array);
+					
+					if($rand_id!=0){					
+					$rand_cdr_array = array("audit_status" => 1);
+					$this->db->where('id', $rand_id);
+					$this->db->update('qa_randamiser_ameriflex_data',$rand_cdr_array);
+					
+					$rand_array = array("is_rand" => 1);
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_ameriflex_feedback',$rand_array);
+					}
 				///////////// Client & Process Table Update ////////////////
 					$clientSql="Select * from client where id=328";
 					$clientData = $this->Common_model->get_query_row_array($clientSql);
@@ -208,6 +243,89 @@
 					if($processData['qa_agent_url']==""){
 						$this->db->query("UPDATE process SET qa_url='qa_ameriflex', qa_agent_url='qa_ameriflex/agent_ameriflex_feedback' WHERE id=699");
 					}
+					/*******************Fatal Call Email Send functionality added on 14-12-22 START ***********************/
+					if($field_array['overall_score'] == 0){
+						$tablename = "qa_ameriflex_feedback";
+						$sql = "SELECT tname.*, ip.email_id_off, ip_tl.email_id_off as tl_email, concat(s.fname, ' ', s.lname) as fullname,
+							(SELECT concat(tls.fname, ' ', tls.lname) as tl_fullname FROM signin tls WHERE tls.id=tname.tl_id) as tl_fullname
+							FROM $tablename tname
+							LEFT JOIN info_personal ip ON ip.user_id=tname.agent_id 
+							LEFT JOIN signin s ON s.id=tname.agent_id
+							LEFT JOIN signin tl ON tl.id = tname.tl_id
+							LEFT JOIN info_personal ip_tl ON ip_tl.user_id = tname.tl_id
+							WHERE tname.id=$rowid";
+						$result= $this->Common_model->get_query_row_array($sql);				
+						$sqlParam ="SELECT process_id,params_columns, fatal_param, param_column_desc FROM qa_defect where table_name='$tablename'"; 
+						$resultParams = $this->Common_model->get_query_row_array($sqlParam);
+						
+						$process = floor($resultParams['process_id']);
+						$sqlProcess ="SELECT name FROM process where id='$process'"; 
+						$resultProcess = $this->Common_model->get_query_row_array($sqlProcess);
+						
+						$params = explode(",", $resultParams['params_columns']);
+						$fatal_params = explode(",", $resultParams['fatal_param']);
+						$descArr = explode(",", $resultParams['param_column_desc']);
+						
+						$msgTable = "<Table BORDER=1>";
+						$msgTable .= "<TR><TH>SL.</TH> <TH>CALL AUDIT PARAMETERS</TH><TH>QA Rating</TH> <TH>QA Remarks</TH></TR>";
+						
+						$i=1;
+						$j=0;
+						foreach($params as $par){
+							//echo $str = str_replace('_', ' ', $par)."<BR>";
+							if($result[$par]=='No'){
+								$msgTable .= "<TR><TD>".$i."</TD><TD>". $descArr[$j]."</TD> <TD style='color:#FF0000'>".$result[$par]."</TD><TD>".$result['cmt'.$i]."</TD></TR>";
+							}else{
+								$msgTable .= "<TR><TD>".$i."</TD><TD>". $descArr[$j]."</TD> <TD>".$result[$par]."</TD><TD>".$result['cmt'.$i]."</TD></TR>";
+							}
+							
+							$i++;
+							$j++;
+						}
+						///////////////////////////
+						//$j=1;
+						/* if(!empty($fatal_params)){
+							foreach($fatal_params as $fatal_par){
+								if(!empty($fatal_par)){
+								$msgTable .= "<TR><TD>".$i."</TD><TD style='color:#FF0000'>".ucwords( str_replace('_', ' ',$fatal_par))."</TD> <TD>".$result[$fatal_par]."</TD><TD>".$result['cmt'.($i-10)]."</TD></TR>";
+								
+								$i++;
+								}
+							}
+						} */
+						$msgTable .= "<TR><TD colspan='3'>Overall Score</TD> <TD>".$result['overall_score']."%</TD></TR>";
+						$msgTable .= "</Table>";
+
+						$eccA=array();
+						//$to = $result['tl_email']; // Have to open when email will trigger to the Respective TL of the Agent
+						$to = 'AMFLX_Operations@fusionbposervices.com,bella.fabricante@fusionbposervices.com,Rizzie.Larios@fusionbposervices.com,Jessa.Wenceslao@fusionbposervices.com,Zephaniah.Satiembre@fusionbposervices.com,bryan.carpio@fusionbposervices.com,Acha.Joseph@fusionbposervices.com';
+						$ebody = "Hello ". $result['tl_fullname'].",<br>";
+						$ebody .= "<p>Agent Name : ".$result['fullname']."</p>";
+						$ebody .= "<p>Interaction ID :  ".$result['interaction_id']."</p>";
+						$ebody .= "<p>Call Date : ".$result['call_date']."</p>";
+						$ebody .= "<p>Audit Date time : ".ConvServerToLocal($result['entry_date'])."</p>";
+						$ebody .= "<p>Call Summary : ".$result['call_summary']."</p>";
+						$ebody .= "<p>Feedback : ".$result['feedback']."</p><br><br>";
+						$ebody .= "<p>Please listen the call from the MWP Tool and share feedback acceptancy :</p>";
+						$ebody .=  $msgTable;
+						$ebody .= "<p>Regards,</p>";
+						$ebody .= "<p>MWP Team</p>";
+						$esubject = "Fatal Call Alert - "." For Process - ".$resultProcess['name'].", Agent Name - ".$result['fullname']." Audit Date - ".$result['audit_date'];
+						$eccA[]="Bompalli.Somasundaram@omindtech.com";
+						$eccA[]="deb.dasgupta@omindtech.com";
+						$eccA[]="sumitra.bagchi@omindtech.com";
+						$eccA[]="anshuman.sarkar@fusionbposervices.com";
+						$ecc = implode(',',$eccA);
+						$path = "";
+						$from_email="";
+						$from_name="";
+						//echo $esubject."<br>";
+						//echo $ebody."<br>";
+						//exit;
+						//$send = $this->Email_model->send_email_sox("",$to, $ecc, $ebody, $esubject, $path, $from_email, $from_name, $isBcc="Y");
+						unset($eccA);
+					}
+					/*******************Fatal Call Email Send functionality added on 14-12-22 END ***********************/
 					
 				}else{
 					
@@ -235,7 +353,13 @@
 					$this->db->update('qa_ameriflex_feedback',$edit_array);
 					
 				}
-				redirect('qa_ameriflex');
+				if(isset($rand_data['upload_date']) && !empty($rand_data['upload_date'])){
+					$up_date = date('Y-m-d', strtotime($rand_data['upload_date']));
+					redirect('Qa_randamiser/data_distribute_freshdesk?from_date='.$up_date.'&client_id='.$client_id.'&pro_id='.$pro_id.'&submit=Submit');
+				}else{
+					redirect('qa_ameriflex');
+				}
+				//redirect('qa_ameriflex');
 			}
 			$data["array"] = $a;
 			$this->load->view("dashboard",$data);
@@ -252,7 +376,8 @@
 			$current_user = get_user_id();
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_ameriflex/agent_ameriflex_feedback.php";
-			$data["content_js"] = "qa_bsnl_js.php";
+			//$data["content_js"] = "qa_bsnl_js.php";
+			$data["content_js"] = "qa_ameriflex_js.php";
 			$data["agentUrl"] = "Qa_ameriflex/agent_ameriflex_feedback";
 			
 			$qSql="Select count(id) as value from qa_ameriflex_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')";
@@ -305,7 +430,8 @@
 			$user_office_id=get_user_office_id();
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_ameriflex/agent_ameriflex_rvw.php";
-			$data["content_js"] = "qa_bsnl_js.php";
+			//$data["content_js"] = "qa_bsnl_js.php";
+			$data["content_js"] = "qa_ameriflex_js.php";
 			$data["agentUrl"] = "Qa_ameriflex/agent_ameriflex_feedback";
 			
 			$qSql="SELECT * from
@@ -355,7 +481,8 @@
 			$data["show_table"] = false;
 			$data["aside_template"] = "reports_qa/aside.php";
 			$data["content_template"] = "qa_ameriflex/qa_ameriflex_report.php";
-			$data["content_js"] = "qa_bsnl_js.php";
+			//$data["content_js"] = "qa_bsnl_js.php";
+			$data["content_js"] = "qa_ameriflex_js.php";
 			
 			$data['location_list'] = $this->Common_model->get_office_location_list();
 			

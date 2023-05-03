@@ -36,6 +36,7 @@
 											$auditorName = get_username();
 											$auditDate = CurrDateMDY();
 											$clDate_val='';
+											$dobDate_val='';
 										}else{
 											if($monitoring_tech['entry_by']!=''){
 												$auditorName = $monitoring_tech['auditor_name'];
@@ -44,6 +45,7 @@
 											}
 											$auditDate = mysql2mmddyy($monitoring_tech['audit_date']);
 											$clDate_val = mysql2mmddyy($monitoring_tech['call_date']);
+											$dobDate_val = mysql2mmddyy($monitoring_tech['dob']);
 										}
 									?>
 									
@@ -98,14 +100,14 @@
 										<td>Patient:</td>
 										<td><input type="text" class="form-control" name="data[customer_name]" value="<?php echo $monitoring_tech['customer_name'] ?>" disabled ></td>
 										<td >Rep</td>
-										<td><input type="text" class="form-control" name="data[rep]" id="" value="<?php echo $monitoring_tech['rep'] ?>"> disabled </td>
+										<td><input type="text" class="form-control" name="data[rep]" id="" value="<?php echo $monitoring_tech['rep'] ?>" disabled>  </td>
 									</tr>
 									<tr>
 										
 										<td>DOB:</td>
-										<td><input type="text" class="form-control" name="data[dob]" id="dob_date" value="<?php echo $dobDate_val; ?>" disabled ></td>
+										<td><input type="text" class="form-control" name="dob" id="dob_date" value="<?php echo $dobDate_val; ?>" disabled ></td>
 										<td>Tech:</td>
-										<td><input type="text" class="form-control" name="data[customer_name]" value="<?php echo $monitoring_tech['customer_name'] ?>" disabled ></td>
+										<td><input type="text" class="form-control" name="data[tech]" value="<?php echo $monitoring_tech['tech'] ?>" disabled ></td>
 										<td>VOC:</td>
 										<td>
 											<select class="form-control" id="voc" name="data[voc]" disabled>
@@ -171,7 +173,7 @@
 									</tr>
 									<tr>
 										<td style="background-color:#F9E79F">Compliance Critical</td>
-										<td colspan="2" style="">1. Did the agent do his/her routine checks.</td>
+										<td colspan="2" style="color: red;">1. Did the agent do his/her routine checks.</td>
 										<td>
 											<select  class="form-control stratus_point compliance stratusAuto" id="stratusAF1" name="data[routine_checks]" disabled>
 												<!-- <option value="">-Select-</option> -->
