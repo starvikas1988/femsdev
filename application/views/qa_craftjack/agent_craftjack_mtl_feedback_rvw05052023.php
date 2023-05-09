@@ -173,7 +173,7 @@
                                                     <option value="Certification Audit" <?= ($craftjack_mtl['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
                                                     <option value="Operation Audit" <?= ($craftjack_mtl['audit_type']=="Operation Audit")?"selected":"" ?>>Operation Audit</option>
                                                     <option value="Trainer Audit"  <?= ($craftjack_mtl['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option>
-                                                    <option value="WOW Call"  <?= ($craftjack_mtl['audit_type']=="WOW Call")?"selected":"" ?>>WOW Call</option>
+                                                    <option value="WOW Call"  <?= ($craftjack_mtl['audit_type']=="WOW Call")?"selected":"" ?>>Trainer Audit</option>
                                                 </select>
 											</td>
 											<td class="auType">Auditor Type<span style="font-size:24px;color:red">*</span></td>

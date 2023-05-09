@@ -43,8 +43,7 @@
 		$result=$this->createPath($path);
 		if($result){
 			$config['upload_path'] = $path;
-			//$config['allowed_types'] = 'mp3|avi|mp4|wmv|wav';
-			$config['allowed_types'] = 'm4a|mp4|mp3|wav';
+			$config['allowed_types'] = 'mp3|avi|mp4|wmv|wav';
 			$config['max_size'] = '2024000';
 			$this->load->library('upload', $config);
 			$this->upload->initialize($config);
@@ -333,13 +332,6 @@
 					$field_array1=$this->input->post('data');
 					if(!isset($field_array1['auditor_type'])){
 						$field_array1['auditor_type'] = "";
-					}
-					if($_FILES['attach_file']['tmp_name'][0]!=''){
-						if(!file_exists("./qa_files/qa_ameriflex/")){
-							mkdir("./qa_files/qa_ameriflex/");
-						}
-						$a = $this->audio_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_ameriflex/' );
-						$field_array1['attach_file'] = implode( ',', $a );
 					}
 					$this->db->where('id', $ameriflex_id);
 					$this->db->update('qa_ameriflex_feedback',$field_array1);

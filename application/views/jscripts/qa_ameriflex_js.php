@@ -97,18 +97,65 @@ function date_validation(val,type){
 				$('#bsnl_overall_score').val(quality_score_percent+'%');
 			}
 		}
-
-		
 	}
 		
-//////////////////////////////////////////////////////////////
+ //////////////////////////////////////////////////////////////
 		
 	$(document).on('change','.bsnl_point',function(){ 
 		bsnl_calc();
     });
 	bsnl_calc();
-
 </script>
+
+<script type="text/javascript">
+
+	function ameriflex_calc(){
+		var score = 0;
+		var scoreable = 0; 
+		var quality_score_percent = 0;
+		
+		$('.ameriflex_point').each(function(index,element){
+			var score_type = $(element).val();
+			if(score_type == 'Pass'){
+			    var weightage = parseFloat($(element).children("option:selected").attr('ameriflex_val'));
+			    score = score + weightage;
+			    scoreable = scoreable + weightage;
+			}else if(score_type == 'Partial'){
+			    var weightage = parseFloat($(element).children("option:selected").attr('ameriflex_val'));
+			    score = score + weightage;
+			    scoreable = scoreable + (weightage*2);
+			}else if(score_type == 'Fail'){
+			    var weightage = parseFloat($(element).children("option:selected").attr('ameriflex_val'));
+			    scoreable = scoreable + weightage;
+			}else if(score_type == 'N/A'){
+			    var weightage = parseFloat($(element).children("option:selected").attr('ameriflex_val'));
+			    score = score + weightage;
+			    scoreable = scoreable + weightage;
+			}
+		});
+		quality_score_percent = ((score*100)/scoreable).toFixed(2);
+		
+		$('#ameriflex_earned_score').val(score);
+		$('#ameriflex_possible_score').val(scoreable);
+		
+
+       if($('#ameriflex_AF1').val()=='No' || $('#ameriflex_AF2').val()=='No' || $('#ameriflex_AF3').val()=='No' || $('#ameriflex_AF4').val()=='No' || $('#ameriflex_AF5').val()=='No' || $('#ameriflex_AF6').val()=='No' || $('#ameriflex_AF7').val()=='Fail' || $('#ameriflex_AF8').val()=='Fail' || $('#ameriflex_AF9').val()=='Fail' ){
+			$('#ameriflex_overall_score').val(0+'%');
+       }else{
+			if(!isNaN(quality_score_percent)){
+				$('#ameriflex_overall_score').val(quality_score_percent+'%');
+			}
+		}
+	}
+		
+ //////////////////////////////////////////////////////////////
+		
+	$(document).on('change','.ameriflex_point',function(){ 
+		ameriflex_calc();
+    });
+	ameriflex_calc();
+</script>
+
 <script>
 	 //   function mobile_noFunction(mobile_no){
 		// 	var mobile_no=$("#mobile_no").val();
@@ -371,7 +418,7 @@ $(function () {
 
 </script>
 
-<script>
+<!-- <script>
 $('INPUT[type="file"]').change(function () {
     var ext = this.value.match(/\.(.+)$/)[1];
     switch (ext) {
@@ -394,7 +441,25 @@ $('INPUT[type="file"]').change(function () {
             this.value = '';
     }
 });
+</script> -->
+
+<script>
+$('INPUT[type="file"]').change(function () {
+    var ext = this.value.match(/\.(.+)$/)[1];
+    switch (ext) {
+        case 'mp4':
+        case 'mp3':
+		case 'wav':
+		case 'm4a':
+			$('#qaformsubmit').attr('disabled', false);
+        break;
+        default:
+            alert('This is not an allowed file type. Please upload allowed file type like [m4a,mp4,mp3,wav]');
+            this.value = '';
+    }
+});
 </script>
+
 <script>
 $(document).ready(function(){
 	

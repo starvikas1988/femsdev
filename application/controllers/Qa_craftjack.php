@@ -725,10 +725,10 @@
 			$qSql="Select count(id) as value from qa_craftjack_new_feedback where id  not in (select fd_id from qa_craftjack_agent_rvw) and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')";
 			$data["total_new_agent_yet_rvw"] =  $this->Common_model->get_single_value($qSql);
 
-			$qSql="Select count(id) as value from qa_craftjack_mtl_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')";
+			$qSql="Select count(id) as value from qa_craftjack_mtl_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit','WoW Call')";
 			$data["tot_mtl_agent_feedback"] =  $this->Common_model->get_single_value($qSql);
 
-			$qSql="Select count(id) as value from qa_craftjack_mtl_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit') ";
+			$qSql="Select count(id) as value from qa_craftjack_mtl_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit','WoW Call') ";
 
 			$data["tot_mtl_agent_yet_rvw"] =  $this->Common_model->get_single_value($qSql);
 		
@@ -775,7 +775,7 @@
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_craftjack_mtl_feedback $cond and agent_id ='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Inner Join
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_craftjack_mtl_feedback $cond and agent_id ='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','WoW Call')) xx Inner Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
 				$data["agent_review_mtl_list"] = $this->Common_model->get_query_result_array($qSql);
 
@@ -807,7 +807,7 @@
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_craftjack_mtl_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Inner Join
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_craftjack_mtl_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','WoW Call')) xx Inner Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
 				$data["agent_review_mtl_list"] = $this->Common_model->get_query_result_array($qSql);
 

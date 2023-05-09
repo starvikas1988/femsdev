@@ -58,17 +58,7 @@ $(function() {
 						alert("Agent is not assigned any TL.Please assign one from manage user section or contact your HR/Manager");
 					}
 					
-				}
-				for (var i in json_obj){
-					if($('#tl_names').val(json_obj[i].tl_name)!=''){
-						console.log(json_obj[0].tl_name);
-						$('#tl_names').append($('#tl_names').val(json_obj[i].tl_name));
-
-					}else{
-						alert("Agent is not assigned any TL.Please assign one from manage user section or contact your HR/Manager");
-					}
-					
-				}  
+				} 
 				for (var i in json_obj) $('#fusion_id').append($('#fusion_id').val(json_obj[i].fusion_id));
 				for (var i in json_obj) $('#campaign').append($('#campaign').val(json_obj[i].process_name));
 				for (var i in json_obj) $('#office_id').append($('#office_id').val(json_obj[i].office_id));
@@ -228,35 +218,6 @@ $(function() {
 			console.log(el.value);
 		}
 </script>
-
-<script type="text/javascript">
-	function checkDecCallNo(el) {
-			var ex = /^[0-9]+\.?[0-9]*$/;
-
-			if (ex.test(el.value) == false) {
-				//console.log(el.value);
-				el.value = el.value.substring(0, el.value.length - 1);
-				alert("Number format required!");
-				$("#qaformsubmit").attr("disabled", "disabled");
-				$('#call_number').val("");
-				return false;
-			}
-			
-		    if(el.value.length < 1){
-		    	$("#start_phone").html("Call number can not be a negative digits!");
-		    	$("#qaformsubmit").attr("disabled", "disabled");
-       			return false;
-		    }
-		    else{
-		    	$("#start_phone").html("");
-		    	 $("#qaformsubmit").removeAttr("disabled");
-       			return false;
-		    }
-		   
-			console.log(el.value);
-		}
-</script>
-
 <script type="text/javascript">
 	// $(function () {
 	// 	$( "#audit_type" ).on('change' , function() {
@@ -548,8 +509,7 @@ $('INPUT[type="file"]').change(function () {
 
 <script>
 	$("#audit_date").datepicker();
-	$("#call_date").datepicker({maxDate: new Date()}); //datetimepicker
-	$("#call_date_time").datetimepicker({maxDate: new Date()});
+	$("#call_date").datepicker({maxDate: new Date() });
 	//$("#call_date").datepicker({ minDate: 0 });
 	$("#copy_received").datepicker();
 	$("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });

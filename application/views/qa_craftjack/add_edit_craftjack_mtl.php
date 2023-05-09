@@ -214,7 +214,7 @@
                                                     <option value="Calibration" <?= ($craftjack_mtl['audit_type']=="Calibration")?"selected":"" ?>>Calibration</option>
                                                     <option value="Pre-Certificate Mock Call" <?= ($craftjack_mtl['audit_type']=="Pre-Certificate Mock Call")?"selected":"" ?>>Pre-Certificate Mock Call</option>
                                                     <option value="Certification Audit" <?= ($craftjack_mtl['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
-                                                    <option value="WoW Call Audit"  <?= ($craftjack_mtl['audit_type']=="WoW Call Audit")?"selected":"" ?>>WoW Call Audit</option>
+                                                    <option value="WoW Call"  <?= ($craftjack_mtl['audit_type']=="WoW Call")?"selected":"" ?>>WoW Call Audit</option>
                                                    
                                                     
                                                 </select>

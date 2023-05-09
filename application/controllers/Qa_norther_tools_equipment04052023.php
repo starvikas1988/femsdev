@@ -239,8 +239,7 @@
 				if($norther_id==0){
 					$field_array=$this->input->post('data');
 					$field_array['audit_date']=CurrDate();
-					$field_array['call_date']=mdydt2mysql($this->input->post('call_date'));
-					//$field_array['call_date']=mmddyy2mysql($this->input->post('call_date'));
+					$field_array['call_date']=mmddyy2mysql($this->input->post('call_date'));
 					$field_array['entry_date']=$curDateTime;
 					$field_array['audit_start_time']=$this->input->post('audit_start_time');
 					
@@ -317,10 +316,10 @@
 			$data["agentUrl"] = "Qa_norther_tools_equipment/agent_norther_feedback";
 
 
-			$qSql="Select count(id) as value from qa_norther_tools_equipment_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
+			$qSql="Select count(id) as value from qa_norther_tools_equipment_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')";
 			$data["tot_agent_feedback"] =  $this->Common_model->get_single_value($qSql);
 
-			$qSql="Select count(id) as value from qa_norther_tools_equipment_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit') ";
+			$qSql="Select count(id) as value from qa_norther_tools_equipment_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit') ";
 
 			$data["tot_agent_yet_rvw"] =  $this->Common_model->get_single_value($qSql);
 
@@ -341,7 +340,7 @@
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_norther_tools_equipment_feedback $cond and agent_id ='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')) xx Inner Join
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_norther_tools_equipment_feedback $cond and agent_id ='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Inner Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
 				$data["agent_review_list"] = $this->Common_model->get_query_result_array($qSql);
 
@@ -353,7 +352,7 @@
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_norther_tools_equipment_feedback where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')) xx Inner Join
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_norther_tools_equipment_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Inner Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
 				$data["agent_review_list"] = $this->Common_model->get_query_result_array($qSql);
 				
@@ -538,7 +537,7 @@
 		$filename = "./assets/reports/Report".get_user_id().".csv";
 		$fopen = fopen($filename,"w+");
 	
-		 $header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent Name", "L1 Supervisor", "Manager", "Call Number", "Call Date/Time", "Interaction ID", "Audit Type", "Auditor Type", "VOC","Possible Score", "Earned Score", "Overall Score","Customer Score", "Business Score", "Compliance Score",
+		 $header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent Name", "L1 Supervisor", "Manager", "Call Number", "Call Date", "Call Duration", "Interaction ID", "Audit Type", "Auditor Type", "VOC","Possible Score", "Earned Score", "Overall Score","Customer Score", "Business Score", "Compliance Score",
 		  "Did the agent greeted the customer and mentioned the brand name in the opening of the call?", "Serving with Empathy - Active Listening", "Serving with Empathy - Positive Tone", "Serving with Empathy - Positive Language/ Plesantaries (Please thank you Excuse me You are Welcome & May I)", "Acknowledgements timely and effectively", "Rate of Speech", "Did the agent used effective engagement", "Was the agent confident enough to handle the call?", "Did the agent acknowledged all the queries of the customer?", "Ensure all internal processes are followed throughout the call.", "Agent avoided overlapping the customer at any time", "Provide clear follow-up instructions (If applicable)", "Hold Policy", "Dead Air", "Hold Verbiage", "If any one of these applies: - Agent deliberately interrupted the caller - Agent used condescending tone - Agent used foul or unprofessional language - Agent exhibited impatience in the interaction - Agent engaged in a verbal altercation","Verify if the patinet had any other areas of feedback they wanted to provide or any further queries?","Thanking the customer before closing or transfering the call (Thank you for contacting ROMTech customer service department)",
 		  "Did the agent greeted the customer and mentioned the brand name in the opening of the call? - Remarks", "Serving with Empathy - Active Listening - Remarks", "Serving with Empathy - Positive Tone - Remarks", "Serving with Empathy - Positive Language/ Plesantaries (Please thank you Excuse me You are Welcome & May I) - Remarks", "Acknowledgements timely and effectively - Remarks", "Rate of Speech - Remarks", "Did the agent used effective engagement - Remarks", "Was the agent confident enough to handle the call? - Remarks", "Did the agent acknowledged all the queries of the customer? - Remarks", "Ensure all internal processes are followed throughout the call. - Remarks", "Agent avoided overlapping the customer at any time - Remarks", "Provide clear follow-up instructions (If applicable) - Remarks", "Hold Policy - Remarks", "Dead Air - Remarks", "Hold Verbiage - Remarks", "If any one of these applies: - Agent deliberately interrupted the caller - Agent used condescending tone - Agent used foul or unprofessional language - Agent exhibited impatience in the interaction - Agent engaged in a verbal altercation - Remarks","Verify if the patinet had any other areas of feedback they wanted to provide or any further queries? - Remarks","Thanking the customer before closing or transfering the call (Thank you for contacting ROMTech customer service department) - Remarks",
        "Call Summary","Audit Start date and  Time ", "Audit End Date and  Time"," Call Interval",  "Feedback", "Agent Review Date/Time", "Agent Comment", "Mgnt Review Date/Time","Mgnt Review By", "Mgnt Comment","Client Review Name","Client Review Note","Client Review Date " );
@@ -565,7 +564,7 @@
 				$row .= '"'.$user['manager'].'",';
 				$row .= '"'.$user['call_number'].'",';
 				$row .= '"'.$user['call_date'].'",';
-				//$row .= '"'.$user['call_duration'].'",';
+				$row .= '"'.$user['call_duration'].'",';
 				$row .= '"'.$user['interaction_id'].'",';
 				$row .= '"'.$user['audit_type'].'",';
 				$row .= '"'.$user['auditor_type'].'",';
@@ -623,13 +622,13 @@
 				$row .= '"'.$user['mgnt_rvw_date'].'",';
 				$row .= '"'.$user['mgnt_rvw_name'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_name'])).'",';
-				// if($user['client_rvw_name']!=''){
-				// 	$row .= '"'.$user['client_rvw_name'].'",';
-				// }else{
-				// 	$row .= '';
-				// }
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'",';
+				if($user['client_rvw_name']!=''){
+					$row .= '"'.$user['client_rvw_name'].'",';
+				}else{
+					$row .= '';
+				}
+				
+  			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
 
   			$row .= '"'.$user['client_rvw_date'].'",';
 

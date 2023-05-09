@@ -148,7 +148,10 @@
                                                     <option value="Calibration" <?= ($park_west_data['audit_type']=="Calibration")?"selected":"" ?>>Calibration</option>
                                                     <option value="Pre-Certificate Mock Call" <?= ($park_west_data['audit_type']=="Pre-Certificate Mock Call")?"selected":"" ?>>Pre-Certificate Mock Call</option>
                                                     <option value="Certification Audit" <?= ($park_west_data['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
-                                                    <option value="WoW Call Audit"  <?= ($park_west_data['audit_type']=="WoW Call Audit")?"selected":"" ?>>WoW Call Audit</option>
+                                                    <option value="WoW Call"  <?= ($park_west_data['audit_type']=="WoW Call")?"selected":"" ?>>WoW Call Audit</option>
+                                                    <option value="Hygiene Audit"  <?= ($park_west_data['audit_type']=="Hygiene Audit")?"selected":"" ?>>Hygiene Audit</option>
+                                                    <option value="Operation Audit"  <?= ($park_west_data['audit_type']=="Operation Audit")?"selected":"" ?>>Operation Audit</option>
+                                                    <option value="Trainer Audit"  <?= ($park_west_data['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option>
                                                    
                                                     
                                                 </select>

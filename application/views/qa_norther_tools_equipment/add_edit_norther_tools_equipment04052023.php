@@ -74,17 +74,15 @@
 										?>
 										<tr>
 											<td>Auditor Name: <span style="font-size:24px;color:red">*</span></td>
-											<td ><input type="text" class="form-control" value="<?= $auditorName; ?>" disabled></td>
+											<td><input type="text" class="form-control" value="<?= $auditorName; ?>" disabled></td>
 											<td>Audit Date:<span style="font-size:24px;color:red">*</span></td>
-											<td colspan="3"><input type="text" class="form-control" value="<?= $auditDate; ?>" disabled></td>
+											<td><input type="text" class="form-control" value="<?= $auditDate; ?>" disabled></td>
 											<td>Call Date:<span style="font-size:24px;color:red">*</span></td>
-											<td colspan="3">
-												<input type="text" id="call_date_time" name="call_date"  onkeydown="return false;" value="<?php echo $clDate_val; ?>" max="<?php echo date("Y-m-d"); ?>" class="form-control" required>
-											</td>
-											</tr>
-											<tr>
-												<td>Agent Name:<span style="font-size:24px;color:red">*</span></td>
 											<td>
+												<input type="text" id="call_date" name="call_date"  onkeydown="return false;" value="<?php echo $clDate_val; ?>" max="<?php echo date("Y-m-d"); ?>" class="form-control" required>
+											</td>
+											<td>Agent Name:<span style="font-size:24px;color:red">*</span></td>
+											<td colspan="2">
 												<select class="form-control" id="agent_ids" name="data[agent_id]" required>
 													<?php 
 													if($norther_data['agent_id']!=''){
@@ -113,36 +111,30 @@
 													<?php endforeach; ?>
 												</select>
 											</td>
+										</tr>
+										<tr>
 											<td>Fusion ID:<span style="font-size:24px;color:red">*</span></td>
-											<td colspan="3"><input type="text" class="form-control" id="fusion_id" required value="<?php echo $norther_data['fusion_id'] ?>" readonly></td>
+											<td><input type="text" class="form-control" id="fusion_id" required value="<?php echo $norther_data['fusion_id'] ?>" readonly></td>
 											<td> L1 Supervisor:<span style="font-size:24px;color:red">*</span></td>
-											<td colspan="3">
+											<td>
 												<input type="text" class="form-control" id="tl_names"  value="<?php echo $norther_data['tl_name'] ?>" readonly>
 												<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $norther_data['tl_id'] ?>" required>
 											</td>
-											</tr>
-											
-										
-										<tr>
-											
 											<td>Interaction ID:<span style="font-size:24px;color:red">*</span></td>
 											<td>
 												<input type="text" class="form-control" name="data[interaction_id]" value="<?php echo $norther_data['interaction_id'] ?>" required>
 											</td>
 											<td>Call Number:<span style="font-size:24px;color:red">*</span></td>
-											<td colspan="3"><input type="text" class="form-control" id="call_number" name="data[call_number]" value="<?php echo $norther_data['call_number'] ?>" onkeyup="checkDecCallNo(this);" required>
+											<td colspan="2"><input type="text" class="form-control" name="data[call_number]" value="<?php echo $norther_data['call_number'] ?>" onkeyup="checkDec(this);" required>
 												<span id="start_phone" style="color:red"></span></td>
-												<td>Manager:<span style="font-size:24px;color:red">*</span></td>
-											<td colspan="3">
-												<input type="text" class="form-control" name="data[manager]" value="<?php echo $norther_data['manager'] ?>" required>
-											</td>
 										</tr>
 										<tr>
-										
-
-											<!-- <td>Call Duration:<span style="font-size:24px;color:red">*</span></td>
-											<td><input type="text" class="form-control" onkeydown="return false;" id="call_duration" name="data[call_duration]" value="<?php //echo $norther_data['call_duration']?>" required></td> -->
-											
+										<td>Manager:<span style="font-size:24px;color:red">*</span></td>
+											<td>
+												<input type="text" class="form-control" name="data[manager]" value="<?php echo $norther_data['manager'] ?>" required>
+											</td>
+											<td>Call Duration:<span style="font-size:24px;color:red">*</span></td>
+											<td><input type="text" class="form-control" onkeydown="return false;" id="call_duration" name="data[call_duration]" value="<?php echo $norther_data['call_duration']?>" required></td>
 											<td>VOC:<span style="font-size:24px;color:red">*</span></td>
 											<td>
 												<select class="form-control" id="voc" name="data[voc]" required>
@@ -161,7 +153,7 @@
 												</select>
 											</td>
 											<td>Audit Type:<span style="font-size:24px;color:red">*</span></td>
-											<td colspan="3">
+											<td colspan="2">
 												<select class="form-control" id="audit_type" name="data[audit_type]" required>
                                                     <option value="">-Select-</option>
                                                     <option value="CQ Audit" <?= ($norther_data['audit_type']=="CQ Audit")?"selected":"" ?>>CQ Audit</option>
@@ -169,15 +161,16 @@
                                                     <option value="Calibration" <?= ($norther_data['audit_type']=="Calibration")?"selected":"" ?>>Calibration</option>
                                                     <option value="Pre-Certificate Mock Call" <?= ($norther_data['audit_type']=="Pre-Certificate Mock Call")?"selected":"" ?>>Pre-Certificate Mock Call</option>
                                                     <option value="Certification Audit" <?= ($norther_data['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
-                                                    <option value="WOW Call"  <?= ($norther_data['audit_type']=="WOW Call")?"selected":"" ?>>WOW Call</option>
-                                                    <option value="Hygiene Audit"  <?= ($norther_data['audit_type']=="Hygiene Audit")?"selected":"" ?>>Hygiene Audit</option>
-                                                    <option value="Operation Audit"  <?= ($norther_data['audit_type']=="Operation Audit")?"selected":"" ?>>Operation Audit</option>
-                                                    <option value="Trainer Audit"  <?= ($norther_data['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option>                                          
+                                                    <option value="WoW Call Audit"  <?= ($norther_data['audit_type']=="WoW Call Audit")?"selected":"" ?>>WoW Call Audit</option>
+                                                   
                                                     
                                                 </select>
 											</td>
+										</tr>
+										
+										<tr>
 											<td class="auType_epi">Auditor Type<span style="font-size:24px;color:red">*</span></td>
-											<td colspan="3" class="auType_epi">
+											<td class="auType_epi">
 												<select class="form-control" id="auditor_type" name="data[auditor_type]">
                                                     <option value="">Select</option>
                                                     <option value="Master" <?= ($norther_data['auditor_type']=="Master")?"selected":"" ?>>Master</option>
@@ -185,14 +178,13 @@
                                                 </select>
 											</td>
 										</tr>
-										
 										<tr>
 											<td style="font-weight:bold; font-size:16px; text-align:left">Earned Score</td>
 											<td><input type="text" readonly id="mtl_earned_score" name="data[earned_score]" class="form-control" value="<?php echo $norther_data['earned_score'] ?>" /></td>
 											<td style="font-weight:bold; font-size:16px; text-align:left">Possible Score</td>
-											<td colspan="2"><input type="text" readonly id="mtl_possible_score" name="data[possible_score]" class="form-control" value="<?php echo $norther_data['possible_score'] ?>" /></td>
+											<td><input type="text" readonly id="mtl_possible_score" name="data[possible_score]" class="form-control" value="<?php echo $norther_data['possible_score'] ?>" /></td>
 											<td style="font-weight:bold; font-size:16px; text-align:right">Overall Score:</td>
-											<td colspan="2"><input type="text" readonly id="mtl_overall_score" name="data[overall_score]" class="form-control acgFatal" style="font-weight:bold" value="<?php echo $norther_data['overall_score'] ?>"></td>
+											<td><input type="text" readonly id="mtl_overall_score" name="data[overall_score]" class="form-control acgFatal" style="font-weight:bold" value="<?php echo $norther_data['overall_score'] ?>"></td>
 										</tr>
 										<tr class="eml" style="height:25px; font-weight:bold">
 											<td>PARAMETER</td>
@@ -483,25 +475,25 @@
 										</tr>
 
 									<tr style="font-weight:bold; background-color:#D7BDE2">
-										<td colspan="2">Customer Score</td>
-										<td colspan="4">Business Score</td>
-										<td colspan="4">Compliance Score</td>
+										<td colspan=3>Customer Score</td>
+										<td colspan=3>Business Score</td>
+										<td colspan=3>Compliance Score</td>
 									</tr>
 
 									<tr style="font-weight:bold; background-color:#D7BDE2">
-										<td>Earned Point:</td><td><input type="text" readonly class="form-control" id="customer_earned_score" name="data[customer_earned_score]" value="<?php echo $norther_data['customer_earned_score'] ?>"></td>
-										<td>Earned Point:</td><td colspan="3"><input type="text" readonly class="form-control" id="business_earned_score" name="data[business_earned_score]" value="<?php echo $norther_data['business_earned_score'] ?>"></td>
-										<td>Earned Point:</td><td colspan="4"><input type="text" readonly class="form-control" id="compliance_earned_score" name="data[compliance_earned_score]" value="<?php echo $norther_data['compliance_earned_score'] ?>"></td>
+										<td>Earned Point:</td><td colspan=2><input type="text" readonly class="form-control" id="customer_earned_score" name="data[customer_earned_score]" value="<?php echo $norther_data['customer_earned_score'] ?>"></td>
+										<td>Earned Point:</td><td colspan=2><input type="text" readonly class="form-control" id="business_earned_score" name="data[business_earned_score]" value="<?php echo $norther_data['business_earned_score'] ?>"></td>
+										<td>Earned Point:</td><td colspan=2><input type="text" readonly class="form-control" id="compliance_earned_score" name="data[compliance_earned_score]" value="<?php echo $norther_data['compliance_earned_score'] ?>"></td>
 									</tr>
 									<tr style="font-weight:bold; background-color:#D7BDE2">
-										<td>Possible Point:</td><td><input type="text" readonly class="form-control" id="customer_possible_score" name="data[customer_possible_score]" value="<?php echo $norther_data['customer_possible_score'] ?>"></td>
-										<td>Possible Point:</td><td colspan="3"><input type="text" readonly class="form-control" id="business_possible_score" name="data[business_possible_score]" value="<?php echo $norther_data['business_possible_score'] ?>"></td>
-										<td>Possible Point:</td><td colspan="4"><input type="text" readonly class="form-control" id="compliance_possible_score" name="data[compliance_possible_score]" value="<?php echo $norther_data['compliance_possible_score'] ?>"></td>
+										<td>Possible Point:</td><td colspan=2><input type="text" readonly class="form-control" id="customer_possible_score" name="data[customer_possible_score]" value="<?php echo $norther_data['customer_possible_score'] ?>"></td>
+										<td>Possible Point:</td><td colspan=2><input type="text" readonly class="form-control" id="business_possible_score" name="data[business_possible_score]" value="<?php echo $norther_data['business_possible_score'] ?>"></td>
+										<td>Possible Point:</td><td colspan=2><input type="text" readonly class="form-control" id="compliance_possible_score" name="data[compliance_possible_score]" value="<?php echo $norther_data['compliance_possible_score'] ?>"></td>
 									</tr>
 									<tr style="font-weight:bold; background-color:#D7BDE2">
-										<td>Overall Percentage:</td><td><input type="text" readonly class="form-control" id="customer_overall_score" name="data[customer_overall_score]" value="<?php echo $norther_data['customer_overall_score'] ?>"></td>
-										<td>Overall Percentage:</td><td colspan="3"><input type="text" readonly class="form-control" id="business_overall_score" name="data[business_overall_score]" value="<?php echo $norther_data['business_overall_score'] ?>"></td>
-										<td>Overall Percentage:</td><td colspan="4"><input type="text" readonly class="form-control" id="compliance_overall_score" name="data[compliance_overall_score]" value="<?php echo $norther_data['compliance_overall_score'] ?>"></td>
+										<td>Overall Percentage:</td><td colspan=2><input type="text" readonly class="form-control" id="customer_overall_score" name="data[customer_overall_score]" value="<?php echo $norther_data['customer_overall_score'] ?>"></td>
+										<td>Overall Percentage:</td><td colspan=2><input type="text" readonly class="form-control" id="business_overall_score" name="data[business_overall_score]" value="<?php echo $norther_data['business_overall_score'] ?>"></td>
+										<td>Overall Percentage:</td><td colspan=2><input type="text" readonly class="form-control" id="compliance_overall_score" name="data[compliance_overall_score]" value="<?php echo $norther_data['compliance_overall_score'] ?>"></td>
 									</tr>
 
 										<tr>

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Qa_oyo_sig extends CI_Controller {
+class ] extends CI_Controller {
     
      	
 	 function __construct() {
@@ -153,7 +153,7 @@ class Qa_oyo_sig extends CI_Controller {
 		if(check_logged_in())
 		{
 			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_oyo_sig/qaoyo_management_feedback_review.php"; 
+			$data["content_template"] = "qa_oyo_sig_mohali/qaoyo_management_feedback_review.php"; 
 			
 			$tl_mgnt_cond="";
 			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
@@ -232,7 +232,7 @@ class Qa_oyo_sig extends CI_Controller {
 			$current_user=get_user_id();
 			$user_office_id=get_user_office_id();
 			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_oyo_sig/qaoyo_management_status_form.php"; 
+			$data["content_template"] = "qa_oyo_sig_mohali/qaoyo_management_status_form.php"; 
 			
 			//$data["get_agent_id_list"] = $this->Qa_oyosig_model->get_agent_id(90,153);
 			$qSql="Select id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,90) and is_assign_process(id,153) and status=1 order by name";
@@ -425,7 +425,7 @@ class Qa_oyo_sig extends CI_Controller {
 				}
 			////////////////	
 				
-				redirect('Qa_oyo_sig/qaoyo_management_sorting_feedback');
+				redirect('Qa_oyo_sig_mohali/qaoyo_management_sorting_feedback');
 				
 			}else{
 				$this->load->view('dashboard',$data);
@@ -446,7 +446,7 @@ class Qa_oyo_sig extends CI_Controller {
 			$user_office_id=get_user_office_id();
 			
 			$data["aside_template"] = "qa/aside.php";
-            $data["content_template"] = "qa_oyo_sig/qaoyo_management_feedback_entry.php"; 
+            $data["content_template"] = "qa_oyo_sig_mohali/qaoyo_management_feedback_entry.php"; 
 			
 			//$data["get_agent_id_list"] = $this->Qa_oyosig_model->get_agent_id(90,153);
 			$qSql="Select id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,90) and is_assign_process(id,153) and status=1 order by name";
@@ -600,11 +600,11 @@ class Qa_oyo_sig extends CI_Controller {
 					"dd_c_oyo" => $this->input->post('dd_c_oyo')
 				);
 				
-				$a = $this->sig_upload_files($_FILES['attach_file'],$path='./qa_files/qa_oyo_sig/');
+				$a = $this->sig_upload_files($_FILES['attach_file'],$path='./qa_files/Qa_oyo_sig_mohali/');
 				$field_array["attach_file"] = implode(',',$a);
 				
 				$data["insert_feedback_entry"] = $this->Qa_oyosig_model->data_insert_feedback_entry($field_array); 
-				redirect('Qa_oyo_sig/qaoyo_management_sorting_feedback');
+				redirect('Qa_oyo_sig_mohali/qaoyo_management_sorting_feedback');
 				
 				
 			}
@@ -624,8 +624,8 @@ class Qa_oyo_sig extends CI_Controller {
 		{
 			$current_user = get_user_id();
 			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_oyo_sig/qaoyo_agent_feedback_review.php"; 
-			$data["agentUrl"] = "qa_oyo_sig/qaoyo_agent_sorting_feedback"; 
+			$data["content_template"] = "qa_oyo_sig_mohali/qaoyo_agent_feedback_review.php"; 
+			$data["agentUrl"] = "Qa_oyo_sig_mohali/qaoyo_agent_sorting_feedback"; 
 			$data["content_js"] = "qa_oyo/uk_us_js.php";		
 			$from_date = $this->input->get('from_date');
 			$to_date = $this->input->get('to_date');
@@ -679,8 +679,8 @@ class Qa_oyo_sig extends CI_Controller {
 			$current_user=get_user_id();
 			$user_office_id=get_user_office_id();
 			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_oyo_sig/qaoyo_agent_feedback_review_rvw.php";
-			$data["agentUrl"] = "qa_oyo_sig/qaoyo_agent_sorting_feedback"; 
+			$data["content_template"] = "qa_oyo_sig_mohali/qaoyo_agent_feedback_review_rvw.php";
+			$data["agentUrl"] = "Qa_oyo_sig_mohali/qaoyo_agent_sorting_feedback"; 
             $data["content_js"] = "qa_oyo/uk_us_js.php";
 			$data["sig_id"]=$id;	
 			
@@ -700,7 +700,7 @@ class Qa_oyo_sig extends CI_Controller {
 				);
 				$this->db->where('id', $sig_id);
 				$this->db->update('qa_oyosig_new_feedback',$field_array);
-				redirect('qa_oyo_sig/qaoyo_agent_sorting_feedback');
+				redirect('Qa_oyo_sig_mohali/qaoyo_agent_sorting_feedback');
 				
 			}else{
 				$this->load->view('dashboard',$data);
@@ -716,8 +716,8 @@ class Qa_oyo_sig extends CI_Controller {
 			$current_user = get_user_id();
 			
 			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_oyo_sig/qaoyo_agent_feedback_review.php"; 
-			$data["agentUrl"] = "qa_oyo_sig/qaoyo_agent_sorting_feedback"; 
+			$data["content_template"] = "Qa_oyo_sig_mohali/qaoyo_agent_feedback_review.php"; 
+			$data["agentUrl"] = "Qa_oyo_sig_mohali/qaoyo_agent_sorting_feedback"; 
 			
 			
 			$qSql="Select count(id) as value from qa_oyosig_feedback where agent_id = '$current_user' and audit_type in ('CQ Audit', 'BQ Audit')";
@@ -811,8 +811,8 @@ class Qa_oyo_sig extends CI_Controller {
 			$current_user = get_user_id();
 			
 			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_oyo_sig/qaoyo_agent_status_form.php"; 
-			$data["agentUrl"] = "qa_oyo_sig/qaoyo_agent_sorting_feedback"; 
+			$data["content_template"] = "Qa_oyo_sig_mohali/qaoyo_agent_status_form.php"; 
+			$data["agentUrl"] = "Qa_oyo_sig_mohali/qaoyo_agent_sorting_feedback"; 
 			
 			$data["fid"]=$id;
 			
@@ -858,7 +858,7 @@ class Qa_oyo_sig extends CI_Controller {
 					$this->db->update('qa_oyosig_agent_review',$field_array);
 				}
 				
-				redirect('Qa_oyo_sig/qaoyo_agent_sorting_feedback');
+				redirect('Qa_oyo_sig_mohali/qaoyo_agent_sorting_feedback');
 				
 			}else{
 				$this->load->view('dashboard',$data);
@@ -874,9 +874,9 @@ class Qa_oyo_sig extends CI_Controller {
 			$user_office_id=get_user_office_id();
 			
 			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_oyo_sig/new_scorecard/agent_oyo_sig_rvw.php";
+			$data["content_template"] = "Qa_oyo_sig_mohali/new_scorecard/agent_oyo_sig_rvw.php";
 			$data["content_js"] = "qa_oyo/uk_us_js.php";
-			$data["agentUrl"] = "qa_oyo_sig/qaoyo_agent_sorting_feedback";
+			$data["agentUrl"] = "Qa_oyo_sig_mohali/qaoyo_agent_sorting_feedback";
 			
 			$qSql="SELECT * from
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
@@ -901,7 +901,7 @@ class Qa_oyo_sig extends CI_Controller {
 				$this->db->where('id', $pnid);
 				$this->db->update('qa_oyosig_new_feedback',$field_array1);
 					
-				redirect('Qa_oyo_sig/qaoyo_agent_sorting_feedback');
+				redirect('Qa_oyo_sig_mohali/qaoyo_agent_sorting_feedback');
 				
 			}else{
 				$this->load->view('dashboard',$data);
@@ -919,7 +919,7 @@ class Qa_oyo_sig extends CI_Controller {
 			$current_user=get_user_id();
 			$user_office_id=get_user_office_id();
 			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_oyo_sig/new_scorecard/add_edit_sig.php";
+			$data["content_template"] = "Qa_oyo_sig_mohali/new_scorecard/add_edit_sig.php";
 			$data["content_js"] = "qa_oyo/uk_us_js.php";
 			$data['sig_id']=$sig_id;
 			$tl_mgnt_cond='';
@@ -957,7 +957,7 @@ class Qa_oyo_sig extends CI_Controller {
 					$field_array['audit_date']=CurrDate();
 					$field_array['entry_date']=$curDateTime;
 					$field_array['audit_start_time']=$this->input->post('audit_start_time');
-					$a = $this->sig_upload_files($_FILES['attach_file'], $path='./qa_files/qa_oyo_sig/sig_new/');
+					$a = $this->sig_upload_files($_FILES['attach_file'], $path='./qa_files/Qa_oyo_sig_mohali/sig_new/');
 					$field_array["attach_file"] = implode(',',$a);
 					$rowid= data_inserter('qa_oyosig_new_feedback',$field_array);
 				///////////
@@ -991,103 +991,12 @@ class Qa_oyo_sig extends CI_Controller {
 					$this->db->where('id', $sig_id);
 					$this->db->update('qa_oyosig_new_feedback',$edit_array);
 				}
-				redirect('qa_oyo_sig/qaoyo_management_sorting_feedback');
+				redirect('Qa_oyo_sig_mohali/qaoyo_management_sorting_feedback');
 			}
 			$data["array"] = $a;
 			$this->load->view("dashboard",$data);
 		}
 	}
-
-	//////////////////////////VIKAS////////////////////////////////
-
-public function add_edit_sig_mohali($sig_id){
-
-		if(check_logged_in())
-		{
-			$current_user=get_user_id();
-			$user_office_id=get_user_office_id();
-			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_oyo_sig/mohali_scorecard/add_edit_sig.php";
-			$data["content_js"] = "qa_oyo/uk_us_js.php";
-			$data['sig_id']=$sig_id;
-			$tl_mgnt_cond='';
-			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
-				$tl_mgnt_cond=" and (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
-			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
-				$tl_mgnt_cond=" and assigned_to='$current_user'";
-			}else{
-				$tl_mgnt_cond="";
-			}
-			
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,90) and is_assign_process(id,153) and status=1  order by name";
-			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
-			
-			$qSql = "SELECT * FROM signin where id not in (select id from role where folder='agent')";
-			$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
-			
-			$qSql = "SELECT * from
-				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
-				from qa_oyosig_new_feedback where id='$sig_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
-			$data["oyo_sig_mohali"] = $this->Common_model->get_query_row_array($qSql);
-			
-
-			$curDateTime=CurrMySqlDate();
-			$a = array();
-			
-			$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
-			if($field_array['agent_id']){
-
-				if($sig_id==0){
-					$field_array=$this->input->post('data');
-					$field_array['audit_date']=CurrDate();
-					$field_array['entry_date']=$curDateTime;
-					$field_array['audit_start_time']=$this->input->post('audit_start_time');
-					$a = $this->sig_upload_files($_FILES['attach_file'], $path='./qa_files/qa_oyo_sig/sig_new/');
-					$field_array["attach_file"] = implode(',',$a);
-					$rowid= data_inserter('qa_oyosig_mohali_feedback',$field_array);
-				///////////
-					if(get_login_type()=="client"){
-						$add_array = array("client_entryby" => $current_user);
-					}else{
-						$add_array = array("entry_by" => $current_user);
-					}
-					$this->db->where('id', $rowid);
-					$this->db->update('qa_oyosig_mohali_feedback',$add_array);
-					
-				}else{
-					
-					$field_array1=$this->input->post('data');
-					$this->db->where('id', $sig_id);
-					$this->db->update('qa_oyosig_mohali_feedback',$field_array1);
-					/////////////
-					if(get_login_type()=="client"){
-						$edit_array = array(
-							"client_rvw_by" => $current_user,
-							"client_rvw_note" => $this->input->post('note'),
-							"client_rvw_date" => $curDateTime
-						);
-					}else{
-						$edit_array = array(
-							"mgnt_rvw_by" => $current_user,
-							"mgnt_rvw_note" => $this->input->post('note'),
-							"mgnt_rvw_date" => $curDateTime
-						);
-					}
-					$this->db->where('id', $sig_id);
-					$this->db->update('qa_oyosig_mohali_feedback',$edit_array);
-				}
-				redirect('qa_oyo_sig/qaoyo_management_sorting_feedback');
-			}
-			$data["array"] = $a;
-			$this->load->view("dashboard",$data);
-		}
-	}
-
-
-	/////////////////////////VIKAS/////////////////////////////////
 
 	public function add_edit_sig66($sig_id){
 		if(check_logged_in())
@@ -1096,7 +1005,7 @@ public function add_edit_sig_mohali($sig_id){
 			$user_office_id=get_user_office_id();
 			
 			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_oyo_sig/new_scorecard/add_edit_sig.php";
+			$data["content_template"] = "Qa_oyo_sig_mohali/new_scorecard/add_edit_sig.php";
 			$data["content_js"] = "qa_oyo/uk_us_js.php";
 			$data['sig_id']=$sig_id;
 			$tl_mgnt_cond='';
@@ -1232,7 +1141,7 @@ public function add_edit_sig_mohali($sig_id){
 				
 				if($sig_id==0){
 					
-					$a = $this->sig_upload_files($_FILES['attach_file'], $path='./qa_files/qa_oyo_sig/sig_new/');
+					$a = $this->sig_upload_files($_FILES['attach_file'], $path='./qa_files/Qa_oyo_sig_mohali/sig_new/');
 					$field_array["attach_file"] = implode(',',$a);
 					$rowid= data_inserter('qa_oyosig_new_feedback',$field_array);
 					/////////
@@ -1275,7 +1184,7 @@ public function add_edit_sig_mohali($sig_id){
 					
 				}
 				
-				redirect('qa_oyo_sig/qaoyo_management_sorting_feedback');
+				redirect('Qa_oyo_sig_mohali/qaoyo_management_sorting_feedback');
 			}
 			$data["array"] = $a;
 			$this->load->view("dashboard",$data);
@@ -1291,8 +1200,8 @@ public function add_edit_sig_mohali($sig_id){
 		{
 			$current_user = get_user_id();
 			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_oyo_sig/sig_chat/qa_sig_chat_feedback.php";
-			$data["content_js"] = "qa_oyo_sig_js.php";
+			$data["content_template"] = "Qa_oyo_sig_mohali/sig_chat/qa_sig_chat_feedback.php";
+			$data["content_js"] = "Qa_oyo_sig_mohali_js.php";
 			$tl_mgnt_cond='';
 			
 			if(is_access_qa_oyo_fd_entry()==true){
@@ -1367,7 +1276,7 @@ public function add_edit_sig_mohali($sig_id){
       $user_office_id=get_user_office_id();
       
       $data["aside_template"] = "qa/aside.php";
-      $data["content_template"] = "qa_oyo_sig/sig_chat/add_edit_sigchat_service.php";
+      $data["content_template"] = "Qa_oyo_sig_mohali/sig_chat/add_edit_sigchat_service.php";
       $data['service_id']=$service_id;
       $tl_mgnt_cond='';
       
@@ -1413,7 +1322,7 @@ public function add_edit_sig_mohali($sig_id){
           $field_array['entry_date']=$curDateTime;
           $field_array['audit_start_time']=$this->input->post('audit_start_time');
 
-          $a = $this->amd_upload_files($_FILES['attach_file'], $path='./qa_files/qa_oyo_sig/sig_chat_service/');
+          $a = $this->amd_upload_files($_FILES['attach_file'], $path='./qa_files/Qa_oyo_sig_mohali/sig_chat_service/');
                     $field_array["attach_file"] = implode(',',$a);
 
           $rowid= data_inserter('qa_oyosig_chat_service_feedback',$field_array);
@@ -1449,7 +1358,7 @@ public function add_edit_sig_mohali($sig_id){
 
         }
 
-        redirect('qa_oyo_sig/oyo_sig_chat');
+        redirect('Qa_oyo_sig_mohali/oyo_sig_chat');
       }
       $data["array"] = $a;
 
@@ -1465,7 +1374,7 @@ public function add_edit_sig_mohali($sig_id){
 			$user_office_id=get_user_office_id();
 			
 			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_oyo_sig/sig_chat/add_edit_sigchat_service.php";
+			$data["content_template"] = "Qa_oyo_sig_mohali/sig_chat/add_edit_sigchat_service.php";
 			$data['service_id']=$service_id;
 			$tl_mgnt_cond='';
 			
@@ -1608,7 +1517,7 @@ public function add_edit_sig_mohali($sig_id){
 				
 				if($service_id==0){
 					
-					$a = $this->sig_upload_files($_FILES['attach_file'], $path='./qa_files/qa_oyo_sig/sig_chat_service/');
+					$a = $this->sig_upload_files($_FILES['attach_file'], $path='./qa_files/Qa_oyo_sig_mohali/sig_chat_service/');
 					$field_array["attach_file"] = implode(',',$a);
 					$rowid= data_inserter('qa_oyosig_chat_service_feedback',$field_array);
 					/////////
@@ -1650,7 +1559,7 @@ public function add_edit_sig_mohali($sig_id){
 					$this->db->update('qa_oyosig_chat_service_feedback',$field_array1);
 					
 				}
-				redirect('qa_oyo_sig/oyo_sig_chat');
+				redirect('Qa_oyo_sig_mohali/oyo_sig_chat');
 			}
 			$data["array"] = $a;
 			$this->load->view("dashboard",$data);
@@ -1665,7 +1574,7 @@ public function add_edit_sig_mohali($sig_id){
 			$user_office_id=get_user_office_id();
 			
 			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_oyo_sig/sig_chat/add_edit_sigchat_escalation.php";
+			$data["content_template"] = "Qa_oyo_sig_mohali/sig_chat/add_edit_sigchat_escalation.php";
 			$data['escalation_id']=$escalation_id;
 			$tl_mgnt_cond='';
 			
@@ -1807,7 +1716,7 @@ public function add_edit_sig_mohali($sig_id){
 				
 				if($escalation_id==0){
 					
-					$a = $this->sig_upload_files($_FILES['attach_file'], $path='./qa_files/qa_oyo_sig/sig_chat_escalation/');
+					$a = $this->sig_upload_files($_FILES['attach_file'], $path='./qa_files/Qa_oyo_sig_mohali/sig_chat_escalation/');
 					$field_array["attach_file"] = implode(',',$a);
 					$rowid= data_inserter('qa_oyosig_chat_escalation_feedback',$field_array);
 					// print_r($field_array);
@@ -1851,7 +1760,7 @@ public function add_edit_sig_mohali($sig_id){
 					$this->db->update('qa_oyosig_chat_escalation_feedback',$field_array1);
 					
 				}
-				redirect('qa_oyo_sig/oyo_sig_chat');
+				redirect('Qa_oyo_sig_mohali/oyo_sig_chat');
 			}
 			$data["array"] = $a;
 			$this->load->view("dashboard",$data);
@@ -1866,8 +1775,8 @@ public function add_edit_sig_mohali($sig_id){
 			$role_id= get_role_id();
 			$current_user = get_user_id();
 			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_oyo_sig/sig_chat/agent_oyosig_chat_fd.php";
-			$data["agentUrl"] = "qa_oyo_sig/agent_oyosig_chat_fd";
+			$data["content_template"] = "Qa_oyo_sig_mohali/sig_chat/agent_oyosig_chat_fd.php";
+			$data["agentUrl"] = "Qa_oyo_sig_mohali/agent_oyosig_chat_fd";
 			$from_date = '';
 			$to_date = '';
 			$campaign = '';
@@ -1921,8 +1830,8 @@ public function add_edit_sig_mohali($sig_id){
 			$current_user=get_user_id();
 			$user_office_id=get_user_office_id();
 			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_oyo_sig/sig_chat/agent_sig_chat_rvw.php";
-			$data["agentUrl"] = "qa_oyo_sig/agent_oyosig_chat_fd";
+			$data["content_template"] = "Qa_oyo_sig_mohali/sig_chat/agent_sig_chat_rvw.php";
+			$data["agentUrl"] = "Qa_oyo_sig_mohali/agent_oyosig_chat_fd";
 			
 			$qSql="SELECT * from
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
@@ -1948,7 +1857,7 @@ public function add_edit_sig_mohali($sig_id){
 				$this->db->where('id', $pnid);
 				$this->db->update("qa_oyosig_chat_".$campaign."_feedback",$field_array1);
 					
-				redirect('qa_oyo_sig/agent_oyosig_chat_fd');
+				redirect('Qa_oyo_sig_mohali/agent_oyosig_chat_fd');
 				
 			}else{
 				$this->load->view('dashboard',$data);

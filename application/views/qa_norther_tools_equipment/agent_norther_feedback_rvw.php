@@ -108,8 +108,9 @@
 											<td>
 												<input type="text" class="form-control" name="data[manager]" value="<?php echo $norther_data['manager'] ?>" disabled>
 											</td>
-											<td>Call Duration:</td>
-											<td><input type="text" class="form-control" onkeydown="return false;" id="call_duration" name="data[call_duration]" value="<?php echo $norther_data['call_duration']?>" disabled></td>
+											<!-- <td>Call Duration:</td>
+											<td><input type="text" class="form-control" onkeydown="return false;" id="call_duration" name="data[call_duration]" value="<?php //echo $norther_data['call_duration']?>" disabled></td> -->
+											
 											<td>VOC:<span style="font-size:24px;color:red">*</span></td>
 											<td>
 												<select class="form-control" id="voc" name="data[voc]" disabled>
@@ -131,14 +132,16 @@
 											<td>Audit Type:</td>
 											<td colspan="2">
 												<select class="form-control" id="audit_type" name="data[audit_type]" disabled>
-                                                    <option value="">-Select-</option>
+                                                   <option value="">-Select-</option>
                                                     <option value="CQ Audit" <?= ($norther_data['audit_type']=="CQ Audit")?"selected":"" ?>>CQ Audit</option>
                                                     <option value="BQ Audit" <?= ($norther_data['audit_type']=="BQ Audit")?"selected":"" ?>>BQ Audit</option>
                                                     <option value="Calibration" <?= ($norther_data['audit_type']=="Calibration")?"selected":"" ?>>Calibration</option>
                                                     <option value="Pre-Certificate Mock Call" <?= ($norther_data['audit_type']=="Pre-Certificate Mock Call")?"selected":"" ?>>Pre-Certificate Mock Call</option>
                                                     <option value="Certification Audit" <?= ($norther_data['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
-                                                    <option value="WoW Call Audit"  <?= ($norther_data['audit_type']=="WoW Call Audit")?"selected":"" ?>>WoW Call Audit</option>
-                                                   
+                                                    <option value="WOW Call"  <?= ($norther_data['audit_type']=="WOW Call")?"selected":"" ?>>WOW Call</option>
+                                                    <option value="Hygiene Audit"  <?= ($norther_data['audit_type']=="Hygiene Audit")?"selected":"" ?>>Hygiene Audit</option>
+                                                    <option value="Operation Audit"  <?= ($norther_data['audit_type']=="Operation Audit")?"selected":"" ?>>Operation Audit</option>
+                                                    <option value="Trainer Audit"  <?= ($norther_data['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option>
                                                     
                                                 </select>
 											</td>
