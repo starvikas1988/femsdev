@@ -22,14 +22,16 @@
 							<div class="row">
 								<div class="col-md-3">
 									<div class="form-group">
-										<label>From Date (mm/dd/yyyy)</label>
-										<input type="text" id="from_date" name="from_date" value="<?php echo mysql2mmddyy($from_date); ?>" class="form-control">
+										<label>From Date (MM/DD/YYYY)</label>
+										<input type="text" id="from_date" name="from_date" onchange="date_validation(this.value,'S')" value="<?php $date= mysql2mmddyy($from_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="start_date_error" style="color:red"></span>
 									</div>
 								</div>  
 								<div class="col-md-3"> 
 									<div class="form-group">
-										<label>To Date (mm/dd/yyyy)</label>
-										<input type="text" id="to_date" name="to_date" value="<?php echo mysql2mmddyy($to_date); ?>" class="form-control">
+										<label>To Date (MM/DD/YYYY)</label>
+										<input type="text" id="to_date" name="to_date" onchange="date_validation(this.value,'E')"       value="<?php $date= mysql2mmddyy($to_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="end_date_error" style="color:red"></span>
 									</div> 
 								</div>
 								<!--<div class="col-md-3">
@@ -53,7 +55,7 @@
 									</div>
 								</div>
 								<div class="col-md-1" style="margin-top:20px">
-									<button class="btn btn-success waves-effect" a href="<?php echo base_url()?>Qa_oyo_sig/qaoyo_management_sorting_feedback" type="submit" id='btnView' name='btnView' value="View">View</button>
+									<button class="btn btn-success esal-effect" a href="<?php echo base_url()?>Qa_oyo_sig/qaoyo_management_sorting_feedback" type="submit" id='btnView' name='btnView' value="View">View</button>
 								</div>
 							</div>
 							

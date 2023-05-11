@@ -51,9 +51,9 @@ class Reports_model extends CI_Model {
 		
 		//$qSQL="select * from (select *, comments as tcomments ,time_format(timediff(ticket_date,terms_date),'%H:%i:%s') as termDiff from terminate_users $cond ) a, (select *,(Select name from site z  where z.id=b.site_id) as site_name, (Select CONCAT(fname,' ' ,lname) from signin x where x.id=b.assigned_to) as asign_tl, get_process_names(b.id) as process_name,(Select name from role k  where k.id=b.role_id) as role_name from signin b $cond2 ) t where a.user_id=t.id order by terms_date desc, a.id desc " ;
 		
-		 $qSQL="SELECT * from (select *, comments as tcomments ,time_format(timediff(ticket_date,terms_date),'%H:%i:%s') as termDiff, (Select concat(fname, ' ', lname) as name from signin s where s.id=terms_by) as terms_by_name, (Select concat(fname, ' ', lname) as name from signin s where s.id=update_by) as update_by_name from terminate_users  $cond) a, (select *,(Select name from site z  where z.id=b.site_id) as site_name, (Select CONCAT(fname,' ' ,lname) from signin x where x.id=b.assigned_to) as asign_tl, get_process_names(b.id) as process_name,(Select name from role k  where k.id=b.role_id) as role_name from signin b $cond2 ) t where a.user_id=t.id $cond3 order by terms_date desc, a.id desc";
+		 $qSQL="SELECT * from (select *, comments as tcomments ,time_format(timediff(ticket_date,terms_date),'%H:%i:%s') as termDiff, (Select concat(fname, ' ', lname) as name from signin s where s.id=terms_by) as terms_by_name, (Select concat(fname, ' ', lname) as name from signin s where s.id=update_by) as update_by_name from terminate_users  $cond) a, (select *,(Select name from site z  where z.id=b.site_id) as site_name, (Select CONCAT(fname,' ' ,lname) from signin x where x.id=b.assigned_to) as asign_tl, (Select d.description from department d where d.id=b.dept_id) as dept_name, get_process_names(b.id) as process_name,(Select name from role k  where k.id=b.role_id) as role_name from signin b $cond2 ) t where a.user_id=t.id $cond3 order by terms_date desc, a.id desc";
 		
-		 //echo $qSQL;exit;
+		// echo $qSQL;exit;
 		$query = $this->RepDB->query($qSQL);
 		return $query->result_array();
 		
@@ -208,7 +208,7 @@ class Reports_model extends CI_Model {
 		//echo "3. ".$st_date . " >> " .	$en_date . "\r\n";
 		//(Select name from sub_process l where l.id=b.sub_process_id) as sub_process_name,
 		
-		$qSql = "Select ld.*, login_log, substring(ld.log, locate('RemoteIP', ld.log), length(ld.log)) as loout_log ,b.fusion_id, b.fname,b.lname,b.xpoid,b.omuid,in_time,out_time, TIMESTAMPDIFF(SECOND,login_time,logout_time) as Ltime, (Select shname from department s where s.id=b.dept_id) as dept_name,(Select name from sub_department sd where sd.id=b.sub_dept_id) as sub_dept_name, get_client_names(b.id) as client_name , get_process_names(b.id) as process_name, (Select name from site z  where z.id=b.site_id) as site_name, (Select CONCAT(fname,' ' ,lname) from signin x where x.id=b.assigned_to) as asign_tl, (Select name from role a  where a.id=b.role_id) as role_name, b.status  from logged_in_details  ld
+		$qSql = "Select ld.*, login_log, substring(ld.log, locate('RemoteIP', ld.log), length(ld.log)) as loout_log ,b.fusion_id, b.fname,b.lname,b.xpoid,b.omuid,in_time,out_time,b.office_id, TIMESTAMPDIFF(SECOND,login_time,logout_time) as Ltime, (Select shname from department s where s.id=b.dept_id) as dept_name,(Select name from sub_department sd where sd.id=b.sub_dept_id) as sub_dept_name, get_client_names(b.id) as client_name , get_process_names(b.id) as process_name, (Select name from site z  where z.id=b.site_id) as site_name, (Select CONCAT(fname,' ' ,lname) from signin x where x.id=b.assigned_to) as asign_tl, (Select name from role a  where a.id=b.role_id) as role_name, b.status  from logged_in_details  ld
 		Left Join signin b ON ld.user_id = b.id
 		Left Join user_shift_schedule uss ON ld.user_id = uss.user_id and date(ld.login_time_local) = uss.shdate 
 		Where $role_check $stCond $_cnd $_discnd Order By login_time, fname, b.fusion_id";
@@ -221,7 +221,7 @@ class Reports_model extends CI_Model {
 	}
 	
 	
-	public function get_user_list_report($filterArr,$exCond="",$is_sch='N',$is_leave='Y',$is_dailer = 'N', $is_reversal = 'N')
+	public function get_user_list_report($filterArr,$exCond="",$is_sch='N',$is_leave='Y')
     {
 		
 		if($this->RepDB==null) $this->set_report_database();
@@ -452,8 +452,6 @@ class Reports_model extends CI_Model {
 					$arr = array();
 					$arr['status'] = $row->status;
 					$arr['phase'] = $row->phase;
-
-					$fusion_id=	$row->fusion_id;
 					
 					///////////// Schedule ////
 					if($is_sch=="Y"){
@@ -481,147 +479,6 @@ class Reports_model extends CI_Model {
 						$arr['sch_in'] = "";
 						$arr['sch_out'] = "";	
 					}
-
-
-
-					//////////////////////dialer//////////////
-					if($is_dailer=='Y'){
-					$sqld="SELECT * FROM
-					(SELECT *,   
-					   CASE
-						WHEN `date` != '' THEN CONCAT(`date`,' ',TIME_FORMAT(login_time, '%H:%i:%s'))
-						ELSE CONCAT(DATE_FORMAT(login_time, '%Y-%m-%d'),' ',TIME_FORMAT(login_time, '%H:%i:%s'))
-					END AS login_date_time,
-					
-					CASE
-						WHEN `date` != '' THEN CONCAT(`date`,' ',TIME_FORMAT(logout_time, '%H:%i:%s'))
-						ELSE CONCAT(DATE_FORMAT(logout_time, '%Y-%m-%d'),' ',TIME_FORMAT(logout_time, '%H:%i:%s'))
-					END AS logout_date_time,
-					
-					CASE
-						WHEN `date` != '' THEN `date`
-						ELSE DATE_FORMAT(login_time, '%Y-%m-%d')
-					END AS login_date
-					
-					
-					FROM
-						`ar_attendance_raw_data`
-					WHERE
-						`fusion_id` LIKE '$fusion_id'
-						) as tmp1 WHERE login_date<='$cDate' and login_date>='$cDate'
-					GROUP BY login_date";
-
-					// echo $sqld;
-
-					$dialer_q = $this->RepDB->query($sqld);
-					$dialer_row = $dialer_q->row_array();
-					// echo'<pre>***************';print_r($dialer_row); exit;
-					if (isset($dialer_row)){
-						$arr['dailer_login_time'] = $dialer_row['login_date_time'];
-						$arr['dailer_logout_time'] = $dialer_row['logout_date_time'];
-						$arr['dailer_total_time'] = $dialer_row['total_time'];
-						$arr['dailer_login_time_est'] = $dialer_row['login_time_est'];
-						$arr['dailer_logout_time_est'] = $dialer_row['logout_time_est'];
-						$arr['dailer_aux_in'] = $dialer_row['aux_in'];
-						$arr['dailer_aux_out'] = $dialer_row['aux_out'];
-						$arr['dailer_aux_time'] = $dialer_row['aux_time'];
-						$arr['dailer_non_payable'] = $dialer_row['non_payable'];
-						$arr['dailer_ot_in'] = $dialer_row['ot_in'];
-						$arr['dailer_ot_out'] = $dialer_row['ot_out'];
-						$arr['dailer_staffed_time'] = $dialer_row['staffed_time'];
-						$arr['dailer_client_id'] = $dialer_row['client_id'];
-						$arr['dailer_source'] = $dialer_row['source'];
-						$arr['dailer_sub_source'] = $dialer_row['sub_source'];
-					}else{
-						$arr['dailer_login_time'] = "";
-						$arr['dailer_logout_time'] = "";
-						$arr['dailer_total_time'] = "";
-						$arr['dailer_login_time_est'] = "";
-						$arr['dailer_logout_time_est'] = "";
-						$arr['dailer_aux_in'] = "";
-						$arr['dailer_aux_out'] = "";
-						$arr['dailer_aux_time'] = "";
-						$arr['dailer_non_payable'] = "";
-						$arr['dailer_ot_in'] = "";
-						$arr['dailer_ot_out'] = "";
-						$arr['dailer_staffed_time'] = "";
-						$arr['dailer_client_id'] = "";
-						$arr['dailer_source'] = "";
-						$arr['dailer_sub_source'] = "";
-					}
-					}else{
-						$arr['dailer_login_time'] = "";
-						$arr['dailer_logout_time'] = "";
-						$arr['dailer_total_time'] = "";
-						$arr['dailer_login_time_est'] = "";
-						$arr['dailer_logout_time_est'] = "";
-						$arr['dailer_aux_in'] = "";
-						$arr['dailer_aux_out'] = "";
-						$arr['dailer_aux_time'] = "";
-						$arr['dailer_non_payable'] = "";
-						$arr['dailer_ot_in'] = "";
-						$arr['dailer_ot_out'] = "";
-						$arr['dailer_staffed_time'] = "";
-						$arr['dailer_client_id'] = "";
-						$arr['dailer_source'] = "";
-						$arr['dailer_sub_source'] = "";
-					}	
-					///////////////////end of dailer/////////
-
-					if($is_reversal=="Y"){
-						$sql_rev="select ar_type.name AS rq_type,aprev.*,aprev.id as apevid FROM ar_apply_reversal aprev LEFT JOIN ar_type ON aprev.type=ar_type.id WHERE aprev.user_id='$row->id' AND aprev.event_date='$cDate'";
-						$reqlev_q = $this->RepDB->query($sql_rev);
-						$reqlev_row = $reqlev_q->row_array();
-						if(isset($reqlev_row)){
-							$arr['ar_type_name'] = $reqlev_row['rq_type'];
-							$arr['ar_type'] = $reqlev_row['type'];
-							$arr['rq_start_date'] = $reqlev_row['rq_start_date'];
-							$arr['rq_end_date'] = $reqlev_row['rq_end_date'];
-							$arr['rq_contact'] = $reqlev_row['contact'];
-							$arr['rq_reason'] = $reqlev_row['reason'];
-							$arr['is_approve_l1'] = $reqlev_row['is_approve_l1'];
-							$arr['is_approve_rta'] = $reqlev_row['is_approve_rta'];
-							$arr['rq_status'] = $reqlev_row['status'];
-							$arr['rq_workflow'] = "";
-							$aprvid=$reqlev_row['apevid'];
-							$arr['aprevid'] = $aprvid;
-							$cmm=array();
-
-							$sql_rev1="Select * from ar_working_log WHERE user_id='$row->id' AND apply_reversal_id='$aprvid'";
-							$reqlev_r = $this->RepDB->query($sql_rev1);
-							$reqlev_rowq = $reqlev_r->result_array();
-							
-							foreach($reqlev_rowq as $key=>$rw){
-								$cmm[]['comment']=$rw['comment'];
-							}
-							$arr['rq_workflow'] = $cmm;
-						}else{
-							$arr['ar_type_name'] = "";
-							$arr['ar_type'] = "";
-							$arr['rq_start_date'] = "";
-							$arr['rq_end_date'] = "";
-							$arr['rq_contact'] = "";
-							$arr['rq_reason'] = "";
-							$arr['is_approve_l1'] = "";
-							$arr['is_approve_rta'] = "";
-							$arr['rq_status'] = "";
-							$arr['rq_workflow'] = "";
-							$arr['aprevid'] = "";
-						}
-					}else{
-							$arr['ar_type_name'] ="";
-							$arr['ar_type'] = "";
-							$arr['rq_start_date'] = "";
-							$arr['rq_end_date'] = "";
-							$arr['rq_contact'] = "";
-							$arr['rq_reason'] = "";
-							$arr['is_approve_l1'] = "";
-							$arr['is_approve_rta'] = "";
-							$arr['rq_status'] = "";
-							$arr['rq_workflow'] = "";
-							$arr['aprevid'] = "";
-					}
-					
 					
 					///////// end Schedule
 					
@@ -629,7 +486,7 @@ class Reports_model extends CI_Model {
 					if($is_leave=="Y"){
 					
 						
-						 $qSql="SELECT user_id,leave_type_id,from_dt,to_dt,status, applied_type, (select abbr from leave_type where leave_type.id=leave_type_id ) as leave_type FROM leave_applied where from_dt<='$cDate' and to_dt>='$cDate' and status in (0,1) and user_id = $row->id";
+						 $qSql="SELECT user_id,leave_type_id,from_dt,to_dt,status, (select abbr from leave_type where leave_type.id=leave_type_id ) as leave_type FROM leave_applied where from_dt<='$cDate' and to_dt>='$cDate' and status in (0,1) and user_id = $row->id";
 												
 						//echo $qSql ."\r\n";
 						
@@ -638,18 +495,15 @@ class Reports_model extends CI_Model {
 						
 						if (isset($leave_row)){
 							$arr['leave_status'] = $leave_row['status'];
-							$arr['leave_type'] = $leave_row['leave_type'];
-							$arr['applied_type'] = $leave_row['applied_type'];
+							$arr['leave_type'] = $leave_row['leave_type'];	
 							
 						}else{
 							$arr['leave_status'] = "";
-							$arr['leave_type'] = "";
-							$arr['applied_type'] = "";	
+							$arr['leave_type'] = "";	
 						}
 					}else{
 						$arr['leave_status'] = "";
-						$arr['leave_type'] = "";
-						$arr['applied_type'] = "";
+						$arr['leave_type'] = "";	
 					}
 					
 					///////// end Leave
@@ -675,8 +529,28 @@ class Reports_model extends CI_Model {
 					$LResEst = $this->RepDB->query($LSqlEst);
 					$LRowEst = $LResEst->row();
 					
+					//////////////////
+					
 					$LResLocal = $this->RepDB->query($LSqlLocal);
 					$LRowLocal = $LResLocal->row();
+					
+					$est_login_time = $cDate;
+					$est_logout_time = $cDate;
+					
+					if($LResEst->num_rows()>0){
+						$est_login_time = $LRowEst->login_time_min;
+						$est_logout_time = $LRowEst->logout_time_max;
+					}
+					
+					$local_login_time = $cDate;
+					$local_logout_time = $cDate;
+					
+					if($LResLocal->num_rows()>0){
+						$local_login_time = $LRowLocal->login_time_local_min;
+						$local_logout_time = $LRowLocal->logout_time_local_max;
+					}
+					
+					//////////////////////////
 					
 					//echo $_dq ."\r\n"; 
 					
@@ -685,7 +559,9 @@ class Reports_model extends CI_Model {
 					
 					
 					//working break_details_ld est 
-					$ldSqlEst ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time,in_time)) as ldBrkTime from break_details_ld where user_id = $row->id and date(out_time) = '".$cDate."' group by user_id";
+					//$ldSqlEst ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time,in_time)) as ldBrkTime from break_details_ld where user_id = $row->id and date(out_time) = '".$cDate."' group by user_id";
+					
+					$ldSqlEst ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time,in_time)) as ldBrkTime from break_details_ld where user_id = $row->id and out_time BETWEEN '".$est_login_time."' AND '".$est_logout_time."' group by user_id";
 					
 					$ldResEst = $this->RepDB->query($ldSqlEst);
 					$ldRowEst = $ldResEst->row();
@@ -693,14 +569,18 @@ class Reports_model extends CI_Model {
 					//working break_details_ld Local Time 		 
 					//$ldqSqlLocal ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time,in_time)) as ldBrkTimeLocal from break_details_ld where user_id = $row->id and date(getEstToLocal(out_time,user_id)) = '".$cDate."' group by user_id";
 					
-					$ldqSqlLocal ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time_local,in_time_local)) as ldBrkTimeLocal from break_details_ld where user_id = $row->id and date(out_time_local) = '".$cDate."' group by user_id";
+					//$ldqSqlLocal ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time_local,in_time_local)) as ldBrkTimeLocal from break_details_ld where user_id = $row->id and date(out_time_local) = '".$cDate."' group by user_id";
+					
+					$ldqSqlLocal ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time_local,in_time_local)) as ldBrkTimeLocal from break_details_ld where user_id = $row->id and out_time_local BETWEEN '".$local_login_time."' AND '".$local_logout_time."' group by user_id";
 					
 						
 					$ldResLocal = $this->RepDB->query($ldqSqlLocal);
 					$ldRowLocal = $ldResLocal->row();
 					
 					//working break_details est 
-					$brkSqlEst ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time,in_time)) as tBrkTime from break_details where user_id = $row->id and date(out_time) = '".$cDate."' group by user_id";
+					//$brkSqlEst ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time,in_time)) as tBrkTime from break_details where user_id = $row->id and date(out_time) = '".$cDate."' group by user_id";
+					
+					$brkSqlEst ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time,in_time)) as tBrkTime from break_details where user_id = $row->id and out_time BETWEEN '".$est_login_time."' AND '".$est_logout_time."' group by user_id";
 					
 					$brkResEst = $this->RepDB->query($brkSqlEst);
 					$brkRowEst = $brkResEst->row();
@@ -708,7 +588,9 @@ class Reports_model extends CI_Model {
 					//working break_details Local Time 		 
 					//$brkSqlLocal ="select user_id, SUM(TIMESTAMPDIFF(SECOND,getEstToLocal(out_time,user_id),getEstToLocal(in_time,user_id))) as tBrkTimeLocal from break_details where user_id = $row->id and date(getEstToLocal(out_time,user_id)) = '".$cDate."' group by user_id";
 					
-					$brkSqlLocal ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time_local,in_time_local)) as tBrkTimeLocal from break_details where user_id = $row->id and date(out_time_local) = '".$cDate."' group by user_id";
+					//$brkSqlLocal ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time_local,in_time_local)) as tBrkTimeLocal from break_details where user_id = $row->id and date(out_time_local) = '".$cDate."' group by user_id";
+					
+					$brkSqlLocal ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time_local,in_time_local)) as tBrkTimeLocal from break_details where user_id = $row->id and out_time_local BETWEEN '".$local_login_time."' AND '".$local_logout_time."' group by user_id";
 					
 					
 					$brkResLocal = $this->RepDB->query($brkSqlLocal);
@@ -770,8 +652,7 @@ class Reports_model extends CI_Model {
 						if(stripos($term_ids,",".$row->id.",")!== false && $user_disp_id!=8) $disp_name="X";
 						else if(strtoupper($disp_name)=="TERM") $term_ids .=$row->id.",";
 						//echo $term_ids ."\n\r";
-						$sql_attendance_reversal="SELECT * FROM user_leave_reversal ul WHERE ul.user_id='".$row->id."' AND date(ul.reversal_date)='".$cDate."'";
-						$_attendance_reversal=$this->RepDB->query($sql_attendance_reversal)->row();
+						
 						
 						////
 					
@@ -806,9 +687,6 @@ class Reports_model extends CI_Model {
 						
 						$arr["todayLoginTime"] = $row->todayLoginTime;
 						$arr["is_logged_in"] = $row->is_logged_in;
-						$arr["reversal_status"] = isset($_attendance_reversal->status)?$_attendance_reversal->status:'';
-						$arr["comment_one"] = isset($_attendance_reversal->comment_one)?$_attendance_reversal->comment_one:'';
-						$arr["comment_two"] = isset($_attendance_reversal->comment_two)?$_attendance_reversal->comment_two:'';
 						
 						//$_ff = $this->
 						///$cDate=CurrDate();
@@ -1247,6 +1125,25 @@ class Reports_model extends CI_Model {
 					$LResLocal = $this->RepDB->query($LSqlLocal);
 					$LRowLocal = $LResLocal->row();
 					
+					//////////////////////////// new update
+					
+					$est_login_time = $cDate;
+					$est_logout_time = $cDate;
+					if($LResEst->num_rows()>0){
+						$est_login_time = $LRowEst->login_time_min;
+						$est_logout_time = $LRowEst->logout_time_max;
+						
+					}
+					
+					$local_login_time = $cDate;
+					$local_logout_time = $cDate;
+					
+					if($LResLocal->num_rows()>0){
+						$local_login_time = $LRowLocal->login_time_local_min;
+						$local_logout_time = $LRowLocal->logout_time_local_max;
+					}
+						
+					//////////////////////
 					
 					//working login manual old 
 					//$_mlsql = "select user_id,added_by as madded_by,disp_id as mdisp_id,comments as mcomments, login_time as mlogin_time,max(logout_time) as mlogout_time, SEC_TO_TIME(SUM(TIMESTAMPDIFF(SECOND,login_time,logout_time))) as tMLtime from logged_in_details_manual where user_id = $row->id and cast(login_time as date) = '".$cDate."'  group by user_id";
@@ -1261,7 +1158,9 @@ class Reports_model extends CI_Model {
 					/////
 					
 					//working break_details_ld est 
-					$ldSqlEst ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time,in_time)) as ldBrkTime from break_details_ld where user_id = $row->id and date(out_time) = '".$cDate."' group by user_id";
+					//$ldSqlEst ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time,in_time)) as ldBrkTime from break_details_ld where user_id = $row->id and date(out_time) = '".$cDate."' group by user_id";
+					
+					$ldSqlEst ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time,in_time)) as ldBrkTime from break_details_ld where user_id = $row->id and out_time BETWEEN '".$est_login_time."' AND '".$est_logout_time."' group by user_id";
 					
 					$ldResEst = $this->RepDB->query($ldSqlEst);
 					$ldRowEst = $ldResEst->row();
@@ -1269,15 +1168,18 @@ class Reports_model extends CI_Model {
 					//working break_details_ld Local Time 		 
 					//$ldqSqlLocal ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time,in_time)) as ldBrkTimeLocal from break_details_ld where user_id = $row->id and date(getEstToLocal(out_time,user_id)) = '".$cDate."' group by user_id";
 					
-					$ldqSqlLocal ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time_local,in_time_local)) as ldBrkTimeLocal from break_details_ld where user_id = $row->id and date(out_time_local) = '".$cDate."' group by user_id";
+					// $ldqSqlLocal ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time_local,in_time_local)) as ldBrkTimeLocal from break_details_ld where user_id = $row->id and date(out_time_local) = '".$cDate."' group by user_id";
 					
+					$ldqSqlLocal ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time_local,in_time_local)) as ldBrkTimeLocal from break_details_ld where user_id = $row->id and out_time_local BETWEEN '".$local_login_time."' AND '".$local_logout_time."' group by user_id";
 						
 					$ldResLocal = $this->RepDB->query($ldqSqlLocal);
 					$ldRowLocal = $ldResLocal->row();
 					
 					
 					//working break_details est 
-					$brkSqlEst ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time,in_time)) as tBrkTime from break_details where user_id = $row->id and date(out_time) = '".$cDate."' group by user_id";
+					//$brkSqlEst ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time,in_time)) as tBrkTime from break_details where user_id = $row->id and date(out_time) = '".$cDate."' group by user_id";
+					
+					$brkSqlEst ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time,in_time)) as tBrkTime from break_details where user_id = $row->id and out_time BETWEEN '".$est_login_time."' AND '".$est_logout_time."' group by user_id";
 					
 					$brkResEst = $this->RepDB->query($brkSqlEst);
 					$brkRowEst = $brkResEst->row();
@@ -1285,9 +1187,10 @@ class Reports_model extends CI_Model {
 					//working break_details Local Time 		 
 					//$brkSqlLocal ="select user_id, SUM(TIMESTAMPDIFF(SECOND,getEstToLocal(out_time,user_id),getEstToLocal(in_time,user_id))) as tBrkTimeLocal from break_details where user_id = $row->id and date(getEstToLocal(out_time,user_id)) = '".$cDate."' group by user_id";
 					
-					$brkSqlLocal ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time_local,in_time_local)) as tBrkTimeLocal from break_details where user_id = $row->id and date(out_time_local) = '".$cDate."' group by user_id";
+					//$brkSqlLocal ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time_local,in_time_local)) as tBrkTimeLocal from break_details where user_id = $row->id and date(out_time_local) = '".$cDate."' group by user_id";
 					
-					
+					$brkSqlLocal ="select user_id, SUM(TIMESTAMPDIFF(SECOND,out_time_local,in_time_local)) as tBrkTimeLocal from break_details where user_id = $row->id and out_time_local BETWEEN '".$local_login_time."' AND '".$local_logout_time."' group by user_id";
+										
 					$brkResLocal = $this->RepDB->query($brkSqlLocal);
 					$brkRowLocal = $brkResLocal->row();
 												
@@ -1676,7 +1579,7 @@ class Reports_model extends CI_Model {
 				
 			//$qSql="Select *, (select fusion_id from signin x where x.id=pua.user_id) as fusion_id, (Select title from process_updates pu where pu.id=pua.pu_id) as pu_titile, (select concat(fname, ' ', lname) as name from signin x where x.id=pua.user_id) as user_name, (select office_id from signin o where o.id=pua.user_id) as user_office, (select client_id from process_updates puc where puc.id=pua.pu_id) as pu_client_id, (select shname from client c where c.id=pu_client_id) as pu_client, (select process_id from process_updates pup where pup.id=pua.pu_id) as pu_process_id, (select name from process p where p.id=pu_process_id) as pu_process, (select role_id from signin r where r.id=pua.user_id) as user_role, (select name from role d where d.id=user_role) as userRoleName from process_updates_acceptance pua $cond ";
 			
-			/*$qSql="Select pa.*, date(accepted_datetime)as accptdate, fname,lname,sn.fusion_id,sn.omuid,sn.xpoid,sn.office_id,sn.role_id, get_client_ids(sn.id) as client_ids, get_process_ids(sn.id) as process_ids, get_client_names(sn.id) as client_name, get_process_names(sn.id) as process_name, (Select title from process_updates pu where pu.id=pa.pu_id) as pu_titile, (select name from role r where r.id=sn.role_id) as userRoleName from process_updates_acceptance pa, signin sn where  pa.user_id=sn.id  $cond ";*/
+			//$qSql="Select pa.*, date(accepted_datetime)as accptdate, fname,lname,sn.fusion_id,sn.omuid,sn.xpoid,sn.office_id,sn.role_id, get_client_ids(sn.id) as client_ids, get_process_ids(sn.id) as process_ids, get_client_names(sn.id) as client_name, get_process_names(sn.id) as process_name, (Select title from process_updates pu where pu.id=pa.pu_id) as pu_titile,(Select added_date from process_updates pu where pu.id=pa.pu_id) as Upload_Date, (select name from role r where r.id=sn.role_id) as userRoleName from process_updates_acceptance pa, signin sn where  pa.user_id=sn.id  $cond ";
 
 			$qSql="Select pa.*, accepted_datetime as accptdate, fname,lname,sn.fusion_id,sn.omuid,sn.xpoid,sn.office_id,sn.role_id, get_client_ids(sn.id) as client_ids, get_process_ids(sn.id) as process_ids, get_client_names(sn.id) as client_name, get_process_names(sn.id) as process_name, (Select title from process_updates pu where pu.id=pa.pu_id) as pu_titile,(Select added_date from process_updates pu where pu.id=pa.pu_id) as Upload_Date, (select name from role r where r.id=sn.role_id) as userRoleName from process_updates_acceptance pa, signin sn where  pa.user_id=sn.id  $cond ";
 			
@@ -1731,24 +1634,33 @@ class Reports_model extends CI_Model {
 				s.id, s.fusion_id, s.xpoid, s.fname, s.lname, s.office_id, (select shname from department d where d.id=s.dept_id) as dept_name, get_client_names(s.id) as client_name, get_process_names(s.id) as process_name, (select name from role r where r.id=s.role_id) as role_name, (select concat(fname, ' ', lname) as name from signin sg where sg.id=s.assigned_to) as assigned_name
 				FROM break_details t, signin s where t.user_id=s.id $cond order by out_date asc, fname asc )
 				UNION
+				(select ld.user_id as ld_userid, DATE_FORMAT(ld.out_time,'%m/%d/%Y') as out_date, ld.out_time as outtime_est, ld.in_time as intime_est, ld.out_time_local as outtime_local, ld.in_time_local as intime_local, 'Coaching' as source,
+				s.id, s.fusion_id, s.xpoid, s.fname, s.lname, s.office_id, (select shname from department d where d.id=s.dept_id) as dept_name, get_client_names(s.id) as client_name, get_process_names(s.id) as process_name, (select name from role r where r.id=s.role_id) as role_name, (select concat(fname, ' ', lname) as name from signin sg where sg.id=s.assigned_to) as assigned_name
+				from break_details_cb ld, signin s where ld.user_id=s.id  $cond order by out_date asc, fname asc)
+				UNION
 				(select ld.user_id as ld_userid, DATE_FORMAT(ld.out_time,'%m/%d/%Y') as out_date, ld.out_time as outtime_est, ld.in_time as intime_est, ld.out_time_local as outtime_local, ld.in_time_local as intime_local, 'Lunch/Dinner' as source,
 				s.id, s.fusion_id, s.xpoid, s.fname, s.lname, s.office_id, (select shname from department d where d.id=s.dept_id) as dept_name, get_client_names(s.id) as client_name, get_process_names(s.id) as process_name, (select name from role r where r.id=s.role_id) as role_name, (select concat(fname, ' ', lname) as name from signin sg where sg.id=s.assigned_to) as assigned_name
-				from break_details_ld ld, signin s where ld.user_id=s.id  $cond order by out_date asc, fname asc) 
-				UNION
-				(select cb.user_id as cb_userid, DATE_FORMAT(cb.out_time,'%m/%d/%Y') as out_date, cb.out_time as outtime_est, cb.in_time as intime_est, cb.out_time_local as outtime_local, cb.in_time_local as intime_local, 'Coaching' as source,
-				s.id, s.fusion_id, s.xpoid, s.fname, s.lname, s.office_id, (select shname from department d where d.id=s.dept_id) as dept_name, get_client_names(s.id) as client_name, get_process_names(s.id) as process_name, (select name from role r where r.id=s.role_id) as role_name, (select concat(fname, ' ', lname) as name from signin sg where sg.id=s.assigned_to) as assigned_name
-				from break_details_cb cb, signin s where cb.user_id=s.id  $cond order by out_date asc, fname asc)
-			) as x order by fname, out_date ";	
+				from break_details_ld ld, signin s where ld.user_id=s.id  $cond order by out_date asc, fname asc) ) as x order by fname, out_date ";	
 				
 		if(get_user_office_id() == "CEB" || get_user_office_id() == "MAN"){
 			$break_type =$field_array['break_type'];
 			if($break_type!=""){
-				$qSql = "select t.user_id as t_userid, DATE_FORMAT(t.out_time,'%m/%d/%Y') as out_date, t.out_time as outtime_est, t.in_time as intime_est, 
-				t.out_time_local as outtime_local, t.in_time_local as intime_local, 'Coaching' as source,
-				s.id, s.fusion_id, s.xpoid, s.fname, s.lname, s.office_id, (select shname from department d where d.id=s.dept_id) as dept_name, get_client_names(s.id) as client_name, get_process_names(s.id) as process_name, (select name from role r where r.id=s.role_id) as role_name, (select concat(fname, ' ', lname) as name from signin sg where sg.id=s.assigned_to) as assigned_name
-				FROM break_details_cb t, signin s where t.user_id=s.id $cond order by out_date asc, fname asc";
+				
+				if($break_type=="coaching"){
+					$qSql = "select t.user_id as t_userid, DATE_FORMAT(t.out_time,'%m/%d/%Y') as out_date, t.out_time as outtime_est, t.in_time as intime_est, 
+					t.out_time_local as outtime_local, t.in_time_local as intime_local, t.break_type as source,
+					s.id, s.fusion_id, s.xpoid, s.fname, s.lname, s.office_id, (select shname from department d where d.id=s.dept_id) as dept_name, get_client_names(s.id) as client_name, get_process_names(s.id) as process_name, (select name from role r where r.id=s.role_id) as role_name, (select concat(fname, ' ', lname) as name from signin sg where sg.id=s.assigned_to) as assigned_name
+					FROM break_details_cb t, signin s where t.user_id=s.id $cond order by out_date asc, fname asc";	
+						
+				}else{
+					$qSql = "select t.user_id as t_userid, DATE_FORMAT(t.out_time,'%m/%d/%Y') as out_date, t.out_time as outtime_est, t.in_time as intime_est, 
+					t.out_time_local as outtime_local, t.in_time_local as intime_local, t.break_type as source,
+					s.id, s.fusion_id, s.xpoid, s.fname, s.lname, s.office_id, (select shname from department d where d.id=s.dept_id) as dept_name, get_client_names(s.id) as client_name, get_process_names(s.id) as process_name, (select name from role r where r.id=s.role_id) as role_name, (select concat(fname, ' ', lname) as name from signin sg where sg.id=s.assigned_to) as assigned_name
+					FROM break_details t, signin s where t.user_id=s.id $cond order by out_date asc, fname asc";
+				}
 			}
 		}
+		
 		//add 17-02-2022 18:12
 		if(get_user_office_id() == "ELS"){
 			$qSql = "select * from (
@@ -1761,9 +1673,9 @@ class Reports_model extends CI_Model {
 				s.id, s.fusion_id, s.xpoid, s.fname, s.lname, s.office_id, (select shname from department d where d.id=s.dept_id) as dept_name, get_client_names(s.id) as client_name, get_process_names(s.id) as process_name, (select name from role r where r.id=s.role_id) as role_name, (select concat(fname, ' ', lname) as name from signin sg where sg.id=s.assigned_to) as assigned_name
 				from break_details_ld ld, signin s where ld.user_id=s.id  $cond order by out_date asc, fname asc)
 				UNION
-				(select cb.user_id as cb_userid, DATE_FORMAT(cb.out_time,'%m/%d/%Y') as out_date, cb.out_time as outtime_est, cb.in_time as intime_est, cb.out_time_local as outtime_local, cb.in_time_local as intime_local, 'Coaching' as source,
+				(select ld.user_id as ld_userid, DATE_FORMAT(ld.out_time,'%m/%d/%Y') as out_date, ld.out_time as outtime_est, ld.in_time as intime_est, ld.out_time_local as outtime_local, ld.in_time_local as intime_local, 'Coaching' as source,
 				s.id, s.fusion_id, s.xpoid, s.fname, s.lname, s.office_id, (select shname from department d where d.id=s.dept_id) as dept_name, get_client_names(s.id) as client_name, get_process_names(s.id) as process_name, (select name from role r where r.id=s.role_id) as role_name, (select concat(fname, ' ', lname) as name from signin sg where sg.id=s.assigned_to) as assigned_name
-				from break_details_cb cb, signin s where cb.user_id=s.id  $cond order by out_date asc, fname asc)
+				from break_details_cb ld, signin s where ld.user_id=s.id  $cond order by out_date asc, fname asc)
 				UNION
 				(select sd.user_id as ld_userid, DATE_FORMAT(sd.out_time,'%m/%d/%Y') as out_date, sd.out_time as outtime_est, sd.in_time as intime_est, sd.out_time_local as outtime_local, sd.in_time_local as intime_local, 'System Downtime' as source,
 				s.id, s.fusion_id, s.xpoid, s.fname, s.lname, s.office_id, (select shname from department d where d.id=s.dept_id) as dept_name, get_client_names(s.id) as client_name, get_process_names(s.id) as process_name, (select name from role r where r.id=s.role_id) as role_name, (select concat(fname, ' ', lname) as name from signin sg where sg.id=s.assigned_to) as assigned_name

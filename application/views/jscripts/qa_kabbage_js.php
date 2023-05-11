@@ -1049,21 +1049,243 @@ $(document).ready(function(){
 	$("#to_date").datepicker();
 	$("#go_live_date").datepicker();
 
+	$(".agentName").select2();
+
 
 ///////////////// Calibration - Auditor Type ///////////////////////
-	$('.auType').hide();
+	// $('.auType').hide();
 
-	$('#audit_type').on('change', function(){
-		if($(this).val()=='Calibration'){
+	// $('#audit_type').on('change', function(){
+	// 	if($(this).val()=='Calibration'){
+	// 		$('.auType').show();
+	// 		$('#auditor_type').attr('required',true);
+	// 		$('#auditor_type').prop('disabled',false);
+	// 	}else{
+	// 		$('.auType').hide();
+	// 		$('#auditor_type').attr('required',false);
+	// 		$('#auditor_type').prop('disabled',true);
+	// 	}
+	// });
+
+	///////////////// Calibration - Auditor Type ///////////////////////	
+	$('.auType').hide();
+	if($("#audit_type").val() == "Calibration")
+	{
+		$('.auType').show();
+		$('#auditor_type').attr('required',true);
+		$('#auditor_type').prop('disabled',false);
+	}
+	//console.log(`OnLoad -> ${$("#auditor_type").val()}`)
+	$('#audit_type').on('change', function()
+	{
+		
+		if($(this).val()=='Calibration')
+		{
 			$('.auType').show();
 			$('#auditor_type').attr('required',true);
 			$('#auditor_type').prop('disabled',false);
-		}else{
+
+		} else
+		{
 			$('.auType').hide();
+			$('#auditor_type').val("")
 			$('#auditor_type').attr('required',false);
 			$('#auditor_type').prop('disabled',true);
+			// $('#auditor_type').val('');
 		}
+	//	console.log(`OnChange -> ${$("#auditor_type").val()}`)
+	});	
+
+	///////////////// Detractor Audit, Passive Audit, Promoter Audit - (Customer Voice, KM Utilization, Article, Fatal/Non-Fatal, Detractor ACPT, Detractor L1, Detractor L2, TCD, Voice modulation, Assurance given) ///////////////////////
+	
+	$('.cust_voc').hide();
+	if(($("#type_of_audit").val() == "Detractor Audit") || ($("#type_of_audit").val() == "Passive Audit") || ($("#type_of_audit").val() == "Promoter Audit"))
+	{
+		$('.cust_voc').show();
+		$('#voice_cust').attr('required',true);
+		$('#voice_cust').prop('disabled',false);
+	}
+	$('.utiliza').hide();
+	if(($("#type_of_audit").val() == "Detractor Audit") || ($("#type_of_audit").val() == "Passive Audit") || ($("#type_of_audit").val() == "Promoter Audit"))
+	{
+		$('.utiliza').show();
+		$('#utilization').attr('required',true);
+		$('#utilization').prop('disabled',false);
+	}
+	$('.arti').hide();
+	if(($("#type_of_audit").val() == "Detractor Audit") || ($("#type_of_audit").val() == "Passive Audit") || ($("#type_of_audit").val() == "Promoter Audit"))
+	{
+		$('.arti').show();
+		$('#article').attr('required',true);
+		$('#article').prop('disabled',false);
+	}
+	
+	$('.fatal_nonfatal').hide();
+	if(($("#type_of_audit").val() == "Detractor Audit") || ($("#type_of_audit").val() == "Passive Audit") || ($("#type_of_audit").val() == "Promoter Audit"))
+	{
+		$('.fatal_nonfatal').show();
+		$('#fatal_non_fatal').attr('required',true);
+		$('#fatal_non_fatal').prop('disabled',false);
+	}
+	$('.acpt').hide();
+	if(($("#type_of_audit").val() == "Detractor Audit") || ($("#type_of_audit").val() == "Passive Audit") || ($("#type_of_audit").val() == "Promoter Audit"))
+	{
+		$('.acpt').show();
+		$('#detractor_acpt').attr('required',true);
+		$('#detractor_acpt').prop('disabled',false);
+	}
+	$('.detrac_l1').hide();
+	if(($("#type_of_audit").val() == "Detractor Audit") || ($("#type_of_audit").val() == "Passive Audit") || ($("#type_of_audit").val() == "Promoter Audit"))
+	{
+		$('.detrac_l1').show();
+		$('#detractor_l1').attr('required',true);
+		$('#detractor_l1').prop('disabled',false);
+	}
+	$('.detrac_l2').hide();
+	if(($("#type_of_audit").val() == "Detractor Audit") || ($("#type_of_audit").val() == "Passive Audit") || ($("#type_of_audit").val() == "Promoter Audit"))
+	{
+		$('.detrac_l2').show();
+		$('#detractor_l2').attr('required',true);
+		$('#detractor_l2').prop('disabled',false);
+	}
+	$('.tcd').hide();
+	if(($("#type_of_audit").val() == "Detractor Audit") || ($("#type_of_audit").val() == "Passive Audit") || ($("#type_of_audit").val() == "Promoter Audit"))
+	{
+		$('.tcd').show();
+		$('#tcd').attr('required',true);
+		$('#tcd').prop('disabled',false);
+	}
+	$('.modulation').hide();
+	if(($("#type_of_audit").val() == "Detractor Audit") || ($("#type_of_audit").val() == "Passive Audit") || ($("#type_of_audit").val() == "Promoter Audit"))
+	{
+		$('.modulation').show();
+		$('#voice_modulation').attr('required',true);
+		$('#voice_modulation').prop('disabled',false);
+	}
+	$('.assurance').hide();
+	if(($("#type_of_audit").val() == "Detractor Audit") || ($("#type_of_audit").val() == "Passive Audit") || ($("#type_of_audit").val() == "Promoter Audit"))
+	{
+		$('.assurance').show();
+		$('#assurance_given').attr('required',true);
+		$('#assurance_given').prop('disabled',false);
+	}
+	
+	$('#type_of_audit').on('change', function(){
+		if(($(this).val()=='Detractor Audit') || ($(this).val()=='Passive Audit') || ($(this).val()=='Promoter Audit')){
+			$('.cust_voc').show();
+			$('#voice_cust').attr('required',true);
+			$('#voice_cust').prop('disabled',false);
+			$('.utiliza').show();
+			$('#utilization').attr('required',true);
+	 		$('#utilization').prop('disabled',false);
+			$('.arti').show();
+	 		$('#article').attr('required',true);
+			$('#article').prop('disabled',false);
+			$('.fatal_nonfatal').show();
+	 		$('#fatal_non_fatal').attr('required',true);
+			$('#fatal_non_fatal').prop('disabled',false);
+			$('.acpt').show();
+	 		$('#detractor_acpt').attr('required',true);
+			$('#detractor_acpt').prop('disabled',false);
+			$('.detrac_l1').show();
+	 		$('#detractor_l1').attr('required',true);
+			$('#detractor_l1').prop('disabled',false);
+			$('.detrac_l2').show();
+	 		$('#detractor_l2').attr('required',true);
+			$('#detractor_l2').prop('disabled',false);
+			$('.tcd').show();
+	 		$('#tcd').attr('required',true);
+			$('#tcd').prop('disabled',false);
+			$('.modulation').show();
+	 		$('#voice_modulation').attr('required',true);
+			$('#voice_modulation').prop('disabled',false);
+			$('.assurance').show();
+	 		$('#assurance_given').attr('required',true);
+			$('#assurance_given').prop('disabled',false);
+		}else if(($(this).val()=='High AHT Audit') || ($(this).val()=='Random Audit') || ($(this).val()=='A2A') || ($(this).val()=='Calibration') || ($(this).val()=='WOW Call')){
+			$('.cust_voc').hide();
+			$('#voice_cust').val("");
+			$('#voice_cust').attr('required',false);
+			$('#voice_cust').prop('disabled',true);
+			$('.utiliza').hide();
+			$('#utilization').val("");
+	 		$('#utilization').attr('required',false);
+	 		$('#utilization').prop('disabled',true);
+			$('.arti').hide();
+			$('#article').val("");
+	 		$('#article').attr('required',false);
+	 		$('#article').prop('disabled',true);
+			$('.fatal_nonfatal').hide();
+			$('#fatal_non_fatal').val("");
+	 		$('#fatal_non_fatal').attr('required',false);
+	 		$('#fatal_non_fatal').prop('disabled',true);
+			$('.acpt').hide();
+			$('#detractor_acpt').val("");
+	 		$('#detractor_acpt').attr('required',false);
+	 		$('#detractor_acpt').prop('disabled',true);
+			$('.detrac_l1').hide();
+			$('#detractor_l1').val("");
+	 		$('#detractor_l1').attr('required',false);
+	 		$('#detractor_l1').prop('disabled',true);
+			$('.detrac_l2').hide();
+			$('#detractor_l2').val("");
+	 		$('#detractor_l2').attr('required',false);
+	 		$('#detractor_l2').prop('disabled',true);
+			$('.tcd').hide();
+			$('#tcd').val("");
+	 		$('#tcd').attr('required',false);
+	 		$('#tcd').prop('disabled',true);
+			$('.modulation').hide();
+			$('#voice_modulation').val("");
+	 		$('#voice_modulation').attr('required',false);
+	 		$('#voice_modulation').prop('disabled',true);
+			$('.assurance').hide();
+			$('#assurance_given').val("");
+	 		$('#assurance_given').attr('required',false);
+	 		$('#assurance_given').prop('disabled',true);
+		 }
+		//else ($(this).val()==''){
+		// 	$('.cust_voc').hide();
+		// 	$('.utiliza').hide();
+		// 	$('.arti').hide();
+		// 	$('.fatal_nonfatal').hide();
+		// 	$('.acpt').hide();
+		// 	$('.detrac_l1').hide();
+		// 	$('.detrac_l2').hide();
+		// 	$('.tcd').hide();
+		// 	$('.modulation').hide();
+		// 	$('.assurance').hide();
+		// }
+	
 	});
+
+	// $('.utiliza').hide();
+
+	// $('#type_of_audit').on('change', function(){
+	// 	if($(this).val()=='Passive Audit'){
+	// 		$('.utiliza').show();
+	// 		$('#utilization').attr('required',true);
+	// 		$('#utilization').prop('disabled',false);
+	// 	}else{
+	// 		$('.utiliza').hide();
+	// 		$('#utilization').attr('required',false);
+	// 		$('#utilization').prop('disabled',true);
+	// 	}
+	// });
+
+	// $('.arti').hide();
+
+	// $('#type_of_audit').on('change', function(){
+	// 	if($(this).val()=='Promoter Audit'){
+	// 		$('.arti').show();
+	// 		$('#article').attr('required',true);
+	// 		$('#article').prop('disabled',false);
+	// 	}else{
+	// 		$('.arti').hide();
+	// 		$('#article').attr('required',false);
+	// 		$('#article').prop('disabled',true);
+	// 	}
+	// });
 
 //////////////// Invalid for -Status (Nilkanta) ///////////////////////
 	$('.reasonType').hide();
@@ -1475,6 +1697,16 @@ $(document).ready(function(){
 				for (var i in json_obj) $('#fusion_id').append($('#fusion_id').val(json_obj[i].fusion_id));
 				for (var i in json_obj) $('#campaign').append($('#campaign').val(json_obj[i].process_name));
 				for (var i in json_obj) $('#office_id').append($('#office_id').val(json_obj[i].office_id));
+				for (var i in json_obj){
+					if($('#tl_names').val(json_obj[i].tl_name)!=''){
+						console.log(json_obj[0].tl_name);
+						$('#tl_names').append($('#tl_names').val(json_obj[i].tl_name));
+
+					}else{
+						alert("Agent is not assigned any TL.Please assign one from manage user section or contact your HR/Manager");
+					}
+					
+				}  
 				$('#sktPleaseWait').modal('hide');
 			},
 			error: function(){
@@ -1510,12 +1742,102 @@ $(document).ready(function(){
 </script>
 
 <script>
-	function checkDec(el){
-		var ex = /^[0-9]+\.?[0-9]*$/;
-		if(ex.test(el.value)==false){
-			el.value = el.value.substring(0,el.value.length - 1);
+$('INPUT[type="file"]').change(function () {
+    var ext = this.value.match(/\.(.+)$/)[1];
+    switch (ext) {
+        case 'mp4':
+        case 'mp3':
+		case 'wav':
+		case 'm4a':
+			$('#qaformsubmit').attr('disabled', false);
+        break;
+        default:
+            alert('This is not an allowed file type. Please upload allowed file type like [m4a,mp4,mp3,wav]');
+            this.value = '';
+    }
+});
+</script>
+
+<script type="text/javascript">
+	
+	function date_validation(val,type){
+	// alert(val);
+		$(".end_date_error").html("");
+		$(".start_date_error").html("");
+		if(type=='E'){
+		var start_date=$("#from_date").val();
+		//if(val<start_date)
+		if(Date.parse(val) < Date.parse(start_date))
+		{
+			$(".end_date_error").html("To Date must be greater or equal to From Date");
+			 $(".blains-effect").attr("disabled",true);
+			 $(".blains-effect").css('cursor', 'no-drop');
+		}
+		else{
+			 $(".blains-effect").attr("disabled",false);
+			 $(".blains-effect").css('cursor', 'pointer');
+			}
+		}
+		else{
+			var end_date=$("#to_date").val();
+		//if(val>end_date && end_date!='')
+		
+		if(Date.parse(val) > Date.parse(end_date) && end_date!='')
+		{
+			$(".start_date_error").html("From  Date  must be less or equal to  To Date");
+			 $(".blains-effect").attr("disabled",true);
+			 $(".blains-effect").css('cursor', 'no-drop');
+			
+		}
+		else{
+			 $(".blains-effect").attr("disabled",false);
+			 $(".blains-effect").css('cursor', 'pointer');
+			}
+
 		}
 	}
+</script>
+
+<script>
+	// function checkDec(el){
+	// 	var ex = /^[0-9]+\.?[0-9]*$/;
+	// 	if(ex.test(el.value)==false){
+	// 		el.value = el.value.substring(0,el.value.length - 1);
+	// 	}
+	// }
+
+	function checkDec(el) {
+			var ex = /^[0-9]+\.?[0-9]*$/;
+
+			if (ex.test(el.value) == false) {
+				//console.log(el.value);
+				el.value = el.value.substring(0, el.value.length - 1);
+				alert("Number format required!");
+				$("#qaformsubmit").attr("disabled", "disabled");
+				$('#phone').val("");
+				return false;
+			}
+			if(el.value.length >10){
+       			//alert("required 10 digits, match requested format!");
+       			$("#start_phone").html("Required 10 digits, match requested format!");
+       			$("#qaformsubmit").attr("disabled", "disabled");
+       			return false;
+		    }else if(el.value.length <10){
+		    	$("#start_phone").html("Phone number can not be less than 10 digits!");
+		    	$("#qaformsubmit").attr("disabled", "disabled");
+       			return false;
+		    }
+		    else if(el.value.length == 10){
+		    	$("#start_phone").html("");
+		    	 $("#qaformsubmit").removeAttr("disabled");
+       			return false;
+		    }
+		    // else{
+		    // 	$("#start_phone").html("");
+		    // 	 $("#qaformsubmit").removeAttr("disabled");
+		    // }
+			console.log(el.value);
+		}
 </script>
 
 
@@ -1724,7 +2046,12 @@ $(document).ready(function(){
 			$('#prefatal').val(quality_score_percent);
 		}
 	////////////////
-		if($('#ajioAF1').val()=='Autofail' || $('#ajioAF2').val()=='Autofail' || $('#ajioAF3').val()=='Autofail' || $('#ajioAF4').val()=='Autofail' || $('#ajioAF5').val()=='Autofail' || $('#ajioAF6').val()=='Autofail' || $('#ajioAF7').val()=='Autofail' || $('#ajioAF8').val()=='Autofail'){
+		// if($('#ajioAF1').val()=='Autofail' || $('#ajioAF2').val()=='Autofail' || $('#ajioAF3').val()=='Autofail' || $('#ajioAF4').val()=='Autofail' || $('#ajioAF5').val()=='Autofail' || $('#ajioAF6').val()=='Autofail' || $('#ajioAF7').val()=='Autofail' || $('#ajioAF8').val()=='Autofail'){
+		// 	$('.ajio_inb_v2Fatal').val(0);
+		// }else{
+		// 	$('.ajio_inb_v2Fatal').val(quality_score_percent+'%');
+		// }
+		if($('.ajioAF1').val()=='Autofail' || $('.ajioAF2').val()=='Autofail' || $('.ajioAF3').val()=='Autofail' || $('.ajioAF4').val()=='Autofail' || $('.ajioAF5').val()=='Autofail' || $('.ajioAF6').val()=='Autofail' || $('.ajioAF7').val()=='Autofail' || $('.ajioAF8').val()=='Autofail'){
 			$('.ajio_inb_v2Fatal').val(0);
 		}else{
 			$('.ajio_inb_v2Fatal').val(quality_score_percent+'%');
@@ -1734,6 +2061,21 @@ $(document).ready(function(){
 		}else{
 			$('.ajio_email_v2Fatal').val(quality_score_percent+'%');
 		}
+		if($('.ajioAF1').val()=='Autofail' || $('.ajioAF2').val()=='Autofail' || $('.ajioAF3').val()=='Autofail' || $('.ajioAF4').val()=='Autofail' || $('.ajioAF5').val()=='Autofail' || $('.ajioAF6').val()=='Autofail'){
+			$('.ajio_chat_v2Fatal').val(0);
+		}else{
+			$('.ajio_chat_v2Fatal').val(quality_score_percent+'%');
+		}
+		if($('.ajioAF1').val()=='Autofail' || $('.ajioAF2').val()=='Autofail' || $('.ajioAF3').val()=='Autofail' || $('.ajioAF4').val()=='Autofail' || $('.ajioAF5').val()=='Autofail' || $('.ajioAF6').val()=='No'){
+			$('.ajio_ccsrvoice_Fatal').val(0);
+		}else{
+			$('.ajio_ccsrvoice_Fatal').val(quality_score_percent+'%');
+		}
+		if($('.ajioAF1').val()=='Autofail' || $('.ajioAF2').val()=='Autofail' || $('.ajioAF3').val()=='Autofail' || $('.ajioAF4').val()=='Autofail' || $('.ajioAF5').val()=='Autofail' || $('.ajioAF6').val()=='Autofail'){
+			$('.ajio_ccsr_nonvoice_Fatal').val(0);
+		}else{
+			$('.ajio_ccsr_nonvoice_Fatal').val(quality_score_percent+'%');
+		}	
 
 	}
 
@@ -1760,6 +2102,71 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#address_customer_inb_v2').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Personalization not done">Personalization not done</option>';
+			$("#address_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#address_inb_v2").html(sub_infractions);
+		}
+		else{
+			$("#address_inb_v2").html('');
+		}
+	});
+
+	$('#appropriate_acknowledgements_chat').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="FRT is >10 seconds">FRT is >10 seconds</option>';
+			sub_infractions += '<option value="Opening script not followed">Opening script not followed</option>';
+			$("#appropriate").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#appropriate").html(sub_infractions);
+		}
+		else{
+			$("#appropriate").html('');
+		}
+	});
+
+	$('#appropriate_acknowledgements_ccsrvoice').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Opening script not followed as per Process">Opening script not followed as per Process</option>';
+			sub_infractions += '<option value="Seek permission to continue">Seek permission to continue</option>';
+			sub_infractions += '<option value="Self intro & Branding">Self intro & Branding</option>';
+			sub_infractions += '<option value="Personalization">Personalization</option>';
+			sub_infractions += '<option value="Opening script not followed">Opening script not followed</option>';
+			$("#appropriate_ccsrvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#appropriate_ccsrvoice").html(sub_infractions);
+		}
+		else{
+			$("#appropriate_ccsrvoice").html('');
+		}
+	});
+
+	$('#appropriate_acknowledgements_ccsrnonvoice').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Failed to assure the customer when needed">Failed to assure the customer when needed</option>';
+			sub_infractions += '<option value="Courtesy Statement missing ">Courtesy Statement missing</option>';
+			sub_infractions += '<option value="Apology statement missing ">Apology statement missing </option>';
+			sub_infractions += '<option value="Incorrect acknowledgement used">Incorrect acknowledgement used</option>';
+			$("#appropriat_ccsrnonvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#appropriat_ccsrnonvoice").html(sub_infractions);
+		}
+		else{
+			$("#appropriat_ccsrnonvoice").html('');
+		}
+	});
+
+
 	$('#font_size_formatting').on('change', function(){
 		if($(this).val()=='No'){
 			var sub_infractions = '<option value="Incorrect Font Size">Incorrect Font Size</option>';
@@ -1780,7 +2187,171 @@ $(document).ready(function(){
 			$("#font_size").html('');
 		}
 	});
+	
+	$('#font_size_formatting_chat').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Failed to assure the customer when needed">Failed to assure the customer when needed</option>';
+			sub_infractions += '<option value="Did not empathize when needed">Did not empathize when needed</option>';
+			sub_infractions += '<option value="Incorrect acknowledgement used">Incorrect acknowledgement used</option>';
+			$("#font_size").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#font_size").html(sub_infractions);
+		}
+		else{
+			$("#font_size").html('');
+		}
+	});
 
+	$('#font_size_formatting_cccsrnonvoice').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Incorrect Font Size">Incorrect Font Size</option>';
+			sub_infractions += '<option value="Incorrect font Color">Incorrect font Color</option>';
+			sub_infractions += '<option value="Incorrect font style">Incorrect font style</option>';
+			sub_infractions += '<option value="Champ mentions date in mm-dd-yyyy">Champ mentions date in mm-dd-yyyy</option>';
+			sub_infractions += '<option value="Prefix is not aligned ">Prefix is not aligned </option>';
+			sub_infractions += '<option value="Comma is missing after the month">Comma is missing after the month</option>';
+			sub_infractions += '<option value="Champ change the subject line as its not allowed">Champ change the subject line as its not allowed</option>';
+			sub_infractions += '<option value="Responded without trail">Responded without trail</option>';
+		$("#font_size_cccsrnonvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#font_size_cccsrnonvoice").html(sub_infractions);
+		}
+		else{
+			$("#font_size_cccsrnonvoice").html('');
+		}
+	});
+
+	$('#polite_appology_inb_v2').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Courtesy statement missing on call">Courtesy statement missing on call</option>';
+			sub_infractions += '<option value="Courtesy statement used but misplaced">Courtesy statement used but misplaced</option>';
+			sub_infractions += '<option value="Effective assurance missing on call">Effective assurance missing on call</option>';
+			sub_infractions += '<option value="Pleasantries missing on call">Pleasantries missing on call</option>';
+			$("#appology_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#appology_inb_v2").html(sub_infractions);
+		}
+		else{
+			$("#appology_inb_v2").html('');
+		}
+	});
+	
+	$('#comprehend_concern_inb_v2').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Asked unnecessary/irrelevant questions">Asked unnecessary/irrelevant questions</option>';
+			sub_infractions += '<option value="Asked details already available">Asked details already available</option>';
+			sub_infractions += '<option value="Unable to comprehend">Unable to comprehend</option>';
+			sub_infractions += '<option value="Failed to paraphrase to ensure understanding">Failed to paraphrase to ensure understanding</option>';
+			$("#comprehend_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#comprehend_inb_v2").html(sub_infractions);
+		}
+		else{
+			$("#comprehend_inb_v2").html('');
+		}
+	});
+
+	$('#listening_skill_inb_v2').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Champ made the customer repeat">Champ made the customer repeat</option>';
+			sub_infractions += '<option value="Did not listen actively impacting the call">Did not listen actively impacting the call </option>';
+			$("#skill_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#skill_inb_v2").html(sub_infractions);
+		}
+		else{
+			$("#skill_inb_v2").html('');
+		}
+	});
+
+	$('#handle_objection_inb_v2').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Poor objection handling">Poor objection handling</option>';
+			$("#objection_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#objection_inb_v2").html(sub_infractions);
+		}
+		else{
+			$("#objection_inb_v2").html('');
+		}
+	});
+	
+	$('#express_himself_inb_v2').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Champ was struggling to express himself">Champ was struggling to express himself</option>';
+			sub_infractions += '<option value="Champ swtiched language to express himself">Champ swtiched language to express himself</option>';
+			sub_infractions += '<option value="Customer expressed difficulty in understanding the champ">Customer expressed difficulty in understanding the champ</option>';
+			$("#himself_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#himself_inb_v2").html(sub_infractions);
+		}
+		else{
+			$("#himself_inb_v2").html('');
+		}
+	});
+	
+	$('#releavnt_article_inb_v2').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="KM not adhered">KM not adhered</option>';
+			sub_infractions += '<option value="KM followed but complete T2R/leg not followed">KM followed but complete T2R/leg not followed</option>';
+			$("#article_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#article_inb_v2").html(sub_infractions);
+		}
+		else{
+			$("#article_inb_v2").html('');
+		}
+	});
+
+	$('#different_application_inb_v2').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="KM not adhered">KM not adhered</option>';
+			sub_infractions += '<option value="KM followed but complete T2R/leg not followed">KM followed but complete T2R/leg not followed</option>';
+			sub_infractions += '<option value="Cockpit navigation not done completely">Cockpit navigation not done completely</option>';
+			$("#application_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#application_inb_v2").html(sub_infractions);
+		}
+		else{
+			$("#application_inb_v2").html('');
+		}
+	});
+	
+	$('#navigate_through_inb_v2').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="KM not adhered">KM not adhered</option>';
+			sub_infractions += '<option value="KM followed but complete T2R/leg not followed">KM followed but complete T2R/leg not followed</option>';
+			sub_infractions += '<option value="Cockpit navigation not done completely">Cockpit navigation not done completely</option>';
+			$("#through_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#through_inb_v2").html(sub_infractions);
+		}
+		else{
+			$("#through_inb_v2").html('');
+		}
+	});
+	
+	
 	$('#email_response').on('change', function(){
 		if($(this).val()=='No'){
 			var sub_infractions = '<option value="Champ use alternative template">Champ use alternative template</option>';
@@ -1796,6 +2367,37 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#approved_template_ccsrnonvoice').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Champ use alternative template">Champ use alternative template</option>';
+			sub_infractions += '<option value="Champ use his own tamplete">Champ use his own tamplete</option>';
+			$("#approved_ccsrnonvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#approved_ccsrnonvoice").html(sub_infractions);
+		}
+		else{
+			$("#approved_ccsrnonvoice").html('');
+		}
+	});
+
+	$('#chat_response').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Hold was not released within the stipulated timeline (1 min)">Hold was not released within the stipulated timeline (1 min)</option>';
+			sub_infractions += '<option value="Hold script/procedure not adhered">Hold script/procedure not adhered</option>';
+			sub_infractions += '<option value="Dead Air (60secs)/ 120secs in entire chat">Dead Air (60secs)/ 120secs in entire chat</option>';
+			$("#chat_res").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#chat_res").html(sub_infractions);
+		}
+		else{
+			$("#chat_res").html('');
+		}
+	});
+
 	$('#ajioAF1').on('change', function(){
 		if($(this).val()=='Autofail'){
 			var sub_infractions = '<option value="Customization not done as per customer VOC">Customization not done as per customer VOC</option>';
@@ -1808,6 +2410,266 @@ $(document).ready(function(){
 		}
 		else{
 			$("#ajioAFone").html('');
+		}
+	});
+
+	$('#ajioAF1_inb_v2').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="Delayed opening breched 10sec">Delayed opening breched 10sec</option>';
+			sub_infractions += '<option value="Delayed opening breched 4sec">Delayed opening breched 4sec</option>';
+			sub_infractions += '<option value="Opening not given as per AJIO prescribe">Opening not given as per AJIO prescribe</option>';
+			$("#AF1_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#AF1_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='No'){
+			var sub_infractions = '<option value="Delayed opening breched 10sec">Delayed opening breched 10sec</option>';
+			sub_infractions += '<option value="Delayed opening breched 4sec">Delayed opening breched 4sec</option>';
+			sub_infractions += '<option value="Opening not given as per AJIO prescribe">Opening not given as per AJIO prescribe</option>';
+			$("#AF1_inb_v2").html(sub_infractions);
+		}
+		else{
+			$("#AF1_inb_v2").html('');
+		}
+	});
+
+	$('#ajioAF2_inb_v2').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="Hold not refreshed within 1 min">Hold not refreshed within 1 min</option>';
+			sub_infractions += '<option value="Dead air observed more then 10 sec">Dead air observed more then 10 sec</option>';
+			sub_infractions += '<option value="Hold/Unhold script not followed">Hold/Unhold script not followed</option>';
+			sub_infractions += '<option value="Uninformed hold">Uninformed hold</option>';
+			sub_infractions += '<option value="Call dropped due to hold not refreshed within 1 min">Call dropped due to hold not refreshed within 1 min </option>';
+			$("#AF2_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='No'){
+			var sub_infractions = '<option value="Hold not refreshed within 1 min">Hold not refreshed within 1 min</option>';
+			sub_infractions += '<option value="Dead air observed more then 10 sec">Dead air observed more then 10 sec</option>';
+			sub_infractions += '<option value="Hold/Unhold script not followed">Hold/Unhold script not followed</option>';
+			sub_infractions += '<option value="Uninformed hold">Uninformed hold</option>';
+			sub_infractions += '<option value="Call dropped due to hold not refreshed within 1 min">Call dropped due to hold not refreshed within 1 min </option>';
+			$("#AF2_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#AF2_inb_v2").html(sub_infractions);
+		}
+		else{
+			$("#AF2_inb_v2").html('');
+		}
+	});
+
+	$('#ajioAF3_inb_v2').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="Further assistance ot pitched">Further assistance ot pitched</option>';
+			sub_infractions += '<option value="TNPS not pitched">TNPS not pitched</option>';
+			sub_infractions += '<option value="Closing Script not followed">Closing Script not followed</option>';
+			sub_infractions += '<option value="TNPS script not adhered as per AJIO guideline">TNPS script not adhered as per AJIO guideline</option>';
+			sub_infractions += '<option value="Influenced for positive ratings">Influenced for positive ratings</option>';
+			sub_infractions += '<option value="Call not end from the genesys">Call not end from the genesys</option>';
+			sub_infractions += '<option value="Call blindly transfer to the supervisor">Call blindly transfer to the supervisor</option>';
+			$("#AF3_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='No'){
+			var sub_infractions = '<option value="Further assistance ot pitched">Further assistance ot pitched</option>';
+			sub_infractions += '<option value="TNPS not pitched">TNPS not pitched</option>';
+			sub_infractions += '<option value="Closing Script not followed">Closing Script not followed</option>';
+			sub_infractions += '<option value="TNPS script not adhered as per AJIO guideline">TNPS script not adhered as per AJIO guideline</option>';
+			sub_infractions += '<option value="Influenced for positive ratings">Influenced for positive ratings</option>';
+			sub_infractions += '<option value="Call not end from the genesys">Call not end from the genesys</option>';
+			sub_infractions += '<option value="Call blindly transfer to the supervisor">Call blindly transfer to the supervisor</option>';
+			$("#AF3_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#AF3_inb_v2").html(sub_infractions);
+		}
+		else{
+			$("#AF3_inb_v2").html('');
+		}
+	});
+
+	$('#ajioAF4_inb_v2').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="C&R not raised when required">C&R not raised when required</option>';
+			sub_infractions += '<option value="C&R raised when not required">C&R raised when not required</option>';
+			sub_infractions += '<option value="Wrong C&R raised">Wrong C&R raised</option>';
+			sub_infractions += '<option value="C&R raised without images/appropriate details">C&R raised without images/appropriate details</option>';
+			sub_infractions += '<option value="Action not taken">Action not taken</option>';
+			sub_infractions += '<option value="Unnecessary redirection">Unnecessary redirection</option>';
+			$("#AF4_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#AF4_inb_v2").html(sub_infractions);
+		}
+		else{
+			$("#AF4_inb_v2").html('');
+		}
+	});
+
+	$('#ajioAF5_inb_v2').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="C&R not raised when required">C&R not raised when required</option>';
+			sub_infractions += '<option value="C&R raised when not required">C&R raised when not required</option>';
+			sub_infractions += '<option value="Wrong C&R raised">Wrong C&R raised</option>';
+			sub_infractions += '<option value="C&R raised without images/appropriate details">C&R raised without images/appropriate details</option>';
+			sub_infractions += '<option value="Action not taken">Action not taken</option>';
+			sub_infractions += '<option value="Unnecessary redirection">Unnecessary redirection</option>';
+			$("#AF5_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#AF5_inb_v2").html(sub_infractions);
+		}
+		else{
+			$("#AF5_inb_v2").html('');
+		}
+	});
+
+	$('#ajioAF6_inb_v2').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="Incorrect information Shared">Incorrect information Shared</option>';
+			sub_infractions += '<option value="Incomplete information Shared">Incomplete information Shared</option>';
+			sub_infractions += '<option value="Wrong Action Taken">Wrong Action Taken</option>';
+			$("#AF6_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#AF6_inb_v2").html(sub_infractions);
+		}
+		else{
+			$("#AF6_inb_v2").html('');
+		}
+	});
+
+	$('#ajioAF7_inb_v2').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="CAM rule not adhered to.">CAM rule not adhered to.</option>';
+			sub_infractions += '<option value="Issue not documented">Issue not documented</option>';
+			sub_infractions += '<option value="Issue documented wrong">Issue documented wrong</option>';
+			$("#AF7_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='No'){
+			var sub_infractions = '<option value="CAM rule not adhered to.">CAM rule not adhered to.</option>';
+			sub_infractions += '<option value="Issue not documented">Issue not documented</option>';
+			sub_infractions += '<option value="Issue documented wrong">Issue documented wrong</option>';
+			$("#AF7_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#AF7_inb_v2").html(sub_infractions);
+		}
+		else{
+			$("#AF7_inb_v2").html('');
+		}
+	});
+
+
+	$('#ajioAF8_inb_v2').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="Call Avoidance">Call Avoidance</option>';
+			sub_infractions += '<option value="Call disconnection">Call disconnection</option>';
+			sub_infractions += '<option value="Abusive behaviour">Abusive behaviour</option>';
+			sub_infractions += '<option value="Mocking the coustomer">Mocking the coustomer</option>';
+			sub_infractions += '<option value="Rude behaviour on call">Rude behaviour on call</option>';
+			$("#AF8_inb_v2").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#AF8_inb_v2").html(sub_infractions);
+		}
+		else{
+			$("#AF8_inb_v2").html('');
+		}
+	});
+
+	$('#ajioAF1_ccsrvoice').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="Champ did not make all 3 valid attempts">Champ did not make all 3 valid attempts</option>';
+			sub_infractions += '<option value="Champ did not send closure email in case of unsuccessful attempt">Champ did not send closure email in case of unsuccessful attempt</option>';
+			sub_infractions += '<option value="OB attempts not done as per interval guidelines">OB attempts not done as per interval guidelines</option>';
+			sub_infractions += '<option value="Incomplete call if call disconnected : OB call not made">Incomplete call if call disconnected : OB call not made</option>';
+			$("#font_size_ccsrvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#font_size_ccsrvoice").html(sub_infractions);
+		}
+		else{
+			$("#font_size_ccsrvoice").html('');
+		}
+	});
+
+	$('#use_appropriate_template_ccsrvoice').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Closing script not allowed">Closing script not allowed</option>';
+			sub_infractions += '<option value="FA missing">FA missing</option>';
+			$("#ccsrvoice_res").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#ccsrvoice_res").html(sub_infractions);
+		}
+		else{
+			$("#ccsrvoice_res").html('');
+		}
+	});
+
+	$('#seamlessly_chat').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Champ was struggling to express himself">Champ was struggling to express himself</option>';
+			sub_infractions += '<option value="Customer expressed difficulty in understanding the champ">Customer expressed difficulty in understanding the champ</option>';
+			$("#seam_chat").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#seam_chat").html(sub_infractions);
+		}
+		else{
+			$("#seam_chat").html('');
+		}
+	});
+	
+	$('#seamlessly_ccsrvoice').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Apology used but misplaced">Apology used but misplaced</option>';
+			sub_infractions += '<option value="Did not provide effective assurance">Did not provide effective assurance</option>';
+			sub_infractions += '<option value="Did not acknowledge/apologize when required">Did not acknowledge/apologize when required</option>';
+			sub_infractions += '<option value="Lack of pleasantries ">Lack of pleasantries </option>';
+			$("#seam_ccsrvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#seam_ccsrvoice").html(sub_infractions);
+		}
+		else{
+			$("#seam_ccsrvoice").html('');
+		}
+	});
+
+	$('#seamlessly_ccsrnonvoice').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Not able to comprehend the issue & failed to communicate as per stake holder resolution">Not able to comprehend the issue & failed to communicate as per stake holder resolution</option>';
+			sub_infractions += '<option value="Course correction not done when it was required (New Ticket raised/assigning)">Course correction not done when it was required (New Ticket raised/assigning)</option>';
+			sub_infractions += '<option value="Asked unnecessary/irrelevant questions">Asked unnecessary/irrelevant questions</option>';
+			sub_infractions += '<option value="Asked details already available">Asked details already available</option>';
+			sub_infractions += '<option value="Unable to comprehend">Unable to comprehend</option>';
+			sub_infractions += '<option value="Failed to paraphrase to ensure understanding">Failed to paraphrase to ensure understanding</option>';
+			sub_infractions += '<option value="Should be Passive Voice">Should be Passive Voice</option>';
+			sub_infractions += '<option value="Parapharing mssing">Parapharing mssing</option>';
+			sub_infractions += '<option value="No Copy Paste stake holder information">No Copy Paste stake holder information</option>';
+			sub_infractions += '<option value="Dont use user group name as it is">Dont use user group name as it is</option>';
+			$("#seam_ccsrnonvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#seam_ccsrnonvoice").html(sub_infractions);
+		}
+		else{
+			$("#seam_ccsrnonvoice").html('');
 		}
 	});
 
@@ -1833,6 +2695,84 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#written_communication_chat').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Failed to offer further assistance">Failed to offer further assistance</option>';
+			sub_infractions += '<option value="Did not pitch for Survey">Did not pitch for Survey</option>';
+			sub_infractions += '<option value="Did not follow call closing script">Did not follow call closing script</option>';
+			sub_infractions += '<option value="Did not follow call transfer guidelines">Did not follow call transfer guidelines</option>';
+			sub_infractions += '<option value="Waiting for User timeline (90secs) not adhered">Waiting for User timeline (90secs) not adhered</option>';
+			sub_infractions += '<option value="Delayed Closing">Delayed Closing</option>';
+			sub_infractions += '<option value="N/A">N/A</option>';
+			$("#written_comm").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#written_comm").html(sub_infractions);
+		}
+		else{
+			$("#written_comm").html('');
+		}
+	});
+	
+	$('#written_communication_ccsrvoice').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Not able to comprehend the issue & failed to communicate as per stake holder resolution">Not able to comprehend the issue & failed to communicate as per stake holder resolution</option>';
+			sub_infractions += '<option value="Asked unnecessary/irrelevant questions">Asked unnecessary/irrelevant questions</option>';
+			sub_infractions += '<option value="Asked details already available">Asked details already available</option>';
+			sub_infractions += '<option value="Unable to comprehend">Unable to comprehend</option>';
+			sub_infractions += '<option value="Failed to paraphrase to ensure understanding">Failed to paraphrase to ensure understanding</option>';
+			sub_infractions += '<option value="High rate of speech">High rate of speech</option>';
+			sub_infractions += '<option value="Use of jargons">Use of jargons</option>';
+			sub_infractions += '<option value="MTI">MTI</option>';
+			$("#written_comm_ccsrvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#written_comm_ccsrvoice").html(sub_infractions);
+		}
+		else{
+			$("#written_comm_ccsrvoice").html('');
+		}
+	});
+
+	$('#written_communication_ccsrnonvoice').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Champ used Complicated language/statements">Champ used Complicated language/statements</option>';
+			sub_infractions += '<option value="Champ used jargons">Champ used jargons</option>';
+			sub_infractions += '<option value="Poor sentence construction">Poor sentence construction</option>';
+			sub_infractions += '<option value="Used multiple statements/Repetitive words ">Used multiple statements/Repetitive words </option>';
+			sub_infractions += '<option value="Spacing issue">Spacing issue</option>';
+			sub_infractions += '<option value="Gramatical errors">Gramatical errors</option>';
+			sub_infractions += '<option value="Spelling mistakes">Spelling mistakes</option>';
+			sub_infractions += '<option value="Punctuation error">Punctuation error</option>';
+			sub_infractions += '<option value="Specification of comma is not used properly">Specification of comma is not used properly</option>';
+			sub_infractions += '<option value="Capitalization error">Capitalization error</option>';
+			$("#written_comm_ccsrnonvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#written_comm_ccsrnonvoice").html(sub_infractions);
+		}
+		else{
+			$("#written_comm_ccsrnonvoice").html('');
+		}
+	});
+
+	$('#listening_skills_ccsrvoice').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="..................">....................</option>';
+			$("#skills_ccsrvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#skills_ccsrvoice").html(sub_infractions);
+		}
+		else{
+			$("#skills_ccsrvoice").html('');
+		}
+	});
+
 	$('#ajioAF2').on('change', function(){
 		if($(this).val()=='Autofail'){
 			var sub_infractions = '<option value="Champ failed to check all the previous mails">Champ failed to check all the previous mails</option>';
@@ -1845,6 +2785,52 @@ $(document).ready(function(){
 		}
 		else{
 			$("#relevant_previous").html('');
+		}
+	});
+
+	$('#ajioAF7').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="Champ failed to check all the previous mails">Champ failed to check all the previous mails</option>';
+			sub_infractions += '<option value="Champ failed analysed the CS Cockpit status & Tickits">Champ failed analysed the CS Cockpit status & Tickits</option>';
+			$("#gather_information_ccsrnonvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#gather_information_ccsrnonvoice").html(sub_infractions);
+		}
+		else{
+			$("#gather_information_ccsrnonvoice").html('');
+		}
+	});
+
+	$('#ajioAF1_chat').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="Self response  used instead of Haptik response">Self response  used instead of Haptik response</option>';
+			sub_infractions += '<option value="Incorrect canned response used">Incorrect canned response used</option>';
+			sub_infractions += '<option value="Free text not used when its required">Free text not used when its required</option>';
+			$("#relevant_previous_chat").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#relevant_previous_chat").html(sub_infractions);
+		}
+		else{
+			$("#relevant_previous_chat").html('');
+		}
+	});
+
+	$('#ajioAF1_ccsrnonvoice').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="Customization not done as per customer VOC">Customization not done as per customer VOC</option>';
+			sub_infractions += '<option value="Addition of template is missing when requierd">Addition of template is missing when requierd </option>';
+			$("#appro_ccsrnonvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#appro_ccsrnonvoice").html(sub_infractions);
+		}
+		else{
+			$("#appro_ccsrnonvoice").html('');
 		}
 	});
 
@@ -1867,6 +2853,134 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#offer_rebuttals_ccsrnonvoice').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Failed to address customers objection(s)/emotion(s)">Failed to address customers objection(s)/emotion(s)</option>';
+			sub_infractions += '<option value="Brand building not done">Brand building not done</option>';
+			sub_infractions += '<option value="Champ was unable understand objection">Champ was unable understand objection</option>';
+			sub_infractions += '<option value="Did not use objection handling script/statement">Did not use objection handling script/statement</option>';
+			sub_infractions += '<option value="Incorrect rebuttals Used">Incorrect rebuttals Used</option>';
+			sub_infractions += '<option value="Incomplete rebuttals used">Incomplete rebuttals used</option>';
+			$("#offer_rebu_ccsrnonvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#offer_rebu_ccsrnonvoice").html(sub_infractions);
+		}
+		else{
+			$("#offer_rebu_ccsrnonvoice").html('');
+		}
+	});
+
+	$('#communication_chat').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Incorrect sentence Structure">Incorrect sentence Structure</option>';
+			sub_infractions += '<option value="incorrect spacing">incorrect spacing</option>';
+			sub_infractions += '<option value="Grammatical error">Grammatical error</option>';
+			sub_infractions += '<option value="Incorrect punctuation">Incorrect punctuation</option>';
+			$("#commun_chat").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#commun_chat").html(sub_infractions);
+		}
+		else{
+			$("#commun_chat").html('');
+		}
+	});
+	
+	$('#communication_ccsrvoice').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Did not handle objection hadling script">Did not handle objection hadling script</option>';
+			sub_infractions += '<option value="Alternative option not provided if required">Alternative option not provided if required</option>';
+			$("#commun_ccsrvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#commun_ccsrvoice").html(sub_infractions);
+		}
+		else{
+			$("#commun_ccsrvoice").html('');
+		}
+	});
+
+	$('#communication_ccsrnonvoice').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Asked for information that was already available">Asked for information that was already available</option>';
+			sub_infractions += '<option value="Did not use all means to enable resolution">Did not use all means to enable resolution</option>';
+			sub_infractions += '<option value="Champ didn’t checked 3PL when requierd">Champ didn’t checked 3PL when requierd</option>';
+			sub_infractions += '<option value="Champ didnt check different tabs of CS Cockpit">Champ didnt check different tabs of CS Cockpit</option>';
+			sub_infractions += '<option value="Champ missed checking the basic pre checks before taking action">Champ missed checking the basic pre checks before taking action</option>';
+			$("#commun_ccsrnonvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#commun_ccsrnonvoice").html(sub_infractions);
+		}
+		else{
+			$("#commun_ccsrnonvoice").html('');
+		}
+	});
+
+	$('#application_portals_ccsrnonvoice').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Asked for information that was already available">Asked for information that was already available</option>';
+			sub_infractions += '<option value="Did not use all means to enable resolution">Did not use all means to enable resolution</option>';
+			sub_infractions += '<option value="Champ didn’t checked 3PL when requierd">Champ didn’t checked 3PL when requierd</option>';
+			sub_infractions += '<option value="Champ didnt check different tabs of CS Cockpit">Champ didnt check different tabs of CS Cockpit</option>';
+			sub_infractions += '<option value="Champ missed checking the basic pre checks before taking action">Champ missed checking the basic pre checks before taking action</option>';
+			$("#application_port_ccsrnonvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#application_port_ccsrnonvoice").html(sub_infractions);
+		}
+		else{
+			$("#application_port_ccsrnonvoice").html('');
+		}
+	});
+
+	$('#ajioAF2_chat').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="Champ failed to check all the previous interactions">Champ failed to check all the previous interactions</option>';
+			sub_infractions += '<option value="Champ failed to analyse CS-Cockpit and Tickets">Champ failed to analyse CS-Cockpit and Tickets</option>';
+			$("#ajiochat").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#ajiochat").html(sub_infractions);
+		}
+		else{
+			$("#ajiochat").html('');
+		}
+	});
+
+	$('#ajioAF2_ccsrvoice').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="Add Course correction not done when it was required New Ticket raised assigning">Add Course correction not done when it was required New Ticket raised assigning</option>';
+			sub_infractions += '<option value="Complaint  Re open without mentioning reason of dispute">Complaint  Re open without mentioning reason of dispute</option>';
+			sub_infractions += '<option value="Compliant did not Re-open when  required">Compliant did not Re-open when  required</option>';
+			sub_infractions += '<option value="Complaint re open when not required">Complaint re open when not required</option>';
+			sub_infractions += '<option value="Wrongly Reassign Ticket">Wrongly Reassign Ticket</option>';
+			sub_infractions += '<option value="Incomplete/Inacorrect Remarks">Incomplete/Inacorrect Remarks</option>';
+			sub_infractions += '<option value="Ticket not closed when required">Ticket not closed when required</option>';
+			sub_infractions += '<option value="Ticket not Open when required">Ticket not Open when required</option>';
+			sub_infractions += '<option value="C&R raised when not required">C&R raised when not required</option>';
+			sub_infractions += '<option value="C&R not raised when required">C&R not raised when required</option>';
+			sub_infractions += '<option value="Wrong C&R raised">Wrong C&R raised</option>';
+			sub_infractions += '<option value="C&R raised without images/appropriate details">C&R raised without images/appropriate details</option>';
+			sub_infractions += '<option value="Action not taken">Action not taken</option>';
+			$("#ajio_ccsrvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#ajio_ccsrvoice").html(sub_infractions);
+		}
+		else{
+			$("#ajio_ccsrvoice").html('');
+		}
+	});
+
 	$('#all_relevant_articles').on('change', function(){
 		if($(this).val()=='No'){
 			var sub_infractions = '<option value="Incomplete Information Given as per KM">Incomplete Information Given as per KM</option>';
@@ -1885,6 +2999,89 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#releavnt_articles_ccsrvoice').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Cockpit navigation issue">Cockpit navigation issue</option>';
+			sub_infractions += '<option value="KM not referred">KM not referred</option>';
+			sub_infractions += '<option value="PL portal not referred">PL portal not referred</option>';
+			sub_infractions += '<option value="CCSR SOP not adhere">CCSR SOP not adhere</option>';
+			$("#articles_ccsrvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#articles_ccsrvoice").html(sub_infractions);
+		}
+		else{
+			$("#articles_ccsrvoice").html('');
+		}
+	});
+
+	$('#releavnt_ccsrnonvoice').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Incomplete Information Given as per KM">Incomplete Information Given as per KM</option>';
+			sub_infractions += '<option value="Incorrect T2R Refferd ">Incorrect T2R Refferd </option>';
+			sub_infractions += '<option value="Wrong action was taken as per KM">Wrong action was taken as per KM</option>';
+			sub_infractions += '<option value="Wrong tagging done">Wrong tagging done</option>';
+			sub_infractions += '<option value="Incorrect Information">Incorrect Information</option>';
+			$("#rel_ccsr_nonvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#rel_ccsr_nonvoice").html(sub_infractions);
+		}
+		else{
+			$("#rel_ccsr_nonvoice").html('');
+		}
+	});
+
+	$('#handle_objections_chat').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Failed to address customers objection(s)/emotion(s)">Failed to address customers objection(s)/emotion(s)</option>';
+			sub_infractions += '<option value="Did not use objection handling script/statement">Did not use objection handling script/statement</option>';
+			sub_infractions += '<option value="Inappropriate/Incorrect rebuttals provided">Inappropriate/Incorrect rebuttals provided</option>';
+			$("#handle_obj_chat").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#handle_obj_chat").html(sub_infractions);
+		}
+		else{
+			$("#handle_obj_chat").html('');
+		}
+	});
+	
+	$('#handle_objections_ccsrvoice').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Previous interaction not checked">Previous interaction not checked </option>';
+			sub_infractions += '<option value="Duplicate Ticket raised">Duplicate Ticket raised</option>';
+			sub_infractions += '<option value="Previous Complaint not checked">Previous Complaint not checked</option>';
+			sub_infractions += '<option value="Duplicate Ticket Raised">Duplicate Ticket Raised</option>';
+			$("#handle_obj_ccsrvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#handle_obj_ccsrvoice").html(sub_infractions);
+		}
+		else{
+			$("#handle_obj_ccsrvoice").html('');
+		}
+	});
+
+	$('#handle_objections_ccsrnonvoice').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Previous interaction not checked">Previous interaction not checked </option>';
+			sub_infractions += '<option value="Duplicate Ticket Raised">Duplicate Ticket Raised</option>';
+			$("#handle_obj_ccsrnonvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#handle_obj_ccsrnonvoice").html(sub_infractions);
+		}
+		else{
+			$("#handle_obj_ccsrnonvoice").html('');
+		}
+	});
+
 	$('#applications_portals').on('change', function(){
 		if($(this).val()=='No'){
 			var sub_infractions = '<option value="Asked for information that was already available">Asked for information that was already available</option>';
@@ -1900,6 +3097,79 @@ $(document).ready(function(){
 		}
 		else{
 			$("#applications_por").html('');
+		}
+	});
+
+	$('#releavnt_articles_chat').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Incomplete information given as per KM">Incomplete information given as per KM</option>';
+			sub_infractions += '<option value="Incorrect T2R referred">Incorrect T2R referred</option>';
+			sub_infractions += '<option value="Wrong action was taken as per KM">Wrong action was taken as per KM</option>';
+			sub_infractions += '<option value="Wrong tagging done">Wrong tagging done</option>';
+			sub_infractions += '<option value="Incorrect information">Incorrect information</option>';
+			$("#all_relevantchat").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#all_relevantchat").html(sub_infractions);
+		}
+		else{
+			$("#all_relevantchat").html('');
+		}
+	});
+
+	$('#ajio_ccsrnonvoiceAF2').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="Add Course correction not done when it was required New Ticket raised assigning">Add Course correction not done when it was required New Ticket raised assigning</option>';
+			sub_infractions += '<option value="Complaint  Re open without mentioning reason of dispute">Complaint  Re open without mentioning reason of dispute</option>';
+			sub_infractions += '<option value="Compliant did not Re-open when  required">Compliant did not Re-open when  required</option>';
+			sub_infractions += '<option value="Complaint re open when not required">Complaint re open when not required</option>';
+			sub_infractions += '<option value="Wrongly Reassign Ticket">Wrongly Reassign Ticket</option>';
+			sub_infractions += '<option value="Incomplete/Inacorrect Remarks">Incomplete/Inacorrect Remarks</option>';
+			sub_infractions += '<option value="Ticket not closed when required">Ticket not closed when required</option>';
+			sub_infractions += '<option value="Ticket not Open when required">Ticket not Open when required</option>';
+			sub_infractions += '<option value="C&R raised when not required">C&R raised when not required</option>';
+			sub_infractions += '<option value="C&R not raised when required">C&R not raised when required</option>';
+			sub_infractions += '<option value="Wrong C&R raised">Wrong C&R raised</option>';
+			sub_infractions += '<option value="C&R raised without images/appropriate details">C&R raised without images/appropriate details</option>';
+			sub_infractions += '<option value="Action not taken">Action not taken</option>';
+			$("#relevant_ccsrnonvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#relevant_ccsrnonvoice").html(sub_infractions);
+		}
+		else{
+			$("#relevant_ccsrnonvoice").html('');
+		}
+	});
+	
+	$('#applications_portals_chat').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Asked for information that was already available">Asked for information that was already available</option>';
+			sub_infractions += '<option value="Did not use all means to enable resolution">Did not use all means to enable resolution</option>';
+			$("#applications_chat").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#applications_chat").html(sub_infractions);
+		}
+		else{
+			$("#applications_chat").html('');
+		}
+	});
+
+	$('#applications_portals_ccsrvoice').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="Open issue against any order ID of the a/c not addressed">Open issue against any order ID of the a/c not addressed</option>';
+			$("#applications_ccsrvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#applications_ccsrvoice").html(sub_infractions);
+		}
+		else{
+			$("#applications_ccsrvoice").html('');
 		}
 	});
 
@@ -1924,6 +3194,95 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#ajioAF8').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="Authenticated when not requierd">Authenticated when not requierd</option>';
+			sub_infractions += '<option value="Incorrect authentication done">Incorrect authentication done</option>';
+			sub_infractions += '<option value="Did not authenticate when requierd">Did not authenticate when requierd</option>';
+			sub_infractions += '<option value="Details did not match">Details did not match</option>';
+			sub_infractions += '<option value="Incomplete authentication">Incomplete authentication</option>';
+			$("#email_interact_ccsrnonvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#email_interact_ccsrnonvoice").html(sub_infractions);
+		}else if($(this).val()=='N/A'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#email_interact_ccsrnonvoice").html(sub_infractions);
+		}
+		else{
+			$("#email_interact_ccsrnonvoice").html('');
+		}
+	});
+
+	$('#ajio_chatAF3').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="C&R raised when not required">C&R raised when not required</option>';
+			sub_infractions += '<option value="C&R not raised when required">C&R not raised when required</option>';
+			sub_infractions += '<option value="Wrong C&R raised">Wrong C&R raised</option>';
+			sub_infractions += '<option value="C&R raised without images/appropriate details">C&R raised without images/appropriate details</option>';
+			sub_infractions += '<option value="Action not taken">Action not taken</option>';
+			sub_infractions += '<option value="Unnecessary redirection">Unnecessary redirection</option>';
+			sub_infractions += '<option value="N/A">N/A</option>';
+			$("#ensure_issue_chat").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#ensure_issue_chat").html(sub_infractions);
+		}else if($(this).val()=='N/A'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#ensure_issue_chat").html(sub_infractions);
+		}
+		else{
+			$("#ensure_issue_chat").html('');
+		}
+	});
+
+	$('#ajio_ccsrvoiceAF3').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="Without customer consent closing Ticket">Without customer consent closing Ticket</option>';
+			sub_infractions += '<option value="Incomplete Information">Incomplete Information</option>';
+			sub_infractions += '<option value="Inaccurate Information">Inaccurate Information</option>';
+			sub_infractions += '<option value="Wrong Action Taken">Wrong Action Taken</option>';
+			sub_infractions += '<option value="No Action Taken">No Action Taken</option>';
+			sub_infractions += '<option value="False Assurance">False Assurance</option>';
+			$("#issue_ccsrvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#issue_ccsrvoice").html(sub_infractions);
+		}else if($(this).val()=='N/A'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#issue_ccsrvoice").html(sub_infractions);
+		}
+		else{
+			$("#issue_ccsrvoice").html('');
+		}
+	});
+
+	$('#ajio_ccsrnonvoiceAF3').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="C&R raised when not required">C&R raised when not required</option>';
+			sub_infractions += '<option value="C&R not raised when required">C&R not raised when required</option>';
+			sub_infractions += '<option value="Wrong C&R raised">Wrong C&R raised</option>';
+			sub_infractions += '<option value="C&R raised without images/appropriate details">C&R raised without images/appropriate details</option>';
+			sub_infractions += '<option value="Action not taken">Action not taken</option>';
+			sub_infractions += '<option value="Unnecessary redirection">Unnecessary redirection</option>';
+			sub_infractions += '<option value="Tagging not done">Tagging not done</option>';
+			$("#issue_ccsrnonvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#issue_ccsrnonvoice").html(sub_infractions);
+		}else if($(this).val()=='N/A'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#issue_ccsrnonvoice").html(sub_infractions);
+		}
+		else{
+			$("#issue_ccsrnonvoice").html('');
+		}
+	});
+
 	$('#ajioAF4').on('change', function(){
 		if($(this).val()=='Autofail'){
 			var sub_infractions = '<option value="C&R raised when not required">C&R raised when not required</option>';
@@ -1943,6 +3302,83 @@ $(document).ready(function(){
 			$("#ensure_issue_resol").html('');
 		}
 	});
+	
+	$('#ajio_ccsrvoiceAF4').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="C&R raised when not requiredC&R raised when not required</option>';
+			sub_infractions += '<option value="C&R not raised when required">C&R not raised when required</option>';
+			sub_infractions += '<option value="Wrong C&R raised">Wrong C&R raised</option>';
+			sub_infractions += '<option value="C&R raised without images/appropriate details">C&R raised without images/appropriate details</option>';
+			sub_infractions += '<option value="Action not taken">Action not taken</option>';
+			sub_infractions += '<option value="Unnecessary redirection">Unnecessary redirection</option>';
+			sub_infractions += '<option value="Tagging not done">Tagging not done</option>';
+			$("#tagg_ccsrvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#tagg_ccsrvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='No'){
+			var sub_infractions = '<option value="CAM rule not adhered to.">CAM rule not adhered to.</option>';
+			sub_infractions += '<option value="Documented on incorrect account">Documented on incorrect account</option>';
+			sub_infractions += '<option value="All queries not documented">All queries not documented</option>';
+			sub_infractions += '<option value="QT Not Tagget">QT Not Tagget</option>';
+			sub_infractions += '<option value="Incorrect Tagging done">Incorrect Tagging done</option>';
+			$("#tagg_ccsrvoice").html(sub_infractions);
+		}
+		else{
+			$("#tagg_ccsrvoice").html('');
+		}
+	});
+
+	$('#ajio_chatAF4').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="Incorrect information Shared">Incorrect information Shared</option>';
+			sub_infractions += '<option value="Incomplete information Shared">Incomplete information Shared</option>';
+			$("#avoid_repeat_chat").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#avoid_repeat_chat").html(sub_infractions);
+		}
+		else{
+			$("#avoid_repeat_chat").html('');
+		}
+	});
+
+	// $('#ajio_ccsrnonvoiceAF4').on('change', function(){
+	// 	if($(this).val()=='Autofail'){
+	// 		var sub_infractions = '<option value="Without customer consent closing Ticket">Without customer consent closing Ticket</option>';
+	// 		sub_infractions += '<option value="Incomplete Information">Incomplete Information</option>';
+	// 		sub_infractions += '<option value="Inaccurate Information">Inaccurate Information</option>';
+	// 		sub_infractions += '<option value="Wrong Action Taken">Wrong Action Taken</option>';
+	// 		$("#avoid_repeat_ccsrnonvoice").html(sub_infractions);
+	// 	}
+	// 	else if($(this).val()=='Yes'){
+	// 		sub_infractions = '<option value="N/A">N/A</option>';
+	// 		$("#avoid_repeat_ccsrnonvoice").html(sub_infractions);
+	// 	}
+	// 	else{
+	// 		$("#avoid_repeat_ccsrnonvoice").html('');
+	// 	}
+	// });
+
+	$('#ajio_ccsrnonvoiceAF4').on('change', function(){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="Incorrect information Shared">Incorrect information Shared</option>';
+			sub_infractions += '<option value="Incomplete information Shared">Incomplete information Shared</option>';
+			// sub_infractions += '<option value="Inaccurate Information">Inaccurate Information</option>';
+			// sub_infractions += '<option value="Wrong Action Taken">Wrong Action Taken</option>';
+			$("#avoid_repeat_ccsrnonvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#avoid_repeat_ccsrnonvoice").html(sub_infractions);
+		}
+		else{
+			$("#avoid_repeat_ccsrnonvoice").html('');
+		}
+	});
 
 	$('#ajioAF5').on('change', function(){
 		if($(this).val()=='Autofail'){
@@ -1956,6 +3392,64 @@ $(document).ready(function(){
 		}
 		else{
 			$("#avoid_repeat").html('');
+		}
+	});
+
+	$('#ajio_chatAF5').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="CAM rule not adhered to.">CAM rule not adhered to.</option>';
+			sub_infractions += '<option value="Documented on incorrect account">Documented on incorrect account</option>';
+			sub_infractions += '<option value="All queries not documented">All queries not documented</option>';
+			sub_infractions += '<option value="QT Not Tagget ">QT Not Tagget</option>';
+			sub_infractions += '<option value="Incorrect Tagging done">Incorrect Tagging done</option>';
+			$("#tagging_guide_chat").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#tagging_guide_chat").html(sub_infractions);
+		}else if($(this).val()=='Autofail'){
+			sub_infractions = '<option value="Did the champ document the case correctly and adhered to tagging guidelines. Includes closing the complaint appropariately by selecting the correct ICR reason">Did the champ document the case correctly and adhered to tagging guidelines. Includes closing the complaint appropariately by selecting the correct ICR reason</option>';
+			sub_infractions += '<option value="OB tagging not done">OB tagging not done</option>';
+			sub_infractions += '<option value="C&R raised when not required">C&R raised when not required</option>';
+			sub_infractions += '<option value="C&R not raised when required">C&R not raised when required</option>';
+			sub_infractions += '<option value="Wrong C&R raised">Wrong C&R raised</option>';
+			sub_infractions += '<option value="C&R raised without images/appropriate details">C&R raised without images/appropriate details</option>';
+			sub_infractions += '<option value="Action not taken">Action not taken</option>';
+			sub_infractions += '<option value="Unnecessary redirection">Unnecessary redirection</option>';
+			sub_infractions += '<option value="Tagging not done">Tagging not done</option>';
+			$("#tagging_guide_chat").html(sub_infractions);
+		}
+		else{
+			$("#tagging_guide_chat").html('');
+		}
+	});
+
+	$('#ajio_ccsrnonvoiceAF5').on('change', function(){
+		if($(this).val()=='No'){
+			var sub_infractions = '<option value="CAM rule not adhered to.">CAM rule not adhered to.</option>';
+			sub_infractions += '<option value="Documented on incorrect account">Documented on incorrect account</option>';
+			sub_infractions += '<option value="All queries not documented">All queries not documented</option>';
+			sub_infractions += '<option value="QT Not Tagget ">QT Not Tagget</option>';
+			sub_infractions += '<option value="Incorrect Tagging done">Incorrect Tagging done</option>';
+			$("#tagging_guide_ccsrnonvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='Yes'){
+			sub_infractions = '<option value="N/A">N/A</option>';
+			$("#tagging_guide_ccsrnonvoice").html(sub_infractions);
+		}else if($(this).val()=='Autofail'){
+			sub_infractions = '<option value="Did the champ document the case correctly and adhered to tagging guidelines. Includes closing the complaint appropariately by selecting the correct ICR reason">Did the champ document the case correctly and adhered to tagging guidelines. Includes closing the complaint appropariately by selecting the correct ICR reason</option>';
+			sub_infractions += '<option value="OB tagging not done">OB tagging not done</option>';
+			sub_infractions += '<option value="C&R raised when not required">C&R raised when not required</option>';
+			sub_infractions += '<option value="C&R not raised when required">C&R not raised when required</option>';
+			sub_infractions += '<option value="Wrong C&R raised">Wrong C&R raised</option>';
+			sub_infractions += '<option value="C&R raised without images/appropriate details">C&R raised without images/appropriate details</option>';
+			sub_infractions += '<option value="Action not taken">Action not taken</option>';
+			sub_infractions += '<option value="Unnecessary redirection">Unnecessary redirection</option>';
+			sub_infractions += '<option value="Tagging not done">Tagging not done</option>';
+			$("#tagging_guide_ccsrnonvoice").html(sub_infractions);
+		}
+		else{
+			$("#tagging_guide_ccsrnonvoice").html('');
 		}
 	});
 
@@ -1974,8 +3468,75 @@ $(document).ready(function(){
 			sub_infractions = '<option value="N/A">N/A</option>';
 			$("#tagging_guide").html(sub_infractions);
 		}
+		else if($(this).val()=='No'){
+			var sub_infractions = '<option value="CAM rule not adhered to.">CAM rule not adhered to.</option>';
+			sub_infractions += '<option value="Documented on incorrect account">Documented on incorrect account</option>';
+			sub_infractions += '<option value="All queries not documented">All queries not documented</option>';
+			sub_infractions += '<option value="QT Not Tagget">QT Not Tagget</option>';
+			sub_infractions += '<option value="Incorrect Tagging done">Incorrect Tagging done</option>';
+			$("#tagging_guide").html(sub_infractions);
+		}
 		else{
 			$("#tagging_guide").html('');
+		}
+	});
+	
+	$('#ajio_chatAF6').on('change', function(){
+		if($(this).val()=='Autofail'){
+			sub_infractions = '<option value="Chat avoidence">Chat avoidence</option>';
+			// sub_infractions += '<option value="Misbehave with customer">Misbehave with customer</option>';
+			// sub_infractions += '<option value="Closing Chat without replying ">Closing Chat without replying </option>';
+			// sub_infractions += '<option value="Chairman esclation">Chairman esclation</option>';
+			sub_infractions += '<option value="Chat Disconnection">Chat Disconnection</option>';
+			sub_infractions += '<option value="Closing Chat without replying">Closing Chat without replying</option>';
+			sub_infractions += '<option value="Survey Solicitation/avoidanc">Survey Solicitation/avoidanc</option>';
+			sub_infractions += '<option value="Misbehave with customer">Misbehave with customer</option>';
+			sub_infractions += '<option value="Rude Behaviour/Mocking the customer">Rude Behaviour/Mocking the customer</option>';
+			sub_infractions += '<option value="Flirting/Seeking personal details">Flirting/Seeking personal details</option>';
+			sub_infractions += '<option value="Chairman escalation">Chairman escalation</option>';
+			sub_infractions += '<option value="N/A">N/A</option>';
+			$("#ztp_guide_chat").html(sub_infractions);
+		}
+		else if($(this).val()=='No'){
+			var sub_infractions = '<option value="N/A">N/A</option>';
+			// sub_infractions += '<option value="Documented on incorrect account">Documented on incorrect account</option>';
+			// sub_infractions += '<option value="All queries not documented">All queries not documented</option>';
+			// sub_infractions += '<option value="QT Not Tagget">QT Not Tagget</option>';
+			// sub_infractions += '<option value="Incorrect Tagging done">Incorrect Tagging done</option>';
+			$("#ztp_guide_chat").html(sub_infractions);
+		}
+		else{
+			$("#ztp_guide_chat").html('');
+		}
+	});
+
+	$('#ajio_ccsrvoiceAF6').on('change', function(){
+		if($(this).val()=='Autofail'){
+			sub_infractions = '<option value="...............">..................</option>';
+			$("#ztp_guide_ccsrvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='No'){
+			var sub_infractions = '<option value="................">..................</option>';
+			
+			$("#ztp_guide_ccsrvoice").html(sub_infractions);
+		}
+		else{
+			$("#ztp_guide_ccsrvoice").html('');
+		}
+	});
+
+	$('#ajio_ccsrnonvoiceAF6').on('change', function(){
+		if($(this).val()=='Autofail'){
+			sub_infractions = '<option value="...............">..................</option>';
+			$("#ztp_guide_ccsrnonvoice").html(sub_infractions);
+		}
+		else if($(this).val()=='No'){
+			var sub_infractions = '<option value="................">..................</option>';
+			
+			$("#ztp_guide_ccsrnonvoice").html(sub_infractions);
+		}
+		else{
+			$("#ztp_guide_ccsrnonvoice").html('');
 		}
 	});
 

@@ -3964,6 +3964,22 @@ public function create_qa_it_helpdesk_feedback_CSV($rr)
 				$date_to = mmddyy2mysql($this->input->get('date_to'));
 				$office_id = $this->input->get('office_id');
 
+				if($date_from !="" && $date_to!=="" )  $cond= " Where (audit_date >= '$date_from' and audit_date <= '$date_to' )";
+
+				if($office_id=="All") $cond .= "";
+				else $cond .=" and office_id='$office_id'";
+
+				if(get_role_dir()=='manager' && get_dept_folder()=='operations')
+				{
+					$cond1 .=" And (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+				}else if((get_role_dir()=='tl' && get_user_fusion_id()!='FMAN000616') && get_dept_folder()=='operations')
+				{
+					$cond1 .=" And assigned_to='$current_user'";
+				}else{
+					$cond1 .="";
+				}
+
+
 				$field_array = array(
 						"date_from"=>$date_from,
 						"date_to" => $date_to,
@@ -3986,6 +4002,27 @@ public function create_qa_it_helpdesk_feedback_CSV($rr)
 					$data["qa_oyo_list"] = $fullAray;
 					$this->create_qa_oyo_sig_CSV($fullAray);
 					$dn_link = base_url()."reports_qa/download_qa_oyo_sig_CSV";
+
+				}else if($pValue=='OYO ITC'){
+
+					//$fullAray = $this->reports_model->qa_oyo_report_model($field_array);
+					$qSql="SELECT * from
+					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+					(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+					(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+					(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
+					(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_oyosig_mohali_feedback) xx Left Join
+					(Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process, doj, DATEDIFF(CURDATE(), doj) as tenure from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
+
+					$fullAray = $this->Common_model->get_query_result_array($qSql);
+					// echo"<pre>";
+					// print_r($fullAray);
+					// echo"</pre>";
+					// exit();
+
+					$data["qa_oyo_list"] = $fullAray;
+					$this->create_qa_oyo_sig_itc_CSV($fullAray);
+					$dn_link = base_url()."reports_qa/download_qa_oyo_sig_itc_CSV";
 
 				}else if($pValue=='OYO LIFE'){
 
@@ -4433,6 +4470,180 @@ public function create_qa_it_helpdesk_feedback_CSV($rr)
 		fclose($fopen);
 	}
 
+/*----------------OYO SIG ITC MOHALI Part Start--------------------*/
+public function download_qa_oyo_sig_itc_CSV()
+{
+	$currDate=date("Y-m-d");
+	$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+	$newfile="QA OYO SIG ITC List-'".$currDate."'.csv";
+
+	header('Content-Disposition: attachment;  filename="'.$newfile.'"');
+	readfile($filename);
+}
+
+public function create_qa_oyo_sig_itc_CSV($rr)
+	{
+		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+		$fopen = fopen($filename,"w+");
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent Name", "L1 Supervisor", "Batch Code", "Czentrix ID", "Call Duration","Audit Start Date Time", "Audit End Date Time","Interval(In Second)", "Booking ID", "Call Type", "Ticket ID", "Phone", "Campaign", "Audit Type", "VOC","Earned Score","Possible Score", "Overall Score", 
+			"1.1 Opening Protocol","1.1 Opening Protocol - Remarks",
+			"2.1 Effective Probing Done","2.1 Effective Probing Done - Remarks",
+			"2.2 Issue Identified and Paraphrased for guest confirmation","2.2 Issue Identified and Paraphrased for guest confirmation - Remarks",
+			"3.1 Apology & Empathy","3.1 Apology & Empathy - Remarks",
+			"3.2 Voice Intonation Modulation & Rate Of Speech","3.2 Voice Intonation Modulation & Rate Of Speech - Remarks",
+			"3.3 Active Listening / Avoid Interruption & Repetitions","3.3 Active Listening / Avoid Interruption & Repetitions - Remarks",
+			"3.4 Confidence and Enthusiasm","3.4 Confidence and Enthusiasm - Remarks",
+			"3.5 Politeness & Professionalism","3.5 Politeness & Professionalism -Remarks",
+			"3.6 Grammar & Sentence Construction","3.6 Grammar & Sentence Construction -Remarks",
+			"3.7 Acknowledgement of guest queries and offer assurance","3.7 Acknowledgement of guest queries and offer assurance -Remarks",
+			"4.1 Did the agent adhere to Hold Protocol","4.1 Did the agent adhere to Hold Protocol -Remarks",
+			"4.2 Did the agent adhere to dead air Protocol","4.2 Did the agent adhere to dead air Protocol -Remarks",
+			"4.3 Legitimate Hold used (Hold not required still used)","4.3 Legitimate Hold used (Hold not required still used) -Remarks",
+			"5.1 Correct Information / Resolution provided","5.1 Correct Information / Resolution provided -Remarks",
+			"5.2 Correct refund (OREO and auto refund)/complimentary procedure","5.2 Correct refund (OREO and auto refund)/complimentary procedure -Remarks",
+			"5.3 Proper follow up with PM/Stock team","5.3 Proper follow up with PM/Stock team -Remarks",
+			"5.4 GNC Closure Procedure","5.4 GNC Closure Procedure -Remarks",
+			"5.5 Ownership (Call Back as promised/call back if call get disconnected)","5.5 Ownership (Call Back as promised/call back if call get disconnected) -Remarks",
+			"5.6 Send correct resolution email","5.6 Send correct resolution email -Remarks",
+			"6.1 Complete and correct notes (CRS/C-Zentrix/OYO desk)","6.1 Complete and correct notes (CRS/C-Zentrix/OYO desk) -Remarks",
+			"6.2 Accurate Tagging of Issue Category and sub category","6.2 Accurate Tagging of Issue Category and sub category -Remarks",
+			"6.3 Call Disposed accurately on Czentrix","6.3 Call Disposed accurately on Czentrix -Remarks",
+			"6.4 Correct Ticket Status and tagging of remaining fields in Oyo Desk","6.4 Correct Ticket Status and tagging of remaining fields in Oyo Desk -Remarks",
+			"7.1 Pitched Need Help (YO) for self help","7.1 Pitched Need Help (YO) for self help -Remarks",
+			"7.2 Further Assistance Asked","7.2 Further Assistance Asked -Remarks",
+			"7.3 G-Sat Survey Effectively Pitched","7.3 G-Sat Survey Effectively Pitched -Remarks",
+			"7.4 G- Sat Survey Avoidance","7.4 G- Sat Survey Avoidance -Remarks",
+			"7.5 Closing done with branding of OYO","7.5 Closing done with branding of OYO -Remarks",
+			"8.1 Process ZT - Back ground noise","8.1 Process ZT - Back ground noise -Remarks",
+			"(Zero Tolerance - High)","(Zero Tolerance - High) -Remarks",
+			"(Warning Letter - Medium)","(Warning Letter - Medium) -Remarks",
+			"Call Summary", "Feedback",
+			"Agent Review Date/Time", "Agent Comment","Feedback Acceptance", "Management Review Date/Time","Management Review By", "Management Comment","Client Review Date/Time", "Client Review Name", "Client Review Note"
+		 );
+
+		$row = "";
+		foreach($header as $data) $row .= ''.$data.',';
+		fwrite($fopen,rtrim($row,",")."\r\n");
+		$searches = array("\r", "\n", "\r\n");
+
+		foreach($rr as $user)
+		{
+			if($user['entry_by']!=''){
+				$auditorName = $user['auditor_name'];
+			}else{
+				$auditorName = $user['client_name'];
+			}
+
+			if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+				$interval1 = '---';
+			}else{
+				$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+			}
+
+			$row = '"'.$auditorName.'",';
+			//$row .= '"'.$user['audit_date'].'",';
+			$row .= '"'.ConvServerToLocal($user['audit_date']).'",';
+			$row .= '"'.$user['fusion_id'].'",';
+			$row .= '"'.$user['fname']." ".$user['lname'].'",';
+			$row .= '"'.$user['tl_name'].'",';
+			$row .= '"'.$user['batch_no'].'",';
+			$row .= '"'.$user['czentrix_id'].'",';
+			$row .= '"'.ConvServerToLocal($user['call_duration']).'",';
+			$row .= '"'.$user['audit_start_time'].'",';
+		    $row .= '"'.$user['entry_date'].'",';
+		    $row .= '"'.$interval1.'",';
+			$row .= '"'.$user['call_id'].'",';
+			$row .= '"'.$user['call_type'].'",';
+			$row .= '"'.$user['ticket_id'].'",';
+			$row .= '"'.$user['phone'].'",';
+			$row .= '"'.$user['campaign'].'",';
+			$row .= '"'.$user['audit_type'].'",';
+			$row .= '"'.$user['voc'].'",';
+			$row .= '"'.$user['earned_score'].'",';
+			$row .= '"'.$user['possible_score'].'",';
+			$row .= '"'.$user['overall_score'].'",';
+
+			$row .= '"'.$user['call_opening_5sec'].'",';
+			$row .= '"'.$user['remarks1'].'",';
+			$row .= '"'.$user['probing_done'].'",';
+			$row .= '"'.$user['remarks2'].'",';
+			$row .= '"'.$user['issue_identified'].'",';
+			$row .= '"'.$user['remarks3'].'",';
+			$row .= '"'.$user['apology_empathy'].'",';
+			$row .= '"'.$user['remarks4'].'",';
+			$row .= '"'.$user['voice_intonation'].'",';
+			$row .= '"'.$user['remarks5'].'",';
+			$row .= '"'.$user['active_listening'].'",';
+			$row .= '"'.$user['remarks6'].'",';
+			$row .= '"'.$user['confidence_enthusiasm'].'",';
+			$row .= '"'.$user['remarks7'].'",';
+			$row .= '"'.$user['politeness'].'",';
+			$row .= '"'.$user['remarks8'].'",';
+			$row .= '"'.$user['sentence_construction'].'",';
+			$row .= '"'.$user['remarks9'].'",';
+			$row .= '"'.$user['acknowledgement'].'",';
+			$row .= '"'.$user['remarks10'].'",';
+			$row .= '"'.$user['adhere_hold_protocol'].'",';
+			$row .= '"'.$user['remarks11'].'",';
+			$row .= '"'.$user['dead_air_protocol'].'",';
+			$row .= '"'.$user['remarks12'].'",';
+			$row .= '"'.$user['legitimate_hold'].'",';
+			$row .= '"'.$user['remarks13'].'",';
+			$row .= '"'.$user['correct_information'].'",';
+			$row .= '"'.$user['remarks14'].'",';
+			$row .= '"'.$user['correct_refund_mohali'].'",';
+			$row .= '"'.$user['remarks15'].'",';
+			$row .= '"'.$user['proper_followup'].'",';
+			$row .= '"'.$user['remarks16'].'",';
+			$row .= '"'.$user['closure_procedure_mohali'].'",';
+			$row .= '"'.$user['remarks17'].'",';
+			$row .= '"'.$user['ownership'].'",';
+			$row .= '"'.$user['remarks18'].'",';
+			$row .= '"'.$user['correct_email'].'",';
+			$row .= '"'.$user['remarks19'].'",';
+			$row .= '"'.$user['correct_notes'].'",';
+			$row .= '"'.$user['remarks20'].'",';
+			$row .= '"'.$user['accurate_tagging'].'",';
+			$row .= '"'.$user['remarks21'].'",';
+			$row .= '"'.$user['call_disposed'].'",';
+			$row .= '"'.$user['remarks22'].'",';
+			$row .= '"'.$user['correct_ticket_status'].'",';
+			$row .= '"'.$user['remarks23'].'",';
+			$row .= '"'.$user['piched_need_help'].'",';
+			$row .= '"'.$user['remarks24'].'",';
+			$row .= '"'.$user['further_assistance'].'",';
+			$row .= '"'.$user['remarks25'].'",';
+			$row .= '"'.$user['Gsat_survey_pitched'].'",';
+			$row .= '"'.$user['remarks26'].'",';
+			$row .= '"'.$user['Gsat_survey_avoidance'].'",';
+			$row .= '"'.$user['remarks27'].'",';
+			$row .= '"'.$user['closing_done_branding'].'",';
+			$row .= '"'.$user['remarks28'].'",';
+			$row .= '"'.$user['back_ground_noise'].'",';
+			$row .= '"'.$user['remarks29'].'",';
+			$row .= '"'.$user['zero_tolerance'].'",';
+			$row .= '"'.$user['remarks30'].'",';
+			$row .= '"'.$user['warning_letter'].'",';
+			$row .= '"'.$user['remarks31'].'",';
+
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+			$row .= '"'.$user['agent_rvw_date'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+			$row .= '"'.$user['agnt_fd_acpt'].'",';
+			$row .= '"'.$user['mgnt_rvw_date'].'",';
+			$row .= '"'.$user['mgnt_rvw_name'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
+			$row .= '"'.$user['client_rvw_date'].'",';
+			$row .= '"'.$user['client_rvw_name'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
+
+			fwrite($fopen,$row."\r\n");
+		}
+
+		fclose($fopen);
+	}
+/*----------------OYO SIG ITC MOHALI Part Ends--------------------*/
 
 /*---------OYO RCA CSS Part Start-----------*/
 	public function download_qa_oyo_dsat_rcasig_CSV()
@@ -31275,7 +31486,15 @@ else if($pid=="cci_medicare"){
 		// exit;
 		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
 		$fopen = fopen($filename,"w+");
-		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent Name", "L1 Super", "Process","site", "Call ID", "RCA Level 1", "RCA Level 2", "RCA Level 3", "Coaching Reason", "Coaching Department", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By", "Mgnt Comment");
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent Name", "L1 Super", "Process","site", "Call ID", "RCA Level 1", "RCA Level 2", "RCA Level 3", "Coaching Reason", "Coaching Department",
+		"Call Type","Observation Method","For Follow Up?","Coaching Documentation",
+		"NPS-Gathered homeowner name gave our name and greeted the homeowner","Comment", "NPS-Used homeowner name multiple times throughout the interaction","Comment", "NPS-Effectively probed to understand the true concern of the homeowner","Comment", "NPS-Assured homeowner we would assist them with their call","Cooment", "NPS-Owned issue within scope and through resolution","Comment", "NPS-Utilized all available tools and resources to resolve the homeowners concern","Comment", "NPS-Provided genuine empathy statements throughout the interaction","Cooment", "NPS-Expressed willingness to assist","Comment", "NPS-Addressed any homeowner concern brought up in the call","Comment", "NPS-Explained clearly and effectively","Comment", "NPS-Introduced a valuable solution to the homeowner","Comment", "NPS-Provided needed assurance statements","Comment", "NPS-Remained professional with a positive and upbeat tone","Comment", "NPS-Made it EASY for the homeowner","Comment",
+		"AHT-Effectively probed to understand true issue of the call","Comment", "AHT-Gained agreement on the issue","Comment", "AHT-Utilized all available tools and resources to resolve the homeowners concern","Comment", "AHT-Properly positioned time consuming tasks and hold times","Comment", "AHT-Controlled the call throughout the interaction","Comment", "AHT-Actively listened to the homeowner","Comment", "AHT-Efficiently explained the the details/ process to the customer","Comment", "AHT-Adhered to ACW and Hold guidelines","Comment", "AHT-Properly followed the transfer procedure","Comment",
+		"Revenue-Effectively Positioned Offer (LFBB)","Comment", "Revenue-Assumptively Asked for the Sale","Comment", "Revenue-Identified unstated Needs","Comment", "Revenue-Offered Relevant and Strategic Cross Sell","Comment", "Revenue-Provided Effective and relevant Rebuttals","Comment",
+		"Compliance-Stated that they were on a recorded line","Comment", "Compliance-Confirmed and entered the correct zip code","Comment", "Compliance-Submitted the project under correct CTT","Comment", "Compliance-Detailed description was correct and professionally presented","Comment", "Compliance-Correctly processed a DNC request (when applicable)","Comment", "Compliance-Correctly dispositioned the call","Comment", "Compliance-Did not share sensitive customer identifiable information","Comment",
+		"Non Customer Interactive-Information Security and Cleandesk violations","Comment", "Non Customer Interactive-Time Keeping Violation","Comment", "Non Customer Interactive-Utilization - AUX Abuse","Comment", "Non Customer Interactive-Utilization - Shift Adherence","Comment",
+		"Key Performance Results-NPS", "Key Performance Results-AHT", "Key Performance Results-Quality", "Key Performance Results-Conversion", "Key Performance Results-Cross Sell", "Key Performance Results-Adharance", "BEHAVIORAL IMPROVEMENT LEVEL (if flagged for follow-up)",
+		"Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By", "Mgnt Comment");
 
 		$row = "";
 		foreach($header as $data) $row .= ''.$data.',';
@@ -31292,11 +31511,102 @@ else if($pid=="cci_medicare"){
 			$row .= '"'.$user['process_name'].'",';
 			$row .= '"'.$user['office_id'].'",';
 			$row .= '"'.$user['call_id'].'",';
-      $row .= '"'.$rca_level1[$user['rca_level1']].'",';
-      $row .= '"'.$rca_level2[$user['rca_level2']].'",';
-      $row .= '"'.$rca_level3[$user['rca_level3']].'",';
+			$row .= '"'.$rca_level1[$user['rca_level1']].'",';
+			$row .= '"'.$rca_level2[$user['rca_level2']].'",';
+			$row .= '"'.$rca_level3[$user['rca_level3']].'",';
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", strip_tags($user['coaching_reason']))).'",';
 			$row .= '"'.$user['dept_name'].'",';
+			
+			$row .= '"'.$user['call_type'].'",';
+			$row .= '"'.$user['observation_method'].'",';
+			$row .= '"'.$user['for_follow_up'].'",';
+			$row .= '"'.$user['coaching_docu'].'",';
+			$row .= '"'.$user['nps1'].'",';
+			$row .= '"'.$user['nps_cmt1'].'",';
+			$row .= '"'.$user['nps2'].'",';
+			$row .= '"'.$user['nps_cmt2'].'",';
+			$row .= '"'.$user['nps3'].'",';
+			$row .= '"'.$user['nps_cmt3'].'",';
+			$row .= '"'.$user['nps4'].'",';
+			$row .= '"'.$user['nps_cmt4'].'",';
+			$row .= '"'.$user['nps5'].'",';
+			$row .= '"'.$user['nps_cmt5'].'",';
+			$row .= '"'.$user['nps6'].'",';
+			$row .= '"'.$user['nps_cmt6'].'",';
+			$row .= '"'.$user['nps7'].'",';
+			$row .= '"'.$user['nps_cmt7'].'",';
+			$row .= '"'.$user['nps8'].'",';
+			$row .= '"'.$user['nps_cmt8'].'",';
+			$row .= '"'.$user['nps9'].'",';
+			$row .= '"'.$user['nps_cmt9'].'",';
+			$row .= '"'.$user['nps10'].'",';
+			$row .= '"'.$user['nps_cmt10'].'",';
+			$row .= '"'.$user['nps11'].'",';
+			$row .= '"'.$user['nps_cmt11'].'",';
+			$row .= '"'.$user['nps12'].'",';
+			$row .= '"'.$user['nps_cmt12'].'",';
+			$row .= '"'.$user['nps13'].'",';
+			$row .= '"'.$user['nps_cmt13'].'",';
+			$row .= '"'.$user['nps14'].'",';
+			$row .= '"'.$user['nps_cmt14'].'",';
+			$row .= '"'.$user['aht1'].'",';
+			$row .= '"'.$user['aht_cmt1'].'",';
+			$row .= '"'.$user['aht2'].'",';
+			$row .= '"'.$user['aht_cmt2'].'",';
+			$row .= '"'.$user['aht3'].'",';
+			$row .= '"'.$user['aht_cmt3'].'",';
+			$row .= '"'.$user['aht4'].'",';
+			$row .= '"'.$user['aht_cmt4'].'",';
+			$row .= '"'.$user['aht5'].'",';
+			$row .= '"'.$user['aht_cmt5'].'",';
+			$row .= '"'.$user['aht6'].'",';
+			$row .= '"'.$user['aht_cmt6'].'",';
+			$row .= '"'.$user['aht7'].'",';
+			$row .= '"'.$user['aht_cmt7'].'",';
+			$row .= '"'.$user['aht8'].'",';
+			$row .= '"'.$user['aht_cmt8'].'",';
+			$row .= '"'.$user['aht9'].'",';
+			$row .= '"'.$user['aht_cmt9'].'",';
+			$row .= '"'.$user['revenue1'].'",';
+			$row .= '"'.$user['revenue_cmt1'].'",';
+			$row .= '"'.$user['revenue2'].'",';
+			$row .= '"'.$user['revenue_cmt2'].'",';
+			$row .= '"'.$user['revenue3'].'",';
+			$row .= '"'.$user['revenue_cmt3'].'",';
+			$row .= '"'.$user['revenue4'].'",';
+			$row .= '"'.$user['revenue_cmt4'].'",';
+			$row .= '"'.$user['revenue5'].'",';
+			$row .= '"'.$user['revenue_cmt5'].'",';
+			$row .= '"'.$user['compliance1'].'",';
+			$row .= '"'.$user['compliance_cmt1'].'",';
+			$row .= '"'.$user['compliance2'].'",';
+			$row .= '"'.$user['compliance_cmt2'].'",';
+			$row .= '"'.$user['compliance3'].'",';
+			$row .= '"'.$user['compliance_cmt3'].'",';
+			$row .= '"'.$user['compliance4'].'",';
+			$row .= '"'.$user['compliance_cmt4'].'",';
+			$row .= '"'.$user['compliance5'].'",';
+			$row .= '"'.$user['compliance_cmt5'].'",';
+			$row .= '"'.$user['compliance6'].'",';
+			$row .= '"'.$user['compliance_cmt6'].'",';
+			$row .= '"'.$user['compliance7'].'",';
+			$row .= '"'.$user['compliance_cmt7'].'",';
+			$row .= '"'.$user['non_cust_interact1'].'",';
+			$row .= '"'.$user['non_cust_interact_cmt1'].'",';
+			$row .= '"'.$user['non_cust_interact2'].'",';
+			$row .= '"'.$user['non_cust_interact_cmt2'].'",';
+			$row .= '"'.$user['non_cust_interact3'].'",';
+			$row .= '"'.$user['non_cust_interact_cmt3'].'",';
+			$row .= '"'.$user['non_cust_interact4'].'",';
+			$row .= '"'.$user['non_cust_interact_cmt4'].'",';
+			$row .= '"'.$user['nps_result'].'",';
+			$row .= '"'.$user['aht_result'].'",';
+			$row .= '"'.$user['quality_result'].'",';
+			$row .= '"'.$user['conversion_result'].'",';
+			$row .= '"'.$user['crosssell_result'].'",';
+			$row .= '"'.$user['adherence_result'].'",';
+			$row .= '"'.$user['behavioral_improvement'].'",';
+			
 			$row .= '"'.$user['agent_fd_date'].'",';
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", strip_tags($user['agent_feedback']))).'",';
 			$row .= '"'.$user['mgnt_fd_date'].'",';
