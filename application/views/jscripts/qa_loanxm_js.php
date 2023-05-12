@@ -85,13 +85,13 @@ function stratus_calc() {
     if (!isNaN(quality_score_percent)) {
         $('#stratus_overall_score').val(quality_score_percent + '%');
     }
-    // if($('#stratusAF1').val() == 'No'){
-    //     $('#param1').text('Yes');
-	// 	}else{
-	// 		if(!isNaN(quality_score_percent)){
-	// 			$('#param1').text('No');
-	// 		}	
-	// 	}
+    if($('#stratusAF1').val() == 'No'){
+        $('#param1').text('Yes');
+		}else{
+			if(!isNaN(quality_score_percent)){
+				$('#param1').text('No');
+			}	
+		}
     ////////////////Fatal  Score ///////////////////
     if ($('#stratusAF1').val() == 'No' || $('#stratusAF2').val() == 'No' || $('#stratusAF3').val() == 'Yes') {
         $('#stratus_overall_score').val(0);
@@ -608,7 +608,28 @@ $(document).ready(function() {
 
 
     ///////////////// Calibration - Auditor Type ///////////////////////	
-    $('.auType').hide();
+   // $('.auType').hide();
+
+        if($("#audit_type").val() == "Calibration"){
+        $('.auType').show();
+        $('#auditor_type').attr('required',true);
+        $('#auditor_type').prop('disabled',false);
+    }
+    
+    $('#audit_type').each(function(){
+        $valdet=$(this).val();
+        console.log($valdet);
+        if($valdet=="Calibration"){
+            $('.auType').show();
+            $('#auditor_type').attr('required',true);
+            $('#auditor_type').prop('disabled',false);
+        }else{
+            $('.auType').hide();
+            $('#auditor_type').attr('required',false);
+            $('#auditor_type').prop('disabled',true);
+        }
+    });
+
 
     $('#audit_type').on('change', function() {
         if ($(this).val() == 'Calibration') {

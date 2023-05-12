@@ -95,48 +95,47 @@
     	}
 	}
 
+  private function ajio_upload_files($files,$path) // this is for file uploaging purpose
+  {
+    $result=$this->createPath($path);
+    if($result){
+    $config['upload_path'] = $path;
+    $config['allowed_types'] = '*';
 
-	private function ajio_upload_files($files,$path)
-    {
-    	$result=$this->createPath($path);
-    	if($result){
-        $config['upload_path'] = $path;
-		//$config['allowed_types'] = '*';
-		//$config['detect_mime'] = FALSE;
-		$config['allowed_types'] = 'mp3|avi|mp4|wmv|wav';
-		$config['max_size'] = '2024000';
-		$this->load->library('upload', $config);
-		$this->upload->initialize($config);
-        $images = array();
-        foreach ($files['name'] as $key => $image) {
-			$_FILES['uFiles']['name']= $files['name'][$key];
-			$_FILES['uFiles']['type']= $files['type'][$key];
-			$_FILES['uFiles']['tmp_name']= $files['tmp_name'][$key];
-			$_FILES['uFiles']['error']= $files['error'][$key];
-			$_FILES['uFiles']['size']= $files['size'][$key];
+	  $config['allowed_types'] = 'm4a|mp4|mp3|wav';
+	  $config['max_size'] = '2024000';
+	  $this->load->library('upload', $config);
+	  $this->upload->initialize($config);
+      $images = array();
+      foreach ($files['name'] as $key => $image) {
+    $_FILES['uFiles']['name']= $files['name'][$key];
+    $_FILES['uFiles']['type']= $files['type'][$key];
+    $_FILES['uFiles']['tmp_name']= $files['tmp_name'][$key];
+    $_FILES['uFiles']['error']= $files['error'][$key];
+    $_FILES['uFiles']['size']= $files['size'][$key];
 
-            if ($this->upload->do_upload('uFiles')) {
-				$info = $this->upload->data();
-				$ext = $info['file_ext'];
-				$file_path = $info['file_path'];
-				$full_path = $info['full_path'];
-				$file_name = $info['file_name'];
-				if(strtolower($ext)== '.wav'){
+          if ($this->upload->do_upload('uFiles')) {
+      $info = $this->upload->data();
+      $ext = $info['file_ext'];
+      $file_path = $info['file_path'];
+      $full_path = $info['full_path'];
+      $file_name = $info['file_name'];
+      if(strtolower($ext)== '.wav'){
 
-					$file_name = str_replace(".","_",$file_name).".mp3";
-					$new_path = $file_path.$file_name;
-					$comdFile=FCPATH."assets/script/wavtomp3.sh '$full_path' '$new_path'";
-					$output = shell_exec( $comdFile);
-					sleep(2);
-				}
-				$images[] = $file_name;
-            }else{
-                return false;
-            }
-        }
-        return $images;
-    	}
+        $file_name = str_replace(".","_",$file_name).".mp3";
+        $new_path = $file_path.$file_name;
+        $comdFile=FCPATH."assets/script/wavtomp3.sh '$full_path' '$new_path'";
+        $output = shell_exec( $comdFile);
+        sleep(2);
+      }
+      $images[] = $file_name;
+          }else{
+              return false;
+          }
+      }
+      return $images;
     }
+  }
 
 
 /////////////////////////////////////////////////////////////////////////
@@ -1540,9 +1539,6 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 						$field_array["attach_file"] = implode(',',$a);
 				}
 
-				
-				// $a = $this->ajio_upload_files($_FILES['attach_file'], $path='./qa_files/qa_ajio_email/');
-				//$field_array["attach_file"] = implode(',',$a);
 				$rowid= data_inserter('qa_ajio_ccsr_nonvoice_feedback',$field_array);
 			///////////
 				if(get_login_type()=="client"){
@@ -1611,10 +1607,10 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 			
 			if($campaign!=""){
 			
-				$qSql="Select count(id) as value from qa_ajio_".$campaign."_feedback where agent_id='$current_user'";
+				$qSql="Select count(id) as value from qa_ajio_".$campaign."_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit'";
 				$data["tot_feedback"] =  $this->Common_model->get_single_value($qSql);
 				
-				$qSql="Select count(id) as value from qa_ajio_".$campaign."_feedback where agent_id='$current_user' and agent_rvw_date is Null";
+				$qSql="Select count(id) as value from qa_ajio_".$campaign."_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit' and agent_rvw_date is Null";
 				$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql);
 				
 				
@@ -1627,12 +1623,12 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 					if($toDate!="") $to_date = mmddyy2mysql($toDate);
 					
 					if($fromDate !="" && $toDate!=="" ){ 
-						$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user'";
+						$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
 					}else{
-						$cond= " Where agent_id='$current_user' ";
+						$cond= " Where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
 					}
 					
-					if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') and agent_id='$current_user'";
+					if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') and agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
 					
 					$qSql = "SELECT * from
 					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
@@ -1648,7 +1644,7 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 					(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 					(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-					(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_ajio_".$campaign."_feedback where agent_id='$current_user') xx Left Join
+					(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_ajio_".$campaign."_feedback where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')) xx Left Join
 					(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
 					$data["agent_rvw_list"] = $this->Common_model->get_query_result_array($qSql);
 		
@@ -1825,8 +1821,22 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 			"Did the champ follow the OB call script and introduce himself properly.","L1 Reason1", "Remark1","Champ followed the 3 strike rule of customer contact", "L1 Reason2","Remark2","Did the champ offer further assistance and follow appropriate call closure.", "L1 Reason3","Remark3","Was the champ polite and used apology and assurance wherever required","L1 Reason4","Remark4", "Was the champ able to comprehend and articulate the resolution to the cusomer in a manner which was easily understood by the customer.", "L1 Reason5","Remark5","Did the champ display active listening skills without making the customer repeat", "L1 Reason6","Remark6","Was the champ able to handle objections effectively and offer rebuttals wherever required Especially in case of where the resolution is not in customers favour","L1 Reason7", "Remark7","Did the champ refer to different applications/portals/tools/SOP to identify the root cause of customer issue and enable resolution.", "L1 Reason8","Remark8","Did the champ check the previous complaint history. (repeat complaint, resolution provided on previous complaint. Reason of reopen) and took action acordingly.", "L1 Reason9","Remark9","Did the champ correctly redirect/reassign/reopen the complaint wherever required. Includes when the resolution provided by stakeholder is not valid", "L1 Reason10","Remark10","Any other underlying issue on the account was also addressed proactively.", "L1 Reason11","Remark11","All the queries were answered properly and in an informative way to avoid repeat call. Champ provided a clear understanding of action taken and the way forward to the customer Any Information needed from Cx Follow up action reuired by customer Taking confirmation of the understadning of resolution", "L1 Reason12","Remark12","Did the champ document the case correctly and adhered to tagging guidelines. Includes closing the complaint appropariately by selecting the correct ICR reason","L1 Reason13", "Remark13","As per AJIO ZTP guidelines","L1 Reason14","Remark14", 
 			"Call Synopsis", "Call Observation", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");	
 		}else if($campaign=="ccsr_nonvoice"){
-			$header = array("Auditor Name", "Auditor Department", "Auditor Role", "Audit Date", "Agent", "MWP ID", "L1 Super", "Call Date/Time", "Type of Audit", "Interaction ID", "Audit Type", "Auditor Type", "VOC","Tagging by Evaluator", "Overall Score", "Earned Score", "Possible Score", "Fatal Count", "Pre Fatal Score", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)",
-			"Did the champ use appropriate acknowledgements re assurance and apology wherever required","L1 Reason1", "Remark1","Did the champ use font font size and formatting as per AJIOs brand guidelines", "L1 Reason2","Remark2","Was the email response in line with AJIOs approved template format", "L1 Reason3","Remark3","Was the champ able to comprehend and articulate the resolution to the cusomer in a manner which was easily understood by the customer.","L1 Reason4","Remark4", "Did the champ maintain accuracy of written communication ensuring no grammatical errors SVAs Punctuation and sentence construction errors.", "L1 Reason5","Remark5","Did the champ use appropriate template s and customized it to ensure all concerns raised were answered appropriately", "L1 Reason6","Remark6","Did the champ refer to different applications portals tools to identify the root cause of customer issue and enable resolution.","L1 Reason7", "Remark7","Did the champ refer to all releavnt articles T2Rs correctly", "L1 Reason8","Remark8","Did the champ check the previous complaint history repeat complaint resolution provided on previosu complaint Reason of reopen and took action acordingly.", "L1 Reason9","Remark9","Did the champ correctly redirect reassign reopen the complaint wherever required. Includes when the resolution provided by stakeholder is not valid", "L1 Reason10","Remark10","Champ executed all necessary actions to ensure issue resolution", "L1 Reason11","Remark11","All the queries were answered properly and in an informative way to avoid repeat call. Champ provided a clear understanding of action taken and the way forward to the customer. Any Information needed from Cx Follow upaction reuired by customer. Taking confirmation of the understadning of resolution","L1 Reason12", "Remark12","Did the champ document the case correctly and adhered to tagging guidelines. Includes closing the complaint appropariately by selecting the correct ICR reason","L1 Reason13","Remark13","As per AJIO ZTP guidelines","L1 Reason14","Remark14", 
+			$header = array("Auditor Name", "Auditor Department", "Auditor Role", "Audit Date", "Agent", "MWP ID", "L1 Super", "Call Date/Time", "Type of Audit", "Interaction ID", "Audit Type", "Auditor Type", "VOC","Tagging by Evaluator", "Overall Score", "Earned Score", "Possible Score", "Fatal Count", "Pre Fatal Score", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Ticket Type","Order Id","Ticket Id","Partner",
+			"Did the champ use appropriate acknowledgements re-assurance and apology wherever required","L1 Reason1", "Remark1",
+			"Did the champ use font font size and formatting  as per AJIOs brand guidelines", "L1 Reason2","Remark2",
+			"Was the email response in line with AJIOs approved template/format ", "L1 Reason3","Remark3",
+			"Did the champ maintain accuracy of written communication ensuring no grammatical errors SVAs Punctuation and sentence construction errors.","L1 Reason4","Remark4",
+			"Did the champ refer to all relevant previous interactions when required to gather information about customers account and issue end to end","L1 Reason5","Remark5",
+			"Did the champ use appropriate template(s) and customized it to ensure all concerns raised were answered appropriately","L1 Reason6","Remark6",
+			"Was the champ able to identify and handle objections effectively and offer rebuttals wherever required","L1 Reason7","Remark7",
+			"Did the champ refer to different applications/portals/tools to identify the root cause of customer issue and enable resolution.","L1 Reason8","Remark8",
+			"Did the champ refer to all releavnt articles/T2Rs correctly","L1 Reason9","Remark9",
+			"Email/Interaction was authenticated wherever required","L1 Reason10","Remark10",
+			"Did the champ take ownership and request for outcall/call back was addressed wherever required","L1 Reason11","Remark11",
+			"Champ executed all necessary actions to ensure issue resolution","L1 Reason12","Remark12",
+			"All the queries were answered properly and in an informative way to avoid repeat call. Champ provided a clear understanding of action taken and the way forward to the customer.","L1 Reason13","Remark13",
+			"Did the champ document the case correctly and adhered to tagging guidelines.","L1 Reason14","Remark14",
+			"As per AJIO ZTP guidelines","L1 Reason15","Remark15",
 			"Call Synopsis", "Call Observation", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");	
 		}
 
@@ -2279,6 +2289,10 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 				$row .= '"'.$user['audit_start_time'].'",';
 				$row .= '"'.$user['entry_date'].'",';
 				$row .= '"'.$interval1.'",';
+				$row .= '"'.$user['ticket_type'].'",';
+				$row .= '"'.$user['order_id'].'",';
+				$row .= '"'.$user['ticket_id'].'",';
+				$row .= '"'.$user['partner'].'",';
 				$row .= '"'.$user['appropriate_acknowledgements'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason1'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt1'])).'",';
@@ -2291,27 +2305,28 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 				$row .= '"'.$user['seamlessly'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason4'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt4'])).'",';
-				$row .= '"'.$user['written_communication'].'",';
+				$row .= '"'.$user['gather_information'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason5'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt5'])).'",';
 				$row .= '"'.$user['use_appropriate_template'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason6'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt6'])).'",';
-				$row .= '"'.$user['communication'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason7'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt7'])).'",';
+				$row .= '"'.$user['offer_rebuttals'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason15'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt15'])).'",';
+				$row .= '"'.$user['application_portals'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason18'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt18'])).'",';
 				$row .= '"'.$user['relevant_previous_interactions'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason8'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt8'])).'",';
-				$row .= '"'.$user['handle_objections'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason9'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt9'])).'",';
-				$row .= '"'.$user['releavnt_articles'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason10'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt10'])).'",';
-				// $row .= '"'.$user['applications_portals'].'",';
-				// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason11'])).'",';
-				// $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt11'])).'",';
+				$row .= '"'.$user['email_interaction'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason16'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt16'])).'",';
+				
+				$row .= '"'.$user['call_back_address'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason17'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt17'])).'",';
 				$row .= '"'.$user['ensure_issue_resolution'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason11'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt11'])).'",';
@@ -2324,6 +2339,7 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 				$row .= '"'.$user['ztp_guidelines'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason14'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt14'])).'",';
+
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_synopsis'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';

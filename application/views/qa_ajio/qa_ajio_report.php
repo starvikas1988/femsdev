@@ -18,14 +18,16 @@
 						  
 							<div class="col-md-4">
 								<div class="form-group">
-									<label>Search Date From - Audit Date (mm/dd/yyyy)</label>
-									<input type="text" id="from_date" name="date_from" value="<?php echo mysql2mmddyy($date_from); ?>" class="form-control" onkeydown="return false;" required autocomplete="off">
+									<label>From Date (MM/DD/YYYY)</label>
+										<input type="text" id="from_date" name="date_from" onchange="date_validation(this.value,'S')" value="<?php $date= mysql2mmddyy($date_from); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="start_date_error" style="color:red"></span>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
-									<label>Search Date To - Audit Date (mm/dd/yyyy)</label>
-									<input type="text" id="to_date" name="date_to" value="<?php echo mysql2mmddyy($date_to); ?>" class="form-control" onkeydown="return false;" required autocomplete="off">
+									<label>To Date (MM/DD/YYYY)</label>
+										<input type="text" id="to_date" name="date_to" onchange="date_validation(this.value,'E')" value="<?php $date= mysql2mmddyy($date_to); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+									<span class="end_date_error" style="color:red"></span>
 								</div>
 							</div>
 							<div class="col-md-3">
@@ -54,13 +56,16 @@
 										<option <?php echo $campaign=='email'?"selected":""; ?> value="email">Email</option>
 										<option <?php echo $campaign=='email_v2'?"selected":""; ?> value="email_v2">Email [Version 2]</option>
 										<option <?php echo $campaign=='chat'?"selected":""; ?> value="chat">Chat</option>
+										<option <?php echo $campaign=='chat_v2'?"selected":""; ?> value="chat_v2">Chat [Version 2]</option>
+										<option <?php echo $campaign=='ccsr_voice'?"selected":""; ?> value="ccsr_voice">CCSR Voice</option>
+										<option <?php echo $campaign=='ccsr_nonvoice'?"selected":""; ?> value="ccsr_nonvoice">CCSR [Non-Voice]</option>
 										<option <?php echo $campaign=='inbound_v2'?"selected":""; ?> value="inbound_v2">VOICE [Version 2]</option>
 									</select>
 								</div>
 							</div>
 							<div class="col-md-1" style='margin-top:22px;'>
 								<div class="form-group">
-									<button class="btn btn-primary waves-effect" a href="<?php echo base_url()?>qa_ajio/qa_ajio_report" type="submit" id='show' name='show' value="Show">SHOW</button>
+									<button class="btn btn-primary blains-effect" a href="<?php echo base_url()?>qa_ajio/qa_ajio_report" type="submit" id='show' name='show' value="Show">SHOW</button>
 								</div>
 							</div>
 							

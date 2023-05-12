@@ -922,7 +922,7 @@
 				$tl_mgnt_cond="";
 			}
 			
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,211) and status=1  order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,211) and is_assign_process(id,761) and status=1  order by name";
 			/* and is_assign_process(id,474) */
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 			
@@ -1222,10 +1222,10 @@
 			
 			if($campaign!=""){
 			
-				$qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user'";
+				$qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
 				$data["tot_feedback"] =  $this->Common_model->get_single_value($qSql);
 			
-				$qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_rvw_date is null and agent_id='$current_user'";
+				$qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
 				$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql);
 
 				if($this->input->get('btnView')=='View')
@@ -1233,7 +1233,7 @@
 					$from_date = mmddyy2mysql($this->input->get('from_date'));
 					$to_date = mmddyy2mysql($this->input->get('to_date'));
 					
-					if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') and agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
+					if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') and agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
 
 					$qSql = "SELECT * from
 						(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
@@ -1248,7 +1248,7 @@
 						(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 						(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 						(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-						(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_".$campaign."_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
+						(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_".$campaign."_feedback where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')) xx Left Join
 						(Select id as sid, fname, lname, fusion_id, get_process_names(id) as campaign, assigned_to from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
 					$data["agent_rvw_list"] = $this->Common_model->get_query_result_array($qSql);
 				}
@@ -1592,7 +1592,7 @@
 		$edit_url = "add_edit_stratus";
 		$main_url =  $currentURL.''.$controller.'/'.$edit_url;
 
-		$header = array("Auditor Name", "Audit Date","Call Date", "Agent", "Fusion ID", "L1 Super","Order Number", "Customer Name", "Audit Type", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(in sec)", "Auto Fail", "Overall Score",
+		$header = array("Auditor Name", "Audit Date","Call Date", "Agent", "Fusion ID", "L1 Super","Order Number", "Customer Name","Audit Type","Auditor Type","VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(in sec)", "Auto Fail", "Overall Score",
 		
 		"PATIENT INFORMATION",
 		"Markdown Comments1",
@@ -1697,6 +1697,7 @@
 			$row .= '"'.$user['order_number'].'",';
 			$row .= '"'.$user['customer_name'].'",';
 			$row .= '"'.$user['audit_type'].'",';
+			$row .= '"'.$user['auditor_type'].'",';
 			$row .= '"'.$user['voc'].'",';
 			$row .= '"'.$main_urls.'",';
 			$row .= '"'.$user['audit_start_time'].'",';
@@ -2004,7 +2005,7 @@
 		{
 		$edit_url = "add_edit_monitoring_tech";
 		$main_url =  $currentURL.''.$controller.'/'.$edit_url;
-		$header = array("Auditor Name", "Audit Date","Call Date", "Agent", "Fusion ID", "L1 Super","Dr", "Patient", "Rep","DOB","Tech", "Audit Type", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(in sec)", "Possible Score","Earn Score","Overall Score",
+		$header = array("Auditor Name", "Audit Date","Call Date", "Agent", "Fusion ID", "L1 Super","Audit Type","Auditor Type","Order Number","Customer Name","Auto Fail", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(in sec)", "Possible Score","Earn Score","Overall Score",
 
 		"Did the agent do his/her routine checks.",
 		"Comments1",
@@ -2045,7 +2046,6 @@
 		"Did the agent check the A/V Log to ensure audio is on the cameras are configured properly",
 		"Comments19",
 		"Compliance Score Percent",
-		"Customer Score Percent",
 		"Business Score Percent",
 
 		"Call Summary", "Feedback", "Agent Feedback Acceptance","Agent Review Date", "Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
@@ -2075,12 +2075,11 @@
 			$row .= '"'.$user['fname']." ".$user['lname'].'",';
 			$row .= '"'.$user['fusion_id'].'",';
 			$row .= '"'.$user['tl_name'].'",';
-			$row .= '"'.$user['dr'].'",';
-			$row .= '"'.$user['customer_name'].'",';
-			$row .= '"'.$user['rep'].'",';
-			$row .= '"'.$user['dob'].'",';
-			$row .= '"'.$user['tech'].'",';
 			$row .= '"'.$user['audit_type'].'",';
+			$row .= '"'.$user['auditor_type'].'",';
+			$row .= '"'.$user['order_number'].'",';
+			$row .= '"'.$user['customer_name'].'",';
+			$row .= '"'.$user['auto_fail'].'",';
 			$row .= '"'.$user['voc'].'",';
 			$row .= '"'.$main_urls.'",';
 			$row .= '"'.$user['audit_start_time'].'",';
@@ -2128,7 +2127,6 @@
 			$row .= '"'.$user['configured'].'",';
 			$row .= '"'.$user['cmt19'].'",';
 			$row .= '"'.$user['compliance_score_percent'].'%'.'",';
-			$row .= '"'.$user['customer_score_percent'].'%'.'",';
 			$row .= '"'.$user['business_score_percent'].'%'.'",';
 			
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';

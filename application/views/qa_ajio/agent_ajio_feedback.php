@@ -18,14 +18,16 @@
 							<div class="row">
 								<div class="col-md-3">
 									<div class="form-group">
-										<label>From Date (mm/dd/yyyy)</label>
-										<input type="text" id="from_date" name="from_date" value="<?php echo mysql2mmddyy($from_date); ?>" class="form-control" readonly>
+										<label>From Date (MM/DD/YYYY)</label>
+										<input type="text" id="from_date"  name="from_date" onchange="date_validation(this.value,'S')" value="<?php $date= mysql2mmddyy($from_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="start_date_error" style="color:red"></span>
 									</div>
 								</div>  
 								<div class="col-md-3"> 
 									<div class="form-group">
-										<label>To Date (mm/dd/yyyy)</label>
-										<input type="text" id="to_date" name="to_date" value="<?php echo mysql2mmddyy($to_date); ?>" class="form-control" readonly>
+										<label>To Date (MM/DD/YYYY)</label>
+										<input type="text" id="to_date" name="to_date" onchange="date_validation(this.value,'E')"  value="<?php $date= mysql2mmddyy($to_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="end_date_error" style="color:red"></span>
 									</div> 
 								</div>
 								<div class="col-md-4">
@@ -38,12 +40,15 @@
 											<option <?php echo $campaign=='email'?"selected":""; ?> value="email">Email</option>
 											<option <?php echo $campaign=='email_v2'?"selected":""; ?> value="email_v2">Email [Version 2]</option>
 											<option <?php echo $campaign=='chat'?"selected":""; ?> value="chat">Chat</option>
+											<option <?php echo $campaign=='chat_v2'?"selected":""; ?> value="chat_v2">Chat [Version2]</option>
 											<option <?php echo $campaign=='inbound_v2'?"selected":""; ?> value="inbound_v2">VOICE [Version 2]</option>
+											<option <?php echo $campaign=='ccsr_voice'?"selected":""; ?> value="ccsr_voice">CCSR [Voice]</option>
+											<option <?php echo $campaign=='ccsr_nonvoice'?"selected":""; ?> value="ccsr_nonvoice">CCSR [Non-Voice]</option>
 										</select>
 									</div>
 								</div>
 								<div class="col-md-1" style="margin-top:20px">
-									<button class="btn btn-success waves-effect" a href="<?php echo base_url()?>qa_ajio/agent_ajio_feedback" type="submit" id='btnView' name='btnView' value="View">View</button>
+									<button class="btn btn-success blains-effect" a href="<?php echo base_url()?>qa_ajio/agent_ajio_feedback" type="submit" id='btnView' name='btnView' value="View">View</button>
 								</div>
 							</div>
 						</form>
@@ -116,7 +121,17 @@
 													<?php
 												}
 
-											}else{
+											}else if($campaign == 'ccsr_nonvoice'){
+												foreach($attach_file as $mp){
+													?>
+												<audio controls='' style="width:120px; height:25px; background-color:#607F93"> 
+												  <source src="<?php echo base_url(); ?>qa_files/qa_ajio/ccsr/<?php echo $mp; ?>" type="audio/ogg">
+												  <source src="<?php echo base_url(); ?>qa_files/qa_ajio/ccsr/<?php echo $mp; ?>" type="audio/mpeg">
+												</audio>
+													<?php
+												}
+											}
+											else{
 													foreach($attach_file as $mp){
 															?>
 													<audio controls='' style="width:120px; height:25px; background-color:#607F93"> 

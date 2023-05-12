@@ -305,7 +305,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td><textarea class="form-control" name="data[cmt3]"><?php echo $ajio_ccsr_nonvoice['cmt3'] ?></textarea></td>
 									</tr>
 									<tr>
-										<td colspan=2 >Did the champ maintain accuracy of written communication ensuring no grammatical errors, SVAs, Punctuation and sentence construction errors.</td>
+										<td colspan=2 >Was the champ able to comprehend and articulate the resolution to the cusomer in a manner which was easily understood by the customer.</td>
 										<td>
 										<select class="form-control ajio" id="seamlessly_ccsrnonvoice" name="data[seamlessly]" required>
 												<option ajio_val=10 ajio_max=10 <?php echo $ajio_ccsr_nonvoice['seamlessly'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
@@ -414,7 +414,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>5</td>
 										<td>
 											<!-- <textarea class="form-control" name="data[l1_reason7]"><?php //echo $ajio_ccsr_nonvoice['l1_reason7'] ?></textarea> -->
-											<select class="form-control" id="application_port_ccsrnonvoice" name="data[l1_reason18]" required>
+											<select class="form-control" id="application_port_ccsrnonvoice" name="data[l1_reason7]" required>
 												<?php 
 												if($ajio_ccsr_nonvoice['l1_reason18']!=''){
 													?>
@@ -620,9 +620,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<td colspan="5"><input type="file" multiple class="form-control" id="attach_file" name="attach_file[]" accept=".m4a,.mp4,.mp3,.wav,audio/*" style="padding: 10px 10px 10px 10px;"></td>
 										<?php }else{
 											if($ajio_ccsr_nonvoice['attach_file']!=''){ ?>
-												
+												<input type="file" multiple class="form-control"  id="attach_file" name="attach_file[]" accept=".m4a,.mp4,.mp3,.wav,audio/*"> 
 												<td colspan=4>
-													<input type="file" multiple class="form-control"  id="attach_file" name="attach_file[]" accept=".m4a,.mp4,.mp3,.wav,audio/*"> 
 													<?php $attach_file = explode(",",$ajio_ccsr_nonvoice['attach_file']);
 													 foreach($attach_file as $mp){ ?>
 														<audio controls='' style="background-color:#607F93"> 

@@ -83,31 +83,28 @@
 												<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $monitoring_tech['tl_id'] ?>" disabled>
 										</td>
 									</tr>
-									<!-- <tr>
+									<tr>
 										
 										<td>Order Number:</td>
-										<td><input type="text" class="form-control" name="data[order_number]" value="<?php //echo $monitoring_tech['order_number'] ?>" disabled ></td>
+										<td><input type="text" class="form-control" name="data[order_number]" value="<?php echo $monitoring_tech['order_number'] ?>" disabled ></td>
 										<td>Customer Name:</td>
-										<td><input type="text" class="form-control" name="data[customer_name]" value="<?php //echo $monitoring_tech['customer_name'] ?>" disabled ></td>
+										<td><input type="text" class="form-control" name="data[customer_name]" value="<?php echo $monitoring_tech['customer_name'] ?>" disabled ></td>
 										<td >Auto Fail</td>
-										<td><input type="text" class="form-control" name="data[auto_fail]" id="param1" value="<?php //echo $monitoring_tech['auto_fail'] ?>" readonly > </td>
-									</tr> -->
+										<td><input type="text" class="form-control" name="data[auto_fail]" id="param1" value="<?php echo $monitoring_tech['auto_fail'] ?>" readonly > </td>
+									</tr>
 
-									<tr>
+									<!-- <tr>
 										
 										<td>Dr:</td>
-										<td><input type="text" class="form-control" name="data[dr]" value="<?php echo $monitoring_tech['dr'] ?>" disabled ></td>
+										<td><input type="text" class="form-control" name="data[dr]" value="<?php //echo $monitoring_tech['dr'] ?>" disabled ></td>
 										<td>Patient:</td>
-										<td><input type="text" class="form-control" name="data[customer_name]" value="<?php echo $monitoring_tech['customer_name'] ?>" disabled ></td>
+										<td><input type="text" class="form-control" name="data[customer_name]" value="<?php //echo $monitoring_tech['customer_name'] ?>" disabled ></td>
 										<td >Rep</td>
-										<td><input type="text" class="form-control" name="data[rep]" id="" value="<?php echo $monitoring_tech['rep'] ?>" disabled>  </td>
-									</tr>
+										<td><input type="text" class="form-control" name="data[rep]" id="" value="<?php //echo $monitoring_tech['rep'] ?>" disabled>  </td>
+									</tr> -->
 									<tr>
 										
-										<td>DOB:</td>
-										<td><input type="text" class="form-control" name="dob" id="dob_date" value="<?php echo $dobDate_val; ?>" disabled ></td>
-										<td>Tech:</td>
-										<td><input type="text" class="form-control" name="data[tech]" value="<?php echo $monitoring_tech['tech'] ?>" disabled ></td>
+									
 										<td>VOC:</td>
 										<td>
 											<select class="form-control" id="voc" name="data[voc]" disabled>
@@ -125,34 +122,30 @@
 												<option value="10">10</option>
 											</select>
 										</td>
-									</tr>
-							
-									<tr>
 										<td>Audit Type:</td>
 										<td>
 											<select class="form-control" id="audit_type" name="data[audit_type]" disabled>
-												<option value="<?php echo $monitoring_tech['audit_type'] ?>"><?php echo $monitoring_tech['audit_type'] ?></option>
-												<option value="">-Select-</option>
-												<option value="CQ Audit">CQ Audit</option>
-												<option value="BQ Audit">BQ Audit</option>
-												<option value="WOW Call">WOW Call</option>
-												<option value="Calibration">Calibration</option>
-												<option value="Pre-Certificate Mock Call">Pre-Certificate Mock Call</option>
-												<option value="Certification Audit">Certification Audit</option>
-												<option value="Operation Audit">Operation Audit</option>
-												<option value="Trainer Audit">Trainer Audit</option>
-											</select>
+                                                    <option value="">-Select-</option>
+                                                    <option value="CQ Audit" <?= ($monitoring_tech['audit_type']=="CQ Audit")?"selected":"" ?>>CQ Audit</option>
+                                                    <option value="BQ Audit" <?= ($monitoring_tech['audit_type']=="BQ Audit")?"selected":"" ?>>BQ Audit</option>
+                                                    <option value="Calibration" <?= ($monitoring_tech['audit_type']=="Calibration")?"selected":"" ?>>Calibration</option>
+                                                    <option value="Pre-Certificate Mock Call" <?= ($monitoring_tech['audit_type']=="Pre-Certificate Mock Call")?"selected":"" ?>>Pre-Certificate Mock Call</option>
+                                                    <option value="Certification Audit" <?= ($monitoring_tech['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
+                                                    <option value="WoW Call"  <?= ($monitoring_tech['audit_type']=="WoW Call")?"selected":"" ?>>WoW Call</option>
+                                                    <option value="Hygiene Audit"  <?= ($monitoring_tech['audit_type']=="Hygiene Audit")?"selected":"" ?>>Hygiene Audit</option>
+                                                    <option value="Operation Audit"  <?= ($monitoring_tech['audit_type']=="Operation Audit")?"selected":"" ?>>Operation Audit</option>
+                                                    <option value="Trainer Audit"  <?= ($monitoring_tech['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option>  
+                                                </select>
 										</td>
 										
 										<td class="auType">Auditor Type</td>
 										<td class="auType">
 											<select class="form-control" id="auditor_type" name="data[auditor_type]" disabled>
-												<option value="">-Select-</option>
-												<option value="Master">Master</option>
-												<option value="Regular">Regular</option>
-											</select>
+                                                    <option value="">Select</option>
+                                                    <option value="Master" <?= ($monitoring_tech['auditor_type']=="Master")?"selected":"" ?>>Master</option>
+                                                    <option value="Regular" <?= ($monitoring_tech['auditor_type']=="Regular")?"selected":"" ?>>Regular</option>
+                                                </select>
 										</td>
-
 									</tr>
 									
 									<tr>
@@ -179,7 +172,7 @@
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=5 <?php echo $monitoring_tech['routine_checks'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=5 <?php echo $monitoring_tech['routine_checks'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=5 <?php echo $monitoring_tech['routine_checks'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=0 <?php echo $monitoring_tech['routine_checks'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>5</td>
@@ -199,7 +192,7 @@
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_report'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_report'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=1<?php echo $monitoring_tech['patient_report'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=0<?php echo $monitoring_tech['patient_report'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -213,7 +206,7 @@
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['amplifier'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['amplifier'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=1 <?php echo $monitoring_tech['amplifier'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=0 <?php echo $monitoring_tech['amplifier'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -227,7 +220,7 @@
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['cameras'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['cameras'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=1 <?php echo $monitoring_tech['cameras'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=0 <?php echo $monitoring_tech['cameras'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -242,7 +235,7 @@
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['highlighting'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['highlighting'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=1 <?php echo $monitoring_tech['highlighting'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=0 <?php echo $monitoring_tech['highlighting'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -256,7 +249,7 @@
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['contacting'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['contacting'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=1 <?php echo $monitoring_tech['contacting'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=0 <?php echo $monitoring_tech['contacting'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -270,7 +263,7 @@
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['initials'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['initials'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=1 <?php echo $monitoring_tech['initials'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=0 <?php echo $monitoring_tech['initials'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -284,7 +277,7 @@
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=5 <?php echo $monitoring_tech['patient_call'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=5 <?php echo $monitoring_tech['patient_call'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=5 <?php echo $monitoring_tech['patient_call'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=0 <?php echo $monitoring_tech['patient_call'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>5</td>
@@ -303,7 +296,7 @@
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['master_setup'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['master_setup'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=1 <?php echo $monitoring_tech['master_setup'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=0 <?php echo $monitoring_tech['master_setup'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -317,7 +310,7 @@
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_rept'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_rept'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=1 <?php echo $monitoring_tech['patient_rept'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=0 <?php echo $monitoring_tech['patient_rept'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -331,7 +324,7 @@
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_id'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_id'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=1 <?php echo $monitoring_tech['patient_id'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=0 <?php echo $monitoring_tech['patient_id'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -345,7 +338,7 @@
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_phone'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_phone'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=1 <?php echo $monitoring_tech['patient_phone'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=0 <?php echo $monitoring_tech['patient_phone'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -359,7 +352,7 @@
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['start_time'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['start_time'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=1 <?php echo $monitoring_tech['start_time'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=0 <?php echo $monitoring_tech['start_time'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -373,7 +366,7 @@
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_cameras'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_cameras'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=1 <?php echo $monitoring_tech['patient_cameras'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=0 <?php echo $monitoring_tech['patient_cameras'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -387,7 +380,7 @@
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_location'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_location'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=1 <?php echo $monitoring_tech['patient_location'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=0 <?php echo $monitoring_tech['patient_location'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -401,7 +394,7 @@
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=5 <?php echo $monitoring_tech['bright_tree'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=5 <?php echo $monitoring_tech['bright_tree'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=5 <?php echo $monitoring_tech['bright_tree'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=0 <?php echo $monitoring_tech['bright_tree'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>5</td>
@@ -420,7 +413,7 @@
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['incorrect_time'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['incorrect_time'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=1 <?php echo $monitoring_tech['incorrect_time'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=0 <?php echo $monitoring_tech['incorrect_time'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -434,7 +427,7 @@
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['data_card'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['data_card'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=1 <?php echo $monitoring_tech['data_card'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=0 <?php echo $monitoring_tech['data_card'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -448,7 +441,7 @@
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['configured'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['configured'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=1 <?php echo $monitoring_tech['configured'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=0 <?php echo $monitoring_tech['configured'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -489,7 +482,7 @@
 											<td colspan="4">
 												<?php $attach_file = explode(",",$monitoring_tech['attach_file']);
 												 foreach($attach_file as $mp){ ?>
-													<audio controls='' style="background-color:#607F93"> 
+													<audio oncontextmenu="return false;" controls controlslist="nodownload" style="background-color:#607F93"> 
 													  <source src="<?php echo base_url(); ?>qa_files/qa_stratus/<?php echo $mp; ?>" type="audio/ogg">
 													  <source src="<?php echo base_url(); ?>qa_files/qa_stratus/<?php echo $mp; ?>" type="audio/mpeg">
 													</audio> </br>
@@ -509,7 +502,7 @@
 									 <input type="hidden" name="pnid" class="form-control" value="<?php echo $pnid; ?>">
 										
 										<tr>
-											<td colspan=2 style="font-size:16px;background-color:#5058e6;color:white;">Feedback Acceptance</td>
+											<td colspan=2 style="font-size:16px;background-color:#5058e6;color:white;">Feedback Acceptance <span style="font-size:24px;color:red">*</span></td>
 											<td colspan=2>
 												<select class="form-control" id="" name="agnt_fd_acpt" required>
 													<option value="">--Select--</option>
@@ -519,7 +512,7 @@
 											</td>
 										</tr>
 										<tr>
-											<td colspan=2 style="font-size:16px;background-color:#5058e6;color:white;">Your Review</td>
+											<td colspan=2 style="font-size:16px;background-color:#5058e6;color:white;">Your Review <span style="font-size:24px;color:red">*</span></td>
 											<td colspan=4><textarea class="form-control" name="note" required><?php echo $monitoring_tech['agent_rvw_note'] ?></textarea></td>
 										</tr>
 										
