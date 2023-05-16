@@ -48,7 +48,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											$auditorName = get_username();
 											$auditDate = CurrDateMDY();
 											$clDate_val='';
-											$dobDate_val='';
+											//$dobDate_val='';
 										}else{
 											if($monitoring_tech['entry_by']!=''){
 												$auditorName = $monitoring_tech['auditor_name'];
@@ -57,7 +57,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											}
 											$auditDate = mysql2mmddyy($monitoring_tech['audit_date']);
 											$clDate_val = mysql2mmddyy($monitoring_tech['call_date']);
-											$dobDate_val = mysql2mmddyy($monitoring_tech['dob']);
+											//$dobDate_val = mysql2mmddyy($monitoring_tech['dob']);
 										}
 									?>
 									<tr>

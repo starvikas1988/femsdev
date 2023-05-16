@@ -951,7 +951,7 @@
 					$field_array=$this->input->post('data');
 					$field_array['audit_date']=CurrDate();
 					$field_array['call_date']=mmddyy2mysql($this->input->post('call_date'));
-					//$field_array['dob']=mmddyy2mysql($this->input->post('dob'));
+					$field_array['dob']=mmddyy2mysql($this->input->post('dob'));
 					$field_array['entry_date']=$curDateTime;
 					$field_array['audit_start_time']=$this->input->post('audit_start_time');
 					$a = $this->stratus_upload_files($_FILES['attach_file'], $path='./qa_files/qa_stratus/');
@@ -1055,7 +1055,7 @@
 					
 					$field_array1=$this->input->post('data');
 					$field_array1['call_date']=mmddyy2mysql($this->input->post('call_date'));
-					//$field_array1['dob']=mmddyy2mysql($this->input->post('dob'));
+					$field_array1['dob']=mmddyy2mysql($this->input->post('dob'));
 					if($_FILES['attach_file']['tmp_name'][0]!=''){
 						if(!file_exists("./qa_files/qa_stratus/")){
 							mkdir("./qa_files/qa_stratus/");

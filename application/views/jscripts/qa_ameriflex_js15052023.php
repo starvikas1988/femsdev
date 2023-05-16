@@ -468,8 +468,7 @@ $(document).ready(function(){
 	$("#call_date").datepicker({ maxDate: new Date() });
 	$("#booking_date").datepicker();
 	$("#video_duration").timepicker({timeFormat : 'HH:mm:ss' });
-	//$("#call_duration").timepicker();
-	$("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });
+	$("#call_duration").timepicker();
 	$("#from_date").datepicker();
 	$("#to_date").datepicker();
 	$("#go_live_date").datepicker();

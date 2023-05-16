@@ -127,7 +127,7 @@
 											<option <?php echo $ameriflex['audit_type']=='Calibration'?"selected":""; ?> value="Calibration">Calibration</option>
 											<option <?php echo $ameriflex['audit_type']=='Pre-Certificate Mock Call'?"selected":""; ?> value="Pre-Certificate Mock Call">Pre-Certificate Mock Call</option>
 											<option <?php echo $ameriflex['audit_type']=='Certificate Audit'?"selected":""; ?> value="Certificate Audit">Certificate Audit</option>
-											<option <?php echo $ameriflex['audit_type']=='WOW Call'?"selected":""; ?> value="WOW Call">WOW Call</option>
+											<option value="WOW Call">WOW Call</option>
 											</select>
 										</td>
 									</tr>
@@ -162,7 +162,7 @@
 											<select class="form-control ameriflex_point" name="data[caller_properly_greed]" disabled>
 												<option ameriflex_val=11 <?php echo $ameriflex['caller_properly_greed'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=11 <?php echo $ameriflex['caller_properly_greed'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=11 <?php echo $ameriflex['caller_properly_greed'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $ameriflex['caller_properly_greed'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt1]" value="<?php echo $ameriflex['cmt1'] ?>"></td>
@@ -174,7 +174,7 @@
 											<select class="form-control ameriflex_point " name="data[show_empathy_sympathy]" disabled>
 												<option ameriflex_val=5 <?php echo $ameriflex['show_empathy_sympathy'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=5 <?php echo $ameriflex['show_empathy_sympathy'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=5 <?php echo $ameriflex['show_empathy_sympathy'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $ameriflex['show_empathy_sympathy'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt2]" value="<?php echo $ameriflex['cmt2'] ?>"></td>
@@ -185,7 +185,7 @@
 											<select class="form-control ameriflex_point " name="data[adjust_caller_pace]" disabled>
 												<option ameriflex_val=6 <?php echo $ameriflex['adjust_caller_pace'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=6 <?php echo $ameriflex['adjust_caller_pace'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=6 <?php echo $ameriflex['adjust_caller_pace'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $ameriflex['adjust_caller_pace'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt3]" value="<?php echo $ameriflex['cmt3'] ?>"></td>
@@ -196,7 +196,7 @@
 											<select class="form-control ameriflex_point " name="data[use_caller_name_two_times]" disabled>
 												<option ameriflex_val=6 <?php echo $ameriflex['use_caller_name_two_times'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=6 <?php echo $ameriflex['use_caller_name_two_times'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=6 <?php echo $ameriflex['use_caller_name_two_times'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $ameriflex['use_caller_name_two_times'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt4]" value="<?php echo $ameriflex['cmt4'] ?>"></td>
@@ -207,7 +207,7 @@
 											<select class="form-control ameriflex_point " name="data[sound_though_assist_caller]" disabled>
 												<option ameriflex_val=8 <?php echo $ameriflex['sound_though_assist_caller'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=8 <?php echo $ameriflex['sound_though_assist_caller'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=8 <?php echo $ameriflex['sound_though_assist_caller'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $ameriflex['sound_though_assist_caller'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt5]" value="<?php echo $ameriflex['cmt5'] ?>"></td>
@@ -230,7 +230,7 @@
 											<select class="form-control ameriflex_point " name="data[use_thatnk_you_appologies]" disabled>
 												<option ameriflex_val=6 <?php echo $ameriflex['use_thatnk_you_appologies'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=6 <?php echo $ameriflex['use_thatnk_you_appologies'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=6 <?php echo $ameriflex['use_thatnk_you_appologies'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $ameriflex['use_thatnk_you_appologies'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt7]" value="<?php echo $ameriflex['cmt7'] ?>"></td>
@@ -241,7 +241,7 @@
 											<select class="form-control ameriflex_point " name="data[own_the_issue]" disabled>
 												<option ameriflex_val=6 <?php echo $ameriflex['own_the_issue'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=6 <?php echo $ameriflex['own_the_issue'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=6 <?php echo $ameriflex['own_the_issue'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $ameriflex['own_the_issue'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt8]" value="<?php echo $ameriflex['cmt8'] ?>"></td>
@@ -257,14 +257,14 @@
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt9]" value="<?php echo $ameriflex['cmt9'] ?>"></td>
 									</tr>
-									<tr><td class="eml1" colspan=6 style="background-color:#3f5691; color: white;">Product knowledge</td></tr>
+									<tr><td class="eml1" colspan=6 style="background-color:#3f5691; color: white;">Product KFailwledge</td></tr>
 									<tr>
 										<td class="eml1" colspan=3>Did we confirm/update caller's contact information? (phone and/or email)</td>
 										<td>
 											<select class="form-control ameriflex_point" name="data[confirm_caller_contact]" disabled>
 												<option ameriflex_val=2 <?php echo $ameriflex['confirm_caller_contact'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=2 <?php echo $ameriflex['confirm_caller_contact'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=2 <?php echo $ameriflex['confirm_caller_contact'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $ameriflex['confirm_caller_contact'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt10]" value="<?php echo $ameriflex['cmt10'] ?>"></td>
@@ -275,7 +275,7 @@
 											<select class="form-control ameriflex_point" name="data[communicate_timelines]" disabled>
 												<option ameriflex_val=2 <?php echo $ameriflex['communicate_timelines'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=2 <?php echo $ameriflex['communicate_timelines'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=2 <?php echo $ameriflex['communicate_timelines'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $ameriflex['communicate_timelines'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt11]" value="<?php echo $ameriflex['cmt11'] ?>"></td>
@@ -319,7 +319,7 @@
 											<select class="form-control ameriflex_point" name="data[demonstrate_appropiate_hold_process]" disabled>
 												<option ameriflex_val=3 <?php echo $ameriflex['demonstrate_appropiate_hold_process'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=3 <?php echo $ameriflex['demonstrate_appropiate_hold_process'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=3 <?php echo $ameriflex['demonstrate_appropiate_hold_process'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $ameriflex['demonstrate_appropiate_hold_process'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt15]" value="<?php echo $ameriflex['cmt15'] ?>"></td>
@@ -342,7 +342,7 @@
 											<select class="form-control ameriflex_point" name="data[validate_issue_was_resolved]" disabled>
 												<option ameriflex_val=2 <?php echo $ameriflex['validate_issue_was_resolved'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=2 <?php echo $ameriflex['validate_issue_was_resolved'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=2 <?php echo $ameriflex['validate_issue_was_resolved'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $ameriflex['validate_issue_was_resolved'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt17]" value="<?php echo $ameriflex['cmt17'] ?>"></td>
@@ -353,7 +353,7 @@
 											<select class="form-control ameriflex_point" name="data[ask_any_additional_assistance]" disabled>
 												<option ameriflex_val=2 <?php echo $ameriflex['ask_any_additional_assistance'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=2 <?php echo $ameriflex['ask_any_additional_assistance'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=2 <?php echo $ameriflex['ask_any_additional_assistance'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $ameriflex['ask_any_additional_assistance'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt18]" value="<?php echo $ameriflex['cmt18'] ?>"></td>
@@ -364,7 +364,7 @@
 											<select class="form-control ameriflex_point" name="data[properly_close_the_call]" disabled>
 												<option ameriflex_val=2 <?php echo $ameriflex['properly_close_the_call'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=2 <?php echo $ameriflex['properly_close_the_call'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=2 <?php echo $ameriflex['properly_close_the_call'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $ameriflex['properly_close_the_call'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt19]" value="<?php echo $ameriflex['cmt19'] ?>"></td>
@@ -384,7 +384,7 @@
 												<td colspan=4>
 													<?php $attach_file = explode(",",$ameriflex['attach_file']);
 													 foreach($attach_file as $mp){ ?>
-														<audio oncontextmenu="return false;" controls controlslist="nodownload" style="background-color:#607F93"> 
+														<audio controls='' style="background-color:#607F93"> 
 														  <source src="<?php echo base_url(); ?>qa_files/qa_ameriflex/<?php echo $mp; ?>" type="audio/ogg">
 														  <source src="<?php echo base_url(); ?>qa_files/qa_ameriflex/<?php echo $mp; ?>" type="audio/mpeg">
 														</audio> </br>
@@ -414,7 +414,7 @@
 												<select class="form-control" id="" name="agnt_fd_acpt" required>
 													<option value="">--Select--</option>
 													<option <?php echo $ameriflex['agnt_fd_acpt']=='Acceptance'?"selected":""; ?> value="Acceptance">Acceptance</option>	
-													<option <?php echo $ameriflex['agnt_fd_acpt']=='Not Acceptance'?"selected":""; ?> value="Not Acceptance">Not Acceptance</option>	
+													<option <?php echo $ameriflex['agnt_fd_acpt']=='Failt Acceptance'?"selected":""; ?> value="Failt Acceptance">Failt Acceptance</option>	
 												</select>
 											</td>
 										</tr>

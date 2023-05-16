@@ -1607,10 +1607,10 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 			
 			if($campaign!=""){
 			
-				$qSql="Select count(id) as value from qa_ajio_".$campaign."_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit'";
+				$qSql="Select count(id) as value from qa_ajio_".$campaign."_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
 				$data["tot_feedback"] =  $this->Common_model->get_single_value($qSql);
 				
-				$qSql="Select count(id) as value from qa_ajio_".$campaign."_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit' and agent_rvw_date is Null";
+				$qSql="Select count(id) as value from qa_ajio_".$campaign."_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit') and agent_rvw_date is Null";
 				$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql);
 				
 				
@@ -1623,7 +1623,7 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 					if($toDate!="") $to_date = mmddyy2mysql($toDate);
 					
 					if($fromDate !="" && $toDate!=="" ){ 
-						$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
+						$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
 					}else{
 						$cond= " Where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
 					}

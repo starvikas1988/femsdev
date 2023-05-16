@@ -31320,8 +31320,7 @@ else if($pid=="cci_medicare"){
 			$data["show_table"] = false;
 			$data["aside_template"] = "reports_qa/aside.php";
 			$data["content_template"] = "reports_qa/qa_agent_coaching_report.php";
-			$data["content_js"] = "qa_audit_js.php";
-			
+
 			$data['location_list'] = $this->Common_model->get_office_location_list();
 
 			$office_id = "";
@@ -31494,7 +31493,7 @@ else if($pid=="cci_medicare"){
 		"Revenue-Effectively Positioned Offer (LFBB)","Comment", "Revenue-Assumptively Asked for the Sale","Comment", "Revenue-Identified unstated Needs","Comment", "Revenue-Offered Relevant and Strategic Cross Sell","Comment", "Revenue-Provided Effective and relevant Rebuttals","Comment",
 		"Compliance-Stated that they were on a recorded line","Comment", "Compliance-Confirmed and entered the correct zip code","Comment", "Compliance-Submitted the project under correct CTT","Comment", "Compliance-Detailed description was correct and professionally presented","Comment", "Compliance-Correctly processed a DNC request (when applicable)","Comment", "Compliance-Correctly dispositioned the call","Comment", "Compliance-Did not share sensitive customer identifiable information","Comment",
 		"Non Customer Interactive-Information Security and Cleandesk violations","Comment", "Non Customer Interactive-Time Keeping Violation","Comment", "Non Customer Interactive-Utilization - AUX Abuse","Comment", "Non Customer Interactive-Utilization - Shift Adherence","Comment",
-		"Key Performance Results-NPS", "Key Performance Results-AHT", "Key Performance Results-Quality", "Key Performance Results-Conversion", "Key Performance Results-Cross Sell", "Key Performance Results-Adharance", "BEHAVIORAL IMPROVEMENT LEVEL (if flagged for follow-up)","Comment",
+		"Key Performance Results-NPS", "Key Performance Results-AHT", "Key Performance Results-Quality", "Key Performance Results-Conversion", "Key Performance Results-Cross Sell", "Key Performance Results-Adharance", "BEHAVIORAL IMPROVEMENT LEVEL (if flagged for follow-up)",
 		"Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By", "Mgnt Comment");
 
 		$row = "";
@@ -31607,7 +31606,6 @@ else if($pid=="cci_medicare"){
 			$row .= '"'.$user['crosssell_result'].'",';
 			$row .= '"'.$user['adherence_result'].'",';
 			$row .= '"'.$user['behavioral_improvement'].'",';
-			$row .= '"'.$user['behavioral_improvement_cmt'].'",';
 			
 			$row .= '"'.$user['agent_fd_date'].'",';
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", strip_tags($user['agent_feedback']))).'",';
@@ -49595,10 +49593,10 @@ public function download_qa_credit_pro_CSV()
 		$main_url =  $currentURL.''.$controller.'/'.$edit_url;
 		$fopen = fopen($filename,"w+");
 
-		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date", "Call Duration", "Type", "Interaction ID","ACPT", "Audit Type", "Auditor Type", "VOC","Audit Link","Tenure","Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Earned Score", "Possible Score","Overall Score",
+		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date", "Call Duration", "Type", "Interaction ID", "Audit Type", "Auditor Type", "VOC","Audit Link", "Earned Score", "Possible Score","Overall Score",
 		"Has the caller been properly greeted and verified?", "Did we show empathy/sympathy when necessary if applicable?", "Did we adjust to the callers pace and demeanor?", "Did we use the callers name two times throughout the call?", "Did we sound as though we wanted to assist the caller? Did we use a helpful tone of voice and word choice?Would the participant assess the interaction as polite/courteous?", "Did we avoid interruptions and speaking over the caller?", "Did we use thank yous and apologies as appropriate?", "Did we own the issue ?", "Did we avoid dead air?", "Did we confirm/update callers contact information?", "Did we communicate all appropriate timelines and steps?", "Did we ask appropriate clarifying and probing questions? Did we repeat the callers question/issue verify or confirm our understanding?", "Did we provide professional accurate details via call/chat?", "Did we take appropriate actions in Ameriflex Systems?", "Did we demonstrate appropriate use of the hold process?", "Did we avoid internal jargon?", "Did we validate if the issue/question was resolved?", "Did we ask if any additional assistance is needed?", "Did we properly close the call?",
 		"Remarks 1", "Remarks 2", "Remarks 3", "Remarks 4", "Remarks 5", "Remarks 6", "Remarks 7", "Remarks 8", "Remarks 9", "Remarks 10", "Remarks 11", "Remarks 12", "Remarks 13", "Remarks 14", "Remarks 15", "Remarks 16", "Remarks 17", "Remarks 18", "Remarks 19",
-		"Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment","Client Review Date", "Client Review Name", "Client Review Note");
+		"Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
 
 		$row = "";
 		foreach($header as $data) $row .= ''.$data.',';
@@ -49628,15 +49626,10 @@ public function download_qa_credit_pro_CSV()
 			$row .= '"'.$user['call_duration'].'",';
 			$row .= '"'.$user['type'].'",';
 			$row .= '"'.$user['interaction_id'].'",';
-			$row .= '"'.$user['acpt'].'",';
 			$row .= '"'.$user['audit_type'].'",';
 			$row .= '"'.$user['auditor_type'].'",';
 			$row .= '"'.$user['voc'].'",';
 			$row .= '"'.$main_urls.'",';
-			$row .= '"'.$user['tenure'].'",';
-			$row .= '"'.$user['audit_start_time'].'",';
-			$row .= '"'.$user['entry_date'].'",';
-			$row .= '"'.$interval1.'",';
 			$row .= '"'.$user['earned_score'].'",';
 			$row .= '"'.$user['possible_score'].'",';
 			$row .= '"'.$user['overall_score'].'",';
@@ -49685,10 +49678,7 @@ public function download_qa_credit_pro_CSV()
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
 			$row .= '"'.$user['mgnt_rvw_date'].'",';
 			$row .= '"'.$user['mgnt_rvw_name'].'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
-			$row .= '"'.$user['client_rvw_date'].'",';
-			$row .= '"'.$user['client_rvw_name'].'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'"';
 
 			fwrite($fopen,$row."\r\n");
 		}

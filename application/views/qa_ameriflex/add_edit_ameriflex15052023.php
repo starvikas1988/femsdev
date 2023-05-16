@@ -25,7 +25,7 @@ display: Failne;
 if(is_access_qa_edit_feedback()==false){ ?>
 	<style>
 		.form-control{
-			pointer-events:none;
+			pointer-events:Failne;
 			background-color:#D5DBDB;
 		}
 	</style>
@@ -97,7 +97,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>Audit Date: <span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" value="<?php echo $auditDate; ?>" required></td>
 										<td>Call Date: <span style="font-size:24px;color:red">*</span></td>
-										<td style="width:200px"><input type="text" class="form-control" id="call_date" name="call_date" onkeydown="return false;" value="<?php echo $clDate_val; ?>" required></td>
+										<td style="width:200px"><input type="text" class="form-control" id="call_date" name="call_date" value="<?php echo $clDate_val; ?>" required></td>
 									</tr>
 									<tr>
 										<td>Agent Name: <span style="font-size:24px;color:red">*</span></td>
@@ -129,7 +129,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									</tr>
 									<tr>
 										<td>Call Duration: <span style="font-size:24px;color:red">*</span></td>
-										<td><input type="text" class="form-control" id="call_duration" name="data[call_duration]" onkeydown="return false;" value="<?php echo $call_duration; ?>" required ></td>
+										<td><input type="text" class="form-control" id="call_duration" name="data[call_duration]" value="<?php echo $call_duration; ?>" required ></td>
 										<td>Type: <span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="process_type" name="data[type]" required>
@@ -145,7 +145,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>ACPT: <span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="acpt" name="data[acpt]" required>
-											<!-- <option value="<?php //echo $auditData['acpt'] ?>"><?php //echo $auditData['acpt'] ?></option>	 -->
+											<option value="<?php echo $auditData['acpt'] ?>"><?php echo $auditData['acpt'] ?></option>	
 											<option value="">-Select-</option>
 											<option <?php echo $auditData['acpt']=='Agent'?"selected":""; ?> value="Agent">Agent</option>
 											<option <?php echo $auditData['acpt']=='Customer'?"selected":""; ?> value="Customer">Customer</option>
@@ -168,14 +168,14 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>Audit Type: <span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="audit_type" name="data[audit_type]" required>
-											<!-- <option value="<?php //echo $auditData['audit_type'] ?>"><?php //echo $auditData['audit_type'] ?></option> -->	
+											<option value="<?php echo $auditData['audit_type'] ?>"><?php echo $auditData['audit_type'] ?></option>	
 											<option value="">-Select-</option>
 											<option <?php echo $auditData['audit_type']=='CQ Audit'?"selected":""; ?> value="CQ Audit">CQ Audit</option>
 											<option <?php echo $auditData['audit_type']=='BQ Audit'?"selected":""; ?> value="BQ Audit">BQ Audit</option>
 											<option <?php echo $auditData['audit_type']=='Calibration'?"selected":""; ?> value="Calibration">Calibration</option>
 											<option <?php echo $auditData['audit_type']=='Pre-Certificate Mock Call'?"selected":""; ?> value="Pre-Certificate Mock Call">Pre-Certificate Mock Call</option>
 											<option <?php echo $auditData['audit_type']=='Certificate Audit'?"selected":""; ?> value="Certificate Audit">Certificate Audit</option>
-											<option <?php echo $auditData['audit_type']=='WOW Call'?"selected":""; ?> value="WOW Call">WOW Call</option>
+											<option value="WOW Call">WOW Call</option>
 											</select>
 										</td>
 									</tr>
@@ -184,12 +184,10 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td class="auType">Auditor Type: <span style="font-size:24px;color:red">*</span></td>
 										<td class="auType">
 											<select class="form-control" id="auditor_type" name="data[auditor_type]">
-												<!-- <option value="<?php //echo $auditData['auditor_type'] ?>"><?php //echo $auditData['auditor_type'] ?></option> -->
+												<option value="<?php echo $auditData['auditor_type'] ?>"><?php echo $auditData['auditor_type'] ?></option>
 												<option value="">-Select-</option>
-												<option <?php echo $auditData['auditor_type']=='Master'?"selected":""; ?> value="Master">Master</option>
-												<option <?php echo $auditData['auditor_type']=='Regular'?"selected":""; ?> value="Regular">Regular</option>
-												<!-- <option value="Master">Master</option>
-												<option value="Regular">Regular</option> -->
+												<option value="Master">Master</option>
+												<option value="Regular">Regular</option>
 											</select>
 										</td>
 									</tr>
@@ -213,7 +211,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control ameriflex_point" name="data[caller_properly_greed]" required>
 												<option ameriflex_val=11 <?php echo $auditData['caller_properly_greed'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=11 <?php echo $auditData['caller_properly_greed'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=11 <?php echo $auditData['caller_properly_greed'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $auditData['caller_properly_greed'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt1]" value="<?php echo $auditData['cmt1'] ?>"></td>
@@ -225,7 +223,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control ameriflex_point " name="data[show_empathy_sympathy]" required>
 												<option ameriflex_val=5 <?php echo $auditData['show_empathy_sympathy'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=5 <?php echo $auditData['show_empathy_sympathy'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=5 <?php echo $auditData['show_empathy_sympathy'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $auditData['show_empathy_sympathy'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt2]" value="<?php echo $auditData['cmt2'] ?>"></td>
@@ -236,7 +234,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control ameriflex_point " name="data[adjust_caller_pace]" required>
 												<option ameriflex_val=6 <?php echo $auditData['adjust_caller_pace'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=6 <?php echo $auditData['adjust_caller_pace'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=6 <?php echo $auditData['adjust_caller_pace'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $auditData['adjust_caller_pace'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt3]" value="<?php echo $auditData['cmt3'] ?>"></td>
@@ -247,7 +245,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control ameriflex_point " name="data[use_caller_name_two_times]" required>
 												<option ameriflex_val=6 <?php echo $auditData['use_caller_name_two_times'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=6 <?php echo $auditData['use_caller_name_two_times'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=6 <?php echo $auditData['use_caller_name_two_times'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $auditData['use_caller_name_two_times'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt4]" value="<?php echo $auditData['cmt4'] ?>"></td>
@@ -258,7 +256,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control ameriflex_point " name="data[sound_though_assist_caller]" required>
 												<option ameriflex_val=8 <?php echo $auditData['sound_though_assist_caller'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=8 <?php echo $auditData['sound_though_assist_caller'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=8 <?php echo $auditData['sound_though_assist_caller'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $auditData['sound_though_assist_caller'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt5]" value="<?php echo $auditData['cmt5'] ?>"></td>
@@ -281,7 +279,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control ameriflex_point " name="data[use_thatnk_you_appologies]" required>
 												<option ameriflex_val=6 <?php echo $auditData['use_thatnk_you_appologies'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=6 <?php echo $auditData['use_thatnk_you_appologies'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=6 <?php echo $auditData['use_thatnk_you_appologies'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $auditData['use_thatnk_you_appologies'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt7]" value="<?php echo $auditData['cmt7'] ?>"></td>
@@ -292,7 +290,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control ameriflex_point " name="data[own_the_issue]" required>
 												<option ameriflex_val=6 <?php echo $auditData['own_the_issue'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=6 <?php echo $auditData['own_the_issue'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=6 <?php echo $auditData['own_the_issue'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $auditData['own_the_issue'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt8]" value="<?php echo $auditData['cmt8'] ?>"></td>
@@ -309,14 +307,14 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt9]" value="<?php echo $auditData['cmt9'] ?>"></td>
 									</tr>
-									<tr><td class="eml1" colspan=6 style="background-color:#3f5691; color: white;">Product knowledge</td></tr>
+									<tr><td class="eml1" colspan=6 style="background-color:#3f5691; color: white;">Product KFailwledge</td></tr>
 									<tr>
 										<td class="eml1" colspan=3>Did we confirm/update caller's contact information? (phone and/or email)</td>
 										<td>
 											<select class="form-control ameriflex_point" name="data[confirm_caller_contact]" required>
 												<option ameriflex_val=2 <?php echo $auditData['confirm_caller_contact'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=2 <?php echo $auditData['confirm_caller_contact'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=2 <?php echo $auditData['confirm_caller_contact'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $auditData['confirm_caller_contact'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt10]" value="<?php echo $auditData['cmt10'] ?>"></td>
@@ -327,7 +325,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control ameriflex_point" name="data[communicate_timelines]" required>
 												<option ameriflex_val=2 <?php echo $auditData['communicate_timelines'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=2 <?php echo $auditData['communicate_timelines'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=2 <?php echo $auditData['communicate_timelines'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $auditData['communicate_timelines'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt11]" value="<?php echo $auditData['cmt11'] ?>"></td>
@@ -371,7 +369,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control ameriflex_point" name="data[demonstrate_appropiate_hold_process]" required>
 												<option ameriflex_val=3 <?php echo $auditData['demonstrate_appropiate_hold_process'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=3 <?php echo $auditData['demonstrate_appropiate_hold_process'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=3 <?php echo $auditData['demonstrate_appropiate_hold_process'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $auditData['demonstrate_appropiate_hold_process'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt15]" value="<?php echo $auditData['cmt15'] ?>"></td>
@@ -394,7 +392,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control ameriflex_point" name="data[validate_issue_was_resolved]" required>
 												<option ameriflex_val=2 <?php echo $auditData['validate_issue_was_resolved'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=2 <?php echo $auditData['validate_issue_was_resolved'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=2 <?php echo $auditData['validate_issue_was_resolved'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $auditData['validate_issue_was_resolved'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt17]" value="<?php echo $auditData['cmt17'] ?>"></td>
@@ -405,7 +403,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control ameriflex_point" name="data[ask_any_additional_assistance]" required>
 												<option ameriflex_val=2 <?php echo $auditData['ask_any_additional_assistance'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=2 <?php echo $auditData['ask_any_additional_assistance'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=2 <?php echo $auditData['ask_any_additional_assistance'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $auditData['ask_any_additional_assistance'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt18]" value="<?php echo $auditData['cmt18'] ?>"></td>
@@ -416,7 +414,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control ameriflex_point" name="data[properly_close_the_call]" required>
 												<option ameriflex_val=2 <?php echo $auditData['properly_close_the_call'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
 												<option ameriflex_val=2 <?php echo $auditData['properly_close_the_call'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option ameriflex_val=2 <?php echo $auditData['properly_close_the_call'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ameriflex_val=0 <?php echo $auditData['properly_close_the_call'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt19]" value="<?php echo $auditData['cmt19'] ?>"></td>
@@ -458,7 +456,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<tr><td colspan=2 style="font-size:16px; font-weight:bold">Management Review:</td><td colspan=4><?php echo $auditData['mgnt_rvw_note'] ?></td></tr>
 										<tr><td colspan=2 style="font-size:16px; font-weight:bold">Client Review:</td><td colspan=4><?php echo $auditData['agent_rvw_note'] ?></td></tr>
 										
-										<tr><td colspan=2  style="font-size:16px">Your Review <span style="font-size:24px;color:red">*</span></td><td colspan=4><textarea class="form-control1" style="width:100%" id="note" name="note" required></textarea></td></tr>
+										<tr><td colspan=2  style="font-size:16px">Your Review</td><td colspan=4><textarea class="form-control1" style="width:100%" id="Failte" name="Failte"  ></textarea></td></tr>
 									<?php } ?>
 									
 									<?php 
