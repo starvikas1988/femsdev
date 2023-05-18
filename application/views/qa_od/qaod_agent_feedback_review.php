@@ -41,14 +41,16 @@
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-group">
-								<label>From Date (mm-dd-yyyy)</label>
-								<input type="text" id="from_date" name="from_date" value="<?php echo mysql2mmddyy($from_date); ?>" class="form-control">
+								<label>From Date (MM/DD/YYYY)</label>
+								<input type="text" id="from_date"  name="from_date" onchange="date_validation(this.value,'S')" value="<?php $date= mysql2mmddyy($from_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+								<span class="start_date_error" style="color:red"></span>
 							</div>
 						</div> 
 						<div class="col-md-3"> 
 							<div class="form-group">
-								<label>To Date (mm-dd-yyyy)</label>
-								<input type="text" id="to_date" name="to_date" value="<?php echo mysql2mmddyy($to_date); ?>" class="form-control">
+								<label>To Date (MM/DD/YYYY)</label>
+									<input type="text" id="to_date" name="to_date" onchange="date_validation(this.value,'E')" value="<?php $date= mysql2mmddyy($to_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+									<span class="end_date_error" style="color:red"></span>
 							</div> 
 						</div>
 						<div class="col-md-3"> 
@@ -61,12 +63,13 @@
 									<option <?php echo $lob == "od_voice"?"selected":"";?> value="od_voice">Voice</option>
 									<option <?php echo $lob == "od_ecommerce"?"selected":"";?> value="od_ecommerce">Ecommerce</option>
 									<option <?php echo $lob == "od_npsACPT"?"selected":"";?> value="od_nps">NPS ACPT</option>
-									<option <?php echo $lob == "od_nps_coaching"?"selected":"";?> value="od_nps_coaching">NPS Coaching</option>		
+									<option <?php echo $lob == "od_nps_coaching"?"selected":"";?> value="od_nps_coaching">NPS Coaching</option>	
+									<option <?php echo $lob == "business_direct_call"?"selected":"";?> value="business_direct_call">Business Direct Call</option>		
 								</select>
 							</div> 
 						</div>
 						<div class="col-md-2" style="margin-top:24px">
-							<input type="submit" class="btn btn-info btn-rounded" id='btnView' name='btnView' value="View">
+							<input type="submit" class="btn btn-info btn-rounded esal-effect" id='btnView' name='btnView' value="View">
 						</div>
 					</div>
 					
@@ -80,7 +83,7 @@
 <div class="row">
 	<header class="widget-header">
 		<div class="col-md-6">
-			<h4 class="widget-title"><?php if($lob=='old_chat') echo "Old Chat"; if($lob=='chat') echo "Chat"; if($lob=='od_voice') echo "Voice"; if($lob=='od_nps') echo "nps ACPT"; if($lob=='od_ecommerce') echo "Ecommerce"; ?></h4>
+			<h4 class="widget-title"><?php if($lob=='old_chat') echo "Old Chat"; if($lob=='chat') echo "Chat"; if($lob=='od_voice') echo "Voice"; if($lob=='od_nps') echo "nps ACPT"; if($lob=='od_ecommerce') echo "Ecommerce"; if($lob=='business_direct_call') echo "Business direct Call"; ?> </h4>
 		</div>
 		<div class="col-md-6" style="float:right">
 			<span style="font-weight:bold; color:red">Total Feedback</span> <span class="badge" style="font-size:12px"><?php echo $total_feedback; ?></span> - <span style="font-weight:bold; color:green">Yet To Review</span> <span class="badge" style="font-size:12px"><?php echo $total_review_needed; ?></span>
@@ -88,7 +91,7 @@
 	</header>
 	<hr class="widget-separator">
 </div>
-<?php if($lob=='od_voice' || $lob=='od_ecommerce' || $lob=='chat' || $lob=='od_nps'){ ?>
+<?php if($lob=='od_voice' || $lob=='od_ecommerce' || $lob=='chat' || $lob=='od_nps' || $lob=='business_direct_call'){ ?>
 <div class="row">
 	<div class="col-12">
 		<div class="widget">
@@ -103,9 +106,9 @@
 								<th>Chat Date</th> 
 								<th>Chat Audit Date</th> 
 								<th>Agent Name</th>
-								<?php if(($lob=='old_chat') || ($lob=='od_voice') || ($lob=='od_ecommerce') || ($lob=='chat')){ ?><th> Customer ID </th><?php } ?>
+								<?php if(($lob=='old_chat') || ($lob=='od_voice') || ($lob=='od_ecommerce') || ($lob=='chat') || ($lob=='business_direct_call')){ ?><th> Customer ID </th><?php } ?>
 								<th>Session ID/ANI</th>
-								<?php if(($lob=='old_chat') || ($lob=='od_voice') || ($lob=='od_ecommerce') || ($lob=='chat')){ ?><th>Score %</th>
+								<?php if(($lob=='old_chat') || ($lob=='od_voice') || ($lob=='od_ecommerce') || ($lob=='chat') || ($lob=='business_direct_call')){ ?><th>Score %</th>
 								<th>Possible Score</th>
 								<th>Overall Score</th><?php } ?>
 								<th>Agent Review Status</th>
@@ -132,11 +135,11 @@
 								<td><?php echo $row['call_date']; ?></td>
 								<td><?php echo $row['audit_date']; ?></td>
 								<td><?php echo $row['fname']." ".$row['lname']; ?></td>
-								<?php if(($lob=='old_chat') || ($lob=='od_voice') || ($lob=='od_ecommerce') || ($lob=='chat')){ ?>
+								<?php if(($lob=='old_chat') || ($lob=='od_voice') || ($lob=='od_ecommerce') || ($lob=='chat') || ($lob=='business_direct_call')){ ?>
 									<td><?php echo $row['customer_id']; ?></td>
 								<?php }?>
 								<td><?php echo $row['session_id']; ?></td>
-								<?php if(($lob=='old_chat') || ($lob=='od_voice') || ($lob=='od_ecommerce') || ($lob=='chat')){ ?>
+								<?php if(($lob=='old_chat') || ($lob=='od_voice') || ($lob=='od_ecommerce') || ($lob=='chat') || ($lob=='business_direct_call')){ ?>
 									<td> <?php echo $row['earned_score']; ?></td>
 									<td><?php echo $row['possible_score']; ?></td>
 									<td><?php echo $row['overall_score']; ?></td>
@@ -146,7 +149,7 @@
                                 <td><?php echo $row['mgnt_rvw_date']; ?></td>
 								<td oncontextmenu="return false;">
 								<?php if($row['attach_file']!=''){ ?>
-									<audio controls='' style="width:120px;"> 
+									<audio oncontextmenu="return false;" controls controlslist="nodownload"  style="width:120px;"> 
 									  <source src="<?php echo base_url(); ?>qa_files/qa_od/<?php echo $row['attach_file']; ?>" type="audio/ogg">
 									  <source src="<?php echo base_url(); ?>qa_files/qa_od/<?php echo $row['attach_file']; ?>" type="audio/mpeg">
 									</audio>
@@ -164,6 +167,8 @@
 									<!-- <?php //} ?> -->
 									<?php } else if($lob=='od_nps'){?>
 									<a class="btn btn-success" href="<?php echo base_url(); ?>qa_od/qaod_agent_nps_rvw/<?php echo $row['id']; ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">View / Review</a>
+									<?php } else if($lob=='business_direct_call'){?>
+									<a class="btn btn-success" href="<?php echo base_url(); ?>qa_od/qaod_agent_business_direct_rvw/<?php echo $row['id']; ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">View / Review</a>
 									<?php } ?>		
 								</td>
 							</tr>
@@ -225,7 +230,7 @@
 								<td><?php echo $mgrl->mgnt_review_date; ?></td>
 								<td oncontextmenu="return false;">
 								<?php if($mgrl->attach_file!=''){ ?>
-									<audio controls='' style="width:120px;"> 
+									<audio oncontextmenu="return false;" controls controlslist="nodownload"  style="width:120px;"> 
 									  <source src="<?php echo base_url(); ?>qa_files/qa_od/<?php echo $mgrl->attach_file; ?>" type="audio/ogg">
 									  <source src="<?php echo base_url(); ?>qa_files/qa_od/<?php echo $mgrl->attach_file; ?>" type="audio/mpeg">
 									</audio>
@@ -290,7 +295,7 @@
 								<td><?php echo $mgrl['mgnt_rvw_date']; ?></td>
 								<td oncontextmenu="return false;">
 								<?php if($mgrl['attach_file']!=''){ ?>
-									<audio controls='' style="width:120px;"> 
+									<audio oncontextmenu="return false;" controls controlslist="nodownload"  style="width:120px;"> 
 									  <source src="<?php echo base_url(); ?>qa_files/qa_agent_coaching/<?php echo $mgrl['attach_file']; ?>" type="audio/ogg">
 									  <source src="<?php echo base_url(); ?>qa_files/qa_agent_coaching/<?php echo $mgrl['attach_file']; ?>" type="audio/mpeg">
 									</audio>

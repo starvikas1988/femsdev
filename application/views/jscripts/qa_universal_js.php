@@ -2,7 +2,8 @@
 $(document).ready(function(){ 
 	
 	$("#audit_date").datepicker();
-	$("#call_date").datepicker();
+	// $("#call_date").datepicker();
+	$("#call_date").datepicker({  maxDate: new Date() });
 	$("#review_date").datepicker();
 	$("#mail_action_date").datepicker();
 	$("#tat_replied_date").datepicker();
@@ -16,6 +17,30 @@ $(document).ready(function(){
 	$("#to_date").datepicker();
 	
 	$(".agentName").select2();
+
+	///////////////// Calibration - Auditor Type ///////////////////////
+	$('#audit_type').each(function(){
+		$valdet=$(this).val();
+		if($valdet=="Calibration"){
+			$('.auType_epi').show();
+		}else{
+			$('.auType_epi').hide();
+		}
+	});
+
+	$('#audit_type').on('change', function(){
+		if($(this).val()=='Calibration'){
+			$('.auType_epi').show();
+			$('#auditor_type').attr('required',true);
+			$('#auditor_type').prop('disabled',false);
+		}else{
+			//alert(222);
+			$('.auType_epi').hide();
+			$('#auditor_type').attr('required',false);
+			$('#auditor_type').prop('disabled',true);
+		}
+	});
+
 	
 ///////////////////// SOP Library ////////////////////////////
 	$(".addSOPLibrary").click(function(){
@@ -55,6 +80,107 @@ $(document).ready(function(){
 });
 </script>
 
+<script>
+function date_validation(val,type){ 
+	// alert(val);
+		$(".end_date_error").html("");
+		$(".start_date_error").html("");
+		if(type=='E'){
+		var start_date=$("#from_date").val();
+		//if(val<start_date)
+		if(Date.parse(val) < Date.parse(start_date))
+		{
+			$(".end_date_error").html("To Date must be greater or equal to From Date");
+			 $(".esal-effect").attr("disabled",true);
+			 $(".esal-effect").css('cursor', 'no-drop');
+		}
+		else{
+			 $(".esal-effect").attr("disabled",false);
+			 $(".esal-effect").css('cursor', 'pointer');
+			}
+		}
+		else{
+			var end_date=$("#to_date").val();
+		//if(val>end_date && end_date!='')
+		
+		if(Date.parse(val) > Date.parse(end_date) && end_date!='')
+		{
+			$(".start_date_error").html("From  Date  must be less or equal to  To Date");
+			 $(".esal-effect").attr("disabled",true);
+			 $(".esal-effect").css('cursor', 'no-drop');
+		}
+		else{
+			 $(".esal-effect").attr("disabled",false);
+			 $(".esal-effect").css('cursor', 'pointer');
+			}
+
+		}
+		
+		
+	}
+
+	// var todayDate = new Date();
+    // var month = todayDate.getMonth();
+    // var year = todayDate.getUTCFullYear() - 0;
+    // var tdate = todayDate.getDate();
+    // if (month < 10) {
+    //     month = "0" + month
+    // }
+    // if (tdate < 10) {
+    //     tdate = "0" + tdate;
+    // }
+    // var maxDate = year + "-" + month + "-" + tdate;
+    // document.getElementById("call_date_time").setAttribute("min", maxDate);
+   // console.log(maxDate);
+
+
+
+
+</script>
+
+<!-- <script>
+	$('INPUT[type="file"]').change(function () {
+		var ext = this.value.match(/\.(.+)$/)[1];
+		switch (ext) {
+			case 'avi':
+			case 'mp4':
+			case '3gp':
+			case 'mpeg':
+			case 'mpg':
+			case 'mov':
+			case 'mp3':
+			case 'wav':
+			case 'flv':
+			case 'wmv':
+			case 'm4a':
+			case 'mkv':
+			$('#qaformsubmit').attr('disabled', false);
+			break;
+		default:
+			alert('This is not an allowed file type.');
+			//$('#qaformsubmit').attr('disabled', true);
+			this.value = '';
+		}
+	});
+</script> -->
+
+<script>
+$('INPUT[type="file"]').change(function () {
+    var ext = this.value.match(/\.(.+)$/)[1];
+    switch (ext) {
+        case 'mp4':
+        case 'mp3':
+		case 'wav':
+		case 'm4a':
+			$('#qaformsubmit').attr('disabled', false);
+        break;
+        default:
+            alert('This is not an allowed file type. Please upload allowed file type like [m4a,mp4,mp3,wav]');
+            this.value = '';
+    }
+});
+</script>
+
 <script type="text/javascript">
 ////////////////////////////////////////////////////////////////	
 	$( "#agent_id" ).on('change' , function(){
@@ -75,6 +201,16 @@ $(document).ready(function(){
 				for (var i in json_obj) $('#campaign').append($('#campaign').val(json_obj[i].process_name));
 				for (var i in json_obj) $('#site').append($('#site').val(json_obj[i].office_id));
 				for (var i in json_obj) $('#tenure').append($('#tenure').val(json_obj[i].tenure+' Days'));
+			    for (var i in json_obj){
+					if($('#tl_name').val(json_obj[i].tl_name)!=''){
+						console.log(json_obj[0].tl_name);
+						$('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
+
+					}else{
+						alert("Agent is not assigned any TL.Please assign one from manage user section or contact your HR/Manager");
+					}
+					
+				} 		
 				
 				$('#sktPleaseWait').modal('hide');
 			},
@@ -285,13 +421,19 @@ function do_indiabulls(){
 
 <script>
 ////////////////////// final PMO ////////////////////
+var fatal_score = 0;
 function do_final_pmo(){
 		var score = 0;
 		var scoreable = 0;
+		var scoreable1 = 0;
 		var na_count = 0;
+		var fatal = 0;
 		var quality_score_percent = 0;
+		// var fatal_score = 0;
 		$('.final_pmo_point').each(function(index,element){
+
 			var score_type = $(element).val();
+			// alert(score_type);
             if(score_type =='Yes'){
 				var weightage = parseFloat($(element).children("option:selected").attr('final_pmo_val'));
 				score = score + weightage;
@@ -299,24 +441,124 @@ function do_final_pmo(){
 			}else if(score_type == 'No'){
 				var weightage = parseFloat($(element).children("option:selected").attr('final_pmo_val'));
 				scoreable = scoreable + weightage;
+
 			}else if(score_type == 'N/A'){
 				na_count = na_count + 1;
 			}
 		});
 
-		quality_score_percent = ((score*100)/scoreable).toFixed(2);
+		
+		// console.log(fatal_score);
+		quality_score_percent = ((score*100)/scoreable).toFixed(2) - fatal_score;
+
+		// alert(quality_score_percent);
+		// alert(score);
+		// alert(scoreable);
          $('#final_pmo_earned_score').val(score);
+
+         $('#final_pmo_earned_score_hidden').val(score);
 		 $('#final_pmo_possible_score').val(scoreable);
          if(!isNaN(quality_score_percent)){
 			$('#final_pmo_overall_score').val(quality_score_percent+'%'); 
-		}	
+		 }
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	var riya = $('#final_pmo_overall_score').val();
+	console.log(riya, String(riya).includes('-'));
+		if(String(riya).includes('-')){
+			// alert ('negative');
+			$('.final_pmo_overall_score').val(0);
+		}else{
+			$('.final_pmo_overall_score').val(quality_score_percent+'%');
+		}
+
+	    // if ($('#fatal2').val() == 'No') {
+     //    $('.final_pmo_overall_score').val(quality_score_percent-15);
+
+	    // }else {
+	    //     $(".final_pmo_overall_score").val(quality_score_percent + '%');
+
+	    // }	
+
+///////////////////////////// COPC Score //////////////////////////////////////
+		var busi_score = 0;
+		var busi_scoreable = 0;
+		var busi_total = 0;
+		$('.busiScore').each(function(index,element){
+			var sc1 = $(element).val();
+            if(sc1 =='Yes'){
+				var w1 = parseFloat($(element).children("option:selected").attr('final_pmo_val'));
+				busi_score = busi_score + w1;
+				busi_scoreable = busi_scoreable + w1;
+			}else if(sc1 == 'No'){
+				var w1 = parseFloat($(element).children("option:selected").attr('final_pmo_val'));
+				busi_scoreable = busi_scoreable + w1;
+			}else if(sc1 == 'N/A'){
+				var w1 = parseFloat($(element).children("option:selected").attr('final_pmo_val'));
+				busi_score = busi_score + w1;
+				busi_scoreable = busi_scoreable + w1;
+			}
+		});
+		$('#businessEarnScore').val(busi_score); 
+		$('#businessPossibleScore').val(busi_scoreable);
+		busi_total = ((busi_score*100)/busi_scoreable).toFixed(2);
+		if(!isNaN(busi_total)){
+			$('#businessScore').val(busi_total+'%'); 
+		}
+		
+		
+		var cust_score = 0;
+		var cust_scoreable = 0;
+		var cust_total = 0;
+		$('.custScore').each(function(index,element){
+			var sc2 = $(element).val();
+            if(sc2 =='Yes'){
+				var w2 = parseFloat($(element).children("option:selected").attr('final_pmo_val'));
+				cust_score = cust_score + w2;
+				cust_scoreable = cust_scoreable + w2;
+			}else if(sc2 == 'No'){
+				var w2 = parseFloat($(element).children("option:selected").attr('final_pmo_val'));
+				cust_scoreable = cust_scoreable + w2;
+			}else if(sc2 == 'N/A'){
+				var w2 = parseFloat($(element).children("option:selected").attr('final_pmo_val'));
+				cust_score = cust_score + w2;
+				cust_scoreable = cust_scoreable + w2;
+			}
+		});
+		$('#customerEarnScore').val(cust_score); 
+		$('#customerPossibleScore').val(cust_scoreable); 
+		cust_total = ((cust_score*100)/cust_scoreable).toFixed(2);
+		if(!isNaN(cust_total)){
+			$('#customerScore').val(cust_total+'%'); 
+		}
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
  }
 
- $(document).on('change','.final_pmo_point',function(){
-		do_final_pmo();
-	});
-   do_final_pmo();
+$(document).on('change','.final_pmo_point',function(){
+	if($(this).hasClass("section5")){
+		fatal_score=0;
+		$(".section5").each((index, element)=>{
+
+			if($(element).val() == "No"){
+				fatal_score = parseInt(fatal_score) + 15;
+				console.log(fatal_score);
+				// $("#final_pmo_overall_score").val(parseFloat($("#final_pmo_overall_score").val()) - 15);
+				// $('#final_pmo_earned_score_hidden').val(parseFloat($("#final_pmo_earned_score").val())-15);
+			}
+		})
+	}
+	do_final_pmo();
+});
+
+$(document).on('change','.busiScore',function(){ do_final_pmo(); });
+$(document).on('change','.custScore',function(){ do_final_pmo(); });
+
+do_final_pmo();
 </script>
 
 <script>
@@ -329,29 +571,7 @@ function do_sentient_jet(){
 		var parameter_count = 0;
 		var na_count = 0;
 		$('.sentient_point').each(function(index,element){
-			
-				// var weightage = parseFloat($(element).children("option:selected").attr('sentient_val'));
-				// score = score + weightage;
-
-
-				var score_type = $(element).val();
-			// if(score_type == 'Yes'){
-			//     var weightage = parseFloat($(element).children("option:selected").attr('sentient_val'));
-			//     score = score + weightage;
-			//     scoreable = scoreable + weightage;
-			// }else if(score_type == 'No'){
-			//     var weightage = parseFloat($(element).children("option:selected").attr('sentient_val'));
-			//     scoreable = scoreable + weightage;
-			// }else if(score_type == 'MidPoint'){
-			//     var weightage = parseFloat($(element).children("option:selected").attr('sentient_val'));
-			//     scoreable = scoreable + weightage;
-			// }else if(score_type == 'N/A'){
-			//     var weightage = parseFloat($(element).children("option:selected").attr('sentient_val'));
-			//     score = score + weightage;
-			//     scoreable = scoreable + weightage;
-			// }
-
-			
+			/* var score_type = $(element).val();
 			if(score_type == 'Yes'){
 			    var weightage = parseFloat($(element).children("option:selected").attr('sentient_val'));
 			    var max_wght = parseFloat($(element).children("option:selected").attr('sentient_val_max'));
@@ -372,17 +592,21 @@ function do_sentient_jet(){
 				var max_wght = parseFloat($(element).children("option:selected").attr('sentient_val_max'));
 			    score = score + weightage;
 			    scoreable = scoreable + max_wght;
-			}
+			} */
+			var weightage = parseFloat($(element).children("option:selected").attr('sentient_val'));
+			var max_wght = parseFloat($(element).children("option:selected").attr('sentient_val_max'));
+			score = score + weightage;
+			scoreable = scoreable + max_wght;
 		});
 
 
-		 if ($('#loanxmf').val() == 'Midpoint') {
+		/* if ($('#loanxmf').val() == 'Midpoint') {
         $('.sentient_jet_earnedScore').val(score-2.5);
 
 	    } else {
 	        $(".sentient_jet_earnedScore").val(totalscore + '%');
 
-	    }
+	    } */
 
   		// totalscore = ((score*100)/129).toFixed(2);
 		// $('#sentient_jet_overall_score').val(totalscore); 
@@ -567,8 +791,8 @@ $(document).on('change','.grille_moreco_point',function(){
 				scoreable = scoreable + weightage;
 			}else if(score_type == 'N/A'){
 				var weightage = parseFloat($(element).children("option:selected").attr('icario_val'));
-				score = score - weightage;
-				scoreable = scoreable - weightage;
+				score = score + weightage;
+				scoreable = scoreable + weightage;
 			}
 		});
 
@@ -699,6 +923,10 @@ $(document).on('change','.grille_moreco_point',function(){
 			}else if(score_type22 == 'No'){
 			    weightage22 = parseFloat($(element).children("option:selected").attr('icario_val'));
 				scoreable22 = scoreable22 + weightage22;
+			}else if(score_type22 == 'N/A'){
+				weightage22 = parseFloat($(element).children("option:selected").attr('icario_val'));
+				score22 = score22 + weightage22;
+				scoreable22 = scoreable22 + weightage22;
 			}
 		});
 
@@ -723,6 +951,10 @@ $(document).on('change','.grille_moreco_point',function(){
 				scoreable33 = scoreable33 + weightage33;
 			}else if(score_type33 == 'No'){
 				var weightage33 = parseFloat($(element).children("option:selected").attr('icario_val'));
+				scoreable33 = scoreable33 + weightage33;
+			}else if(score_type33 == 'N/A'){
+				var weightage33 = parseFloat($(element).children("option:selected").attr('icario_val'));
+				score33 = score33 + weightage33;
 				scoreable33 = scoreable33 + weightage33;
 			}
 		});
@@ -1360,6 +1592,133 @@ $(document).on('change','.od_ecommerce_point',function(){
 do_od_ecommerce();
 });
 do_od_ecommerce();
+</script>
+
+<script type="text/javascript">
+	function od_business_point(){
+
+	var score = 0;
+	var scoreable = 0;
+	var quality_score_percent = 0;
+	var na_count=0;
+	$('.od_business_point').each(function(index,element){
+		var score_type = $(element).val();
+		if(score_type =='Yes'){
+			var weightage = parseFloat($(element).children("option:selected").attr('od_business_val'));
+			score = score + weightage;
+			scoreable = scoreable + weightage;
+		}else if(score_type == 'No'){
+			var weightage = parseFloat($(element).children("option:selected").attr('od_business_val'));
+			scoreable = scoreable + weightage;
+		}else if(score_type == 'N/A'){
+			na_count = na_count + 1;
+		}
+	});
+
+	 quality_score_percent = parseInt(((score*100)/scoreable));
+	 $('#od_business_earned_score').val(score);
+	 $('#od_business_possible_score').val(scoreable);
+	 if(!isNaN(quality_score_percent)){
+		$('#od_business_overall_score').val(quality_score_percent+'%');
+		}else{
+		$('#od_business_overall_score').val('');	
+		}
+
+	if($('#ecommerce_FA').val()=='No'){
+		$('.ecommerce_fatal').val(0+'%');
+	}else{
+		$('.ecommerce_fatal').val(quality_score_percent+'%');
+	}
+	//Pass fail
+	if(quality_score_percent>=90){
+	$('#ecommerce_score').val('Pass');
+	$('#ecommerce_score').css('background-color', '#00FF00');
+	}else{
+	$('#ecommerce_score').val('Fail');   
+	$('#ecommerce_score').css('background-color', '#e01507');
+	}
+
+
+	//////////////////////////////
+	var compliancescore2 = 0;
+	var compliancescoreable2 = 0;
+	var compliance_score_percent2 = 0;
+	var customerscore2 = 0;
+	var customerscoreable2 = 0;
+	var customer_score_percent2 = 0;
+	var businessscore2 = 0;
+	var businessscoreable2 = 0;
+	var business_score_percent2 = 0;
+
+	$('.compliance').each(function(index,element){
+		var score_type1 = $(element).val();
+		
+		if(score_type1 == 'Yes'){
+			var weightage1 = parseInt($(element).children("option:selected").attr('od_business_val'));
+			compliancescore2 = compliancescore2 + weightage1;
+			compliancescoreable2 = compliancescoreable2 + weightage1;
+		}else if(score_type1 == 'No'){
+			var weightage1 = parseInt($(element).children("option:selected").attr('od_business_val'));
+			compliancescoreable2 = compliancescoreable2 + weightage1;
+		}else if(score_type1 == 'N/A'){
+			var weightage1 = parseInt($(element).children("option:selected").attr('od_business_val'));
+			compliancescore2 = compliancescore2 + weightage1;
+			compliancescoreable2 = compliancescoreable2 + weightage1;
+		}
+	});
+	compliance_score_percent = ((compliancescore2*100)/compliancescoreable2).toFixed(2);
+	$('#compliancescore2').val(compliancescore2);
+	$('#compliancescoreable2').val(compliancescoreable2);
+	$('#compliance_score_percent2').val(compliance_score_percent+'%');
+	//////////////
+	$('.customer').each(function(index,element){
+		var score_type2 = $(element).val();
+		
+		if(score_type2 == 'Yes'){
+			var weightage2 = parseInt($(element).children("option:selected").attr('od_business_val'));
+			customerscore2 = customerscore2 + weightage2;
+			customerscoreable2 = customerscoreable2 + weightage2;
+		}else if(score_type2 == 'No'){
+			var weightage2 = parseInt($(element).children("option:selected").attr('od_business_val'));
+			customerscoreable2 = customerscoreable2 + weightage2;
+		}else if(score_type2 == 'N/A'){
+			var weightage2 = parseInt($(element).children("option:selected").attr('od_business_val'));
+			customerscore2 = customerscore2 + weightage2;
+			customerscoreable2 = customerscoreable2 + weightage2;
+		}
+	});
+	customer_score_percent = ((customerscore2*100)/customerscoreable2).toFixed(2);
+	$('#customerscore2').val(customerscore2);
+	$('#customerscoreable2').val(customerscoreable2);
+	$('#customer_score_percent2').val(customer_score_percent+'%');
+	//////////////
+	$('.business').each(function(index,element){
+		var score_type3 = $(element).val();
+		
+		if(score_type3 == 'Yes'){
+			var weightage3 = parseInt($(element).children("option:selected").attr('od_business_val'));
+			businessscore2 = businessscore2 + weightage3;
+			businessscoreable2 = businessscoreable2 + weightage3;
+		}else if(score_type3 == 'No'){
+			var weightage3 = parseInt($(element).children("option:selected").attr('od_business_val'));
+			businessscoreable2 = businessscoreable2 + weightage3;
+		}else if(score_type3 == 'N/A'){
+			var weightage3 = parseInt($(element).children("option:selected").attr('od_business_val'));
+			businessscore2 = businessscore2 + weightage3;
+			businessscoreable2 = businessscoreable2 + weightage3;
+		}
+	});
+	business_score_percent = ((businessscore2*100)/businessscoreable2).toFixed(2);
+	$('#businessscore2').val(businessscore2);
+	$('#businessscoreable2').val(businessscoreable2);
+	$('#business_score_percent2').val(business_score_percent+'%');
+
+	}
+
+	$(document).on('change','.od_business_point',function(){
+	od_business_point();
+	});
+	od_business_point();
 </script>
 
 <script>

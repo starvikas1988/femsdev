@@ -101,6 +101,35 @@ class Qa_od_model extends CI_Model {
 		return $query->result();    
 	}
 
+	public function get_business_direct_data($field_array) 
+    {	
+		$from_date= $field_array['from_date'];
+		$to_date= $field_array['to_date'];
+		$agent_id= $field_array['agent_id'];
+		$current_user= $field_array['current_user'];
+		$cond="";
+		
+		if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date' ) ";
+		if($agent_id!="") $cond .=" and agent_id='$agent_id'";	
+		
+		if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+			$cond .=" And (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+		}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+			$cond .=" And assigned_to='$current_user'";
+		}else{
+			$cond .="";
+		}
+		
+		$od_sql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_od_business_direct_feedback $cond) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, get_process_names(id) as campaign, assigned_to from signin) yy on (xx.agent_id=yy.sid) $cond order by audit_date";
+		$query = $this->db->query($od_sql);
+		return $query->result();    
+	}
+
 	public function get_ecommerce_review_data($field_array) 
     {	
 		$from_date= $field_array['from_date'];
@@ -284,6 +313,31 @@ public function get_chat_review_data($field_array)
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
 
 		$query = $this->db->query($voice_qSql);
+		return $query->result_array(); 
+	}
+
+	public function get_agent_business_direct_data($field_array) 
+    {
+		$from_date= $field_array['from_date'];
+		$to_date= $field_array['to_date'];
+		$current_user= $field_array['current_user'];
+		$cond="";
+		
+		if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date' )";
+		
+		if( $current_user !=""){
+			if($cond=="")  $cond= " Where agent_id='$current_user' ";
+			else  $cond .= " and agent_id='$current_user' ";
+		}
+				
+		$business_qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_od_business_direct_feedback $cond And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+
+		$query = $this->db->query($business_qSql);
 		return $query->result_array(); 
 	}
 

@@ -135,7 +135,6 @@ if(is_access_qa_edit_feedback()==false){ ?>
                                                     <option value="Pre-Certificate Mock Call" <?= ($monitoring_tech['audit_type']=="Pre-Certificate Mock Call")?"selected":"" ?>>Pre-Certificate Mock Call</option>
                                                     <option value="Certification Audit" <?= ($monitoring_tech['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
                                                     <option value="WoW Call"  <?= ($monitoring_tech['audit_type']=="WoW Call")?"selected":"" ?>>WoW Call</option>
-                                                    <option value="Hygiene Audit"  <?= ($monitoring_tech['audit_type']=="Hygiene Audit")?"selected":"" ?>>Hygiene Audit</option>
                                                     <option value="Operation Audit"  <?= ($monitoring_tech['audit_type']=="Operation Audit")?"selected":"" ?>>Operation Audit</option>
                                                     <option value="Trainer Audit"  <?= ($monitoring_tech['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option>  
                                                 </select>
@@ -512,7 +511,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<tr><td colspan=2 style="font-size:16px; font-weight:bold">Management Review:</td><td colspan=4><?php echo $monitoring_tech['mgnt_rvw_note'] ?></td></tr>
 										<tr><td colspan=2 style="font-size:16px; font-weight:bold">Client Review:</td><td colspan=4><?php echo $monitoring_tech['client_rvw_note'] ?></td></tr>
 										
-										<tr><td colspan=2  style="font-size:16px">Your Review</td><td colspan=4><textarea class="form-control1" style="width:100%" id="note" name="note"></textarea></td></tr>
+										<tr><td colspan=2  style="font-size:16px">Your Review <span style="font-size:24px;color:red">*</span></td><td colspan=4><textarea class="form-control1" style="width:100%" id="note" name="note" required></textarea></td></tr>
 									<?php } ?>
 									
 									<?php 

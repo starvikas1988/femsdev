@@ -132,7 +132,6 @@
                                                     <option value="Pre-Certificate Mock Call" <?= ($monitoring_tech['audit_type']=="Pre-Certificate Mock Call")?"selected":"" ?>>Pre-Certificate Mock Call</option>
                                                     <option value="Certification Audit" <?= ($monitoring_tech['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
                                                     <option value="WoW Call"  <?= ($monitoring_tech['audit_type']=="WoW Call")?"selected":"" ?>>WoW Call</option>
-                                                    <option value="Hygiene Audit"  <?= ($monitoring_tech['audit_type']=="Hygiene Audit")?"selected":"" ?>>Hygiene Audit</option>
                                                     <option value="Operation Audit"  <?= ($monitoring_tech['audit_type']=="Operation Audit")?"selected":"" ?>>Operation Audit</option>
                                                     <option value="Trainer Audit"  <?= ($monitoring_tech['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option>  
                                                 </select>

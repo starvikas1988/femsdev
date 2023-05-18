@@ -48,7 +48,7 @@ class Qa_od extends CI_Controller {
 
 	}
 
-	private function od_upload_files($files,$path)
+	 private function od_upload_files($files,$path)
     {
     	$result=$this->createPath($path);
     	if($result){

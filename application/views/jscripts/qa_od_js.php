@@ -5,11 +5,11 @@ $(document).ready(function(){
 		$("#from_date").datepicker();
 		$("#to_date").datepicker();
 		$("#chat_date").datepicker();
-		$("#call_date").datepicker();
+		$("#call_date").datepicker({  maxDate: new Date() });
 		$("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });
 		$("#audit_date").datepicker();
 		$("#mgnt_review_date").datepicker();
-		$("#review_date").datepicker();
+		$("#review_date").datepicker({  maxDate: new Date() });
 		
 		$("#coach_name").select2();
 		$("#agent_id").select2();
@@ -232,6 +232,44 @@ $(document).ready(function(){
 </script>	
 
 <script>
+function date_validation(val,type){ 
+	// alert(val);
+		$(".end_date_error").html("");
+		$(".start_date_error").html("");
+		if(type=='E'){
+		var start_date=$("#from_date").val();
+		//if(val<start_date)
+		if(Date.parse(val) < Date.parse(start_date))
+		{
+			$(".end_date_error").html("To Date must be greater or equal to From Date");
+			 $(".esal-effect").attr("disabled",true);
+			 $(".esal-effect").css('cursor', 'no-drop');
+		}
+		else{
+			 $(".esal-effect").attr("disabled",false);
+			 $(".esal-effect").css('cursor', 'pointer');
+			}
+		}
+		else{
+			var end_date=$("#to_date").val();
+		//if(val>end_date && end_date!='')
+		
+		if(Date.parse(val) > Date.parse(end_date) && end_date!='')
+		{
+			$(".start_date_error").html("From  Date  must be less or equal to  To Date");
+			 $(".esal-effect").attr("disabled",true);
+			 $(".esal-effect").css('cursor', 'no-drop');
+		}
+		else{
+			 $(".esal-effect").attr("disabled",false);
+			 $(".esal-effect").css('cursor', 'pointer');
+			}
+
+		}
+	}
+</script>
+
+<script>
 
  $(document).ready(function(){
   
@@ -365,7 +403,7 @@ $(document).ready(function(){
 			$('.vfsChatFatal').val(quality_score_percent+'%');
 		}
 	/*---- Call ---*/
-		if($('#callAutof1').val()=='Yes' || $('#callAutof2').val()=='Yes' || $('#callAutof3').val()=='Yes' || $('#callAutof4').val()=='Yes'){
+		if($('#callAutof1').val()=='Yes' || $('#callAutof2').val()=='Yes' || $('#callAutof3').val()=='Yes' || $('#callAutof4').val()=='Yes' || $('#callAutof5').val()=='Yes'){
 			$('.vfsCallFatal').val(0);
 			$('#fatalspan1').val("Fatal Error").css("color","red");
 

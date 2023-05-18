@@ -19,14 +19,16 @@
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
-									<label>Search Date From - Audit Date (mm/dd/yyyy)</label>
-									<input type="text" id="from_date" name="date_from" value="<?php echo mysql2mmddyy($date_from); ?>" class="form-control" autocomplete="off">
+									<label>From Date (MM/DD/YYYY)</label>
+									<input type="text" id="from_date" name="date_from" onchange="date_validation(this.value,'S')" value="<?php $date= mysql2mmddyy($date_from); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+									<span class="start_date_error" style="color:red"></span>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
-									<label>Search Date To - Audit Date (mm/dd/yyyy)</label>
-									<input type="text" id="to_date" name="date_to" value="<?php echo mysql2mmddyy($date_to); ?>" class="form-control" autocomplete="off">
+									<label>To Date (MM/DD/YYYY)</label>
+									<input type="text" id="to_date" name="date_to" onchange="date_validation(this.value,'E')" value="<?php $date= mysql2mmddyy($date_to); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+									<span class="end_date_error" style="color:red"></span>
 								</div>
 							</div>
 							<div class="col-md-4">
@@ -83,6 +85,7 @@
 										<option <?php echo $lob == "chat"?"selected":"";?> value="chat">Chat</option>
 										<option <?php echo $lob == "od_nps"?"selected":"";?> value="od_nps">NPS ACPT</option>
 										<option <?php echo $lob == "od_nps_coaching"?"selected":"";?> value="od_nps_coaching">NPS Coaching</option>
+										<option <?php echo $lob == "od_business_direct_call"?"selected":"";?> value="od_business_direct_call">Business Direct Call</option>
 										
 									</select>
 								</div>
@@ -90,7 +93,7 @@
 							<div class="col-md-2" style='margin-top:2px;'>
 								<div class="form-group">
 									
-									<button class="btn btn-primary waves-effect blue-btn" a href="<?php echo base_url()?>reports_qa/qaod_report" type="submit" id='show' name='show' value="Show">SHOW</button>
+									<button class="btn btn-primary esal-effect blue-btn" a href="<?php echo base_url()?>reports_qa/qaod_report" type="submit" id='show' name='show' value="Show">SHOW</button>
 								</div>
 							</div>
 							

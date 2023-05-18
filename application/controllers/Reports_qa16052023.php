@@ -12813,16 +12813,7 @@ public function awarenessHeader(){
 				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
 				(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_agent_coaching_office_depot_feedback) xx Left Join
 				(Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process, doj, DATEDIFF(CURDATE(), doj) as tenure from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
-			    }else if($campaign=='od_business_direct_call'){
-                 $qSql="SELECT * from
-				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
-				(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_od_business_direct_feedback) xx Left Join
-				(Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process, doj, DATEDIFF(CURDATE(), doj) as tenure from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
-
-				}
+			    }
 
 				$fullAray = $this->Common_model->get_query_result_array($qSql);
 				$data["qa_od_list"] = $fullAray;
@@ -12868,22 +12859,7 @@ public function awarenessHeader(){
 		"Verified RCAL1","Verified RCAL2","Verified RCAL3","Verified RCAL Cmnt","Idepot RCAL1","Idepot RCAL2","Idepot RCAL3","Idepot RCAL Cmnt","Appropriately RCAL1","Appropriately RCAL2","Appropriately RCAL3","Appropriately RCAL Cmnt","Paraphrased RCAL1","Paraphrased RCAL2","Paraphrased RCAL3","Paraphrased RCAL Cmnt","Information RCAL1","Information RCAL2","Information RCAL3","Information RCAL Cmnt","Submit RCAL1","Submit RCAL2","Submit RCAL3","Submit RCAL Cmnt","Dispostion RCAL1","Dispostion RCAL2","Dispostion RCAL3","Dispostion RCAL Cmnt","Please RCAL1","Please RCAL2","Please RCAL3","Please RCAL Cmnt",
 		"Call Summary", "Feedback","Agent Review Status","Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
 
-		}else if($campaign =='od_business_direct_call'){
-		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date","Call Duration","ANI","Reviewed By","Review Date", "Customer ID", "Session ID","LOB", "Disposition Category", "Disposition Sub Category", "Audit Type", "Workgroup","VOC","Audit Link", "Call Pass/Fail", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Earned Score", "Possible Score",
-		"Acknowledge the caller matched style and pace/put customer at ease","Remarks1","Made the customer feel important and top priority","Remarks2","Appropriate and sincere use of empathy","Remarks3","Customer clearly understood the CSR agent used proper English (no OD jargon)","Remarks4",
-		  "CCP recognized Customer contacted us multiple times regarding the same issue and escalated to Supervisor/Team Lead as appropriate?","Remarks5",
-		  "Verified line item quantity price total and delivery info AS NEEDED to place the order/return","Remarks6",
-		  "Followed SOP/iDepot article and account level pop up box instructions while maintaining control of the call? ","Remarks7",
-		  "CCP noted appropriately? (Transaction History Special Instructions etc.)","Remarks8",
-		  "CCP listened/comprehended and paraphrased identified wants/needs and gained agreement by asking open-ended follow up questions? Did the agent ask the customer 'Did I take care of everything for you today'?","Remarks9",
-		  "Verified information as appropriate to the call proactively utilized CTI/Proper dispostion code used on the call.","Remarks10",
-		  "Did the CCP submit the proper forms based on the resolution needed and summarize the resolutions steps?","Remarks11",
-		  "Did the CCP ask for the sale/microconversion?","Remarks12",
-		  "Was the offer/microconversion accepted?","Remarks13",
-		"Compliance Score Percent","Customer Score Percent","Business Score Percent",
-		"Call Summary", "Feedback","Agent Review Status","Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment","Client Review Date", "Client Review Name", "Client Review Note");
-		}
-		else if($campaign =='od_ecommerce'){
+		}else if($campaign =='od_ecommerce'){
 			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date","Call Duration","ANI","Reviewed By","Review Date", "Customer ID", "Session ID","LOB", "Disposition Category", "Disposition Sub Category", "Audit Type", "Workgroup","VOC","Audit Link", "Call Pass/Fail", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Earned Score", "Possible Score",
 			"Acknowledged the caller match style and pace put customer at ease.","Remarks1","Properly identified customer and/or account.","Remarks2","Appropriate and sincere use of empathy.","Remarks3","Made the customer feel important and top priority.","Remarks4","Followed processing guidelines for ECOM/ODR.","Remarks5","Did agent utilize all available resources/Did agent escalate the issue appropriately?","Remarks6","CCP noted appropriately? Transaction History Special Instructions etc","Remarks7","Agent maintained control of the call (kept call on track).","Remarks8","Listened and paraphrased identified wants needs and gained agreement by asking open-ended follow up questions.","Remarks9","Verified information as appropriate to the call proactively utilized CTI.","Remarks10","Was the proper disposition code used on the call?","Remarks11",
 			"Call Summary", "Feedback","Agent Review Status","Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
@@ -13039,80 +13015,8 @@ public function awarenessHeader(){
 				$row .= '"'.$user['mgnt_rvw_date'].'",';
 				$row .= '"'.$user['mgnt_rvw_name'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'"';
-			}else if($campaign =='od_business_direct_call'){
-				$edit_url = "add_edit_od_business_direct";
-		        $main_url =  $currentURL.''.$controller.'/'.$edit_url;
-		        $main_urls = $main_url.'/'.$user['id'];
-				$row = '"'.$user['auditor_name'].'",';
-				$row .= '"'.$user['audit_date'].'",';
-				$row .= '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['fname']." ".$user['lname'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['call_duration'].'",';
-				$row .= '"'.$user['ani'].'",';
-				$row .= '"'.$user['reviewed'].'",';
-				$row .= '"'.$user['review_date'].'",';
-				$row .= '"'.$user['customer_id'].'",';
-				$row .= '"'.$user['session_id'].'",';
-				$row .= '"'.$user['lob'].'",';
-				$row .= '"'.$user['disposition_cate'].'",';
-				$row .= '"'.$user['disposition_sub_cate'].'",';
-				$row .= '"'.$user['audit_type'].'",';
-				$row .= '"'.$user['workgroup'].'",';
-				$row .= '"'.$user['voc'].'",';
-				$row .= '"'.$main_urls.'",';
-				$row .= '"'.$user['division_status'].'",';
-				$row .= '"'.$user['audit_start_time'].'",';
-				$row .= '"'.$user['entry_date'].'",';
-				$row .= '"'.$interval1.'",';
-				$row .= '"'.$user['overall_score'].'%'.'",';
-				$row .= '"'.$user['earned_score'].'",';
-				$row .= '"'.$user['possible_score'].'",';
 
-				$row .= '"'.$user['acknowledge_the_caller'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt1'])).'",';
-				$row .= '"'.$user['customer_feel_important'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt2'])).'",';
-				$row .= '"'.$user['appropriate_empathy'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt3'])).'",';
-				$row .= '"'.$user['understood_CSR'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt4'])).'",';
-				$row .= '"'.$user['CCP_recognized'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt5'])).'",';
-				$row .= '"'.$user['verify_place_order'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt6'])).'",';
-				$row .= '"'.$user['control_call'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt7'])).'",';
-				$row .= '"'.$user['CCP_noted'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt8'])).'",';
-				$row .= '"'.$user['CCP_listened'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt9'])).'",';
-				$row .= '"'.$user['verified_information'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt10'])).'",';
-				$row .= '"'.$user['summarize_resolutions'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt11'])).'",';
-				$row .= '"'.$user['CCP_microconversion'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt12'])).'",';
-				$row .= '"'.$user['offer_accepted'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt13'])).'",';
-				$row .= '"'.$user['compliance_score_percent'].'%'.'",';
-				$row .= '"'.$user['customer_score_percent'].'%'.'",';
-				$row .= '"'.$user['business_score_percent'].'%'.'",';
-
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
-				$row .= '"'.$user['agnt_fd_acpt'].'",';
-				$row .= '"'.$user['agent_rvw_date'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
-				$row .= '"'.$user['mgnt_rvw_date'].'",';
-				$row .= '"'.$user['mgnt_rvw_name'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
-				$row .= '"'.$user['client_rvw_date'].'",';
-				$row .= '"'.$user['client_rvw_name'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
-			}
-			else if($campaign == 'od_ecommerce'){
+			}else if($campaign == 'od_ecommerce'){
 				$edit_url = "add_edit_od_ecommerce";
 		        $main_url =  $currentURL.''.$controller.'/'.$edit_url;
 		        $main_urls = $main_url.'/'.$user['id'];
