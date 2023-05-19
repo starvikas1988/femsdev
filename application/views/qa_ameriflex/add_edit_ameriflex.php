@@ -174,7 +174,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<option <?php echo $auditData['audit_type']=='BQ Audit'?"selected":""; ?> value="BQ Audit">BQ Audit</option>
 											<option <?php echo $auditData['audit_type']=='Calibration'?"selected":""; ?> value="Calibration">Calibration</option>
 											<option <?php echo $auditData['audit_type']=='Pre-Certificate Mock Call'?"selected":""; ?> value="Pre-Certificate Mock Call">Pre-Certificate Mock Call</option>
-											<option <?php echo $auditData['audit_type']=='Certificate Audit'?"selected":""; ?> value="Certificate Audit">Certificate Audit</option>
+											<option <?php echo $auditData['audit_type']=='Certification Audit'?"selected":""; ?> value="Certification Audit">Certification Audit</option>
 											<option <?php echo $auditData['audit_type']=='WOW Call'?"selected":""; ?> value="WOW Call">WOW Call</option>
 											</select>
 										</td>
@@ -231,7 +231,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt2]" value="<?php echo $auditData['cmt2'] ?>"></td>
 									</tr>
 									<tr>
-										<td class="eml1" colspan=3>Did we adjust to the caller's pace and demeaFailr? (especially when faced with a difficult situation)</td>
+										<td class="eml1" colspan=3>Did we adjust to the caller's pace and demeanor? (especially when faced with a difficult situation)</td>
 										<td>
 											<select class="form-control ameriflex_point " name="data[adjust_caller_pace]" required>
 												<option ameriflex_val=6 <?php echo $auditData['adjust_caller_pace'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
@@ -287,7 +287,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt7]" value="<?php echo $auditData['cmt7'] ?>"></td>
 									</tr>
 									<tr>
-										<td class="eml1" colspan=3>Did we own the issue ("we" Failt "they" or other departments)?</td>
+										<td class="eml1" colspan=3>Did we own the issue ("we" not "they" or other departments)?</td>
 										<td>
 											<select class="form-control ameriflex_point " name="data[own_the_issue]" required>
 												<option ameriflex_val=6 <?php echo $auditData['own_the_issue'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
