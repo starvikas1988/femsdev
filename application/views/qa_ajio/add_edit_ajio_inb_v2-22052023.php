@@ -126,8 +126,13 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td><input type="text" class="form-control" id="fusion_id" value="<?php echo $ajio_inb_v2['fusion_id'] ?>" readonly ></td>
 										<td>L1 Supervisor:</td>
 										<td>
-											<input type="text" class="form-control" id="tl_names"  value="<?php echo $ajio_inb_v2['tl_name'] ?>" readonly>
-												<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $ajio_inb_v2['tl_id'] ?>" required>
+											<select class="form-control" id="tl_id" name="data[tl_id]" readonly>
+												<option value="<?php echo $ajio_inb_v2['tl_id'] ?>"><?php echo $ajio_inb_v2['tl_name'] ?></option>
+												<option value="">--Select--</option>
+												<?php foreach($tlname as $tl): ?>
+													<option value="<?php echo $tl['id']; ?>"><?php echo $tl['fname']." ".$tl['lname']; ?></option>
+												<?php endforeach; ?>	
+											</select>
 										</td>
 									</tr>
 									<tr>
@@ -722,13 +727,18 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td><textarea class="form-control" name="data[l2_reason3]"><?php echo $ajio_inb_v2['l2_reason3'] ?></textarea></td>
 									</tr>
 									<tr>
-										<td  style="">Did the champ offer further assistance and follow appropriate call closure/supervisor transfer process</td>
+										<td  style="color:red">Did the champ offer further assistance and follow appropriate call closure/supervisor transfer process</td>
 										<td>
-											<select class="form-control ajio" id="ajioAF3_inb_v2" name="data[follow_appropiate_call_closure]" required>
+											<select class="form-control ajio fatal ajioAF3" id="ajioAF3_inb_v2" name="data[follow_appropiate_call_closure]" required>
 												<option ajio_val=5 ajio_max=5 <?php echo $ajio_inb_v2['follow_appropiate_call_closure'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option ajio_val=0 ajio_max=5 <?php echo $ajio_inb_v2['follow_appropiate_call_closure'] == "No"?"selected":"";?> value="No">No</option>
-												
-												<!-- <option ajio_val=0 ajio_max=5 <?php //echo $ajio_inb_v2['follow_appropiate_call_closure'] == "Autofail"?"selected":"";?> value="Autofail">Autofail</option> -->
+												<!-- <option ajio_val=0 ajio_max=5 <?php //echo $ajio_inb_v2['follow_appropiate_call_closure'] == "Failed to offer further assistance"?"selected":"";?> value="Failed to offer further assistance">Failed to offer further assistance</option>
+												<option ajio_val=0 ajio_max=5 <?php //echo $ajio_inb_v2['follow_appropiate_call_closure'] == "Did not pitch for TNPs"?"selected":"";?> value="Did not pitch for TNPs">Did not pitch for TNPs</option>
+												<option ajio_val=0 ajio_max=5 <?php //echo $ajio_inb_v2['follow_appropiate_call_closure'] == "Did not follow call closing script"?"selected":"";?> value="Did not follow call closing script">Did not follow call closing script</option>
+												<option ajio_val=0 ajio_max=5 <?php //echo $ajio_inb_v2['follow_appropiate_call_closure'] == "Did not follow call transfer guidelines"?"selected":"";?> value="Did not follow call transfer guidelines">Did not follow call transfer guidelines</option>
+												<option ajio_val=0 ajio_max=5 <?php //echo $ajio_inb_v2['follow_appropiate_call_closure'] == "TNPS script not adhered/Influenced TNPS"?"selected":"";?> value="TNPS script not adhered/Influenced TNPS">TNPS script not adhered/Influenced TNPS</option>
+												<option ajio_val=0 ajio_max=5 <?php //echo $ajio_inb_v2['follow_appropiate_call_closure'] == "Did not use Genesys end call option"?"selected":"";?> value="Did not use Genesys end call option">Did not use Genesys end call option</option> -->
+												<option ajio_val=0 ajio_max=5 <?php echo $ajio_inb_v2['follow_appropiate_call_closure'] == "Autofail"?"selected":"";?> value="Autofail">Autofail</option>
 											</select>
 										</td>
 										<td>5</td>
@@ -896,7 +906,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									</tr>
 									<tr>
 										<td rowspan=4 style="background-color:#85C1E9; font-weight:bold">Effective System Navigation & KM Usage</td>
-										<td >Did the champ refer to all relevant articles/T2Rs correctly</td>
+										<td >Did the champ refer to all releavnt articles/T2Rs correctly</td>
 										<td>
 											<select class="form-control ajio" id="releavnt_article_inb_v2" name="data[refer_all_releavnt_article]" required>
 												<option ajio_val=5 ajio_max=5 <?php echo $ajio_inb_v2['refer_all_releavnt_article'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
@@ -948,31 +958,31 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td><textarea class="form-control" name="data[l2_reason11]"><?php echo $ajio_inb_v2['l2_reason11'] ?></textarea></td>
 									</tr>
 									<tr>
-										<td  style="">Call/Interaction was authenticated wherever required</td>
+										<td  style="color:red">Call/Interaction was authenticated wherever required</td>
 										<td>
-											<select class="form-control ajio" id="ajioAF4_inb_v2" name="data[call_was_authenticated]" required>
+											<select class="form-control ajio fatal ajioAF4" id="ajioAF4_inb_v2" name="data[call_was_authenticated]" required>
 												<option ajio_val=5 ajio_max=5 <?php echo $ajio_inb_v2['call_was_authenticated'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option ajio_val=0 ajio_max=5 <?php echo $ajio_inb_v2['call_was_authenticated'] == "No"?"selected":"";?> value="No">No</option>
-												<!-- <option ajio_val=5 ajio_max=5 <?php //echo $ajio_inb_v2['call_was_authenticated'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
-												<option ajio_val=0 ajio_max=5 <?php //echo $ajio_inb_v2['call_was_authenticated'] == "Autofail"?"selected":"";?> value="Autofail">Autofail</option> -->
+												<option ajio_val=5 ajio_max=5 <?php echo $ajio_inb_v2['call_was_authenticated'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ajio_val=0 ajio_max=5 <?php echo $ajio_inb_v2['call_was_authenticated'] == "Autofail"?"selected":"";?> value="Autofail">Autofail</option>
 											</select>
 										</td>
 										<td>5</td>
-										<!-- <td><textarea class="form-control" name="data[l1_reason12]"><?php //echo $ajio_inb_v2['l1_reason12'] ?></textarea></td> -->
-										<td>
+										<td><textarea class="form-control" name="data[l1_reason12]"><?php echo $ajio_inb_v2['l1_reason12'] ?></textarea></td>
+										<!-- <td>
 											
 											<select class="form-control" id="AF4_inb_v2" name="data[l1_reason12]" required>
 												<?php 
-												if($ajio_inb_v2['l1_reason12']!=''){
+												//if($ajio_inb_v2['l1_reason12']!=''){
 													?>
-													<option value="<?php echo $ajio_inb_v2['l1_reason12'] ?>"><?php echo $ajio_inb_v2['l1_reason12'] ?></option>
+													<option value="<?php //echo $ajio_inb_v2['l1_reason12'] ?>"><?php //echo $ajio_inb_v2['l1_reason12'] ?></option>
 													<?php
-												}
+												//}
 												?>
-												<option  <?php echo $ajio_inb_v2['l1_reason12'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option  <?php //echo $ajio_inb_v2['l1_reason12'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 												
 											</select>
-										</td>
+										</td> -->
 										<td><textarea class="form-control" name="data[l2_reason12]"><?php echo $ajio_inb_v2['l2_reason12'] ?></textarea></td>
 									</tr>
 									<tr>
@@ -1007,7 +1017,12 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control ajio fatal ajioAF5" id="ajioAF5_inb_v2" name="data[executed_all_necessary]" required>
 												<option ajio_val=5 ajio_max=5 <?php echo $ajio_inb_v2['executed_all_necessary'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-											<option ajio_val=0 ajio_max=5 <?php echo $ajio_inb_v2['executed_all_necessary'] == "No"?"selected":"";?> value="No">No</option>
+										<!-- 		<option ajio_val=0 ajio_max=5 <?php //echo $ajio_inb_v2['executed_all_necessary'] == "C&R raised when not required"?"selected":"";?> value="C&R raised when not required">C&R raised when not required</option>
+												<option ajio_val=0 ajio_max=5 <?php //echo $ajio_inb_v2['executed_all_necessary'] == "C&R not raised when required"?"selected":"";?> value="C&R not raised when required">C&R not raised when required</option>
+												<option ajio_val=0 ajio_max=5 <?php //echo $ajio_inb_v2['executed_all_necessary'] == "Wrong C&R raised"?"selected":"";?> value="Wrong C&R raised">Wrong C&R raised</option>
+												<option ajio_val=0 ajio_max=5 <?php //echo $ajio_inb_v2['executed_all_necessary'] == "C&R raised without images/appropriate details"?"selected":"";?> value="C&R raised without images/appropriate details">C&R raised without images/appropriate details</option>
+												<option ajio_val=0 ajio_max=5 <?php //echo $ajio_inb_v2['executed_all_necessary'] == "Action not taken"?"selected":"";?> value="Action not taken">Action not taken</option>
+												<option ajio_val=0 ajio_max=5 <?php //echo $ajio_inb_v2['executed_all_necessary'] == "Unnecessary redirection"?"selected":"";?> value="Unnecessary redirection">Unnecessary redirection</option> -->
 												<option ajio_val=0 ajio_max=5 <?php echo $ajio_inb_v2['executed_all_necessary'] == "Autofail"?"selected":"";?> value="Autofail">Autofail</option>
 											</select>
 										</td>
@@ -1033,7 +1048,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control ajio ajioAF6" id="ajioAF6_inb_v2" name="data[queries_answered_properly]" required>
 												<option ajio_val=10 ajio_max=10 <?php echo $ajio_inb_v2['queries_answered_properly'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ajio_val=0 ajio_max=10 <?php echo $ajio_inb_v2['queries_answered_properly'] == "No"?"selected":"";?> value="No">No</option>
+												<!-- <option ajio_val=0 ajio_max=10 <?php //echo $ajio_inb_v2['queries_answered_properly'] == "Incorrect information Shared"?"selected":"";?> value="Incorrect information Shared">Incorrect information Shared</option>
+												<option ajio_val=0 ajio_max=10 <?php //echo $ajio_inb_v2['queries_answered_properly'] == "Incomplete information Shared"?"selected":"";?> value="Incomplete information Shared">Incomplete information Shared</option> -->
 												<option ajio_val=0 ajio_max=10 <?php echo $ajio_inb_v2['queries_answered_properly'] == "Autofail"?"selected":"";?> value="Autofail">Autofail</option>
 											</select>
 										</td>
@@ -1131,13 +1147,12 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td colspan=2><textarea class="form-control" name="data[feedback]"><?php echo $ajio_inb_v2['feedback'] ?></textarea></td>
 									</tr>
 									<tr>
-										<td colspan=2>Upload Files [m4a,mp4,mp3,wav]</td>
+										<td colspan=2>Upload Files</td>
 										<?php if($ajio_id==0){ ?>
-											<td colspan=4><input type="file" multiple class="form-control" id="attach_file" name="attach_file[]" accept=".m4a,.mp4,.mp3,.wav,audio/*" ></td>
+											<td colspan=4><input type="file" multiple class="form-control" id="attach_file" name="attach_file[]"></td>
 										<?php }else{
 											if($ajio_inb_v2['attach_file']!=''){ ?>
 												<td colspan=4>
-													<input type="file" multiple class="form-control"  id="attach_file" name="attach_file[]" accept=".m4a,.mp4,.mp3,.wav,audio/*"> 
 													<?php $attach_file = explode(",",$ajio_inb_v2['attach_file']);
 													 foreach($attach_file as $mp){ ?>
 														<audio controls='' style="background-color:#607F93"> 
@@ -1147,10 +1162,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 													 <?php } ?>
 												</td>
 										<?php }else{
-												//echo '<td colspan=6><b>No Files</b></td>';
-											echo '<td colspan=6>
-													<input type="file" multiple class="form-control" id="attach_file" name="attach_file[]" accept=".m4a,.mp4,.mp3,.wav,audio/*">
-													<b>No Files</b></td>';
+												echo '<td colspan=6><b>No Files</b></td>';
 											  }
 										} ?>
 									</tr>

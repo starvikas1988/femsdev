@@ -2248,7 +2248,6 @@ $('INPUT[type="file"]').change(function () {
 			sub_infractions += '<option value="Asked details already available">Asked details already available</option>';
 			sub_infractions += '<option value="Unable to comprehend">Unable to comprehend</option>';
 			sub_infractions += '<option value="Failed to paraphrase to ensure understanding">Failed to paraphrase to ensure understanding</option>';
-			sub_infractions += '<option value="Necessary probing not done">Necessary probing not done</option>';
 			$("#comprehend_inb_v2").html(sub_infractions);
 		}
 		else if($(this).val()=='Yes'){
@@ -2294,7 +2293,6 @@ $('INPUT[type="file"]').change(function () {
 			var sub_infractions = '<option value="Champ was struggling to express himself">Champ was struggling to express himself</option>';
 			sub_infractions += '<option value="Champ swtiched language to express himself">Champ swtiched language to express himself</option>';
 			sub_infractions += '<option value="Customer expressed difficulty in understanding the champ">Customer expressed difficulty in understanding the champ</option>';
-			sub_infractions += '<option value="Used fillers/Jargons">Used fillers/Jargons</option>';
 			$("#himself_inb_v2").html(sub_infractions);
 		}
 		else if($(this).val()=='Yes'){
@@ -2310,7 +2308,6 @@ $('INPUT[type="file"]').change(function () {
 		if($(this).val()=='No'){
 			var sub_infractions = '<option value="KM not adhered">KM not adhered</option>';
 			sub_infractions += '<option value="KM followed but complete T2R/leg not followed">KM followed but complete T2R/leg not followed</option>';
-			sub_infractions += '<option value="KM opened but not followed">KM opened but not followed</option>';
 			$("#article_inb_v2").html(sub_infractions);
 		}
 		else if($(this).val()=='Yes'){
@@ -2324,8 +2321,9 @@ $('INPUT[type="file"]').change(function () {
 
 	$('#different_application_inb_v2').on('change', function(){
 		if($(this).val()=='No'){
-			var sub_infractions = '<option value="Not refer to available option on Cockpit (Cockpit Navigation not done properly)">Not refer to available option on Cockpit (Cockpit Navigation not done properly)</option>';
-			sub_infractions += '<option value="Did not refer to 3PL portal">Did not refer to 3PL portal</option>';
+			var sub_infractions = '<option value="KM not adhered">KM not adhered</option>';
+			sub_infractions += '<option value="KM followed but complete T2R/leg not followed">KM followed but complete T2R/leg not followed</option>';
+			sub_infractions += '<option value="Cockpit navigation not done completely">Cockpit navigation not done completely</option>';
 			$("#application_inb_v2").html(sub_infractions);
 		}
 		else if($(this).val()=='Yes'){
@@ -2339,9 +2337,9 @@ $('INPUT[type="file"]').change(function () {
 	
 	$('#navigate_through_inb_v2').on('change', function(){
 		if($(this).val()=='No'){
-			var sub_infractions = '<option value="No navigation observed during hold">No navigation observed during hold</option>';
-			sub_infractions += '<option value="Viewed application/s not relevent to the interaction - Impacted AHT">Viewed application/s not relevent to the interaction - Impacted AHT</option>';
-			sub_infractions += '<option value="Didn\'t transfer the call to TNPS survey after pitching script - >2 seconds">Didn\'t transfer the call to TNPS survey after pitching script - >2 seconds</option>';
+			var sub_infractions = '<option value="KM not adhered">KM not adhered</option>';
+			sub_infractions += '<option value="KM followed but complete T2R/leg not followed">KM followed but complete T2R/leg not followed</option>';
+			sub_infractions += '<option value="Cockpit navigation not done completely">Cockpit navigation not done completely</option>';
 			$("#through_inb_v2").html(sub_infractions);
 		}
 		else if($(this).val()=='Yes'){
@@ -2470,8 +2468,8 @@ $('INPUT[type="file"]').change(function () {
 			sub_infractions += '<option value="Closing Script not followed">Closing Script not followed</option>';
 			sub_infractions += '<option value="TNPS script not adhered as per AJIO guideline">TNPS script not adhered as per AJIO guideline</option>';
 			sub_infractions += '<option value="Influenced for positive ratings">Influenced for positive ratings</option>';
-			sub_infractions += '<option value="Took >2 seconds to disconnect the call after TNPS pitch">Took >2 seconds to disconnect the call after TNPS pitch</option>';
-			sub_infractions += '<option value="Call disconnected from Genesys">Call disconnected from Genesys</option>';
+			sub_infractions += '<option value="Call not end from the genesys">Call not end from the genesys</option>';
+			sub_infractions += '<option value="Call blindly transfer to the supervisor">Call blindly transfer to the supervisor</option>';
 			$("#AF3_inb_v2").html(sub_infractions);
 		}
 		else if($(this).val()=='No'){
@@ -2480,8 +2478,8 @@ $('INPUT[type="file"]').change(function () {
 			sub_infractions += '<option value="Closing Script not followed">Closing Script not followed</option>';
 			sub_infractions += '<option value="TNPS script not adhered as per AJIO guideline">TNPS script not adhered as per AJIO guideline</option>';
 			sub_infractions += '<option value="Influenced for positive ratings">Influenced for positive ratings</option>';
-			sub_infractions += '<option value="Took >2 seconds to disconnect the call after TNPS pitch">Took >2 seconds to disconnect the call after TNPS pitch</option>';
-			sub_infractions += '<option value="Call disconnected from Genesys">Call disconnected from Genesys</option>';
+			sub_infractions += '<option value="Call not end from the genesys">Call not end from the genesys</option>';
+			sub_infractions += '<option value="Call blindly transfer to the supervisor">Call blindly transfer to the supervisor</option>';
 			$("#AF3_inb_v2").html(sub_infractions);
 		}
 		else if($(this).val()=='Yes'){
@@ -2494,11 +2492,13 @@ $('INPUT[type="file"]').change(function () {
 	});
 
 	$('#ajioAF4_inb_v2').on('change', function(){
-		if($(this).val()=='No'){
-			var sub_infractions = '<option value="Authentication not done when required">Authentication not done when required</option>';
-			sub_infractions += '<option value="Authentication done when not required">Authentication done when not required</option>';
-			sub_infractions += '<option value="Information shared when authentication failed">Information shared when authentication failed</option>';
-			sub_infractions += '<option value="Information denied even clearing authentication">Information denied even clearing authentication</option>';
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="C&R not raised when required">C&R not raised when required</option>';
+			sub_infractions += '<option value="C&R raised when not required">C&R raised when not required</option>';
+			sub_infractions += '<option value="Wrong C&R raised">Wrong C&R raised</option>';
+			sub_infractions += '<option value="C&R raised without images/appropriate details">C&R raised without images/appropriate details</option>';
+			sub_infractions += '<option value="Action not taken">Action not taken</option>';
+			sub_infractions += '<option value="Unnecessary redirection">Unnecessary redirection</option>';
 			$("#AF4_inb_v2").html(sub_infractions);
 		}
 		else if($(this).val()=='Yes'){
@@ -2518,16 +2518,6 @@ $('INPUT[type="file"]').change(function () {
 			sub_infractions += '<option value="C&R raised without images/appropriate details">C&R raised without images/appropriate details</option>';
 			sub_infractions += '<option value="Action not taken">Action not taken</option>';
 			sub_infractions += '<option value="Unnecessary redirection">Unnecessary redirection</option>';
-			sub_infractions += '<option value="Wrong Action Taken">Wrong Action Taken</option>';
-			$("#AF5_inb_v2").html(sub_infractions);
-		}else if($(this).val()=='No'){
-			var sub_infractions = '<option value="C&R not raised when required">C&R not raised when required</option>';
-			sub_infractions += '<option value="C&R raised when not required">C&R raised when not required</option>';
-			sub_infractions += '<option value="Wrong C&R raised">Wrong C&R raised</option>';
-			sub_infractions += '<option value="C&R raised without images/appropriate details">C&R raised without images/appropriate details</option>';
-			sub_infractions += '<option value="Action not taken">Action not taken</option>';
-			sub_infractions += '<option value="Unnecessary redirection">Unnecessary redirection</option>';
-			sub_infractions += '<option value="Wrong Action Taken">Wrong Action Taken</option>';
 			$("#AF5_inb_v2").html(sub_infractions);
 		}
 		else if($(this).val()=='Yes'){
@@ -2541,11 +2531,6 @@ $('INPUT[type="file"]').change(function () {
 
 	$('#ajioAF6_inb_v2').on('change', function(){
 		if($(this).val()=='Autofail'){
-			var sub_infractions = '<option value="Incorrect information Shared">Incorrect information Shared</option>';
-			sub_infractions += '<option value="Incomplete information Shared">Incomplete information Shared</option>';
-			sub_infractions += '<option value="Wrong Action Taken">Wrong Action Taken</option>';
-			$("#AF6_inb_v2").html(sub_infractions);
-		}else if($(this).val()=='No'){
 			var sub_infractions = '<option value="Incorrect information Shared">Incorrect information Shared</option>';
 			sub_infractions += '<option value="Incomplete information Shared">Incomplete information Shared</option>';
 			sub_infractions += '<option value="Wrong Action Taken">Wrong Action Taken</option>';

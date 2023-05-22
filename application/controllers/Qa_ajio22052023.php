@@ -101,7 +101,7 @@
     if($result){
     $config['upload_path'] = $path;
     $config['allowed_types'] = '*';
-    //$config['allowed_types'] = 'mp3|avi|mp4|wmv|wav';
+
 	  $config['allowed_types'] = 'm4a|mp4|mp3|wav';
 	  $config['max_size'] = '2024000';
 	  $this->load->library('upload', $config);
@@ -271,11 +271,8 @@
 					$field_array['call_date']=mdydt2mysql($this->input->post('call_date'));
 					$field_array['entry_date']=$curDateTime;
 					$field_array['audit_start_time']=$this->input->post('audit_start_time');
-					if($_FILES['attach_file']['tmp_name'][0]!=''){
-						$a = $this->ajio_upload_files($_FILES['attach_file'], $path='./qa_files/qa_ajio/inbound/');
-						$field_array["attach_file"] = implode(',',$a);
-					}
-					
+					$a = $this->ajio_upload_files($_FILES['attach_file'], $path='./qa_files/qa_ajio/inbound/');
+					$field_array["attach_file"] = implode(',',$a);
 					$rowid= data_inserter('qa_ajio_inbound_v2_feedback',$field_array);
 				///////////
 					if(get_login_type()=="client"){
@@ -294,13 +291,6 @@
 						$field_array1['auditor_type'] = "";
 					}
 					$field_array1['call_date']=mdydt2mysql($this->input->post('call_date'));
-					if($_FILES['attach_file']['tmp_name'][0]!=''){
-						if(!file_exists("./qa_files/qa_ajio/inbound/")){
-							mkdir("./qa_files/qa_ajio/inbound/");
-						}
-						$a = $this->ajio_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_ajio/inbound/' );
-						$field_array1['attach_file'] = implode( ',', $a );
-					}
 										
 					$this->db->where('id', $ajio_id);
 					$this->db->update('qa_ajio_inbound_v2_feedback',$field_array1);
@@ -1820,7 +1810,7 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 			$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date/Time", "BP ID", "Call Duration", "Complete ID", "Valid/Invalid", "Reason For Invalid", "Downtime Tracker Status", "Mentioned Reson in Downtime", "Hold /response Duration (mins)", "Hygiene Audit Type", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
 		}else if($campaign=="inbound_v2"){
 			$header = array("Auditor Name", "Auditor Department", "Auditor Role", "Audit Date", "Agent", "MWP ID", "L1 Super", "Call Date/Time", "Call Duration", "Type of Audit", "Call ID", "Audit Type", "Auditor Type", "VOC", "Customer Voice", "KM Utilization", "Article", "Fatal/Non-Fatal", "Detractor ACPT", "Detractor L1", "Detractor L2", "TCD","Voice modulation", "Assurance given", "Tagging by Evaluator", "Overall Score", "Earned Score", "Possible Score", "Fatal Count", "Pre Fatal Score", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)",
-			"Did the champ open the call within 4 seconds and introduce himself properly","L1 Reason 1","L2 Reason 1", "Did the champ address the customer by name","L1 Reason 2","L2 Reason 2", "Champ followed the hold procedure as per the SOP","L1 Reason 3","L2 Reason 3", "Did the champ offer further assistance and follow appropriate call closure/supervisor transfer process","L1 Reason 4","L2 Reason 4", "Was the champ polite and used apology and assurance wherever required","L1 Reason 5","L2 Reason 5", "Was the champ able to comprehend and paraphrase the customers concern","L1 Reason 6","L2 Reason 6", "Did the champ display active listening skills without making the customer repeat","L1 Reason 7","L2 Reason 7", "Was the champ able to handle objections effectively and offer rebuttals wherever required","L1 Reason 8","L2 Reason 8", "Was champ able to express/articulate himself and seamlessly converse with the customer","L1 Reason 9","L2 Reason 9", "Did the champ refer to all relevant articles/T2Rs correctly","L1 Reason 10","L2 Reason 10", "Did the champ refer to different applications/portals/tools to identify the root cause of customer issue and enable resolution","L1 Reason 11","L2 Reason 11", "Call/Interaction was authenticated wherever required","L1 Reason 12","L2 Reason 12", "Was the champ able to effectively navigate through and toggle between different tools/aids to wrap up the call in a timely manner","L1 Reason 13","L2 Reason 13", "Champ executed all necessary actions to ensure issue resolution","L1 Reason 14","L2 Reason 14", "All the queries were answered properly and in an informative way to avoid repeat call. Champ provided a clear understanding of action taken and the way forward to the customer","L1 Reason 15","L2 Reason 15", "Did the champ document the case correctly and adhered to tagging guidelines","L1 Reason 16","L2 Reason 16", "As per AJIO ZTP guidelines","L1 Reason 17","L2 Reason 17",
+			"Did the champ open the call within 4 seconds and introduce himself properly","L1 Reason 1","L2 Reason 1", "Did the champ address the customer by name","L1 Reason 2","L2 Reason 2", "Champ followed the hold procedure as per the SOP","L1 Reason 3","L2 Reason 3", "Did the champ offer further assistance and follow appropriate call closure/supervisor transfer process","L1 Reason 4","L2 Reason 4", "Was the champ polite and used apology and assurance wherever required","L1 Reason 5","L2 Reason 5", "Was the champ able to comprehend and paraphrase the customers concern","L1 Reason 6","L2 Reason 6", "Did the champ display active listening skills without making the customer repeat","L1 Reason 7","L2 Reason 7", "Was the champ able to handle objections effectively and offer rebuttals wherever required","L1 Reason 8","L2 Reason 8", "Was champ able to express/articulate himself and seamlessly converse with the customer","L1 Reason 9","L2 Reason 9", "Did the champ refer to all releavnt articles/T2Rs correctly","L1 Reason 10","L2 Reason 10", "Did the champ refer to different applications/portals/tools to identify the root cause of customer issue and enable resolution","L1 Reason 11","L2 Reason 11", "Call/Interaction was authenticated wherever required","L1 Reason 12","L2 Reason 12", "Was the champ able to effectively navigate through and toggle between different tools/aids to wrap up the call in a timely manner","L1 Reason 13","L2 Reason 13", "Champ executed all necessary actions to ensure issue resolution","L1 Reason 14","L2 Reason 14", "All the queries were answered properly and in an informative way to avoid repeat call. Champ provided a clear understanding of action taken and the way forward to the customer","L1 Reason 15","L2 Reason 15", "Did the champ document the case correctly and adhered to tagging guidelines","L1 Reason 16","L2 Reason 16", "As per AJIO ZTP guidelines","L1 Reason 17","L2 Reason 17",
 			"Call Synopsis", "Call Observation", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
 		}else if($campaign=="email_v2"){
 			$header = array("Auditor Name", "Auditor Department", "Auditor Role", "Audit Date", "Agent", "MWP ID", "L1 Super", "Call Date/Time", "Type of Audit", "Interaction ID", "Audit Type", "Auditor Type", "VOC","Tagging by Evaluator", "Overall Score", "Earned Score", "Possible Score", "Fatal Count", "Pre Fatal Score", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)",	
