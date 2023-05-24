@@ -79,7 +79,7 @@
 										<td><input type="text" class="form-control" id="fusion_id" value="<?php echo $od_business['fusion_id'] ?>" readonly ></td>
 										<td>L1 Supervisor:</td>
 										<td>
-											<input type="text" class="form-control" id="tl_name"  value="<?php echo $od_business['tl_name'] ?>" readonly>
+											<input type="text" class="form-control" id="tl_names"  value="<?php echo $od_business['tl_name'] ?>" readonly>
 												<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $od_business['tl_id'] ?>" disabled>
 										</td>
 										<td>Review Date:</td>
@@ -150,8 +150,8 @@
 												<option value="Wow Call Nomination">Wow Call Nomination</option>
 											</select>
 										</td>
-										<td class="auType">Auditor Type</td>
-										<td class="auType">
+										<td class="auType_epi">Auditor Type</td>
+										<td class="auType_epi">
 											<select class="form-control" id="auditor_type" name="data[auditor_type]">
 												<option value="Master" <?= ($od_business['auditor_type']=="Master")?"selected":"" ?>>Master</option>
 												<option value="Regular" <?= ($od_business['auditor_type']=="Regular")?"selected":"" ?>>Regular</option>
@@ -187,13 +187,21 @@
 											</select>
 										</td>
 										<td>Customer VOC:<span style="font-size:24px;color:red">*</span></td>
-										<td colspan="2">
+										<td>
 											<select class="form-control" id="customer_voc" name="data[customer_voc]" disabled>
 												<option value="<?php echo $od_business['customer_voc'] ?>"><?php echo $od_business['customer_voc'] ?></option>
 												
 												<option value="Detractor">Detractor</option>
 												<option value="Passive">Passive</option>
 												<option value="Promoter">Promoter</option>
+											</select>
+										</td>
+										<td>Type of Call:<span style="font-size:24px;color:red">*</span></td>
+										<td>
+											<select class="form-control" id="type_of_call" name="data[type_of_call]" disabled>
+												<option value="">Select</option>
+												<option value="Sales" <?= ($od_business['type_of_call']=="Sales")?"selected":"" ?>>Sales</option>
+												<option value="Service" <?= ($od_business['type_of_call']=="Service")?"selected":"" ?>>Service</option>
 											</select>
 										</td>
 									</tr>
@@ -239,7 +247,7 @@
 									<td style="background-color:#A9DFBF">Customer Critical</td>
 										<td colspan="3" class="eml1" style="text-align: left;">Made the customer feel important and top priority</td>
 										<td>
-											<select class="form-control od_business_point business" name="data[customer_feel_important]" disabled>
+											<select class="form-control od_business_point customer" name="data[customer_feel_important]" disabled>
 												
 												<option od_business_val=1 <?php echo $od_business['customer_feel_important'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option od_business_val=1 <?php echo $od_business['customer_feel_important'] == "No"?"selected":"";?> value="No">No</option>
@@ -482,6 +490,14 @@
 										</td>
 									</tr>
 									<?php } ?>
+								<tr>
+										<td style="font-size:12px">Manager Review:</td>
+										<td colspan="8" style="text-align:left"><?php echo $od_business['mgnt_rvw_note'] ?></td>
+									</tr>
+									<tr>
+										<td style="font-size:12px">Client Review:</td>
+										<td colspan="8" style="text-align:left"><?php echo $od_business['client_rvw_note'] ?></td>
+									</tr>	
 									
 								<form id="form_agent_user" method="POST" action="">
 										<input type="hidden" name="od_business_id" class="form-control" value="<?php echo $od_business_id; ?>">

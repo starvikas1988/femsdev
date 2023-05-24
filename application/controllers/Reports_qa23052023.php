@@ -12869,7 +12869,7 @@ public function awarenessHeader(){
 		"Call Summary", "Feedback","Agent Review Status","Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
 
 		}else if($campaign =='od_business_direct_call'){
-		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Supervisor", "Call Date","Call Duration","Reviewed By","Review Date", "Customer ID", "Session ID","LOB", "Disposition Category", "Disposition Sub Category", "Audit Type","Auditor Type", "Workgroup","Predictive CSAT","Customer VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Earned Score", "Possible Score",
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date","Call Duration","ANI","Reviewed By","Review Date", "Customer ID", "Session ID","LOB", "Disposition Category", "Disposition Sub Category", "Audit Type", "Workgroup","VOC","Audit Link", "Call Pass/Fail", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Earned Score", "Possible Score",
 		"Acknowledge the caller matched style and pace/put customer at ease","Remarks1","Made the customer feel important and top priority","Remarks2","Appropriate and sincere use of empathy","Remarks3","Customer clearly understood the CSR agent used proper English (no OD jargon)","Remarks4",
 		  "CCP recognized Customer contacted us multiple times regarding the same issue and escalated to Supervisor/Team Lead as appropriate?","Remarks5",
 		  "Verified line item quantity price total and delivery info AS NEEDED to place the order/return","Remarks6",
@@ -13050,7 +13050,7 @@ public function awarenessHeader(){
 				$row .= '"'.$user['tl_name'].'",';
 				$row .= '"'.$user['call_date'].'",';
 				$row .= '"'.$user['call_duration'].'",';
-				//$row .= '"'.$user['ani'].'",';
+				$row .= '"'.$user['ani'].'",';
 				$row .= '"'.$user['reviewed'].'",';
 				$row .= '"'.$user['review_date'].'",';
 				$row .= '"'.$user['customer_id'].'",';
@@ -13059,12 +13059,10 @@ public function awarenessHeader(){
 				$row .= '"'.$user['disposition_cate'].'",';
 				$row .= '"'.$user['disposition_sub_cate'].'",';
 				$row .= '"'.$user['audit_type'].'",';
-				$row .= '"'.$user['auditor_type'].'",';
 				$row .= '"'.$user['workgroup'].'",';
 				$row .= '"'.$user['voc'].'",';
-				$row .= '"'.$user['customer_voc'].'",';
 				$row .= '"'.$main_urls.'",';
-				//$row .= '"'.$user['division_status'].'",';
+				$row .= '"'.$user['division_status'].'",';
 				$row .= '"'.$user['audit_start_time'].'",';
 				$row .= '"'.$user['entry_date'].'",';
 				$row .= '"'.$interval1.'",';

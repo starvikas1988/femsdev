@@ -19,11 +19,6 @@ $(document).ready(function(){
 	$(".agentName").select2();
 
 	///////////////// Calibration - Auditor Type ///////////////////////
-	if($("#audit_type").val() == "Calibration"){
-		$('.auType_epi').show();
-		$('#auditor_type').attr('required',true);
-		$('#auditor_type').prop('disabled',false);
-	}
 	$('#audit_type').each(function(){
 		$valdet=$(this).val();
 		if($valdet=="Calibration"){
@@ -32,7 +27,7 @@ $(document).ready(function(){
 			$('.auType_epi').hide();
 		}
 	});
-	
+
 	$('#audit_type').on('change', function(){
 		if($(this).val()=='Calibration'){
 			$('.auType_epi').show();
@@ -81,49 +76,6 @@ $(document).ready(function(){
 			$('#auditor_type').attr('required',false);
 			$('#auditor_type').prop('disabled',true);
 		}
-	});
-});
-</script>
-
-<script type="text/javascript">
-	
-		$(function() {
-		$( "#agent_ids" ).on('change' , function() {
-		var aid = this.value;
-		//alert(aid);
-		if(aid=="") alert("Please Select Agent")
-		var URL='<?php echo base_url();?>qa_ameridial/getTLname';
-		$('#sktPleaseWait').modal('show');
-		$.ajax({
-			type: 'POST',
-			url:URL,
-			data:'aid='+aid,
-			success: function(aList){
-				var json_obj = $.parseJSON(aList);
-			
-				$('#tl_names').empty();
-				$('#tl_names').append($('#tl_names').val(''));
-				
-				for (var i in json_obj) $('#tl_id').append($('#tl_id').val(json_obj[i].assigned_to));
-				for (var i in json_obj){
-					if($('#tl_names').val(json_obj[i].tl_name)!=''){
-						console.log(json_obj[0].tl_name);
-						$('#tl_names').append($('#tl_names').val(json_obj[i].tl_name));
-
-					}else{
-						alert("Agent is not assigned any TL.Please assign one from manage user section or contact your HR/Manager");
-					}
-					
-				} 
-				for (var i in json_obj) $('#fusion_id').append($('#fusion_id').val(json_obj[i].fusion_id));
-				for (var i in json_obj) $('#campaign').append($('#campaign').val(json_obj[i].process_name));
-				for (var i in json_obj) $('#office_id').append($('#office_id').val(json_obj[i].office_id));
-				$('#sktPleaseWait').modal('hide');
-			},
-			error: function(){
-				alert('Fail!');
-			}
-		});
 	});
 });
 </script>
@@ -1663,15 +1615,13 @@ do_od_ecommerce();
 		}
 	});
 
-	// quality_score_percent = parseInt(((score*100)/scoreable));
-	//Math.ceil() 
-	quality_score_percent = Math.round(((score*100)/scoreable));
+	 quality_score_percent = parseInt(((score*100)/scoreable));
 	 $('#od_business_earned_score').val(score);
 	 $('#od_business_possible_score').val(scoreable);
 	 if(!isNaN(quality_score_percent)){
 		$('#od_business_overall_score').val(quality_score_percent+'%');
 		}else{
-		$('#od_business_overall_score').val('NaN');	
+		$('#od_business_overall_score').val('');	
 		}
 
 	if($('#ecommerce_FA').val()=='No'){
@@ -1716,8 +1666,7 @@ do_od_ecommerce();
 			compliancescoreable2 = compliancescoreable2 + weightage1;
 		}
 	});
-	//compliance_score_percent = ((compliancescore2*100)/compliancescoreable2).toFixed(2);
-	compliance_score_percent = Math.round((compliancescore2*100)/compliancescoreable2);
+	compliance_score_percent = ((compliancescore2*100)/compliancescoreable2).toFixed(2);
 	$('#compliancescore2').val(compliancescore2);
 	$('#compliancescoreable2').val(compliancescoreable2);
 	$('#compliance_score_percent2').val(compliance_score_percent+'%');
@@ -1738,9 +1687,7 @@ do_od_ecommerce();
 			customerscoreable2 = customerscoreable2 + weightage2;
 		}
 	});
-	
-	//customer_score_percent = ((customerscore2*100)/customerscoreable2).toFixed(2);
-	customer_score_percent = Math.round((customerscore2*100)/customerscoreable2);
+	customer_score_percent = ((customerscore2*100)/customerscoreable2).toFixed(2);
 	$('#customerscore2').val(customerscore2);
 	$('#customerscoreable2').val(customerscoreable2);
 	$('#customer_score_percent2').val(customer_score_percent+'%');
@@ -1761,9 +1708,7 @@ do_od_ecommerce();
 			businessscoreable2 = businessscoreable2 + weightage3;
 		}
 	});
-	
-	//business_score_percent = ((businessscore2*100)/businessscoreable2).toFixed(2);
-	business_score_percent = Math.round((businessscore2*100)/businessscoreable2);
+	business_score_percent = ((businessscore2*100)/businessscoreable2).toFixed(2);
 	$('#businessscore2').val(businessscore2);
 	$('#businessscoreable2').val(businessscoreable2);
 	$('#business_score_percent2').val(business_score_percent+'%');
@@ -1951,12 +1896,12 @@ $('#dis_cate').on('change', function()
 			}else if($(this).val()=='Other'){
 				var disCate5 = '<option value="">Select</option>';
 				disCate5 += '<option value="BSD Requests">BSD Requests</option>';
-				// disCate5 += '<option value="ODP Business Re-Brand">ODP Business Re-Brand</option>';
+				disCate5 += '<option value="ODP Business Re-Brand">ODP Business Re-Brand</option>';
 				disCate5 += '<option value="Business Select">Business Select</option>';
 				disCate5 += '<option value="No Call/Disconnect">No Call/Disconnect</option>';
+				disCate5 += '<option value="Other">Other</option>';
 				disCate5 += '<option value="Supervisor Escalation">Supervisor Escalation</option>';
 				disCate5 += '<option value="Transfer">Transfer</option>';
-				disCate5 += '<option value="Other">Other</option>';
 				$("#dis_sub_cate").html(disCate5);
 			}else if($(this).val()=='Place Order'){
 				var disCate6 = '<option value="N/A">N/A</option>';
@@ -1965,7 +1910,7 @@ $('#dis_cate').on('change', function()
 				var disCate7 = '<option value="">Select</option>';
 				disCate7 += '<option value="Check Pricing">Check Pricing</option>';
 				disCate7 += '<option value="Product Info">Product Info</option>';
-				disCate7 += '<option value="Product Other">Product Order</option>';
+				disCate7 += '<option value="Product Other">Product Other</option>';
 				disCate7 += '<option value="Product Subscriptions">Product Subscriptions</option>';
 				$("#dis_sub_cate").html(disCate7);
 			}else if($(this).val()=='Payment Issues'){

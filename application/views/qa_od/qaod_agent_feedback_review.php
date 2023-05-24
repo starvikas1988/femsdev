@@ -108,7 +108,7 @@
 								<th>Agent Name</th>
 								<?php if(($lob=='old_chat') || ($lob=='od_voice') || ($lob=='od_ecommerce') || ($lob=='chat') || ($lob=='business_direct_call')){ ?><th> Customer ID </th><?php } ?>
 								<th>Session ID/ANI</th>
-								<?php if(($lob=='old_chat') || ($lob=='od_voice') || ($lob=='od_ecommerce') || ($lob=='chat') || ($lob=='business_direct_call')){ ?><th>Score %</th>
+								<?php if(($lob=='old_chat') || ($lob=='od_voice') || ($lob=='od_ecommerce') || ($lob=='chat') || ($lob=='business_direct_call')){ ?><th>Earned Score</th>
 								<th>Possible Score</th>
 								<th>Overall Score</th><?php } ?>
 								<th>Agent Review Status</th>

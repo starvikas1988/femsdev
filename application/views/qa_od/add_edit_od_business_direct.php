@@ -69,31 +69,60 @@
 										<td style="width:150px">Audit Date:<span style="font-size:24px;color:red">*</span></td>
 										<td style="width:200px"><input type="text" class="form-control" value="<?php echo $auditDate; ?>" disabled></td>
 										<td style="width:150px">Call Date:<span style="font-size:24px;color:red">*</span></td>
-										<td style="width:250px"><input type="text" class="form-control" id="call_date" name="call_date" value="<?php echo $clDate_val; ?>" required></td>
+										<td style="width:250px"><input type="text" class="form-control" id="call_date" name="call_date" onkeydown="return false;" value="<?php echo $clDate_val; ?>" required></td>
 										<td style="width:150px">Call Duration:<span style="font-size:24px;color:red">*</span></td>
-										<td style="width:250px"><input type="text" class="form-control" id="call_duration" name="data[call_duration]" value="<?php echo $od_business['call_duration'] ?>" required ></td>
+										<td style="width:250px"><input type="text" class="form-control" id="call_duration" name="data[call_duration]" onkeydown="return false;" value="<?php echo $od_business['call_duration'] ?>" required ></td>
 										
 									</tr>
 									<tr>
 										<td>Agent:<span style="font-size:24px;color:red">*</span></td>
 										<td>
-											<select class="form-control" id="agent_id" name="data[agent_id]" required >
-												<option value="<?php echo $od_business['agent_id'] ?>"><?php echo $od_business['fname']." ".$od_business['lname'] ?></option>
+											<!-- <select class="form-control" id="agent_id" name="data[agent_id]" required >
+												<option value="<?php //echo $od_business['agent_id'] ?>"><?php //echo $od_business['fname']." ".$od_business['lname'] ?></option>
 												
-												<?php foreach($agentName as $row):  ?>
-													<option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
-												<?php endforeach; ?>
-											</select>
+												<?php //foreach($agentName as $row):  ?>
+													<option value="<?php //echo $row['id']; ?>"><?php //echo $row['name']; ?></option>
+												<?php //endforeach; ?>
+											</select> -->
+
+											<select class="form-control" id="agent_ids" name="data[agent_id]" required>
+													<?php 
+													if($od_business['agent_id']!=''){
+														?>
+														<option value="<?php echo $od_business['agent_id'] ?>"><?php echo $od_business['fname'] . " " . $od_business['lname'] ?></option>
+														<?php
+													}else{
+														?>
+														<option value="">Select</option>
+														<?php
+													}
+													?>
+													
+													
+													<?php foreach ($agentName as $row) :  ?>
+													<?php 
+													if($row['id'] == $od_business['agent_id']){
+														continue;
+													}else{
+														?>
+														<option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
+														<?php
+													}
+													?>
+														
+													<?php endforeach; ?>
+												</select>
+
 										</td>
 										<td>Fusion ID:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" id="fusion_id" value="<?php echo $od_business['fusion_id'] ?>" readonly ></td>
 										<td>L1 Supervisor:<span style="font-size:24px;color:red">*</span></td>
 										<td>
-											<input type="text" class="form-control" id="tl_name"  value="<?php echo $od_business['tl_name'] ?>" readonly>
+											<input type="text" class="form-control" id="tl_names"  value="<?php echo $od_business['tl_name'] ?>" readonly>
 												<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $od_business['tl_id'] ?>" required>
 										</td>
 										<td>Review Date:<span style="font-size:24px;color:red">*</span></td>
-										<td style="width:200px"><input type="text" class="form-control" id="review_date" name="review_date" value="<?php echo $clreview_date; ?>" required></td>
+										<td style="width:200px"><input type="text" class="form-control" id="review_date" name="review_date" onkeydown="return false;" value="<?php echo $clreview_date; ?>" required></td>
 									</tr>
 									<tr>
 									<td>Reviewed By:<span style="font-size:24px;color:red">*</span></td>
@@ -119,22 +148,21 @@
 										<td>
 											<select class="form-control" id="dis_cate" name="data[disposition_cate]" required>
 												
-												<option value="<?php echo $od_business['disposition_cate'] ?>"><?php echo $od_business['disposition_cate'] ?></option>
+												<!-- <option value="<?php //echo $od_business['disposition_cate'] ?>"><?php //echo $od_business['disposition_cate'] ?></option> -->
 												<option value="">-Select-</option>
-												<option  value="Blank">Blank </option>
-												<option  value="Billing">Billing </option>
-												<option  value="Cancel">Cancel</option>
-												<option  value="Order Status">Order Status </option>
-												<option  value="Other">Other </option>
-												<option  value="Place Order">Place Order</option>
-												<option  value="Product">Product </option>
-												<option  value="Payment Issues">Payment Issues</option>
-												<option  value="Returns & Credits">Returns & Credits</option>
-												<option  value="Rewards">Rewards</option>
-												<option  value="Services">Services</option>
-												<option  value="Store">Store</option>
-												<option  value="Websupport">Websupport</option>
-												<!-- <option  value="Other">Other</option> -->
+												<option value="Blank" <?= ($od_business['disposition_cate']=="Blank")?"selected":"" ?>>Blank</option>
+												<option value="Billing" <?= ($od_business['disposition_cate']=="Billing")?"selected":"" ?>>Billing</option>
+												<option value="Cancel" <?= ($od_business['disposition_cate']=="Cancel")?"selected":"" ?>>Cancel</option>
+												<option value="Order Status" <?= ($od_business['disposition_cate']=="Order Status")?"selected":"" ?>>Order Status</option>
+												<option value="Other" <?= ($od_business['disposition_cate']=="Other")?"selected":"" ?>>Other</option>
+												<option value="Place Order" <?= ($od_business['disposition_cate']=="Place Order")?"selected":"" ?>>Place Order</option>
+												<option value="Product" <?= ($od_business['disposition_cate']=="Product")?"selected":"" ?>>Product</option>
+												<option value="Payment Issues" <?= ($od_business['disposition_cate']=="Payment Issues")?"selected":"" ?>>Payment Issues</option>
+												<option value="Returns & Credits" <?= ($od_business['disposition_cate']=="Returns & Credits")?"selected":"" ?>>Returns & Credits</option>
+												<option value="Rewards" <?= ($od_business['disposition_cate']=="Rewards")?"selected":"" ?>>Rewards</option>
+												<option value="Services" <?= ($od_business['disposition_cate']=="Services")?"selected":"" ?>>Services</option>
+												<option value="Store" <?= ($od_business['disposition_cate']=="Store")?"selected":"" ?>>Store</option>
+												<option value="Websupport" <?= ($od_business['disposition_cate']=="Websupport")?"selected":"" ?>>Websupport</option>
 											</select>
 										</td>
 										<td>Disposition Sub Category:<span style="font-size:24px;color:red">*</span></td>
@@ -160,13 +188,13 @@
 												<option value="Wow Call Nomination">Wow Call Nomination</option>
 											</select>
 										</td>
-										<td class="auType">Auditor Type<span style="font-size:24px;color:red">*</span></td>
-										<td class="auType">
+										<td class="auType_epi">Auditor Type<span style="font-size:24px;color:red">*</span></td>
+										<td class="auType_epi">
 											<select class="form-control" id="auditor_type" name="data[auditor_type]">
-												
-												<option value="Master">Master</option>
-												<option value="Regular">Regular</option>
-											</select>
+                          <option value="">Select</option>
+                          <option value="Master" <?= ($od_business['auditor_type']=="Master")?"selected":"" ?>>Master</option>
+                          <option value="Regular" <?= ($od_business['auditor_type']=="Regular")?"selected":"" ?>>Regular</option>
+                      </select>
 										</td>
 										
 									</tr>
@@ -198,13 +226,21 @@
 											</select>
 										</td>
 										<td>Customer VOC:<span style="font-size:24px;color:red">*</span></td>
-										<td colspan="2">
+										<td>
 											<select class="form-control" id="customer_voc" name="data[customer_voc]" required>
 												<option value="<?php echo $od_business['customer_voc'] ?>"><?php echo $od_business['customer_voc'] ?></option>
 												
 												<option value="Detractor">Detractor</option>
 												<option value="Passive">Passive</option>
 												<option value="Promoter">Promoter</option>
+											</select>
+										</td>
+										<td>Type of Call:<span style="font-size:24px;color:red">*</span></td>
+										<td>
+											<select class="form-control" id="type_of_call" name="data[type_of_call]" required>
+												<option value="">Select</option>
+												<option value="Sales" <?= ($od_business['type_of_call']=="Sales")?"selected":"" ?>>Sales</option>
+												<option value="Service" <?= ($od_business['type_of_call']=="Service")?"selected":"" ?>>Service</option>
 											</select>
 										</td>
 									</tr>
@@ -250,7 +286,7 @@
 									<td style="background-color:#A9DFBF">Customer Critical</td>
 										<td colspan="3" class="eml1" style="text-align: left;">Made the customer feel important and top priority</td>
 										<td>
-											<select class="form-control od_business_point business" name="data[customer_feel_important]" required>
+											<select class="form-control od_business_point customer" name="data[customer_feel_important]" required>
 												
 												<option od_business_val=1 <?php echo $od_business['customer_feel_important'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option od_business_val=1 <?php echo $od_business['customer_feel_important'] == "No"?"selected":"";?> value="No">No</option>
@@ -510,7 +546,7 @@
 										<tr><td colspan=2 style="font-size:16px; font-weight:bold">Management Review:</td><td colspan=8><?php echo $od_business['mgnt_rvw_note'] ?></td></tr>
 										<tr><td colspan=2 style="font-size:16px; font-weight:bold">Client Review:</td><td colspan=8><?php echo $od_business['client_rvw_note'] ?></td></tr>
 										
-										<tr><td colspan=2  style="font-size:16px">Your Review</td><td colspan=8><textarea class="form-control1" style="width:100%" id="note" name="note"  ></textarea></td></tr>
+										<tr><td colspan=2  style="font-size:16px">Your Review<span style="font-size:24px;color:red">*</span></td><td colspan=8><textarea class="form-control1" style="width:100%" id="note" name="note" required></textarea></td></tr>
 									<?php } ?>
 									
 									<?php 

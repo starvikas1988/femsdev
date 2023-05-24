@@ -468,7 +468,7 @@ class Qa_od extends CI_Controller {
 				$tl_mgnt_cond="";
 			}
 			
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,42) and is_assign_process(id,53) and status=1  order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,42) and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 			
 			$qSql = "SELECT * FROM signin where id not in (select id from role where folder='agent')";
@@ -519,13 +519,13 @@ class Qa_od extends CI_Controller {
 					
 					$field_array1=$this->input->post('data');
 					$field_array1['call_date']=mmddyy2mysql($this->input->post('call_date'));
-					$field_array1['review_date']=mmddyy2mysql($this->input->post('review_date'));
+					$field_array['review_date']=mmddyy2mysql($this->input->post('review_date'));
 
 					if($_FILES['attach_file']['tmp_name'][0]!=''){
 						if(!file_exists("./qa_files/qa_od/")){
 							mkdir("./qa_files/qa_od/");
 						}
-						$a = $this->od_upload_files($_FILES['attach_file'], $path='./qa_files/qa_od/');
+						$a = $this->amd_upload_files($_FILES['attach_file'], $path='./qa_files/qa_od/');
 	                   $field_array1["attach_file"] = implode(',',$a);
 					}
 
