@@ -59,10 +59,6 @@ body {
 	color:#fff;
     box-shadow: 0 0 0 2px #fff, 0 0 0 4px #5e62ecd4;
 }
-.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
-	 float: left;
-	 display: none;
-	}
 </style>
 
 <?php if($ajio_id!=0){
@@ -135,39 +131,29 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										</td>
 									</tr>
 									<tr>
-										<td>Partner:</td>
-										<td><input type="text" class="form-control" name="data[partner]" value="<?php echo $ajio_inb_v2['partner'] ?>" required ></td>
+										<td>Call ID:</td>
+										<td><input type="text" class="form-control" name="data[call_id]" value="<?php echo $ajio_inb_v2['call_id'] ?>" required ></td>
 										<td>Call Duration:</td>
-										<td><input type="text" class="form-control" onkeydown="return false;" id="call_duration" name="data[call_duration]" value="<?php echo $ajio_inb_v2['call_duration'] ?>" required ></td>
+										<td><input type="text" class="form-control" id="call_duration" name="data[call_duration]" value="<?php echo $ajio_inb_v2['call_duration'] ?>" required ></td>
 								
-										<td>Ticket Type:</td>
+										<td>Type of Audit:</td>
 										<td>
-											<select class="form-control" id="ticket_type" name="data[ticket_type]" required>
+											<select class="form-control" id="type_of_audit" name="data[type_of_audit]" required>
+												<option value="<?php echo $ajio_inb_v2['type_of_audit'] ?>"><?php echo $ajio_inb_v2['type_of_audit'] ?></option>
 												<option value="">-Select-</option>
-												<option value="Complaint" <?= ($ajio_inb_v2['ticket_type']=="Complaint")?"selected":"" ?>>Complaint</option>
-												<option value="Query" <?= ($ajio_inb_v2['ticket_type']=="Query")?"selected":"" ?>>Query</option>
-												<option value="Proactive SR" <?= ($ajio_inb_v2['ticket_type']=="Proactive SR")?"selected":"" ?>>Proactive SR</option>
+												<option value="Detractor Audit">Detractor Audit</option>
+												<option value="Passive Audit">Passive Audit</option>
+												<option value="Promoter Audit">Promoter Audit</option>
+												<option value="High AHT Audit">High AHT Audit</option>
+												<option value="Random Audit">Random Audit</option>
+												<option value="A2A">A2A</option>
+												<option value="Calibration">Calibration</option>
+												<option value="WOW Call">WOW Call</option>
 											</select>
 										</td>
 									</tr>
 									<tr>
-										<td>Auditor’s BP ID:</td>
-										<td><input type="text" class="form-control" name="data[auditors_bp_id]" value="<?php echo $ajio_inb_v2['auditors_bp_id'] ?>" required ></td>
-										<td>Interaction ID:</td>
-										<td><input type="text" class="form-control" name="data[interaction_id]" value="<?php echo $ajio_inb_v2['interaction_id'] ?>" required ></td>
-										<td>Order ID:</td>
-										<td><input type="text" class="form-control" name="data[order_id]" value="<?php echo $ajio_inb_v2['order_id'] ?>" required ></td>
-									</tr>
-									<tr>
-										<td>Ticket ID:</td>
-										<td><input type="text" class="form-control" name="data[ticket_id]" value="<?php echo $ajio_inb_v2['ticket_id'] ?>" required ></td>
-										<td>Call Synopsis:</td>
-										<td><input type="text" class="form-control" name="data[call_synopsis_header]" value="<?php echo $ajio_inb_v2['call_synopsis_header'] ?>" required ></td>
-										<td>Language:</td>
-										<td><input type="text" class="form-control" name="data[language]" value="<?php echo $ajio_inb_v2['language'] ?>" required ></td>
-									</tr>
-									<tr>
-										<td>Audit Type:</td>
+										<td>Predactive CSAT:</td>
 										<td>
 											<select class="form-control" id="audit_type" name="data[audit_type]" required>
 												<option value="<?php echo $ajio_inb_v2['audit_type'] ?>"><?php echo $ajio_inb_v2['audit_type'] ?></option>
@@ -211,7 +197,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										</td>
 									</tr>
 									
-									<!-- <tr>
+									<tr>
 										<td class="cust_voc">Customer voc:</td>
 										<td class="cust_voc"><input type="text" class="form-control" id="voice_cust" name="data[voice_cust]" value="<?php echo $ajio_inb_v2['voice_cust'] ?>"  ></td>
 										<td class="utiliza">KM Utilization:</td>
@@ -275,11 +261,11 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<option value="No">No</option>
 											</select>
 										</td>
-									</tr> -->
+									</tr>
 									
 									<tr>
 									<td>Tagging by Evaluator:<span style="font-size:24px;color:red">*</span></td>
-										<td colspan="6">
+										<td colspan="5">
 											<select class="form-control agentName" id="tagging_evaluator" name="data[tagging_evaluator]" required>
 												<?php 
 												if($ajio_inb_v2['tagging_evaluator']!=''){
@@ -858,7 +844,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control ajio" id="handle_objection_inb_v2" name="data[handle_objection_effectively]" required>
 												<option ajio_val=10 ajio_max=10 <?php echo $ajio_inb_v2['handle_objection_effectively'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option ajio_val=0 ajio_max=10 <?php echo $ajio_inb_v2['handle_objection_effectively'] == "No"?"selected":"";?> value="No">No</option>
-												<!-- <option ajio_val=10 ajio_max=10 <?php echo $ajio_inb_v2['handle_objection_effectively'] == "N/A"?"selected":"";?> value="N/A">N/A</option> -->
+												<option ajio_val=10 ajio_max=10 <?php echo $ajio_inb_v2['handle_objection_effectively'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td>10</td>
@@ -979,7 +965,6 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<?php 
 												if($ajio_inb_v2['l1_reason12']!=''){
 													?>
-
 													<option value="<?php echo $ajio_inb_v2['l1_reason12'] ?>"><?php echo $ajio_inb_v2['l1_reason12'] ?></option>
 													<?php
 												}
@@ -1006,12 +991,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<?php 
 												if($ajio_inb_v2['l1_reason13']!=''){
 													?>
-													<option value="No navigation observed during hold" <?= ($ajio_inb_v2['l1_reason13']=="No navigation observed during hold")?"selected":"" ?>>No navigation observed during hold</option>
-													<option value="Viewed application/s not relevent to the interaction - Impacted AHT" <?= ($ajio_inb_v2['l1_reason13']=="Viewed application/s not relevent to the interaction - Impacted AHT")?"selected":"" ?>>Viewed application/s not relevent to the interaction - Impacted AHT</option>
-													<option value="Didn't transfer the call to TNPS survey after pitching script - >2 seconds" <?= ($ajio_inb_v2['l1_reason13']=="Didn't transfer the call to TNPS survey after pitching script - >2 seconds")?"selected":"" ?>>Didn't transfer the call to TNPS survey after pitching script - >2 seconds</option>
-
-													<!-- <option value="<?php //echo $ajio_inb_v2['l1_reason13'] ?>"><?php //echo $ajio_inb_v2['l1_reason13'] ?></option> -->
-													
+													<option value="<?php echo $ajio_inb_v2['l1_reason13'] ?>"><?php echo $ajio_inb_v2['l1_reason13'] ?></option>
 													<?php
 												}
 												?>
@@ -1117,7 +1097,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td style="background-color:#F1948A; font-weight:bold">ZTP</td>
 										<td  style="color:red">As per AJIO ZTP guidelines</td>
 										<td>
-											<select class="form-control ajio fatal ajioAF8"  id="ajioAF8_inb_v2" name="data[ztp_guidelines]">
+											<select class="form-control ajio fatal ajioAF8"  id="ajioAF8_inb_v2" name="data[ztp_guidelines]" required>
 												<option ajio_val=0 ajio_max=0 <?php echo $ajio_inb_v2['ztp_guidelines'] == "No"?"selected":"";?> value="No">No</option>
 												<option ajio_val=0 ajio_max=0 <?php echo $ajio_inb_v2['ztp_guidelines'] == "Autofail"?"selected":"";?> value="Autofail">Autofail</option>
 											</select>
@@ -1141,7 +1121,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td><textarea class="form-control" name="data[l2_reason17]"><?php echo $ajio_inb_v2['l2_reason17'] ?></textarea></td>
 									</tr>
 									<tr>
-										<td>Call Summary:</td>
+										<td>Call Synopsis:</td>
 										<td colspan=5><textarea class="form-control" name="data[call_synopsis]"><?php echo $ajio_inb_v2['call_synopsis'] ?></textarea></td>
 									</tr>
 									<tr>
@@ -1181,7 +1161,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<tr><td colspan=2 style="font-size:16px; font-weight:bold">Management Review:</td><td colspan=4><?php echo $ajio_inb_v2['mgnt_rvw_note'] ?></td></tr>
 										<tr><td colspan=2 style="font-size:16px; font-weight:bold">Client Review:</td><td colspan=4><?php echo $ajio_inb_v2['client_rvw_note'] ?></td></tr>
 										
-										<tr><td colspan=2  style="font-size:16px">Your Review</td><td colspan=4><textarea class="form-control1" style="width:100%" id="note" name="note" required></textarea></td></tr>
+										<tr><td colspan=2  style="font-size:16px">Your Review</td><td colspan=4><textarea class="form-control1" style="width:100%" id="note" name="note"  ></textarea></td></tr>
 									<?php } ?>
 									
 									<?php 

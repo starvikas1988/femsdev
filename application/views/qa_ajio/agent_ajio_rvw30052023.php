@@ -435,29 +435,13 @@ body {
 											<td>Fusion ID:<span style="font-size:24px;color:red">*</span></td>
 											<td><input type="text" class="form-control" id="fusion_id" value="<?php echo $ajio['fusion_id'] ?>" readonly ></td>
 											<td >L1 Supervisor:<span style="font-size:24px;color:red">*</span></td>
-											<td colspan="2">
+											<td>
 												<select class="form-control" id="tl_id" name="data[tl_id]" readonly>
 													<option value="<?php echo $ajio['tl_id'] ?>"><?php echo $ajio['tl_name'] ?></option>	
 												</select>
 											</td>
 										</tr>
 										<tr>
-										<td>Partner:</td>
-										<td><input type="text" class="form-control" name="data[partner]" value="<?php echo $ajio['partner'] ?>" disabled ></td>
-										<td>Call Duration:</td>
-										<td><input type="text" class="form-control" onkeydown="return false;" id="call_duration" name="data[call_duration]" value="<?php echo $ajio['call_duration'] ?>" disabled ></td>
-								
-										<td>Ticket Type</td>
-										<td colspan="2">
-											<select class="form-control" id="ticket_type" name="data[ticket_type]" disabled>
-												<option value="">-Select-</option>
-												<option value="Complaint" <?= ($ajio['ticket_type']=="Complaint")?"selected":"" ?>>Complaint</option>
-												<option value="Query" <?= ($ajio['ticket_type']=="Query")?"selected":"" ?>>Query</option>
-												<option value="Proactive SR" <?= ($ajio['ticket_type']=="Proactive SR")?"selected":"" ?>>Proactive SR</option>
-											</select>
-										</td>
-									</tr>
-										<!-- <tr>
 											<td>Type of Audit:<span style="font-size:24px;color:red">*</span></td>
 											<td>
 												<select class="form-control" id="type_of_audit" name="data[type_of_audit]" disabled>
@@ -469,27 +453,9 @@ body {
 											<td>Call Duration:</td>
 											<td><input type="text" class="form-control" id="call_duration" name="data[call_duration]" value="<?php echo $ajio['call_duration'] ?>" disabled ></td>
 											
-										</tr> -->
-
+										</tr>
 										<tr>
-										<td>Auditor’s BP ID:</td>
-										<td><input type="text" class="form-control" name="data[auditors_bp_id]" value="<?php echo $ajio['auditors_bp_id'] ?>" disabled ></td>
-										<td>Interaction ID:</td>
-										<td><input type="text" class="form-control" name="data[interaction_id]" value="<?php echo $ajio['interaction_id'] ?>" disabled ></td>
-										<td>Order ID:</td>
-										<td colspan="2"><input type="text" class="form-control" name="data[order_id]" value="<?php echo $ajio['order_id'] ?>" disabled ></td>
-									</tr>
-									<tr>
-										<td>Ticket ID:</td>
-										<td><input type="text" class="form-control" name="data[ticket_id]" value="<?php echo $ajio['ticket_id'] ?>" disabled ></td>
-										<td>Call Synopsis:</td>
-										<td><input type="text" class="form-control" name="data[call_synopsis_header]" value="<?php echo $ajio['call_synopsis_header'] ?>" disabled ></td>
-										<td>Language:</td>
-										<td colspan="2"><input type="text" class="form-control" name="data[language]" value="<?php echo $ajio['language'] ?>" disabled ></td>
-									</tr>
-
-										<tr>
-											<td >Audit Type:<span style="font-size:24px;color:red">*</span></td>
+											<td >Predactive CSAT:<span style="font-size:24px;color:red">*</span></td>
 											<td >
 												<select class="form-control" id="audit_type" name="data[audit_type]" disabled>
 													<option value="<?php echo $ajio['audit_type'] ?>"><?php echo $ajio['audit_type'] ?></option>
@@ -513,7 +479,7 @@ body {
 											
 										</tr>
 										
-										<!-- <tr>
+										<tr>
 										<td class="cust_voc">Customer voc:</td>
 										<td class="cust_voc"><input type="text" class="form-control" id="voice_cust" name="data[voice_cust]" value="<?php echo $ajio['voice_cust'] ?>" disabled ></td>
 										<td class="utiliza">KM Utilization:</td>
@@ -577,7 +543,7 @@ body {
 												<option value="No">No</option>
 											</select>
 										</td>
-									</tr> -->
+									</tr>
 
 										<tr>
 										<td>Tagging by Evaluator:<span style="font-size:24px;color:red">*</span></td>
@@ -586,15 +552,6 @@ body {
 													<option value="<?php echo $ajio['tagging_evaluator'] ?>"><?php echo $ajio['tagging_evaluator'] ?></option>
 												</select>
 											</td>
-										<!-- <td class="fatal_nonfatal">Fatal/Non-Fatal:</td>
-										<td class="fatal_nonfatal">
-											<select class="form-control" id="fatal_non_fatal" name="data[fatal_nonfatal]" disabled>
-												<option value="<?php echo $ajio['fatal_nonfatal'] ?>"><?php echo $ajio['fatal_nonfatal'] ?></option>
-												<option value="">-Select-</option>
-												<option value="Fatal">Fatal</option>
-												<option value="Non-Fatal">Non-Fatal</option>
-											</select>
-										</td> -->
 										</tr>
 										<tr>
 										<td>Earned Score:</td>
@@ -602,7 +559,7 @@ body {
 										<td >Possible Score:</td>
 											<td colspan="2"><input type="text" readonly id="possibleScore" name="data[possible_score]" class="form-control" style="font-weight:bold" value="<?php echo $ajio['possible_score'] ?>"></td>
 										<td style="font-weight:bold; font-size:16px; text-align:right">Overall Score:</td>
-											<td><input type="text" readonly id="overallScore" name="data[overall_score]" class="form-control ajioFatal" style="font-weight:bold" value="<?php echo $ajio['overall_score'] ?>"></td>
+											<td><input type="text" readonly id="overallScore" name="data[overall_score]" class="form-control ajio_inb_v2Fatal" style="font-weight:bold" value="<?php echo $ajio['overall_score'] ?>"></td>
 										</tr>
 										<tr style="background-color:#85C1E9; font-weight:bold">
 										<td>Parameter</td>
@@ -700,7 +657,7 @@ body {
 										<td><textarea class="form-control" name="data[l2_reason3]" disabled><?php echo $ajio['l2_reason3'] ?></textarea></td>
 									</tr>
 									<tr>
-										<td colspan="2">Did the champ offer further assistance and follow appropriate call closure/supervisor transfer process</td>
+										<td  style="color:red" colspan="2">Did the champ offer further assistance and follow appropriate call closure/supervisor transfer process</td>
 										<td>
 											<select class="form-control ajio fatal ajioAF3" id="ajioAF3_inb_v2" name="data[follow_appropiate_call_closure]" disabled>
 												<option ajio_val=5 ajio_max=5 <?php echo $ajio['follow_appropiate_call_closure'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
@@ -931,7 +888,7 @@ body {
 										<td><textarea class="form-control" name="data[l2_reason11]" disabled><?php echo $ajio['l2_reason11'] ?></textarea></td>
 									</tr>
 									<tr>
-										<td  style="color:red" colspan="2">Call/Interaction was authenticated wherever required</td>
+										<td  style="color:red" colspan="2">Call/Interaction was authenticated wherever disabled</td>
 										<td>
 											<select class="form-control ajio fatal ajioAF4" id="ajioAF4_inb_v2" name="data[call_was_authenticated]" disabled>
 												<option ajio_val=5 ajio_max=5 <?php echo $ajio['call_was_authenticated'] == "Yes"?"selected":"";?> value="Yes">Yes</option>

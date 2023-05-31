@@ -1039,8 +1039,7 @@ $(document).ready(function(){
 
 	$("#audit_date").datepicker();
 	$("#call_date").datepicker();
-	//$("#call_date_time").datetimepicker();
-	$( "#call_date_time" ).datetimepicker({  maxDate: new Date() });
+	$("#call_date_time").datetimepicker();
 	$("#booking_date").datepicker();
 	$("#video_duration").timepicker({timeFormat : 'HH:mm:ss' });
 	$("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });
@@ -2053,27 +2052,27 @@ $('INPUT[type="file"]').change(function () {
 		// 	$('.ajio_inb_v2Fatal').val(quality_score_percent+'%');
 		// }
 		if($('.ajioAF1').val()=='Autofail' || $('.ajioAF2').val()=='Autofail' || $('.ajioAF3').val()=='Autofail' || $('.ajioAF4').val()=='Autofail' || $('.ajioAF5').val()=='Autofail' || $('.ajioAF6').val()=='Autofail' || $('.ajioAF7').val()=='Autofail' || $('.ajioAF8').val()=='Autofail'){
-			$('.ajio_inb_v2Fatal').val(0+'%');
+			$('.ajio_inb_v2Fatal').val(0);
 		}else{
 			$('.ajio_inb_v2Fatal').val(quality_score_percent+'%');
 		}
 		if($('#ajioAF1').val()=='Autofail' || $('#ajioAF2').val()=='Autofail' || $('#ajioAF3').val()=='Autofail' || $('#ajioAF4').val()=='Autofail' || $('#ajioAF5').val()=='Autofail' || $('#ajioAF6').val()=='Autofail' || $('#ajioAF7').val()=='Autofail' || $('#ajioAF8').val()=='Autofail'){
-			$('.ajio_email_v2Fatal').val(0+'%');
+			$('.ajio_email_v2Fatal').val(0);
 		}else{
 			$('.ajio_email_v2Fatal').val(quality_score_percent+'%');
 		}
 		if($('.ajioAF1').val()=='Autofail' || $('.ajioAF2').val()=='Autofail' || $('.ajioAF3').val()=='Autofail' || $('.ajioAF4').val()=='Autofail' || $('.ajioAF5').val()=='Autofail' || $('.ajioAF6').val()=='Autofail'){
-			$('.ajio_chat_v2Fatal').val(0+'%');
+			$('.ajio_chat_v2Fatal').val(0);
 		}else{
 			$('.ajio_chat_v2Fatal').val(quality_score_percent+'%');
 		}
 		if($('.ajioAF1').val()=='Autofail' || $('.ajioAF2').val()=='Autofail' || $('.ajioAF3').val()=='Autofail' || $('.ajioAF4').val()=='Autofail' || $('.ajioAF5').val()=='Autofail' || $('.ajioAF6').val()=='No'){
-			$('.ajio_ccsrvoice_Fatal').val(0+'%');
+			$('.ajio_ccsrvoice_Fatal').val(0);
 		}else{
 			$('.ajio_ccsrvoice_Fatal').val(quality_score_percent+'%');
 		}
-		if($('.ajioAF1').val()=='Autofail' || $('.ajioAF2').val()=='Autofail' || $('.ajioAF3').val()=='Autofail' || $('.ajioAF4').val()=='Autofail' || $('.ajioAF5').val()=='Autofail' || $('.ajioAF6').val()=='Autofail' || $('.ajioAF7').val()=='Autofail'){
-			$('.ajio_ccsr_nonvoice_Fatal').val(0+'%');
+		if($('.ajioAF1').val()=='Autofail' || $('.ajioAF2').val()=='Autofail' || $('.ajioAF3').val()=='Autofail' || $('.ajioAF4').val()=='Autofail' || $('.ajioAF5').val()=='Autofail' || $('.ajioAF6').val()=='Autofail'){
+			$('.ajio_ccsr_nonvoice_Fatal').val(0);
 		}else{
 			$('.ajio_ccsr_nonvoice_Fatal').val(quality_score_percent+'%');
 		}	
@@ -2325,7 +2324,7 @@ $('INPUT[type="file"]').change(function () {
 
 	$('#different_application_inb_v2').on('change', function(){
 		if($(this).val()=='No'){
-			var sub_infractions = '<option value="Not refer to available option on Cockpit">Not refer to available option on Cockpit</option>';
+			var sub_infractions = '<option value="Not refer to available option on Cockpit (Cockpit Navigation not done properly)">Not refer to available option on Cockpit (Cockpit Navigation not done properly)</option>';
 			sub_infractions += '<option value="Did not refer to 3PL portal">Did not refer to 3PL portal</option>';
 			$("#application_inb_v2").html(sub_infractions);
 		}
@@ -2804,21 +2803,6 @@ $('INPUT[type="file"]').change(function () {
 		}
 	});
 
-	$('#ajioAF7_ccsrnonvoice').on('change', function(){
-		if($(this).val()=='Autofail'){
-			var sub_infractions = '<option value="Champ failed to check all the previous mails">Champ failed to check all the previous mails</option>';
-			sub_infractions += '<option value="Champ failed analysed the CS Cockpit status & Tickits">Champ failed analysed the CS Cockpit status & Tickits</option>';
-			$("#gather_information_ccsrnonvoice").html(sub_infractions);
-		}
-		else if($(this).val()=='Yes'){
-			sub_infractions = '<option value="N/A">N/A</option>';
-			$("#gather_information_ccsrnonvoice").html(sub_infractions);
-		}
-		else{
-			$("#gather_information_ccsrnonvoice").html('');
-		}
-	});
-	
 	$('#ajioAF7').on('change', function(){
 		if($(this).val()=='Autofail'){
 			var sub_infractions = '<option value="Champ failed to check all the previous mails">Champ failed to check all the previous mails</option>';
@@ -3245,27 +3229,6 @@ $('INPUT[type="file"]').change(function () {
 			$("#email_interact_ccsrnonvoice").html('');
 		}
 	});
-	
-	$('#email_interaction_ccsrnonvoice').on('change', function(){
-		if($(this).val()=='Autofail'){
-			var sub_infractions = '<option value="Authenticated when not requierd">Authenticated when not requierd</option>';
-			sub_infractions += '<option value="Incorrect authentication done">Incorrect authentication done</option>';
-			sub_infractions += '<option value="Did not authenticate when requierd">Did not authenticate when requierd</option>';
-			sub_infractions += '<option value="Details did not match">Details did not match</option>';
-			sub_infractions += '<option value="Incomplete authentication">Incomplete authentication</option>';
-			$("#email_interact_ccsrnonvoice").html(sub_infractions);
-		}
-		else if($(this).val()=='Yes'){
-			sub_infractions = '<option value="N/A">N/A</option>';
-			$("#email_interact_ccsrnonvoice").html(sub_infractions);
-		}else if($(this).val()=='N/A'){
-			sub_infractions = '<option value="N/A">N/A</option>';
-			$("#email_interact_ccsrnonvoice").html(sub_infractions);
-		}
-		else{
-			$("#email_interact_ccsrnonvoice").html('');
-		}
-	});
 
 	$('#ajio_chatAF3').on('change', function(){
 		if($(this).val()=='Autofail'){
@@ -3484,11 +3447,14 @@ $('INPUT[type="file"]').change(function () {
 			sub_infractions += '<option value="QT Not Tagget ">QT Not Tagget</option>';
 			sub_infractions += '<option value="Incorrect Tagging done">Incorrect Tagging done</option>';
 			$("#tagging_guide_ccsrnonvoice").html(sub_infractions);
-		}else if($(this).val()=='Yes'){
+		}
+		else if($(this).val()=='Yes'){
 			sub_infractions = '<option value="N/A">N/A</option>';
 			$("#tagging_guide_ccsrnonvoice").html(sub_infractions);
 		}else if($(this).val()=='Autofail'){
-			sub_infractions = '<option value="C&R raised when not required">C&R raised when not required</option>';
+			sub_infractions = '<option value="Did the champ document the case correctly and adhered to tagging guidelines. Includes closing the complaint appropariately by selecting the correct ICR reason">Did the champ document the case correctly and adhered to tagging guidelines. Includes closing the complaint appropariately by selecting the correct ICR reason</option>';
+			sub_infractions += '<option value="OB tagging not done">OB tagging not done</option>';
+			sub_infractions += '<option value="C&R raised when not required">C&R raised when not required</option>';
 			sub_infractions += '<option value="C&R not raised when required">C&R not raised when required</option>';
 			sub_infractions += '<option value="Wrong C&R raised">Wrong C&R raised</option>';
 			sub_infractions += '<option value="C&R raised without images/appropriate details">C&R raised without images/appropriate details</option>';
@@ -3496,7 +3462,8 @@ $('INPUT[type="file"]').change(function () {
 			sub_infractions += '<option value="Unnecessary redirection">Unnecessary redirection</option>';
 			sub_infractions += '<option value="Tagging not done">Tagging not done</option>';
 			$("#tagging_guide_ccsrnonvoice").html(sub_infractions);
-		}else{
+		}
+		else{
 			$("#tagging_guide_ccsrnonvoice").html('');
 		}
 	});
@@ -3575,14 +3542,11 @@ $('INPUT[type="file"]').change(function () {
 
 	$('#ajio_ccsrnonvoiceAF6').on('change', function(){
 		if($(this).val()=='Autofail'){
-			sub_infractions = '<option value="Email avoidence">Email avoidence</option>';
-			sub_infractions += '<option value="Misbehave with customer">Misbehave with customer</option>';
-			sub_infractions += '<option value="Closing email without replying">Closing email without replying</option>';
-			sub_infractions += '<option value="Chairman esclation">Chairman esclation</option>';
+			sub_infractions = '<option value="...............">..................</option>';
 			$("#ztp_guide_ccsrnonvoice").html(sub_infractions);
 		}
 		else if($(this).val()=='No'){
-			var sub_infractions = '<option value="N/A">N/A</option>';
+			var sub_infractions = '<option value="................">..................</option>';
 			
 			$("#ztp_guide_ccsrnonvoice").html(sub_infractions);
 		}

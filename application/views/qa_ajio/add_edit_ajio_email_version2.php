@@ -189,7 +189,6 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												?>
 												<option value="">-Select-</option>
 												<option value="Query-Refund-Where Is My Refund?-Informed About Refund Tat">Query-Refund-Where Is My Refund?-Informed About Refund Tat</option>
-												<option value="Complaint-Delivery-Delayed Delivery-N/A">Complaint-Delivery-Delayed Delivery-N/A</option>
 												<option value="Query-Delivery-Where Is My Order?-Informed Promised Delivery Date">Query-Delivery-Where Is My Order?-Informed Promised Delivery Date</option>
 												<option value="Proactive Sr-Wh - Order Related Issues-Return To Be Cancelled-Awb Not Cancelled (Pickup Not Required)">Proactive Sr-Wh - Order Related Issues-Return To Be Cancelled-Awb Not Cancelled (Pickup Not Required)</option>
 												<option value="Query-Return/Exchange-How Do I Return/Exchange This Item?-Requested Customer To Share The Images">Query-Return/Exchange-How Do I Return/Exchange This Item?-Requested Customer To Share The Images</option>
@@ -230,7 +229,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<option value="Complaint-Return-Picked Up - Did Not Reach Warehouse-N/A">Complaint-Return-Picked Up - Did Not Reach Warehouse-N/A</option>
 												<option value="Query-Nar Calls/Emails-Incomplete Call/Email-Call Dropped Before Knowing The Query">Query-Nar Calls/Emails-Incomplete Call/Email-Call Dropped Before Knowing The Query</option>
 												<option value="Complaint-Delivery-Special Instructions For Contact Details Update-N/A">Complaint-Delivery-Special Instructions For Contact Details Update-N/A</option>
-												<option value="Query-Return/Exchange-Create A Return For Me-Created Return - Different Product Delivered">Query-Return/Exchange-Create A Return For Me-Created Return - Different Product Delivered</option>
+												<option value="Return/Exchange-Create A Return For Me-Created Return - Different Product Delivered">Return/Exchange-Create A Return For Me-Created Return - Different Product Delivered</option>
 												<option value="Query-Ticket-Cx-Ticket Follow Up - Within Tat-Missing Product Related">Query-Ticket-Cx-Ticket Follow Up - Within Tat-Missing Product Related</option>
 												<option value="Complaint-Delivery-Complaint Against Delivery Person-Rude Behavior">Complaint-Delivery-Complaint Against Delivery Person-Rude Behavior</option>
 												<option value="Complaint-Delivery-Incomplete Order Received - Unit(S) Missing From A Set/Pack-Outer Packaging Not Tampered">Complaint-Delivery-Incomplete Order Received - Unit(S) Missing From A Set/Pack-Outer Packaging Not Tampered</option>

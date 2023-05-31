@@ -1614,27 +1614,6 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 			$cond="";
 			
 			$campaign = $this->input->get('campaign');
-			$from_date = $this->input->get('from_date');
-			$to_date = $this->input->get('to_date');
-
-			if($from_date==""){ 
-				$from_date=CurrDate();
-			}else{
-				$from_date = mmddyy2mysql($from_date);
-			}
-			
-			if($to_date==""){ 
-				$to_date=CurrDate();
-			}else{
-				$to_date = mmddyy2mysql($to_date);
-			}
-			
-			if($from_date !="" && $to_date!=="" ){ 
-						$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
-					}else{
-						$cond= " Where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
-					}
-
 			
 			if($campaign!=""){
 			
@@ -1647,18 +1626,19 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 				
 				if($this->input->get('btnView')=='View')
 				{
-					// $fromDate = $this->input->get('from_date');
-					// if($fromDate!="") $from_date = mmddyy2mysql($fromDate);
+					$fromDate = $this->input->get('from_date');
+					if($fromDate!="") $from_date = mmddyy2mysql($fromDate);
 					
-					// $toDate = $this->input->get('to_date');
-					// if($toDate!="") $to_date = mmddyy2mysql($toDate);
+					$toDate = $this->input->get('to_date');
+					if($toDate!="") $to_date = mmddyy2mysql($toDate);
 					
-					// if($fromDate !="" && $toDate!=="" ){ 
-					// 	$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
-					// }else{
-					// 	$cond= " Where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
-					// }
+					if($fromDate !="" && $toDate!=="" ){ 
+						$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
+					}else{
+						$cond= " Where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
+					}
 					
+					if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') and agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
 					
 					$qSql = "SELECT * from
 					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
@@ -1674,7 +1654,7 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 					(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 					(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-					(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_ajio_".$campaign."_feedback $cond) xx Left Join
+					(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_ajio_".$campaign."_feedback where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')) xx Left Join
 					(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
 					$data["agent_rvw_list"] = $this->Common_model->get_query_result_array($qSql);
 		
@@ -1839,10 +1819,9 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 		}else if($campaign=="inb_hygiene"){
 			$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date/Time", "BP ID", "Call Duration", "Complete ID", "Valid/Invalid", "Reason For Invalid", "Downtime Tracker Status", "Mentioned Reson in Downtime", "Hold /response Duration (mins)", "Hygiene Audit Type", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
 		}else if($campaign=="inbound_v2"){
-			$header = array("Auditor Name", "Auditor Department", "Auditor Role", "Audit Date", "Agent", "MWP ID", "L1 Super", "Call Date/Time", "Call Duration","Audit Type", "Auditor Type", "VOC","Partner","Ticket Type","Auditor's BP ID","Interaction ID","Order ID","Ticket ID","Call Synopsis","Language",
-			  "Tagging by Evaluator", "Overall Score", "Earned Score", "Possible Score", "Fatal Count", "Pre Fatal Score", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)",
+			$header = array("Auditor Name", "Auditor Department", "Auditor Role", "Audit Date", "Agent", "MWP ID", "L1 Super", "Call Date/Time", "Call Duration", "Type of Audit", "Call ID", "Audit Type", "Auditor Type", "VOC", "Customer Voice", "KM Utilization", "Article", "Fatal/Non-Fatal", "Detractor ACPT", "Detractor L1", "Detractor L2", "TCD","Voice modulation", "Assurance given", "Tagging by Evaluator", "Overall Score", "Earned Score", "Possible Score", "Fatal Count", "Pre Fatal Score", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)",
 			"Did the champ open the call within 4 seconds and introduce himself properly","L1 Reason 1","L2 Reason 1", "Did the champ address the customer by name","L1 Reason 2","L2 Reason 2", "Champ followed the hold procedure as per the SOP","L1 Reason 3","L2 Reason 3", "Did the champ offer further assistance and follow appropriate call closure/supervisor transfer process","L1 Reason 4","L2 Reason 4", "Was the champ polite and used apology and assurance wherever required","L1 Reason 5","L2 Reason 5", "Was the champ able to comprehend and paraphrase the customers concern","L1 Reason 6","L2 Reason 6", "Did the champ display active listening skills without making the customer repeat","L1 Reason 7","L2 Reason 7", "Was the champ able to handle objections effectively and offer rebuttals wherever required","L1 Reason 8","L2 Reason 8", "Was champ able to express/articulate himself and seamlessly converse with the customer","L1 Reason 9","L2 Reason 9", "Did the champ refer to all relevant articles/T2Rs correctly","L1 Reason 10","L2 Reason 10", "Did the champ refer to different applications/portals/tools to identify the root cause of customer issue and enable resolution","L1 Reason 11","L2 Reason 11", "Call/Interaction was authenticated wherever required","L1 Reason 12","L2 Reason 12", "Was the champ able to effectively navigate through and toggle between different tools/aids to wrap up the call in a timely manner","L1 Reason 13","L2 Reason 13", "Champ executed all necessary actions to ensure issue resolution","L1 Reason 14","L2 Reason 14", "All the queries were answered properly and in an informative way to avoid repeat call. Champ provided a clear understanding of action taken and the way forward to the customer","L1 Reason 15","L2 Reason 15", "Did the champ document the case correctly and adhered to tagging guidelines","L1 Reason 16","L2 Reason 16", "As per AJIO ZTP guidelines","L1 Reason 17","L2 Reason 17",
-			"Call Synopsis", "Call Observation", "Feedback", "Agent Feedback Acceptance", "Agent Review Date/Time", "Agent Comment", "Mgnt Review Date/Time", "Mgnt Review By", "Mgnt Comment", "Client Review Date/Time", "Client Review Name", "Client Review Note");
+			"Call Synopsis", "Call Observation", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
 		}else if($campaign=="email_v2"){
 			$header = array("Auditor Name", "Auditor Department", "Auditor Role", "Audit Date", "Agent", "MWP ID", "L1 Super", "Call Date/Time", "Type of Audit", "Interaction ID", "Audit Type", "Auditor Type", "VOC","Tagging by Evaluator", "Overall Score", "Earned Score", "Possible Score", "Fatal Count", "Pre Fatal Score", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)",	
 			"Did the champ use appropriate acknowledgements re-assurance and apology wherever required","L1 Reason 1","Remarks 1", "Did the champ use font font size and formatting as per AJIOs brand guidelines","L1 Reason 2","Remarks 2", "Was the email response in line with AJIOs approved template/format","L1 Reason 3","Remarks 3", "Did the champ use appropriate template(s) and customized it to ensure all concerns raised were answered appropriately","L1 Reason 4","Remarks 4", "Did the champ maintain accuracy of written communication ensuring no grammatical errors SVAs Punctuation and sentence construction errors.","L1 Reason 5","Remarks 5", "Did the champ refer to all relevant previous interactions when required to gather information about customers account and issue end to end","L1 Reason 6","Remarks 6", "Was the champ able to identify and handle objections effectively and offer rebuttals wherever required","L1 Reason 7","Remarks7", "Did the champ refer to all releavnt articles/T2Rs correctly","L1 Reason 8","Remarks 8", "Did the champ refer to different applications/portals/tools to identify the root cause of customer issue and enable resolution.","L1 Reason 9","Remarks 9", "Email/Interaction was authenticated wherever required","L1 Reason 10","Remarks10", "Did the champ take ownership and request for outcall/call back was addressed wherever required","L1 Reason 11","Remarks11", "Champ executed all necessary actions to ensure issue resolution","L1 Reason 12","Remarks 12", "All the queries were answered properly and in an informative way to avoid repeat call. Champ provided a clear understanding of action taken and the way forward to the customer.","L1 Reason 13","Remarks 13", "Did the champ document the case correctly and adhered to tagging guidelines.","L1 Reason 14","Remarks 14", "As per AJIO ZTP guidelines","L1 Reason 15","Remarks 15",
@@ -2452,7 +2431,7 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 					$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
 				}
 				
-				//$callId="_".$user['call_id'];
+				$callId="_".$user['call_id'];
 
 				$row = '"'.$auditorName.'",';
 				$row .= '"'.$user['auditor_dept'].'",';
@@ -2463,19 +2442,21 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 				$row .= '"'.$user['tl_name'].'",';
 				$row .= '"'.$user['call_date'].'",';
 				$row .= '"'.$user['call_duration'].'",';
-				//$row .= '"'.$user['type_of_audit'].'",';
-				//$row .= '"'.$callId.'",';
+				$row .= '"'.$user['type_of_audit'].'",';
+				$row .= '"'.$callId.'",';
 				$row .= '"'.$user['audit_type'].'",';
 				$row .= '"'.$user['auditor_type'].'",';
 				$row .= '"'.$user['voc'].'",';
-				$row .= '"'.$user['partner'].'",';
-				$row .= '"'.$user['ticket_type'].'",';
-				$row .= '"'.$user['auditors_bp_id'].'",';
-				$row .= '"'.$user['interaction_id'].'",';
-				$row .= '"'.$user['order_id'].'",';
-				$row .= '"'.$user['ticket_id'].'",';
-				$row .= '"'.$user['call_synopsis_header'].'",';
-				$row .= '"'.$user['language'].'",';
+				$row .= '"'.$user['voice_cust'].'",';
+				$row .= '"'.$user['utilization'].'",';
+				$row .= '"'.$user['article'].'",';
+				$row .= '"'.$user['fatal_nonfatal'].'",';
+				$row .= '"'.$user['detractor_acpt'].'",';
+				$row .= '"'.$user['detractor_l1'].'",';
+				$row .= '"'.$user['detractor_l2'].'",';
+				$row .= '"'.$user['tcd'].'",';
+				$row .= '"'.$user['voice_modulation'].'",';
+				$row .= '"'.$user['assurance_given'].'",';
 				$row .= '"'.$user['tagging_evaluator'].'",';
 				$row .= '"'.$user['overall_score'].'",';
 				$row .= '"'.$user['earned_score'].'",';
