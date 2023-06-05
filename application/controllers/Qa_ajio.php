@@ -1670,12 +1670,19 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 						
 				}else{
 		
+					// $qSql="SELECT * from
+					// (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+					// (select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+					// (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+					// (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_ajio_".$campaign."_feedback $cond) xx Left Join
+					// (Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
+
 					$qSql="SELECT * from
 					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 					(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 					(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
 					(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_ajio_".$campaign."_feedback $cond) xx Left Join
-					(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
+					(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
 					$data["agent_rvw_list"] = $this->Common_model->get_query_result_array($qSql);
 		
 				}
@@ -1759,14 +1766,29 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 			$cond1="";
 
 			$campaign = $this->input->get('campaign');
+			$date_from = ($this->input->get('date_from'));
+			$date_to = ($this->input->get('date_to'));
+
+			if($date_from==""){
+					$date_from=CurrDate();
+				}else{
+					$date_from = mmddyy2mysql($date_from);
+				}
+
+				if($date_to==""){
+					$date_to=CurrDate();
+				}else{
+					$date_to = mmddyy2mysql($date_to);
+			}
+
 
 			$data["qa_ajio_list"] = array();
 
 			if($campaign!=""){
 				if($this->input->get('show')=='Show')
 				{
-					$date_from = mmddyy2mysql($this->input->get('date_from'));
-					$date_to = mmddyy2mysql($this->input->get('date_to'));
+					// $date_from = mmddyy2mysql($this->input->get('date_from'));
+					// $date_to = mmddyy2mysql($this->input->get('date_to'));
 					$office_id = $this->input->get('office_id');
 
 					if($date_from !="" && $date_to!=="" )  $cond= " Where (audit_date >= '$date_from' and audit_date <= '$date_to' )";

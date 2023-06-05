@@ -19,14 +19,14 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<label>From Date (MM/DD/YYYY)</label>
-										<input type="text" id="from_date"  name="from_date" onchange="date_validation(this.value,'S')" value="<?php $date= mysql2mmddyy($from_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<input type="text" id="from_date_agent"  name="from_date" onchange="agent_date_validation(this.value,'S')" value="<?php $date= mysql2mmddyy($from_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
 										<span class="start_date_error" style="color:red"></span>
 									</div>
 								</div>  
 								<div class="col-md-3"> 
 									<div class="form-group">
 										<label>To Date (MM/DD/YYYY)</label>
-										<input type="text" id="to_date" name="to_date" onchange="date_validation(this.value,'E')"  value="<?php $date= mysql2mmddyy($to_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<input type="text" id="to_date_agent" name="to_date" onchange="agent_date_validation(this.value,'E')"  value="<?php $date= mysql2mmddyy($to_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
 										<span class="end_date_error" style="color:red"></span>
 									</div> 
 								</div>
@@ -149,7 +149,7 @@
 										<td><?php echo $row['client_rvw_date']; ?></td>
 										<td>
 											<?php $mpid=$row['id']; ?>
-											<a class="btn btn-success" href="<?php echo base_url(); ?>qa_ajio/agent_ajio_rvw/<?php echo $mpid ?>/<?php echo $campaign ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
+											<a class="btn btn-success" href="<?php echo base_url(); ?>qa_ajio/agent_ajio_rvw/<?php echo $mpid ?>/<?php echo $campaign ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">View/Feedback</a>
 										</td>
 									</tr>
 									<?php endforeach; ?>
