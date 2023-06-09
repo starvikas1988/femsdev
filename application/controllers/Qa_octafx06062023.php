@@ -57,8 +57,7 @@
         $config['upload_path'] = $path;
 		//$config['allowed_types'] = '*';
 		//$config['detect_mime'] = FALSE;
-		//$config['allowed_types'] = 'mp3|avi|mp4|wmv|wav';
-		$config['allowed_types'] = 'mp3|m4a|mp4|wav';
+		$config['allowed_types'] = 'mp3|avi|mp4|wmv|wav';
 		$config['max_size'] = '2024000';
 		$this->load->library('upload', $config);
 		$this->upload->initialize($config);
@@ -765,7 +764,7 @@
 		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
 		$fopen = fopen($filename,"w+");
 
-		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Customer Id", "Call Duration", "Audit Week", "Conversion ACPT","Conversion ACPT Remarks","High AHT ACPT","High AHT ACPT Remarks","Call Reschedule ACPT","Call Reschedule ACPT Remarks", "Call Week", "AON", "Call Type", "Audit Type", "Auditor Type", "VOC", "Audit Start Date/Time", "Audit End Date/Time", "Interval(in sec)", "Earned Score", "Possible Score", "Overall Score",
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Customer Id", "Call Duration", "Audit Week", "ACPT", "Call Week", "AON", "Call Type", "Audit Type", "Auditor Type", "VOC", "Audit Start Date/Time", "Audit End Date/Time", "Interval(in sec)", "Earned Score", "Possible Score", "Overall Score",
 		"Preparation and Profile check on CRM","Preparation and Profile check on CRM - Reason",
 		"Complete Introduction","Complete Introduction -  Reason",
 		"Profiling to understand the clients background","Profiling to understand the client's background -  Reason",
@@ -794,7 +793,7 @@
 		  "	Client has verified the account on agents request","Client has verified the account on agents request - Reason",
 		  "Client has deposited on agents request","Client has deposited on agents request - Reason",
 		  "Client has deposited above KPI on agents request","Client has deposited above KPI on agents request - Reason",
-		"Audit Summary", "Audit Feedback", "Agent Review Date", "Agent Comment","Agent Feedback Acceptance", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
+		"Audit Summary", "Audit Feedback", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
 
 		$row = "";
 		foreach($header as $data) $row .= ''.$data.',';
@@ -823,12 +822,7 @@
 			$row .= '"'.$user['customer_id'].'",';
 			$row .= '"'.$user['call_duration'].'",';
 			$row .= '"'.$user['audit_week'].'",';
-			$row .= '"'.$user['conversion_acpt'].'",';
-			$row .= '"'.$user['conversion_acpt_remarks'].'",';
-			$row .= '"'.$user['high_aht_acpt'].'",';
-			$row .= '"'.$user['high_aht_acpt_remarks'].'",';
-			$row .= '"'.$user['call_reschedule_acpt'].'",';
-			$row .= '"'.$user['call_reschedule_remarks'].'",';
+			$row .= '"'.$user['acpt'].'",';
 			$row .= '"'.$user['call_week'].'",';
 			$row .= '"'.$user['tenuarity'].'",';
 			$row .= '"'.$user['call_type2'].'",';
@@ -902,7 +896,6 @@
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
 			$row .= '"'.$user['agent_rvw_date'].'",';
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
-			$row .= '"'.$user['agnt_fd_acpt'].'",';
 			$row .= '"'.$user['mgnt_rvw_date'].'",';
 			$row .= '"'.$user['mgnt_rvw_name'].'",';
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';

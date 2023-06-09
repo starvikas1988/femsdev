@@ -78,7 +78,7 @@
 										</td>
 										<td>Fusion ID:</td>
 										<td><input type="text" readonly class="form-control" id="fusion_id" name="" value="<?php echo $octafx_outbound['fusion_id'] ?>"></td>
-										<td>Supervisor:</td>
+										<td>L1 Supervisor:</td>
 										<td>
 										<input type="text" class="form-control" id="tl_names"  value="<?php echo $octafx_outbound['tl_name']; ?>" readonly>
 												<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $octafx_outbound['tl_id'] ?>" disabled>
@@ -102,6 +102,19 @@
 										<td>
 											<input type="text" class="form-control" id="audit_week" name="data[audit_week]" value="<?php echo $octafx_outbound['audit_week'] ?>" readonly>
 										</td>
+										<td>ACPT:</td>
+										<td>
+											<select class="form-control" name="data[acpt]" disabled>
+												<option value="">-Select-</option>
+												<option <?php echo $octafx_outbound['acpt']=='Agent'?"selected":""; ?> value="Agent">Agent</option>
+												<option <?php echo $octafx_outbound['acpt']=='Client'?"selected":""; ?> value="Client">Client</option>
+												<option <?php echo $octafx_outbound['acpt']=='Process'?"selected":""; ?> value="Process">Process</option>
+												<option <?php echo $octafx_outbound['acpt']=='Technology'?"selected":""; ?> value="Technology">Technology</option>
+											</select>
+										</td>
+									</tr>
+									
+									<tr>
 										<td>Call type:</td>
 										<td>
 											<select class="form-control" name="data[call_type2]" disabled>
@@ -110,9 +123,6 @@
 												<option <?php echo $octafx_outbound['call_type2']=='Follow up'?"selected":""; ?> value="Follow up">Follow up</option>
 											</select>
 										</td>
-									</tr>
-									
-									<tr>
 										<td>VOC:</td>
 										<td>
 											<select class="form-control" id="voc" name="data[voc]" disabled>
@@ -125,21 +135,18 @@
 												<option value="5">5</option>
 											</select>
 										</td>
-										<td>Call Id:</td>
-										<td><input type="text" class="form-control" name="data[call_id]" value="<?php echo $octafx_outbound['call_id'] ?>" disabled></td>
 										<td>Audit Type:</td>
 										<td>
 											<select class="form-control" id="audit_type" name="data[audit_type]" disabled>
-												<option value="CQ Audit" <?= ($octafx_outbound['audit_type']=="CQ Audit")?"selected":"" ?>>CQ Audit</option>
-                                                    <option value="BQ Audit" <?= ($octafx_outbound['audit_type']=="BQ Audit")?"selected":"" ?>>BQ Audit</option>
-                                                    <option value="Calibration" <?= ($octafx_outbound['audit_type']=="Calibration")?"selected":"" ?>>Calibration</option>
-                                                    <option value="Pre-Certificate Mock Call" <?= ($octafx_outbound['audit_type']=="Pre-Certificate Mock Call")?"selected":"" ?>>Pre-Certificate Mock Call</option>
-                                                    <option value="Certification Audit" <?= ($octafx_outbound['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
-                                                    <option value="WoW Call"  <?= ($octafx_outbound['audit_type']=="WoW Call")?"selected":"" ?>>WoW Call</option>
-                                                    <option value="Hygiene Audit"  <?= ($octafx_outbound['audit_type']=="Hygiene Audit")?"selected":"" ?>>Hygiene Audit</option>
-                                                    <option value="Operation Audit"  <?= ($octafx_outbound['audit_type']=="Operation Audit")?"selected":"" ?>>Operation Audit</option>
-                                                    <option value="Trainer Audit"  <?= ($octafx_outbound['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option> 
-											</select>
+												<option value="<?php echo $octafx_outbound['audit_type'] ?>"><?php echo $octafx_outbound['audit_type'] ?></option>
+												<option value="">-Select-</option>
+												<option value="CQ Audit">CQ Audit</option>
+												<option value="BQ Audit">BQ Audit</option>
+												<option value="Calibration">Calibration</option>
+												<option value="Pre-Certification Mock Call">Pre-Certification Mock Call</option>
+												<option value="Certification Audit">Certification Audit</option>
+												<option value="Operation Audit">Operation Audit</option>
+												<option value="Trainer Audit">Trainer Audit</option>
 											</select>
 										</td>
 									</tr>
@@ -154,45 +161,6 @@
 											</select>
 										</td>
 										
-									</tr>
-									<tr class="eml" style="height:25px; font-weight:bold">
-											<td colspan=2 class="eml"><p style="text-align:center">Conversion ACPT</p></td>
-											<td colspan=2 class="eml"><p style="text-align:center">High AHT ACPT</p></td>
-											<td colspan=2 class="eml"><p style="text-align:center">Call Reschedule ACPT</p></td>
-									</tr>
-									<tr>
-										<td>
-											<select class="form-control" name="data[conversion_acpt]" disabled>
-												<option value="">-Select-</option>
-												<option <?php echo $octafx_outbound['conversion_acpt']=='Agent'?"selected":""; ?> value="Agent">Agent</option>
-												<option <?php echo $octafx_outbound['conversion_acpt']=='Client'?"selected":""; ?> value="Client">Client</option>
-												<option <?php echo $octafx_outbound['conversion_acpt']=='Process'?"selected":""; ?> value="Process">Process</option>
-												<option <?php echo $octafx_outbound['conversion_acpt']=='Technology'?"selected":""; ?> value="Technology">Technology</option>
-											</select>
-										</td>
-										<td><input type="text" name="data[conversion_acpt_remarks]" class="form-control" disabled value="<?php echo $octafx_outbound['conversion_acpt_remarks'] ?>"></td>
-									
-										<td>
-											<select class="form-control" name="data[high_aht_acpt]" disabled>
-												<option value="">-Select-</option>
-												<option <?php echo $octafx_outbound['high_aht_acpt']=='Agent'?"selected":""; ?> value="Agent">Agent</option>
-												<option <?php echo $octafx_outbound['high_aht_acpt']=='Client'?"selected":""; ?> value="Client">Client</option>
-												<option <?php echo $octafx_outbound['high_aht_acpt']=='Process'?"selected":""; ?> value="Process">Process</option>
-												<option <?php echo $octafx_outbound['high_aht_acpt']=='Technology'?"selected":""; ?> value="Technology">Technology</option>
-											</select>
-										</td>
-										<td><input type="text" name="data[high_aht_acpt_remarks]" class="form-control" disabled value="<?php echo $octafx_outbound['high_aht_acpt_remarks'] ?>"></td>
-									
-										<td>
-											<select class="form-control" name="data[call_reschedule_acpt]" disabled>
-												<option value="">-Select-</option>
-												<option <?php echo $octafx_outbound['call_reschedule_acpt']=='Agent'?"selected":""; ?> value="Agent">Agent</option>
-												<option <?php echo $octafx_outbound['call_reschedule_acpt']=='Client'?"selected":""; ?> value="Client">Client</option>
-												<option <?php echo $octafx_outbound['call_reschedule_acpt']=='Process'?"selected":""; ?> value="Process">Process</option>
-												<option <?php echo $octafx_outbound['call_reschedule_acpt']=='Technology'?"selected":""; ?> value="Technology">Technology</option>
-											</select>
-										</td>
-										<td><input type="text" disabled name="data[call_reschedule_remarks]" class="form-control" value="<?php echo $octafx_outbound['call_reschedule_remarks'] ?>"></td>
 									</tr>
 									<tr>
 										<td style="font-weight:bold; font-size:16px">Earned Score:</td>
@@ -539,7 +507,7 @@
 												<select class="form-control octafx_outbound_point" name="data[verified_account]" disabled>
 													
 													<option octafx_val=10 octafx_max="10"<?php echo $octafx_outbound['verified_account'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
-													<option octafx_val=0 octafx_max="0" <?php echo $octafx_outbound['verified_account'] == "No" ? "selected" : ""; ?> value="No">No</option>
+													<option octafx_val=0 octafx_max="10" <?php echo $octafx_outbound['verified_account'] == "No" ? "selected" : ""; ?> value="No">No</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[verified_account_reason]" class="form-control" value="<?php echo $octafx_outbound['verified_account_reason'] ?>"></td>
@@ -551,7 +519,7 @@
 												<select class="form-control octafx_outbound_point" name="data[deposited_request]" disabled>
 													
 													<option octafx_val=10 octafx_max="10"<?php echo $octafx_outbound['deposited_request'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
-													<option octafx_val=0 octafx_max="0" <?php echo $octafx_outbound['deposited_request'] == "No" ? "selected" : ""; ?> value="No">No</option>
+													<option octafx_val=0 octafx_max="10" <?php echo $octafx_outbound['deposited_request'] == "No" ? "selected" : ""; ?> value="No">No</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[deposited_request_reason]" class="form-control" value="<?php echo $octafx_outbound['deposited_request_reason'] ?>"></td>
@@ -563,7 +531,7 @@
 												<select class="form-control octafx_outbound_point" name="data[deposited_KPI]" disabled>
 													
 													<option octafx_val=10 octafx_max="10"<?php echo $octafx_outbound['deposited_KPI'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
-													<option octafx_val=0 octafx_max="0" <?php echo $octafx_outbound['deposited_KPI'] == "No" ? "selected" : ""; ?> value="No">No</option>
+													<option octafx_val=0 octafx_max="10" <?php echo $octafx_outbound['deposited_KPI'] == "No" ? "selected" : ""; ?> value="No">No</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[deposited_KPI_reason]" class="form-control" value="<?php echo $octafx_outbound['deposited_KPI_reason'] ?>"></td>

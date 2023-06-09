@@ -541,13 +541,12 @@
 		$filename = "./assets/reports/Report".get_user_id().".csv";
 		$fopen = fopen($filename,"w+");
 	
-		 $header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent Name", "L1 Supervisor", "AHT RCA","Phone Number","Customer Name", "Call Date", "Call Duration", "Audit Type", "Auditor Type", "VOC","Possible Score", "Earned Score", "Overall Score",
+		 $header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent Name", "L1 Supervisor", "ACPT","Phone Number","Customer Name", "Call Date", "Call Duration", "Audit Type", "Auditor Type", "VOC","Possible Score", "Earned Score", "Overall Score",
 	"Identify himself/herself by first and last name at the beginning of the call? **SQ**",
     "Provide the Quality Assurance Statement verbatim before any specific account information was discussed?**SQ**",
 	"State My Quick Wallet with no deviation? **SQ**",
 	"Verify that he/she was speaking to a right party according to the client requirements (First and Last Name) and before providing the disclosures?",
 	"Verify two pieces of demographics information on an outbound call? Any two of: (1) Full Name (2) Date of Birth (3) Last four digits of SSN (4)Email Address ",
-	"Provide the Mini Miranda disclosure verbatim before any specific account information was discussed? **SQ**","Did the rep ask for callback permission as per Reg F policy?",
 	"State/Ask for balance due? (If required also inform the breakdown of principal finance fees & NSF Fees.)","Ask for intention to resolve the account?","Ask for the payment to the account?",
 	"Followed the previous conversations on the account for the follow-up call",
 	"Able to take a promise to pay on the account?",
@@ -684,7 +683,6 @@
 				$row .= '"'.$user['state_my_quick_wallet'].'",';
 				$row .= '"'.$user['speaking_right_party'].'",';
 				$row .= '"'.$user['demographics_information'].'",';
-				$row .= '"'.$user['disclosure_verbatim'].'",';
 				$row .= '"'.$user['callback_permission'].'",';
 				$row .= '"'.$user['balance_due'].'",';
 				$row .= '"'.$user['resolve_account'].'",';

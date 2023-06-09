@@ -2094,12 +2094,12 @@ $('INPUT[type="file"]').change(function () {
 		// }else{
 		// 	$('.ajio_inb_v2Fatal').val(quality_score_percent+'%');
 		// }
-		if($('.ajioAF1').val()=='Autofail' || $('.ajioAF2').val()=='Autofail' || $('.ajioAF3').val()=='Autofail' || $('.ajioAF4').val()=='Autofail' || $('.ajioAF5').val()=='Autofail' || $('.ajioAF6').val()=='Autofail' || $('.ajioAF7').val()=='Autofail' || $('.ajioAF8').val()=='Autofail'){
+		if($('.ajioAF1').val()=='Autofail' || $('.ajioAF2').val()=='Autofail' || $('.ajioAF3').val()=='Autofail' || $('.ajioAF4').val()=='Autofail' || $('.ajioAF5').val()=='Autofail' || $('.ajioAF6').val()=='Autofail' || $('.ajioAF7').val()=='Autofail' || $('.ajioAF8').val()=='Autofail' || $('.ajioAF9').val()=='Autofail'){
 			$('.ajio_inb_v2Fatal').val(0+'%');
 		}else{
 			$('.ajio_inb_v2Fatal').val(quality_score_percent+'%');
 		}
-		if($('#ajioAF1').val()=='Autofail' || $('#ajioAF2').val()=='Autofail' || $('#ajioAF3').val()=='Autofail' || $('#ajioAF4').val()=='Autofail' || $('#ajioAF5').val()=='Autofail' || $('#ajioAF6').val()=='Autofail' || $('#ajioAF7').val()=='Autofail' || $('#ajioAF8').val()=='Autofail'){
+		if($('#ajioAF1').val()=='Autofail' || $('#ajioAF2').val()=='Autofail' || $('#ajioAF3').val()=='Autofail' || $('#ajioAF4').val()=='Autofail' || $('#ajioAF5').val()=='Autofail' || $('#ajioAF6').val()=='Autofail' || $('#ajioAF7').val()=='Autofail' || $('#ajioAF8').val()=='Autofail' || $('#ajioAF9').val()=='Autofail'){
 			$('.ajio_email_v2Fatal').val(0+'%');
 		}else{
 			$('.ajio_email_v2Fatal').val(quality_score_percent+'%');
@@ -2537,7 +2537,13 @@ $('INPUT[type="file"]').change(function () {
 	});
 
 	$('#ajioAF4_inb_v2').on('change', function(){
-		if($(this).val()=='No'){
+		if($(this).val()=='Autofail'){
+			var sub_infractions = '<option value="Authentication not done when required">Authentication not done when required</option>';
+			sub_infractions += '<option value="Authentication done when not required">Authentication done when not required</option>';
+			sub_infractions += '<option value="Information shared when authentication failed">Information shared when authentication failed</option>';
+			sub_infractions += '<option value="Information denied even clearing authentication">Information denied even clearing authentication</option>';
+			$("#AF4_inb_v2").html(sub_infractions);
+		}else if($(this).val()=='No'){
 			var sub_infractions = '<option value="Authentication not done when required">Authentication not done when required</option>';
 			sub_infractions += '<option value="Authentication done when not required">Authentication done when not required</option>';
 			sub_infractions += '<option value="Information shared when authentication failed">Information shared when authentication failed</option>';

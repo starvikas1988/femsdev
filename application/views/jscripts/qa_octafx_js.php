@@ -30,7 +30,7 @@
 $(document).ready(function(){
 	
 	$("#audit_date").datepicker();
-	$("#call_date").datepicker();
+	$("#call_date").datepicker({maxDate: new Date()});
 	$("#chat_date").datepicker();
 	$("#mail_action_date").datepicker();
 	$("#tat_replied_date").datepicker();
@@ -38,8 +38,10 @@ $(document).ready(function(){
 	$("#week_end_date").datepicker();
 	$("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });
 	$("#call_date_time").datetimepicker();
-	$("#from_date").datepicker();
-	$("#to_date").datepicker();
+	// $("#from_date").datepicker();
+	// $("#to_date").datepicker();
+	$("#from_date").datepicker({maxDate: new Date() });
+	$("#to_date").datepicker({maxDate: new Date() });
 	
 	$(".agentName").select2();
 	
@@ -375,8 +377,8 @@ $(document).ready(function(){
 				var json_obj = $.parseJSON(aList);
 				console.log(json_obj[0]);
 				for (var i in json_obj){
-					//console.log(json_obj[i].tenure);
-					$('#tenure').append($('#tenure').val(json_obj[i].tenure+' Days')); 
+					console.log(json_obj[i].tenure);
+					$('#tenuarity').append($('#tenuarity').val(json_obj[i].tenure+' Days')); 
 				} 
 				//$('#tenure').append($('#tenure').val(json_obj[0].tenure+' Days')); 
 				

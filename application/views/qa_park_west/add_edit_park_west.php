@@ -115,7 +115,7 @@
 											</td>
 											<td>Fusion ID:<span style="font-size:24px;color:red">*</span></td>
 											<td><input type="text" class="form-control" id="fusion_id" required value="<?php echo $park_west_data['fusion_id'] ?>" readonly></td>
-											<td> L1 Supervisor:<span style="font-size:24px;color:red">*</span></td>
+											<td> Supervisor:<span style="font-size:24px;color:red">*</span></td>
 											<td colspan="2">
 													<!-- <select class="form-control" id="tl_id" name="data[tl_id]" readonly>
 													<?php 

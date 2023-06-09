@@ -194,6 +194,11 @@ class Qa_avon extends CI_Controller {
 
                     $field_array1 = $this->input->post( 'data' );
                     $field_array1['call_date'] = mmddyy2mysql( $this->input->post( 'call_date' ) );
+                    if(!file_exists("./qa_files/qa_avon")){
+                        mkdir("./qa_files/qa_avon");
+                    }
+                    $a = $this->avon_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_avon/' );
+                    $field_array1['attach_file'] = implode( ',', $a );
                     $this->db->where( 'id', $avon_id );
                     $this->db->update( 'qa_avon_feedback', $field_array1 );
                     /////////////
@@ -1005,7 +1010,7 @@ class Qa_avon extends CI_Controller {
                 // }elseif($campaign=="scorecard"){
                 //     $this->create_qa_avon_scorecard_CSV($fullAray);
                 // }
-                $dn_link = base_url()."qa_avon/download_qa_avon_CSV/$campaign";
+                $dn_link = base_url()."qa_avon/download_qa_avon_CSV";
 			}
 			
 			$data['download_link']=$dn_link;
@@ -1017,6 +1022,15 @@ class Qa_avon extends CI_Controller {
 			$this->load->view('dashboard',$data);
 		}
 	}
+	
+	
+	public function download_qa_avon_CSV(){
+		$currDate=date("Y-m-d");
+		$filename = "./assets/reports/Report".get_user_id().".csv";
+		$newfile="QA Avon ".$campaign." Audit List-'".$currDate."'.csv";
+		header('Content-Disposition: attachment;  filename="'.$newfile.'"');
+		readfile($filename);
+	}
 
     public function create_qa_avon_CSV($rr){
         $currDate=date("Y-m-d");
@@ -1027,8 +1041,7 @@ class Qa_avon extends CI_Controller {
         $main_url =  $currentURL.''.$controller.'/'.$edit_url;
         $fopen = fopen($filename,"w+");
 
-        $header=array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Supervisor", "Call Date", "Digital/Non Digital", "Week", "Audit Type", "Auditor Type", "VOC","Audit Link",
-        "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Earned Score", "Possible Score", "Overall Score","Lob",
+        $header=array("Auditor Name", "Audit Date", "Agent Name", "Employee ID", "TL Name", "Transaction Date", "AHT", "Call Type", "Week", "Audit Type", "Auditor Type", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Earned Score", "Possible Score", "Overall Score", "LOB/Channel",
         "Used Suggested Opening Spiel", "SLA", "Used Suggested Closing Spiel", "Additional Assistance", "Spiel Adherance", "Did the agent use proper script", "Did the agent acknowledge the issue of the customer?",
         "Did the agent provide empathy statement?(when necessary)",
         "Did the agent provide assurance to help the customer?",
@@ -1051,8 +1064,7 @@ class Qa_avon extends CI_Controller {
         "Use proper disposition and tagging",
         "Did the agent resolved the concerns within the interactions?",
         "Did the agent used first response?",
-        "Remarks1","Remarks2", "Remarks3", "Remarks4", "Remarks5", "Remarks6", "Remarks7", "Remarks8", "Remarks9", "Remarks10", "Remarks11","Remarks12","Remarks13","Remarks14","Remarks15","Remarks16","Remarks17","Remarks18","Remarks19","Remarks20","Remarks21","Remarks22","Remarks23","Remarks24","Remarks25","Remarks26","Remarks27","Remarks28", "Call Summary", "Feedback", "Agent Feedback Acceptance",
-        "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
+        "Remarks1","Remarks2", "Remarks3", "Remarks4", "Remarks5", "Remarks6", "Remarks7", "Remarks8", "Remarks9", "Remarks10", "Remarks11","Remarks12","Remarks13","Remarks14","Remarks15","Remarks16","Remarks17","Remarks18","Remarks19","Remarks20","Remarks21","Remarks22","Remarks23","Remarks24","Remarks25","Remarks26","Remarks27","Remarks28", "Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date/Time", "Agent Comment", "Mgnt Review Date/Time","Mgnt Review By", "Mgnt Comment", "Client Review Date/Time", "Client Review Name", "Client Review Note");
 
         $row = "";
         foreach($header as $data) $row .= ''.$data.',';
@@ -1073,7 +1085,8 @@ class Qa_avon extends CI_Controller {
             $row .= '"'.$user['fusion_id'].'",';
             $row .= '"'.$user['tl_name'].'",';
             $row .= '"'.$user['call_date'].'",';
-            $row .= '"'.$user['digital_non_digital'].'",';
+            $row .= '"'.$user['call_duration'].'",';
+            $row .= '"'.$user['call_type'].'",';
             $row .= '"'.$user['week'].'",';
             $row .= '"'.$user['audit_type'].'",';
             $row .= '"'.$user['auditor_type'].'",';
@@ -1806,13 +1819,6 @@ class Qa_avon extends CI_Controller {
 		
 	}
 
-    public function download_qa_avon_CSV($campaign){
-		$currDate=date("Y-m-d");
-		$filename = "./assets/reports/Report".get_user_id().".csv";
-		$newfile="QA Avon ".$campaign." Audit List-'".$currDate."'.csv";
-		header('Content-Disposition: attachment;  filename="'.$newfile.'"');
-		readfile($filename);
-	}
 
     //Get Agent Details
     public function getTLname(){

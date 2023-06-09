@@ -1064,13 +1064,12 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td><textarea class="form-control" name="data[l2_reason11]"><?php echo $ajio_inb_v2['l2_reason11'] ?></textarea></td>
 									</tr>
 									<tr>
-										<td  style="">Call/Interaction was authenticated wherever required</td>
+										<td  style="color:red">Call/Interaction was authenticated wherever required</td>
 										<td>
-											<select class="form-control ajio" id="ajioAF4_inb_v2" name="data[call_was_authenticated]" required>
+											<select class="form-control ajio fatal ajioAF9" id="ajioAF4_inb_v2" name="data[call_was_authenticated]" required>
 												<option ajio_val=5 ajio_max=5 <?php echo $ajio_inb_v2['call_was_authenticated'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option ajio_val=0 ajio_max=5 <?php echo $ajio_inb_v2['call_was_authenticated'] == "No"?"selected":"";?> value="No">No</option>
-												<!-- <option ajio_val=5 ajio_max=5 <?php //echo $ajio_inb_v2['call_was_authenticated'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
-												<option ajio_val=0 ajio_max=5 <?php //echo $ajio_inb_v2['call_was_authenticated'] == "Autofail"?"selected":"";?> value="Autofail">Autofail</option> -->
+												<option ajio_val=0 ajio_max=5 <?php echo $ajio_inb_v2['call_was_authenticated'] == "Autofail"?"selected":"";?> value="Autofail">Autofail</option>
 											</select>
 										</td>
 										<td>5</td>
