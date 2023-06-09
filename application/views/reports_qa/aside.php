@@ -39,14 +39,14 @@
 
 <!-- APP ASIDE ==========-->
 <aside id="app-aside" class="app-aside left light">
-	<header class="aside-header">
+	<!--<header class="aside-header">
 		<div class="animated">
 			<a href="<?php echo base_url()?>home" id="app-brand" class="app-brand">
 				<span id="brand-icon" class="brand-icon"></span>
-				<span id="brand-name" class="brand-icon foldable"><img src="<?php echo base_url() ?>assets/images/fusion-bpo.png" border="0" alt="Fusion BPO"></span>
+				<span id="brand-name" class="brand-icon foldable"><?=get_logo()?></span>
 			</a>
 		</div>
-	</header><!-- #sidebar-header -->
+	</header>--><!-- #sidebar-header -->
 	<div style="padding:20px 0; clear:both;"></div>
 	<div class="aside-scroll">
 		<div id="aside-scroll-inner" class="aside-scroll-inner">
@@ -97,6 +97,12 @@
 								<a href="<?php echo base_url()?>qa_belmont/qa_belmont_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Belmont</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_argel/qa_argel_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">ARGEL</span>
 								</a>
 							</li>
 							<li class="menu-item">
@@ -527,6 +533,12 @@
 								<a href="<?php echo base_url()?>Qa_park_west/qa_park_west_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Park West</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>Qa_epgi/qa_epgi_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">EPGI</span>
 								</a>
 							</li>
 							<li class="menu-item">
@@ -1282,7 +1294,7 @@
 							</li>
 
 							<li class="menu-item">
-								<a href="<?php echo base_url()?>reports_qa/qa_unacademy_report" class="menu-link">
+								<a href="<?php echo base_url()?>qa_unacademy/qa_unacademy_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Unacademy</span>
 								</a>
