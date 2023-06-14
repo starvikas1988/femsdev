@@ -155,16 +155,15 @@
 										<td>Audit Type:<span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="audit_type" name="data[audit_type]" required>
-												<option value="">-Select-</option>
 												 <option value="CQ Audit" <?= ($octafx_outbound['audit_type']=="CQ Audit")?"selected":"" ?>>CQ Audit</option>
-                                                    <option value="BQ Audit" <?= ($octafx_outbound['audit_type']=="BQ Audit")?"selected":"" ?>>BQ Audit</option>
+                                                    <!--<option value="BQ Audit" <?= ($octafx_outbound['audit_type']=="BQ Audit")?"selected":"" ?>>BQ Audit</option>
                                                     <option value="Calibration" <?= ($octafx_outbound['audit_type']=="Calibration")?"selected":"" ?>>Calibration</option>
                                                     <option value="Pre-Certificate Mock Call" <?= ($octafx_outbound['audit_type']=="Pre-Certificate Mock Call")?"selected":"" ?>>Pre-Certificate Mock Call</option>
                                                     <option value="Certification Audit" <?= ($octafx_outbound['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
                                                     <option value="WoW Call"  <?= ($octafx_outbound['audit_type']=="WoW Call")?"selected":"" ?>>WoW Call</option>
                                                     <option value="Hygiene Audit"  <?= ($octafx_outbound['audit_type']=="Hygiene Audit")?"selected":"" ?>>Hygiene Audit</option>
                                                     <option value="Operation Audit"  <?= ($octafx_outbound['audit_type']=="Operation Audit")?"selected":"" ?>>Operation Audit</option>
-                                                    <option value="Trainer Audit"  <?= ($octafx_outbound['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option> 
+                                                    <option value="Trainer Audit"  <?= ($octafx_outbound['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option>-->
 											</select>
 										</td>
 										</tr>
@@ -192,6 +191,7 @@
 												<option <?php echo $octafx_outbound['conversion_acpt']=='Client'?"selected":""; ?> value="Client">Client</option>
 												<option <?php echo $octafx_outbound['conversion_acpt']=='Process'?"selected":""; ?> value="Process">Process</option>
 												<option <?php echo $octafx_outbound['conversion_acpt']=='Technology'?"selected":""; ?> value="Technology">Technology</option>
+												<option <?php echo $octafx_outbound['conversion_acpt']=='NA'?"selected":""; ?> value="NA">NA</option>
 											</select>
 										</td>
 										<td><input type="text" name="data[conversion_acpt_remarks]" class="form-control" value="<?php echo $octafx_outbound['conversion_acpt_remarks'] ?>"></td>
@@ -203,6 +203,7 @@
 												<option <?php echo $octafx_outbound['high_aht_acpt']=='Client'?"selected":""; ?> value="Client">Client</option>
 												<option <?php echo $octafx_outbound['high_aht_acpt']=='Process'?"selected":""; ?> value="Process">Process</option>
 												<option <?php echo $octafx_outbound['high_aht_acpt']=='Technology'?"selected":""; ?> value="Technology">Technology</option>
+												<option <?php echo $octafx_outbound['high_aht_acpt']=='NA'?"selected":""; ?> value="NA">NA</option>
 											</select>
 										</td>
 										<td><input type="text" name="data[high_aht_acpt_remarks]" class="form-control" value="<?php echo $octafx_outbound['high_aht_acpt_remarks'] ?>"></td>
@@ -214,6 +215,7 @@
 												<option <?php echo $octafx_outbound['call_reschedule_acpt']=='Client'?"selected":""; ?> value="Client">Client</option>
 												<option <?php echo $octafx_outbound['call_reschedule_acpt']=='Process'?"selected":""; ?> value="Process">Process</option>
 												<option <?php echo $octafx_outbound['call_reschedule_acpt']=='Technology'?"selected":""; ?> value="Technology">Technology</option>
+												<option <?php echo $octafx_outbound['call_reschedule_acpt']=='NA'?"selected":""; ?> value="NA">NA</option>
 											</select>
 										</td>
 										<td><input type="text" name="data[call_reschedule_remarks]" class="form-control" value="<?php echo $octafx_outbound['call_reschedule_remarks'] ?>"></td>
@@ -244,7 +246,7 @@
 														
 														<option octafx_val=5 octafx_max="5"<?php echo $octafx_outbound['preparation_profile_check'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 														<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['preparation_profile_check'] == "No" ? "selected" : ""; ?> value="No">No</option>
-														<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['preparation_profile_check'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+														<option octafx_val=5 octafx_max="5" <?php echo $octafx_outbound['preparation_profile_check'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 													</select>
 												</td>
 												<td colspan=2><input type="text" name="data[preparation_profile_check_reason]" class="form-control" value="<?php echo $octafx_outbound['preparation_profile_check_reason'] ?>"></td>
@@ -270,7 +272,7 @@
 													
 													<option octafx_val=5 octafx_max="5"<?php echo $octafx_outbound['profiling_background'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['profiling_background'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['profiling_background'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option octafx_val=5 octafx_max="5" <?php echo $octafx_outbound['profiling_background'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[profiling_background_reason]" class="form-control" value="<?php echo $octafx_outbound['profiling_background_reason'] ?>"></td>
@@ -284,7 +286,7 @@
 													
 													<option octafx_val=5 octafx_max="5"<?php echo $octafx_outbound['proper_explation'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['proper_explation'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['proper_explation'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option octafx_val=5 octafx_max="5" <?php echo $octafx_outbound['proper_explation'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[proper_explation_reason]" class="form-control" value="<?php echo $octafx_outbound['proper_explation_reason'] ?>"></td>
@@ -297,7 +299,7 @@
 													
 													<option octafx_val=5 octafx_max="5"<?php echo $octafx_outbound['skillfully_driving'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['skillfully_driving'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['skillfully_driving'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option octafx_val=5 octafx_max="5" <?php echo $octafx_outbound['skillfully_driving'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[skillfully_driving_reason]" class="form-control" value="<?php echo $octafx_outbound['skillfully_driving_reason'] ?>"></td>
@@ -310,7 +312,7 @@
 													
 													<option octafx_val=5 octafx_max="5"<?php echo $octafx_outbound['objection_handle'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['objection_handle'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['objection_handle'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option octafx_val=5 octafx_max="5" <?php echo $octafx_outbound['objection_handle'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[objection_handle_reason]" class="form-control" value="<?php echo $octafx_outbound['objection_handle_reason'] ?>"></td>
@@ -323,7 +325,7 @@
 													
 													<option octafx_val=5 octafx_max="5"<?php echo $octafx_outbound['proper_probing'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['proper_probing'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['proper_probing'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option octafx_val=5 octafx_max="5" <?php echo $octafx_outbound['proper_probing'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[proper_probing_reason]" class="form-control" value="<?php echo $octafx_outbound['proper_probing_reason'] ?>"></td>
@@ -336,7 +338,7 @@
 													
 													<option octafx_val=5 octafx_max="5"<?php echo $octafx_outbound['build_two_way_communication'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['build_two_way_communication'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['build_two_way_communication'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option octafx_val=5 octafx_max="5" <?php echo $octafx_outbound['build_two_way_communication'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[build_two_way_communication_reason]" class="form-control" value="<?php echo $octafx_outbound['build_two_way_communication_reason'] ?>"></td>
@@ -349,7 +351,7 @@
 													
 													<option octafx_val=5 octafx_max="5"<?php echo $octafx_outbound['urgency_creation'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['urgency_creation'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['urgency_creation'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option octafx_val=5 octafx_max="5" <?php echo $octafx_outbound['urgency_creation'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[urgency_creation_reason]" class="form-control" value="<?php echo $octafx_outbound['urgency_creation_reason'] ?>"></td>
@@ -362,7 +364,7 @@
 													
 													<option octafx_val=5 octafx_max="5"<?php echo $octafx_outbound['rebuttal_used'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['rebuttal_used'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['rebuttal_used'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option octafx_val=5 octafx_max="5" <?php echo $octafx_outbound['rebuttal_used'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[rebuttal_used_reason]" class="form-control" value="<?php echo $octafx_outbound['rebuttal_used_reason'] ?>"></td>
@@ -375,7 +377,7 @@
 													
 													<option octafx_val=5 octafx_max="5"<?php echo $octafx_outbound['proper_guidance'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['proper_guidance'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['proper_guidance'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option octafx_val=5 octafx_max="5" <?php echo $octafx_outbound['proper_guidance'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[proper_guidance_reason]" class="form-control" value="<?php echo $octafx_outbound['proper_guidance_reason'] ?>"></td>
@@ -388,7 +390,7 @@
 													
 													<option octafx_val=5 octafx_max="5"<?php echo $octafx_outbound['call_back'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['call_back'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option octafx_val=0 octafx_max="5" <?php echo $octafx_outbound['call_back'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option octafx_val=5 octafx_max="5" <?php echo $octafx_outbound['call_back'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[call_back_reason]" class="form-control" value="<?php echo $octafx_outbound['call_back_reason'] ?>"></td>
@@ -415,7 +417,7 @@
 													
 													<option octafx_val=3 octafx_max="3"<?php echo $octafx_outbound['email_call_scenario'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option octafx_val=0 octafx_max="3" <?php echo $octafx_outbound['email_call_scenario'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													 <option octafx_val=0 octafx_max="3" <?php echo $octafx_outbound['email_call_scenario'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option> 
+													 <option octafx_val=3 octafx_max="3" <?php echo $octafx_outbound['email_call_scenario'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option> 
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[email_call_scenario_reason]" class="form-control" value="<?php echo $octafx_outbound['email_call_scenario_reason'] ?>"></td>
@@ -428,7 +430,7 @@
 													
 													<option octafx_val=3 octafx_max="3"<?php echo $octafx_outbound['call_rescheduled'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option octafx_val=0 octafx_max="3" <?php echo $octafx_outbound['call_rescheduled'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													 <option octafx_val=0 octafx_max="3" <?php echo $octafx_outbound['call_rescheduled'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option> 
+													 <option octafx_val=3 octafx_max="3" <?php echo $octafx_outbound['call_rescheduled'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option> 
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[call_rescheduled_reason]" class="form-control" value="<?php echo $octafx_outbound['call_rescheduled_reason'] ?>"></td>

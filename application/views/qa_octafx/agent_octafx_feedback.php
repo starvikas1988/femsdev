@@ -105,7 +105,7 @@
 											$attach_file = explode(",",$row['attach_file']);
 											foreach($attach_file as $mp){ 
 										?>	
-											<audio controls='' style="width:120px; height:25px; background-color:#607F93"> 
+											<audio oncontextmenu="return false;" controls controlslist="nodownload" style="width:120px; height:25px; background-color:#607F93"> 
 											  <source src="<?php echo base_url(); ?>qa_files/octafx/<?php echo $mp; ?>" type="audio/ogg">
 											  <source src="<?php echo base_url(); ?>qa_files/octafx/<?php echo $mp; ?>" type="audio/mpeg">
 											</audio>
@@ -207,7 +207,7 @@
 											$attach_file = explode(",",$row['attach_file']);
 											foreach($attach_file as $mp){ 
 										?>	
-											<audio controls='' style="width:120px; height:25px; background-color:#607F93"> 
+											<audio oncontextmenu="return false;" controls controlslist="nodownload" style="width:120px; height:25px; background-color:#607F93"> 
 											  <source src="<?php echo base_url(); ?>qa_files/octafx/<?php echo $mp; ?>" type="audio/ogg">
 											  <source src="<?php echo base_url(); ?>qa_files/octafx/<?php echo $mp; ?>" type="audio/mpeg">
 											</audio>

@@ -61,24 +61,7 @@ $(document).ready(function(){
 	});
 	
 /////////////////////////////////////////////////////////////////////
-	/* $('.call_dipo').hide();
-	$('#call_type1').on('change', function(){
-		if($(this).val()=='Successful Deposit Call'){
-			$('.call_dipo').show();
-			$('.client_disposit_during_call').attr('required',true);
-			$('.client_disposit_during_call_kpi').attr('required',true);
-			$('.client_disposit_during_call_kpi_reason').attr('required',true);
-			$('.client_upload_document').attr('required',true);
-			$('.client_upload_document_reason').attr('required',true);
-		}else{
-			$('.call_dipo').hide();
-			$('.client_disposit_during_call').attr('required',false);
-			$('.client_disposit_during_call_kpi').attr('required',false);
-			$('.client_disposit_during_call_kpi_reason').attr('required',false);
-			$('.client_upload_document').attr('required',false);
-			$('.client_upload_document_reason').attr('required',false);
-		}
-	}); */
+	
 
 
 
@@ -701,9 +684,9 @@ $('INPUT[type="file"]').change(function () {
 			}else if(score_type == 'N/A'){
 				na_count = na_count + 1;
 				var w1 = parseInt($(element).children("option:selected").attr('octafx_val'));
-				//var w2 = parseFloat($(element).children("option:selected").attr('phs_max'));
+				var w2 = parseInt($(element).children("option:selected").attr('octafx_max'));
 				score = score + w1;
-				//scoreable = scoreable + w2;
+				scoreable = scoreable + w2;
 			}
 		});
 		//tot_score = ((earn*100)/possible).toFixed(2);

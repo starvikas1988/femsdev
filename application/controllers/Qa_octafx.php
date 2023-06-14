@@ -630,9 +630,12 @@
 
 	public function download_qa_octafx_feedback_CSV()
 	{
+		//die("okk");
 		$currDate=date("Y-m-d");
 		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+		
 		$newfile="QA OctaFX Audit List-'".$currDate."'.csv";
+	
 		header('Content-Disposition: attachment;  filename="'.$newfile.'"');
 		readfile($filename);
 	}
@@ -753,7 +756,7 @@
 	public function download_qa_octafx_outbound_feedback_CSV()
 	{
 		$currDate=date("Y-m-d");
-		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+		$filename = "./qa_files/octafx/Report".get_user_id().".csv";
 		$newfile="QA OctaFX Outbound Audit List-'".$currDate."'.csv";
 		header('Content-Disposition: attachment;  filename="'.$newfile.'"');
 		readfile($filename);
@@ -762,10 +765,10 @@
 	////////////////////////////////////////////////////
 	public function create_qa_octafx_outbound_feedback_CSV($rr)
 	{
-		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+		$filename = "./qa_files/octafx/Report".get_user_id().".csv";
 		$fopen = fopen($filename,"w+");
 
-		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Customer Id", "Call Duration", "Audit Week", "Conversion ACPT","Conversion ACPT Remarks","High AHT ACPT","High AHT ACPT Remarks","Call Reschedule ACPT","Call Reschedule ACPT Remarks", "Call Week", "AON", "Call Type", "Audit Type", "Auditor Type", "VOC", "Audit Start Date/Time", "Audit End Date/Time", "Interval(in sec)", "Earned Score", "Possible Score", "Overall Score",
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "Supervisor", "Call Date", "Customer Id", "Call Duration", "Audit Week", "Conversion ACPT","Conversion ACPT Remarks","High AHT ACPT","High AHT ACPT Remarks","Call Reschedule ACPT","Call Reschedule ACPT Remarks", "Call Week", "AON", "Call Type", "Audit Type","Call Id", "VOC", "Audit Start Date/Time", "Audit End Date/Time", "Interval(in sec)", "Earned Score", "Possible Score", "Overall Score",
 		"Preparation and Profile check on CRM","Preparation and Profile check on CRM - Reason",
 		"Complete Introduction","Complete Introduction -  Reason",
 		"Profiling to understand the clients background","Profiling to understand the client's background -  Reason",
@@ -833,7 +836,7 @@
 			$row .= '"'.$user['tenuarity'].'",';
 			$row .= '"'.$user['call_type2'].'",';
 			$row .= '"'.$user['audit_type'].'",';
-			$row .= '"'.$user['auditor_type'].'",';
+			$row .= '"'.$user['call_id'].'",';
 			$row .= '"'.$user['voc'].'",';
 			$row .= '"'.$user['audit_start_time'].'",';
 			$row .= '"'.$user['entry_date'].'",';

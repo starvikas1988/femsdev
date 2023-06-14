@@ -26,7 +26,7 @@
 							<div class="col-md-3">
 								<div class="form-group">
 									<label>Search Date To -(mm/dd/yyyy)</label>
-									<input type="text" id="to_date" name="date_to" onchange="date_validation(this.value,'E')"       value="<?php $date= mysql2mmddyy($date_to); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+									<input type="text" id="to_date" name="date_to" onchange="date_validation(this.value,'E')"  value="<?php $date= mysql2mmddyy($date_to); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
 										<span class="end_date_error" style="color:red"></span>
 								</div>
 							</div>
@@ -35,8 +35,8 @@
 									<label> Select Campaign</label>
 									<select class="form-control" id="campaign" name="campaign" required>
 										<option value=''>Select</option>
-										<option <?php echo $campaign=='octafx'?"selected":""; ?> value="1">Octafx </option>
-										<option <?php echo $campaign=='octafx_outbound'?"selected":""; ?> value="2">Octafx Outbound </option>
+										<option <?php echo $campaign=='octafx'?"selected":""; ?> value="octafx">Octafx </option>
+										<option <?php echo $campaign=='octafx_outbound'?"selected":""; ?> value="octafx_outbound">Octafx Outbound </option>
 									</select>
 								</div>
 							</div> 

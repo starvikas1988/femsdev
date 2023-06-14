@@ -113,14 +113,14 @@ $(document).ready(function(){
 <?php if(get_login_type() == "client"){ ?>
 
 	<aside id="app-aside" class="app-aside left light">
-	<header class="aside-header">
+	<!--<header class="aside-header">
 		<div class="animated">
-			<a href="<?php echo base_url()?>home" id="app-brand" class="app-brand">
+			<a href="<?php //echo base_url()?>home" id="app-brand" class="app-brand">
 				<span id="brand-icon" class="brand-icon"></span>
-				<span id="brand-name" class="brand-icon foldable"><img src="<?php echo base_url() ?>assets/images/fusion-bpo.png" border="0" alt="Fusion BPO"></span>
+				<span id="brand-name" class="brand-icon foldable"><?=get_logo()?></span>
 			</a>
 		</div>
-	</header><!-- #sidebar-header -->
+	</header>--><!-- #sidebar-header -->
 	<div style="padding:20px 0; clear:both;"></div>
 	<div class="aside-scroll">
 		<div id="aside-scroll-inner" class="aside-scroll-inner">
@@ -296,14 +296,14 @@ $(document).ready(function(){
 <?php }else{ ?>
 
 <aside id="app-aside" class="app-aside left light">
-	<header class="aside-header">
+	<!--<header class="aside-header">
 		<div class="animated">
-			<a href="<?php echo base_url()?>home" id="app-brand" class="app-brand">
+			<a href="<?php //echo base_url()?>home" id="app-brand" class="app-brand">
 				<span id="brand-icon" class="brand-icon"></span>
-				<span id="brand-name" class="brand-icon foldable"><img src="<?php echo base_url() ?>assets/images/fusion-bpo.png" border="0" alt="Fusion BPO"></span>
+				<span id="brand-name" class="brand-icon foldable"><img src="<?php //echo base_url() ?>assets/images/fusion-bpo.png" border="0" alt="Fusion BPO"></span>
 			</a>
 		</div>
-	</header><!-- #sidebar-header -->
+	</header>--><!-- #sidebar-header -->
 	<div style="padding:20px 0; clear:both;"></div>
 	<div class="aside-scroll">
 		<div id="aside-scroll-inner" class="aside-scroll-inner">
@@ -1007,6 +1007,12 @@ $(document).ready(function(){
 							<a href="<?php echo base_url('Qa_park_west')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 								<span class="">Park West</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_epgi')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">EPGI</span>
 							</a>
 						</li>
 						<li class="menu-item">
@@ -1781,6 +1787,12 @@ $(document).ready(function(){
 							</a>
 						</li>
 						<li class="menu-item">
+							<a href="<?php echo base_url('qa_argel/qa_feedback')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">ARGEL</span>
+							</a>
+						</li>
+						<li class="menu-item">
 							<a href="<?php echo base_url('Qa_att/fiberconnect')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 								<span class="">ATT Fiberconnect</span>
@@ -2156,14 +2168,14 @@ $(document).ready(function(){
 								<li>
 									<a style="padding-left:50px" href="<?php echo base_url('Qa_service'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
-										<span class="">Service</span>
+										<span class="">CarParts-Service</span>
 									</a>
 								</li>
 
 								<li>
 									<a style="padding-left:50px" href="<?php echo base_url('Qa_sales_carpart'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
-										<span class="">SALES</span>
+										<span class="">CarParts-SALES</span>
 									</a>
 								</li>
 
@@ -2648,6 +2660,18 @@ $(document).ready(function(){
 							<a href="<?php echo base_url('Qa_cholamandlam')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 								<span class="">Cholamandlam</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a style="padding-left:50px" href="<?php echo base_url('Qa_unacademy'); ?>">
+								<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+								<span class="">Unacademy</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a style="padding-left:50px" href="<?php echo base_url('Qa_oyo_sig/qaoyo_management_sorting_feedback'); ?>">
+								<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+								<span class="">SIG</span>
 							</a>
 						</li>
 					</ul>
