@@ -17,6 +17,7 @@
 									else if($pValue=='Cavalry') $pval='[Cavalry]';
 									else if($pValue=='CPTA') $pval='[CPTA]';
 									else if($pValue=='VRS New') $pval='[VRS New]';
+									else if($pValue=='VRS_Right_Party_V2') $pval='[VRS Right Party V2]';
 									else if($pValue=='VRS Thirdparty') $pval='[VRS Thirdparty]';
 									else $pval='';
 									
@@ -36,13 +37,18 @@
 							<div class="col-md-3">
 								<div class="form-group">
 									<label>Search Date From - Audit Date (mm/dd/yyyy)</label>
-									<input type="text" id="from_date" name="date_from" value="<?php echo mysql2mmddyy($date_from); ?>" class="form-control" required autocomplete="off">
+									<!-- <input type="text" id="from_date" name="date_from" value="<?php echo mysql2mmddyy($date_from); ?>" class="form-control" required autocomplete="off"> -->
+
+									<input type="text" id="from_date" name="date_from" onchange="date_validation(this.value,'S')" value="<?php $date= mysql2mmddyy($date_from); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="start_date_error" style="color:red"></span>
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="form-group">
 									<label>Search Date To - Audit Date (mm/dd/yyyy)</label>
-									<input type="text" id="to_date" name="date_to" value="<?php echo mysql2mmddyy($date_to); ?>" class="form-control" required autocomplete="off">
+									<!-- <input type="text" id="to_date" name="date_to" value="<?php echo mysql2mmddyy($date_to); ?>" class="form-control" required autocomplete="off"> -->
+									<input type="text" id="to_date" name="date_to" onchange="date_validation(this.value,'E')"       value="<?php $date= mysql2mmddyy($date_to); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="end_date_error" style="color:red"></span>
 								</div>
 							</div>
 							<!--<div class="col-md-3">
@@ -93,7 +99,10 @@
 										<option value='VRS New' <?php echo $cScc; ?>>VRS New</option>
 										<?php $cScc='';
 										if($pValue=='VRS Thirdparty') $cScc='Selected'; ?>										
-										<option value='VRS Thirdparty' <?php echo $cScc; ?>>VRS Thirdparty</option>										
+										<option value='VRS Thirdparty' <?php echo $cScc; ?>>VRS Thirdparty</option>	
+										<?php $cScc='';
+										if($pValue=='VRS_Right_Party_V2') $cScc='Selected'; ?>										
+										<option value='VRS_Right_Party_V2' <?php echo $cScc; ?>>VRS Right Party V2</option>									
 									</select>
 								</div>
 							</div>
@@ -150,6 +159,18 @@
 										<th>QA Type</th>
 										<th>Total Score</th>
 										
+									<?php }else if($pValue=='VRS_Right_Party_V2'){ ?>
+									
+										<th>SL</th>
+										<th>Agent Name</th>
+										<th>Fusion ID</th>
+										<th>TL Name</th>
+										<th>Audit Date</th>
+										<th>Auditor</th>
+										<th>Client Name</th>
+										<th>QA Type</th>
+										<th>Total Score</th>
+										
 									<?php }else{ ?>
 									
 										<th>SL</th>
@@ -178,6 +199,18 @@
 											<td><?php echo $row['no_transfer']; ?></td>
 										
 										<?php }else if($pValue=='VRS New'){ ?>
+											
+											<td><?php echo $i++; ?></td>
+											<td><?php echo $row['fusion_id']; ?></td>
+											<td><?php echo $row['fname']." ".$row['lname']; ?></td>
+											<td><?php echo $row['tl_name']; ?></td>
+											<td><?php echo $row['audit_date']; ?></td>
+											<td><?php echo $row['auditor_name']; ?></td>
+											<td><?php echo $row['c_name']; ?></td>
+											<td><?php echo $row['qa_type']; ?></td>
+											<td><?php echo $row['overall_score']; ?></td>
+											
+										<?php }else if($pValue=='VRS_Right_Party_V2'){ ?>
 											
 											<td><?php echo $i++; ?></td>
 											<td><?php echo $row['fusion_id']; ?></td>

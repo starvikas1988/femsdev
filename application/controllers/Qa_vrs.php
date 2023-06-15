@@ -218,8 +218,9 @@
 
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_vrs/add_edit_right_party_v2.php";
-			$data["content_js"] = "qa_universal_js.php";
-			//$data["content_js"] = "qa_avon_js.php";
+			//$data["content_js"] = "qa_universal_js.php";
+			//$data["content_js"] = "qa_vrs_right_party_v2_js.php";
+			$data["content_js"] = "qa_vrs_2_js.php";
 			$data['right_party_v2_id']=$right_party_v2_id;
 			$tl_mgnt_cond='';
 
@@ -236,9 +237,9 @@
 			// $data["agentName"] = $this->Qa_vrs_model->get_agent_id(18,71,30,88);
 
 			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and (is_assign_client (id,18) or is_assign_client (id,30)) and (is_assign_process (id,30) or is_assign_process (id,88)) and status=1  order by name";
-
-			 $query = $this->db->query($qSql);
-			 $data['agentName'] = $query->result_array();	
+			$data['agentName'] = $this->Common_model->get_query_result_array($qSql);
+			// $query = $this->db->query($qSql);
+			 //$data['agentName'] = $query->result_array();	
 
 	          //$data['agentName'] = $this->Common_model->get_query_result_array($qSql);
 
@@ -1520,6 +1521,7 @@
 			
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_vrs/agent_vrs_feedback.php";
+			$data["content_js"] = "qa_vrs_2_js.php";
 			$data["agentUrl"] = "qa_vrs/agent_vrs_feedback";
 			
 			
@@ -1559,6 +1561,14 @@
 			
 			$qSql="Select count(id) as value from qa_vrs_thirdparty_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit') and agent_rvw_date is Null";
 			$data["yet_vrs_thirdparty"] =  $this->Common_model->get_single_value($qSql);
+
+			////////////////////vikas//////////////////////////
+
+			$qSql="Select count(id) as value from qa_vrs_right_party_v2_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
+			$data["tot_feedback_vrs_right_party_v2"] =  $this->Common_model->get_single_value($qSql);
+
+			$qSql="Select count(id) as value from qa_vrs_right_party_v2_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
+			$data["yet_rvw_vrs_right_party_v2"] =  $this->Common_model->get_single_value($qSql);
 
 			$from_date = '';
 			$to_date = '';
@@ -1603,6 +1613,16 @@
 				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_vrs_feedback $cond and agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as campaign from signin) yy on (xx.agent_id=yy.sid)";
 				$data["vrs_new_rvw_list"] = $this->Common_model->get_query_result_array($qSql);
+
+				//////////////vikas//////////////////////
+
+				$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_vrs_right_party_v2_feedback $cond and agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as campaign from signin) yy on (xx.agent_id=yy.sid)";
+				$data["vrs_right_party_v2_rvw_list"] = $this->Common_model->get_query_result_array($qSql);
 					
 			}else{	
 				
@@ -1632,14 +1652,60 @@
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
 				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_vrs_thirdparty_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as campaign from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
-				$data["vrs_thirdparty"] = $this->Common_model->get_query_result_array($qSql);	
-			
+				$data["vrs_thirdparty"] = $this->Common_model->get_query_result_array($qSql);
+
+				//////////////vikas/////////////////////	
+				$qSql="SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_vrs_right_party_v2_feedback where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as campaign from signin) yy on (xx.agent_id=yy.sid) ";
+				//Where xx.agent_rvw_date is Null
+				$data["vrs_right_party_v2_rvw_list"] = $this->Common_model->get_query_result_array($qSql);
 			}
 			
 			$data["from_date"] = $from_date;
 			$data["to_date"] = $to_date;
 			
 			$this->load->view('dashboard',$data);
+		}
+	}
+
+	///////////////VRS RIGHT PARTY V2/////////////////////
+
+	public function agent_vrs_right_party_v2_feedback_rvw($id){
+		if(check_logged_in()){
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_vrs/agent_vrs_right_party_v2_feedback_rvw.php";
+			$data["content_js"] = "qa_vrs_2_js.php";
+			$data["agentUrl"] = "qa_vrs/agent_vrs_feedback";
+			$data["right_party_v2_id"]=$id;	
+			
+			$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name,agent_rvw_note as agent_note,mgnt_rvw_note as mgnt_note from qa_vrs_right_party_v2_feedback where id=$id) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
+			$data["right_party_v2_data"] = $this->Common_model->get_query_row_array($qSql);
+			
+			if($this->input->post('right_party_v2_id'))
+			{
+				$right_party_v2_id=$this->input->post('right_party_v2_id');
+				$curDateTime=CurrMySqlDate();
+				$log=get_logs();
+				
+				$field_array=array(
+					"agnt_fd_acpt" => $this->input->post('agnt_fd_acpt'),
+					"agent_rvw_note" => $this->input->post('note'),
+					"agent_rvw_date" => $curDateTime
+				);
+				$this->db->where('id', $right_party_v2_id);
+				$this->db->update('qa_vrs_right_party_v2_feedback',$field_array);
+				redirect('Qa_vrs/agent_vrs_feedback');
+				
+			}else{
+				$this->load->view('dashboard',$data);
+			}
 		}
 	}
 	
@@ -1911,11 +1977,19 @@
 	
 	
 //////////////////////////////////////////////////////////////////////////////
+	// public function getTLname(){
+	// 	if(check_logged_in()){
+	// 		$aid=$this->input->post('aid');
+	// 		$qSql = "Select id, assigned_to, office_id, fusion_id, get_process_names(id) as process_name, doj FROM signin where id = '$aid'";
+	// 			//echo $qSql;
+	// 		echo json_encode($this->Common_model->get_query_result_array($qSql));
+	// 	}
+	// }
+
 	public function getTLname(){
 		if(check_logged_in()){
 			$aid=$this->input->post('aid');
-			$qSql = "Select id, assigned_to, office_id, fusion_id, get_process_names(id) as process_name, doj FROM signin where id = '$aid'";
-				//echo $qSql;
+			$qSql = "Select id, assigned_to, fusion_id, get_process_names(id) as process_name,doj, office_id, (select concat(fname, ' ', lname) from signin tl where tl.id=signin.assigned_to) as tl_name FROM signin where id = '$aid'";
 			echo json_encode($this->Common_model->get_query_result_array($qSql));
 		}
 	}
