@@ -69,8 +69,8 @@
 											<td>Auditor Name:</td>
 											<td><input type="text" class="form-control" value="<?= $auditorName; ?>" disabled></td>
 											<td>Audit Date:</td>
-											<td colspan="2"><input type="text" class="form-control" value="<?= CurrDateTimeMDY() ?>" disabled></td>
-											<td>Transaction Date:<span style="font-size:24px;color:red">*</span></td>
+											<td colspan="2"><input type="text" class="form-control" value="<?= CurrDateMDY() ?>" disabled></td>
+											<td>Call Date:<span style="font-size:24px;color:red">*</span></td>
 											<td>
 												<input type="text" id="call_date" name="call_date"  onkeydown="return false;" value="<?php echo $clDate_val; ?>" max="<?php echo date("Y-m-d"); ?>" class="form-control" required>
 											</td>
@@ -109,7 +109,7 @@
 											<td>
 												<input type="text" id="call_id" name="data[call_id]"  value="<?php echo $epgi_data['call_id']; ?>" class="form-control" required>
 											</td>
-											<td>AHT:<span style="font-size:24px;color:red">*</span></td>
+											<td>Call Duration:<span style="font-size:24px;color:red">*</span></td>
 											<td colspan="2"><input type="text" class="form-control" onkeydown="return false;" id="call_duration" name="data[call_duration]" value="<?php echo $epgi_data['call_duration']?>" required></td>
 											<td>Call Type:<span style="font-size:24px;color:red">*</span></td>
 											<td>
@@ -173,6 +173,9 @@
 											</td>
 											<td>Site:<span style="font-size:24px;color:red">*</span></td>
 											<td><input type="text" class="form-control" id="site" name="data[site]" value="<?php echo $epgi_data['site'] ?>" readonly></td>
+											<td>Phone Number:<span style="font-size:24px;color:red">*</span></td>
+											<td><input type="text" class="form-control" id="phone" name="data[phone]" onkeyup="checkDec(this);" value="<?php echo $epgi_data['phone'] ?>" required>
+											<span id="start_phone" style="color:red"></span></td>
 											
 										</tr>
 										
@@ -516,7 +519,7 @@
 													<option epgi_val=3 <?php echo $epgi_data['thanked_caller'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
 													<option epgi_val=1 <?php echo $epgi_data['thanked_caller'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
 													<option epgi_val=0 <?php echo $epgi_data['thanked_caller'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
-													<option epgi_val=2 <?php echo $epgi_data['thanked_caller'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option epgi_val=3 <?php echo $epgi_data['thanked_caller'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt22]" class="form-control" value="<?php echo $epgi_data['cmt22'] ?>"></td>

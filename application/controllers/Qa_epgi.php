@@ -354,7 +354,7 @@ class Qa_epgi extends CI_Controller
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////// QA Norther REPORT ////////////////////////////////
+	////////////////////////////////////// QA EPGI REPORT ////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////
 
 	public function qa_epgi_report(){
@@ -471,7 +471,7 @@ class Qa_epgi extends CI_Controller
 		$filename = "./assets/reports/Report".get_user_id().".csv";
 		$fopen = fopen($filename,"w+");
 	
-		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent Name", "L1 Supervisor", "ACPT","Call Type","Call Id","Site", "Call Date", "Call Duration", "Audit Type", "Auditor Type", "VOC","Possible Score", "Earned Score", "Overall Score","Compliance Score","Customer Score","Business Score",
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent Name", "L1 Supervisor", "ACPT","Call Type","Call Id","Site", "Call Date", "Call Duration", "Audit Type", "Auditor Type", "VOC","Phone Number","Possible Score", "Earned Score", "Overall Score","Compliance Score","Customer Score","Business Score",
 			"The appropriate greeting was used (inbound/outbound)",
 			"The appropriate greeting was used (inbound/outbound) - Remarks",
 			"Identifying the company (inbound/outbound)",
@@ -516,7 +516,7 @@ class Qa_epgi extends CI_Controller
 			"Call ended on a positive note with a summary/verification of actions and date of appointment(s) - Remarks",
 			"Thanked the caller for his/her time and branded the call",
 			"Thanked the caller for his/her time and branded the call - Remarks",
-		    "Call Summary/Observation","Audit Start date and  Time ", "Audit End Date and  Time","Interval (in sec)",  "Feedback", "Agent Review Date/Time", "Agent Comment", "Mgnt Review Date/Time","Mgnt Review By", "Mgnt Comment","Client Review Name","Client Review Note","Client Review Date and Time");
+		    "Call Summary/Observation","Audit Start date and  Time ", "Audit End Date and  Time","Interval (in sec)","Feedback","Agent Feedback Acceptance", "Agent Review Date/Time", "Agent Comment", "Mgnt Review Date/Time","Mgnt Review By", "Mgnt Comment","Client Review Name","Client Review Note","Client Review Date and Time");
 
 		
 
@@ -546,6 +546,7 @@ class Qa_epgi extends CI_Controller
 				$row .= '"'.$user['audit_type'].'",';
 				$row .= '"'.$user['auditor_type'].'",';
 				$row .= '"'.$user['voc'].'",';
+				$row .= '"'.$user['phone'].'",';
 				$row .= '"'.$user['possible_score'].'",';
 				$row .= '"'.$user['earned_score'].'",';
 				$row .= '"'.$user['overall_score'].'",';
@@ -602,6 +603,7 @@ class Qa_epgi extends CI_Controller
 			    $row .= '"'.$user['entry_date'].'",';
 			    $row .= '"'.$interval1.'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+				$row .= '"'.$user['agnt_fd_acpt'].'",';
 				$row .= '"'.$user['agent_rvw_date'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
 				$row .= '"'.$user['mgnt_rvw_date'].'",';
