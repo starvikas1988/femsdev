@@ -55,7 +55,7 @@
 								<tbody>
 
 									<tr style="background-color:#AEB6BF">
-										<td colspan="6" id="theader" style="font-size:40px; text-align:center!important; ">PARK WEST AGENT FORM</td>
+										<td colspan="6" id="theader" style="font-size:40px; text-align:center!important; ">VRS Right Party V2 AGENT FORM</td>
 										<!-- <td colspan="6" id="theader" style="font-size:30px"><img src="<?php //echo base_url(); ?>main_img/vrs.png"></td> -->
 										<input type="hidden" name="audit_start_time" value="<?php echo CurrMySqlDate(); ?>">
 									</tr>
@@ -76,7 +76,7 @@
 									</tr>
 									<tr>
 										<td>Agent:</td>
-										<td colspan=2>
+										<td>
 											
 											<select class="form-control" id="agent_id" name="data[agent_id]" disabled>
 													<?php 
@@ -106,10 +106,10 @@
 													<?php endforeach; ?>
 												</select>
 										</td>
-										<!--<td>Fusion ID:</td>
-										<td><input type="text" class="form-control" id="fusion_id" disabled></td> -->
+										<td>Employee ID:</td>
+											<td><input type="text" class="form-control" id="fusion_id" required value="<?php echo $right_party_v2_data['fusion_id'] ?>" readonly></td>
 										<td>L1 Supervisor:</td>
-										<td colspan=2>
+										<td>
 											<input type="text" class="form-control" id="tl_name"  value="<?php echo $right_party_v2_data['tl_name'] ?>" readonly>
 												<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $right_party_v2_data['tl_id'] ?>" >
 										</td>

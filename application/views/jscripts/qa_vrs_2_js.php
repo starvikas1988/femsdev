@@ -600,7 +600,7 @@ $(document).ready(function(){
 					compliance_score = compliance_score + weightage4;
 				}
 			});
-			//total_compliance_score = parseInt(compliance_score);
+			total_compliance_score = parseFloat(compliance_score.toFixed(2));
 			$('#totalCompliance').val(compliance_score.toFixed(2));
 			//console.log(total_compliance_score);
 			
@@ -650,10 +650,17 @@ $(document).ready(function(){
 					softskill_score = softskill_score + weightage9;
 				}
 			});
-		 //console.log(softskill_score);
-		 //total_softskill_score= parseInt(softskill_score);
-			//$('#totalSoftskill').val(total_softskill_score);
-			$('#totalSoftskill').val(softskill_score.toFixed(2));
+		
+
+			$('#totalSoftskill').val((softskill_score).toFixed(2));
+
+			// if(softskill_score <= 0){
+			// 	//console.log(softskill_score);
+			// 	$('#totalSoftskill').val((softskill_score).toFixed(2));
+			// }else{
+			// 	$('#totalSoftskill').val((softskill_score -0.01).toFixed(2));
+			// }
+			
 			///////////////////////////
 			$('.closing_score').each(function(index,element){
 				var score_type7 = $(element).val();
@@ -686,9 +693,12 @@ $(document).ready(function(){
 				$('#totalDocument').val(document_score.toFixed(2));
 			}
 		 /////////////////////
-			overallScr = parseInt((opening_score+effort_score+negotiation_score+compliance_score+pscript_score+callcontrol_score+softskill_score+closing_score+document_score));
+			// overallScr = parseFloat((opening_score+effort_score+negotiation_score+compliance_score+pscript_score+callcontrol_score+softskill_score+closing_score+document_score));
+
+			overallScr = parseFloat((opening_score+effort_score+negotiation_score+(compliance_score-0.04)+pscript_score+callcontrol_score+(softskill_score-0.01)+closing_score+document_score));
 			if(!isNaN(overallScr)){
-				$('#right_party_v2_overall_score').val(overallScr+'%');
+				//$('#right_party_v2_overall_score').val(overallScr+'%');
+				$('#right_party_v2_overall_score').val(overallScr.toFixed(2)+'%');
 			}
 			
 			if($('#o_fatal1').val()=='No' || $('#o_fatal2').val()=='No' || $('#o_fatal3').val()=='No' || $('#o_fatal4').val()=='No' || $('#o_fatal5').val()=='No' || $('#o_fatal6').val()=='No' || $('#o_fatal7').val()=='No' || $('#c_fatal1').val()=='No' || $('#c_fatal2').val()=='No' || $('#c_fatal3').val()=='No' || $('#c_fatal4').val()=='No' || $('#c_fatal5').val()=='No' || $('#c_fatal6').val()=='No' || $('#c_fatal7').val()=='No' || $('#c_fatal8').val()=='No' || $('#c_fatal9').val()=='No' || $('#c_fatal10').val()=='No' || $('#c_fatal11').val()=='No' || $('#c_fatal12').val()=='No' || $('#c_fatal13').val()=='No' || $('#c_fatal14').val()=='No' || $('#c_fatal15').val()=='No' || $('#c_fatal16').val()=='No' || $('#ps_fatal1').val()=='No' || $('#ps_fatal2').val()=='No' || $('#d_fatal1').val()=='No' || $('#d_fatal2').val()=='No' || $('#d_fatal3').val()=='No' || $('#d_fatal4').val()=='No' || $('#d_fatal5').val()=='No')
@@ -697,7 +707,8 @@ $(document).ready(function(){
 			}
 			else
 			{
-				$('#right_party_v2_overall_score').val(overallScr+'%');
+				//$('#right_party_v2_overall_score').val(overallScr+'%');
+				$('#right_party_v2_overall_score').val(overallScr.toFixed(2)+'%');
 			}
 			
 		 /////////////////////	
@@ -766,13 +777,13 @@ $(document).ready(function(){
 					compliance_score = compliance_score + weightage4;
 				}
 			});
-			total_compliance_score = parseInt(compliance_score);
+			total_compliance_score = parseFloat(compliance_score.toFixed(2));
 			//console.log(total_compliance_score);
 			
 			if($('#c_fatal1').val()=='No' || $('#c_fatal2').val()=='No' || $('#c_fatal3').val()=='No' || $('#c_fatal4').val()=='No' || $('#c_fatal5').val()=='No' || $('#c_fatal6').val()=='No' || $('#c_fatal7').val()=='No' || $('#c_fatal8').val()=='No' || $('#c_fatal9').val()=='No' || $('#c_fatal10').val()=='No' || $('#c_fatal11').val()=='No' || $('#c_fatal12').val()=='No' || $('#c_fatal13').val()=='No' || $('#c_fatal14').val()=='No' || $('#c_fatal15').val()=='No' || $('#c_fatal16').val()=='No'){
 				$('#totalCompliance').val(0);	
 			}else{
-				$('#totalCompliance').val(total_compliance_score);
+				$('#totalCompliance').val(total_compliance_score.toFixed(2));
 			}
 		 ////////
 			$('.pscript_score').each(function(index,element){
@@ -816,8 +827,9 @@ $(document).ready(function(){
 				}
 			});
 		 //console.log(softskill_score);
-		 total_softskill_score= parseInt(softskill_score);
-			$('#totalSoftskill').val(total_softskill_score);
+		    total_softskill_score= parseFloat(softskill_score);
+			//$('#totalSoftskill').val(total_softskill_score);
+			$('#totalSoftskill').val(total_softskill_score.toFixed(2));
 			///////////////////////////
 			$('.closing_score').each(function(index,element){
 				var score_type7 = $(element).val();
@@ -850,9 +862,22 @@ $(document).ready(function(){
 				$('#totalDocument').val(document_score.toFixed(2));
 			}
 		 /////////////////////
-			overallScr = parseInt((opening_score+effort_score+negotiation_score+compliance_score+pscript_score+callcontrol_score+softskill_score+closing_score+document_score));
+			overallScr = parseFloat((opening_score+effort_score+negotiation_score+(compliance_score-0.04)+pscript_score+callcontrol_score+(softskill_score-0.01)+closing_score+document_score));
+
+			// console.log(opening_score);
+			// console.log(effort_score);
+			// console.log(negotiation_score);
+			// console.log(compliance_score);
+			// console.log(pscript_score);
+			// console.log(callcontrol_score);
+			// console.log(softskill_score);
+			// console.log(closing_score);
+			// console.log(document_score);
+			// console.log(overallScr);
+
 			if(!isNaN(overallScr)){
-				$('#right_party_v2_overall_score').val(overallScr+'%');
+				//$('#right_party_v2_overall_score').val(overallScr+'%');
+				$('#right_party_v2_overall_score').val(overallScr.toFixed(2)+'%');
 			}
 			
 			if($('#o_fatal1').val()=='No' || $('#o_fatal2').val()=='No' || $('#o_fatal3').val()=='No' || $('#o_fatal4').val()=='No' || $('#o_fatal5').val()=='No' || $('#o_fatal6').val()=='No' || $('#o_fatal7').val()=='No' || $('#c_fatal1').val()=='No' || $('#c_fatal2').val()=='No' || $('#c_fatal3').val()=='No' || $('#c_fatal4').val()=='No' || $('#c_fatal5').val()=='No' || $('#c_fatal6').val()=='No' || $('#c_fatal7').val()=='No' || $('#c_fatal8').val()=='No' || $('#c_fatal9').val()=='No' || $('#c_fatal10').val()=='No' || $('#c_fatal11').val()=='No' || $('#c_fatal12').val()=='No' || $('#c_fatal13').val()=='No' || $('#c_fatal14').val()=='No' || $('#c_fatal15').val()=='No' || $('#c_fatal16').val()=='No' || $('#ps_fatal1').val()=='No' || $('#ps_fatal2').val()=='No' || $('#d_fatal1').val()=='No' || $('#d_fatal2').val()=='No' || $('#d_fatal3').val()=='No' || $('#d_fatal4').val()=='No' || $('#d_fatal5').val()=='No')
@@ -861,7 +886,8 @@ $(document).ready(function(){
 			}
 			else
 			{
-				$('#right_party_v2_overall_score').val(overallScr+'%');
+				//$('#right_party_v2_overall_score').val(overallScr+'%');
+				$('#right_party_v2_overall_score').val(overallScr.toFixed(2)+'%');
 			}
 			
 		 /////////////////////	
@@ -1679,14 +1705,14 @@ $('INPUT[type="file"]').change(function () {
 </script>
 
  
- <script>
+<!--  <script>
 	function checkDec(el){
 		var ex = /^[0-9]+\.?[0-9]*$/;
 		if(ex.test(el.value)==false){
 			el.value = el.value.substring(0,el.value.length - 1);
 		}
 	}
- </script>
+ </script> -->
  
  
  

@@ -98,11 +98,11 @@
 										<td><input type="text" class="form-control" value="<?php echo CurrDateMDY(); ?>" disabled></td>
 										<td>Mobile No.:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" id="phone" name="data[phone]" onkeyup="checkDec(this);" value="<?php echo $right_party_v2_data['phone'] ?>" required>
-										<span id="start_phone" style="color:red"></span></td>
+											<span id="start_phone" style="color:red"></span></td>
 									</tr>
 									<tr>
 										<td>Agent:<span style="font-size:24px;color:red">*</span></td>
-										<td colspan=2>
+										<td>
 											
 											<select class="form-control" id="agent_id" name="data[agent_id]" required>
 													<?php 
@@ -132,10 +132,10 @@
 													<?php endforeach; ?>
 												</select>
 										</td>
-										<!--<td>Fusion ID:</td>
-										<td><input type="text" class="form-control" id="fusion_id" disabled></td> -->
+										<td>Employee ID:</td>
+											<td><input type="text" class="form-control" id="fusion_id" required value="<?php echo $right_party_v2_data['fusion_id'] ?>" readonly></td>
 										<td>L1 Supervisor:<span style="font-size:24px;color:red">*</span></td>
-										<td colspan=2>
+										<td>
 											<input type="text" class="form-control" id="tl_name"  value="<?php echo $right_party_v2_data['tl_name'] ?>" readonly>
 												<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $right_party_v2_data['tl_id'] ?>" >
 										</td>
@@ -149,7 +149,7 @@
 												<input type="text" id="call_date" name="call_date"  onkeydown="return false;" value="<?php echo $clDate_val; ?>" max="<?php echo date("Y-m-d"); ?>" class="form-control" required>
 										</td>
 										<td>Contact Duration:<span style="font-size:24px;color:red">*</span></td>
-										<td><input type="text" class="form-control" id="contact_duration" name="data[call_duration]" value="<?php echo $right_party_v2_data['call_duration']; ?>" required></td>
+										<td><input type="text" class="form-control" id="contact_duration" onkeydown="return false;" name="data[call_duration]" value="<?php echo $right_party_v2_data['call_duration']; ?>" required></td>
 									</tr>
 									<tr>
 										<td>ACPT<span style="font-size:24px;color:red">*</span></td>

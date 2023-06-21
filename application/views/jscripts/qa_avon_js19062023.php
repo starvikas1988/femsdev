@@ -1166,10 +1166,7 @@ $('INPUT[type="file"]').change(function () {
 			}else if(score_type_park == 'N/A'){
 				na_count_park = na_count_park + 1;
 				let w1_park = parseFloat($(element).children("option:selected").attr('park_west_val'));
-				let w2_park = parseFloat($(element).children("option:selected").attr('park_west_max'));
-				
 				score_park = score_park + w1_park;
-				scoreable_park = scoreable_park + w2_park;
 			}
 		});
 		quality_score_percent_park = ((score_park*100)/scoreable_park).toFixed(2);

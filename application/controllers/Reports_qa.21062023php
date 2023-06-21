@@ -9488,7 +9488,7 @@ public function awarenessHeader(){
 	{
 		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
 		$fopen = fopen($filename,"w+");
-		$header = array("Auditor Name", "Audit Date", "Phone", "Employee ID", "Agent Name", "L1 Super", "Client Name", "Contact Date", "Contact Duration", "VSI Account", "ACPT", "ACPT Option", "ACPT Others", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "QA Type", "Call ID", "Overall Score",
+		$header = array("Auditor Name", "Audit Date", "Phone", "Fusion ID", "Agent Name", "L1 Super", "Client Name", "Contact Date", "Contact Duration", "VSI Account", "ACPT", "ACPT Option", "ACPT Others", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "QA Type", "Call ID", "Overall Score",
 		 "Identify himself/herself by first and last name at the beginning of the call?",
 		 "Provide the Quality Assurance Statement verbatim before any specific account information was discussed?**SQ** Recording disclosure: All calls are recorded and may be monitored for Quality Assurance.",
 		  "State VRS with no deviation?**SQ**",
@@ -9554,7 +9554,7 @@ public function awarenessHeader(){
 		         "Change the status of the account if appropriate?**SQ**",
 		         "Escalate the account to a supervisor for handling if appropriate?",
 		 "Opening Score", "Effort Score","Negotiation Score", "Compliance Score", "Payment Script Score", "Call Control Score","Soft Skills / Telephone Etiquettes Score", "Closing Score", "Documentation Score",
-		  "Call Summary", "Feedback","Agent Feedback Acceptance","Agent Review Date/Time", "Agent Comment", "Mgnt Review Date/Time","Mgnt Review By", "Mgnt Comment","Client Review Date/Time", "Client Review Name", "Client Review Note");
+		  "Call Summary", "Feedback", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
 
 		$row = "";
 		foreach($header as $data) $row .= ''.$data.',';
@@ -9669,15 +9669,11 @@ public function awarenessHeader(){
 
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
-			$row .= '"'.$user['agnt_fd_acpt'].'",';
 			$row .= '"'.$user['agent_rvw_date'].'",';
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
 			$row .= '"'.$user['mgnt_rvw_date'].'",';
 			$row .= '"'.$user['mgnt_rvw_name'].'",';
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'"';
-			$row .= '"'.$user['client_rvw_date'].'",';
-			$row .= '"'.$user['client_rvw_name'].'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
 
 			fwrite($fopen,$row."\r\n");
 		}

@@ -513,10 +513,16 @@ $(document).ready(function(){
 						</li>
 						<!-- Parameter Dashboard -->
 						<!-- Edited By Samrat 21-Oct-22 -->
-						<li class="menu-item">
+						<!-- <li class="menu-item">
 							<a href="<?php echo base_url('Parameter_wise_dashboard')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-shield-check zmdi-hc-lg"></i></span>
 								<span class="">Parameter Dashboard</span>
+							</a>
+						</li> -->
+						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_acceptance_new/acceptance_dashboard')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-shield-check zmdi-hc-lg"></i></span>
+								<span class="">Acceptance Dashboard</span>
 							</a>
 						</li>
 					</ul>
@@ -1013,6 +1019,12 @@ $(document).ready(function(){
 							<a href="<?php echo base_url('Qa_epgi')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 								<span class="">EPGI</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_ayming')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">AYMING</span>
 							</a>
 						</li>
 						<li class="menu-item">
@@ -1790,6 +1802,12 @@ $(document).ready(function(){
 							<a href="<?php echo base_url('qa_argel/qa_feedback')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 								<span class="">ARGEL</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('qa_ossur/qa_feedback')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Ossur</span>
 							</a>
 						</li>
 						<li class="menu-item">
