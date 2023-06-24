@@ -123,7 +123,7 @@
 												<input type="text" id="call_date" name="call_date"  onkeydown="return false;" value="<?php echo $right_party_v2_data['call_date']; ?>" max="<?php echo date("Y-m-d"); ?>" class="form-control" disabled>
 										</td>
 										<td>Contact Duration:</td>
-										<td><input type="text" class="form-control" id="contact_duration" name="data[call_duration]" value="<?php echo $right_party_v2_data['call_duration']; ?>" disabled></td>
+										<td><input type="text" class="form-control" id="call_duration" name="data[call_duration]" value="<?php echo $right_party_v2_data['call_duration']; ?>" disabled></td>
 									</tr>
 									<tr>
 										<td>ACPT</td>

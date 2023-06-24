@@ -37,7 +37,7 @@
 
 </style>
 
-<?php if ($ayming_id!= 0) {
+<?php if ($ayming_id != 0) {
 	if (is_access_qa_edit_feedback() == false) { ?>
 		<style>
 			.form-control {
@@ -112,7 +112,7 @@
 											</td>
 											<td>Employee ID:</td>
 											<td colspan="2"><input type="text" class="form-control" id="fusion_id" required value="<?php echo $ayming_data['fusion_id'] ?>" readonly></td>
-											<td> TL Name:<span style="font-size:24px;color:red">*</span></td>
+											<td> L1 Supervisor:<span style="font-size:24px;color:red">*</span></td>
 											<td>
 												<input type="text" class="form-control" id="tl_name" required value="<?php echo $ayming_data['tl_name'] ?>" readonly>
 												<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $ayming_data['tl_id'] ?>" required>
@@ -168,6 +168,9 @@
                                                     <option value="Certification Audit" <?= ($ayming_data['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
                                                     <option value="Operation Audit" <?= ($ayming_data['audit_type']=="Operation Audit")?"selected":"" ?>>Operation Audit</option>
                                                     <option value="Trainer Audit"  <?= ($ayming_data['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option>
+                                                    <option value="WOW Call" <?= ($ayming_data['audit_type']=="WOW Call")?"selected":"" ?>>WOW Call</option>
+                                                    <option value="Hygiene Audit" <?= ($ayming_data['audit_type']=="Hygiene Audit")?"selected":"" ?>>Hygiene Audit</option>
+                                                    <option value="QA Supervisor Audit" <?= ($ayming_data['audit_type']=="QA Supervisor Audit")?"selected":"" ?>>QA Supervisor Audit</option>
                                                 </select>
 											</td>
 										</tr>
@@ -210,9 +213,9 @@
 											<td>
 												<select class="form-control ayming_point business" name="data[appropriate_greeting]" required>
 													
-													<option ayming_val=10 ayming_max=10<?php echo $ayming_data['appropriate_greeting'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
-													<option ayming_val=0 ayming_max=10<?php echo $ayming_data['appropriate_greeting'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option ayming_val=10 ayming_max=10<?php echo $ayming_data['appropriate_greeting'] == "NA" ? "selected" : ""; ?> value="NA">NA</option>
+													<option ayming_val=10 ayming_max=10 <?php echo $ayming_data['appropriate_greeting'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
+													<option ayming_val=0 ayming_max=10 <?php echo $ayming_data['appropriate_greeting'] == "No" ? "selected" : ""; ?> value="No">No</option>
+													<option ayming_val=10 ayming_max=10 <?php echo $ayming_data['appropriate_greeting'] == "NA" ? "selected" : ""; ?> value="NA">NA</option>
 												</select>
 											</td>
 											
@@ -225,9 +228,9 @@
 											<td>
 												<select class="form-control ayming_point customer" name="data[overtalk_prospect]" required>
 													
-													<option ayming_val=7 ayming_max=7<?php echo $ayming_data['overtalk_prospect'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
-													<option ayming_val=0 ayming_max=7<?php echo $ayming_data['overtalk_prospect'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option ayming_val=7 ayming_max=7<?php echo $ayming_data['overtalk_prospect'] == "NA" ? "selected" : ""; ?> value="NA">NA</option>
+													<option ayming_val=7 ayming_max=7 <?php echo $ayming_data['overtalk_prospect'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
+													<option ayming_val=0 ayming_max=7 <?php echo $ayming_data['overtalk_prospect'] == "No" ? "selected" : ""; ?> value="No">No</option>
+													<option ayming_val=7 ayming_max=7 <?php echo $ayming_data['overtalk_prospect'] == "NA" ? "selected" : ""; ?> value="NA">NA</option>
 												</select>
 											</td>
 										
@@ -238,9 +241,9 @@
 											<td>10</td>
 											<td>
 												<select class="form-control ayming_point customer" name="data[professionalism]" required>
-													<option ayming_val=10 ayming_max=10<?php echo $ayming_data['professionalism'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
-													<option ayming_val=0 ayming_max=10<?php echo $ayming_data['professionalism'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option ayming_val=10 ayming_max=10<?php echo $ayming_data['professionalism'] == "NA" ? "selected" : ""; ?> value="NA">NA</option>
+													<option ayming_val=10 ayming_max=10 <?php echo $ayming_data['professionalism'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
+													<option ayming_val=0 ayming_max=10 <?php echo $ayming_data['professionalism'] == "No" ? "selected" : ""; ?> value="No">No</option>
+													<option ayming_val=10 ayming_max=10 <?php echo $ayming_data['professionalism'] == "NA" ? "selected" : ""; ?> value="NA">NA</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt3]" class="form-control" value="<?php echo $ayming_data['cmt3'] ?>"></td>
@@ -250,9 +253,9 @@
 											<td>10</td>
 											<td>
 												<select class="form-control ayming_point customer" name="data[communication_skill]" required>
-													<option ayming_val=10 ayming_max=10<?php echo $ayming_data['communication_skill'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
-													<option ayming_val=0 ayming_max=10<?php echo $ayming_data['communication_skill'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option ayming_val=10 ayming_max=10<?php echo $ayming_data['communication_skill'] == "NA" ? "selected" : ""; ?> value="NA">NA</option>
+													<option ayming_val=10 ayming_max=10 <?php echo $ayming_data['communication_skill'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
+													<option ayming_val=0 ayming_max=10 <?php echo $ayming_data['communication_skill'] == "No" ? "selected" : ""; ?> value="No">No</option>
+													<option ayming_val=10 ayming_max=10 <?php echo $ayming_data['communication_skill'] == "NA" ? "selected" : ""; ?> value="NA">NA</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt4]" class="form-control" value="<?php echo $ayming_data['cmt4'] ?>"></td>
@@ -262,9 +265,9 @@
 											<td>10</td>
 											<td>
 												<select class="form-control ayming_point customer" name="data[tone]" required>
-													<option ayming_val=10 ayming_max=10<?php echo $ayming_data['tone'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
-													<option ayming_val=0 ayming_max=10<?php echo $ayming_data['tone'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option ayming_val=10 ayming_max=10<?php echo $ayming_data['tone'] == "NA" ? "selected" : ""; ?> value="NA">NA</option>
+													<option ayming_val=10 ayming_max=10 <?php echo $ayming_data['tone'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
+													<option ayming_val=0 ayming_max=10 <?php echo $ayming_data['tone'] == "No" ? "selected" : ""; ?> value="No">No</option>
+													<option ayming_val=10 ayming_max=10 <?php echo $ayming_data['tone'] == "NA" ? "selected" : ""; ?> value="NA">NA</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt5]" class="form-control" value="<?php echo $ayming_data['cmt5'] ?>"></td>
@@ -272,12 +275,12 @@
 										<tr>
 											<td class="eml" rowspan=3 style="font-weight:bold; background-color:#d6bf91">Business Critical</td>
 											<td colspan="2">Agent informed the concerned person regarding the Grants</td>
-											<td>7</td>
+											<td>10</td>
 											<td>
 												<select class="form-control ayming_point business" name="data[concerned_person_grants]" required>
-													<option ayming_val=10 ayming_max=10<?php echo $ayming_data['concerned_person_grants'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
-													<option ayming_val=0 ayming_max=10<?php echo $ayming_data['concerned_person_grants'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option ayming_val=10 ayming_max=10<?php echo $ayming_data['concerned_person_grants'] == "NA" ? "selected" : ""; ?> value="NA">NA</option>
+													<option ayming_val=10 ayming_max=10 <?php echo $ayming_data['concerned_person_grants'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
+													<option ayming_val=0 ayming_max=10 <?php echo $ayming_data['concerned_person_grants'] == "No" ? "selected" : ""; ?> value="No">No</option>
+													<option ayming_val=10 ayming_max=10 <?php echo $ayming_data['concerned_person_grants'] == "NA" ? "selected" : ""; ?> value="NA">NA</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt6]" class="form-control" value="<?php echo $ayming_data['cmt6'] ?>"></td>
@@ -287,9 +290,9 @@
 											<td>15</td>
 											<td>
 												<select class="form-control ayming_point business" name="data[use_rebuttals]" required>
-													<option ayming_val=15 ayming_max=15<?php echo $ayming_data['use_rebuttals'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
-													<option ayming_val=0 ayming_max=15<?php echo $ayming_data['use_rebuttals'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option ayming_val=15 ayming_max=15<?php echo $ayming_data['use_rebuttals'] == "NA" ? "selected" : ""; ?> value="NA">NA</option>
+													<option ayming_val=15 ayming_max=15 <?php echo $ayming_data['use_rebuttals'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
+													<option ayming_val=0 ayming_max=15 <?php echo $ayming_data['use_rebuttals'] == "No" ? "selected" : ""; ?> value="No">No</option>
+													<option ayming_val=15 ayming_max=15 <?php echo $ayming_data['use_rebuttals'] == "NA" ? "selected" : ""; ?> value="NA">NA</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt7]" class="form-control" value="<?php echo $ayming_data['cmt7'] ?>"></td>
@@ -299,9 +302,9 @@
 											<td>10</td>
 											<td>
 												<select class="form-control ayming_point business" name="data[concerned_person]" required>
-													<option ayming_val=10 ayming_max=10<?php echo $ayming_data['concerned_person'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
-													<option ayming_val=0 ayming_max=10<?php echo $ayming_data['concerned_person'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option ayming_val=10 ayming_max=10<?php echo $ayming_data['concerned_person'] == "NA" ? "selected" : ""; ?> value="NA">NA</option>
+													<option ayming_val=10 ayming_max=10 <?php echo $ayming_data['concerned_person'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
+													<option ayming_val=0 ayming_max=10 <?php echo $ayming_data['concerned_person'] == "No" ? "selected" : ""; ?> value="No">No</option>
+													<option ayming_val=10 ayming_max=10 <?php echo $ayming_data['concerned_person'] == "NA" ? "selected" : ""; ?> value="NA">NA</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt8]" class="form-control" value="<?php echo $ayming_data['cmt8'] ?>"></td>
@@ -312,8 +315,8 @@
 											<td>2</td>
 											<td>
 												<select class="form-control ayming_point compliance" id="ayming_Fatal1" name="data[cancel_invite]" required>
-													<option ayming_val=2 ayming_max=2<?php echo $ayming_data['cancel_invite'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option ayming_val=0 ayming_max=2<?php echo $ayming_data['cancel_invite'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option ayming_val=2 ayming_max=2 <?php echo $ayming_data['cancel_invite'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option ayming_val=0 ayming_max=2 <?php echo $ayming_data['cancel_invite'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt9]" class="form-control" value="<?php echo $ayming_data['cmt9'] ?>"></td>
@@ -323,8 +326,8 @@
 											<td>2</td>
 											<td>
 												<select class="form-control ayming_point compliance" id="ayming_Fatal2" name="data[agent_talking]" required>
-													<option ayming_val=2 ayming_max=2<?php echo $ayming_data['agent_talking'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option ayming_val=0 ayming_max=2<?php echo $ayming_data['agent_talking'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option ayming_val=2 ayming_max=2 <?php echo $ayming_data['agent_talking'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option ayming_val=0 ayming_max=2 <?php echo $ayming_data['agent_talking'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt10]" class="form-control" value="<?php echo $ayming_data['cmt10'] ?>"></td>
@@ -334,9 +337,9 @@
 											<td>2</td>
 											<td>
 												<select class="form-control ayming_point compliance" name="data[proper_phonetics]" required>
-													<option ayming_val=2 ayming_max=2<?php echo $ayming_data['proper_phonetics'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
-													<option ayming_val=0 ayming_max=2<?php echo $ayming_data['proper_phonetics'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option ayming_val=2 ayming_max=2<?php echo $ayming_data['proper_phonetics'] == "NA" ? "selected" : ""; ?> value="NA">NA</option>
+													<option ayming_val=2 ayming_max=2 <?php echo $ayming_data['proper_phonetics'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
+													<option ayming_val=0 ayming_max=2 <?php echo $ayming_data['proper_phonetics'] == "No" ? "selected" : ""; ?> value="No">No</option>
+													<option ayming_val=2 ayming_max=2 <?php echo $ayming_data['proper_phonetics'] == "NA" ? "selected" : ""; ?> value="NA">NA</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt11]" class="form-control" value="<?php echo $ayming_data['cmt11'] ?>"></td>
@@ -346,8 +349,8 @@
 											<td>2</td>
 											<td>
 												<select class="form-control ayming_point compliance" id="ayming_Fatal3"name="data[rude_remarks]" required>
-													<option ayming_val=2 ayming_max=2<?php echo $ayming_data['rude_remarks'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option ayming_val=0 ayming_max=2<?php echo $ayming_data['rude_remarks'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option ayming_val=2 ayming_max=2 <?php echo $ayming_data['rude_remarks'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option ayming_val=0 ayming_max=2 <?php echo $ayming_data['rude_remarks'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt12]" class="form-control" value="<?php echo $ayming_data['cmt12'] ?>"></td>
@@ -357,8 +360,8 @@
 											<td>2</td>
 											<td>
 												<select class="form-control ayming_point compliance" id="ayming_Fatal4"name="data[hang_up_call]" required>
-													<option ayming_val=2 ayming_max=2<?php echo $ayming_data['hang_up_call'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option ayming_val=0 ayming_max=2<?php echo $ayming_data['hang_up_call'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option ayming_val=2 ayming_max=2 <?php echo $ayming_data['hang_up_call'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option ayming_val=0 ayming_max=2 <?php echo $ayming_data['hang_up_call'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt13]" class="form-control" value="<?php echo $ayming_data['cmt13'] ?>"></td>
@@ -369,9 +372,9 @@
 											<td>8</td>
 											<td>
 												<select class="form-control ayming_point business" name="data[call_closing]" required>
-													<option ayming_val=8 ayming_max=8<?php echo $ayming_data['call_closing'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
-													<option ayming_val=0 ayming_max=8<?php echo $ayming_data['call_closing'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option ayming_val=8 ayming_max=8<?php echo $ayming_data['call_closing'] == "NA" ? "selected" : ""; ?> value="NA">NA</option>
+													<option ayming_val=8 ayming_max=8 <?php echo $ayming_data['call_closing'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
+													<option ayming_val=0 ayming_max=8 <?php echo $ayming_data['call_closing'] == "No" ? "selected" : ""; ?> value="No">No</option>
+													<option ayming_val=8 ayming_max=8 <?php echo $ayming_data['call_closing'] == "NA" ? "selected" : ""; ?> value="NA">NA</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt14]" class="form-control" value="<?php echo $ayming_data['cmt14'] ?>"></td>

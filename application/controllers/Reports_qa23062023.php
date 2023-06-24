@@ -41305,8 +41305,8 @@ else if($pid=="cci_medicare"){
 
 				$fullAray = $this->Common_model->get_query_result_array($qSql);
 				$data["qa_varo_list"] = $fullAray;
-				$this->create_qa_varo_new_CSV($fullAray,$campaign);
-				$dn_link = base_url()."reports_qa/download_varo_new_CSV/".$campaign;
+				$this->create_qa_varo_CSV($fullAray,$campaign);
+				$dn_link = base_url()."reports_qa/download_varo_CSV/".$campaign;
 			}
 
 			$data['download_link']=$dn_link;
@@ -41322,24 +41322,27 @@ else if($pid=="cci_medicare"){
 		}
 	}
 
-	public function download_varo_new_CSV($campaign)
+	public function download_varo_CSV($campaign)
 	{
 		$currDate=date("Y-m-d");
-		$filename = "./qa_files/qa_varo_rp/Report".get_user_id().".csv";
+		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
 		$newfile="QA ".$campaign." Audit List-'".$currDate."'.csv";
 		header('Content-Disposition: attachment;  filename="'.$newfile.'"');
 		readfile($filename);
 	}
 
 
-	public function create_qa_varo_new_CSV($rr,$campaign)
+	public function create_qa_varo_CSV($rr,$campaign)
 	{
-
 		$currDate=date("Y-m-d");
-		$filename = "./qa_files/qa_varo_rp/Report".get_user_id().".csv";
+		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
 		$fopen = fopen($filename,"w+");
-		
-		    if($campaign=='varo_rp_v2') {
+		   if($campaign=='varo_rp') {
+			$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Contact Date","Call Duration","Phone Number","Audit Type", "Auditor Type", "Voc","Audit Start Date Time","Audit End Date Time","Interval","VSI Account","QA Type","Call ID","Area of Opportunity","Overall Score","Identify himself/herself by first and last name at the beginning of the call? **SQ**","Provide the Quality Assurance Statement verbatim before any specific account information was discussed?**SQ**","State Varo Bank with no deviation? **SQ**","Verify that he/she was speaking to a right party according to the client requirements (First and Last Name) and before providing the disclosures?","Verify two pieces of demographics information on an outbound call and two pieces on an inbound call? 1) must abide by client requirements and 2) Consumer must provide information unless there is a resistance. 3)Must be completed before disclosures 4) Exception on consumer fail to verify two pieces of demographics information/fail to verify complete address (missing street number etc) ","Provide the Mini Miranda disclosure verbatim before any specific account information was discussed? **SQ**","State the client name and the purpose of the communication?","Did the rep ask for callback permission as per Reg F policy?","State/Ask for balance due?","Ask for intention to resolve the account?","Ask for the payment to the account?","Help customer reset password for app incase customer states they have forgotten password ?","Followed the previous conversations on the account for the follow-up call","Able to take a promise to pay on the account?","Did Collector try to negotiate effectively to convince the customer for payment?","Did not  Misrepresent their identity or authorization and status of the consumers account?","Did not Discuss or imply that any type of legal actions - will be taken or property repossessed also on time barred accounts amd Did not Threaten to take actions that VRS or the client cannot legally take? ","Did not Make any false representations regarding the nature of the communication?","Did not Contact the consumer at any unusual times (sate regulations) or outside the hours of 8:00 am and 9:00 pm at the consumers location?","Did not Communicate with the consumer at work if it is known or there is reason to know that such calls are prohibited?","Did not Communicate with the consumer after learning the consumer is represented by an attorney filed for bankruptcy unless a permissible reason exists?","Adhere to the cell phone policy/TCPA regulations and policy regarding contacting consumers via cell phone email and fax?","Adhere to policy regarding third parties for the sole purpose of obtaining location information for the consumer?","Enter Status code/disposition codes correctly to ensure that inappropriate dialing does not take place?","Did not Make any statement that could constitute unfair deceptive or abusive acts or practices that may raise UDAAP concerns?","Did not Communicate or threaten to communicate false credit information or information which should be known to be false and utilized the proper CBR script whenever a consumer enquires about that?","Handle the consumers dispute correctly and take appropriate action including providing the consumer with the correct contact information to submit a written dispute or complaint or offer to escalate the call?","Did not Make the required statement on time barred accounts indicating that the consumer cannot be pursued with legal action?","Adhere to FDCPA  laws?","Did not Make any statement that could be considered discriminatory towards a consumer or a violation of VRS ECOA policy?","Did the collectors adhere to the State Restrictions?","Demonstrate Active Listening?","Represent the company and the client in a positive manner?","Anticipate and overcome objections?","Transfer call to Varo support appropriately?","Summarize the call?","Provided Varo Bank support number incase its required?","Set appropriate timelines and expectations for follow up?","Close the call Professionally?","Use the proper action code?","Use the proper result code?","Document thoroughly the context of the conversation?","Confirmation Code captured on note incase of payment?","Did the rep document the callback permission on the account as per Reg F policy?","Remove any phone numbers known to be incorrect?**SQ**","Update address information if appropriate?**SQ**","Change the status of the account if appropriate?**SQ**","Escalate the account to a supervisor for handling if appropriate?","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+
+		        } else if($campaign=='varo_lm'){
+		        $header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date","Audit Type", "Auditor Type", "Voc","Hire Date","Audit Start Date Time","Audit End Date Time","Interval","VSI Account","Overall Score","State the First/Second left message attempt with no deviation or did not leave any message in NYC or with consumers of clients that prohibit the leaving of voice mail messages. **SQ**","Misrepresent their identity? **SQ**","Make any false representations about the nature of the call/ **SQ**","Make an attempt at any unusual times (state restrictions) or outside the hours of 8am and 9pm? **SQ**","Make an attempt at a work number if it is known or there is reason to know that such calls are prohibited? **SQ**","Make an attempt after learning that the consumer is represented by an attorney unless a permissible reason exists? **SQ**	","Adhere to policy regarding third parties and third party disclosure? **SQ**","Enter dialer disposition codes correctly to ensure that inappropriate dialing does not take place? **SQ**","Use the proper Action Code? **SQ**","Use the proper Result Code? **SQ**","Document the account thoroughly?","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+		        }else if($campaign=='varo_rp_v2') {
 			$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call date","Call Duration","Phone Number","Audit Type", "Auditor Type", "Voc","Audit Start Date Time","Audit End Date Time","Interval","VSI Account","QA Type","Call ID","Overall Score",
 				"Identify himself/herself by first and last name at the beginning of the call? **SQ**",
 				"Provide the Quality Assurance Statement verbatim before any specific account information was discussed?**SQ** Recording disclosure: All calls are recorded and may be monitored for Quality Assurance",
@@ -41393,11 +41396,6 @@ else if($pid=="cci_medicare"){
 				"Change the status of the account if appropriate?**SQ**",
 				"Escalate the account to a supervisor for handling if appropriate?",
 				"Observations", "Area of opportunity","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment","Client Review Date/Time", "Client Review Name", "Client Review Note");
-		        }else if($campaign=='varo_rp') {
-			$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "	Contact Date","Call Duration","Phone Number","Audit Type", "Auditor Type", "Voc","Audit Start Date Time","Audit End Date Time","Interval","VSI Account","QA Type","Call ID","Area of Opportunity","Overall Score","Identify himself/herself by first and last name at the beginning of the call? **SQ**","Provide the Quality Assurance Statement verbatim before any specific account information was discussed?**SQ**","State Varo Bank with no deviation? **SQ**","Verify that he/she was speaking to a right party according to the client requirements (First and Last Name) and before providing the disclosures?","Verify two pieces of demographics information on an outbound call and two pieces on an inbound call? 1) must abide by client requirements and 2) Consumer must provide information unless there is a resistance. 3)Must be completed before disclosures 4) Exception on consumer fail to verify two pieces of demographics information/fail to verify complete address (missing street number etc) ","Provide the Mini Miranda disclosure verbatim before any specific account information was discussed? **SQ**","State the client name and the purpose of the communication?","Did the rep ask for callback permission as per Reg F policy?","State/Ask for balance due?","Ask for intention to resolve the account?","Ask for the payment to the account?","Help customer reset password for app incase customer states they have forgotten password ?","Followed the previous conversations on the account for the follow-up call","Able to take a promise to pay on the account?","Did Collector try to negotiate effectively to convince the customer for payment?","Did not  Misrepresent their identity or authorization and status of the consumers account?","Did not Discuss or imply that any type of legal actions - will be taken or property repossessed also on time barred accounts amd Did not Threaten to take actions that VRS or the client cannot legally take? ","Did not Make any false representations regarding the nature of the communication?","Did not Contact the consumer at any unusual times (sate regulations) or outside the hours of 8:00 am and 9:00 pm at the consumers location?","Did not Communicate with the consumer at work if it is known or there is reason to know that such calls are prohibited?","Did not Communicate with the consumer after learning the consumer is represented by an attorney filed for bankruptcy unless a permissible reason exists?","Adhere to the cell phone policy/TCPA regulations and policy regarding contacting consumers via cell phone email and fax?","Adhere to policy regarding third parties for the sole purpose of obtaining location information for the consumer?","Enter Status code/disposition codes correctly to ensure that inappropriate dialing does not take place?","Did not Make any statement that could constitute unfair deceptive or abusive acts or practices that may raise UDAAP concerns?","Did not Communicate or threaten to communicate false credit information or information which should be known to be false and utilized the proper CBR script whenever a consumer enquires about that?","Handle the consumers dispute correctly and take appropriate action including providing the consumer with the correct contact information to submit a written dispute or complaint or offer to escalate the call?","Did not Make the required statement on time barred accounts indicating that the consumer cannot be pursued with legal action?","Adhere to FDCPA  laws?","Did not Make any statement that could be considered discriminatory towards a consumer or a violation of VRS ECOA policy?","Did the collectors adhere to the State Restrictions?","Demonstrate Active Listening?","Represent the company and the client in a positive manner?","Anticipate and overcome objections?","Transfer call to Varo support appropriately?","Summarize the call?","Provided Varo Bank support number incase its required?","Set appropriate timelines and expectations for follow up?","Close the call Professionally?","Use the proper action code?","Use the proper result code?","Document thoroughly the context of the conversation?","Confirmation Code captured on note incase of payment?","Did the rep document the callback permission on the account as per Reg F policy?","Remove any phone numbers known to be incorrect?**SQ**","Update address information if appropriate?**SQ**","Change the status of the account if appropriate?**SQ**","Escalate the account to a supervisor for handling if appropriate?","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
-
-		        } else if($campaign=='varo_lm'){
-		        $header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date","Audit Type", "Auditor Type", "Voc","Hire Date","Audit Start Date Time","Audit End Date Time","Interval","VSI Account","Overall Score","State the First/Second left message attempt with no deviation or did not leave any message in NYC or with consumers of clients that prohibit the leaving of voice mail messages. **SQ**","Misrepresent their identity? **SQ**","Make any false representations about the nature of the call/ **SQ**","Make an attempt at any unusual times (state restrictions) or outside the hours of 8am and 9pm? **SQ**","Make an attempt at a work number if it is known or there is reason to know that such calls are prohibited? **SQ**","Make an attempt after learning that the consumer is represented by an attorney unless a permissible reason exists? **SQ**	","Adhere to policy regarding third parties and third party disclosure? **SQ**","Enter dialer disposition codes correctly to ensure that inappropriate dialing does not take place? **SQ**","Use the proper Action Code? **SQ**","Use the proper Result Code? **SQ**","Document the account thoroughly?","Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
 		        }
 
 			$row = "";
@@ -41417,8 +41415,130 @@ else if($pid=="cci_medicare"){
 				}else{
 					$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
 				}
-				
-			    if($campaign=='varo_rp_v2'){
+
+			    if($campaign=='varo_rp') {
+				$row = '"'.$auditorName.'",';
+				$row .= '"'.$user['audit_date'].'",';
+				$row .= '"'.$user['fname']." ".$user['lname'].'",';
+				$row .= '"'.$user['fusion_id'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['call_duration'].'",';
+				$row .= '"'.$user['phone_number'].'",';
+				$row .= '"'.$user['audit_type'].'",';
+				$row .= '"'.$user['auditor_type'].'",';
+				$row .= '"'.$user['voc'].'",';
+				$row .= '"'.$user['audit_start_time'].'",';
+				$row .= '"'.$user['entry_date'].'",';
+				$row .= '"'.$interval1.'",';
+				$row .= '"'.$user['vsi_account'].'",';
+				$row .= '"'.$user['qa_type'].'",';
+				$row .= '"'.$user['call_id'].'",';
+				$row .= '"'.$user['area_of_opportunity'].'",';
+				$row .= '"'.$user['overall_score'].'",';
+
+				$row .= '"'.$user['identify_himself'].'",';
+				$row .= '"'.$user['provide_the_uality'].'",';
+				$row .= '"'.$user['state_varo_bank'].'",';
+				$row .= '"'.$user['verify_that_he'].'",';
+				$row .= '"'.$user['verify_two_pieces'].'",';
+				$row .= '"'.$user['provide_the_mini'].'",';
+				$row .= '"'.$user['state_the_client'].'",';
+				$row .= '"'.$user['callback_permission_policy'].'",';
+				$row .= '"'.$user['state_ssk_for'].'",';
+				$row .= '"'.$user['ask_for_intention'].'",';
+				$row .= '"'.$user['ask_for_the_payment'].'",';
+				$row .= '"'.$user['help_customer_reset'].'",';
+				$row .= '"'.$user['followed_the_previous'].'",';
+				$row .= '"'.$user['able_to_take'].'",';
+				$row .= '"'.$user['did_collector_try'].'",';
+				$row .= '"'.$user['did_not_misrepresent'].'",';
+				$row .= '"'.$user['did_discuss_or_imply'].'",';
+				$row .= '"'.$user['did_not_make_any'].'",';
+				$row .= '"'.$user['did_contact_the_consumer'].'",';
+				$row .= '"'.$user['did_not_communicate_consumar'].'",';
+				$row .= '"'.$user['did_not_communicate_exists'].'",';
+				$row .= '"'.$user['aahereto_the_cell'].'",';
+				$row .= '"'.$user['adhere_to_policy'].'",';
+				$row .= '"'.$user['enter_status_code'].'",';
+				$row .= '"'.$user['did_not_make_any_statement'].'",';
+				$row .= '"'.$user['did_not_communicate'].'",';
+				$row .= '"'.$user['handle_the_consumer'].'",';
+				$row .= '"'.$user['did_ake_the_required'].'",';
+				$row .= '"'.$user['adhere_to_fdcpa'].'",';
+				$row .= '"'.$user['make_any_statement'].'",';
+				$row .= '"'.$user['did_the_collectors'].'",';
+				$row .= '"'.$user['aemonstrate_active'].'",';
+				$row .= '"'.$user['represent_the_company'].'",';
+				$row .= '"'.$user['anticipate_and_overcome'].'",';
+				$row .= '"'.$user['transfer_call_varo'].'",';
+				$row .= '"'.$user['summarize_the_call'].'",';
+				$row .= '"'.$user['provided_varo_bank'].'",';
+				$row .= '"'.$user['set_appropriate_timelines'].'",';
+				$row .= '"'.$user['close_the_call'].'",';
+				$row .= '"'.$user['proper_action_code'].'",';
+				$row .= '"'.$user['proper_result_code'].'",';
+				$row .= '"'.$user['document_thoroughly'].'",';
+				$row .= '"'.$user['confirmation_code'].'",';
+				$row .= '"'.$user['callback_permission_document'].'",';
+				$row .= '"'.$user['remove_any_phone'].'",';
+				$row .= '"'.$user['update_address_information'].'",';
+				$row .= '"'.$user['change_the_status'].'",';
+	            $row .= '"'.$user['escalate_the_account'].'",';
+
+                $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+				$row .= '"'.$user['agnt_fd_acpt'].'",';
+				$row .= '"'.$user['agent_rvw_date'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+				$row .= '"'.$user['mgnt_rvw_date'].'",';
+				$row .= '"'.$user['mgnt_rvw_name'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'"';
+
+				fwrite($fopen,$row."\r\n");
+
+
+               } else if($campaign=='varo_lm'){
+
+                $row = '"'.$auditorName.'",';
+				$row .= '"'.$user['audit_date'].'",';
+				$row .= '"'.$user['fname']." ".$user['lname'].'",';
+				$row .= '"'.$user['fusion_id'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['audit_type'].'",';
+				$row .= '"'.$user['auditor_type'].'",';
+				$row .= '"'.$user['voc'].'",';
+				$row .= '"'.$user['hire_date'].'",';
+				$row .= '"'.$user['audit_start_time'].'",';
+				$row .= '"'.$user['entry_date'].'",';
+				$row .= '"'.$interval1.'",';
+				$row .= '"'.$user['vsi_account'].'",';
+				$row .= '"'.$user['overall_score'].'",';
+
+				$row .= '"'.$user['state_the_first'].'",';
+				$row .= '"'.$user['misrepresent_their'].'",';
+				$row .= '"'.$user['make_any_false'].'",';
+				$row .= '"'.$user['make_an_attempt'].'",';
+				$row .= '"'.$user['make_an_attempt_work'].'",';
+				$row .= '"'.$user['make_an_attempt_after'].'",';
+				$row .= '"'.$user['adhere_policy_regarding'].'",';
+				$row .= '"'.$user['enter_dialer_disposition'].'",';
+				$row .= '"'.$user['use_the_proper_action'].'",';
+				$row .= '"'.$user['use_the_proper_result'].'",';
+				$row .= '"'.$user['document_the_account'].'",';
+
+                $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+				$row .= '"'.$user['agnt_fd_acpt'].'",';
+				$row .= '"'.$user['agent_rvw_date'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+				$row .= '"'.$user['mgnt_rvw_date'].'",';
+				$row .= '"'.$user['mgnt_rvw_name'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'"';
+
+				fwrite($fopen,$row."\r\n");
+               }else if($campaign=='varo_rp_v2') {
                	$row = '"'.$auditorName.'",';
 				$row .= '"'.$user['audit_date'].'",';
 				$row .= '"'.$user['fname']." ".$user['lname'].'",';
@@ -41502,129 +41622,10 @@ else if($pid=="cci_medicare"){
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
 
 				fwrite($fopen,$row."\r\n");
-            }else if($campaign=='varo_rp') {
-				$row = '"'.$auditorName.'",';
-				$row .= '"'.$user['audit_date'].'",';
-				$row .= '"'.$user['fname']." ".$user['lname'].'",';
-				$row .= '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['call_duration'].'",';
-				$row .= '"'.$user['phone_number'].'",';
-				$row .= '"'.$user['audit_type'].'",';
-				$row .= '"'.$user['auditor_type'].'",';
-				$row .= '"'.$user['voc'].'",';
-				$row .= '"'.$user['audit_start_time'].'",';
-				$row .= '"'.$user['entry_date'].'",';
-				$row .= '"'.$interval1.'",';
-				$row .= '"'.$user['vsi_account'].'",';
-				$row .= '"'.$user['qa_type'].'",';
-				$row .= '"'.$user['call_id'].'",';
-				$row .= '"'.$user['area_of_opportunity'].'",';
-				$row .= '"'.$user['overall_score'].'",';
-
-				$row .= '"'.$user['identify_himself'].'",';
-				$row .= '"'.$user['provide_the_uality'].'",';
-				$row .= '"'.$user['state_varo_bank'].'",';
-				$row .= '"'.$user['verify_that_he'].'",';
-				$row .= '"'.$user['verify_two_pieces'].'",';
-				$row .= '"'.$user['provide_the_mini'].'",';
-				$row .= '"'.$user['state_the_client'].'",';
-				$row .= '"'.$user['callback_permission_policy'].'",';
-				$row .= '"'.$user['state_ssk_for'].'",';
-				$row .= '"'.$user['ask_for_intention'].'",';
-				$row .= '"'.$user['ask_for_the_payment'].'",';
-				$row .= '"'.$user['help_customer_reset'].'",';
-				$row .= '"'.$user['followed_the_previous'].'",';
-				$row .= '"'.$user['able_to_take'].'",';
-				$row .= '"'.$user['did_collector_try'].'",';
-				$row .= '"'.$user['did_not_misrepresent'].'",';
-				$row .= '"'.$user['did_discuss_or_imply'].'",';
-				$row .= '"'.$user['did_not_make_any'].'",';
-				$row .= '"'.$user['did_contact_the_consumer'].'",';
-				$row .= '"'.$user['did_not_communicate_consumar'].'",';
-				$row .= '"'.$user['did_not_communicate_exists'].'",';
-				$row .= '"'.$user['aahereto_the_cell'].'",';
-				$row .= '"'.$user['adhere_to_policy'].'",';
-				$row .= '"'.$user['enter_status_code'].'",';
-				$row .= '"'.$user['did_not_make_any_statement'].'",';
-				$row .= '"'.$user['did_not_communicate'].'",';
-				$row .= '"'.$user['handle_the_consumer'].'",';
-				$row .= '"'.$user['did_ake_the_required'].'",';
-				$row .= '"'.$user['adhere_to_fdcpa'].'",';
-				$row .= '"'.$user['make_any_statement'].'",';
-				$row .= '"'.$user['did_the_collectors'].'",';
-				$row .= '"'.$user['aemonstrate_active'].'",';
-				$row .= '"'.$user['represent_the_company'].'",';
-				$row .= '"'.$user['anticipate_and_overcome'].'",';
-				$row .= '"'.$user['transfer_call_varo'].'",';
-				$row .= '"'.$user['summarize_the_call'].'",';
-				$row .= '"'.$user['provided_varo_bank'].'",';
-				$row .= '"'.$user['set_appropriate_timelines'].'",';
-				$row .= '"'.$user['close_the_call'].'",';
-				$row .= '"'.$user['proper_action_code'].'",';
-				$row .= '"'.$user['proper_result_code'].'",';
-				$row .= '"'.$user['document_thoroughly'].'",';
-				$row .= '"'.$user['confirmation_code'].'",';
-				$row .= '"'.$user['callback_permission_document'].'",';
-				$row .= '"'.$user['remove_any_phone'].'",';
-				$row .= '"'.$user['update_address_information'].'",';
-				$row .= '"'.$user['change_the_status'].'",';
-	            $row .= '"'.$user['escalate_the_account'].'",';
-
-                $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
-				$row .= '"'.$user['agnt_fd_acpt'].'",';
-				$row .= '"'.$user['agent_rvw_date'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
-				$row .= '"'.$user['mgnt_rvw_date'].'",';
-				$row .= '"'.$user['mgnt_rvw_name'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'"';
-
-				fwrite($fopen,$row."\r\n");
-
-
-               }else if($campaign=='varo_lm'){
-                $row = '"'.$auditorName.'",';
-				$row .= '"'.$user['audit_date'].'",';
-				$row .= '"'.$user['fname']." ".$user['lname'].'",';
-				$row .= '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['audit_type'].'",';
-				$row .= '"'.$user['auditor_type'].'",';
-				$row .= '"'.$user['voc'].'",';
-				$row .= '"'.$user['hire_date'].'",';
-				$row .= '"'.$user['audit_start_time'].'",';
-				$row .= '"'.$user['entry_date'].'",';
-				$row .= '"'.$interval1.'",';
-				$row .= '"'.$user['vsi_account'].'",';
-				$row .= '"'.$user['overall_score'].'",';
-				$row .= '"'.$user['state_the_first'].'",';
-				$row .= '"'.$user['misrepresent_their'].'",';
-				$row .= '"'.$user['make_any_false'].'",';
-				$row .= '"'.$user['make_an_attempt'].'",';
-				$row .= '"'.$user['make_an_attempt_work'].'",';
-				$row .= '"'.$user['make_an_attempt_after'].'",';
-				$row .= '"'.$user['adhere_policy_regarding'].'",';
-				$row .= '"'.$user['enter_dialer_disposition'].'",';
-				$row .= '"'.$user['use_the_proper_action'].'",';
-				$row .= '"'.$user['use_the_proper_result'].'",';
-				$row .= '"'.$user['document_the_account'].'",';
-                $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
-				$row .= '"'.$user['agnt_fd_acpt'].'",';
-				$row .= '"'.$user['agent_rvw_date'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
-				$row .= '"'.$user['mgnt_rvw_date'].'",';
-				$row .= '"'.$user['mgnt_rvw_name'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'"';
-
-				fwrite($fopen,$row."\r\n");
-            }
-		}
+               }
+			}
 			fclose($fopen);
-    }
+        }
 
 /*---------------------------------------------------------------------------------------------*/
 /*------------------------------------- Groupe and France -------------------------------------*/

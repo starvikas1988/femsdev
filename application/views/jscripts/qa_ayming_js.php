@@ -583,7 +583,7 @@ $('INPUT[type="file"]').change(function () {
 </script>
 
  <script type="text/javascript">
- 		function ayming_calc(){
+ function ayming_calc(){
 		var score = 0;
 		var scoreable = 0;
 		var quality_score_percent = 0.00;
@@ -596,20 +596,20 @@ $('INPUT[type="file"]').change(function () {
 			if(score_type == 'Pass'){
 				pass_count = pass_count + 1;
 				var w1 = parseInt($(element).children("option:selected").attr('ayming_val'));
-				var w2 = parseFloat($(element).children("option:selected").attr('ayming_max'));
+				var w2 = parseInt($(element).children("option:selected").attr('ayming_max'));
 				score = score + w1;
 				scoreable = scoreable + w2;
 
 			}else if(score_type == 'Yes'){
 				pass_count = pass_count + 1;
 				var w1 = parseInt($(element).children("option:selected").attr('ayming_val'));
-				var w2 = parseFloat($(element).children("option:selected").attr('ayming_max'));
+				var w2 = parseInt($(element).children("option:selected").attr('ayming_max'));
 				score = score + w1;
 				scoreable = scoreable + w2;
 			}else if(score_type == 'No'){
 				fail_count = fail_count + 1;
 				var w1 = parseInt($(element).children("option:selected").attr('ayming_val'));
-				var w2 = parseFloat($(element).children("option:selected").attr('ayming_max'));
+				var w2 = parseInt($(element).children("option:selected").attr('ayming_max'));
 				//score = score + w1;
 				scoreable = scoreable + w2;
 				//scoreable = scoreable + weightage;
@@ -617,7 +617,7 @@ $('INPUT[type="file"]').change(function () {
 			else if(score_type == 'Fail'){
 				fail_count = fail_count + 1;
 				var w1 = parseInt($(element).children("option:selected").attr('ayming_val'));
-				var w2 = parseFloat($(element).children("option:selected").attr('ayming_max'));
+				var w2 = parseInt($(element).children("option:selected").attr('ayming_max'));
 				//score = score + w1;
 				scoreable = scoreable + w2;
 				//scoreable = scoreable + weightage;
@@ -677,7 +677,7 @@ $('INPUT[type="file"]').change(function () {
 		if(!isNaN(customerPercentage)){
 			$('#customer_overall_score').val(customerPercentage+'%');
 		}
-	////////////
+	  ////////////
 		var businessScore = 0;
 		var businessScoreable = 0;
 		var businessPercentage = 0;
@@ -702,7 +702,7 @@ $('INPUT[type="file"]').change(function () {
 		if(!isNaN(businessPercentage)){
 			$('#business_overall_score').val(businessPercentage+'%');
 		}
-	////////////
+	 ////////////
 		var complianceScore = 0;
 		var complianceScoreable = 0;
 		var compliancePercentage = 0;
@@ -728,15 +728,13 @@ $('INPUT[type="file"]').change(function () {
 		if(!isNaN(compliancePercentage)){
 			$('#compliance_overall_score').val(compliancePercentage+'%');
 		}
-		
-		///////////////////////////////////////////////////////////////////////
 	}
 	
 	$(document).on('change','.ayming_point',function(){
 		ayming_calc();
 	});
 	ayming_calc();
- </script>
+</script>
 
 
 ////////////////vikas//////////////////////////////

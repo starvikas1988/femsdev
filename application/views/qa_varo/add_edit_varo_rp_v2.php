@@ -14,6 +14,10 @@
 	font-weight:bold;
 	background-color:#F4D03F;
 }
+.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
+	 float: left;
+	 display: none;
+	}
 </style>
 
 <?php if($varo_rp_id!=0){
@@ -111,7 +115,10 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>Call Duration:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" id="call_duration" name="data[call_duration]" onkeydown="return false;" value="<?php echo $varo_rp['call_duration'] ?>" required ></td>
 										<td>Phone Number:<span style="font-size:24px;color:red">*</span></td>
-										<td><input type="text" class="form-control" id="phone" name="data[phone_number]" onkeyup="checkDec(this);" value="<?php echo $varo_rp['phone_number'] ?>" required ></td>
+										<td><input type="text" class="form-control" name="data[phone_number]" value="<?php echo $varo_rp['phone_number'] ?>" onkeyup="checkDec(this);" required>
+										<span id="start_phone" style="color:red"></span></td>
+
+										<!-- <td><input type="text" class="form-control" id="phone" name="data[phone_number]" onkeyup="checkDec(this);" value="<?php //echo $varo_rp['phone_number'] ?>" required ></td> -->
 										<td>VSI Account:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" id="" name="data[vsi_account]" value="<?php echo $varo_rp['vsi_account'] ?>" required ></td>
 									</tr>
@@ -133,7 +140,6 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>Audit Type:<span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="audit_type" name="data[audit_type]" required>
-												<option value="<?php echo $varo_rp['audit_type'] ?>"><?php echo $varo_rp['audit_type'] ?></option>
 												<option value="">-Select-</option>
 												<option value="CQ Audit" <?= ($varo_rp['audit_type']=="CQ Audit")?"selected":"" ?>>CQ Audit</option>
                                                     <option value="BQ Audit" <?= ($varo_rp['audit_type']=="BQ Audit")?"selected":"" ?>>BQ Audit</option>
@@ -146,9 +152,10 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											</select>
 										</td>
 										
-										<td class="auType">Auditor Type<span style="font-size:24px;color:red">*</span></td>
-										<td class="auType">
+										<td class="auType_epi">Auditor Type<span style="font-size:24px;color:red">*</span></td>
+										<td class="auType_epi">
 											<select class="form-control" id="auditor_type" name="data[auditor_type]">
+												<option value="">Select</option>
 												<option value="Master" <?= ($varo_rp['auditor_type']=="Master")?"selected":"" ?>>Master</option>
                                                 <option value="Regular" <?= ($varo_rp['auditor_type']=="Regular")?"selected":"" ?>>Regular</option>
 											</select>
@@ -156,8 +163,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									   
 										<td>VOC:<span style="font-size:24px;color:red">*</span></td>
 										<td>
-											<select class="form-control" id="voc" name="data[voc]" required>
-												<option value="<?php echo $varo_rp['voc'] ?>"><?php echo $varo_rp['voc'] ?></option>
+											<select class="form-control" id="voc" name="data[voc]" required>s
 												<option value="">-Select-</option>
 												<option value="1"  <?= ($varo_rp['voc']=="1")?"selected":"" ?>>1</option>
 													<option value="2"  <?= ($varo_rp['voc']=="2")?"selected":"" ?>>2</option>
@@ -182,7 +188,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td colspan="" style="font-weight:bold; font-size:16px; text-align:right"></td>
 										<td></td>
 										<td colspan="" style="font-weight:bold; font-size:16px; text-align:right">Overall Score:</td>
-										<td><input type="text" readonly id="varo_rp_overoll_score" name="data[overall_score]" class="form-control" style="font-weight:bold" value="<?php if($varo_rp['overall_score']!=''){ echo $varo_rp['overall_score'].'%'; } else { ?>100%<?php } ?>"></td>
+										<td colspan="2"><input type="text" class="form-control varso_rp_Fatal" readonly id="varo_rp_overoll_score" name="data[overall_score]"  style="font-weight:bold" value="<?php echo $varo_rp['overall_score'] ?>"></td>
+
+										<!-- <td><input type="text" readonly id="varo_rp_overoll_score" name="data[overall_score]" class="form-control" style="font-weight:bold" value="<?php //if($varo_rp['overall_score']!=''){ //echo $varo_rp['overall_score'].'%'; } else { ?>100%<?php //} ?>"></td> -->
 									</tr>
 									<tr style="background-color:#A9CCE3; font-weight:bold"><td>Parameter</td><td colspan=3>Sub Parameter</td><td>Marking</td><td>Score</td></tr>
 									<tr>
@@ -662,7 +670,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<option varo_rp_val=0 <?php echo $varo_rp['collector_hang_up_rp']=='No'?"selected":""; ?> value="No">No</option>
 											</select>
 										</td>
-										<td><input id="call_control_score" type="hidden" name="" disabled="">10</td>
+										<td><input id="call_control_score" type="hidden" name="" disabled="">15</td>
 									</tr>
 									
 									
@@ -836,9 +844,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									</tr>
 
 									<tr>
-										<td>Call Summary:</td>
+										<td>Observations:</td>
 										<td colspan=2><textarea class="form-control" id="" name="data[call_summary]"><?php echo $varo_rp['call_summary'] ?></textarea></td>
-										<td>Feedback:</td>
+										<td>Area of opportunity:</td>
 										<td colspan=2><textarea class="form-control" id="" name="data[feedback]"><?php echo $varo_rp['feedback'] ?></textarea></td>
 									</tr>
 									
@@ -851,7 +859,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									</tr>
 									<?php }else{ ?>
 									<tr>	
-										<td colspan=2>Upload Files</td>
+										<td colspan=2>Upload Files[m4a,mp4,mp3,wav]</td>
 										<?php if($varo_rp['attach_file']!=''){ ?>
 											<td colspan=4>
 												<input type="file" multiple class="form-control"  id="attach_file" name="attach_file[]" accept=".m4a,.mp4,.mp3,.wav,audio/*"> 

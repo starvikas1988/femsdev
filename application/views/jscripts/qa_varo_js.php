@@ -1,3 +1,55 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#mail_action_date").datepicker();
+		$("#tat_replied_date").datepicker();
+		$("#cycle_date").datepicker();
+		$("#week_end_date").datepicker();
+		$("#call_date_time").datetimepicker();
+
+		$("#audit_date").datepicker();
+		$("#call_date").datepicker({maxDate: new Date()}); //datetimepicker
+		$("#call_date_time").datetimepicker({maxDate: new Date()});
+		//$("#call_date").datepicker({ minDate: 0 });
+		$("#copy_received").datepicker();
+		$("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });
+		$("#from_date").datepicker({maxDate: new Date() });
+		$("#to_date").datepicker({maxDate: new Date() });
+	});
+</script>
+<script type="text/javascript">
+	function checkDec(el) {
+			var ex = /^[0-9]+\.?[0-9]*$/;
+
+			if (ex.test(el.value) == false) {
+				//console.log(el.value);
+				el.value = el.value.substring(0, el.value.length - 1);
+				alert("Number format required!");
+				$("#qaformsubmit").attr("disabled", "disabled");
+				$('#phone').val("");
+				return false;
+			}
+			if(el.value.length >10){
+       			//alert("required 10 digits, match requested format!");
+       			$("#start_phone").html("Required 10 digits, match requested format!");
+       			$("#qaformsubmit").attr("disabled", "disabled");
+       			return false;
+		    }else if(el.value.length <10){
+		    	$("#start_phone").html("Phone number can not be less than 10 digits!");
+		    	$("#qaformsubmit").attr("disabled", "disabled");
+       			return false;
+		    }
+		    else if(el.value.length == 10){
+		    	$("#start_phone").html("");
+		    	 $("#qaformsubmit").removeAttr("disabled");
+       			return false;
+		    }
+		    // else{
+		    // 	$("#start_phone").html("");
+		    // 	 $("#qaformsubmit").removeAttr("disabled");
+		    // }
+			console.log(el.value);
+		}
+</script> 
  <script>
 ////////////// Doubtnut (call audit)///////////////////
 	function dn_calculation(){
@@ -620,22 +672,6 @@ docusign_calc();
 <script type="text/javascript">
 /////////////////////////////////////////////////////
 $(document).ready(function(){
-
-	
-	$("#mail_action_date").datepicker();
-	$("#tat_replied_date").datepicker();
-	$("#cycle_date").datepicker();
-	$("#week_end_date").datepicker();
-	$("#call_date_time").datetimepicker();
-
-	$("#audit_date").datepicker();
-	$("#call_date").datepicker({maxDate: new Date()}); //datetimepicker
-	$("#call_date_time").datetimepicker({maxDate: new Date()});
-	//$("#call_date").datepicker({ minDate: 0 });
-	$("#copy_received").datepicker();
-	$("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });
-	$("#from_date").datepicker({maxDate: new Date() });
-	$("#to_date").datepicker({maxDate: new Date() });
 
 	$(".agentName").select2();
 
@@ -1728,42 +1764,9 @@ $(document).ready(function(){
 </script>
 
 
-<script type="text/javascript">
-		function checkDec(el) {
-			var ex = /^[0-9]+\.?[0-9]*$/;
 
-			if (ex.test(el.value) == false) {
-				//console.log(el.value);
-				el.value = el.value.substring(0, el.value.length - 1);
-				alert("Number format required!");
-				$("#qaformsubmit").attr("disabled", "disabled");
-				$('#phone').val("");
-				return false;
-			}
-			if(el.value.length >10){
-       			//alert("required 10 digits, match requested format!");
-       			$("#start_phone").html("Required 10 digits, match requested format!");
-       			$("#qaformsubmit").attr("disabled", "disabled");
-       			return false;
-		    }else if(el.value.length <10){
-		    	$("#start_phone").html("Phone number can not be less than 10 digits!");
-		    	$("#qaformsubmit").attr("disabled", "disabled");
-       			return false;
-		    }
-		    else if(el.value.length == 10){
-		    	$("#start_phone").html("");
-		    	 $("#qaformsubmit").removeAttr("disabled");
-       			return false;
-		    }
-		    // else{
-		    // 	$("#start_phone").html("");
-		    // 	 $("#qaformsubmit").removeAttr("disabled");
-		    // }
-			console.log(el.value);
-		}
-</script> 
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	$(document).ready(function () {
 	  var start_date	=	$("#from_date").val();
 	  var end_date		=	$("#to_date").val();
@@ -1780,7 +1783,7 @@ $(document).ready(function(){
 			$(".blains-effect").css('cursor', 'no-drop');
 	  }
 	});
-</script>
+</script> -->
 
 <script type="text/javascript">
 	
@@ -2650,14 +2653,14 @@ $('INPUT[type="file"]').change(function () {
 </script>
 
 
- <script>
+<!--  <script>
 	function checkDec(el){
 		var ex = /^[0-9]+\.?[0-9]*$/;
 		if(ex.test(el.value)==false){
 			el.value = el.value.substring(0,el.value.length - 1);
 		}
 	}
- </script>
+ </script> -->
 
 
  <script>
@@ -4179,6 +4182,7 @@ function do_varo_rp(){
 		var score = 0;
 		var scoreable = 0;
 		var totalscore = 0;
+		var quality_score = 0;
 
 		$('.varo_rp_point').each(function(index,element){
 				var weightage = parseFloat($(element).children("option:selected").attr('varo_rp_val'));
@@ -4187,7 +4191,20 @@ function do_varo_rp(){
 
 		//totalscore = ((score*100)/scoreable).toFixed(2);
 		//$('#varo_rp_overoll_score').val(score);
-		$('#varo_rp_overoll_score').val(score.toFixed(2));
+		
+		if(!isNaN(score)){
+			$('#varo_rp_overoll_score').val(score.toFixed(2)+'%');
+		}
+	
+		if($('#o_fatal1').val()=='No' || $('#o_fatal2').val()=='No' || $('#o_fatal3').val()=='No' || $('#o_fatal4').val()=='No' || $('#o_fatal5').val()=='No' || $('#o_fatal6').val()=='No'|| $('#o_fatal7').val()=='No' || $('#complianceFatal1').val()=='No' || $('#complianceFatal2').val()=='No' || $('#complianceFatal3').val()=='No' || $('#complianceFatal4').val()=='No' || $('#complianceFatal5').val()=='No' || $('#complianceFatal6').val()=='No'|| $('#complianceFatal7').val()=='No'|| $('#complianceFatal8').val()=='No'|| $('#complianceFatal9').val()=='No'|| $('#complianceFatal10').val()=='No'|| $('#complianceFatal11').val()=='No'|| $('#complianceFatal12').val()=='No'|| $('#complianceFatal13').val()=='No'|| $('#complianceFatal14').val()=='No'|| $('#complianceFatal15').val()=='No'|| $('#complianceFatal16').val()=='No' || $('#doc_fatal2').val()=='No' || $('#doc_fatal3').val()=='No' || $('#doc_fatal5').val()=='No' || $('#doc_fatal6').val()=='No' || $('#doc_fatal8').val()=='No'){
+			//console.log($('#parkAF1').val());
+
+			quality_score = (0.00).toFixed(2);
+			$('.varso_rp_Fatal').val(quality_score+'%');
+		}else{
+			$('#varo_rp_overoll_score').val(score.toFixed(2)+'%');
+		}
+
 	}
 
     $(document).on('change','.varo_rp_point',function(){
@@ -4195,7 +4212,7 @@ function do_varo_rp(){
     });
 	do_varo_rp();
 
-	//for opening
+	//for opening done
    function do_opening_point(){
 		var score = 0;
 		var scoreable = 0;
@@ -4221,7 +4238,7 @@ function do_varo_rp(){
 	  });
      do_opening_point();
 
-     //for effort
+     //for effort done
    function do_effort_point(){
 		var score = 0;
 		var scoreable = 0;
@@ -4235,7 +4252,7 @@ function do_varo_rp(){
 		do_effort_point();
 	  });
      do_effort_point();
-     //for compliance
+     //for compliance done
    function do_compliance_point(){
 		var score = 0;
 		$('.compliance_point').each(function(index,element){
@@ -4306,7 +4323,7 @@ function do_varo_rp(){
 
 
 
-      //for documentation
+      //for documentation done
    function do_documentation_point(){
 		var score = 0;
 		var scoreable = 0;

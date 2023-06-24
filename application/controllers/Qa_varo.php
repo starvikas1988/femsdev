@@ -7,33 +7,108 @@
 		$this->load->model('user_model');
 		$this->load->model('Common_model');
 	}
-	
-	
-	private function mt_upload_files($files,$path)
-    {
-        $config['upload_path'] = $path;
-		$config['allowed_types'] = 'mp3|avi|mp4|wmv|wav|jpg|jpeg|png';
-		$config['max_size'] = '2024000';
-		$this->load->library('upload', $config);
-		$this->upload->initialize($config);
 
-        $images = array();
-        foreach ($files['name'] as $key => $image) {           
-			$_FILES['images[]']['name']= $files['name'][$key];
-			$_FILES['images[]']['type']= $files['type'][$key];
-			$_FILES['images[]']['tmp_name']= $files['tmp_name'][$key];
-			$_FILES['images[]']['error']= $files['error'][$key];
-			$_FILES['images[]']['size']= $files['size'][$key];
+	public function createPath($path)
+	{
 
-            if ($this->upload->do_upload('images[]')) {
-				$info = $this->upload->data();
-				$images[] = $info['file_name'];
-            } else {
-                return false;
-            }
-        }
-        return $images;
-    }
+		if (!empty($path))
+		{
+
+	    	if(!file_exists($path)){
+
+	    		$mainPath="./";
+	    		$checkPath=str_replace($mainPath,'', $path);
+	    		$checkPath=explode("/",$checkPath);
+	    		$cnt=count($checkPath);
+	    		for($i=0;$i<$cnt;$i++){
+
+		    		$mainPath.=$checkPath[$i].'/';
+		    		if (!file_exists($mainPath)) {
+		    			$oldmask = umask(0);
+						$mkdir=mkdir($mainPath, 0777);
+						umask($oldmask);
+
+						if ($mkdir) {
+							return true;
+						}else{
+							return false;
+						}
+		    		}
+
+	    		}
+
+    		}else{
+    			return true;
+    		}
+    	}
+	}
+
+	private function mt_upload_files($files,$path)   // this is for file uploaging purpose
+	{
+	    $result=$this->createPath($path);
+	    if($result){
+	    $config['upload_path'] = $path;
+	    $config['allowed_types'] = '*';
+
+		  $config['allowed_types'] = 'm4a|mp4|mp3|wav';
+		  $config['max_size'] = '2024000';
+		  $this->load->library('upload', $config);
+		  $this->upload->initialize($config);
+	      $images = array();
+	      foreach ($files['name'] as $key => $image) {
+	    	$_FILES['uFiles']['name']= $files['name'][$key];
+	    	$_FILES['uFiles']['type']= $files['type'][$key];
+	    	$_FILES['uFiles']['tmp_name']= $files['tmp_name'][$key];
+	    	$_FILES['uFiles']['error']= $files['error'][$key];
+	    	$_FILES['uFiles']['size']= $files['size'][$key];
+
+	          if ($this->upload->do_upload('uFiles')) {
+	      	$info = $this->upload->data();
+	      	$ext = $info['file_ext'];
+	      	$file_path = $info['file_path'];
+	      	$full_path = $info['full_path'];
+	      	$file_name = $info['file_name'];
+	      if(strtolower($ext)== '.wav'){
+
+	        $file_name = str_replace(".","_",$file_name).".mp3";
+	        $new_path = $file_path.$file_name;
+	        $comdFile=FCPATH."assets/script/wavtomp3.sh '$full_path' '$new_path'";
+	        $output = shell_exec( $comdFile);
+	        sleep(2);
+	      }
+	      $images[] = $file_name;
+	          }else{
+	              return false;
+	          }
+	      }
+	      return $images;
+	    }
+	}
+	// private function mt_upload_files($files,$path)
+ //    {
+ //        $config['upload_path'] = $path;
+	// 	$config['allowed_types'] = 'mp3|avi|mp4|wmv|wav|jpg|jpeg|png';
+	// 	$config['max_size'] = '2024000';
+	// 	$this->load->library('upload', $config);
+	// 	$this->upload->initialize($config);
+
+ //        $images = array();
+ //        foreach ($files['name'] as $key => $image) {           
+	// 		$_FILES['images[]']['name']= $files['name'][$key];
+	// 		$_FILES['images[]']['type']= $files['type'][$key];
+	// 		$_FILES['images[]']['tmp_name']= $files['tmp_name'][$key];
+	// 		$_FILES['images[]']['error']= $files['error'][$key];
+	// 		$_FILES['images[]']['size']= $files['size'][$key];
+
+ //            if ($this->upload->do_upload('images[]')) {
+	// 			$info = $this->upload->data();
+	// 			$images[] = $info['file_name'];
+ //            } else {
+ //                return false;
+ //            }
+ //        }
+ //        return $images;
+ //    }
 	
 	
 ////////////////////// VARO /////////////////////////
@@ -44,7 +119,7 @@
 			$current_user = get_user_id();
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_varo/qa_varo_feedback.php";
-			$data["content_js"] = "qa_clio_js.php";
+			$data["content_js"] = "qa_varo_js.php";
 			
 			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,240) and is_assign_process (id,541) and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
@@ -263,8 +338,12 @@
 					$field_array['entry_date']=$curDateTime;
 					$field_array['audit_start_time']=$this->input->post('audit_start_time');
 
-					$a = $this->mt_upload_files($_FILES['attach_file'], $path='./qa_files/qa_varo_rp/');
-                    $field_array["attach_file"] = implode(',',$a);
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						$a = $this->mt_upload_files($_FILES['attach_file'], $path='./qa_files/qa_varo_rp/');
+                        $field_array["attach_file"] = implode(',',$a);
+					}
+
+					
 
 					$rowid= data_inserter('qa_varo_rp_v2_feedback',$field_array);
 					if(get_login_type()=="client"){
@@ -279,6 +358,15 @@
 					
 					$field_array1=$this->input->post('data');
 					$field_array1['call_date']=mmddyy2mysql($this->input->post('call_date'));
+
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						if(!file_exists("./qa_files/qa_varo_rp/")){
+							mkdir("./qa_files/qa_varo_rp/");
+						}
+						$a = $this->mt_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_varo_rp/' );
+						$field_array1['attach_file'] = implode( ',', $a );
+					}
+
 					$this->db->where('id', $varo_rp_id);
 					$this->db->update('qa_varo_rp_v2_feedback',$field_array1);
 					/////////////

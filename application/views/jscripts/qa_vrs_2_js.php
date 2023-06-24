@@ -1,5 +1,19 @@
 
 <script type="text/javascript">
+	$(document).ready(function(){
+	$("#contact_date").datepicker();
+	$("#call_length").timepicker();
+	$("#audit_date").datepicker();
+	$("#call_date").datepicker({maxDate: new Date()}); //datetimepicker
+	$("#call_date_time").datetimepicker({maxDate: new Date()});
+	//$("#call_date").datepicker({ minDate: 0 });
+	$("#copy_received").datepicker();
+	$("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });
+	$("#from_date").datepicker({maxDate: new Date() });
+	$("#to_date").datepicker({maxDate: new Date() });
+	});
+</script>
+<script type="text/javascript">
 	$(document).ready(function () {
 	 // console.log("Hello World!");
 	  var start_date	=	$("#from_date").val();
@@ -76,21 +90,6 @@
 var jscript_blcker=0;
 $(document).ready(function(){
 	
-	
-	
-	
-	$("#contact_date").datepicker();
-	$("#call_length").timepicker();
-	
-
-	$("#audit_date").datepicker();
-	$("#call_date").datepicker({maxDate: new Date()}); //datetimepicker
-	$("#call_date_time").datetimepicker({maxDate: new Date()});
-	//$("#call_date").datepicker({ minDate: 0 });
-	$("#copy_received").datepicker();
-	$("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });
-	$("#from_date").datepicker({maxDate: new Date() });
-	$("#to_date").datepicker({maxDate: new Date() });
 	
 ///////////////// Calibration - Auditor Type ///////////////////////	
 	$('.auType').hide();

@@ -39,6 +39,10 @@
 	font-weight:bold;
 	background-color:#CCD1D1;
 }
+.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
+	 float: left;
+	 display: none;
+	}
 
 </style>
 
@@ -149,7 +153,7 @@
 												<input type="text" id="call_date" name="call_date"  onkeydown="return false;" value="<?php echo $clDate_val; ?>" max="<?php echo date("Y-m-d"); ?>" class="form-control" required>
 										</td>
 										<td>Contact Duration:<span style="font-size:24px;color:red">*</span></td>
-										<td><input type="text" class="form-control" id="contact_duration" onkeydown="return false;" name="data[call_duration]" value="<?php echo $right_party_v2_data['call_duration']; ?>" required></td>
+										<td><input type="text" class="form-control" id="call_duration" onkeydown="return false;" name="data[call_duration]" value="<?php echo $right_party_v2_data['call_duration']; ?>" required></td>
 									</tr>
 									<tr>
 										<td>ACPT<span style="font-size:24px;color:red">*</span></td>

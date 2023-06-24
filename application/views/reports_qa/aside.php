@@ -106,6 +106,12 @@
 								</a>
 							</li>
 							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_ossur/qa_ossur_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Ossur</span>
+								</a>
+							</li>
+							<li class="menu-item">
 								<a href="<?php echo base_url()?>reports_qa/qa_oyo_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">OYO</span>
@@ -545,6 +551,12 @@
 								<a href="<?php echo base_url()?>Qa_ayming/qa_ayming_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">AYMING</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>Qa_sea_world/qa_sea_world_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Sea World</span>
 								</a>
 							</li>
 							<li class="menu-item">

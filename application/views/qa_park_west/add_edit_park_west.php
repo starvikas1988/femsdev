@@ -17,11 +17,17 @@
 		background-color: red;
 		color:white;
 	}
+
 	.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
 	 float: left;
 	 display: none;
 	}
 </style>
+<?php // .ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
+	 //float: left;
+	// display: none;
+	//used for call_duration to disable now button.
+	} ?>
 
 <?php if ($park_west_id != 0) {
 	if (is_access_qa_edit_feedback() == false) { ?>

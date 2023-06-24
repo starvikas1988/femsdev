@@ -117,7 +117,6 @@
 										<td>Audit Type:<span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="audit_type" name="data[audit_type]" disabled>
-												<option value="<?php echo $varo_rp['audit_type'] ?>"><?php echo $varo_rp['audit_type'] ?></option>
 												<option value="">-Select-</option>
 												<option value="CQ Audit" <?= ($varo_rp['audit_type']=="CQ Audit")?"selected":"" ?>>CQ Audit</option>
                                                     <option value="BQ Audit" <?= ($varo_rp['audit_type']=="BQ Audit")?"selected":"" ?>>BQ Audit</option>
@@ -141,7 +140,6 @@
 										<td>VOC:<span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="voc" name="data[voc]" disabled>
-												<option value="<?php echo $varo_rp['voc'] ?>"><?php echo $varo_rp['voc'] ?></option>
 												<option value="">-Select-</option>
 												<option value="1"  <?= ($varo_rp['voc']=="1")?"selected":"" ?>>1</option>
 													<option value="2"  <?= ($varo_rp['voc']=="2")?"selected":"" ?>>2</option>
@@ -165,8 +163,8 @@
 										<td></td>
 										<td colspan="" style="font-weight:bold; font-size:16px; text-align:right"></td>
 										<td></td>
-										<td colspan="" style="font-weight:bold; font-size:16px; text-align:right">Overall Score:</td>
-										<td><input type="text" readonly id="varo_rp_overoll_score" name="data[overall_score]" class="form-control" style="font-weight:bold" value="<?php if($varo_rp['overall_score']!=''){ echo $varo_rp['overall_score'].'%'; } else { ?>100%<?php } ?>"></td>
+										<td style="font-weight:bold; font-size:16px; text-align:right">Overall Score:</td>
+										<td><input type="text" class="form-control varso_rp_Fatal" readonly id="" name="data[overall_score]"  style="font-weight:bold" value="<?php echo $varo_rp['overall_score'] ?>"></td>
 									</tr>
 									<tr style="background-color:#A9CCE3; font-weight:bold"><td>Parameter</td><td colspan=3>Sub Parameter</td><td>Marking</td><td>Score</td></tr>
 									<tr>
