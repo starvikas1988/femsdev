@@ -153,6 +153,8 @@
                                                     <option value="Certification Audit" <?= ($ayming_data['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
                                                     <option value="Operation Audit" <?= ($ayming_data['audit_type']=="Operation Audit")?"selected":"" ?>>Operation Audit</option>
                                                     <option value="Trainer Audit"  <?= ($ayming_data['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option>
+                                                    <option value="WOW Call" <?= ($ayming_data['audit_type']=="WOW Call")?"selected":"" ?>>WOW Call</option>
+                                                    <option value="Hygiene Audit" <?= ($ayming_data['audit_type']=="Hygiene Audit")?"selected":"" ?>>Hygiene Audit</option>
                                                 </select>
 											</td>
 										</tr>
@@ -379,6 +381,12 @@
 										<td>Overall Percentage:</td><td ><input type="text" readonly class="form-control" id="business_overall_score" name="data[business_overall_score]" value="<?php echo $ayming_data['business_overall_score'] ?>"></td>
 										<td>Overall Percentage:</td><td colspan=2><input type="text" readonly class="form-control" id="compliance_overall_score" name="data[compliance_overall_score]" value="<?php echo $ayming_data['compliance_overall_score'] ?>"></td>
 									</tr>
+									<tr>
+											<td>Call Summary:</td>
+											<td colspan=2><textarea class="form-control" disabled name="data[call_summary]"><?php echo $ayming_data['call_summary'] ?></textarea></td>
+											<td>Feedback:</td>
+											<td colspan=4><textarea class="form-control" disabled name="data[feedback]"><?php echo $ayming_data['feedback'] ?></textarea></td>
+										</tr>
 										<?php if($ayming_data['attach_file']!=''){ ?>
 									<tr oncontextmenu="return false;">
 										<td colspan="2">Audio Files (Mp4/Mp3/M4a/Wav)</td>

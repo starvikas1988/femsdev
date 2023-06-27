@@ -818,9 +818,9 @@
 									</tr>
 
 									<tr>
-										<td>Call Summary:</td>
+										<td>Observations:</td>
 										<td colspan=2><textarea class="form-control" id="" name="data[call_summary]"><?php echo $varo_rp['call_summary'] ?></textarea></td>
-										<td>Feedback:</td>
+										<td>Area of opportunity:</td>
 										<td colspan=2><textarea class="form-control" id="" name="data[feedback]"><?php echo $varo_rp['feedback'] ?></textarea></td>
 									</tr>
 									

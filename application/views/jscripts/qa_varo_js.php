@@ -1766,7 +1766,7 @@ $(document).ready(function(){
 
 
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
 	$(document).ready(function () {
 	  var start_date	=	$("#from_date").val();
 	  var end_date		=	$("#to_date").val();
@@ -1783,9 +1783,63 @@ $(document).ready(function(){
 			$(".blains-effect").css('cursor', 'no-drop');
 	  }
 	});
-</script> -->
+</script>
 
 <script type="text/javascript">
+	
+	function date_validation(val,type){
+	// alert(val);
+		$(".end_date_error").html("");
+		$(".start_date_error").html("");
+		
+		if(type=='E'){
+		var start_date=$("#from_date").val();
+		//if(val<start_date)
+		if(start_date!=''){
+			if(Date.parse(val) < Date.parse(start_date))
+			{
+				$(".end_date_error").html("To Date must be greater or equal to From Date");
+				 $(".blains-effect").attr("disabled",true);
+				 $(".blains-effect").css('cursor', 'no-drop');
+			}
+			else{
+				 $(".blains-effect").attr("disabled",false);
+				 $(".blains-effect").css('cursor', 'pointer');
+				}
+
+		}else{
+				 $(".blains-effect").attr("disabled",true);
+				 $(".blains-effect").css('cursor', 'no-drop');
+		}
+		
+		}
+		else{
+			var end_date=$("#to_date").val();
+		//if(val>end_date && end_date!='')
+		
+		if(end_date!=''){
+			if(Date.parse(val) > Date.parse(end_date) && end_date!='')
+		{
+			$(".start_date_error").html("From  Date  must be less or equal to  To Date");
+			 $(".blains-effect").attr("disabled",true);
+			 $(".blains-effect").css('cursor', 'no-drop');
+			
+		}
+		else{
+			 $(".blains-effect").attr("disabled",false);
+			 $(".blains-effect").css('cursor', 'pointer');
+			}
+		}else{
+			$(".blains-effect").attr("disabled",true);
+			 $(".blains-effect").css('cursor', 'no-drop');
+		}
+		
+
+		}
+	}
+</script>
+
+<!-- <script type="text/javascript">
 	
 	function date_validation(val,type){
 	// alert(val);
@@ -1823,7 +1877,7 @@ $(document).ready(function(){
 
 		}
 	}
-</script>
+</script> -->
 
 <script>
 $('INPUT[type="file"]').change(function () {

@@ -156,7 +156,7 @@
 												</select>
 											</td>
 											<td>Site/Location:<span style="font-size:24px;color:red">*</span></td>
-											<td><input type="text" class="form-control" id="" name="data[site]" value="<?php echo $ayming_data['site'] ?>" ></td>
+											<td><input type="text" class="form-control" id="" name="data[site]" value="<?php echo $ayming_data['site'] ?>" required></td>
 											<td>Audit Type:<span style="font-size:24px;color:red">*</span></td>
 											<td>
 												<select class="form-control" id="audit_type" name="data[audit_type]" required>

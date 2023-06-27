@@ -9,7 +9,83 @@ class Qa_RPM_Sentry extends CI_Controller {
 		$this->load->model('Common_model');
 		$this->load->model('Qa_RPM_Sentry_model');
     }
+
+    public function createPath($path)
+	{
+
+		if (!empty($path))
+		{
+
+	    	if(!file_exists($path)){
+
+	    		$mainPath="./";
+	    		$checkPath=str_replace($mainPath,'', $path);
+	    		$checkPath=explode("/",$checkPath);
+	    		$cnt=count($checkPath);
+	    		for($i=0;$i<$cnt;$i++){
+
+		    		$mainPath.=$checkPath[$i].'/';
+		    		if (!file_exists($mainPath)) {
+		    			$oldmask = umask(0);
+						$mkdir=mkdir($mainPath, 0777);
+						umask($oldmask);
+
+						if ($mkdir) {
+							return true;
+						}else{
+							return false;
+						}
+		    		}
+
+	    		}
+
+    		}else{
+    			return true;
+    		}
+    	}
+	}
     
+    private function sentry_upload_files($files,$path) // this is for file uploaging purpose
+	{
+	    $result=$this->createPath($path);
+	    if($result){
+	    $config['upload_path'] = $path;
+	    $config['allowed_types'] = '*';
+
+		  $config['allowed_types'] = 'm4a|mp4|mp3|wav';
+		  $config['max_size'] = '2024000';
+		  $this->load->library('upload', $config);
+		  $this->upload->initialize($config);
+	      $images = array();
+	      foreach ($files['name'] as $key => $image) {
+	    $_FILES['uFiles']['name']= $files['name'][$key];
+	    $_FILES['uFiles']['type']= $files['type'][$key];
+	    $_FILES['uFiles']['tmp_name']= $files['tmp_name'][$key];
+	    $_FILES['uFiles']['error']= $files['error'][$key];
+	    $_FILES['uFiles']['size']= $files['size'][$key];
+
+	          if ($this->upload->do_upload('uFiles')) {
+	      $info = $this->upload->data();
+	      $ext = $info['file_ext'];
+	      $file_path = $info['file_path'];
+	      $full_path = $info['full_path'];
+	      $file_name = $info['file_name'];
+	      if(strtolower($ext)== '.wav'){
+
+	        $file_name = str_replace(".","_",$file_name).".mp3";
+	        $new_path = $file_path.$file_name;
+	        $comdFile=FCPATH."assets/script/wavtomp3.sh '$full_path' '$new_path'";
+	        $output = shell_exec( $comdFile);
+	        sleep(2);
+	      }
+	      $images[] = $file_name;
+	          }else{
+	              return false;
+	          }
+	      }
+	      return $images;
+	    }
+	}
 
     public function getTLname(){
 		if(check_logged_in()){
@@ -80,13 +156,41 @@ class Qa_RPM_Sentry extends CI_Controller {
 			
             $data["agentName"] = $this->Qa_RPM_Sentry_model->get_agent_id(56,68);
 			
+			/******** Randamiser Start***********/
+			
+			
+			$rand_id=0;
+			if(!empty($this->uri->segment(3))){
+				$rand_id=$this->uri->segment(3);
+			}
+			$data['rand_id']=$rand_id;
+			$data["rand_data"] = "";
+			
+			
+			
+			if($rand_id!=0){
+				$client_id=56;
+				$pro_id = 68;
+				$curDateTime=CurrMySqlDate();
+				$upArr = array('distribution_opend_by' =>$current_user,'distribution_opened_datetime'=>$curDateTime);
+				$this->db->where('id', $rand_id);
+				$this->db->update('qa_randamiser_rpm_data',$upArr);
+				
+				$randSql="Select srd.*,srd.aht as call_duration, S.id as sid, S.fname, S.lname, S.xpoid, S.assigned_to,get_process_names(S.id) as process_name,
+				(select concat(fname, ' ', lname) as name from signin s1 where s1.id=S.assigned_to) as tl_name,DATEDIFF(CURDATE(), S.doj) as tenure
+				from qa_randamiser_rpm_data srd Left Join signin S On srd.fusion_id=S.fusion_id where srd.audit_status=0 and srd.id='$rand_id'";
+				$data["rand_data"] = $rand_data =  $this->Common_model->get_query_row_array($randSql);
+				
+			}
+			//print_r($data["rand_data"]);
+			/******** Randamiser Ends**********/
+			
 			$curDateTime=CurrMySqlDate();
 			
             if($this->input->post('save_button')=='save'){
                 $_field_array = array(
                     "auditor_name" => $this->input->post('auditor_name'),
 					"audit_date" => CurrDate(),
-					//"audit_time" => $this->input->post('audit_time'),
 					"agent_id" => $this->input->post('agent_id'),
 					"caller_title" => $this->input->post('caller_title'),
 					"caller_name" => $this->input->post('caller_name'),
@@ -96,8 +200,8 @@ class Qa_RPM_Sentry extends CI_Controller {
 					"voc" => $this->input->post('voc'),
 					"call_type" => $this->input->post('call_type'),
 					"disposition_type" => $this->input->post('disposition_type'),
-					"overall_score" => number_format($this->input->post('total_score'),2),
-					"total_score_count" => $this->input->post('total_score_count'),
+					"overall_score" => $this->input->post('total_score'),
+					//"total_score_count" => $this->input->post('total_score_count'),
 					"customer_information" => $this->input->post('customer_information'),
 					"voice_delivery" => $this->input->post('voice_delivery'),
 					"communication_skills" => $this->input->post('communication_skills'),
@@ -111,8 +215,23 @@ class Qa_RPM_Sentry extends CI_Controller {
 					"entry_date" => $curDateTime
                 );
 				
-                data_inserter('qa_rpm', $_field_array);
-				redirect(base_url().'Qa_RPM_Sentry/rpm/','refresh');
+                $rowid = data_inserter('qa_rpm', $_field_array);
+				if($rand_id!=0){					
+					$rand_cdr_array = array("audit_status" => 1);
+					$this->db->where('id', $rand_id);
+					$this->db->update('qa_randamiser_rpm_data',$rand_cdr_array);
+					
+					$rand_array = array("is_rand" => 1);
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_rpm',$rand_array);
+					}
+				if(isset($rand_data['upload_date']) && !empty($rand_data['upload_date'])){
+					$up_date = date('Y-m-d', strtotime($rand_data['upload_date']));
+					redirect('Qa_randamiser/data_distribute_freshdesk?from_date='.$up_date.'&client_id='.$client_id.'&pro_id='.$pro_id.'&submit=Submit');
+				}else{
+					redirect(base_url().'Qa_RPM_Sentry/rpm/','refresh');
+				}
+				//redirect(base_url().'Qa_RPM_Sentry/rpm/','refresh');
             }
             $this->load->view('dashboard',$data);
         }
@@ -235,6 +354,7 @@ class Qa_RPM_Sentry extends CI_Controller {
 			$current_user = get_user_id();
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_rpm_sentry/sentry.php"; 
+			$data["content_js"] = "qa_sentry_js.php";
 			$from_date = $this->input->get('from_date');
 			$to_date = 	$this->input->get('to_date');
 			if($from_date==""){ 
@@ -248,16 +368,415 @@ class Qa_RPM_Sentry extends CI_Controller {
 			}else{
 				$to_date = mmddyy2mysql($to_date);
 			}
-			$agent = $this->input->get('agent');			
+			$agent = $this->input->get('agent');	
+			$agent_id = $agent;		
 			$data["from_date"] 	= $from_date;
             $data["to_date"] 	= $to_date;
 			$data["agent"] 	= $agent;
 			$sentry_data =	$this->Qa_RPM_Sentry_model->get_sentry_data($from_date,$to_date,$agent,$current_user);
 			$data['sentry_data'] =	$sentry_data;
 			$data["agent_list"] = $this->Qa_RPM_Sentry_model->get_agent_id(55,174);
+
+			///vikas starts/////
+			if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date' ) ";
+			if($agent_id !="")	$cond .=" and agent_id='$agent_id'";
+
+			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+				$ops_cond=" Where (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+				$ops_cond=" Where assigned_to='$current_user'";
+			}else{
+				$ops_cond="";
+			}
+
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_sentry_credit_feedback $cond) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, get_process_names(id) as campaign, assigned_to from signin) yy on (xx.agent_id=yy.sid) $ops_cond order by audit_date";
+			$data["sentry_credit_data"] = $this->Common_model->get_query_result_array($qSql);
+			///vikas ends/////
+			
 			$this->load->view('dashboard',$data);
 		}
 	}
+
+	//////////////////////vikas starts//////////////////////////////////
+
+	public function add_edit_sentry_credit($sentry_credit_id){
+		if(check_logged_in())
+		{
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_rpm_sentry/add_edit_sentry_credit.php";
+			$data["content_js"] = "qa_sentry_js.php";
+			$data['sentry_credit_id']=$sentry_credit_id;
+			$tl_mgnt_cond='';
+
+			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and assigned_to='$current_user'";
+			}else{
+				$tl_mgnt_cond="";
+			}
+
+
+			$qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,55) and is_assign_process(id,174) and status=1  order by name";
+	          $data['agentName'] = $this->Common_model->get_query_result_array( $qSql );
+
+			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
+
+			$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
+				from qa_sentry_credit_feedback where id='$sentry_credit_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			$data["sentry_credit_data"] = $this->Common_model->get_query_row_array($qSql);
+
+			$curDateTime=CurrMySqlDate();
+			$a = array();
+
+			$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
+
+			if($field_array['agent_id']){
+
+				if($sentry_credit_id==0){
+					$field_array=$this->input->post('data');
+					$field_array['audit_date']=CurrDate();
+					$field_array['call_date']=mmddyy2mysql($this->input->post('call_date'));
+					$field_array['entry_date']=$curDateTime;
+					$field_array['audit_start_time']=$this->input->post('audit_start_time');
+					
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						$a = $this->sentry_upload_files($_FILES['attach_file'], $path='./qa_files/qa_sentry/');
+						$field_array["attach_file"] = implode(',',$a);
+					}
+
+					$rowid= data_inserter('qa_sentry_credit_feedback',$field_array);
+					if(get_login_type()=="client"){
+						$add_array = array("client_entryby" => $current_user);
+					}else{
+						$add_array = array("entry_by" => $current_user);
+					}
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_sentry_credit_feedback',$add_array);
+
+				}else{
+
+					$field_array1=$this->input->post('data');
+					$field_array1['call_date']=mmddyy2mysql($this->input->post('call_date'));
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						if(!file_exists("./qa_files/qa_sentry/")){
+							mkdir("./qa_files/qa_sentry/");
+						}
+						$a = $this->sentry_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_sentry/' );
+						$field_array1['attach_file'] = implode( ',', $a );
+					}
+
+					$this->db->where('id', $sentry_credit_id);
+					$this->db->update('qa_sentry_credit_feedback',$field_array1);
+					/////////////
+					if(get_login_type()=="client"){
+						$edit_array = array(
+							"client_rvw_by" => $current_user,
+							"client_rvw_note" => $this->input->post('note'),
+							"client_rvw_date" => $curDateTime
+						);
+					}else{
+						$edit_array = array(
+							"mgnt_rvw_by" => $current_user,
+							"mgnt_rvw_note" => $this->input->post('note'),
+							"mgnt_rvw_date" => $curDateTime
+						);
+					}
+					$this->db->where('id', $sentry_credit_id);
+					$this->db->update('qa_sentry_credit_feedback',$edit_array);
+
+				}
+
+				redirect('Qa_RPM_Sentry/sentry');
+				//$this->load->view('dashboard',$data);
+			}
+			$data["array"] = $a;
+
+			$this->load->view("dashboard",$data);
+		}
+	}
+
+	public function qa_sentry_credit_report(){
+		if(check_logged_in()){
+
+			$office_id = "";
+			$user_office_id=get_user_office_id();
+			$current_user = get_user_id();
+			$is_global_access=get_global_access();
+			$role_dir=get_role_dir();
+			$data["show_download"] = false;
+			$data["download_link"] = "";
+			$data["show_table"] = false;
+			$data["show_table"] = false;
+
+			$data["aside_template"] = "reports_qa/aside.php";
+			$data["content_template"] = "qa_rpm_sentry/qa_sentry_credit_report.php";
+			$data["content_js"] = "qa_sentry_js.php";
+
+			$date_from="";
+			$date_to="";
+			$action="";
+			$dn_link="";
+			$cond="";
+			$cond1="";
+			$cond2="";
+			$audit_type="";
+
+			$date_from = ($this->input->get('from_date'));
+			$date_to = ($this->input->get('to_date'));
+
+			if($date_from==""){
+					$date_from=CurrDate();
+				}else{
+					$date_from = mmddyy2mysql($date_from);
+				}
+
+				if($date_to==""){
+					$date_to=CurrDate();
+				}else{
+					$date_to = mmddyy2mysql($date_to);
+			}
+
+			$data["qa_sentry_list"] = array();
+			//if($this->input->get('show')=='Show') {
+			   // $campaign = $this->input->get('campaign');
+				
+				$office_id = $this->input->get('office_id');
+				$audit_type = $this->input->get('audit_type');
+
+				if($office_id=="All") $cond .= "";
+				else $cond .=" and office_id='$office_id'";
+
+				if($audit_type=="All" || $audit_type=="") $cond2 .= "";
+				else $cond2 .=" and audit_type='$audit_type'";
+
+				
+
+				if($date_from !="" && $date_to!=="" )  $cond= " Where (audit_date >= '$date_from' and audit_date <= '$date_to' ) ";
+
+				if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+					$cond1 .=" And (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+				}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+					$cond1 .=" And assigned_to='$current_user'";
+				}else{
+					$cond1 .="";
+				}
+
+              
+					 $qSql="SELECT * from
+					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+					(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+					(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+					(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
+					(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_sentry_credit_feedback) xx Left Join
+					(Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process, doj, DATEDIFF(CURDATE(), doj) as tenure from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 $cond2 order by audit_date";
+
+					$fullAray = $this->Common_model->get_query_result_array($qSql);
+					$data["qa_sentry_list"] = $fullAray;
+			 
+
+				$this->create_qa_sentry_credit_CSV($fullAray);
+
+				$dn_link = base_url()."Qa_RPM_Sentry/download_qa_sentry_credit_CSV";
+
+
+			//}
+			$data['location_list'] = $this->Common_model->get_office_location_list();
+
+			$data['download_link']=$dn_link;
+			$data["action"] = $action;
+			$data['from_date'] = $date_from;
+			$data['to_date'] = $date_to;
+			$data['office_id']=$office_id;
+			$data['audit_type']=$audit_type;
+
+			$this->load->view('dashboard',$data);
+		}
+	}
+
+   ////////////Norther ///////////////////////////////
+	public function download_qa_sentry_credit_CSV()
+	{
+		$currDate=date("Y-m-d");
+		$filename = "./assets/reports/Report".get_user_id().".csv";
+		$newfile="Sentry Credit Audit List-'".$currDate."'.csv";
+
+		header('Content-Disposition: attachment;  filename="'.$newfile.'"');
+		readfile($filename);
+	}
+
+	public function create_qa_sentry_credit_CSV($rr)
+	{
+
+		$filename = "./assets/reports/Report".get_user_id().".csv";
+		$fopen = fopen($filename,"w+");
+	
+		 $header = array("Auditor Name", "Audit Date", "Employee ID", "Agent Name", "L1 Supervisor", "ACPT","Site/Location", "Call Date", "Call Duration", "Audit Type", "Auditor Type", "VOC","Collector","Agent Tenurity","SCI","Client","VT ID","Possible Score", "Earned Score", "Overall Score",
+
+		 	"Did the collector begin with the exact call recording disclosure?",
+		 	"Did the collector begin with the exact call recording disclosure? - Remarks",
+
+		 	"Did collector verify they are speaking to the debtor or authorized party prior to collecting a debt? (DOB/SSN/ADDY/EMAIL)",
+		 	"Did collector verify they are speaking to the debtor or authorized party prior to collecting a debt? (DOB/SSN/ADDY/EMAIL) - Remarks",
+		 	"Email Requested/Confirmed?","Email Requested/Confirmed? - Remarks",
+		 	"Did collector Identify themselves by name prior to attempting to collect a debt?",
+		 	"Did collector Identify themselves by name prior to attempting to collect a debt? - Remarks",
+
+		 	"Did collector Identify collection agency by name prior to attempting to collect a debt?",
+		 	"Did collector Identify collection agency by name prior to attempting to collect a debt? - Remarks",
+
+		 	"Did collector give Mini Miranda prior to attempting to collect the debt (this should happen at the beginning of call after debtor confirms he/she is a right party and prior to collector concluding the opening of call and debtor speaking)?",
+		 	"Did collector give Mini Miranda prior to attempting to collect the debt (this should happen at the beginning of call after debtor confirms he/she is a right party and prior to collector concluding the opening of call and debtor speaking)? - Remarks",
+
+		 	"Did collector identify the original creditor current creditor client merchant or credit card type if not identified by the consumer? Was balance disclosed on the call?",
+		 	"Did collector identify the original creditor current creditor client merchant or credit card type if not identified by the consumer? Was balance disclosed on the call? - Remarks",
+
+		 	"Did the collector avoid communicating any false deceptive or misleading information? (UDAAP)",
+		 	"Did the collector avoid communicating any false deceptive or misleading information? (UDAAP) - Remarks",
+
+		 	"Did the collector avoid abusive rude or unprofessional behavior? (UDAAP)",
+		 	"Did the collector avoid abusive rude or unprofessional behavior? (UDAAP) - Remarks",
+
+		 	"Did collector obtain reason for delinquency?",
+		 	"Did collector obtain reason for delinquency? - Remarks",
+
+		 	"Did collector follow negotiation hierarchy?",
+		 	"Did collector follow negotiation hierarchy? - Remarks",
+
+		 	"Did the collector properly handle any dispute or complaint? (FDCPA)",
+		 	"Did the collector properly handle any dispute or complaint? (FDCPA) - Remarks",
+
+		 	"Did collector offer appropriate resolutions based on information available?",
+		 	"Did collector offer appropriate resolutions based on information available? - Remarks",
+
+		 	"For accounts that resulted in a payment did collector follow the appropriate script for the payment type with the required disclosures for Debit Card Credit Cards Check by Phone and Post Dates?",
+		 	"For accounts that resulted in a payment did collector follow the appropriate script for the payment type with the required disclosures for Debit Card Credit Cards Check by Phone and Post Dates? - Remarks",
+
+		 	"For accounts that resulted in a payment did the collector ask for the name as it appears on the card or checking account and ask for the billing or account address for the account?",
+		 	"For accounts that resulted in a payment did the collector ask for the name as it appears on the card or checking account and ask for the billing or account address for the account? - Remarks",
+
+		 	"If agency system notes have been reviewed did collector correctly and accurately update the system notes?",
+		 	"If agency system notes have been reviewed did collector correctly and accurately update the system notes? - Remarks",
+
+		 	"Did the collector properly complete any promise tab required?",
+		 	"Did the collector properly complete any promise tab required? - Remarks",
+
+		 	"Did the collector properly handle the account based on the specific compliance popup screen (OOS disclosures spouse communication requirements REG F etc)?",
+		 	"Did the collector properly handle the account based on the specific compliance popup screen (OOS disclosures spouse communication requirements REG F etc)? - Remarks",
+
+		 	"Did the collector complete all necessary file upkeep work (update mailing address update bankruptcy tab etc)?",
+		 	"Did the collector complete all necessary file upkeep work (update mailing address update bankruptcy tab etc)? - Remarks",
+
+    "Call Summary/Observation","Audit Start date and  Time ", "Audit End Date and  Time","Interval (in sec)",  "Feedback","Agent Feedback Acceptance", "Agent Review Date/Time", "Agent Comment", "Mgnt Review Date/Time","Mgnt Review By", "Mgnt Comment","Client Review Name","Client Review Note","Client Review Date and Time");
+		
+
+		$row = "";
+		foreach($header as $data) $row .= ''.$data.',';
+		fwrite($fopen,rtrim($row,",")."\r\n");
+		$searches = array("\r", "\n", "\r\n");
+
+			foreach($rr as $user){
+				 if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+				 	$interval1 = '---';
+				 }else{
+				 	$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+				 }
+
+				$row = '"'.$user['auditor_name'].'",';
+				$row .= '"'.$user['audit_date'].'",';
+				$row .= '"'.$user['fusion_id'].'",';
+				$row .= '"'.$user['fname']." ".$user['lname'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				$row .= '"'.$user['acpt'].'",';
+				$row .= '"'.$user['site'].'",';
+				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['call_duration'].'",';
+				$row .= '"'.$user['audit_type'].'",';
+				$row .= '"'.$user['auditor_type'].'",';
+				$row .= '"'.$user['voc'].'",';
+				$row .= '"'.$user['collector'].'",';
+				$row .= '"'.$user['tenurity'].'",';
+				$row .= '"'.$user['sci'].'",';
+				$row .= '"'.$user['client'].'",';
+				$row .= '"'.$user['call_id'].'",';
+				$row .= '"'.$user['possible_score'].'",';
+				$row .= '"'.$user['earned_score'].'",';
+				$row .= '"'.$user['overall_score'].'",';
+				$row .= '"'.$user['begin_call_recording'].'",';
+				$row .= '"'.$user['cmt1'].'",';
+				$row .= '"'.$user['verify_speacking'].'",';
+				$row .= '"'.$user['cmt2'].'",';
+				$row .= '"'.$user['email_requested'].'",';
+				$row .= '"'.$user['cmt3'].'",';
+				$row .= '"'.$user['identify_themselves'].'",';
+				$row .= '"'.$user['cmt4'].'",';
+				$row .= '"'.$user['identify_collection_agency'].'",';
+				$row .= '"'.$user['cmt5'].'",';
+				$row .= '"'.$user['give_Mini_Miranda'].'",';
+				$row .= '"'.$user['cmt6'].'",';
+				$row .= '"'.$user['identify_original_creditor'].'",';
+				$row .= '"'.$user['cmt7'].'",';
+				$row .= '"'.$user['avoid_communicating_false'].'",';
+				$row .= '"'.$user['cmt8'].'",';
+				$row .= '"'.$user['avoid_unprofessional_behavior'].'",';
+				$row .= '"'.$user['cmt9'].'",';
+				$row .= '"'.$user['reason_for_delinquency'].'",';
+				$row .= '"'.$user['cmt10'].'",';
+				$row .= '"'.$user['follow_negotiation_hierarchy'].'",';
+				$row .= '"'.$user['cmt11'].'",';
+				$row .= '"'.$user['handle_dispute'].'",';
+				$row .= '"'.$user['cmt12'].'",';
+				$row .= '"'.$user['offer_appropriate_resolutions'].'",';
+				$row .= '"'.$user['cmt13'].'",';
+				$row .= '"'.$user['follow_appropriate_script'].'",';
+				$row .= '"'.$user['cmt14'].'",';
+				$row .= '"'.$user['checking_account'].'",';
+				$row .= '"'.$user['cmt15'].'",';
+				$row .= '"'.$user['update_system_notes'].'",';
+				$row .= '"'.$user['cmt16'].'",';
+				$row .= '"'.$user['complete_promise_tab'].'",';
+				$row .= '"'.$user['cmt17'].'",';
+				$row .= '"'.$user['OOS_disclosures'].'",';
+				$row .= '"'.$user['cmt18'].'",';
+				$row .= '"'.$user['complete_file_upkeep_work'].'",';
+				$row .= '"'.$user['cmt19'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+				$row .= '"'.$user['audit_start_time'].'",';
+	            $row .= '"'.$user['entry_date'].'",';
+	            $row .= '"'.$interval1.'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+				$row .= '"'.$user['agnt_fd_acpt'].'",';
+				$row .= '"'.$user['agent_rvw_date'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+				$row .= '"'.$user['mgnt_rvw_date'].'",';
+				$row .= '"'.$user['mgnt_rvw_name'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_name'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'",';
+
+  			$row .= '"'.$user['client_rvw_date'].'",';
+
+				fwrite($fopen,$row."\r\n");
+			}
+			fclose($fopen);
+	}
+
+	/////////////////////vikas ends////////////////////////////////////
 	
 	public function add_sentry()
 	{
@@ -532,6 +1051,7 @@ class Qa_RPM_Sentry extends CI_Controller {
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_rpm_sentry/agent_sentry_feedback.php";
 			$data["agentUrl"] = "Qa_RPM_Sentry/agent_sentry_feedback";
+			$data["content_js"] = "qa_sentry_js.php";
 			
 			
 			$qSql="Select count(id) as value from qa_sentry where agent_id='$current_user'";
@@ -539,6 +1059,13 @@ class Qa_RPM_Sentry extends CI_Controller {
 			
 			$qSql="Select count(id) as value from qa_sentry where id  not in (select fd_id from qa_sentry_agent_rvw ) and agent_id='$current_user'";
 			$data["tot_agent_yet_rvw"] =  $this->Common_model->get_single_value($qSql);
+
+			$qSql="Select count(id) as value from qa_sentry_credit_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
+			$data["tot_agent_credit_feedback"] =  $this->Common_model->get_single_value($qSql);
+
+			$qSql="Select count(id) as value from qa_sentry_credit_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
+
+			$data["tot_agent_credit_yet_rvw"] =  $this->Common_model->get_single_value($qSql);
 				
 			$from_date = '';
 			$to_date = '';
@@ -556,9 +1083,38 @@ class Qa_RPM_Sentry extends CI_Controller {
 				);
 
 				$data["agent_review_list"] = $this->Qa_RPM_Sentry_model->get_sentry_agent_review_data($field_array);
+				///////////////////////////////////////////////////
+				$fromDate = $this->input->get('from_date');
+				if($fromDate!="") $from_date = mmddyy2mysql($fromDate);
+				
+				$toDate = $this->input->get('to_date');
+				if($toDate!="") $to_date = mmddyy2mysql($toDate);
+					
+				if($fromDate!="" && $toDate!=="" ){ 
+					$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit') ";
+				}else{
+					$cond= " Where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit') ";
+				}
+					
+				$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_sentry_credit_feedback $cond) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as campaign from signin) yy on (xx.agent_id=yy.sid)";
+				$data["agent_review_credit_list"] = $this->Common_model->get_query_result_array($qSql);
+				//////////////////////////////////////////////////
 					
 			 }else{	
-				$data["agent_review_list"] = $this->Qa_RPM_Sentry_model->get_sentry_agent_not_review_data($current_user);			
+				$data["agent_review_list"] = $this->Qa_RPM_Sentry_model->get_sentry_agent_not_review_data($current_user);	
+
+				$qSql="SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_sentry_credit_feedback where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call','QA Supervisor Audit', 'Certification Audit')) xx Inner Join
+				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+				$data["agent_review_credit_list"] = $this->Common_model->get_query_result_array($qSql);		
 			}
 			
 			$data["from_date"] = $from_date;
@@ -567,6 +1123,46 @@ class Qa_RPM_Sentry extends CI_Controller {
 			$this->load->view('dashboard',$data);
 		}
 	}
+
+	public function agent_sentry_credit_rvw($id){
+		if(check_logged_in()){
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+			
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_rpm_sentry/agent_sentry_credit_rvw.php";
+			$data["agentUrl"] = "Qa_RPM_Sentry/agent_rpm_feedback";
+			//$data["agentUrl"] = "qa_sentry/agent_sentry_feedback";
+			$data["content_js"] = "qa_sentry_js.php";
+			
+			
+			$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name,agent_rvw_note as agent_note,mgnt_rvw_note as mgnt_note from qa_sentry_credit_feedback where id=$id) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
+			$data["sentry_credit_data"] = $this->Common_model->get_query_row_array($qSql);
+			
+			$data["sentry_credit_id"]=$id;			
+			
+			if($this->input->post('sentry_credit_id'))
+			{
+				$sentry_credit_id=$this->input->post('sentry_credit_id');
+				$curDateTime=CurrMySqlDate();
+				$log=get_logs();
+				
+				$field_array=array(
+					"agent_rvw_note" => $this->input->post('note'),
+					"agnt_fd_acpt" => $this->input->post('agnt_fd_acpt'),
+					"agent_rvw_date" => $curDateTime
+				);
+				$this->db->where('id', $sentry_credit_id);
+				$this->db->update('qa_sentry_credit_feedback',$field_array);
+				
+				redirect('Qa_RPM_Sentry/agent_sentry_feedback');
+				
+			}else{
+				$this->load->view('dashboard',$data);
+			}
+		}
+	}
+
 	public function agent_sentry_feedback_rvw($id)
 	{
 		if(check_logged_in()){
