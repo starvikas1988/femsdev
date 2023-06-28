@@ -18692,14 +18692,8 @@ public function create_qa_idfc_CSV($rr,$campaign){
 
 
 public function qa_romtech_report() // working
-
-
-	{
+{
 		if(check_logged_in()){
-
-
-
-
 
 			$user_office_id=get_user_office_id();
 			$current_user = get_user_id();
@@ -18731,47 +18725,45 @@ public function qa_romtech_report() // working
 		//	$data["qa_ajio_list"] = array();
 
 
-				if($this->input->get('show')=='Show')
-				{
-					$date_from = mmddyy2mysql($this->input->get('date_from'));
-					$date_to = mmddyy2mysql($this->input->get('date_to'));
-					$office_id = $this->input->get('office_id');
+			if($this->input->get('show')=='Show')
+			{
+				$date_from = mmddyy2mysql($this->input->get('date_from'));
+				$date_to = mmddyy2mysql($this->input->get('date_to'));
+				$office_id = $this->input->get('office_id');
 
-					if($date_from !="" && $date_to!=="" )  $cond= " Where (audit_date >= '$date_from' and audit_date <= '$date_to' )";
+				if($date_from !="" && $date_to!=="" )  $cond= " Where (audit_date >= '$date_from' and audit_date <= '$date_to' )";
 
-					if($office_id=="All") $cond .= "";
-					else $cond .=" and office_id='$office_id'";
+				if($office_id=="All") $cond .= "";
+				else $cond .=" and office_id='$office_id'";
 
-					if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
-						$cond1 .=" And (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
-					}else if((get_role_dir()=='tl' && get_user_fusion_id()!='FMAN000616') && get_dept_folder()=='operations'){
-						$cond1 .=" And assigned_to='$current_user'";
-					}else{
-						$cond1 .="";
-					}
-
-
-					$qSql="SELECT * from
-					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-					(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-					(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-					(select d.description from department d left join signin sd on d.id=sd.dept_id where sd.id=entry_by) as auditor_dept,
-					(select r.name from role r left join signin sr on r.id=sr.role_id where sr.id=entry_by) as auditor_role,
-					(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
-					(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_".$campaign."_feedback) xx
-					Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process, doj, DATEDIFF(CURDATE(), doj) as tenure from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
-
-					$fullAray = $this->Common_model->get_query_result_array($qSql);
-
-					$data["qa_romtech_list"]=$fullAray;
-
-
-
-					$this->create_qa_romtech_CSV($fullAray,$campaign);
-					$dn_link = base_url()."qa_romtech/download_qa_romtech_CSV/".$campaign;
+				if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+					$cond1 .=" And (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+				}else if((get_role_dir()=='tl' && get_user_fusion_id()!='FMAN000616') && get_dept_folder()=='operations'){
+					$cond1 .=" And assigned_to='$current_user'";
+				}else{
+					$cond1 .="";
 				}
 
 
+				$qSql="SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select d.description from department d left join signin sd on d.id=sd.dept_id where sd.id=entry_by) as auditor_dept,
+				(select r.name from role r left join signin sr on r.id=sr.role_id where sr.id=entry_by) as auditor_role,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
+				(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_".$campaign."_feedback) xx
+				Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process, doj, DATEDIFF(CURDATE(), doj) as tenure from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
+
+				$fullAray = $this->Common_model->get_query_result_array($qSql);
+
+				$data["qa_romtech_list"]=$fullAray;
+
+
+
+				$this->create_qa_romtech_CSV($fullAray,$campaign);
+				$dn_link = base_url()."qa_romtech/download_qa_romtech_CSV/".$campaign;
+		    }
 
 			$data['download_link']=$dn_link;
 			$data["action"] = $action;
@@ -19019,6 +19011,155 @@ public function qa_romtech_report() // working
  			}
  			fclose($fopen);
 
+ 		}else if($campaign == 'romtech_inbound'){
+
+				$header = array("Auditor Name", "Audit Date ", "Agent Name ","ACPT", "Fusion ID ", "L1 Supervisor ", "Call Date ", "Audit Type ", "Type of Auditor ","File/Call ID ", "VOC","L1 ","L2","Phone Number", "Earned Score",
+					"Possible Score", "Overall Score %",
+		 	        "Customer Score","Business Score","Compliance Score",
+					"Greeting-Used standard ROMTech greeting message (Hello Thank you for contacting ROMTech customer service department.",
+					"Greeting-Used standard ROMTech greeting message (Hello Thank you for contacting ROMTech customer service department. - Remarks1",
+					"Introduction-Did the agent mention his/her name on call and also branded the call.",
+					"Introduction-Did the agent mention his/her name on call and also branded the call. - Remarks2",
+					"Mandate details-Did the agent confirm the patients first & last name/Physician name/DOB",
+					"Mandate details-Did the agent confirm the patients first & last name/Physician name/DOB - Remarks3",
+					"Communication - Proper energy proper pacecommunication skill was reflecting on call while speaking to the customer.",
+					"Communication - Proper energy proper pacecommunication skill was reflecting on call while speaking to the customer. - Remarks4",
+					"Empathy- Agent shown empathy or appology when and where required. Also agent's intonation was proper on call.",
+					"Empathy- Agent shown empathy or appology when and where required. Also agent's intonation was proper on call. - Remarks5",
+					"Did the agent overlapped or interruped the customer while he/she was speaking?",
+					"Did the agent overlapped or interruped the customer while he/she was speaking? - Remarks6",
+					"Did the agent showed good listening skills on call ?",
+					"Did the agent showed good listening skills on call ? - Remarks7",
+					"Professionalism - Agent shown proper professionalism on call. Not being rude on call abusive call disconnection sarcasm Using jargons etc.",
+					"Professionalism - Agent shown proper professionalism on call. Not being rude on call abusive call disconnection sarcasm Using jargons etc. - Remarks8",
+					"Probing - Did agent probed well to understand patients query and provide right information.",
+					"Probing - Did agent probed well to understand patients query and provide right information. - Remarks9",
+					"Hold Verbiage - Did the agent asked permission to put the call on hold ? & after resuming agent should thank the patient.",
+					"Hold Verbiage - Did the agent asked permission to put the call on hold ? & after resuming agent should thank the patient. - Remarks10",
+					"Hold Refresh - Did the agent informed the patient that he/she still looking for information (if hold is more than 2 mins)- If disconnected due to long hold then it leads to infraction.",
+					"Hold Refresh - Did the agent informed the patient that he/she still looking for information (if hold is more than 2 mins)- If disconnected due to long hold then it leads to infraction. - Remarks11",
+					"Consistent pleasantries used throughout the entire call (Please thank you Excuse me You're Welcome & May I).",
+					"Consistent pleasantries used throughout the entire call (Please thank you Excuse me You're Welcome & May I). - Remarks12",
+					"All call notes documented in ServiceNow with the correct taxonomy.",
+					"All call notes documented in ServiceNow with the correct taxonomy. - Remarks13",
+					"The agent followed all company process and policies to resolve the problem.",
+					"The agent followed all company process and policies to resolve the problem. - Remarks14",
+					"All internal resources (tools & managers) used to resolve the problem.",
+					"All internal resources (tools & managers) used to resolve the problem. - Remarks15",
+					"Problem was clearly determined and explained due to having ROMTech knowledge .",
+					"Problem was clearly determined and explained due to having ROMTech knowledge . - Remarks16",
+					"Provide clear follow-up instructions (If applicable).",
+					"Provide clear follow-up instructions (If applicable). - Remarks17",
+					"Verify if the user had any other questions.",
+					"Verify if the user had any other questions. - Remark18",
+					"Used standard ROMTech closing message (Thank you for contacting ROMTech customer service department).",
+					"Used standard ROMTech closing message (Thank you for contacting ROMTech customer service department). - Remarks19",
+					"Audit Start date and  Time ", "Audit End Date and  Time"," Audit Interval in Seconds",  "Call Summary ","Feedback ","Feedback Acceptance","Agent Feedback", "Agent Review Date","Management Review Date ", "Management Review Name ","Management Review Note", "Client Review Name","Client Review Note","Client Review Date " );
+
+
+
+
+ 		$row = "";
+ 		foreach($header as $data) $row .= ''.$data.',';
+ 		fwrite($fopen,rtrim($row,",")."\r\n");
+ 		$searches = array("\r", "\n", "\r\n");
+
+
+
+ 			foreach($rr as $user)
+ 			{
+ 				if($user['entry_by']!=''){
+ 					$auditorName = $user['auditor_name'];
+ 				}else{
+ 					$auditorName = $user['client_name'];
+ 				}
+
+ 				if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+ 					$interval1 = '---';
+ 				}else{
+ 					$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+ 				}
+
+ 				$row = '"'.$auditorName.'",';
+ 				$row .= '"'.$user['audit_date'].'",';
+ 				$row .= '"'.$user['fname']." ".$user['lname'].'",';
+ 				$row .= '"'.$user['acpt'].'",';
+ 				$row .= '"'.$user['fusion_id'].'",';
+ 				$row .= '"'.$user['tl_name'].'",';
+ 				$row .= '"'.$user['call_date'].'",';
+ 				$row .= '"'.$user['audit_type'].'",';
+ 				$row .= '"'.$user['auditor_type'].'",';
+ 				$row .= '"'.$user['call_id'].'",';
+ 				$row .= '"'.$user['voc'].'",';
+				$row .= '"'.$user['L1'].'",';
+				$row .= '"'.$user['L2'].'",';
+				$row .= '"'.$user['phone'].'",';
+				$row .= '"'.$user['earned_score'].'",';
+ 				$row .= '"'.$user['possible_score'].'",';
+ 				$row .= '"'.$user['overall_score'].'"% ,';
+				$row .= '"'.$user['customer_overall_score'].'",';
+				$row .= '"'.$user['business_overall_score'].'",';
+				$row .= '"'.$user['compliance_overall_score'].'",';
+				$row .= '"'.$user['appropriate_greeting'].'",';
+				$row .= '"'.$user['cmt1'].'",';
+				$row .= '"'.$user['introduction_on_call'].'",';
+				$row .= '"'.$user['cmt2'].'",';
+				$row .= '"'.$user['mandate_details'].'",';
+				$row .= '"'.$user['cmt3'].'",';
+				$row .= '"'.$user['communication_skill'].'",';
+				$row .= '"'.$user['cmt4'].'",';
+				$row .= '"'.$user['empathy'].'",';
+				$row .= '"'.$user['cmt5'].'",';
+				$row .= '"'.$user['overlapped_customer'].'",';
+				$row .= '"'.$user['cmt6'].'",';
+				$row .= '"'.$user['listening_skills'].'",';
+				$row .= '"'.$user['cmt7'].'",';
+				$row .= '"'.$user['professionalism'].'",';
+				$row .= '"'.$user['cmt8'].'",';
+				$row .= '"'.$user['probing'].'",';
+				$row .= '"'.$user['cmt9'].'",';
+				$row .= '"'.$user['hold_verbiage'].'",';
+				$row .= '"'.$user['cmt10'].'",';
+				$row .= '"'.$user['hold_refresh'].'",';
+				$row .= '"'.$user['cmt11'].'",';
+				$row .= '"'.$user['consistent_pleasantries'].'",';
+				$row .= '"'.$user['cmt12'].'",';
+				$row .= '"'.$user['correct_taxonomy'].'",';
+				$row .= '"'.$user['cmt13'].'",';
+				$row .= '"'.$user['polices_resolve_problem'].'",';
+				$row .= '"'.$user['cmt14'].'",';
+				$row .= '"'.$user['internal_resources'].'",';
+				$row .= '"'.$user['cmt15'].'",';
+				$row .= '"'.$user['ROMTech_knowledge'].'",';
+				$row .= '"'.$user['cmt16'].'",';
+				$row .= '"'.$user['follow_up'].'",';
+				$row .= '"'.$user['cmt17'].'",';
+				$row .= '"'.$user['other_questions'].'",';
+				$row .= '"'.$user['cmt18'].'",';
+				$row .= '"'.$user['closing_message'].'",';
+				$row .= '"'.$user['cmt19'].'",';
+ 				$row .= '"'.$user['audit_start_time'].'",';
+ 				$row .= '"'.$user['entry_date'].'",';
+ 				$row .= '"'.$interval1.'",';
+ 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+ 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+ 				$row .= '"'.$user['agnt_fd_acpt'].'",';
+
+ 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+ 				$row .= '"'.$user['agent_rvw_date'].'",';
+				$row .= '"'.$user['mgnt_rvw_date'].'",';
+ 				$row .= '"'.$user['mgnt_rvw_name'].'",';
+
+ 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
+
+ 				$row .= '"'.$user['client_rvw_name'].'",';
+ 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'",';
+
+ 				$row .= '"'.$user['client_rvw_date'].'"';
+
+ 				fwrite($fopen,$row."\r\n");
+ 			}
+ 			fclose($fopen);
  		}else if($campaign == 'romtech_intro'){
 
 			$header = array("Auditor Name", "Audit Date", "Agent Name", "Employee ID", "L1 Supervisor", "Call Date", "Customer Call Out", "Call ID", "AHT RCA", "Hold Exceeded", "L1", "L2", "Phone Number", "Patient Name", "Type of Audit", "Auditor Type", "VOC", "Earned Score", "Possible Score", "Overall Score", "Audit Start Date/Time", "Audit End Date/Time","Interval(in sec)",

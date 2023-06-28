@@ -417,6 +417,7 @@ $('INPUT[type="file"]').change(function () {
 		}
 	});
 </script>
+
 <script type="text/javascript">
 	
 	$('#tl_id').on('click', function(){
