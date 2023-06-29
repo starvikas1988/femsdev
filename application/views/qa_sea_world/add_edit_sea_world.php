@@ -73,13 +73,9 @@
 											} else {
 												$auditorName = $sea_world_data['client_name'];
 											}
-											//$new = explode("-", $sea_world_data['audit_date']);
-											//$new1 = explode(" ", $new[2]);
-											//print_r($new);
+										
 											$auditDate = mysql2mmddyy($sea_world_data['audit_date']);
-										 //    $at = array($new[1], $new1[0], $new[0]);
-										 //    $n_date = implode("/", $at);
-											// $auditDate = ($n_date)." ".$new1[1];
+										 
 											$clDate_val = mysql2mmddyy($sea_world_data['call_date']);
 										}
 										?>
@@ -141,8 +137,8 @@
 											    <option value="Agent" <?= ($sea_world_data['acpt']=="Agent")?"selected":"" ?>>Agent</option>
 												<option value="Customer" <?= ($sea_world_data['acpt']=="Customer")?"selected":"" ?>>Customer</option>
 												<option value="Process" <?= ($sea_world_data['acpt']=="Process")?"selected":"" ?>>Process</option>
-												<option value="Technical" <?= ($sea_world_data['acpt']=="Technical")?"selected":"" ?>>Technical</option>
-												<option value="NA" <?= ($sea_world_data['acpt']=="NA")?"selected":"" ?>>NA</option>
+												<option value="Technology" <?= ($sea_world_data['acpt']=="Technology")?"selected":"" ?>>Technology</option>
+												
 											
 										</select>
 											</td>
@@ -203,7 +199,8 @@
                                                     <option value="WoW Call"  <?= ($sea_world_data['audit_type']=="WoW Call")?"selected":"" ?>>WoW Call</option>
                                                     <option value="Hygiene Audit"  <?= ($sea_world_data['audit_type']=="Hygiene Audit")?"selected":"" ?>>Hygiene Audit</option>
                                                     <option value="Operation Audit"  <?= ($sea_world_data['audit_type']=="Operation Audit")?"selected":"" ?>>Operation Audit</option>
-                                                    <option value="Trainer Audit"  <?= ($sea_world_data['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option>  
+                                                    <option value="Trainer Audit"  <?= ($sea_world_data['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option> 
+                                                    <option value="QA Supervisor Audit"  <?= ($sea_world_data['audit_type']=="QA Supervisor Audit")?"selected":"" ?>>QA Supervisor Audit</option> 
                                                 </select>
 											</td>
 											
@@ -247,7 +244,7 @@
 													
 													<option sea_world_val=3 sea_world_max="3"<?php echo $sea_world_data['use_proper_greeting'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option sea_world_val=0 sea_world_max="3" <?php echo $sea_world_data['use_proper_greeting'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option sea_world_val=0 sea_world_max="3" <?php echo $sea_world_data['use_proper_greeting'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option sea_world_val=3 sea_world_max="3" <?php echo $sea_world_data['use_proper_greeting'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt1]" class="form-control" value="<?php echo $sea_world_data['cmt1'] ?>"></td>
@@ -263,7 +260,7 @@
 													
 													<option sea_world_val=3 sea_world_max="3"<?php echo $sea_world_data['use_proper_closing'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option sea_world_val=0 sea_world_max="3" <?php echo $sea_world_data['use_proper_closing'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option sea_world_val=0 sea_world_max="3" <?php echo $sea_world_data['use_proper_closing'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option sea_world_val=3 sea_world_max="3" <?php echo $sea_world_data['use_proper_closing'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt2]" class="form-control" value="<?php echo $sea_world_data['cmt2'] ?>"></td>
@@ -277,7 +274,7 @@
 													
 													<option sea_world_val=8 sea_world_max="8"<?php echo $sea_world_data['proper_tone'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option sea_world_val=0 sea_world_max="8" <?php echo $sea_world_data['proper_tone'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option sea_world_val=0 sea_world_max="8" <?php echo $sea_world_data['proper_tone'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option sea_world_val=8 sea_world_max="8" <?php echo $sea_world_data['proper_tone'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt3]" class="form-control" value="<?php echo $sea_world_data['cmt3'] ?>"></td>
@@ -290,7 +287,7 @@
 													
 													<option sea_world_val=6 sea_world_max="6"<?php echo $sea_world_data['courteous_words'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option sea_world_val=0 sea_world_max="6" <?php echo $sea_world_data['courteous_words'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option sea_world_val=0 sea_world_max="6" <?php echo $sea_world_data['courteous_words'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option sea_world_val=6 sea_world_max="6" <?php echo $sea_world_data['courteous_words'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt4]" class="form-control" value="<?php echo $sea_world_data['cmt4'] ?>"></td>
@@ -303,7 +300,7 @@
 													
 													<option sea_world_val=6 sea_world_max="6"<?php echo $sea_world_data['agent_adapted_approach'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option sea_world_val=0 sea_world_max="6" <?php echo $sea_world_data['agent_adapted_approach'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option sea_world_val=0 sea_world_max="6" <?php echo $sea_world_data['agent_adapted_approach'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option sea_world_val=6 sea_world_max="6" <?php echo $sea_world_data['agent_adapted_approach'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt5]" class="form-control" value="<?php echo $sea_world_data['cmt5'] ?>"></td>
@@ -321,7 +318,7 @@
 													
 													<option sea_world_val=6 sea_world_max="6"<?php echo $sea_world_data['active_listening'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option sea_world_val=0 sea_world_max="6" <?php echo $sea_world_data['active_listening'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option sea_world_val=0 sea_world_max="6" <?php echo $sea_world_data['active_listening'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option sea_world_val=6 sea_world_max="6" <?php echo $sea_world_data['active_listening'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt6]" class="form-control" value="<?php echo $sea_world_data['cmt6'] ?>"></td>
@@ -336,7 +333,7 @@
 													
 													<option sea_world_val=11 sea_world_max="11"<?php echo $sea_world_data['agent_takes_ownership'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option sea_world_val=0 sea_world_max="11" <?php echo $sea_world_data['agent_takes_ownership'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option sea_world_val=0 sea_world_max="11" <?php echo $sea_world_data['agent_takes_ownership'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option sea_world_val=11 sea_world_max="11" <?php echo $sea_world_data['agent_takes_ownership'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt7]" class="form-control" value="<?php echo $sea_world_data['cmt7'] ?>"></td>
@@ -349,7 +346,7 @@
 													
 													<option sea_world_val=7 sea_world_max="7"<?php echo $sea_world_data['follows_all_SOP'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option sea_world_val=0 sea_world_max="7" <?php echo $sea_world_data['follows_all_SOP'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option sea_world_val=0 sea_world_max="7" <?php echo $sea_world_data['follows_all_SOP'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option sea_world_val=7 sea_world_max="7" <?php echo $sea_world_data['follows_all_SOP'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt8]" class="form-control" value="<?php echo $sea_world_data['cmt8'] ?>"></td>
@@ -362,7 +359,7 @@
 													
 													<option sea_world_val=4 sea_world_max="4"<?php echo $sea_world_data['blame_parks'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option sea_world_val=0 sea_world_max="4" <?php echo $sea_world_data['blame_parks'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option sea_world_val=0 sea_world_max="4" <?php echo $sea_world_data['blame_parks'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option sea_world_val=4 sea_world_max="4" <?php echo $sea_world_data['blame_parks'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt9]" class="form-control" value="<?php echo $sea_world_data['cmt9'] ?>"></td>
@@ -375,7 +372,7 @@
 													
 													<option sea_world_val=6 sea_world_max="6"<?php echo $sea_world_data['asked_pertinent_questions'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option sea_world_val=0 sea_world_max="6" <?php echo $sea_world_data['asked_pertinent_questions'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option sea_world_val=0 sea_world_max="6" <?php echo $sea_world_data['asked_pertinent_questions'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option sea_world_val=6 sea_world_max="6" <?php echo $sea_world_data['asked_pertinent_questions'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt10]" class="form-control" value="<?php echo $sea_world_data['cmt10'] ?>"></td>
@@ -388,7 +385,7 @@
 													
 													<option sea_world_val=4 sea_world_max="4"<?php echo $sea_world_data['used_appropropriate_resources'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option sea_world_val=0 sea_world_max="4" <?php echo $sea_world_data['used_appropropriate_resources'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option sea_world_val=0 sea_world_max="4" <?php echo $sea_world_data['used_appropropriate_resources'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option sea_world_val=4 sea_world_max="4" <?php echo $sea_world_data['used_appropropriate_resources'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt11]" class="form-control" value="<?php echo $sea_world_data['cmt11'] ?>"></td>
@@ -402,7 +399,7 @@
 													
 													<option sea_world_val=8 sea_world_max="8"<?php echo $sea_world_data['accurate_information'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option sea_world_val=0 sea_world_max="8" <?php echo $sea_world_data['accurate_information'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option sea_world_val=0 sea_world_max="8" <?php echo $sea_world_data['accurate_information'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option sea_world_val=8 sea_world_max="8" <?php echo $sea_world_data['accurate_information'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt12]" class="form-control" value="<?php echo $sea_world_data['cmt12'] ?>"></td>
@@ -415,7 +412,7 @@
 													
 													<option sea_world_val=6 sea_world_max="6"<?php echo $sea_world_data['sounds_confident'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option sea_world_val=0 sea_world_max="6" <?php echo $sea_world_data['sounds_confident'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option sea_world_val=0 sea_world_max="6" <?php echo $sea_world_data['sounds_confident'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option sea_world_val=6 sea_world_max="6" <?php echo $sea_world_data['sounds_confident'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt13]" class="form-control" value="<?php echo $sea_world_data['cmt13'] ?>"></td>
@@ -428,7 +425,7 @@
 													
 													<option sea_world_val=4 sea_world_max="4"<?php echo $sea_world_data['sense_of_urgency'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option sea_world_val=0 sea_world_max="4" <?php echo $sea_world_data['sense_of_urgency'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option sea_world_val=0 sea_world_max="4" <?php echo $sea_world_data['sense_of_urgency'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option sea_world_val=4 sea_world_max="4" <?php echo $sea_world_data['sense_of_urgency'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt14]" class="form-control" value="<?php echo $sea_world_data['cmt14'] ?>"></td>
@@ -442,7 +439,7 @@
 													
 													<option sea_world_val=6 sea_world_max="6"<?php echo $sea_world_data['effective_navigation'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option sea_world_val=0 sea_world_max="6" <?php echo $sea_world_data['effective_navigation'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option sea_world_val=0 sea_world_max="6" <?php echo $sea_world_data['effective_navigation'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option sea_world_val=6 sea_world_max="6" <?php echo $sea_world_data['effective_navigation'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt15]" class="form-control" value="<?php echo $sea_world_data['cmt15'] ?>"></td>
@@ -458,7 +455,7 @@
 													
 													<option sea_world_val=8 sea_world_max="8"<?php echo $sea_world_data['proper_hold_procedure'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option sea_world_val=0 sea_world_max="8" <?php echo $sea_world_data['proper_hold_procedure'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option sea_world_val=0 sea_world_max="8" <?php echo $sea_world_data['proper_hold_procedure'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option sea_world_val=8 sea_world_max="8" <?php echo $sea_world_data['proper_hold_procedure'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt16]" class="form-control" value="<?php echo $sea_world_data['cmt16'] ?>"></td>
@@ -471,7 +468,7 @@
 													
 													<option sea_world_val=4 sea_world_max="4"<?php echo $sea_world_data['eliminated_dead_air'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
 													<option sea_world_val=0 sea_world_max="4" <?php echo $sea_world_data['eliminated_dead_air'] == "No" ? "selected" : ""; ?> value="No">No</option>
-													<option sea_world_val=0 sea_world_max="4" <?php echo $sea_world_data['eliminated_dead_air'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+													<option sea_world_val=4 sea_world_max="4" <?php echo $sea_world_data['eliminated_dead_air'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt17]" class="form-control" value="<?php echo $sea_world_data['cmt17'] ?>"></td>
