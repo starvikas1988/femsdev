@@ -56,6 +56,23 @@
 											$auditDate = mysql2mmddyy($sea_world_data['audit_date']);
 										
 											$clDate_val = mysql2mmddyy($sea_world_data['call_date']);
+
+											if ($rand_id != 0) {
+											$agent_id = $rand_data['sid'];
+											$fusion_id = $rand_data['fusion_id'];
+											$agent_name = $rand_data['fname'] . " " . $rand_data['lname'];
+											$tl_id = $rand_data['assigned_to'];
+											$tl_name = $rand_data['tl_name'];
+											$call_duration = $rand_data['call_duration'];
+											
+										} else {
+											$agent_id = $sea_world_data['agent_id'];
+											$fusion_id = $sea_world_data['fusion_id'];
+											$agent_name = $sea_world_data['fname'] . " " . $sea_world_data['lname'] ;
+											$tl_id = $sea_world_data['tl_id'];
+											$tl_name = $sea_world_data['tl_name'];
+											$call_duration = $sea_world_data['call_duration'];
+										}
 										
 										?>
 										<tr>
@@ -72,39 +89,21 @@
 											<td>Agent Name:<span style="font-size:24px;color:red">*</span></td>
 											<td colspan="2">
 												<select class="form-control" id="agent_id" name="data[agent_id]" disabled>
-													<?php 
-													if($sea_world_data['agent_id']!=''){
-														?>
-														<option value="<?php echo $sea_world_data['agent_id'] ?>"><?php echo $sea_world_data['fname'] . " " . $sea_world_data['lname'] ?></option>
-														<?php
-													}else{
-														?>
-														<option value="">Select</option>
-														<?php
-													}
-													?>
-													
-													
-													<?php foreach ($agentName as $row) :  ?>
-													<?php 
-													if($row['id'] == $sea_world_data['agent_id']){
-														continue;
-													}else{
-														?>
-														<option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
-														<?php
-													}
-													?>
-														
-													<?php endforeach; ?>
-												</select>
+											<option value="">-Select-</option>
+											<?php foreach($agentName as $row){
+												$sCss='';
+												if($row['id']==$agent_id) $sCss='selected';
+											?>
+												<option value="<?php echo $row['id']; ?>" <?php echo $sCss; ?>><?php echo $row['name']; ?></option>
+											<?php } ?>
+										</select>
 											</td>
 											<td>Fusion ID:<span style="font-size:24px;color:red">*</span></td>
-											<td><input type="text" class="form-control" id="fusion_id" disabled value="<?php echo $sea_world_data['fusion_id'] ?>" readonly></td>
+											<td><input type="text" class="form-control" id="fusion_id" disabled value="<?php echo $fusion_id; ?>" readonly></td>
 											<td> L1 Supervisor:<span style="font-size:24px;color:red">*</span></td>
 											<td colspan="2">
-												<input type="text" class="form-control" id="tl_name"  value="<?php echo $sea_world_data['tl_name'] ?>" readonly>
-												<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $sea_world_data['tl_id'] ?>" disabled>
+												<input type="text" class="form-control" id="tl_name"  value="<?php echo $tl_name; ?>" readonly>
+												<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $tl_id; ?>" disabled>
 											</td>
 										</tr>
 										<tr>
@@ -133,7 +132,7 @@
 										
 										<tr>
 											<td>Call Duration:<span style="font-size:24px;color:red">*</span></td>
-											<td colspan="2"><input type="text" class="form-control" onkeydown="return false;" id="call_duration" name="data[call_duration]" value="<?php echo $sea_world_data['call_duration']?>" disabled></td>
+											<td colspan="2"><input type="text" class="form-control" onkeydown="return false;" id="call_duration" name="data[call_duration]" value="<?php echo $call_duration; ?>" disabled></td>
 											<td>Reason of the Call:<span style="font-size:24px;color:red">*</span></td>
 											<td>
 												<select class="form-control" id="call_reason" name="data[call_reason]" disabled>

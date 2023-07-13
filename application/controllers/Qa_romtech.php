@@ -1080,6 +1080,9 @@ public function agent_romtech_inbound_feedback_rvw($id)
 			}
 			/* Randamiser Code End */
 
+		$qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,344) and is_assign_process(id,718) and status=1  order by name";
+	          $data['agentName'] = $this->Common_model->get_query_result_array( $qSql );	
+
 		$qSql="SELECT * from
 			(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 			(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,

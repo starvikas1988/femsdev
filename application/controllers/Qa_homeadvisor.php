@@ -100,17 +100,21 @@
 			
 			if($office_id=="All") $cond .= "";
 				else $cond .=" and office_id='$office_id'";
-				
-			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
-				if(get_user_fusion_id()=='FELS000025'){
-					$cond1 .="";
-				}else{
-					$cond1 .=" And (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
-				}
-			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
-				$cond1 .=" And assigned_to='$current_user'";
-			}else{
+			
+			if(is_access_qa_module()==true){
 				$cond1 .="";
+			}else{
+				if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+					if(get_user_fusion_id()=='FELS000025'){
+						$cond1 .="";
+					}else{
+						$cond1 .=" And (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+					}
+				}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+					$cond1 .=" And assigned_to='$current_user'";
+				}else{
+					$cond1 .="";
+				}
 			}
 			
 			$qSql = "SELECT * from
@@ -459,14 +463,18 @@
 			if($office_id=="All") $cond .= "";
 				else $cond .=" and office_id='$office_id'";
 			
-			if(get_user_fusion_id()=='FELS000025' || get_user_fusion_id()=='FJAM004099' || get_user_fusion_id()=='FJAM005935'){
+			if(is_access_qa_module()==true){
 				$cond1="";
-			}else if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
-				$cond1 .=" And (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
-			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
-				$cond1 .=" And assigned_to='$current_user'";
 			}else{
-				$cond1="";
+				if(get_user_fusion_id()=='FELS000025' || get_user_fusion_id()=='FJAM004099' || get_user_fusion_id()=='FJAM005935'){
+					$cond1="";
+				}else if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+					$cond1 .=" And (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+				}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+					$cond1 .=" And assigned_to='$current_user'";
+				}else{
+					$cond1="";
+				}
 			}
 			
 			$qSql = "SELECT * from
@@ -505,6 +513,18 @@
 				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcco_flex_feedback) xx Left Join
 				(Select id as sid, fname, lname, fusion_id, office_id, get_client_ids(id) as client, get_process_ids(id) as pid, get_process_names(id) as process, assigned_to from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
 			$data["hcco_flex"] = $this->Common_model->get_query_result_array($qSql);	
+
+			/////vikas/////
+
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcco_qa_form_v3_feedback) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, office_id, get_client_ids(id) as client, get_process_ids(id) as pid, get_process_names(id) as process, assigned_to from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
+			$data["hcco_v3_data"] = $this->Common_model->get_query_result_array($qSql);
+
+			/////vikas//////
 			
 			$data["from_date"] = $from_date;
 			$data["to_date"] = $to_date;
@@ -515,7 +535,160 @@
 		}
 	}
 	
-	
+	////////////////////vikas///////////////////////
+	public function add_edit_hcco_qa_form_v3($hcco_qav3_id){
+		if(check_logged_in())
+		{
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_homeadvisor/add_edit_hcco_qa_form_v3.php";
+			$data["content_js"] = "qa_romtech_js.php";
+			//$data["content_js"] = "qa_clio_js.php";
+			$data['hcco_qav3_id']=$hcco_qav3_id;
+			$tl_mgnt_cond='';
+
+			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and assigned_to='$current_user'";
+			}else{
+				$tl_mgnt_cond="";
+			}
+
+			/******** Randamiser Start***********/
+			
+			
+			$rand_id=0;
+			if(!empty($this->uri->segment(4))){
+				$rand_id=$this->uri->segment(4);
+			}
+			$data['rand_id']=$rand_id;
+			$data["rand_data"] = "";
+			if($rand_id!=0){
+				$sql = "SELECT client_id, process_id FROM qa_randamiser_general_data WHERE id=$rand_id";
+				$dataClientProID = $this->Common_model->get_query_row_array($sql);
+				//print_r($dataClientProID);
+				//echo "<br>";
+				$client_id = $dataClientProID['client_id'];
+				$pro_id = $dataClientProID['process_id'];;
+				$curDateTime=CurrMySqlDate();
+				$upArr = array('distribution_opend_by' =>$current_user,'distribution_opened_datetime'=>$curDateTime);
+				$this->db->where('id', $rand_id);
+				$this->db->update('qa_randamiser_general_data',$upArr);
+				
+				$randSql="Select srd.*,srd.aht as call_duration, S.id as sid, S.fname, S.lname, S.xpoid, S.assigned_to,
+				(select concat(fname, ' ', lname) as name from signin s1 where s1.id=S.assigned_to) as tl_name,DATEDIFF(CURDATE(), S.doj) as tenure
+				from qa_randamiser_general_data srd Left Join signin S On srd.fusion_id=S.fusion_id where srd.audit_status=0 and srd.id='$rand_id'";
+				$data["rand_data"] = $rand_data =  $this->Common_model->get_query_row_array($randSql);
+				//print_r($rand_data);
+				
+			}
+			/* Randamiser Code End */
+
+
+	        $qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id, office_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,17) and is_assign_process(id,213)  and status=1 order by name";
+			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);  
+
+			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
+
+			$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
+				from qa_hcco_qa_form_v3_feedback where id='$hcco_qav3_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			$data["hcco_v3_data"] = $this->Common_model->get_query_row_array($qSql);
+
+			$curDateTime=CurrMySqlDate();
+			$a = array();
+
+			$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
+
+			if($field_array['agent_id']){
+
+				if($hcco_qav3_id==0){
+					$field_array=$this->input->post('data');
+					$field_array['audit_date']=CurrDate();
+					$field_array['call_date']=mmddyy2mysql($this->input->post('call_date'));
+					$field_array['entry_date']=$curDateTime;
+					$field_array['audit_start_time']=$this->input->post('audit_start_time');
+					
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						$a = $this->romtech_upload_files($_FILES['attach_file'], $path='./qa_files/qa_homeadvisor/hcco_qa_v3/');
+						$field_array["attach_file"] = implode(',',$a);
+					}
+
+					$rowid= data_inserter('qa_hcco_qa_form_v3_feedback',$field_array);
+					if(get_login_type()=="client"){
+						$add_array = array("client_entryby" => $current_user);
+					}else{
+						$add_array = array("entry_by" => $current_user);
+					}
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_hcco_qa_form_v3_feedback',$add_array);
+
+				}else{
+
+					$field_array1=$this->input->post('data');
+					$field_array1['call_date']=mmddyy2mysql($this->input->post('call_date'));
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						if(!file_exists("./qa_files/qa_homeadvisor/hcco_qa_v3/")){
+							mkdir("./qa_files/qa_homeadvisor/hcco_qa_v3/");
+						}
+						$a = $this->romtech_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_homeadvisor/hcco_qa_v3/' );
+						$field_array1['attach_file'] = implode( ',', $a );
+					}
+
+					$this->db->where('id', $hcco_qav3_id);
+					$this->db->update('qa_hcco_qa_form_v3_feedback',$field_array1);
+					/////////////
+					if(get_login_type()=="client"){
+						$edit_array = array(
+							"client_rvw_by" => $current_user,
+							"client_rvw_note" => $this->input->post('note'),
+							"client_rvw_date" => $curDateTime
+						);
+					}else{
+						$edit_array = array(
+							"mgnt_rvw_by" => $current_user,
+							"mgnt_rvw_note" => $this->input->post('note'),
+							"mgnt_rvw_date" => $curDateTime
+						);
+					}
+					$this->db->where('id', $hcco_qav3_id);
+					$this->db->update('qa_hcco_qa_form_v3_feedback',$edit_array);
+
+					/* Randamiser section */
+				if($rand_id!=0){
+					$rand_cdr_array = array("audit_status" => 1);
+					$this->db->where('id', $rand_id);
+					$this->db->update('qa_randamiser_general_data',$rand_cdr_array);
+					
+					$rand_array = array("is_rand" => 1);
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_hcco_qa_form_v3_feedback',$rand_array);
+					}
+
+				}
+				if(isset($rand_data['upload_date']) && !empty($rand_data['upload_date'])){
+					$up_date = date('Y-m-d', strtotime($rand_data['upload_date']));
+					redirect('Impoter_xls/data_distribute?from_date='.$up_date.'&client_id='.$client_id.'&pro_id='.$pro_id.'&submit=Submit');
+				}else{
+					redirect('qa_homeadvisor/qa_hcco_feedback');
+				}
+				
+			}
+			$data["array"] = $a;
+
+			$this->load->view("dashboard",$data);
+	}
+}
+
+	///////////////////vikas ends//////////////////
 	public function add_hcco_feedback(){
 		if(check_logged_in())
 		{

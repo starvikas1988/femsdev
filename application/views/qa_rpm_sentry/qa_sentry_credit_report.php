@@ -70,6 +70,9 @@
 										<option value='All'>ALL</option>
 										<option <?php echo $audit_type=='CQ Audit'?"selected":""; ?> value="CQ Audit">CQ Audit</option>
 										<option <?php echo $audit_type=='BQ Audit'?"selected":""; ?> value="BQ Audit">BQ Audit</option>
+										<option <?php echo $audit_type=='WoW Call'?"selected":""; ?> value="WoW Call">WoW Call</option>
+										<option <?php echo $audit_type=='Hygiene Audit'?"selected":""; ?> value="Hygiene Audit">Hygiene Audit</option>
+										<option <?php echo $audit_type=='QA Supervisor Audit'?"selected":""; ?> value="QA Supervisor Audit">QA Supervisor Audit</option>
 										<option <?php echo $audit_type=='Calibration'?"selected":""; ?> value="Calibration">Calibration</option>
 										<option <?php echo $audit_type=='Pre-Certificate Mock Call'?"selected":""; ?> value="Pre-Certificate Mock Call">Pre-Certificate Mock Call</option>
 										<option <?php echo $audit_type=='Certificate Audit'?"selected":""; ?> value="Certificate Audit">Certificate Audit</option>

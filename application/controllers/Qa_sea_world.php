@@ -209,8 +209,38 @@
 				$tl_mgnt_cond="";
 			}
 
+			/******** Randamiser Start***********/
+			
+			
+			$rand_id=0;
+			if(!empty($this->uri->segment(4))){
+				$rand_id=$this->uri->segment(4);
+			}
+			$data['rand_id']=$rand_id;
+			$data["rand_data"] = "";
+			if($rand_id!=0){
+				$sql = "SELECT client_id, process_id FROM qa_randamiser_general_data WHERE id=$rand_id";
+				$dataClientProID = $this->Common_model->get_query_row_array($sql);
+				//print_r($dataClientProID);
+				//echo "<br>";
+				$client_id = $dataClientProID['client_id'];
+				$pro_id = $dataClientProID['process_id'];;
+				$curDateTime=CurrMySqlDate();
+				$upArr = array('distribution_opend_by' =>$current_user,'distribution_opened_datetime'=>$curDateTime);
+				$this->db->where('id', $rand_id);
+				$this->db->update('qa_randamiser_general_data',$upArr);
+				
+				$randSql="Select srd.*,srd.aht as call_duration, S.id as sid, S.fname, S.lname, S.xpoid, S.assigned_to,
+				(select concat(fname, ' ', lname) as name from signin s1 where s1.id=S.assigned_to) as tl_name,DATEDIFF(CURDATE(), S.doj) as tenure
+				from qa_randamiser_general_data srd Left Join signin S On srd.fusion_id=S.fusion_id where srd.audit_status=0 and srd.id='$rand_id'";
+				$data["rand_data"] = $rand_data =  $this->Common_model->get_query_row_array($randSql);
+				//print_r($rand_data);
+				
+			}
+			/* Randamiser Code End */
+
 			$qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,383) and is_assign_process(id,838) and status=1  order by name";
-	          $data['agentName'] = $this->Common_model->get_query_result_array( $qSql );
+	      $data['agentName'] = $this->Common_model->get_query_result_array( $qSql );
 
 			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
 
@@ -257,8 +287,8 @@
 					$field_array1=$this->input->post('data');
 					$field_array1['call_date']=mmddyy2mysql($this->input->post('call_date'));
 					if($_FILES['attach_file']['tmp_name'][0]!=''){
-						if(!file_exists("./qa_files/park_west/qa_audio_files/")){
-							mkdir("./qa_files/park_west/qa_audio_files/");
+						if(!file_exists("./qa_files/sea_world/")){
+							mkdir("./qa_files/sea_world/");
 						}
 						$a = $this->sea_world_upload_files( $_FILES['attach_file'], $path = './qa_files/sea_world/' );
 						$field_array1['attach_file'] = implode( ',', $a );
@@ -283,9 +313,27 @@
 					$this->db->where('id', $sea_world_id);
 					$this->db->update('qa_sea_world_feedback',$edit_array);
 
+						/* Randamiser section */
+					if($rand_id!=0){
+						$rand_cdr_array = array("audit_status" => 1);
+						$this->db->where('id', $rand_id);
+						$this->db->update('qa_randamiser_general_data',$rand_cdr_array);
+						
+						$rand_array = array("is_rand" => 1);
+						$this->db->where('id', $rowid);
+						$this->db->update('qa_sea_world_feedback',$rand_array);
+					}
+
 				}
 
-				redirect('Qa_sea_world');
+				if(isset($rand_data['upload_date']) && !empty($rand_data['upload_date'])){
+					$up_date = date('Y-m-d', strtotime($rand_data['upload_date']));
+					redirect('Impoter_xls/data_distribute?from_date='.$up_date.'&client_id='.$client_id.'&pro_id='.$pro_id.'&submit=Submit');
+				}else{
+					redirect('Qa_sea_world');
+				}
+
+				
 			}
 			$data["array"] = $a;
 
@@ -372,11 +420,43 @@
 			$data["agentUrl"] = "qa_sea_world/agent_sea_world_feedback";
 			$data["content_js"] = "qa_sea_world_js.php";
 			
-			
+			$qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,383) and is_assign_process(id,838) and status=1  order by name";
+	      $data['agentName'] = $this->Common_model->get_query_result_array( $qSql );
+	      
 			$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name,agent_rvw_note as agent_note,mgnt_rvw_note as mgnt_note from qa_sea_world_feedback where id=$id) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
 			$data["sea_world_data"] = $this->Common_model->get_query_row_array($qSql);
 			
-			$data["sea_world_id"]=$id;			
+			$data["sea_world_id"]=$id;	
+
+				/******** Randamiser Start***********/
+				
+				
+				$rand_id=0;
+				if(!empty($this->uri->segment(4))){
+					$rand_id=$this->uri->segment(4);
+				}
+				$data['rand_id']=$rand_id;
+				$data["rand_data"] = "";
+				if($rand_id!=0){
+					$sql = "SELECT client_id, process_id FROM qa_randamiser_general_data WHERE id=$rand_id";
+					$dataClientProID = $this->Common_model->get_query_row_array($sql);
+					//print_r($dataClientProID);
+					//echo "<br>";
+					$client_id = $dataClientProID['client_id'];
+					$pro_id = $dataClientProID['process_id'];;
+					$curDateTime=CurrMySqlDate();
+					$upArr = array('distribution_opend_by' =>$current_user,'distribution_opened_datetime'=>$curDateTime);
+					$this->db->where('id', $rand_id);
+					$this->db->update('qa_randamiser_general_data',$upArr);
+					
+					$randSql="Select srd.*,srd.aht as call_duration, S.id as sid, S.fname, S.lname, S.xpoid, S.assigned_to,
+					(select concat(fname, ' ', lname) as name from signin s1 where s1.id=S.assigned_to) as tl_name,DATEDIFF(CURDATE(), S.doj) as tenure
+					from qa_randamiser_general_data srd Left Join signin S On srd.fusion_id=S.fusion_id where srd.audit_status=0 and srd.id='$rand_id'";
+					$data["rand_data"] = $rand_data =  $this->Common_model->get_query_row_array($randSql);
+					//print_r($rand_data);
+					
+				}
+				/* Randamiser Code End */		
 			
 			if($this->input->post('sea_world_id'))
 			{

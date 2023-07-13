@@ -127,7 +127,7 @@
 										<td>
 											<select class="form-control" name="data[site]" required>
 												<option value="">-Select-</option>
-												<option <?php echo $sentry_credit_data['site']=='Cebu'?"selected":""; ?> value="Cebu">Fresh Cebu</option>
+												<option <?php echo $sentry_credit_data['site']=='Cebu'?"selected":""; ?> value="Cebu"> Cebu</option>
 												<option <?php echo $sentry_credit_data['site']=='Esal'?"selected":""; ?> value="Esal">Esal</option>
 											</select>
 										</td>

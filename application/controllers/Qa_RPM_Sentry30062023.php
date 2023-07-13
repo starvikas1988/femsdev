@@ -682,7 +682,7 @@ class Qa_RPM_Sentry extends CI_Controller {
 		 	"Did the collector complete all necessary file upkeep work (update mailing address update bankruptcy tab etc)?",
 		 	"Did the collector complete all necessary file upkeep work (update mailing address update bankruptcy tab etc)? - Remarks",
 
-    "Call Summary/Observation","Audit Start date and  Time ", "Audit End Date and  Time","Interval (in sec)","VT Comment:","Feedback","Agent Feedback Acceptance", "Agent Review Date/Time", "Agent Comment", "Mgnt Review Date/Time","Mgnt Review By", "Mgnt Comment","Client Review Name","Client Review Note","Client Review Date and Time");
+    "Call Summary/Observation","Audit Start date and  Time ", "Audit End Date and  Time","Interval (in sec)",  "Feedback","Agent Feedback Acceptance", "Agent Review Date/Time", "Agent Comment", "Mgnt Review Date/Time","Mgnt Review By", "Mgnt Comment","Client Review Name","Client Review Note","Client Review Date and Time");
 		
 
 		$row = "";
@@ -759,7 +759,6 @@ class Qa_RPM_Sentry extends CI_Controller {
 				$row .= '"'.$user['audit_start_time'].'",';
 	            $row .= '"'.$user['entry_date'].'",';
 	            $row .= '"'.$interval1.'",';
-	            $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['vt_comment'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
 				$row .= '"'.$user['agnt_fd_acpt'].'",';
 				$row .= '"'.$user['agent_rvw_date'].'",';

@@ -449,14 +449,14 @@
 										</tr>
 										<tr>
 											<td>VT Comment:</td>
-										<td colspan=3><textarea class="form-control" id="" name="data[vt_comment]"><?php echo $sentry_credit_data['vt_comment'] ?></textarea></td>
+										<td colspan=3><textarea class="form-control" id="" disabled name="data[vt_comment]"><?php echo $sentry_credit_data['vt_comment'] ?></textarea></td>
 										</tr>
 									<tr>
 										
 										<td>Call Summary:</td>
-										<td colspan=3><textarea class="form-control" id="" name="data[call_summary]"><?php echo $sentry_credit_data['call_summary'] ?></textarea></td>
+										<td colspan=3><textarea class="form-control" id="" disabled name="data[call_summary]"><?php echo $sentry_credit_data['call_summary'] ?></textarea></td>
 										<td>Feedback:</td>
-										<td colspan=3><textarea class="form-control" id="" name="data[feedback]"><?php echo $sentry_credit_data['feedback'] ?></textarea></td>
+										<td colspan=3><textarea class="form-control" id="" disabled name="data[feedback]"><?php echo $sentry_credit_data['feedback'] ?></textarea></td>
 									</tr>
 
 								<?php if($sentry_credit_data['attach_file']!=''){ ?>

@@ -19013,7 +19013,7 @@ public function qa_romtech_report() // working
 
  		}else if($campaign == 'romtech_inbound'){
 
-				$header = array("Auditor Name", "Audit Date ", "Agent Name ","ACPT", "Fusion ID ", "L1 Supervisor ", "Call Date ","Call Duration", "Audit Type ", "Type of Auditor ","File/Call ID ", "VOC","L1 ","L2","Phone Number", "Earned Score",
+				$header = array("Auditor Name", "Audit Date ", "Agent Name ","ACPT", "Fusion ID ", "L1 Supervisor ", "Call Date ", "Audit Type ", "Type of Auditor ","File/Call ID ", "VOC","L1 ","L2","Phone Number", "Earned Score",
 					"Possible Score", "Overall Score %",
 		 	        "Customer Score","Business Score","Compliance Score",
 					"Greeting-Used standard ROMTech greeting message (Hello Thank you for contacting ROMTech customer service department.",
@@ -19054,7 +19054,7 @@ public function qa_romtech_report() // working
 					"Verify if the user had any other questions. - Remark18",
 					"Used standard ROMTech closing message (Thank you for contacting ROMTech customer service department).",
 					"Used standard ROMTech closing message (Thank you for contacting ROMTech customer service department). - Remarks19",
-					"Audit Start date and  Time ", "Audit End Date and  Time"," Audit Interval in Seconds",  "Call Summary ","Feedback ","Feedback Acceptance","Agent Feedback", "Agent Review Date/Time","Management Review Date/Time ", "Management Review Name ","Management Review Note", "Client Review Name","Client Review Note","Client Review Date/Time " );
+					"Audit Start date and  Time ", "Audit End Date and  Time"," Audit Interval in Seconds",  "Call Summary ","Feedback ","Feedback Acceptance","Agent Feedback", "Agent Review Date","Management Review Date ", "Management Review Name ","Management Review Note", "Client Review Name","Client Review Note","Client Review Date " );
 
 
 
@@ -19087,7 +19087,6 @@ public function qa_romtech_report() // working
  				$row .= '"'.$user['fusion_id'].'",';
  				$row .= '"'.$user['tl_name'].'",';
  				$row .= '"'.$user['call_date'].'",';
- 				$row .= '"'.$user['call_duration'].'",';
  				$row .= '"'.$user['audit_type'].'",';
  				$row .= '"'.$user['auditor_type'].'",';
  				$row .= '"'.$user['call_id'].'",';
