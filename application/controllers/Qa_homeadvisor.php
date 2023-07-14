@@ -9,46 +9,121 @@
 		$this->load->model('Qa_philip_model');
 	}
 	 
-	
-	private function ha_upload_files($files,$path)
-    {
-        $config['upload_path'] = $path;
-		$config['allowed_types'] = 'mp3|m4a|mp4|wav';
-		$config['max_size'] = '2024000';
-		$this->load->library('upload', $config);
-		$this->upload->initialize($config);
-        $images = array();
-        foreach ($files['name'] as $key => $image) {           
-			$_FILES['uFiles']['name']= $files['name'][$key];
-			$_FILES['uFiles']['type']= $files['type'][$key];
-			$_FILES['uFiles']['tmp_name']= $files['tmp_name'][$key];
-			$_FILES['uFiles']['error']= $files['error'][$key];
-			$_FILES['uFiles']['size']= $files['size'][$key];
+	public function createPath($path)
+	{
 
-            if ($this->upload->do_upload('uFiles')) {
-				$info = $this->upload->data();
-				$ext = $info['file_ext'];
-				$file_path = $info['file_path'];
-				$full_path = $info['full_path'];
-				$file_name = $info['file_name'];
-				if(strtolower($ext)== '.wav'){
+		if (!empty($path))
+		{
+
+	    	if(!file_exists($path)){
+
+	    		$mainPath="./";
+	    		$checkPath=str_replace($mainPath,'', $path);
+	    		$checkPath=explode("/",$checkPath);
+	    		$cnt=count($checkPath);
+	    		for($i=0;$i<$cnt;$i++){
+
+		    		$mainPath.=$checkPath[$i].'/';
+		    		if (!file_exists($mainPath)) {
+		    			$oldmask = umask(0);
+						$mkdir=mkdir($mainPath, 0777);
+						umask($oldmask);
+
+						if ($mkdir) {
+							return true;
+						}else{
+							return false;
+						}
+		    		}
+
+	    		}
+
+    		}else{
+    			return true;
+    		}
+    	}
+	}
+	private function ha_upload_files($files,$path) // this is for file uploaging purpose
+	{
+	    $result=$this->createPath($path);
+	    if($result){
+	    $config['upload_path'] = $path;
+	    $config['allowed_types'] = '*';
+
+		  $config['allowed_types'] = 'm4a|mp4|mp3|wav';
+		  $config['max_size'] = '2024000';
+		  $this->load->library('upload', $config);
+		  $this->upload->initialize($config);
+	      $images = array();
+	      foreach ($files['name'] as $key => $image) {
+	    $_FILES['uFiles']['name']= $files['name'][$key];
+	    $_FILES['uFiles']['type']= $files['type'][$key];
+	    $_FILES['uFiles']['tmp_name']= $files['tmp_name'][$key];
+	    $_FILES['uFiles']['error']= $files['error'][$key];
+	    $_FILES['uFiles']['size']= $files['size'][$key];
+
+	          if ($this->upload->do_upload('uFiles')) {
+	      $info = $this->upload->data();
+	      $ext = $info['file_ext'];
+	      $file_path = $info['file_path'];
+	      $full_path = $info['full_path'];
+	      $file_name = $info['file_name'];
+	      if(strtolower($ext)== '.wav'){
+
+	        $file_name = str_replace(".","_",$file_name).".mp3";
+	        $new_path = $file_path.$file_name;
+	        $comdFile=FCPATH."assets/script/wavtomp3.sh '$full_path' '$new_path'";
+	        $output = shell_exec( $comdFile);
+	        sleep(2);
+	      }
+	      $images[] = $file_name;
+	          }else{
+	              return false;
+	          }
+	      }
+	      return $images;
+	    }
+	}
+
+	// private function ha_upload_files($files,$path)
+ //    {
+ //        $config['upload_path'] = $path;
+	// 	$config['allowed_types'] = 'mp3|m4a|mp4|wav';
+	// 	$config['max_size'] = '2024000';
+	// 	$this->load->library('upload', $config);
+	// 	$this->upload->initialize($config);
+ //        $images = array();
+ //        foreach ($files['name'] as $key => $image) {           
+	// 		$_FILES['uFiles']['name']= $files['name'][$key];
+	// 		$_FILES['uFiles']['type']= $files['type'][$key];
+	// 		$_FILES['uFiles']['tmp_name']= $files['tmp_name'][$key];
+	// 		$_FILES['uFiles']['error']= $files['error'][$key];
+	// 		$_FILES['uFiles']['size']= $files['size'][$key];
+
+ //            if ($this->upload->do_upload('uFiles')) {
+	// 			$info = $this->upload->data();
+	// 			$ext = $info['file_ext'];
+	// 			$file_path = $info['file_path'];
+	// 			$full_path = $info['full_path'];
+	// 			$file_name = $info['file_name'];
+	// 			if(strtolower($ext)== '.wav'){
 					
-					$file_name = str_replace(".","_",$file_name).".mp3";
-					$new_path = $file_path.$file_name;
-					$comdFile=FCPATH."assets/script/wavtomp3.sh '$full_path' '$new_path'";
-					$output = shell_exec( $comdFile);
-					sleep(2);
-				}
+	// 				$file_name = str_replace(".","_",$file_name).".mp3";
+	// 				$new_path = $file_path.$file_name;
+	// 				$comdFile=FCPATH."assets/script/wavtomp3.sh '$full_path' '$new_path'";
+	// 				$output = shell_exec( $comdFile);
+	// 				sleep(2);
+	// 			}
 				
-				$images[] = $file_name;
+	// 			$images[] = $file_name;
 				
 				
-            } else {
-                return false;
-            }
-        }
-        return $images;
-    }
+ //            } else {
+ //                return false;
+ //            }
+ //        }
+ //        return $images;
+ //    }
 	
 	public function getTLname(){
 		if(check_logged_in()){
@@ -439,7 +514,8 @@
 			$office_id = $this->input->get('office_id');
 			$agent_id = $this->input->get('agent_id');
 			
-			if($office_id=='') $office_id=get_user_office_id();
+			//if($office_id=='') $office_id=get_user_office_id();
+			if($office_id=='') $office_id='All';
 			
 			$cond="";
 			$cond1="";
@@ -544,7 +620,7 @@
 
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_homeadvisor/add_edit_hcco_qa_form_v3.php";
-			$data["content_js"] = "qa_romtech_js.php";
+			$data["content_js"] = "qa_hcco_v3_js.php";
 			//$data["content_js"] = "qa_clio_js.php";
 			$data['hcco_qav3_id']=$hcco_qav3_id;
 			$tl_mgnt_cond='';
@@ -618,7 +694,7 @@
 					$field_array['audit_start_time']=$this->input->post('audit_start_time');
 					
 					if($_FILES['attach_file']['tmp_name'][0]!=''){
-						$a = $this->romtech_upload_files($_FILES['attach_file'], $path='./qa_files/qa_homeadvisor/hcco_qa_v3/');
+						$a = $this->ha_upload_files($_FILES['attach_file'], $path='./qa_files/qa_homeadvisor/hcco_qa_v3/');
 						$field_array["attach_file"] = implode(',',$a);
 					}
 
@@ -639,7 +715,7 @@
 						if(!file_exists("./qa_files/qa_homeadvisor/hcco_qa_v3/")){
 							mkdir("./qa_files/qa_homeadvisor/hcco_qa_v3/");
 						}
-						$a = $this->romtech_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_homeadvisor/hcco_qa_v3/' );
+						$a = $this->ha_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_homeadvisor/hcco_qa_v3/' );
 						$field_array1['attach_file'] = implode( ',', $a );
 					}
 
@@ -1362,33 +1438,11 @@
 			$campaign=$this->input->get('campaign');
 
 			if($campaign){
-			$qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
+			$qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'WOW Call', 'Hygiene Audit')";
 			$data["tot_feedback"] =  $this->Common_model->get_single_value($qSql);
 			
-			$qSql1="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit') and agent_rvw_date is Null";
+			$qSql1="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'WOW Call', 'Hygiene Audit') and agent_rvw_date is Null";
 			$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql1);
-			
-			// $qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
-			// $data["tot_feedback"] =  $this->Common_model->get_single_value($qSql);
-			
-			// $qSql1="Select count(id) as value from qa_".$campaign."_feedback where id  not in (select fd_id from qa_hcco_agent_rvw) and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
-			// $data["yet_rvw"] =  $this->Common_model->get_single_value($qSql1);
-		// /////////////
-		// 	$sr_Sql1="Select count(id) as value from qa_hcco_sr_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
-		// 	$data["tot_sr"] =  $this->Common_model->get_single_value($sr_Sql1);
-			
-		// 	$sr_Sql2="Select count(id) as value from qa_hcco_sr_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit') and agent_rvw_date is Null";
-		// 	$data["yet_sr"] =  $this->Common_model->get_single_value($sr_Sql2);
-		// ////////////
-		// 	$flex_Sql1="Select count(id) as value from qa_hcco_flex_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
-		// 	$data["tot_flex"] =  $this->Common_model->get_single_value($flex_Sql1);
-			
-		// 	$flex_Sql2="Select count(id) as value from qa_hcco_flex_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit') and agent_rvw_date is Null";
-		// 	$data["yet_flex"] =  $this->Common_model->get_single_value($flex_Sql2);
-				
-			// $from_date = '';
-			// $to_date = '';
-			// $cond="";
 			
 			
 			if($this->input->get('btnView')=='View')
@@ -1397,53 +1451,18 @@
 				$to_date = mmddyy2mysql($this->input->get('to_date'));
 					
 				if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date' ) ";
-		
-				// $qSql = "SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name from qa_".$campaign."_feedback $cond and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id from signin) yy on (xx.agent_id=yy.sid) Left join (Select fd_id, note as agent_note, date(entry_date) as agent_rvw_date from qa_hcco_agent_rvw) zz on (xx.id=zz.fd_id) Left Join (Select fd_id as mgnt_fd_id, note as mgnt_note, date(entry_date) as mgnt_rvw_date, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as mgnt_name from qa_hcco_mgnt_rvw) ww on (xx.id=ww.mgnt_fd_id) order by audit_date";
 			$srSql1 = "SELECT * from
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_".$campaign."_feedback $cond and agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_".$campaign."_feedback $cond and agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'WOW Call', 'Hygiene Audit')) xx Left Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
 				$data["agent_hcco_review_list"] = $this->Common_model->get_query_result_array($srSql1);
-			// ///////////
-			// 	$srSql1 = "SELECT * from
-			// 	(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-			// 	(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-			// 	(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-			// 	(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcco_sr_feedback $cond and agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
-			// 	(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
-			// 	$data["sr_agent_rvw"] = $this->Common_model->get_query_result_array($srSql1);	
-			// ///////////
-			// 	$flexSql1 = "SELECT * from
-			// 	(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-			// 	(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-			// 	(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-			// 	(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcco_flex_feedback $cond and agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
-			// 	(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
-			// 	$data["flex_agent_rvw"] = $this->Common_model->get_query_result_array($flexSql1);
 					
 			}else{	
 			
-				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name from qa_".$campaign."_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id from signin) yy on (xx.agent_id=yy.sid) Left join (Select fd_id, note as agent_note, date(entry_date) as agent_rvw_date from qa_hcco_agent_rvw) zz on (xx.id=zz.fd_id) Left Join (Select fd_id as mgnt_fd_id, note as mgnt_note, date(entry_date) as mgnt_rvw_date, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as mgnt_name from qa_hcco_mgnt_rvw) ww on (xx.id=ww.mgnt_fd_id) where xx.id not in (select fd_id from qa_hcco_agent_rvw) order by audit_date";
+				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name from qa_".$campaign."_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'WOW Call', 'Hygiene Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id from signin) yy on (xx.agent_id=yy.sid) Left join (Select fd_id, note as agent_note, date(entry_date) as agent_rvw_date from qa_hcco_agent_rvw) zz on (xx.id=zz.fd_id) Left Join (Select fd_id as mgnt_fd_id, note as mgnt_note, date(entry_date) as mgnt_rvw_date, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as mgnt_name from qa_hcco_mgnt_rvw) ww on (xx.id=ww.mgnt_fd_id) where xx.id not in (select fd_id from qa_hcco_agent_rvw) order by audit_date";
 				$data["agent_hcco_review_list"] = $this->Common_model->get_query_result_array($qSql);
-			///////////
-			// 	$srSql1="SELECT * from
-			// 	(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-			// 	(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-			// 	(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-			// 	(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcco_sr_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
-			// 	(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
-			// 	$data["sr_agent_rvw"] = $this->Common_model->get_query_result_array($srSql1);	
-			// ///////////
-			// 	$flexSql1="SELECT * from
-			// 	(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-			// 	(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-			// 	(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-			// 	(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcco_flex_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
-			// 	(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
-			// 	$data["flex_agent_rvw"] = $this->Common_model->get_query_result_array($flexSql1);
-			
 			}
 		}
 			

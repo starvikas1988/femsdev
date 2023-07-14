@@ -86,7 +86,7 @@ input[type=submit] {
 								<div class="col-md-2">
 									<div class="form-group" id="foffice_div">
 										<label for="office_id">Select a Location</label>
-										<select class="form-control" name="office_id" id="foffice_id" required>
+										<select class="form-control" name="office_id" id="office_id" required>
 											<option value="All">ALL</option>
 											<?php foreach($location_list as $loc): ?>
 												<?php

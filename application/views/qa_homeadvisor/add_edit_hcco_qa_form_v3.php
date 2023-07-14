@@ -172,9 +172,7 @@
                                                     <option value="Certification Audit" <?= ($hcco_v3_data['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
                                                     <option value="Operation Audit" <?= ($hcco_v3_data['audit_type']=="Operation Audit")?"selected":"" ?>>Operation Audit</option>
                                                     <option value="Trainer Audit"  <?= ($hcco_v3_data['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option>
-                                                    <option value="WOW Call" <?= ($hcco_v3_data['audit_type']=="WOW Call")?"selected":"" ?>>WOW Call</option>
-                                                    <option value="Hygiene Audit" <?= ($hcco_v3_data['audit_type']=="Hygiene Audit")?"selected":"" ?>>Hygiene Audit</option>
-                                                    <option value="QA Supervisor Audit" <?= ($hcco_v3_data['audit_type']=="QA Supervisor Audit")?"selected":"" ?>>QA Supervisor Audit</option>
+                                                    <option value="WOW Call" <?= ($hcco_v3_data['audit_type']=="WOW Call")?"selected":"" ?>>Wow Call nomination</option>
                                                 </select>
 											</td>
 											<td class="auType">Auditor Type<span style="font-size:24px;color:red">*</span></td>
@@ -193,7 +191,7 @@
 											<td style="font-weight:bold; font-size:16px; text-align:left">Possible Score</td>
 											<td colspan="2"><input type="text" readonly id="hcco_v3_possible_score" name="data[possible_score]" class="form-control" value="<?php echo $hcco_v3_data['possible_score'] ?>" /></td>
 											<td style="font-weight:bold; font-size:16px; text-align:right">Overall Score:</td>
-											<td colspan="2"><input type="text" readonly id="hcco_v3_overall_score" name="data[overall_score]" class="form-control romtech_inboundFatal" style="font-weight:bold" value="<?php echo $hcco_v3_data['overall_score'] ?>"></td>
+											<td colspan="2"><input type="text" readonly id="hcco_v3_overall_score" name="data[overall_score]" class="form-control hcco_v3Fatal" style="font-weight:bold" value="<?php echo $hcco_v3_data['overall_score'] ?>"></td>
 										</tr>
 										<tr class="eml" style="height:25px; font-weight:bold">
 											<td>Critical Accuracy</td>
@@ -893,9 +891,9 @@
 											<td colspan=4 style="font-weight:bold; background-color:#90bfee">Critical Fail Behaviors</td>
 											<td rowspan=10>100</td>
 											<td>
-												<select class="form-control hcco_v3_point hcco_Fail1" name="data[critical_Fail_Behaviors]" required>
-													<option hcco_v3_val=100 hcco_v3_max=100 <?php echo $hcco_v3_data['critical_Fail_Behaviors'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=100 <?php echo $hcco_v3_data['critical_Fail_Behaviors'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+												<select class="form-control hcco_v3_point"  id="hcco_Fail1" name="data[critical_Fail_Behaviors]" required>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['critical_Fail_Behaviors'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['critical_Fail_Behaviors'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 										</tr>
@@ -903,8 +901,8 @@
 											<td colspan=4>Recorded line was not mentioned/Not mentioned at the beginning of the call</td>
 											<td>
 												<select class="form-control" name="data[recorded_line]" required>
-													<option hcco_v3_val=100 hcco_v3_max=100 <?php echo $hcco_v3_data['recorded_line'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=100 <?php echo $hcco_v3_data['recorded_line'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['recorded_line'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['recorded_line'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 										</tr>
@@ -912,8 +910,8 @@
 											<td colspan=4>Leading the customer into selecting multiple matches/breaking down a larger remodel into multiple projects (Leading, CTT fishing, Submitting without homeowners knowledge or authorization)</td>
 											<td>
 												<select class="form-control" name="data[leading_customer]" required>
-													<option hcco_v3_val=100 hcco_v3_max=100 <?php echo $hcco_v3_data['leading_customer'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=100 <?php echo $hcco_v3_data['leading_customer'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['leading_customer'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['leading_customer'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 										</tr>
@@ -921,8 +919,8 @@
 											<td colspan=4>Submitting the SR without authorization from the customer</td>
 											<td>
 												<select class="form-control" name="data[Submitting_SR]" required>
-													<option hcco_v3_val=100 hcco_v3_max=100 <?php echo $hcco_v3_data['Submitting_SR'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=100 <?php echo $hcco_v3_data['Submitting_SR'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Submitting_SR'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['Submitting_SR'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 										</tr>
@@ -930,8 +928,8 @@
 											<td colspan=4>Credit Card information was recorded</td>
 											<td>
 												<select class="form-control" name="data[credit_Card_information]" required>
-													<option hcco_v3_val=100 hcco_v3_max=100 <?php echo $hcco_v3_data['credit_Card_information'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=100 <?php echo $hcco_v3_data['credit_Card_information'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['credit_Card_information'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['credit_Card_information'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 										</tr>
@@ -939,8 +937,8 @@
 											<td colspan=4>Not adding a DNC in Betti when a customer requests it</td>
 											<td>
 												<select class="form-control" name="data[adding_DNC]" required>
-													<option hcco_v3_val=100 hcco_v3_max=100 <?php echo $hcco_v3_data['adding_DNC'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=100 <?php echo $hcco_v3_data['adding_DNC'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['adding_DNC'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['adding_DNC'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 										</tr>
@@ -948,8 +946,8 @@
 											<td colspan=4>No Disposition</td>
 											<td>
 												<select class="form-control" name="data[no_Disposition]" required>
-													<option hcco_v3_val=100 hcco_v3_max=100 <?php echo $hcco_v3_data['no_Disposition'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=100 <?php echo $hcco_v3_data['no_Disposition'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['no_Disposition'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['no_Disposition'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 										</tr>
@@ -957,8 +955,8 @@
 											<td colspan=4>Offered pre-priced in one of the forbidden states (FL, IN, KY, AZ)</td>
 											<td>
 												<select class="form-control" name="data[offered_pre_priced]" required>
-													<option hcco_v3_val=100 hcco_v3_max=100 <?php echo $hcco_v3_data['offered_pre_priced'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=100 <?php echo $hcco_v3_data['offered_pre_priced'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['offered_pre_priced'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['offered_pre_priced'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 										</tr>
@@ -966,8 +964,8 @@
 											<td colspan=4>Presented SR as just email information </td>
 											<td>
 												<select class="form-control" name="data[presented_SR]" required>
-													<option hcco_v3_val=100 hcco_v3_max=100 <?php echo $hcco_v3_data['presented_SR'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=100 <?php echo $hcco_v3_data['presented_SR'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['presented_SR'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['presented_SR'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 										</tr>
@@ -975,8 +973,8 @@
 											<td colspan=4>Flagrantly inappropriate response (cursing, insulting, speaking negatively of company/agent/pro, etc.) - DISCIPLINARY ACTION REQUIRED </td>
 											<td>
 												<select class="form-control" name="data[flagrantly_inappropriate_response]" required>
-													<option hcco_v3_val=100 hcco_v3_max=100 <?php echo $hcco_v3_data['flagrantly_inappropriate_response'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=100 <?php echo $hcco_v3_data['flagrantly_inappropriate_response'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['flagrantly_inappropriate_response'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['flagrantly_inappropriate_response'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 										</tr>
@@ -1251,8 +1249,8 @@
 														<?php $attach_file = explode(",", $hcco_v3_data['attach_file']);
 														foreach ($attach_file as $mp) { ?>
 															<audio controls='' style="background-color:#607F93">
-																<source src="<?php echo base_url(); ?>qa_files/romtech_inbound/<?php echo $mp; ?>" type="audio/ogg">
-																<source src="<?php echo base_url(); ?>qa_files/romtech_inbound/<?php echo $mp; ?>" type="audio/mpeg">
+																<source src="<?php echo base_url(); ?>qa_files/qa_homeadvisor/hcco_qa_v3/<?php echo $mp; ?>" type="audio/ogg">
+																<source src="<?php echo base_url(); ?>qa_files/qa_homeadvisor/hcco_qa_v3/<?php echo $mp; ?>" type="audio/mpeg">
 															</audio> </br>
 														<?php } ?>
 													</td>

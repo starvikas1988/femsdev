@@ -65,7 +65,7 @@ input[type=submit] {
 									<div class="pull-left">Qa Defect Table Entries</div>
 									<?php if(is_access_qa_module()==true){ ?>
 									<div class="pull-right">
-										<!-- <a class="btn btn-primary" href="<?php echo base_url(); ?>Qa_sea_world/add_edit_sea_world/0">Add Feedback</a> -->
+										 <a href='<?php echo $download_link; ?>' <span style="padding:12px;" class="label label-success">Export Report</span></a>
 									</div>	
 									<?php } ?>
 								</h4>
@@ -88,10 +88,19 @@ input[type=submit] {
 								</thead>
 								<tbody>
 									<?php $i=1;
+									$clientName = '';
 									foreach($qa_defect_data as $key=>$row): ?>
 									<tr>
 										<td><?php echo $i++; ?></td>
-										<td><?php echo $row['clientName']; ?></td>
+										<?php 
+										if($row['clientName'] == '' && $row['processName'] == 'ITEL'){
+												$clientName = 'ITEL';
+
+											}else{
+												$clientName = $row['clientName'];
+										}
+										?>
+										<td><?php echo $clientName; ?></td>
 										<td><?php echo $qa_last_audit_date[$key]['entry_date']; ?></td>
 										<td><?php echo $row['processName']; ?></td>
 										<td><?php echo $row['table_name']; ?></td>
