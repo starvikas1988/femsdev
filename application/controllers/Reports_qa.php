@@ -19855,6 +19855,24 @@ public function qa_homeadvisor_report(){
 				$this->create_qa_hcco_sr_v2_CSV($fullAray);
 				$dn_link = base_url()."reports_qa/download_qa_hcco_sr_v2_CSV";
 
+			}elseif($pValue=='HCCO_v3'){
+
+				$qSql="SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,(select DATEDIFF(CURDATE(), s.doj) as tenure from signin s where s.id=agent_id) as tenure,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
+				(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_hcco_qa_form_v3_feedback) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
+				$fullAray = $this->Common_model->get_query_result_array($qSql);
+				$data["qa_homeadvisor_list"] = $fullAray;
+				// echo '<pre>';
+				// print_r($data);
+				// echo '</pre>';
+				// die();
+				$this->create_qa_hcco_v3_CSV($fullAray);
+				$dn_link = base_url()."reports_qa/download_qa_hcco_v3_CSV";
+
 			}elseif($pValue=='HCCO FLEX'){
 
 					$qSql="SELECT * from
@@ -20890,6 +20908,247 @@ public function create_qa_hcco_v2_CSV($rr)
 	fclose($fopen);
 }
 
+////////////HCCO VERSION 3/////////////
+public function download_qa_hcco_v3_CSV()
+{
+	$currDate=date("Y-m-d");
+	$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+	$newfile="QA HCCO  VERSION 3 Audit List-'".$currDate."'.csv";
+
+	header('Content-Disposition: attachment;  filename="'.$newfile.'"');
+	readfile($filename);
+}
+
+public function create_qa_hcco_v3_CSV($rr)
+{
+	$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
+	$controller = "Qa_homeadvisor";
+	$edit_url = "add_edit_hcco_qa_form_v3";
+	$main_url =  $currentURL.''.$controller.'/'.$edit_url;
+	$fopen = fopen($filename,"w+");
+	$header = array("Auditor Name", "Audit Date",  "Agent Name", "Fusion ID","L1 Supervisor", "Call Date", "Call Duration", "Audit Type","Auditor Type", "VOC", "Original SR ID", "New SR ID(if applicable)", "Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Compliance Score", "Customer Score", "Business Score",
+	"Introduction and Purpose",
+	"Did not verify person speaking",
+	"Incorrect branding",
+	"No Branding",
+	"Did not state the purpose of your call",
+	"Follow Up",
+	"Did not probe with open ended questions",
+	"Did not review detailed description",
+	"Did not offer to take review",
+	"Marketplace Pre-Submit Guidelines",
+	"Incorrect CTT submitted",
+	"Did not verify zip code or email",
+	"Pros were not presented by name",
+	"Did not include a detailed description",
+	"Did not provide OL possibilty veribiage (for No Match)",
+	"Did not set pre-submit expecatations",
+	"Marketplace Post-Submit Guidelines",
+	"Gave incorrect information",
+	"Did not set the proper expectations",
+	"Did not provide OL possibilty veribiage expecatations (For less than 4 matches or a No Match",
+	"Transfer was not offered",
+	"Pre-Priced Presentation",
+	"Task was pre-priced eligible and it was not offered",
+	"Pre-priced was presented incorrectly",
+	"Pre-Priced Situational Policy",
+	"Did not give accurate infomation",
+	"Did not follow legal language script",
+	"Overpromised",
+	"No coupon offered",
+	"Coupon offered when it wasn't needed",
+	"Educate",
+	"Did not provide scope of our services (600+ CTTs) and/or (inside/outside)",
+	"Did not mention two specific CTTs",
+	"Did not educate on the scope of our services before asking for a cross-sell",
+	"Did not mention the Angi App",
+	"Gave inaccurate information",
+	"Cross Sell",
+	"Did not ask for a cross-sell with an open ended question",
+	"Tone",
+	"Tone was not professional/not positive",
+	"The agent did not actively listen to the customer and did not",
+	"The agent had inappropriate rapport",
+	"Dear air or long silences present",
+	"Did not show empathy where appropriate",
+	"The agent used internal jargon",
+	"Disposition tagging",
+	"Did not disposition SRs submitting within the last 14 days",
+	"Incorrect disposition",
+	"Missing summary notes in the lead audit",
+	"Missing customer name in audit notes.",
+	"Correct Action",
+	"Did not take the correct action",
+	"Did not do what they told the customer they would do",
+	"Did not address all of the customers concerns.",
+	"Critical Fail Behaviors",
+	"Recorded line was not mentioned/Not mentioned at the beginning of the call",
+	"Leading the customer into selecting multiple matches/breaking down a larger remodel into multiple projects (Leading CTT fishing Submitting without homeowners knowledge or authorization)",
+	"Submitting the SR without authorization from the customer",
+	"Credit Card information was recorded",
+	"Not adding a DNC in Betti when a customer requests it",
+	"No Disposition",
+	"Offered pre-priced in one of the forbidden states (FL IN KY AZ)",
+	"Presented SR as just email information",
+	"Flagrantly inappropriate response (cursing insulting speaking negatively of company/agent/pro etc.) - DISCIPLINARY ACTION REQUIRED",
+	"Agent was not stella phishing?",
+	"Agent was not avoiding Stella Survey?",
+	"Attempted to Cross Sell?",
+	"AHT Related Spot Check - Agent",
+	"AHT Related Spot Check - Customer",
+	"AHT Related Spot Check - Process",
+	"AHT Related Spot Check - Technology",
+	"Conversion Related Spot Check - Agent",
+	"Conversion Related Spot Check - Customer",
+	"Conversion Related Spot Check - Process",
+	"Conversion Related Spot Check - Technology",
+	"SR/HR Related Spot Check - Agent",
+	"SR/HR Related Spot Check - Customer",
+	"SR/HR Related Spot Check - Process",
+	"SR/HR Related Spot Check - Technology",
+	"CSAT Related Spot Check - Agent",
+	"CSAT Related Spot Check - Customer",
+	"CSAT Related Spot Check - Process",
+	"CSAT Related Spot Check - Technology",
+	"Call Summary", "Feedback", "Agent Review Date/Time","Agent feedback acceptance", "Agent Comment", "Mgnt Review Date/Time","Mgnt Review By", "Mgnt Comment","Client Review Date/Time", "Client Review Name", "Client Review Note");
+ 
+	$row = "";
+	foreach($header as $data) $row .= ''.$data.',';
+	fwrite($fopen,rtrim($row,",")."\r\n");
+	$searches = array("\r", "\n", "\r\n");
+
+	foreach($rr as $user)
+	{
+		if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+			$interval1 = '---';
+		}else{
+			$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+		}
+		
+		$main_urls = $main_url.'/'.$user['id'];
+
+		$row = '"'.$user['auditor_name'].'",';
+		$row .= '"'.$user['audit_date'].'",';
+		$row .= '"'.$user['fname']." ".$user['lname'].'",';
+		$row .= '"'.$user['fusion_id'].'",';
+		$row .= '"'.$user['tl_name'].'",';
+		$row .= '"'.$user['call_date'].'",';
+		$row .= '"'.$user['call_duration'].'",';
+		$row .= '"'.$user['audit_type'].'",';
+		$row .= '"'.$user['auditor_type'].'",';
+		$row .= '"'.$user['voc'].'",';
+		$row .= '"'.$user['original_sr_id'].'",';
+		$row .= '"'.$user['new_sr_id'].'",';
+		$row .= '"'.$main_urls.'",';
+		$row .= '"'.$user['audit_start_time'].'",';
+		$row .= '"'.$user['entry_date'].'",';
+		$row .= '"'.$interval1.'",';
+		$row .= '"'.$user['overall_score'].'%'.'",';
+		$row .= '"'.$user['compliance_overall_score'].'%'.'",';
+		$row .= '"'.$user['customer_overall_score'].'%'.'",';
+		$row .= '"'.$user['business_overall_score'].'%'.'",';
+		$row .= '"'.$user['introduction_purpose'].'",';
+		$row .= '"'.$user['verify_person_speaking'].'",';
+		$row .= '"'.$user['incorrect_branding'].'",';
+		$row .= '"'.$user['no_branding'].'",';
+		$row .= '"'.$user['purpose_of_call'].'",';
+		$row .= '"'.$user['follow_up'].'",';
+		$row .= '"'.$user['probe_open_ended_questions'].'",';
+		$row .= '"'.$user['review_description'].'",';
+		$row .= '"'.$user['offer_review'].'",';
+		$row .= '"'.$user['marketplace_Pre_Submit_Guidelines'].'",';
+		$row .= '"'.$user['incorrect_CTT'].'",';
+		$row .= '"'.$user['verify_zipp_code'].'",';
+		$row .= '"'.$user['pros_presented_name'].'",';
+		$row .= '"'.$user['detailed_description'].'",';
+		$row .= '"'.$user['pre_OL_possibilty_veribiage'].'",';
+		$row .= '"'.$user['pre_submit_expecatations'].'",';
+		$row .= '"'.$user['marketplace_Post_Submit_Guidelines'].'",';
+		$row .= '"'.$user['incorrect_information'].'",';
+		$row .= '"'.$user['proper_expectations'].'",';
+		$row .= '"'.$user['post_OL_possibilty_veribiage'].'",';
+		$row .= '"'.$user['transfer_not_offered'].'",';
+		$row .= '"'.$user['pre_Priced_Presentation'].'",';
+		$row .= '"'.$user['pre_priced_eligible'].'",';
+		$row .= '"'.$user['pre_priced_presented_incorrectly'].'",';
+		$row .= '"'.$user['pre_Priced_Situational_Policy'].'",';
+		$row .= '"'.$user['accurate_information'].'",';
+		$row .= '"'.$user['legal_language_script'].'",';
+		$row .= '"'.$user['overpromised'].'",';
+		$row .= '"'.$user['no_coupon_offered'].'",';
+		$row .= '"'.$user['coupon_offered_not_needed'].'",';
+		$row .= '"'.$user['educate'].'",';
+		$row .= '"'.$user['scope_of_services'].'",';
+		$row .= '"'.$user['mention_two_specific_CTT'].'",';
+		$row .= '"'.$user['educate_cross_sell'].'",';
+		$row .= '"'.$user['mention_Agni_App'].'",';
+		$row .= '"'.$user['inaccurate_information'].'",';
+		$row .= '"'.$user['cross_sell'].'",';
+		$row .= '"'.$user['cross_sell_openended_question'].'",';
+		$row .= '"'.$user['tone'].'",';
+		$row .= '"'.$user['tone_not_professional'].'",';
+		$row .= '"'.$user['actively_listen_customer'].'",';
+		$row .= '"'.$user['inappropriate_rapport'].'",';
+		$row .= '"'.$user['dead_air'].'",';
+		$row .= '"'.$user['show_empathy'].'",';
+		$row .= '"'.$user['used_internal_jargon'].'",';
+		$row .= '"'.$user['disposition_tagging'].'",';
+		$row .= '"'.$user['disposition_SRs'].'",';
+		$row .= '"'.$user['incorrect_disposition'].'",';
+		$row .= '"'.$user['missing_summary_notes'].'",';
+		$row .= '"'.$user['missing_customer_name'].'",';
+		$row .= '"'.$user['correct_action'].'",';
+		$row .= '"'.$user['take_correct_action'].'",';
+		$row .= '"'.$user['do_what_customer_told'].'",';
+		$row .= '"'.$user['address_customer_concern'].'",';
+		$row .= '"'.$user['critical_Fail_Behaviors'].'",';
+		$row .= '"'.$user['recorded_line'].'",';
+		$row .= '"'.$user['leading_customer'].'",';
+		$row .= '"'.$user['Submitting_SR'].'",';
+		$row .= '"'.$user['credit_Card_information'].'",';
+		$row .= '"'.$user['adding_DNC'].'",';
+		$row .= '"'.$user['no_Disposition'].'",';
+		$row .= '"'.$user['offered_pre_priced'].'",';
+		$row .= '"'.$user['presented_SR'].'",';
+		$row .= '"'.$user['flagrantly_inappropriate_response'].'",';
+		$row .= '"'.$user['stella_phishing'].'",';
+		$row .= '"'.$user['avoiding_Stella_Survey'].'",';
+		$row .= '"'.$user['attempted_Cross_Sell'].'",';
+		$row .= '"'.$user['AHT_agent'].'",';
+		$row .= '"'.$user['AHT_customer'].'",';
+		$row .= '"'.$user['AHT_process'].'",';
+		$row .= '"'.$user['AHT_technology'].'",';
+		$row .= '"'.$user['Conversion_agent'].'",';
+		$row .= '"'.$user['Conversion_customer'].'",';
+		$row .= '"'.$user['Conversion_process'].'",';
+		$row .= '"'.$user['Conversion_technology'].'",';
+		$row .= '"'.$user['SR_agent'].'",';
+		$row .= '"'.$user['SR_customer'].'",';
+		$row .= '"'.$user['SR_process'].'",';
+		$row .= '"'.$user['SR_technology'].'",';
+		$row .= '"'.$user['CSAT_agent'].'",';
+		$row .= '"'.$user['CSAT_customer'].'",';
+		$row .= '"'.$user['CSAT_process'].'",';
+		$row .= '"'.$user['CSAT_technology'].'",';
+
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+		$row .= '"'.$user['agent_rvw_date'].'",';
+		$row .= '"'.$user['agnt_fd_acpt'].'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+		$row .= '"'.$user['mgnt_rvw_date'].'",';
+		$row .= '"'.$user['mgnt_rvw_name'].'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
+		$row .= '"'.$user['client_rvw_date'].'",';
+		$row .= '"'.$user['client_rvw_name'].'",';
+		$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
+
+		fwrite($fopen,$row."\r\n");
+	}
+
+	fclose($fopen);
+}
+////////////HCCO VERSION 3 ENDS/////////////
 	//Edited BY Samrat 27/11/2021 - QA BCCI
 	public function download_qa_bcci_CSV(){
 		$currDate=date("Y-m-d");
@@ -44241,7 +44500,7 @@ public function download_qa_one_assist_CSV($campaign)
 			$data["show_table"] = false;
 			$data["aside_template"] = "reports_qa/aside.php";
 			$data["content_template"] = "reports_qa/qa_att_report.php";
-			$data["content_js"] = "qa_ameridial_healthcare_js.php";
+			$data["content_js"] = "qa_audit_js.php";
 			$data['location_list'] = $this->Common_model->get_office_location_list();
 
 			$office_id = "";
@@ -44257,7 +44516,7 @@ public function download_qa_one_assist_CSV($campaign)
 			//$campaign = "att";
 			$campaign = $this->input->get('campaign');
 
-			$data["customer_list"] = array();
+			$data["att"] = array();
 
 			if($this->input->get('show')=='Show')
 			{
@@ -44560,8 +44819,8 @@ public function download_qa_one_assist_CSV($campaign)
 			}
 			fclose($fopen);
 
-		}else if($campaign == 'att_verint')
-		{
+		}else if($campaign == 'att_verint'){
+			
 			$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date", "Call Duration","Audit Type","Auditor Type","VOC","Audit Start Time","Entry Date","Possible Score","Earn Score","Overall Score",
 			"Proper Greeting",
 			"PIR/Willingness to Assist",
@@ -44916,7 +45175,252 @@ public function download_qa_one_assist_CSV($campaign)
 				fwrite($fopen,$row."\r\n");
 			}
 			fclose($fopen);
-	   }
+	   
+		}else if($campaign == 'att_collection_gbrm'){
+			
+			$header = array("Auditor", "Agent", "Employee MWP ID", "L1/TL Name", "Audit Date", "Ticket/File/Call ID", "Call Date", "Duration", "Coral Usage", "Violation", "Type of Violation", "Transfer", "Transfer Department", "ATTUID", "LOB", "Audit Category", "Audit Type", "Auditor Type", "Predictive CSAT", "Audit Start Date and Time", "Audit End Date and Time", "Interval(In Second)", "Earned Score", "Possible Score", "Overall Score",
+			"Greeting","Remarks", "Make it Personal","Remarks", "Acknowledge","Remarks", "Empathy","Remarks", "Reassurance","Remarks", "CPNI","Remarks", "Positive Scripting/Positive Positioning","Remarks", "Hold & Dead Air","Remarks", "Transfer Procedures","Remarks", "Escalation Prevention","Remarks", "Ownership","Remarks", "Resolution Steps","Remarks", "Resource Utilization","Remarks", "Fully Resolve","Remarks", "Recap","Remarks", "Additional Assistance","Remarks", "Proper Closing","Remarks",
+			"Compliance Score", "Authentication","Remarks", "Call Recording Disclaimer","Remarks", "CPNI","Remarks", "Was the agent seen retaining collecting accessing and/or using CX information","Remarks", "Required disclosures","Remarks", "CBR Disclaimer","Remarks", "Hold >4 minutes","Remarks", "Documentation","Remarks", "Added to CX account without permission","Remarks", "Vulgar Offensive or sexually oriented language in communication with customers / Using profanity or curse words during the call","Remarks", "Derogatory references","Remarks", "Rude abusive or discourteous","Remarks", "Flirting or making social engagements","Remarks", "Hung up","Remarks", "Blind transferred","Remarks", "Intentionally transfer/reassign/redirect the call","Remarks", "Intentional disseminating of inaccurate information or troubleshooting steps to release the call","Remarks", "intentionally ignoring cx from the queue","Remarks", "Camping","Remarks", "Falsify AT&T or Cx records","Remarks", "Misrepresent or misleading","Remarks",
+			"Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date and Time", "Agent Review Comment", "Management Review By", "Management Review Date and Time", "Management Review Comment", "Client Review By", "Client Review Date and Time", "Client Review Comment");
+
+			$row = "";
+			foreach($header as $data) $row .= ''.$data.',';
+			fwrite($fopen,rtrim($row,",")."\r\n");
+			$searches = array("\r", "\n", "\r\n");
+
+			foreach($rr as $user){
+				if($user['entry_by']!=''){
+					$auditorName = $user['auditor_name'];
+				}else{
+					$auditorName = $user['client_name'];
+				}
+
+				if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+					$interval1 = '---';
+				}else{
+					$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+				}
+
+				$row = '"'.$auditorName.'",';
+				$row .= '"'.$user['fname']." ".$user['lname'].'",';
+				$row .= '"'.$user['fusion_id'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				$row .= '"'.$user['audit_date'].'",';
+				$row .= '"'.$user['ticket_id'].'",';
+				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['call_duration'].'",';
+				$row .= '"'.$user['coral_usage'].'",';
+				$row .= '"'.$user['violation'].'",';
+				$row .= '"'.$user['violation_type'].'",';
+				$row .= '"'.$user['transfer'].'",';
+				$row .= '"'.$user['transfer_department'].'",';
+				$row .= '"'.$user['attuid'].'",';
+				$row .= '"'.$user['lob'].'",';
+				$row .= '"'.$user['audit_category'].'",';
+				$row .= '"'.$user['audit_type'].'",';
+				$row .= '"'.$user['auditor_type'].'",';
+				$row .= '"'.$user['voc'].'",';
+				$row .= '"'.$user['audit_start_time'].'",';
+				$row .= '"'.$user['entry_date'].'",';
+				$row .= '"'.$interval1.'",';
+				$row .= '"'.$user['earned_score'].'",';
+				$row .= '"'.$user['possible_score'].'",';
+				$row .= '"'.$user['overall_score'].'%'.'",';
+				$row .= '"'.$user['greeting'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt1'])).'",';
+				$row .= '"'.$user['make_it_personal'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt2'])).'",';
+				$row .= '"'.$user['acknowledge'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt3'])).'",';
+				$row .= '"'.$user['empathy'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt4'])).'",';
+				$row .= '"'.$user['reassurance'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt5'])).'",';
+				$row .= '"'.$user['cpni'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt6'])).'",';
+				$row .= '"'.$user['positive_scripting'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt7'])).'",';
+				$row .= '"'.$user['hold_dead_air'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt8'])).'",';
+				$row .= '"'.$user['transfer_procedure'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt9'])).'",';
+				$row .= '"'.$user['escalation_prevention'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt10'])).'",';
+				$row .= '"'.$user['ownership'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt11'])).'",';
+				$row .= '"'.$user['resolution_steps'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt12'])).'",';
+				$row .= '"'.$user['resource_utilization'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt13'])).'",';
+				$row .= '"'.$user['fully_resolve'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt14'])).'",';
+				$row .= '"'.$user['recap'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt15'])).'",';
+				$row .= '"'.$user['aditional_assistance'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt16'])).'",';
+				$row .= '"'.$user['proper_closing'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt17'])).'",';
+				$row .= '"'.$user['att_compliance_score'].'%'.'",';
+				$row .= '"'.$user['authentication'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_1'])).'",';
+				$row .= '"'.$user['call_recording_disclamer'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_2'])).'",';
+				$row .= '"'.$user['compliance_cpni'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_3'])).'",';
+				$row .= '"'.$user['agent_seen_retaining'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_4'])).'",';
+				$row .= '"'.$user['required_disclosures'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_5'])).'",';
+				$row .= '"'.$user['cbr_disclaimer'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_6'])).'",';
+				$row .= '"'.$user['hold_4_min'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_7'])).'",';
+				$row .= '"'.$user['documentation'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_8'])).'",';
+				$row .= '"'.$user['added_cx_acount'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_9'])).'",';
+				$row .= '"'.$user['offensive_language'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_10'])).'",';
+				$row .= '"'.$user['derogatory_reference'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_11'])).'",';
+				$row .= '"'.$user['rude_abusive'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_12'])).'",';
+				$row .= '"'.$user['making_social_engagement'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_13'])).'",';
+				$row .= '"'.$user['hung_up'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_14'])).'",';
+				$row .= '"'.$user['blind_transfer'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_15'])).'",';
+				$row .= '"'.$user['intentionally_transfer'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_16'])).'",';
+				$row .= '"'.$user['intentionally_disseminating'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_17'])).'",';
+				$row .= '"'.$user['intentionally_ignoring'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_18'])).'",';
+				$row .= '"'.$user['camping'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_19'])).'",';
+				$row .= '"'.$user['falsify_att'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_20'])).'",';
+				$row .= '"'.$user['misrepresent'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt_21'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+				$row .= '"'.$user['agnt_fd_acpt'].'",';
+				$row .= '"'.$user['agent_rvw_date'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+				$row .= '"'.$user['mgnt_rvw_name'].'",';
+				$row .= '"'.$user['mgnt_rvw_date'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
+				$row .= '"'.$user['client_rvw_name'].'",';
+				$row .= '"'.$user['client_rvw_date'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'",';
+				fwrite($fopen,$row."\r\n");
+			}
+			fclose($fopen);
+
+		}else if($campaign == 'att_fiberconnect_whitespace'){
+			
+			$header = array("Auditor", "Agent", "Employee MWP ID", "L1/TL Name", "Audit Date", "Ticket/File/Call ID", "Call Date", "Duration", "Phone Number", "ACPT", "L1", "L2", "Audit Type", "Auditor Type", "Predictive CSAT", "Audit Start Date and Time", "Audit End Date and Time", "Interval(In Second)", "Earned Score", "Possible Score", "Overall Score",
+			"Opening","Remarks", "Sound Energetic","Remarks", "Communication","Remarks", "Decision Maker","Remarks", "Features & Benefits","Remarks", "Rapport Building","Remarks", "Hold Verbiage","Remarks", "Discovery Questions","Remarks", "Plan & Tariff","Remarks", "**Appointment Setting","Remarks", "Process Knowledge","Remarks", "**Correct Information","Remarks", "Additional Assistance","Remarks", "Sales Authorization","Remarks", "Further Assistance","Remarks", "Closing","Remarks",
+			"Business Critical Earned","Business Critical Possible","Business Critical Percentage", "Customer Critical Earned","Customer Critical Possible","Customer Critical Percentage", "Compliance Critical Earned","Compliance Critical possible","Compliance Critical Percentage",
+			"Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date and Time", "Agent Review Comment", "Management Review By", "Management Review Date and Time", "Management Review Comment", "Client Review By", "Client Review Date and Time", "Client Review Comment");
+
+			$row = "";
+			foreach($header as $data) $row .= ''.$data.',';
+			fwrite($fopen,rtrim($row,",")."\r\n");
+			$searches = array("\r", "\n", "\r\n");
+
+			foreach($rr as $user){
+				if($user['entry_by']!=''){
+					$auditorName = $user['auditor_name'];
+				}else{
+					$auditorName = $user['client_name'];
+				}
+
+				if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+					$interval1 = '---';
+				}else{
+					$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+				}
+
+				$row = '"'.$auditorName.'",';  
+				$row .= '"'.$user['fname']." ".$user['lname'].'",';
+				$row .= '"'.$user['fusion_id'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				$row .= '"'.$user['audit_date'].'",';
+				$row .= '"'.$user['ticket_id'].'",';
+				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['call_duration'].'",';
+				$row .= '"'.$user['phone'].'",';
+				$row .= '"'.$user['acpt'].'",';
+				$row .= '"'.$user['l1'].'",';
+				$row .= '"'.$user['l2'].'",';
+				$row .= '"'.$user['audit_type'].'",';
+				$row .= '"'.$user['auditor_type'].'",';
+				$row .= '"'.$user['voc'].'",';
+				$row .= '"'.$user['audit_start_time'].'",';
+				$row .= '"'.$user['entry_date'].'",';
+				$row .= '"'.$interval1.'",';
+				$row .= '"'.$user['earned_score'].'",';
+				$row .= '"'.$user['possible_score'].'",';
+				$row .= '"'.$user['overall_score'].'%'.'",';
+				$row .= '"'.$user['opening'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt1'])).'",';
+				$row .= '"'.$user['sound_energetic'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt2'])).'",';
+				$row .= '"'.$user['comunication'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt3'])).'",';
+				$row .= '"'.$user['decision_maker'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt4'])).'",';
+				$row .= '"'.$user['features_and_benefits'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt5'])).'",';
+				$row .= '"'.$user['rapport_building'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt6'])).'",';
+				$row .= '"'.$user['hold_verbiage'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt7'])).'",';
+				$row .= '"'.$user['discovery_questions'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt8'])).'",';
+				$row .= '"'.$user['plan_and_tariff'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt9'])).'",';
+				$row .= '"'.$user['appointmernt_setting'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt10'])).'",';
+				$row .= '"'.$user['process_knowledge'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt11'])).'",';
+				$row .= '"'.$user['correct_information'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt12'])).'",';
+				$row .= '"'.$user['additional_assistance'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt13'])).'",';
+				$row .= '"'.$user['sales_authorization'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt14'])).'",';
+				$row .= '"'.$user['further_assistance'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt15'])).'",';
+				$row .= '"'.$user['closing'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt16'])).'",';
+				$row .= '"'.$user['business_score'].'",';
+				$row .= '"'.$user['business_scoreable'].'",';
+				$row .= '"'.$user['business_total'].'%'.'",';
+				$row .= '"'.$user['customer_score'].'",';
+				$row .= '"'.$user['customer_scoreable'].'",';
+				$row .= '"'.$user['customer_total'].'%'.'",';
+				$row .= '"'.$user['compliance_score'].'",';
+				$row .= '"'.$user['compliance_scoreable'].'",';
+				$row .= '"'.$user['compliance_total'].'%'.'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+				$row .= '"'.$user['agnt_fd_acpt'].'",';
+				$row .= '"'.$user['agent_rvw_date'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+				$row .= '"'.$user['mgnt_rvw_name'].'",';
+				$row .= '"'.$user['mgnt_rvw_date'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
+				$row .= '"'.$user['client_rvw_name'].'",';
+				$row .= '"'.$user['client_rvw_date'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'",';
+				fwrite($fopen,$row."\r\n");
+			}
+			fclose($fopen);
+
+		}
 
 	}
 ////////////////////////////////////////////////////////////////////////////////
@@ -50225,7 +50729,7 @@ public function download_qa_credit_pro_CSV()
 		$main_url =  $currentURL.''.$controller.'/'.$edit_url;
 		$fopen = fopen($filename,"w+");
 
-		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date", "Call Duration", "Type", "Interaction ID","ACPT", "Audit Type", "Auditor Type", "VOC","Audit Link","Tenure","Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Earned Score", "Possible Score","Overall Score",
+		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date", "Call Duration", "Type", "Interaction ID", "Call Link", "Site/Location", "ACPT", "Audit Type", "Auditor Type", "VOC","Audit Link","Tenure","Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Earned Score", "Possible Score","Overall Score",
 		"Has the caller been properly greeted and verified?", "Did we show empathy/sympathy when necessary if applicable?",
 		 "Did we adjust to the callers pace and demeanor?(especially when faced with a difficult situation)",
 		 "Did we use the callers name two times throughout the call?",
@@ -50244,7 +50748,8 @@ public function download_qa_credit_pro_CSV()
 		  "Did we validate if the issue/question was resolved?",
 		  "Did we ask if any additional assistance is needed?",
 		  "Did we properly close the call?",
-		"Remarks 1", "Remarks 2", "Remarks 3", "Remarks 4", "Remarks 5", "Remarks 6", "Remarks 7", "Remarks 8", "Remarks 9", "Remarks 10", "Remarks 11", "Remarks 12", "Remarks 13", "Remarks 14", "Remarks 15", "Remarks 16", "Remarks 17", "Remarks 18", "Remarks 19",
+		  "Was there a proper greeting at the beginning of the call?",
+		"Remarks 1", "Remarks 2", "Remarks 3", "Remarks 4", "Remarks 5", "Remarks 6", "Remarks 7", "Remarks 8", "Remarks 9", "Remarks 10", "Remarks 11", "Remarks 12", "Remarks 13", "Remarks 14", "Remarks 15", "Remarks 16", "Remarks 17", "Remarks 18", "Remarks 19", "Remarks 20",
 		"Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment","Client Review Date", "Client Review Name", "Client Review Note");
 
 		$row = "";
@@ -50275,6 +50780,8 @@ public function download_qa_credit_pro_CSV()
 			$row .= '"'.$user['call_duration'].'",';
 			$row .= '"'.$user['type'].'",';
 			$row .= '"'.$user['interaction_id'].'",';
+			$row .= '"'.$user['call_link'].'",';
+			$row .= '"'.$user['site'].'",';
 			$row .= '"'.$user['acpt'].'",';
 			$row .= '"'.$user['audit_type'].'",';
 			$row .= '"'.$user['auditor_type'].'",';
@@ -50306,6 +50813,7 @@ public function download_qa_credit_pro_CSV()
 			$row .= '"'.$user['validate_issue_was_resolved'].'",';
 			$row .= '"'.$user['ask_any_additional_assistance'].'",';
 			$row .= '"'.$user['properly_close_the_call'].'",';
+			$row .= '"'.$user['proper_greeting'].'",';
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt1'])).'",';
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt2'])).'",';
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt3'])).'",';
@@ -50325,6 +50833,7 @@ public function download_qa_credit_pro_CSV()
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt17'])).'",';
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt18'])).'",';
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt19'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt20'])).'",';
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
 			$row .= '"'.$user['agnt_fd_acpt'].'",';

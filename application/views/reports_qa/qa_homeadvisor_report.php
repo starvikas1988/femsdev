@@ -85,6 +85,9 @@
 										<?php $cScc='';
 										if($pValue=='HCCI_core_v2') $cScc='Selected';?>
 										<option value='HCCI_core_v2' <?php echo $cScc; ?>>HCCI Core V2</option>
+										<?php $cScc='';
+										if($pValue=='HCCO_v3') $cScc='Selected';?>
+										<option value='HCCO_v3' <?php echo $cScc; ?>>HCCO V3</option>
 									</select>
 								</div>
 							</div>
@@ -136,7 +139,8 @@
 										<td><?php echo $row['fname']." ".$row['lname']; ?></td>
 										<td><?php echo $row['tl_name']; ?></td>
 										<td><?php echo $row['audit_date']; ?></td>
-										<td><?php echo $row['auditor_name']; ?></td>
+										<td><?php echo $row['auditor_name']; ?></td> 
+										<!-- <td><?php //echo $row['mgnt_rvw_name']; ?></td> -->
 										<?php if(($pValue!="HCCO_SR") && ($pValue!="HCCO SR COMPLIANCE")){ ?>
 										<td><?php echo $row['overall_score'].'%'; ?></td>
 										<?php } ?>

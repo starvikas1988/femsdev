@@ -1685,6 +1685,81 @@
 			}
 		}
 	}
+
+	////////////////vikas starts/////////////////
+
+	public function agent_hcco_v3_rvw($id){
+		if(check_logged_in()){
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_homeadvisor/agent_hcco_v3_rvw.php";
+			$data["agentUrl"] = "qa_homeadvisor/agent_hcco_feedback";
+
+			/******** Randamiser Start***********/
+			
+			
+			$rand_id=0;
+			if(!empty($this->uri->segment(4))){
+				$rand_id=$this->uri->segment(4);
+			}
+			$data['rand_id']=$rand_id;
+			$data["rand_data"] = "";
+			if($rand_id!=0){
+				$sql = "SELECT client_id, process_id FROM qa_randamiser_general_data WHERE id=$rand_id";
+				$dataClientProID = $this->Common_model->get_query_row_array($sql);
+				//print_r($dataClientProID);
+				//echo "<br>";
+				$client_id = $dataClientProID['client_id'];
+				$pro_id = $dataClientProID['process_id'];;
+				$curDateTime=CurrMySqlDate();
+				$upArr = array('distribution_opend_by' =>$current_user,'distribution_opened_datetime'=>$curDateTime);
+				$this->db->where('id', $rand_id);
+				$this->db->update('qa_randamiser_general_data',$upArr);
+				
+				$randSql="Select srd.*,srd.aht as call_duration, S.id as sid, S.fname, S.lname, S.xpoid, S.assigned_to,
+				(select concat(fname, ' ', lname) as name from signin s1 where s1.id=S.assigned_to) as tl_name,DATEDIFF(CURDATE(), S.doj) as tenure
+				from qa_randamiser_general_data srd Left Join signin S On srd.fusion_id=S.fusion_id where srd.audit_status=0 and srd.id='$rand_id'";
+				$data["rand_data"] = $rand_data =  $this->Common_model->get_query_row_array($randSql);
+				//print_r($rand_data);
+				
+			}
+			/* Randamiser Code End */
+			
+			$qSql="SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_hcco_qa_form_v3_feedback where id='$id') xx Left Join
+				(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			$data["hcco_v3_data"] = $this->Common_model->get_query_row_array($qSql);
+			
+			$data["pnid"]=$id;
+			
+			if($this->input->post('pnid'))
+			{
+				$pnid=$this->input->post('pnid');
+				$curDateTime=CurrMySqlDate();
+				$log=get_logs();
+					
+				$field_array1=array(
+					"agnt_fd_acpt" => $this->input->post('agnt_fd_acpt'),
+					"agent_rvw_note" => $this->input->post('note'),
+					"agent_rvw_date" => $curDateTime
+				);
+				$this->db->where('id', $pnid);
+				$this->db->update('qa_hcco_qa_form_v3_feedback',$field_array1);
+					
+				redirect('Qa_homeadvisor/agent_hcco_feedback');
+				
+			}else{
+				$this->load->view('dashboard',$data);
+			}
+		}
+	}
+
+
+	///////////////vikas ends////////////////////
 	
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////// HCCI ///////////////////////////////////
