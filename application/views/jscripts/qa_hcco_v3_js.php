@@ -203,7 +203,7 @@ $(function() {
    //     			return false;
 		 //    }
 		    if(el.value.length < 1){
-		    	$("#start_phone").html("Consumer number can not be a negative digits!");
+		    	$("#start_phone").html("Contact ID can not be a negative digits!");
 		    	$("#qaformsubmit").attr("disabled", "disabled");
        			return false;
 		    }

@@ -9,15 +9,53 @@
 		$this->load->model('Qa_philip_model');
 	}
 	
-	
-	private function vfs_upload_files($files,$path){
+
+	public function createPath($path){
+
+		if (!empty($path)) {
+
+	    	if(!file_exists($path)){
+
+	    		$mainPath="./";
+	    		$checkPath=str_replace($mainPath,'', $path);
+	    		$checkPath=explode("/",$checkPath);
+	    		$cnt=count($checkPath);
+	    		for($i=0;$i<$cnt;$i++){
+
+		    		$mainPath.=$checkPath[$i].'/';
+		    		if (!file_exists($mainPath)) {
+		    			$oldmask = umask(0);
+						$mkdir=mkdir($mainPath, 0777);
+						umask($oldmask);
+
+						if ($mkdir) {
+							return true;
+						}else{
+							return false;
+						}
+		    		}
+	    		}
+
+    		}else{
+    			return true;
+    		}
+    	}
+	}
+
+	private function vfs_upload_files($files,$path)
+    {
+    	$result=$this->createPath($path);
+    	if($result){
         $config['upload_path'] = $path;
-		$config['allowed_types'] = 'mp3|avi|mp4|wmv|wav';
+		//$config['allowed_types'] = '*';
+		//$config['detect_mime'] = FALSE;
+		//$config['allowed_types'] = 'mp3|avi|mp4|wmv|wav';
+		$config['allowed_types'] = 'mp3|m4a|mp4|wav';
 		$config['max_size'] = '2024000';
 		$this->load->library('upload', $config);
 		$this->upload->initialize($config);
         $images = array();
-        foreach ($files['name'] as $key => $image) {           
+        foreach ($files['name'] as $key => $image) {
 			$_FILES['uFiles']['name']= $files['name'][$key];
 			$_FILES['uFiles']['type']= $files['type'][$key];
 			$_FILES['uFiles']['tmp_name']= $files['tmp_name'][$key];
@@ -31,6 +69,7 @@
 				$full_path = $info['full_path'];
 				$file_name = $info['file_name'];
 				if(strtolower($ext)== '.wav'){
+
 					$file_name = str_replace(".","_",$file_name).".mp3";
 					$new_path = $file_path.$file_name;
 					$comdFile=FCPATH."assets/script/wavtomp3.sh '$full_path' '$new_path'";
@@ -43,7 +82,44 @@
             }
         }
         return $images;
+    	}
     }
+
+	
+	// private function vfs_upload_files($files,$path){
+ //        $config['upload_path'] = $path;
+	// 	$config['allowed_types'] = 'mp3|avi|mp4|wmv|wav';
+	// 	$config['max_size'] = '2024000';
+	// 	$this->load->library('upload', $config);
+	// 	$this->upload->initialize($config);
+ //        $images = array();
+ //        foreach ($files['name'] as $key => $image) {           
+	// 		$_FILES['uFiles']['name']= $files['name'][$key];
+	// 		$_FILES['uFiles']['type']= $files['type'][$key];
+	// 		$_FILES['uFiles']['tmp_name']= $files['tmp_name'][$key];
+	// 		$_FILES['uFiles']['error']= $files['error'][$key];
+	// 		$_FILES['uFiles']['size']= $files['size'][$key];
+
+ //            if ($this->upload->do_upload('uFiles')) {
+	// 			$info = $this->upload->data();
+	// 			$ext = $info['file_ext'];
+	// 			$file_path = $info['file_path'];
+	// 			$full_path = $info['full_path'];
+	// 			$file_name = $info['file_name'];
+	// 			if(strtolower($ext)== '.wav'){
+	// 				$file_name = str_replace(".","_",$file_name).".mp3";
+	// 				$new_path = $file_path.$file_name;
+	// 				$comdFile=FCPATH."assets/script/wavtomp3.sh '$full_path' '$new_path'";
+	// 				$output = shell_exec( $comdFile);
+	// 				sleep(2);
+	// 			}
+	// 			$images[] = $file_name;
+ //            }else{
+ //                return false;
+ //            }
+ //        }
+ //        return $images;
+ //    }
 	
 	 
 	public function index(){
@@ -156,6 +232,7 @@
 					"mission" => $this->input->post('mission'),
 					"recording_id" => $this->input->post('recording_id'),
 					"week" => $this->input->post('week'),
+					"host_country" => $this->input->post('host_country'),
 					"audit_type" => $this->input->post('audit_type'),
 					"auditor_type" => $this->input->post('auditor_type'),
 					"voc" => $this->input->post('voc'),
@@ -174,9 +251,9 @@
 					"VAS_options" => $this->input->post('VAS_options'),
 					"awareness_created" => $this->input->post('awareness_created'),
 					"correct_disposition" => $this->input->post('correct_disposition'),
-					"update_ASM" => $this->input->post('update_ASM'),
+					//"update_ASM" => $this->input->post('update_ASM'),
 					"hold_required" => $this->input->post('hold_required'),
-					"hold_guidelines" => $this->input->post('hold_guidelines'),
+					//"hold_guidelines" => $this->input->post('hold_guidelines'),
 					"formatting" => $this->input->post('formatting'),
 					"avoid_negative_statement" => $this->input->post('avoid_negative_statement'),
 					"procedure_guide_step" => $this->input->post('procedure_guide_step'),
@@ -203,7 +280,7 @@
 					"comm11" => $this->input->post('comm11'),
 					"comm12" => $this->input->post('comm12'),
 					"comm13" => $this->input->post('comm13'),
-					"comm14" => $this->input->post('comm14'),
+					//"comm14" => $this->input->post('comm14'),
 					"comm15" => $this->input->post('comm15'),
 					"comm16" => $this->input->post('comm16'),
 					"comm17" => $this->input->post('comm17'),
@@ -215,8 +292,16 @@
 					"comm23" => $this->input->post('comm23'),
 					"comm24" => $this->input->post('comm24'),
 					"comm25" => $this->input->post('comm25'),
-					"reason_for_fatal" => $this->input->post('reason_for_fatal'),
-					"inprovement_area" => $this->input->post('inprovement_area'),
+					"comm26" => $this->input->post('comm26'),
+					"comm27" => $this->input->post('comm27'),
+					"comm28" => $this->input->post('comm28'),
+					"comm29" => $this->input->post('comm29'),
+					"comm30" => $this->input->post('comm30'),
+					"comm31" => $this->input->post('comm31'),
+					"tenurity" => $this->input->post('tenurity'),
+					"customer_called_first" => $this->input->post('customer_called_first'),
+					"customer_contact_more_one_less_three" => $this->input->post('customer_contact_more_one_less_three'),
+					"customer_contact_more_three" => $this->input->post('customer_contact_more_three'),
 					"call_summary" => $this->input->post('call_summary'),
 					"feedback" => $this->input->post('feedback'),
 					"entry_date" => $curDateTime
@@ -311,6 +396,7 @@
 					"mission" => $this->input->post('mission'),
 					"recording_id" => $this->input->post('recording_id'),
 					"week" => $this->input->post('week'),
+					"host_country" => $this->input->post('host_country'),
 					"audit_type" => $this->input->post('audit_type'),
 					"auditor_type" => $this->input->post('auditor_type'),
 					"voc" => $this->input->post('voc'),
@@ -474,6 +560,7 @@
 					"mission" => $this->input->post('mission'),
 					"recording_id" => $this->input->post('recording_id'),
 					"week" => $this->input->post('week'),
+					"host_country" => $this->input->post('host_country'),
 					"audit_type" => $this->input->post('audit_type'),
 					"auditor_type" => $this->input->post('auditor_type'),
 					"voc" => $this->input->post('voc'),
@@ -628,9 +715,9 @@
 			
 			if($campaign!=''){
 				
-				$qSql="Select count(id) as value from qa_vfs_".$campaign."_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit')";
+				$qSql="Select count(id) as value from qa_vfs_".$campaign."_feedback where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
 				$data["tot_feedback"] =  $this->Common_model->get_single_value($qSql);
-				$qSql="Select count(id) as value from qa_vfs_".$campaign."_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit') and agent_rvw_date is Null";
+				$qSql="Select count(id) as value from qa_vfs_".$campaign."_feedback where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit') and agent_rvw_date is Null";
 				$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql);
 				
 				if($this->input->get('btnView')=='View')
@@ -644,7 +731,7 @@
 					if($fromDate!="" && $toDate!=="" ){ 
 						$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit') ";
 					}else{
-						$cond= " Where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit') ";
+						$cond= " Where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit') ";
 					}
 					
 					$qSql = "SELECT * from
@@ -694,6 +781,7 @@
 				$log=get_logs();
 					
 				$field_array1=array(
+					"agnt_fd_acpt" => $this->input->post('agnt_fd_acpt'),
 					"agent_rvw_note" => $this->input->post('note'),
 					"agent_rvw_date" => $curDateTime
 				);
@@ -805,12 +893,25 @@
 		
 		if($campaign=='chat'){
 
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Chat Date", "AHT", "Mission", "Recording ID", "Week", "Audit Type", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Fatal/Non Fatal", "Target", "Total Score", "Overall Score Percentage", "Opening - a)Appropriate greeting as per script", "Technical aspects - a)Response Time", "Technical aspects - b)FCR achieved", "Technical aspects - c)Understand the issue of the applicant", "Technical aspects - d)Attentiveness displayed", "Technical aspects - e)Paraphrasing", "Technical aspects - f)Used all the available resources for providing resolution", "Technical aspects - g)Appropriate Probing", "Additions - a)Offers VAS options wherever applicable", "Additions - b)Awareness created with regards to VFS", "Documentation - a)Correct dispostion", "Documentation - b)Update ASM/V2", "Hold Protocol - a)Was Hold Required", "Hold Protocol - b)Hold Guidelines followed", "Communication - a)Formatting", "Communication - b)Avoid Negative statements", "Communication - c)Telling the customer what to do next", "Communication - d)Avoid Slangs & Jargons", "Communication - e)Correct and accurate grammar usage", "Communication - f)Further assistance", "Chat Closing - a)Adherence to chat closing script","used_applicant", "Fatal Parameter - a)Delayed opening", "Fatal Parameter - b)Rude on chat",  "Fatal Parameter - c)Incomplete Information", "Fatal Parameter - d)Complaint Avoidance","Absence of disposition","Comments","Comments 1","Comments 2","Comments 3","Comments 4","Comments 5","Comments 6","Comments 7","Comments 8","Comments 9","Comments 10","Comments 11","Comments 12","Comments 13","Comments 14","Comments 15","Comments 16","Comments 17","Comments 18","Comments 19","Comments 20","Comments 21","Comments 22","Comments 23","Comments 24","Comments 25", "Reason For Fatal Error", "Inprovement Area", "Chat Summary", "Feedback", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
+			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Chat Date", "AHT", "Mission", "Recording ID", "Week", "Host/Country", "Audit Type", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Fatal/Non Fatal","Agent Tenurity", "Target", "Total Score", "Overall Score Percentage",
+			 "Opening - a)Appropriate greeting as per script", "Technical aspects - a)Response Time", "Technical aspects - b)FCR achieved", "Technical aspects - c)Complete and accurate information", "Technical aspects - d)Understand the issue of the applicant & Attentiveness displayed", "Technical aspects - e)Paraphrasing", "Technical aspects - f)Used all the available resources for providing resolution", "Technical aspects - g)Appropriate Probing", "Additions - a)Offers VAS options wherever applicable", "Additions - b)Awareness created with regards to VFS", "Documentation - a)Correct dispostion", "Hold Protocol - a)Was Hold Required", "Communication - a)Formatting", "Communication - b)Avoid Negative statements", "Communication - c)Telling the customer what to do next", "Communication - d)Avoid Slangs & Jargons", "Communication - e)Correct and accurate grammar usage", "Communication - f)Further assistance", "Chat Closing - a)Adherence to chat closing script", "Fatal Parameter - a)Delayed opening", "Fatal Parameter - b)Rude on chat",  "Fatal Parameter - c)Incomplete Information", "Fatal Parameter - d)Complaint Avoidance","Absence of disposition","Comments","Comments 1","Comments 2","Comments 3","Comments 4","Comments 5","Comments 6","Comments 7","Comments 8","Comments 9","Comments 10","Comments 11","Comments 12","Comments 13","Comments 14","Comments 15","Comments 16","Comments 17","Comments 18","Comments 19","Comments 20","Comments 21","Comments 22",
+			   "First Time Resolution (FTR):a. Disposition",
+			   "First Time Resolution (FTR):b. Communication mode through which customer contacted previously",
+			   "First Time Resolution (FTR):c. Description of Disposition selected",
+			   "First Time Resolution (FTR):d. Was this the first time customer called us ?",
+			   "Comments 26",
+			   "First Time Resolution (FTR):e. Did the customer contact us more than once but less than 3 times ?",
+			   "Comments 27",
+			   "First Time Resolution (FTR):f. Did the customer contact us more than 3 times ?",
+			   "Comments 28",
+			   "Chat Summary", "Feedback", "Agent Review Date","Agent Acceptance", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
 		}else if($campaign=='call'){
 			
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "AHT", "Mission", "Recording ID", "Week", "Audit Type", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Fatal/Non Fatal", "Target", "Total Score", "Overall Score Percentage", "Opening - a)Appropriate greeting - as per script & Clear and Crisp opening", "Communication - a)Voice modulation (Maintained proper tone & pitch & volume throughout the call) & Appropriate pace & clarity of speech", "Communication - b)Empathy on call & Personalization / Power words", "Communication - c)Adjusted to customer language & Courteous & Professional", "Communication - d)No jargons - simple words used & Avoid fumbling & fillers", "Communication - e)Active listening / Attentiveness & Paraphrasing & Acknowledgment", "Communication - f)Grammatically correct sentences & Comprehension","Technical aspects - a)Appropriate Probing", "Technical aspects - b)Took ownership to resolve customers concern", "Technical aspects - c)Escalate the issue wherever required", "Technical aspects - d)Call control","Technical aspects - e)Query resolved on call - FTR","Technical aspects - f)Step by step procuedure to resolve the QRC(Query/Request/Complaint)","Value Additons- a)Offers VAS options wherever applicable", "Value Additons - b. Awareness created with regards to VFS website (wherever applicable)", "Documentation - a)Correct dispostion", "Documentation - b)Update ASM V2","Hold Protocol - a)Hold Guidelines followed","Call Closing - a)Further assistance & Adherence to call closing script", "Call Closing - b)Attempt to take feedback on experience CSAT","Fatal Parameter - a)Delayed opening", "Fatal Parameter - b)Rude on chat", "Fatal Parameter - c)Incomplete/Inaccurate Information shared", "Fatal Parameter - d)Complaint Avoidance","Fatal Parameter - e) Absence of disposition","Comments 0","Comments 1","Comments 2","Comments 3","Comments 4","Comments 5","Comments 6","Comments 7","Comments 8","Comments 9","Comments 10","Comments 11","Comments 12","Comments 13","Comments 14","Comments 15","Comments 16","Comments 17","Comments 18","Comments 19","Comments 20","Comments 21","Comments 22","Comments 23","Comments 24","Disposition","Communication mode through which customer contacted previously","Description of Disposition selected","Was this the first time customer called us?","Did the customer call us more than once but less than 3 times?","Did the customer call us more than 3 times?","Reason For Fatal Error", "Improvement Area", "Call Summary", "Feedback","Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
+			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "AHT", "Mission", "Recording ID", "Week", "Host Country", "Audit Type", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Fatal/Non Fatal","Agent Tenurity", "Target", "Total Score", "Overall Score Percentage", "Opening - a)Appropriate greeting - as per script & Clear and Crisp opening", "Communication - a)Voice modulation (Maintained proper tone & pitch & volume throughout the call) & Appropriate pace & clarity of speech", "Communication - b)Empathy on call & Personalization / Power words", "Communication - c)Adjusted to customer language & Courteous & Professional", "Communication - d)No jargons - simple words used & Avoid fumbling & fillers", "Communication - e)Active listening / Attentiveness & Paraphrasing & Acknowledgment", "Communication - f)Grammatically correct sentences & Comprehension","Technical aspects - a)Appropriate Probing", "Technical aspects - b)Took ownership to resolve customers concern", "Technical aspects - c)Escalate the issue wherever required", "Technical aspects - d)Call control","Technical aspects - e)Query resolved on call - FTR","Technical aspects - f)Step by step procuedure to resolve the QRC(Query/Request/Complaint)","Value Additons- a)Offers VAS options wherever applicable", "Value Additons - b. Awareness created with regards to VFS website (wherever applicable)", "Documentation - a)Correct dispostion", "Documentation - b)Update ASM V2","Hold Protocol - a)Hold Guidelines followed","Call Closing - a)Further assistance & Adherence to call closing script", "Call Closing - b)Attempt to take feedback on experience CSAT","Fatal Parameter - a)Delayed opening", "Fatal Parameter - b)Rude on chat", "Fatal Parameter - c)Incomplete/Inaccurate Information shared", "Fatal Parameter - d)Complaint Avoidance","Comments 0","Comments 1","Comments 2","Comments 3","Comments 4","Comments 5","Comments 6","Comments 7","Comments 8","Comments 9","Comments 10","Comments 11","Comments 12","Comments 13","Comments 14","Comments 15","Comments 16","Comments 17","Comments 18","Comments 19","Comments 20","Comments 21","Comments 22","Comments 23","Disposition","Communication mode through which customer contacted previously","Description of Disposition selected","Was this the first time customer called us?","Did the customer call us more than once but less than 3 times?","Did the customer call us more than 3 times?",
+				"Reason For Fatal Error", "Improvement Area",
+				 "Call Summary", "Feedback","Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
 		}else if($campaign=='email'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Chat Date", "AHT", "Mission", "Recording ID", "Week", "Audit Type", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Fatal/Non Fatal", "Target", "Total Score", "Overall Score Percentage",
+			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Chat Date", "AHT", "Mission", "Recording ID", "Week", "Host Country", "Audit Type", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Fatal/Non Fatal", "Target", "Total Score", "Overall Score Percentage",
 			 "Content Writing - a) Used one idea per paragraph",
 			 "Content Writing - a) Greeting & Salutation used correctly",
 			 "Content Writing - b)Used bullet points where appropriate", 
@@ -879,6 +980,7 @@
 				$row .= '"'.$user['mission'].'",';
 				$row .= '"'.$user['recording_id'].'",';
 				$row .= '"'.$user['week'].'",';
+				$row .= '"'.$user['host_country'].'",';
 				$row .= '"'.$user['audit_type'].'",';
 				$row .= '"'.$user['voc'].'",';
 				$row .= '"'.$main_urls.'",';
@@ -886,23 +988,23 @@
 				$row .= '"'.$user['entry_date'].'",';
 				$row .= '"'.$interval1.'",';
 				$row .= '"'.$user['autofail_status'].'",';
+				$row .= '"'.$user['tenurity'].'",';
 				$row .= '"'.$user['possible_score'].'",';
 				$row .= '"'.$user['earned_score'].'",';
 				$row .= '"'.$user['overall_score'].'%'.'",';
 				$row .= '"'.$user['appropiate_greeting'].'",';
 				$row .= '"'.$user['response_time'].'",';
 				$row .= '"'.$user['FCR_achieved'].'",';
+				$row .= '"'.$user['accurate_information'].'",';
 				$row .= '"'.$user['understand_issue'].'",';
-				$row .= '"'.$user['attentiveness_display'].'",';
 				$row .= '"'.$user['paraphrasing'].'",';
 				$row .= '"'.$user['use_available_resource'].'",';
 				$row .= '"'.$user['appropiate_probing'].'",';
 				$row .= '"'.$user['VAS_options'].'",';
 				$row .= '"'.$user['awareness_created'].'",';
 				$row .= '"'.$user['correct_disposition'].'",';
-				$row .= '"'.$user['update_ASM'].'",';
 				$row .= '"'.$user['hold_required'].'",';
-				$row .= '"'.$user['hold_guidelines'].'",';
+				//$row .= '"'.$user['hold_guidelines'].'",';
 				$row .= '"'.$user['formatting'].'",';
 				$row .= '"'.$user['avoid_negative_statement'].'",';
 				$row .= '"'.$user['procedure_guide_step'].'",';
@@ -920,16 +1022,16 @@
 				$row .='"'.$user['comm2'].'",';
 				$row .='"'.$user['comm3'].'",';
 				$row .='"'.$user['comm4'].'",';
-				$row .='"'.$user['comm5'].'",';
+				//$row .='"'.$user['comm5'].'",';
 				$row .='"'.$user['comm6'].'",';
 				$row .='"'.$user['comm7'].'",';
 				$row .='"'.$user['comm8'].'",';
 				$row .='"'.$user['comm9'].'",';
 				$row .='"'.$user['comm10'].'",';
 				$row .='"'.$user['comm11'].'",';
-				$row .='"'.$user['comm12'].'",';
+				//$row .='"'.$user['comm12'].'",';
 				$row .='"'.$user['comm13'].'",';
-				$row .='"'.$user['comm14'].'",';
+				//$row .='"'.$user['comm14'].'",';
 				$row .='"'.$user['comm15'].'",';
 				$row .='"'.$user['comm16'].'",';
 				$row .='"'.$user['comm17'].'",';
@@ -941,11 +1043,21 @@
 				$row .='"'.$user['comm23'].'",';
 				$row .='"'.$user['comm24'].'",';
 				$row .='"'.$user['comm25'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['reason_for_fatal'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['inprovement_area'])).'",';
+				$row .='"'.$user['comm26'].'",';
+				$row .='"'.$user['comm27'].'",';
+				$row .='"'.$user['comm28'].'",';
+				$row .='"'.$user['customer_called_first'].'",';
+				$row .='"'.$user['comm29'].'",';
+				$row .='"'.$user['customer_contact_more_one_less_three'].'",';
+				$row .='"'.$user['comm30'].'",';
+				$row .='"'.$user['customer_contact_more_three'].'",';
+				$row .='"'.$user['comm31'].'",';
+				//$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['reason_for_fatal'])).'",';
+				//$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['inprovement_area'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
 				$row .= '"'.$user['agent_rvw_date'].'",';
+				$row .= '"'.$user['agnt_fd_acpt'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
 				$row .= '"'.$user['mgnt_rvw_date'].'",';
 				$row .= '"'.$user['mgnt_rvw_name'].'",';
@@ -985,6 +1097,7 @@
 				$row .= '"'.$user['mission'].'",';
 				$row .= '"'.$user['recording_id'].'",';
 				$row .= '"'.$user['week'].'",';
+				$row .= '"'.$user['host_country'].'",';
 				$row .= '"'.$user['audit_type'].'",';
 				$row .= '"'.$user['voc'].'",';
 				$row .= '"'.$main_urls.'",';
@@ -992,6 +1105,7 @@
 				$row .= '"'.$user['entry_date'].'",';
 				$row .= '"'.$interval1.'",';
 				$row .= '"'.$user['autofail_status'].'",';
+				$row .= '"'.$user['tenurity'].'",';
 				$row .= '"'.$user['possible_score'].'",';
 				$row .= '"'.$user['earned_score'].'",';
 				$row .= '"'.$user['overall_score'].'%'.'",';
@@ -1019,7 +1133,7 @@
 				$row .= '"'.$user['rude_on_call'].'",';
 				$row .= '"'.$user['incomplete_information'].'",';
 				$row .= '"'.$user['complaint_avoidance'].'",';
-				$row .= '"'.$user['absence_disposition'].'",';
+				//$row .= '"'.$user['absence_disposition'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm0'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm1'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm2'])).'",';
@@ -1044,7 +1158,13 @@
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm21'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm22'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm23'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm24'])).'",';
+				//$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm24'])).'",';
+				$row .= '"'.$user['disposition'].'",';
+				$row .= '"'.$user['contacted_previously'].'",';
+				$row .= '"'.$user['disposition_selected'].'",';
+				$row .= '"'.$user['customer_called_first'].'",';
+				$row .= '"'.$user['customer_called_less_three'].'",';
+				$row .= '"'.$user['customer_called_more_three'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['reason_for_fatal'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['inprovement_area'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
@@ -1089,6 +1209,7 @@
 				$row .= '"'.$user['mission'].'",';
 				$row .= '"'.$user['recording_id'].'",';
 				$row .= '"'.$user['week'].'",';
+				$row .= '"'.$user['host_country'].'",';
 				$row .= '"'.$user['audit_type'].'",';
 				$row .= '"'.$user['voc'].'",';
 				$row .= '"'.$main_urls.'",';
@@ -1199,7 +1320,7 @@
 			
 			$path = $_FILES["file"]["tmp_name"];
 			$object = PHPExcel_IOFactory::load($path);
-			$clmarr = array("audit_date","call_date","call_duration","fusion_id","mission","recording_id","week","audit_type","auditor_type","voc","autofail_status","overall_score","possible_score","earned_score",
+			$clmarr = array("audit_date","call_date","call_duration","fusion_id","auditor_mwp_id","mission","recording_id","week","audit_type","auditor_type","voc","autofail_status","overall_score","possible_score","earned_score",
 				"appropiate_greeting","response_time","FCR_achieved",
 				"accurate_information","understand_issue","attentiveness_display","paraphrasing","use_available_resource","appropiate_probing","VAS_options","awareness_created","correct_disposition","update_ASM","hold_required","hold_guidelines","formatting","avoid_negative_statement","procedure_guide_step","avoid_slangs","correct_grammar_use","further_assistance","chat_adherence","used_applicant","delayed_opening","rude_on_chat","inacurate_information","complaint_avoidance","comm0","comm1","comm2","comm3","comm4","comm5","comm6","comm7","comm8","comm9","comm10","comm11","comm12","comm13","comm14","comm15","comm16","comm17","comm18","comm19","comm20","comm21","comm22","comm23","comm24","comm25","reason_for_fatal","inprovement_area",
 				"call_summary","feedback");
@@ -1238,6 +1359,8 @@
 							$user_list[$row][$key] = date('Y-m-d',strtotime($worksheet->getCell($d.$row )->getFormattedValue()));
 						}else if($key=="call_duration"){
 							$user_list[$row][$key] = intval(86400 * $worksheet->getCell($d.$row )->getValue());
+						}else if($key=="auditor_mwp_id"){
+							$user_list[$row]['entry_by'] =  $worksheet->getCell($d.$row )->getValue();
 						}else if($key=="fusion_id"){
 							$fusion_id = $worksheet->getCell($d.$row )->getValue();
 							 $qSql = "Select id as agent_id, assigned_to as tl_id, fusion_id, get_process_names(id) as process_name, office_id, (select concat(fname, ' ', lname) from signin tl where tl.id=signin.assigned_to) as tl_name FROM signin where fusion_id = '$fusion_id'";
@@ -1287,7 +1410,7 @@
 			
 			$path = $_FILES["file"]["tmp_name"];
 			$object = PHPExcel_IOFactory::load($path);
-			$clmarr = array("audit_date","call_date","call_duration","fusion_id","mission","recording_id","week","audit_type","auditor_type","voc","autofail_status","overall_score","possible_score","earned_score",
+			$clmarr = array("audit_date","call_date","call_duration","fusion_id","auditor_mwp_id","mission","recording_id","week","audit_type","auditor_type","voc","autofail_status","overall_score","possible_score","earned_score",
 				"appropiate_greeting","clear_opening","voice_modulation","appropiate_pace","professional_courteous","call_empathy","adjust_customer_language","simple_word_used","active_listening","paraprasing","avoid_fumbling","appropiate_probing","escalate_issue","call_control","query_resolved","offers_VAS","awareness_created","correct_disposition","update_ASM","hold_required","hold_guidelines","dead_air_8sec","further_assistance","CSAT_experience_feedback","call_adherence","procuedure_request","ownership_resolve","used_applicant","delayed_opening","rude_on_call","incomplete_information","complaint_avoidance","absence_disposition","comm0","comm1","comm2","comm3","comm4","comm5","comm6","comm7","comm8","comm9","comm10","comm11","comm12","comm13","comm14","comm15","comm16","comm17","comm18","comm19","comm20","comm21","comm22","comm23","comm24","comm25","comm26","comm27","comm28","comm29","disposition","contacted_previously","disposition_selected","customer_called_first","customer_called_less_three","customer_called_more_three","reason_for_fatal","inprovement_area",
 				"call_summary","feedback");
 			
@@ -1325,6 +1448,8 @@
 							$user_list[$row][$key] = date('Y-m-d',strtotime($worksheet->getCell($d.$row )->getFormattedValue()));
 						}else if($key=="call_duration"){
 							$user_list[$row][$key] = intval(86400 * $worksheet->getCell($d.$row )->getValue());
+						}else if($key=="auditor_mwp_id"){
+							$user_list[$row]['entry_by'] =  $worksheet->getCell($d.$row )->getValue();
 						}else if($key=="fusion_id"){
 							$fusion_id = $worksheet->getCell($d.$row )->getValue();
 							 $qSql = "Select id as agent_id, assigned_to as tl_id, fusion_id, get_process_names(id) as process_name, office_id, (select concat(fname, ' ', lname) from signin tl where tl.id=signin.assigned_to) as tl_name FROM signin where fusion_id = '$fusion_id'";
@@ -1374,7 +1499,7 @@
 			
 			$path = $_FILES["file"]["tmp_name"];
 			$object = PHPExcel_IOFactory::load($path);
-			$clmarr = array("audit_date","fusion_id","call_date","call_duration","mission","recording_id","week","audit_type","auditor_type","voc","autofail_status","overall_score","earned_score","possible_score","use_paragraph_idea","use_bullet_point","adhered_word_limit","template_adherence","interim_responce","FCR_achieved","complete_information","understand_issue","attentiveness_display","use_available_resource","standardized_subject","VAS_option","awarreness_created","correct_disposition","update_ASM","formatting","show_customer_feel_value","procedure_guide_step","avoid_slangs","correct_grammar_use","correct_closing","further_assistance","used_applicant","rude_on_email","inacurate_information","email_hygiene","complaint_avoidance","reason_for_fatal","inprovement_area","comm1","comm2","comm3","comm4","comm5","comm6","comm7","comm8","comm9","comm10","comm11","comm12","comm13","comm14","comm15","comm16","comm17","comm18","comm19","comm20","comm21","comm22","comm23","comm24","comm25","comm26","disposition","contacted_previously","customer_called_first","customer_called_less_three","customer_called_more_three","disposition_selected","salutation","definite_statements","customer_attentiveness","correct_assistance","comm27","comm28","comm29","comm30","comm31","call_summary","feedback");
+			$clmarr = array("audit_date","fusion_id","call_date","call_duration","auditor_mwp_id","mission","recording_id","week","audit_type","auditor_type","voc","autofail_status","overall_score","earned_score","possible_score","use_paragraph_idea","use_bullet_point","adhered_word_limit","template_adherence","interim_responce","FCR_achieved","complete_information","understand_issue","attentiveness_display","use_available_resource","standardized_subject","VAS_option","awarreness_created","correct_disposition","update_ASM","formatting","show_customer_feel_value","procedure_guide_step","avoid_slangs","correct_grammar_use","correct_closing","further_assistance","used_applicant","rude_on_email","inacurate_information","email_hygiene","complaint_avoidance","reason_for_fatal","inprovement_area","comm1","comm2","comm3","comm4","comm5","comm6","comm7","comm8","comm9","comm10","comm11","comm12","comm13","comm14","comm15","comm16","comm17","comm18","comm19","comm20","comm21","comm22","comm23","comm24","comm25","comm26","disposition","contacted_previously","customer_called_first","customer_called_less_three","customer_called_more_three","disposition_selected","salutation","definite_statements","customer_attentiveness","correct_assistance","comm27","comm28","comm29","comm30","comm31","call_summary","feedback");
 			
 			foreach($object->getWorksheetIterator() as $worksheet){
 				$highestRow = $worksheet->getHighestRow();
@@ -1410,6 +1535,8 @@
 							$user_list[$row][$key] = date('Y-m-d',strtotime($worksheet->getCell($d.$row )->getFormattedValue()));
 						}else if($key=="call_duration"){
 							$user_list[$row][$key] = intval(86400 * $worksheet->getCell($d.$row )->getValue());
+						}else if($key=="auditor_mwp_id"){
+							$user_list[$row]['entry_by'] =  $worksheet->getCell($d.$row )->getValue();
 						}else if($key=="fusion_id"){
 							$fusion_id = $worksheet->getCell($d.$row )->getValue();
 							 $qSql = "Select id as agent_id, assigned_to as tl_id, fusion_id, get_process_names(id) as process_name, office_id, (select concat(fname, ' ', lname) from signin tl where tl.id=signin.assigned_to) as tl_name FROM signin where fusion_id = '$fusion_id'";

@@ -23,6 +23,10 @@ input[type='checkbox']{
 	outline: none;
 	color: white;
 }
+.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
+	 float: left;
+	 display: none;
+	}
 
 </style>
 
@@ -71,15 +75,15 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											$clDate_val=mysql2mmddyy($vfs_call['call_date']);
 										}
 									?>
-										<td>QA Name:</td>
+										<td>QA Name:<span style="font-size:24px;color:red">*</span></td>
 										<td style="width:300px"><input type="text" class="form-control" value="<?php echo $auditorName; ?>" disabled></td>
-										<td style="width:150px">Audit Date:</td>
+										<td style="width:150px">Audit Date:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" value="<?php echo $auditDate; ?>" disabled></td>
-										<td>Date and time of Call:</td>
+										<td>Date and time of Call:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" id="call_date" name="call_date" value="<?php echo $clDate_val; ?>" required></td>
 									</tr>
 									<tr>
-										<td>Employee Name:</td>
+										<td>Employee Name:<span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="agent_id" name="agent_id" required>
 												<option value="<?php echo $vfs_call['agent_id'] ?>"><?php echo $vfs_call['fname']." ".$vfs_call['lname'] ?></option>
@@ -89,29 +93,24 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<?php endforeach; ?>
 											</select>
 										</td>
-										<td>Fusion ID:</td>
+										<td>Fusion ID:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" id="fusion_id" name="" value="<?php echo $vfs_call['fusion_id']; ?>" readonly></td>
-										<td>L1 Supervisor:</td>
+										<td>L1 Supervisor:<span style="font-size:24px;color:red">*</span></td>
 										<td style="width:250px">
-											<select class="form-control" id="tl_id" name="tl_id" readonly>
-												<option value="<?php echo $vfs_call['tl_id'] ?>"><?php echo $vfs_call['tl_name'] ?></option>
-												<option value="">--Select--</option>
-												<?php foreach($tlname as $tl): ?>
-													<option value="<?php echo $tl['id']; ?>"><?php echo $tl['fname']." ".$tl['lname']; ?></option>
-												<?php endforeach; ?>	
-											</select>
+											<input type="text" class="form-control" id="tl_name"  value="<?php echo $vfs_call['tl_name']; ?>" readonly>
+												<input type="hidden" class="form-control" id="tl_id" name="tl_id" value="<?php echo $vfs_call['tl_id'] ?>" required>
 										</td>
 									</tr>
 									<tr>
-										<td>Call Duration:</td>
+										<td>Call Duration:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" id="call_duration" name="call_duration" value="<?php echo $vfs_call['call_duration']; ?>" required></td>
-										<td>Mission:</td>
+										<td>Mission:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control"  name="mission" value="<?php echo $vfs_call['mission']; ?>" required></td>
-										<td>Recording ID:</td>
+										<td>Recording ID:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control"  name="recording_id" value="<?php echo $vfs_call['recording_id']; ?>" required></td>
 									</tr>
 									<tr>
-										<td>Week:</td>
+										<td>Week:<span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control"  name="week" required>
 												<option value="<?php echo $vfs_call['week'] ?>"><?php echo $vfs_call['week'] ?></option>
@@ -123,30 +122,15 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<option value="Week5">Week5</option>
 											</select>
 										</td>
-										<td>Status:</td>
+										<td>Status:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" id="fatalspan1" name="autofail_status" value="<?php echo $vfs_call['autofail_status']; ?>" readonly></td>
+										<td>Host/Country:<span style="font-size:24px;color:red">*</span></td>
+										<td><input type="text" class="form-control" name="host_country" value="<?php echo $vfs_call['host_country']; ?>" required></td>
 									</tr>
 									<tr>
-										<td>Audit Type:</td>
-										<td>
-											<select class="form-control" id="audit_type" name="audit_type" required>
-											<option value="">-Select-</option>
-											<option <?php echo $vfs_call['audit_type']=='CQ Audit'?"selected":""; ?> value="CQ Audit">CQ Audit</option>
-											<option <?php echo $vfs_call['audit_type']=='BQ Audit'?"selected":""; ?> value="BQ Audit">BQ Audit</option>
-											<option <?php echo $vfs_call['audit_type']=='Calibration'?"selected":""; ?> value="Calibration">Calibration</option>
-											<option <?php echo $vfs_call['audit_type']=='Pre-Certificate Mock Call'?"selected":""; ?> value="Pre-Certificate Mock Call">Pre-Certificate Mock Call</option>
-											<option <?php echo $vfs_call['audit_type']=='Certificate Audit'?"selected":""; ?> value="Certificate Audit">Certificate Audit</option>
-											</select>
-										</td>
-										<td class="auType">Auditor Type</td>
-										<td class="auType">
-											<select class="form-control" id="auditor_type" name="auditor_type">
-												<option value="">-Select-</option>
-												<option value="Master">Master</option>
-												<option value="Regular">Regular</option>
-											</select>
-										</td>
-										<td>VOC:</td>
+										<td>Agent Tenurity:<span style="font-size:24px;color:red">*</span></td>
+										<td><input type="text" class="form-control" name="tenurity" id="tenure" value="<?php echo $vfs_call['tenurity']; ?>" readonly></td>
+										<td>VOC:<span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="voc" name="voc" required>
 												<option value="">-Select-</option>
@@ -155,6 +139,32 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<option <?php echo $vfs_call['voc']=='3'?"selected":""; ?> value="3">3</option>
 												<option <?php echo $vfs_call['voc']=='4'?"selected":""; ?> value="4">4</option>
 												<option <?php echo $vfs_call['voc']=='5'?"selected":""; ?> value="5">5</option>
+											</select>
+										</td>
+										<td>Audit Type:<span style="font-size:24px;color:red">*</span></td>
+										<td>
+											<select class="form-control" id="audit_type" name="audit_type" required>
+                                                    <option value="">-Select-</option>
+                                                    <option value="CQ Audit" <?= ($vfs_call['audit_type']=="CQ Audit")?"selected":"" ?>>CQ Audit</option>
+                                                    <option value="BQ Audit" <?= ($vfs_call['audit_type']=="BQ Audit")?"selected":"" ?>>BQ Audit</option>
+                                                    <option value="Calibration" <?= ($vfs_call['audit_type']=="Calibration")?"selected":"" ?>>Calibration</option>
+                                                    <option value="Pre-Certificate Mock Call" <?= ($vfs_call['audit_type']=="Pre-Certificate Mock Call")?"selected":"" ?>>Pre-Certificate Mock Call</option>
+                                                    <option value="Certification Audit" <?= ($vfs_call['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
+                                                    <option value="WoW Call"  <?= ($vfs_call['audit_type']=="WoW Call")?"selected":"" ?>>WoW Call</option>
+                                                    <option value="Hygiene Audit"  <?= ($vfs_call['audit_type']=="Hygiene Audit")?"selected":"" ?>>Hygiene Audit</option>
+                                                    <option value="Operation Audit"  <?= ($vfs_call['audit_type']=="Operation Audit")?"selected":"" ?>>Operation Audit</option>
+                                                    <option value="Trainer Audit"  <?= ($vfs_call['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option> 
+                                                    <option value="QA Supervisor Audit"  <?= ($vfs_call['audit_type']=="QA Supervisor Audit")?"selected":"" ?>>QA Supervisor Audit</option> 
+                                                </select>
+										</td>
+									</tr>
+									<tr>
+										<td class="auType">Auditor Type<span style="font-size:24px;color:red">*</span></td>
+										<td class="auType">
+											<select class="form-control" id="auditor_type" name="auditor_type">
+												<option value="">-Select-</option>
+												<option value="Master">Master</option>
+												<option value="Regular">Regular</option>
 											</select>
 										</td>
 									</tr>
@@ -189,7 +199,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control vfsVal" data-id="opening"  name="appropiate_greeting" required>
 												<option vfs_val=5 <?php echo $vfs_call['appropiate_greeting']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=5 <?php echo $vfs_call['appropiate_greeting']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_call['appropiate_greeting']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 <?php echo $vfs_call['appropiate_greeting']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_appropiate_greeting">5</td>
@@ -211,7 +221,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control vfsVal" data-id="communication"  name="voice_modulation" required>
 												<option vfs_val=5 <?php echo $vfs_call['voice_modulation']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=5 <?php echo $vfs_call['voice_modulation']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_call['voice_modulation']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 <?php echo $vfs_call['voice_modulation']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_voice_modulation">5</td>
@@ -225,7 +235,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control vfsVal" data-id="communication"  name="call_empathy" required>
 												<option vfs_val=5 <?php echo $vfs_call['call_empathy']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=5 <?php echo $vfs_call['call_empathy']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_call['call_empathy']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 <?php echo $vfs_call['call_empathy']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_call_empathy">5</td>
@@ -239,7 +249,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control vfsVal" data-id="communication"  name="adjust_customer_language" required>
 												<option vfs_val=5 <?php echo $vfs_call['adjust_customer_language']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=5 <?php echo $vfs_call['adjust_customer_language']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_call['adjust_customer_language']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 <?php echo $vfs_call['adjust_customer_language']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_adjust_customer_language">5</td>
@@ -253,7 +263,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control vfsVal" data-id="communication"  name="simple_word_used" required>
 												<option vfs_val=5 <?php echo $vfs_call['simple_word_used']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=5 <?php echo $vfs_call['simple_word_used']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_call['simple_word_used']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 <?php echo $vfs_call['simple_word_used']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_simple_word_used">5</td>
@@ -267,7 +277,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control vfsVal" data-id="communication"  name="active_listening" required>
 												<option vfs_val=5 <?php echo $vfs_call['active_listening']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=5 <?php echo $vfs_call['active_listening']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_call['active_listening']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 <?php echo $vfs_call['active_listening']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_active_listening">5</td>
@@ -281,7 +291,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control vfsVal" data-id="communication"  name="avoid_fumbling" required>
 												<option vfs_val=5 <?php echo $vfs_call['avoid_fumbling']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=5 <?php echo $vfs_call['avoid_fumbling']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_call['avoid_fumbling']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 <?php echo $vfs_call['avoid_fumbling']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_avoid_fumbling">5</td>
@@ -303,7 +313,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control vfsVal" data-id="technical_aspects" name="appropiate_probing" required>
 												<option vfs_val=5 <?php echo $vfs_call['appropiate_probing']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=5 <?php echo $vfs_call['appropiate_probing']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_call['appropiate_probing']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 <?php echo $vfs_call['appropiate_probing']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_appropiate_probing">5</td>
@@ -317,7 +327,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control vfsVal" data-id="technical_aspects" name="ownership_resolve" required>
 												<option vfs_val=5 <?php echo $vfs_call['ownership_resolve']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=5 <?php echo $vfs_call['ownership_resolve']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_call['ownership_resolve']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 <?php echo $vfs_call['ownership_resolve']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_ownership_resolve">5</td>
@@ -330,7 +340,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control vfsVal" data-id="technical_aspects"  name="escalate_issue" required>
 												<option vfs_val=5 <?php echo $vfs_call['escalate_issue']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=5 <?php echo $vfs_call['escalate_issue']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_call['escalate_issue']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 <?php echo $vfs_call['escalate_issue']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_escalate_issue">5</td>
@@ -343,7 +353,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control vfsVal" data-id="technical_aspects"  name="call_control" required>
 												<option vfs_val=5 <?php echo $vfs_call['call_control']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=5 <?php echo $vfs_call['call_control']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_call['call_control']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 <?php echo $vfs_call['call_control']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_call_control">5</td>
@@ -356,7 +366,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control vfsVal" data-id="technical_aspects"  name="query_resolved" required>
 												<option vfs_val=5 <?php echo $vfs_call['query_resolved']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=5 <?php echo $vfs_call['query_resolved']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_call['query_resolved']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 <?php echo $vfs_call['query_resolved']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_query_resolved">5</td>
@@ -369,7 +379,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control vfsVal" data-id="technical_aspects"  name="procuedure_request" required>
 												<option vfs_val=5 <?php echo $vfs_call['procuedure_request']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=5 <?php echo $vfs_call['procuedure_request']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_call['procuedure_request']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 <?php echo $vfs_call['procuedure_request']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_procuedure_request">5</td>
@@ -391,7 +401,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control vfsVal" data-id="additons"  name="offers_VAS" required>
 												<option vfs_val=5 <?php echo $vfs_call['offers_VAS']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=5 <?php echo $vfs_call['offers_VAS']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_call['offers_VAS']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 <?php echo $vfs_call['offers_VAS']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_offers_VAS">5</td>
@@ -405,7 +415,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control vfsVal" data-id="additons"  name="awareness_created" required>
 												<option vfs_val=5 <?php echo $vfs_call['awareness_created']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=5 <?php echo $vfs_call['awareness_created']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_call['awareness_created']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 <?php echo $vfs_call['awareness_created']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_awareness_created">5</td>
@@ -427,7 +437,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control vfsVal" data-id="documentation"  name="correct_disposition" required>
 												<option vfs_val=5 <?php echo $vfs_call['correct_disposition']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=5 <?php echo $vfs_call['correct_disposition']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_call['correct_disposition']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 <?php echo $vfs_call['correct_disposition']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_correct_disposition">5</td>
@@ -441,7 +451,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control vfsVal" data-id="documentation"  name="update_ASM" required>
 												<option vfs_val=5 <?php echo $vfs_call['update_ASM']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=5 <?php echo $vfs_call['update_ASM']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_call['update_ASM']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 <?php echo $vfs_call['update_ASM']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_update_ASM">5</td>
@@ -463,7 +473,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control vfsVal" data-id="hold_protocol"  name="hold_required" required>
 												<option vfs_val=5 <?php echo $vfs_call['hold_required']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=5 <?php echo $vfs_call['hold_required']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_call['hold_required']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 <?php echo $vfs_call['hold_required']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_hold_required">5</td>
@@ -485,7 +495,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control vfsVal" data-id="call_closing"  name="further_assistance" required>
 												<option vfs_val=5 <?php echo $vfs_call['further_assistance']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=5 <?php echo $vfs_call['further_assistance']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_call['further_assistance']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 <?php echo $vfs_call['further_assistance']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_further_assistance">5</td>
@@ -499,7 +509,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control vfsVal" data-id="call_closing"  name="CSAT_experience_feedback" required>
 												<option vfs_val=5 <?php echo $vfs_call['CSAT_experience_feedback']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=5 <?php echo $vfs_call['CSAT_experience_feedback']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_call['CSAT_experience_feedback']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 <?php echo $vfs_call['CSAT_experience_feedback']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_CSAT_experience_feedback">5</td>
@@ -565,6 +575,19 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td></td>
 										<td><textarea class="form-control" name="comm23"><?php echo $vfs_call['comm23'] ?></textarea></td>
 									</tr>
+									<!-- <tr>
+										<td></td>
+										<td colspan=1 style="background-color:#D98880">e. Absence of disposition</td>
+										<td></td>
+										<td>
+											<select class="form-control vfsVal fatal_epi" id="callAutof5" name="absence_disposition" required>
+												<option vfs_val=0 <?php echo $vfs_call['absence_disposition']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=0 <?php echo $vfs_call['absence_disposition']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+											</select>
+										</td>
+										<td></td>
+										<td><textarea class="form-control" name="comm24"><?php echo $vfs_call['comm24'] ?></textarea></td>
+									</tr> -->
 									<tr>
 										<td style="background-color:#BFC9CA"><b>9</b></td>
 										<td colspan=1 style="background-color:#BFC9CA">First Time Resolution (FTR)</td>
@@ -577,7 +600,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td></td>
 										<td colspan=1>a. Disposition</td>
 										<td></td>
-										<td>
+										<!-- <td>
 											<select class="form-control" name="disposition" id="disposition_area" required>
 												<option value="--">Select</option>
 												<option <?php echo $vfs_call['disposition']=='Additional Documents asked by the Embassy/consulate'?"selected":""; ?> value="Additional Documents asked by the Embassy/consulate">Additional Documents asked by the Embassy/consulate</option>
@@ -694,6 +717,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<option <?php echo $vfs_call['disposition']=='Within SPT'?"selected":""; ?> value="Within SPT">	Within SPT</option>
 												<option <?php echo $vfs_call['disposition']=='Wrong Number'?"selected":""; ?> value="Wrong Number">	Wrong Number</option>
 											</select>
+										</td> -->
+										<td>
+											<input type="text" class="form-control" id="disposition" name="disposition" value="<?php echo $vfs_call['disposition']; ?>">
 										</td>
 										<td></td>
 										<td><!-- <textarea class="form-control" name="comm19"><?php //echo $vfs_call['comm19'] ?></textarea> --></td>
@@ -770,12 +796,15 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td colspan=2><textarea class="form-control"  name="feedback"><?php echo $vfs_call['feedback'] ?></textarea></td>
 									</tr>
 									<tr>
-										<td colspan="2">Upload Files</td>
+										<td colspan="2">Upload Files [m4a,mp4,mp3,wav]</td>
 										<?php if($call_id==0){ ?>
-											<td colspan=4><input type="file" multiple class="form-control" id="attach_file" name="attach_file[]"></td>
+											<td colspan=4>
+												<input type="file" name="attach_file[]" id="attach_file" accept=".m4a,.mp4,.mp3,.wav,audio/*" />
+											</td>
 										<?php }else{ 
 											if($vfs_call['attach_file']!=''){ ?>
 											<td colspan="4">
+												<input type="file" multiple class="form-control"  id="attach_file" name="attach_file[]" accept=".m4a,.mp4,.mp3,.wav,audio/*"> 
 												<?php $attach_file = explode(",",$vfs_call['attach_file']);
 												 foreach($attach_file as $mp){ ?>
 													<audio controls='' style="background-color:#607F93"> 
@@ -785,7 +814,11 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												 <?php } ?>
 											</td>
 										<?php }else{
-												echo '<td><b>No Files</b></td>';
+												
+													echo '<td colspan=6>
+													<input type="file" multiple class="form-control" id="attach_file" name="attach_file[]" accept=".m4a,.mp4,.mp3,.wav,audio/*">
+													<b>No Files</b></td>';
+												
 											  }
 										} ?>
 									</tr>

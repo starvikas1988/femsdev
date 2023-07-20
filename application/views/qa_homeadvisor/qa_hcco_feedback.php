@@ -71,17 +71,17 @@ input[type=submit] {
 								
 								<div class="col-md-3">
 									<div class="form-group">
-									<label>From Date (MM/DD/YYYY)</label>
-										<input type="text" id="from_date" onCopy="return false;" onDrag="return false;" onDrop="return false;" onPaste="return false;"  onchange="date_validation(this.value,'S')" autocomplete="off" onkeypress="return false;"  name="from_date" value="<?php $date= mysql2mmddyy($from_date); echo str_replace('-', '/', $date); ?>" class="form-control" required>
+										<label>From Date (MM/DD/YYYY)</label>
+										<input type="text" id="from_date" name="from_date" onchange="date_validation(this.value,'S')" value="<?php $date= mysql2mmddyy($from_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
 										<span class="start_date_error" style="color:red"></span>
 									</div>
 								</div>  
 								<div class="col-md-3"> 
 									<div class="form-group">
-									<label>To Date (MM/DD/YYYY)</label>
-										<input type="text" id="to_date" name="to_date" onCopy="return false;" onDrag="return false;" onDrop="return false;" onPaste="return false;"  onchange="date_validation(this.value,'E')" autocomplete="off" onkeypress="return false;"  value="<?php $date= mysql2mmddyy($to_date); echo str_replace('-', '/', $date); ?>" class="form-control" required>
+										<label>To Date (MM/DD/YYYY)</label>
+										<input type="text" id="to_date" name="to_date" onchange="date_validation(this.value,'E')"       value="<?php $date= mysql2mmddyy($to_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
 										<span class="end_date_error" style="color:red"></span>
-									</div> 
+									</div>
 								</div>
 								<div class="col-md-2">
 									<div class="form-group" id="foffice_div">
@@ -214,6 +214,129 @@ input[type=submit] {
 										<td>
 											<?php $hcco_qav3_id=$row['id']; ?>
 											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_homeadvisor/add_edit_hcco_qa_form_v3/<?php echo $hcco_qav3_id ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
+										</td>
+									</tr>
+									<?php endforeach; ?>
+								</tbody>
+								<tfoot>
+									<tr class="bg-info">
+										<th>SL</th>
+										<th>Auditor</th>
+										<th>Audit Date</th>
+										<th>Call Duration</th>
+										<th>Fusion ID</th>
+										<th>Agent Name</th>
+										<th>L1 Supervisor</th>
+										<th>Call Date</th>
+										<th>Audio</th>
+										<!--<th>Audio File</th>-->
+										<th>Agent Review Date</th>
+										<th>Mgnt Review By</th>
+										<th>Mgnt Review Date</th>
+										<th>Action</th>
+									</tr>
+								</tfoot>
+							</table>
+							
+							</h4>
+							<!-- </header> -->
+						</div>
+						<hr class="widget-separator">
+					</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------->
+	<!------------------------------------------>
+	<div class="row">
+			<div class="col-12">
+				<div class="widget">
+				
+					<div class="row">
+						<div class="col-md-12">
+								<header class="widget-header">
+								<h4 class="widget-title">
+									<div class="row">
+								<div class="col-sm-12">
+									<div class="pull-left">HCCO SR Version-3</div>
+									</div>
+									<?php if(is_access_qa_module()==true || get_login_type()=="client" || is_quality_access_trainer()==true){ 
+										$hcco_srv3_id=0;
+									?>
+									<div class="pull-right">
+										
+										<a class="btn btn-primary" href="<?php echo base_url(); ?>qa_homeadvisor/add_edit_hcco_sr_v3/<?php echo $hcco_srv3_id ?>">Add Feedback</a>
+									</div>	
+									<?php } ?>
+									
+									<!-- <div class="col-sm-4" > -->
+									 <div class="form-group pull-right"  style="margin-top: 10px"><!-- <a href="<?php echo base_url();?>Qa_philipines_raw/sample_hcco_download" class="btn btn-success" title="Download Sample hcco Excel" download="Sample hcco Excel.xlsx" style="margin-right:5px;">Sample Excel</a> 
+									<a class="btn btn-primary" href="<?php //echo base_url(); ?>Qa_homeadvisor/add_edit_hcco_sr">Add Feedback</a>-->
+								
+								<!-- </div> -->
+								</div>	
+									<?php //} ?>
+									</div>
+								</h4>
+							</header>
+
+					<div class="col-sm-12">
+					<div class="widget-body">
+						<div class="table-responsive">
+							<table id="default-datatable" data-plugin="DataTable" class="table table-striped skt-table" cellspacing="0" width="100%">
+								<thead>
+									<tr class="bg-info">
+										<th>SL</th>
+										<th>Auditor</th>
+										<th>Audit Date</th>
+										<th>Call Duration</th>
+										<th>Fusion ID</th>
+										<th>Agent Name</th>
+										<th>L1 Supervisor</th>
+										<th>Call Date</th>
+										<th>Audio</th>
+										<!--<th>Audio File</th>-->
+										<th>Agent Review Date</th>
+										<th>Mgnt Review By</th>
+										<th>Mgnt Review Date</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php $i=1;
+									foreach($hcco_sr_v3_data as $row): ?>
+									<tr>
+										<td><?php echo $i++; ?></td>
+										<td><?php echo $row['auditor_name']; ?></td>
+										<td><?php echo $row['audit_date']; ?></td>
+										<td><?php echo $row['call_duration']; ?></td>
+										<td><?php echo $row['fusion_id']; ?></td>
+										<td><?php echo $row['fname']." ".$row['lname']; ?></td>
+										<td><?php echo $row['tl_name']; ?></td>
+										<td><?php echo $row['call_date']; ?></td>
+										<td>
+											<?php if($row['attach_file']!=''){
+												$attach_file = explode(",",$row['attach_file']);
+												foreach($attach_file as $mp){ ?>
+													<audio controls='' style="background-color:#607F93"> 
+													  <source src="<?php echo base_url(); ?>qa_files/qa_homeadvisor/hcco_sr/<?php echo $mp; ?>" type="audio/ogg">
+													  <source src="<?php echo base_url(); ?>qa_files/qa_homeadvisor/hcco_sr/<?php echo $mp; ?>" type="audio/mpeg">
+													</audio>
+											<?php } ?>
+											 
+										<?php } ?>
+										</td>
+										<!--<td><?php echo $row['attach_file']; ?></td>-->
+										<td><?php echo $row['agent_rvw_date']; ?></td>
+										<td><?php echo $row['mgnt_rvw_name']; ?></td>
+										<td><?php echo $row['mgnt_rvw_date']; ?></td>
+										<td>
+											<?php $hcco_srv3_id=$row['id']; ?>
+											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_homeadvisor/add_edit_hcco_sr_v3/<?php echo $hcco_srv3_id ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
 										</td>
 									</tr>
 									<?php endforeach; ?>

@@ -326,6 +326,17 @@ function date_validation(val,type){
 					for (var i in json_obj) $('#fusion_id').append($('#fusion_id').val(json_obj[i].fusion_id));
 					for (var i in json_obj) $('#batch_code').append($('#batch_code').val(json_obj[i].batch_code));
 					for (var i in json_obj) $('#tenure').append($('#tenure').val(json_obj[i].tenure+' Days'));
+						for (var i in json_obj) $('#tl_id').append($('#tl_id').val(json_obj[i].assigned_to));
+				for (var i in json_obj){
+					if($('#tl_name').val(json_obj[i].tl_name)!=''){
+						console.log(json_obj[0].tl_name);
+						$('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
+
+					}else{
+						alert("Agent is not assigned any TL.Please assign one from manage user section or contact your HR/Manager");
+					}
+					
+				}
 					$('#sktPleaseWait').modal('hide');
 				},
 				error: function(){	

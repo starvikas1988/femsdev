@@ -23,15 +23,15 @@
 								
 								<div class="col-md-3">
 									<div class="form-group">
-									<label>From Date (MM/DD/YYYY)</label>
-										<input type="text" id="from_date" onCopy="return false;" onDrag="return false;" onDrop="return false;" onPaste="return false;"  onchange="date_validation(this.value,'S')" autocomplete="off" onkeypress="return false;"  name="from_date" value="<?php $date= mysql2mmddyy($from_date); echo str_replace('-', '/', $date); ?>" class="form-control" required>
+										<label>From Date (MM/DD/YYYY)</label>
+										<input type="text" id="from_date"  name="from_date" onchange="date_validation(this.value,'S')" value="<?php $date= mysql2mmddyy($from_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
 										<span class="start_date_error" style="color:red"></span>
 									</div>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-									<label>To Date (MM/DD/YYYY)</label>
-										<input type="text" id="to_date" name="to_date" onCopy="return false;" onDrag="return false;" onDrop="return false;" onPaste="return false;"  onchange="date_validation(this.value,'E')" autocomplete="off" onkeypress="return false;"  value="<?php $date= mysql2mmddyy($to_date); echo str_replace('-', '/', $date); ?>" class="form-control" required>
+										<label>To Date (MM/DD/YYYY)</label>
+										<input type="text" id="to_date" name="to_date" onchange="date_validation(this.value,'E')"       value="<?php $date= mysql2mmddyy($to_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
 										<span class="end_date_error" style="color:red"></span>
 									</div>
 								</div>
@@ -43,6 +43,7 @@
 											<option <?php echo $campaign=='hcco'?"selected":""; ?> value="hcco">HCCO</option>
 											<option <?php echo $campaign=='hcco_v2'?"selected":""; ?> value="hcco_v2">HCCO [VERSION 2] </option>
 											<option <?php echo $campaign=='hcco_qa_form_v3'?"selected":""; ?> value="hcco_qa_form_v3">HCCO [VERSION 3] </option>
+											<option <?php echo $campaign=='hcco_sr_v3'?"selected":""; ?> value="hcco_sr_v3">HCCO SR [VERSION 3] </option>
 											<option <?php echo $campaign=='hcco_sr'?"selected":""; ?> value="hcco_sr">HCCO SR COMPLIANCE</option>
 											<option <?php echo $campaign=='hcco_sr_v2'?"selected":""; ?> value="hcco_sr_v2">HCCO SR COMPLIANCE [VERSION 2] </option>
 											<option <?php echo $campaign=='hcco_flex'?"selected":""; ?> value="hcco_flex">HCCO [FLEX] </option>
@@ -155,7 +156,8 @@
 											<?php }else if($campaign=="hcco_sr_v2"){ ?>
 											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_homeadvisor/agent_hcco_sr_v2_rvw/<?php echo $hcco_id ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a> <?php }else if($campaign=="hcco_flex"){ ?>
 											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_homeadvisor/agent_hcco_flex_rvw/<?php echo $hcco_id ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a> <?php }else if($campaign=="hcco_qa_form_v3"){ ?>
-											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_homeadvisor/agent_hcco_v3_rvw/<?php echo $hcco_id ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a> <?php } ?>
+											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_homeadvisor/agent_hcco_v3_rvw/<?php echo $hcco_id ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a> <?php } else if($campaign=="hcco_sr_v3"){ ?>
+											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_homeadvisor/agent_hcco_sr_v3_rvw/<?php echo $hcco_id ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a> <?php } ?>
 										</td>
 									</tr>
 									<?php endforeach; ?>

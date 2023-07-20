@@ -88,6 +88,9 @@
 										<?php $cScc='';
 										if($pValue=='HCCO_v3') $cScc='Selected';?>
 										<option value='HCCO_v3' <?php echo $cScc; ?>>HCCO V3</option>
+										<?php $cScc='';
+										if($pValue=='HCCO_SR_v3') $cScc='Selected';?>
+										<option value='HCCO_SR_v3' <?php echo $cScc; ?>>HCCO SR V3</option>
 									</select>
 								</div>
 							</div>
@@ -121,7 +124,7 @@
 										<th>TL Name</th>
 										<th>Audit Date</th>
 										<th>Auditor</th>
-										<?php if(($pValue!="HCCO_SR") && ($pValue!="HCCO SR COMPLIANCE")){ ?>
+										<?php if(($pValue!="HCCO_SR") && ($pValue!="HCCO SR COMPLIANCE") && ($pValue!="HCCO_SR_v3")){ ?>
 											<th>Total Score(%)</th>
 										<?php } ?>
 										
@@ -141,7 +144,7 @@
 										<td><?php echo $row['audit_date']; ?></td>
 										<td><?php echo $row['auditor_name']; ?></td> 
 										<!-- <td><?php //echo $row['mgnt_rvw_name']; ?></td> -->
-										<?php if(($pValue!="HCCO_SR") && ($pValue!="HCCO SR COMPLIANCE")){ ?>
+										<?php if(($pValue!="HCCO_SR") && ($pValue!="HCCO SR COMPLIANCE") && ($pValue!="HCCO_SR_v3")){ ?>
 										<td><?php echo $row['overall_score'].'%'; ?></td>
 										<?php } ?>
 									</tr>
