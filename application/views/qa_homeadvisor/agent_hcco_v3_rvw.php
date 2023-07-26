@@ -58,6 +58,7 @@
 											<input type="hidden" name="audit_start_time" value="<?php echo CurrMySqlDate(); ?>">
 										</tr>
 										<?php
+										$rand_id = 0;
 										
 											if ($hcco_v3_data['entry_by'] != '') {
 												$auditorName = $hcco_v3_data['auditor_name'];
@@ -110,7 +111,7 @@
 											<td colspan="2"><input type="text" class="form-control" id="fusion_id" disabled value="<?php echo $fusion_id; ?>" readonly></td>
 											<td> L1 Supervisor:<span style="font-size:24px;color:red">*</span></td>
 											<td colspan="2">
-												<input type="text" class="form-control" id="tl_name"  value="<?php echo $tl_name; ?>" readonly>
+												<input type="text" class="form-control" id="tl_names"  value="<?php echo $tl_name; ?>" readonly>
 												<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $tl_id; ?>" disabled>
 											</td>
 										</tr>
@@ -178,7 +179,7 @@
 											<td colspan="2"><input type="text" readonly id="hcco_v3_overall_score" name="data[overall_score]" class="form-control hcco_v3Fatal" style="font-weight:bold" value="<?php echo $hcco_v3_data['overall_score'] ?>"></td>
 										</tr>
 										<tr class="eml" style="height:25px; font-weight:bold">
-											<td>Critical Accuracy</td>
+											<td>COPC Parameter</td>
 											<td>PARAMETER</td>
 											<td colspan=4>SUB PARAMETER</td>
 											<td>Weightage</td>
@@ -873,81 +874,82 @@
 									<tr>
 											<td colspan="2" rowspan=10 style="font-weight:bold; background-color:#ffa07a">Critical Fail (Automatic Zero)</td>
 											<td colspan=4 style="font-weight:bold; background-color:#90bfee">Critical Fail Behaviors</td>
-											<td rowspan=10>100</td>
+											<td rowspan=10></td>
 											<td>
-												<select class="form-control hcco_v3_point"  id="hcco_Fail1" name="data[critical_Fail_Behaviors]" disabled>
+												<input type="text" class="form-control" onkeydown="return false;" id="hcco_Fail1" name="data[critical_Fail_Behaviors]" value="<?php echo $hcco_v3_data['critical_Fail_Behaviors']; ?>" disabled>
+												<!-- <select class="form-control hcco_v3_point"  id="hcco_Fail1" name="data[critical_Fail_Behaviors]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['critical_Fail_Behaviors'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['critical_Fail_Behaviors'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
-												</select>
+												</select> -->
 											</td>
 										</tr>
 									    <tr>
 											<td colspan=4>Recorded line was not mentioned/Not mentioned at the beginning of the call</td>
 											<td>
-												<select class="form-control" name="data[recorded_line]" disabled>
-													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['recorded_line'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['recorded_line'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+												<select class="form-control hcco_v3_point"  id="hcco_Fail2" name="data[recorded_line]" disabled>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['recorded_line'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['recorded_line'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 										</tr>
 										<tr>
 											<td colspan=4>Leading the customer into selecting multiple matches/breaking down a larger remodel into multiple projects (Leading, CTT fishing, Submitting without homeowners knowledge or authorization)</td>
 											<td>
-												<select class="form-control" name="data[leading_customer]" disabled>
-													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['leading_customer'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['leading_customer'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+												<select class="form-control hcco_v3_point" id="hcco_Fail3" name="data[leading_customer]" disabled>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['leading_customer'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['leading_customer'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 										</tr>
 										<tr>
 											<td colspan=4>Submitting the SR without authorization from the customer</td>
 											<td>
-												<select class="form-control" name="data[Submitting_SR]" disabled>
+												<select class="form-control hcco_v3_point" id="hcco_Fail4" name="data[Submitting_SR]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Submitting_SR'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['Submitting_SR'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Submitting_SR'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 										</tr>
 										<tr>
 											<td colspan=4>Credit Card information was recorded</td>
 											<td>
-												<select class="form-control" name="data[credit_Card_information]" disabled>
-													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['credit_Card_information'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['credit_Card_information'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+												<select class="form-control hcco_v3_point" id="hcco_Fail5" name="data[credit_Card_information]" disabled>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['credit_Card_information'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['credit_Card_information'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 										</tr>
 										<tr>
 											<td colspan=4>Not adding a DNC in Betti when a customer requests it</td>
 											<td>
-												<select class="form-control" name="data[adding_DNC]" disabled>
+												<select class="form-control hcco_v3_point" id="hcco_Fail6" name="data[adding_DNC]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['adding_DNC'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['adding_DNC'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['adding_DNC'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 										</tr>
 										<tr>
 											<td colspan=4>No Disposition</td>
 											<td>
-												<select class="form-control" name="data[no_Disposition]" disabled>
-													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['no_Disposition'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['no_Disposition'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+												<select class="form-control hcco_v3_point" id="hcco_Fail7" name="data[no_Disposition]" disabled>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['no_Disposition'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['no_Disposition'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 										</tr>
 										<tr>
 											<td colspan=4>Offered pre-priced in one of the forbidden states (FL, IN, KY, AZ)</td>
 											<td>
-												<select class="form-control" name="data[offered_pre_priced]" disabled>
-													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['offered_pre_priced'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['offered_pre_priced'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+												<select class="form-control hcco_v3_point" id="hcco_Fail8" name="data[offered_pre_priced]" disabled>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['offered_pre_priced'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['offered_pre_priced'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 										</tr>
 										<tr>
 											<td colspan=4>Presented SR as just email information </td>
 											<td>
-												<select class="form-control" name="data[presented_SR]" disabled>
+												<select class="form-control hcco_v3_point" id="hcco_Fail9" name="data[presented_SR]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['presented_SR'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['presented_SR'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
@@ -956,9 +958,9 @@
 										<tr>
 											<td colspan=4>Flagrantly inappropriate response (cursing, insulting, speaking negatively of company/agent/pro, etc.) - DISCIPLINARY ACTION disabled </td>
 											<td>
-												<select class="form-control" name="data[flagrantly_inappropriate_response]" disabled>
-													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['flagrantly_inappropriate_response'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0<?php echo $hcco_v3_data['flagrantly_inappropriate_response'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+												<select class="form-control hcco_v3_point" id="hcco_Fail10" name="data[flagrantly_inappropriate_response]" disabled>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['flagrantly_inappropriate_response'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['flagrantly_inappropriate_response'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
 												</select>
 											</td>
 										</tr>
@@ -970,8 +972,8 @@
 											<td>
 												<select class="form-control" name="data[stella_phishing]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['stella_phishing'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['stella_phishing'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['stella_phishing'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['stella_phishing'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['stella_phishing'] == "No" ? "selected" : ""; ?> value="No">No</option>
 													
 													
 												</select>
@@ -983,8 +985,8 @@
 											<td>
 												<select class="form-control" name="data[avoiding_Stella_Survey]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['avoiding_Stella_Survey'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['avoiding_Stella_Survey'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['avoiding_Stella_Survey'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['avoiding_Stella_Survey'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['avoiding_Stella_Survey'] == "No" ? "selected" : ""; ?> value="No">No</option>
 													
 													
 												</select>
@@ -996,10 +998,8 @@
 											<td>
 												<select class="form-control" name="data[attempted_Cross_Sell]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['attempted_Cross_Sell'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['attempted_Cross_Sell'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['attempted_Cross_Sell'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
-													
-													
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['attempted_Cross_Sell'] == "Yes" ? "selected" : ""; ?> value="Yes">Yes</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['attempted_Cross_Sell'] == "No" ? "selected" : ""; ?> value="No">No</option>	
 												</select>
 											</td>
 										</tr>
@@ -1011,10 +1011,10 @@
 											<td>
 												<select class="form-control" name="data[AHT_agent]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_agent'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_agent'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_agent'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
-													
-													
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_agent'] == "Previous / Other Agent" ? "selected" : ""; ?> value="Previous / Other Agent">Previous / Other Agent</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_agent'] == "Product Knowledge" ? "selected" : ""; ?> value="Product Knowledge">Product Knowledge</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_agent'] == "Resolution" ? "selected" : ""; ?> value="Resolution">Resolution</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_agent'] == "Soft Skills" ? "selected" : ""; ?> value="Soft Skills">Soft Skills</option>
 												</select>
 											</td>
 										</tr>
@@ -1024,10 +1024,10 @@
 											<td>
 												<select class="form-control" name="data[AHT_customer]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_customer'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_customer'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_customer'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
-													
-													
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_customer'] == "Call disconnected" ? "selected" : ""; ?> value="Call disconnected">Call disconnected</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_customer'] == "Customer on hold" ? "selected" : ""; ?> value="Customer on hold">Customer on hold</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_customer'] == "Know It All Customer" ? "selected" : ""; ?> value="Know It All Customer">Know It All Customer</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_customer'] == "Multiple concern/request" ? "selected" : ""; ?> value="Multiple concern/request">Multiple concern/request</option>
 												</select>
 											</td>
 										</tr>
@@ -1037,10 +1037,7 @@
 											<td>
 												<select class="form-control" name="data[AHT_process]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_process'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_process'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_process'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
-													
-													
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_process'] == "Rules and Protocols" ? "selected" : ""; ?> value="Rules and Protocols">Rules and Protocols</option>
 												</select>
 											</td>
 										</tr>
@@ -1050,10 +1047,8 @@
 											<td>
 												<select class="form-control" name="data[AHT_technology]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_technology'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_technology'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_technology'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
-													
-													
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_technology'] == "Betti Latency" ? "selected" : ""; ?> value="Betti Latency">Betti Latency</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['AHT_technology'] == "System Downtime" ? "selected" : ""; ?> value="System Downtime">System Downtime</option>
 												</select>
 											</td>
 										</tr>
@@ -1065,10 +1060,9 @@
 											<td>
 												<select class="form-control" name="data[Conversion_agent]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_agent'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_agent'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_agent'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
-													
-													
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_agent'] == "Previous / Other Agent" ? "selected" : ""; ?> value="Previous / Other Agent">Previous / Other Agent</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_agent'] == "Product Knowledge" ? "selected" : ""; ?> value="Product Knowledge">Product Knowledge</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_agent'] == "Soft Skills" ? "selected" : ""; ?> value="Soft Skills">Soft Skills</option>
 												</select>
 											</td>
 										</tr>
@@ -1078,8 +1072,13 @@
 											<td>
 												<select class="form-control" name="data[Conversion_customer]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_customer'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_customer'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_customer'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_customer'] == "Customer on hold" ? "selected" : ""; ?> value="Customer on hold">Customer on hold</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_customer'] == "In a hurry" ? "selected" : ""; ?> value="In a hurry">In a hurry</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_customer'] == "Know It All Customer" ? "selected" : ""; ?> value="Know It All Customer">Know It All Customer</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_customer'] == "Not in Need" ? "selected" : ""; ?> value="Not in Need">Not in Need</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_customer'] == "Pro Related Bad Experience" ? "selected" : ""; ?> value="Pro Related Bad Experience">Pro Related Bad Experience</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_customer'] == "Self Service" ? "selected" : ""; ?> value="Self Service">Self Service</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_customer'] == "Undecided" ? "selected" : ""; ?> value="Undecided">Undecided</option>
 												</select>
 											</td>
 										</tr>
@@ -1089,8 +1088,7 @@
 											<td>
 												<select class="form-control" name="data[Conversion_process]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_process'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_process'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_process'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_process'] == "Rules and Protocols" ? "selected" : ""; ?> value="Rules and Protocols">Rules and Protocols</option>
 												</select>
 											</td>
 										</tr>
@@ -1100,8 +1098,8 @@
 											<td>
 												<select class="form-control" name="data[Conversion_technology]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_technology'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_technology'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_technology'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_technology'] == "Betti Latency" ? "selected" : ""; ?> value="Betti Latency">Betti Latency</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['Conversion_technology'] == "System Downtime" ? "selected" : ""; ?> value="System Downtime">System Downtime</option>
 												</select>
 											</td>
 										</tr>
@@ -1113,8 +1111,10 @@
 											<td>
 												<select class="form-control" name="data[SR_agent]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_agent'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_agent'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_agent'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>	
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_agent'] == "Previous / Other Agent" ? "selected" : ""; ?> value="Previous / Other Agent">Previous / Other Agent</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_agent'] == "Product Knowledge" ? "selected" : ""; ?> value="Product Knowledge">Product Knowledge</option>	
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_agent'] == "Resolution" ? "selected" : ""; ?> value="Resolution">Resolution</option>	
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_agent'] == "Soft Skills" ? "selected" : ""; ?> value="Soft Skills">Soft Skills</option>	
 												</select>
 											</td>
 										</tr>
@@ -1124,8 +1124,14 @@
 											<td>
 												<select class="form-control" name="data[SR_customer]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_customer'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_customer'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_customer'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>	
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_customer'] == "Customer on hold" ? "selected" : ""; ?> value="Customer on hold">Customer on hold</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_customer'] == "In a hurry" ? "selected" : ""; ?> value="In a hurry">In a hurry</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_customer'] == "Know It All Customer" ? "selected" : ""; ?> value="Know It All Customer">Know It All Customer</option>	
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_customer'] == "Not in Need" ? "selected" : ""; ?> value="Not in Need">Not in Need</option>	
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_customer'] == "Pricy Pro" ? "selected" : ""; ?> value="Pricy Pro">Pricy Pro</option>	
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_customer'] == "Pro Related Bad Experience" ? "selected" : ""; ?> value="Pro Related Bad Experience">Pro Related Bad Experience</option>		
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_customer'] == "Self Service" ? "selected" : ""; ?> value="Self Service">Self Service</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_customer'] == "Undecided" ? "selected" : ""; ?> value="Undecided">Undecided</option>		
 												</select>
 											</td>
 										</tr>
@@ -1135,8 +1141,7 @@
 											<td>
 												<select class="form-control" name="data[SR_process]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_process'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_process'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_process'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>	
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_process'] == "Rules and Protocols" ? "selected" : ""; ?> value="Rules and Protocols">Rules and Protocols</option>
 												</select>
 											</td>
 										</tr>
@@ -1146,8 +1151,8 @@
 											<td>
 												<select class="form-control" name="data[SR_technology]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_technology'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_technology'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_technology'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>	
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_technology'] == "Betti Latency" ? "selected" : ""; ?> value="Betti Latency">Betti Latency</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['SR_technology'] == "System Downtime" ? "selected" : ""; ?> value="System Downtime">System Downtime</option>	
 												</select>
 											</td>
 										</tr>
@@ -1159,8 +1164,10 @@
 											<td>
 												<select class="form-control" name="data[CSAT_agent]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['CSAT_agent'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['CSAT_agent'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['CSAT_agent'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>	
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['CSAT_agent'] == "Previous / Other Agent" ? "selected" : ""; ?> value="Previous / Other Agent">Previous / Other Agent</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['CSAT_agent'] == "Product Knowledge" ? "selected" : ""; ?> value="Product Knowledge">Product Knowledge</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['CSAT_agent'] == "Resolution" ? "selected" : ""; ?> value="Resolution">Resolution</option>	
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['CSAT_agent'] == "Soft Skills" ? "selected" : ""; ?> value="Soft Skills">Soft Skills</option>		
 												</select>
 											</td>
 										</tr>
@@ -1170,8 +1177,7 @@
 											<td>
 												<select class="form-control" name="data[CSAT_customer]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['CSAT_customer'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['CSAT_customer'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['CSAT_customer'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>	
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['CSAT_customer'] == "Know It All Customer" ? "selected" : ""; ?> value="Know It All Customer">Know It All Customer</option>	
 												</select>
 											</td>
 										</tr>
@@ -1181,8 +1187,7 @@
 											<td>
 												<select class="form-control" name="data[CSAT_process]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['CSAT_process'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['CSAT_process'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['CSAT_process'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>	
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['CSAT_process'] == "Rules and Protocols" ? "selected" : ""; ?> value="Rules and Protocols">Rules and Protocols</option>
 												</select>
 											</td>
 										</tr>
@@ -1192,8 +1197,8 @@
 											<td>
 												<select class="form-control" name="data[CSAT_technology]" disabled>
 													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['CSAT_technology'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['CSAT_technology'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
-													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['CSAT_technology'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>	
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['CSAT_technology'] == "System Downtime" ? "selected" : ""; ?> value="System Downtime">System Downtime</option>
+													<option hcco_v3_val=0 hcco_v3_max=0 <?php echo $hcco_v3_data['CSAT_technology'] == "Betti Latency" ? "selected" : ""; ?> value="Betti Latency">Betti Latency</option>	
 												</select>
 											</td>
 										</tr>									

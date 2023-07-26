@@ -503,6 +503,7 @@
 			$current_user = get_user_id();
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_homeadvisor/qa_hcco_feedback.php";
+			$data["content_js"] = "qa_hcco_v3_js.php";
 			
 			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id, office_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,17) and is_assign_process(id,213)  and status=1 order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
@@ -1591,6 +1592,7 @@
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_homeadvisor/agent_hcco_feedback.php";
 			$data["agentUrl"] = "qa_homeadvisor/agent_hcco_feedback";
+			$data["content_js"] = "qa_hcco_v3_js.php";
 			$campaign='';
 			$from_date = '';
 			$to_date = '';
@@ -1613,12 +1615,12 @@
 			}
 
 			if($campaign){
-			 $qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'WOW Call', 'Hygiene Audit')";
+			$qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'WOW Call', 'Hygiene Audit')";
 			$data["tot_feedback"] =  $this->Common_model->get_single_value($qSql);
 			
 			$qSql1="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'WOW Call', 'Hygiene Audit') and agent_rvw_date is Null";
 			$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql1);
-			//die();
+			
 			
 			if($this->input->get('btnView')=='View')
 			{
@@ -1870,7 +1872,6 @@
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_homeadvisor/agent_hcco_v3_rvw.php";
 			$data["agentUrl"] = "qa_homeadvisor/agent_hcco_feedback";
-			$data["content_js"] = "qa_hcco_v3_js.php";
 
 			/******** Randamiser Start***********/
 			
@@ -1901,9 +1902,6 @@
 				
 			}
 			/* Randamiser Code End */
-
-			 $qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id, office_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,17) and is_assign_process(id,213)  and status=1 order by name";
-			$data["agentName"] = $this->Common_model->get_query_result_array($qSql); 
 			
 			$qSql="SELECT * from
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,

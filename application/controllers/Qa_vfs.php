@@ -639,6 +639,8 @@
 					"reason_for_fatal" => $this->input->post('reason_for_fatal'),
 					"inprovement_area" => $this->input->post('inprovement_area'),
 					"call_summary" => $this->input->post('call_summary'),
+					"tenurity" => $this->input->post('tenurity'),
+					"agnt_fd_acpt" => $this->input->post('agnt_fd_acpt'),
 					"feedback" => $this->input->post('feedback'),
 					"entry_date" => $curDateTime
 				);
@@ -712,6 +714,22 @@
 			$campaign = '';
 			$cond="";
 			$campaign = $this->input->get('campaign');
+
+			$fromDate = $this->input->get('from_date');
+			$toDate = $this->input->get('to_date');
+			
+
+			if($from_date==""){ 
+				$from_date=CurrDate();
+			}else{
+				$from_date = mmddyy2mysql($from_date);
+			}
+			
+			if($to_date==""){ 
+				$to_date=CurrDate();
+			}else{
+				$to_date = mmddyy2mysql($to_date);
+			}
 			
 			if($campaign!=''){
 				
@@ -722,11 +740,7 @@
 				
 				if($this->input->get('btnView')=='View')
 				{
-					$fromDate = $this->input->get('from_date');
-					if($fromDate!="") $from_date = mmddyy2mysql($fromDate);
 					
-					$toDate = $this->input->get('to_date');
-					if($toDate!="") $to_date = mmddyy2mysql($toDate);
 					
 					if($fromDate!="" && $toDate!=="" ){ 
 						$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit') ";
@@ -909,20 +923,16 @@
 			
 			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "AHT", "Mission", "Recording ID", "Week", "Host Country", "Audit Type", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Fatal/Non Fatal","Agent Tenurity", "Target", "Total Score", "Overall Score Percentage", "Opening - a)Appropriate greeting - as per script & Clear and Crisp opening", "Communication - a)Voice modulation (Maintained proper tone & pitch & volume throughout the call) & Appropriate pace & clarity of speech", "Communication - b)Empathy on call & Personalization / Power words", "Communication - c)Adjusted to customer language & Courteous & Professional", "Communication - d)No jargons - simple words used & Avoid fumbling & fillers", "Communication - e)Active listening / Attentiveness & Paraphrasing & Acknowledgment", "Communication - f)Grammatically correct sentences & Comprehension","Technical aspects - a)Appropriate Probing", "Technical aspects - b)Took ownership to resolve customers concern", "Technical aspects - c)Escalate the issue wherever required", "Technical aspects - d)Call control","Technical aspects - e)Query resolved on call - FTR","Technical aspects - f)Step by step procuedure to resolve the QRC(Query/Request/Complaint)","Value Additons- a)Offers VAS options wherever applicable", "Value Additons - b. Awareness created with regards to VFS website (wherever applicable)", "Documentation - a)Correct dispostion", "Documentation - b)Update ASM V2","Hold Protocol - a)Hold Guidelines followed","Call Closing - a)Further assistance & Adherence to call closing script", "Call Closing - b)Attempt to take feedback on experience CSAT","Fatal Parameter - a)Delayed opening", "Fatal Parameter - b)Rude on chat", "Fatal Parameter - c)Incomplete/Inaccurate Information shared", "Fatal Parameter - d)Complaint Avoidance","Comments 0","Comments 1","Comments 2","Comments 3","Comments 4","Comments 5","Comments 6","Comments 7","Comments 8","Comments 9","Comments 10","Comments 11","Comments 12","Comments 13","Comments 14","Comments 15","Comments 16","Comments 17","Comments 18","Comments 19","Comments 20","Comments 21","Comments 22","Comments 23","Disposition","Communication mode through which customer contacted previously","Description of Disposition selected","Was this the first time customer called us?","Did the customer call us more than once but less than 3 times?","Did the customer call us more than 3 times?",
 				"Reason For Fatal Error", "Improvement Area",
-				 "Call Summary", "Feedback","Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
+				 "Call Summary", "Feedback","Agent Review Date","Agent Acceptance", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
 		}else if($campaign=='email'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Chat Date", "AHT", "Mission", "Recording ID", "Week", "Host Country", "Audit Type", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Fatal/Non Fatal", "Target", "Total Score", "Overall Score Percentage",
-			 "Content Writing - a) Used one idea per paragraph",
+			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Chat Date", "AHT", "Mission", "Recording ID", "Week", "Host Country", "Audit Type", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Fatal/Non Fatal","Agent Tenurity","Target", "Total Score", "Overall Score Percentage",
 			 "Content Writing - a) Greeting & Salutation used correctly",
 			 "Content Writing - b)Used bullet points where appropriate", 
-			 "Content Writing - c)Adhered word limit per sentence",
 			 "Content Writing - c)Used one idea per paragraph & Simple & definite statements", 
 			 "Content Writing - d)Template Adherence where applicable", 
 			 "Accuracy follow up - a)Interim response provided", 
 			 "Accuracy follow up - b)FCR achieved", 
 			 "Accuracy follow up -c) Complete and accurate information",
-			 "Accuracy follow up - d)Understand the issue of the applicant", 
-			 "Accuracy follow up - d)Attentiveness displayed", 
 			 "Accuracy follow up - d)Understand the issue of the customer & Attentiveness displayed",
 			 "Accuracy follow up - e)Used all the available resources for providing resolution",
 			 "Accuracy follow up - f)Standardized subject line on trail mails", 
@@ -931,20 +941,16 @@
 			 "Documentation - a)Correct dispostion", 
 			 "Documentation - b)Update ASM V2", 
 			 "Composition - a)Formatting", 
-			 "Composition - b)Shows respect and makes the customer feel valued", 
-			 "Composition - c)Telling the customer what to do next", 
-			 "Composition - d)Avoid Slangs & Jargons", 
-			 "Composition - e)Correct and accurate grammar usage", 
-			 "Composition - f)Correct closing", 
-			 "Composition - g)Further assistance", 
+			 "Composition - b)Telling the customer what to do next", 
+			 "Composition - c)Avoid Slangs & Jargons", 
+			 "Composition - d)Correct and accurate grammar usage",  
 			 "Composition - e)Further assistance & Correct closing",
 			 "Fatal Parameter - a)Rude or unprofessional on email",
 			 "Fatal Parameter - b)Incomplete", 
 			 "Fatal Parameter - c)Email hygiene", 
-			 "Fatal Parameter - d)Complaint Avoidance",
-			"used applicant", 
-			 "Comments 1","Comments 2","Comments 3","Comments 4","Comments 5","Comments 6","Comments 7","Comments 8","Comments 9","Comments 10","Comments 11","Comments 12","Comments 13","Comments 14","Comments 15","Comments 16","Comments 17","Comments 18","Comments 19","Comments 20","Comments 21","Comments 22","Comments 23","Comments 24","Comments 25","Comments 26","Comments 27","Comments 28","Comments 29","Comments 30", "Disposition","Communication mode through which customer contacted previously","Description of Disposition selected","Was this the first time customer called us?","Did the customer call us more than once but less than 3 times?","Did the customer call us more than 3 times?",
-			 "Reason For Fatal Error", "Inprovement Area", "Email Summary", "Feedback", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
+			 "Fatal Parameter - d)Complaint Avoidance", 
+			 "Comments 1","Comments 2","Comments 3","Comments 4","Comments 5","Comments 6","Comments 7","Comments 8","Comments 9","Comments 10","Comments 11","Comments 12","Comments 13","Comments 14","Comments 15","Comments 16","Comments 17","Comments 18","Comments 19","Comments 20","Comments 21","Comments 22", "Disposition","Communication mode through which customer contacted previously","Description of Disposition selected","Was this the first time customer called us?","Did the customer call us more than once but less than 3 times?","Did the customer call us more than 3 times?",
+			 "Reason For Fatal Error", "Inprovement Area", "Email Summary", "Feedback", "Agent Review Date","Agent Acceptance", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
 		}
 		
 		$row = "";
@@ -1170,6 +1176,7 @@
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
 				$row .= '"'.$user['agent_rvw_date'].'",';
+				$row .= '"'.$user['agnt_fd_acpt'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
 				$row .= '"'.$user['mgnt_rvw_date'].'",';
 				$row .= '"'.$user['mgnt_rvw_name'].'",';
@@ -1217,20 +1224,21 @@
 				$row .= '"'.$user['entry_date'].'",';
 				$row .= '"'.$interval1.'",';
 				$row .= '"'.$user['autofail_status'].'",';
+				$row .= '"'.$user['tenurity'].'",';
 				$row .= '"'.$user['possible_score'].'",';
 				$row .= '"'.$user['earned_score'].'",';
 				$row .= '"'.$user['overall_score'].'%'.'",';
-				$row .= '"'.$user['use_paragraph_idea'].'",';
+
 				$row .= '"'.$user['salutation'].'",';
 				$row .= '"'.$user['use_bullet_point'].'",';
-				$row .= '"'.$user['adhered_word_limit'].'",';
+				//$row .= '"'.$user['adhered_word_limit'].'",';
 				$row .= '"'.$user['definite_statements'].'",';
 				$row .= '"'.$user['template_adherence'].'",';
 				$row .= '"'.$user['interim_responce'].'",';
 				$row .= '"'.$user['FCR_achieved'].'",';
 				$row .= '"'.$user['complete_information'].'",';
-				$row .= '"'.$user['understand_issue'].'",';
-				$row .= '"'.$user['attentiveness_display'].'",';
+				// $row .= '"'.$user['understand_issue'].'",';
+				// $row .= '"'.$user['attentiveness_display'].'",';
 				$row .= '"'.$user['customer_attentiveness'].'",';
 				$row .= '"'.$user['use_available_resource'].'",';
 				$row .= '"'.$user['standardized_subject'].'",';
@@ -1239,49 +1247,43 @@
 				$row .= '"'.$user['correct_disposition'].'",';
 				$row .= '"'.$user['update_ASM'].'",';
 				$row .= '"'.$user['formatting'].'",';
-				$row .= '"'.$user['show_customer_feel_value'].'",';
+				//$row .= '"'.$user['show_customer_feel_value'].'",';
 				$row .= '"'.$user['procedure_guide_step'].'",';
 				$row .= '"'.$user['avoid_slangs'].'",';
 				$row .= '"'.$user['correct_grammar_use'].'",';
-				$row .= '"'.$user['correct_closing'].'",';
-				$row .= '"'.$user['further_assistance'].'",';
+				//$row .= '"'.$user['correct_closing'].'",';
+				//$row .= '"'.$user['further_assistance'].'",';
 				$row .= '"'.$user['correct_assistance'].'",';
 				$row .= '"'.$user['rude_on_email'].'",';
 				$row .= '"'.$user['inacurate_information'].'",';
 				$row .= '"'.$user['email_hygiene'].'",';
 				$row .= '"'.$user['complaint_avoidance'].'",';
-				$row .= '"'.$user['used_applicant'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm1'])).'",';
+			
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm27'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm2'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm3'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm28'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm4'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm5'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm6'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm7'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm8'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm9'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm29'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm10'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm11'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm12'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm13'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm14'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm15'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm16'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm17'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm18'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm19'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm20'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm21'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm22'])).'",';
+				
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm30'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm23'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm24'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm25'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm27'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm28'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm29'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm30'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm31'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm26'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['disposition'])).'",';
+
 				$row .= '"'.$user['contacted_previously'].'",';
 				$row .= '"'.$user['disposition_selected'].'",';
 				$row .= '"'.$user['customer_called_first'].'",';
@@ -1292,6 +1294,7 @@
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
 				$row .= '"'.$user['agent_rvw_date'].'",';
+				$row .= '"'.$user['agnt_fd_acpt'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
 				$row .= '"'.$user['mgnt_rvw_date'].'",';
 				$row .= '"'.$user['mgnt_rvw_name'].'",';

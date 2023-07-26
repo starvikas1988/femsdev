@@ -1,3 +1,80 @@
+
+<script type="text/javascript">
+		function stifel_v2__calc(){
+		//var overallScore = 0;
+
+		var score = 0;
+		var scoreable = 0;
+		var quality_score_percent = 0.00;
+		var pass_count = 0;
+		var fail_count = 0;
+		var na_count = 0;
+
+		$('.stifelVal_v2').each(function(index,element){
+			var score_type = $(element).val();
+			
+			if(score_type == 'Yes'){
+				pass_count = pass_count + 1;
+				var w1 = parseInt($(element).children("option:selected").attr('stifel_v2_val'));
+				var w2 = parseFloat($(element).children("option:selected").attr('stifel_v2_max'));
+				score = score + w1;
+				scoreable = scoreable + w2;
+
+			}else if(score_type == 'No'){
+				fail_count = fail_count + 1;
+				var w1 = parseInt($(element).children("option:selected").attr('stifel_v2_val'));
+				var w2 = parseFloat($(element).children("option:selected").attr('stifel_v2_max'));
+				//score = score + w1;
+				scoreable = scoreable + w2;
+				//scoreable = scoreable + weightage;
+			}else if(score_type == 'N/A'){
+				na_count = na_count + 1;
+				var w1 = parseInt($(element).children("option:selected").attr('stifel_v2_val'));
+				var w2 = parseInt($(element).children("option:selected").attr('stifel_v2_max'));
+				score = score + w1;
+				scoreable = scoreable + w2;
+			}
+		});
+		//tot_score = ((earn*100)/possible).toFixed(2);
+
+		quality_score_percent = ((score*100)/scoreable).toFixed(2);
+	
+		
+		// if(!isNaN(tot_score)){
+		// 	$('#stifel_v2Earned').val(earn);
+		// 	$('#stifel_v2Possible').val(possible);
+		// 	$('#stifel_v2OverallScore').val(tot_score+'%');
+		// }
+
+		if(quality_score_percent == "NaN"){
+			quality_score_percent = (0.00).toFixed(2);
+		}else{
+			quality_score_percent = quality_score_percent;
+		}
+
+		$('#stifel_v2Earned').val(score);
+		$('#stifel_v2Possible').val(scoreable);
+		
+		if(!isNaN(quality_score_percent)){
+			$('#stifel_v2OverallScore').val(quality_score_percent+'%');
+		}
+
+		if($('#stifel_v2_Fatal1').val()=='No' || $('#stifel_v2_Fatal2').val()=='No' || $('#stifel_v2_Fatal3').val()=='No' || $('#stifel_v2_Fatal4').val()=='No' || $('#stifel_v2_Fatal5').val()=='No'){
+		    $('.stifel_v2_Fatal').val(0+'%');
+		}else{
+			$('.stifel_v2_Fatal').val(quality_score_percent+'%');
+		}
+	}
+
+	$(document).ready(function(){
+		$(document).on('change','.stifelVal_v2',function(){
+			stifel_v2__calc();
+		});
+		
+		stifel_v2__calc();
+	});
+</script>
+
 <script>
 ////////////// Doubtnut (call audit)///////////////////
 	function dn_calculation(){
@@ -14,7 +91,7 @@
 		var dnPaymentVal = 0;
 		var dnHandleVal = 0;
 		var dnCloseVal = 0;
-		
+
 	///////Introduction///////
 		var fail_count1 = 0;
 		$('.dnt_intro').each(function(index,element){
@@ -169,9 +246,9 @@
 			dnCloseVal=5;
 		}
 		$('#dnCloseVal').text(dnCloseVal);
-		
-		
-		
+
+
+
 		quality_score_percent = (dnIntroVal+dnStdQlVal+dnNeedAlVal+dnProductVal+dnPriceVal+dnObjectVal+dnClosingVal+dnUrjencyVal+dnPrdVal+dnPaymentVal+dnHandleVal+dnCloseVal);
 		if(!isNaN(quality_score_percent)){
 			if(dnStdQlVal==0 || dnNeedAlVal==0 || dnProductVal==0 || dnPrdVal==0 || dnPaymentVal==0 || dnHandleVal==0){
@@ -180,9 +257,9 @@
 				$('#doubtnutScore').val(quality_score_percent+'%');
 			}
 		}
-		
+
 	}
-	
+
 ///////////////// Superdaily New Call Audit ////////////////////////
 	function superdaily_new_call(){
 		var new_call_audit_score = 0;
@@ -190,7 +267,7 @@
 		var tna_score = 0;
 		var cu_score = 0;
 		var hc_score = 0;
-		
+
 		$('.ucp_point').each(function(index,element){
 			var weightage1 = parseFloat($(element).children("option:selected").attr('ucp_val'));
 			ucp_score = ucp_score + weightage1;
@@ -214,27 +291,27 @@
 			hc_score = hc_score + weightage4;
 		});
 		$('#hc_score').val(hc_score+'%');
-		
+
 		new_call_audit_score = (ucp_score+tna_score+cu_score+hc_score);
 		if(!isNaN(new_call_audit_score)){
 			$('#newCallAuditScr').val(new_call_audit_score+'%');
 		}
-		
+
 	/////////////
 		if($('#af_para1').val()=='Yes' || $('#af_para2').val()=='Yes' || $('#af_para3').val()=='Yes' || $('#af_para4').val()=='Yes' || $('#af_para5').val()=='Yes'){
 			$('.new_call_audit_AF').val(0+'%');
 		}else{
 			$('.new_call_audit_AF').val(new_call_audit_score+'%');
 		}
-		
+
 	}
-	
+
 	/*------------ Superdaily Image Validate ------------*/
 	function superdaily_img_validate(){
 		var ucp_score = 0;
 		var tna_score = 0;
 		var uwbd_score = 0;
-		
+
 		$('.ucp').each(function(index,element){
 			var w1 = parseFloat($(element).children("option:selected").attr('imgval'));
 			ucp_score = ucp_score + w1;
@@ -257,7 +334,7 @@
 		if(!isNaN(overallScorePercent)){
 			$('#imgValSPDL').val(overallScorePercent+'%');
 		}
-		
+
 		if($('#imgvalAF1').val()=='No' || $('#imgvalAF2').val()=='Yes' || $('#imgvalAF3').val()=='Yes'){
 			$('.imgValFatal').val(0);
 			$('.imgValFatal').css('color','red');
@@ -266,16 +343,16 @@
 			$('.imgValFatal').css('color','black');
 		}
 	}
-	
+
 /////////// IDFC (NEW) ///////////////
 	function idfc_new_calc(){
 		var score = 0;
 		var scoreable = 0;
 		var quality_score_percent = 0;
-		
+
 		$('.idfc_new').each(function(index,element){
 			var score_type = $(element).val();
-			
+
 			if(score_type == 'Yes'){
 				var weightage = parseFloat($(element).children("option:selected").attr('idfcnew_val'));
 				score = score + weightage;
@@ -290,21 +367,21 @@
 			}
 		});
 		quality_score_percent = ((score*100)/scoreable).toFixed(2);
-		
+
 		$('#idfcEarnedScore').val(score);
 		$('#idfcPossibleScore').val(scoreable);
-		
+
 		if(!isNaN(quality_score_percent)){
 			$('#idfcNewScore').val(quality_score_percent+'%');
 		}
-		
+
 	//////////
 		if($('#idfc_new_AF1').val()=='No' || $('#idfc_new_AF2').val()=='No' || $('#idfc_new_AF3').val()=='No' || $('#idfc_new_AF4').val()=='No' || $('#idfc_new_AF5').val()=='No' || $('#idfc_new_AF6').val()=='No' || $('#idfc_new_AF7').val()=='No'){
 			$('.idfcNewFatal').val(0);
 		}else{
 			$('.idfcNewFatal').val(quality_score_percent+'%');
 		}
-		
+
 	}
 
 /////////////////////// MERCY SHIP START ////////////////////////////
@@ -316,10 +393,10 @@
 		var score1 = 0;
 		var scoreable1 = 0;
 		var quality_score_percent1 = 0;
-		
+
 		$('.points_epi').each(function(index,element){
 			var score_type = $(element).val();
-			
+
 			if(score_type == 'Yes'){
 				var weightage = parseFloat($(element).children("option:selected").attr('ds_val'));
 				score = score + weightage;
@@ -338,27 +415,27 @@
 			valNum=$(this).val();
 			if(valNum == "Yes"){
 				score=0;
-			}	
+			}
 		});
 
 		score = parseFloat(score);
 		quality_score_percent = parseFloat(scoreable);
-		
+
 		var quality_score_percent=((score*100)/quality_score_percent).toFixed(2);
 
 		$('#earnedScore').val(score);
 		$('#possibleScore').val(scoreable);
-		
+
 		if(!isNaN(quality_score_percent)){
 			$('#overallScore').val(quality_score_percent+'%');
-		}			
-	
+		}
+
 	}
-	
+
 docusign_calc();
 
 ////////////////////// NERCY SHIP END ///////////////////////////////
-	
+
 ///////////////////////////// CHEGG /////////////////////////////////
 	function chegg_calculation(){
 		var score = 0;
@@ -366,45 +443,182 @@ docusign_calc();
 			var weightage = parseFloat($(element).children("option:selected").attr('chegg_val'));
 			score = score + weightage;
 		});
-		
+
 		if(!isNaN(score)){
 			$('#cheggScore').val(score+'%');
 		}
-		
+
 		//////////
 		if($('#cheggAF1').val()=='No' || $('#cheggAF2').val()=='Yes'){
 			$('.cheggFatal').val(0);
 		}else{
 			$('.cheggFatal').val(score+'%');
 		}
-		
+
 	}
 
 </script>
 
+<script type="text/javascript">
+	$(document).ready(function () {
+	 // console.log("Hello World!");
+	  var start_date	=	$("#from_date").val();
+	  var end_date		=	$("#to_date").val();
+	  if(start_date == '' && end_date == ''){
+		  	$(".blains-effect").attr("disabled",true);
+			$(".blains-effect").css('cursor', 'no-drop');
+	  }
+	  if(end_date == ''){
+	  		$(".blains-effect").attr("disabled",true);
+			$(".blains-effect").css('cursor', 'no-drop');
+	  }
+	  if(start_date == ''){
+	  		$(".blains-effect").attr("disabled",true);
+			$(".blains-effect").css('cursor', 'no-drop');
+	  }
+	});
+</script>
+
+<script type="text/javascript">
+	
+	function date_validation(val,type){
+	// alert(val);
+		$(".end_date_error").html("");
+		$(".start_date_error").html("");
+		
+		if(type=='E'){
+		var start_date=$("#from_date").val();
+		//if(val<start_date)
+		if(start_date!=''){
+			if(Date.parse(val) < Date.parse(start_date))
+			{
+				$(".end_date_error").html("To Date must be greater or equal to From Date");
+				 $(".blains-effect").attr("disabled",true);
+				 $(".blains-effect").css('cursor', 'no-drop');
+			}
+			else{
+				 $(".blains-effect").attr("disabled",false);
+				 $(".blains-effect").css('cursor', 'pointer');
+				}
+
+		}else{
+				 $(".blains-effect").attr("disabled",true);
+				 $(".blains-effect").css('cursor', 'no-drop');
+		}
+		
+		}
+		else{
+			var end_date=$("#to_date").val();
+		//if(val>end_date && end_date!='')
+		
+		if(end_date!=''){
+			if(Date.parse(val) > Date.parse(end_date) && end_date!='')
+		{
+			$(".start_date_error").html("From  Date  must be less or equal to  To Date");
+			 $(".blains-effect").attr("disabled",true);
+			 $(".blains-effect").css('cursor', 'no-drop');
+			
+		}
+		else{
+			 $(".blains-effect").attr("disabled",false);
+			 $(".blains-effect").css('cursor', 'pointer');
+			}
+		}else{
+			$(".blains-effect").attr("disabled",true);
+			 $(".blains-effect").css('cursor', 'no-drop');
+		}
+		
+
+		}
+	}
+</script>
+
+<script type="text/javascript">
+	///////////////// Calibration - Auditor Type ///////////////////////	
+	//$('.auType').hide();
+	
+	if($("#audit_type").val() == "Calibration"){
+		$('.auType').show();
+		$('#auditor_type').attr('required',true);
+		$('#auditor_type').prop('disabled',false);
+	}
+	
+	$('#audit_type').each(function(){
+		$valdet=$(this).val();
+		console.log($valdet);
+		if($valdet=="Calibration"){
+			$('.auType').show();
+			$('#auditor_type').attr('required',true);
+			$('#auditor_type').prop('disabled',false);
+		}else{
+			$('.auType').hide();
+			$('#auditor_type').attr('required',false);
+			$('#auditor_type').prop('disabled',true);
+		}
+	});
+
+	$('#audit_type').on('change', function(){
+		if($(this).val()=='Calibration'){
+			$('.auType').show();
+			$('#auditor_type').attr('required',true);
+			$('#auditor_type').prop('disabled',false);
+		}else{
+			$('.auType').hide();
+			$('#auditor_type').attr('required',false);
+			$('#auditor_type').prop('disabled',true);
+		}
+	});
+
+	///////////////////hcci core/////////////////
+
+	$('#audit_type').each(function(){
+		$valdet=$(this).val();
+		if($valdet=="Calibration"){
+			$('.auType_epi').show();
+		}else{
+			$('.auType_epi').hide();
+		}
+	});
+
+	$('#audit_type').on('change', function(){
+		if($(this).val()=='Calibration'){
+			$('.auType_epi').show();
+			$('#auditor_type').attr('required',true);
+			$('#auditor_type').prop('disabled',false);
+		}else{
+			//alert(222);
+			$('.auType_epi').hide();
+			$('#auditor_type').attr('required',false);
+			$('#auditor_type').prop('disabled',true);
+		}
+	});
+</script>
 
 <script type="text/javascript">
 $(document).ready(function(){
-	
 	$("#follow_up_date").datetimepicker();
-	$("#audit_date").datepicker();
-	$("#call_date").datepicker();
 	$("#mail_action_date").datepicker();
 	$("#tat_replied_date").datepicker();
 	$("#cycle_date").datepicker();
 	$("#week_end_date").datepicker();
+
+	$("#audit_date").datepicker();
+	$("#call_date").datepicker({maxDate: new Date()}); //datetimepicker
+	$("#call_date_time").datetimepicker({maxDate: new Date()});
+	//$("#call_date").datepicker({ minDate: 0 });
+	$("#copy_received").datepicker();
 	$("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });
-	$("#call_date_time").datetimepicker();
-	$("#from_date").datepicker();
-	$("#to_date").datepicker();
-	
+	$("#from_date").datepicker({maxDate: new Date() });
+	$("#to_date").datepicker({maxDate: new Date() });
+
+
 	$(".agentName").select2();
-	
+
 ///////////////////// SOP Library ////////////////////////////
 	$(".addSOPLibrary").click(function(){
 		$("#addSOPLibraryModel").modal('show');
 	});
-	
+
 	$('#docu_upl').change(function () {
 		var ext = this.value.match(/\.(.+)$/)[1];switch (ext) {
 			case 'doc':
@@ -418,24 +632,26 @@ $(document).ready(function(){
 				this.value = '';
 		}
 	});
-/////////////////////////////////////////////////////////////	
-	
-	
-///////////////// Calibration - Auditor Type ///////////////////////	
-	$('.auType').hide();
-	
-	$('#audit_type').on('change', function(){
-		if($(this).val()=='Calibration'){
-			$('.auType').show();
-			$('#auditor_type').attr('required',true);
-			$('#auditor_type').prop('disabled',false);
-		}else{
-			$('.auType').hide();
-			$('#auditor_type').attr('required',false);
-			$('#auditor_type').prop('disabled',true);
-		}
-	});
-	
+/////////////////////////////////////////////////////////////
+
+
+///////////////// Calibration - Auditor Type ///////////////////////
+	// $('.auType').hide();
+
+	// $('#audit_type').on('change', function(){
+	// 	if($(this).val()=='Calibration'){
+	// 		$('.auType').show();
+	// 		$('#auditor_type').attr('required',true);
+	// 		$('#auditor_type').prop('disabled',false);
+	// 	}else{
+	// 		$('.auType').hide();
+	// 		$('#auditor_type').attr('required',false);
+	// 		$('#auditor_type').prop('disabled',true);
+	// 	}
+	// });
+
+
+
 ////////////////////METROPOLIS///////////////////////////////
 	$('#welcome_customer').on('change', function(){
 		if($(this).val()=='5'){
@@ -517,8 +733,8 @@ $(document).ready(function(){
 		}
 		overall_score();
 	});
-	
-////////////////////SWIGGY///////////////////////////////		
+
+////////////////////SWIGGY///////////////////////////////
 	$('#greeting').on('change', function(){
 		swiggy_score();
 		if($(this).val()=='0'){
@@ -782,8 +998,8 @@ $(document).ready(function(){
 			$("#otmztp_reason").val('');
 		}
 	});
-	
-////////////////////////	
+
+////////////////////////
 	$('#greeting_reason').on('change', function(){
 		if($(this).val()=='Non_Adherence'){
 			$("#greeting_reason2").html('<option value="Call Opening not done">Call Opening not done</option>');
@@ -795,9 +1011,9 @@ $(document).ready(function(){
 			$("#greeting_reason2").html('<option value="Not Applicable">Not Applicable</option>');
 		}else{
 			$("#greeting_reason2").html('');
-		}	
+		}
 	});
-	
+
 	$('#identification_reason').on('change', function(){
 		if($(this).val()=='Non_Adherence'){
 			var ir_option = '<option value="Did not introduce Self">Did not introduce Self</option>';
@@ -810,7 +1026,7 @@ $(document).ready(function(){
 			$("#identification_reason2").html('');
 		}
 	});
-	
+
 	$('#callintro_reason').on('change', function(){
 		if($(this).val()=='Non_Adherence'){
 			var cr_option = '<option value="Did not inform the reason for calling">Did not inform the reason for calling</option>';
@@ -823,7 +1039,7 @@ $(document).ready(function(){
 			$("#callintro_reason2").html('');
 		}
 	});
-	
+
 	$('#languageadher_reason').on('change', function(){
 		if($(this).val()=='Non_Adherence' || $(this).val()=='Attitude'){
 			$("#languageadher_reason2").html('<option value="Not Applicable">Not Applicable</option>');
@@ -833,7 +1049,7 @@ $(document).ready(function(){
 			$("#languageadher_reason").html('');
 		}
 	});
-	
+
 	$('#confirm_reason').on('change', function(){
 		if($(this).val()=='Non_Adherence'){
 			$("#confirm_reason2").html('<option value="Resto Name, Order ID number & Item name not confirmed">Resto Name, Order ID number & Item name not confirmed</option>');
@@ -843,7 +1059,7 @@ $(document).ready(function(){
 			$("#confirm_reason2").html('');
 		}
 	});
-	
+
 	$('#systemvalid_reason').on('change', function(){
 		if($(this).val()=='Non_Adherence'){
 			$("#systemvalid_reason2").html('<option value="Failed to check  the Call logs or the requests raised related to order">Failed to check  the Call logs or the requests raised related to order</option>');
@@ -853,7 +1069,7 @@ $(document).ready(function(){
 			$("#systemvalid_reason2").html('');
 		}
 	});
-	
+
 	$('#probing_reason').on('change', function(){
 		if($(this).val()=='Non_Adherence' || $(this).val()=='Attitude'){
 			$("#probing_reason2").html('<option value="Not Applicable">Not Applicable</option>');
@@ -866,7 +1082,7 @@ $(document).ready(function(){
 			$("#probing_reason2").html('');
 		}
 	});
-	
+
 	$('#takingowner_reason').on('change', function(){
 		if($(this).val()=='Non_Adherence' || $(this).val()=='Attitude'){
 			$("#takingowner_reason2").html('<option value="Not Applicable">Not Applicable</option>');
@@ -879,7 +1095,7 @@ $(document).ready(function(){
 			$("#takingowner_reason2").html('');
 		}
 	});
-	
+
 	$('#infosharing_reason').on('change', function(){
 		if($(this).val()=='Non_Adherence'){
 			var ir_option = '<option value="FRT not met as per the definition">FRT not met as per the definition</option>';
@@ -900,7 +1116,7 @@ $(document).ready(function(){
 			$("#infosharing_reason2").html('');
 		}
 	});
-	
+
 	$('#rightaction_reason').on('change', function(){
 		if($(this).val()=='Non_Adherence'){
 			var rr_option = '<option value="Incorrect System action was done">Incorrect System action was done</option>';
@@ -915,7 +1131,7 @@ $(document).ready(function(){
 			$("#rightaction_reason2").html('');
 		}
 	});
-	
+
 	$('#callcontrol_reason').on('change', function(){
 		if($(this).val()=='Non_Adherence'){
 			var cr_option = '<option value="Not Energetic throughout the call">Not Energetic throughout the call</option>';
@@ -934,7 +1150,7 @@ $(document).ready(function(){
 			$("#callcontrol_reason2").html('');
 		}
 	});
-	
+
 	$('#softskill_reason').on('change', function(){
 		if($(this).val()=='Non_Adherence'){
 			$("#softskill_reason2").html('<option value="Not Applicable">Not Applicable</option>');
@@ -952,7 +1168,7 @@ $(document).ready(function(){
 			$("#softskill_reason2").html('');
 		}
 	});
-	
+
 	$('#holdprocedure_reason').on('change', function(){
 		if($(this).val()=='Non_Adherence'){
 			var hr_option = '<option value="Placed call on hold without Permission">Placed call on hold without Permission</option>';
@@ -969,7 +1185,7 @@ $(document).ready(function(){
 			$("#holdprocedure_reason2").html('');
 		}
 	});
-	
+
 	$('#languageswitch_reason').on('change', function(){
 		if($(this).val()=='Behaviour'){
 			$("#languageswitch_reason2").html('<option value="Switch the Language without permission">Switch the Language without permission</option>');
@@ -979,7 +1195,7 @@ $(document).ready(function(){
 			$("#languageswitch_reason2").html('');
 		}
 	});
-	
+
 	$('#activelisten_reason').on('change', function(){
 		if($(this).val()=='Behaviour'){
 			var ar_option = '<option value="Active listening  was not found which made customer/DE/Resto to repeat the information">Active listening  was not found which made customer/DE/Resto to repeat the information</option>';
@@ -993,7 +1209,7 @@ $(document).ready(function(){
 			$("#activelisten_reason2").html('');
 		}
 	});
-	
+
 	$('#rightfit_reason').on('change', function(){
 		if($(this).val()=='Behaviour'){
 			var rf_option = '<option value="Incorrect Sentence formation was observed">Incorrect Sentence formation was observed</option>';
@@ -1009,7 +1225,7 @@ $(document).ready(function(){
 			$("#rightfit_reason2").html('');
 		}
 	});
-	
+
 	$('#furtherassist_reason').on('change', function(){
 		if($(this).val()=='Non_Adherence'){
 			$("#furtherassist_reason2").html('<option value="Failed to ask for further assistance">Failed to ask for further assistance</option>');
@@ -1019,7 +1235,7 @@ $(document).ready(function(){
 			$("#furtherassist_reason2").html('');
 		}
 	});
-	
+
 	$('#callclose_reason').on('change', function(){
 		if($(this).val()=='Non_Adherence'){
 			$("#callclose_reason2").html('<option value="Failed to follow the Call Closing Protocol">Failed to follow the Call Closing Protocol</option>');
@@ -1028,12 +1244,12 @@ $(document).ready(function(){
 		}else{
 			$("#callclose_reason2").html('');
 		}
-	});	
+	});
 
-////////////////////PAYNEARBY///////////////////////////////		
+////////////////////PAYNEARBY///////////////////////////////
 	$('#opening_greeting').on('change', function(){
 		paynearby_score();
-	});	
+	});
 	$('#initial_empathy').on('change', function(){
 		paynearby_score();
 	});
@@ -1112,17 +1328,17 @@ $(document).ready(function(){
 	$('#closing_script').on('change', function(){
 		paynearby_score();
 	});
-	
+
 	/*------------- OOUTBOUND ---------------*/
 	$(document).on('change','.obSalesVal',function(){
 		paynearby_ob();
 	});
-	
+
 	/*--------------- EMAIL -------------------*/
 	$(document).on('change','.pnbEmail',function(){
 		paynearby_email();
 	});
-	
+
 ////////////////////////// Jurys Inn ///////////////////////////////
 	$(document).on('change','.jurry_points',function(){
 		do_calculation();
@@ -1143,8 +1359,8 @@ $(document).ready(function(){
 		do_calculation();
 	});
 	do_calculation();
-	
-///////////////////// India Bulls ////////////////////////	
+
+///////////////////// India Bulls ////////////////////////
 	$('#bullgreeting').on('change', function(){
 		bull_score();
 	});
@@ -1172,10 +1388,10 @@ $(document).ready(function(){
 	$('#bulldisposition').on('change', function(){
 		bull_score();
 	});
-	
+
 	$('#ibDispo').on('change', function(){
 		var ib_dispo = $(this).val();
-		
+
 		if(ib_dispo=='Declined/No requirement' || ib_dispo=='FCR - Collection' || ib_dispo=='FCR - Dhani Care' || ib_dispo=='Loan amount less' || ib_dispo=='No android phone' || ib_dispo=='Wrong Number' || ib_dispo=='Partial_Payment')
 		{
 			$("#ibSubDispo").html('<option value="--">--</option>');
@@ -1203,21 +1419,21 @@ $(document).ready(function(){
 			$("#ibSubDispo").html('');
 		}
 	});
-	
+
 ////////////////////// Araca ////////////////////////
 	$(document).on('change','.aracaVal',function(){
 		araca_score();
 	});
-	
+
 //////////////////////////////////// Super Daily ///////////////////////////////////////////
 	$(document).on('change','.comm_point',function(){
 		superdaily_calculation();
 	});
-	
+
 	$(document).on('change','.reso_point',function(){
 		superdaily_calculation();
 	});
-	
+
 	$(document).on('change','.autof',function(){
 		superdaily_calculation();
 	});
@@ -1230,42 +1446,42 @@ $(document).ready(function(){
 	$(document).on('change','.comm_point1',function(){
 		superdaily_call_calculation();
 	});
-	
+
 	$(document).on('change','.reso_point1',function(){
 		superdaily_call_calculation();
 	});
-	
+
 	$(document).on('change','.autof1',function(){
 		superdaily_call_calculation();
 	});
-	
+
 ////////////// Superdaily New Call Audit ////////////////
 	$(document).on('change','.ucp_point',function(){ superdaily_new_call(); });
 	$(document).on('change','.tna_point',function(){ superdaily_new_call(); });
 	$(document).on('change','.cu_point',function(){ superdaily_new_call(); });
 	$(document).on('change','.hc_point',function(){ superdaily_new_call(); });
-	$(document).on('change','.af_point',function(){ superdaily_new_call(); });	
+	$(document).on('change','.af_point',function(){ superdaily_new_call(); });
 	superdaily_new_call()
-	
+
 ////////////// Superdaily (Image Validation) ////////////////
 	$(document).on('change','.ucp',function(){ superdaily_img_validate(); });
 	$(document).on('change','.tna',function(){ superdaily_img_validate(); });
 	$(document).on('change','.uwbd',function(){ superdaily_img_validate(); });
 	$(document).on('change','.imgval',function(){ superdaily_img_validate(); });
 	superdaily_img_validate();
-	
-	
+
+
 ///////////////// Entice Energy /////////////////////////////
 	$(document).on('change','.ee_points',function(){
 		entice_energy_calc();
 	});
-	
+
 ///////////////// DoubtNut /////////////////////////////
 	$("#level1generationdate").datepicker();
 	$("#level1promisedate").datepicker();
 	$("#level2lastconnectdate").datepicker();
 	$("#level2lastpromisedate").datepicker();
-	
+
 	$('#level1cause').on('change', function(){
 		if($(this).val()=='Incorrect_P2P'){
 			var lv_p2p1 = '<option value="Incorrect P2P tagged">Incorrect P2P tagged</option>';
@@ -1273,7 +1489,7 @@ $(document).ready(function(){
 			lv_p2p1 += '<option value="Improper pitch">Improper pitch</option>';
 			lv_p2p1 += '<option value="Mis Selling">Mis Selling</option>';
 			$("#level1subcause").html(lv_p2p1);
-			
+
 			$("#level1subcause1").css('display','none').attr('required',false);
 			$("#level1subcause1").val('');
 			$("#level1subcause").css('display','block').attr('required',true);
@@ -1283,13 +1499,13 @@ $(document).ready(function(){
 			$('#level1subcause1').css('display','block').attr('required',true);
 		}
 	});
-	
+
 	$('#level2cause').on('change', function(){
 		if($(this).val()=='L2_TM'){
 			var lv2_p2p1 = '<option value="Delay In Follow-up">Delay In Follow-up</option>';
 			lv2_p2p1 += '<option value="Lack of conviction">Lack of conviction</option>';
 			$("#level2subcause").html(lv2_p2p1);
-			
+
 			$("#level2subcause1").css('display','none').attr('required',false);
 			$("#level2subcause1").val('');
 			$("#level2subcause").css('display','block').attr('required',true);
@@ -1298,7 +1514,7 @@ $(document).ready(function(){
 			lv2_p2p2 += '<option value="Financial Constraints">Financial Constraints</option>';
 			lv2_p2p2 += '<option value="Cx Not Reachable">Cx Not Reachable</option>';
 			$("#level2subcause").html(lv2_p2p2);
-			
+
 			$("#level2subcause1").css('display','none').attr('required',false);
 			$("#level2subcause1").val('');
 			$("#level2subcause").css('display','block').attr('required',true);
@@ -1306,7 +1522,7 @@ $(document).ready(function(){
 			var lv2_p2p3 = '<option value="Data consumption">Data consumption</option>';
 			lv2_p2p3 += '<option value="Different payment mode">Different payment mode</option>';
 			$("#level2subcause").html(lv2_p2p3);
-			
+
 			$("#level2subcause1").css('display','none').attr('required',false);
 			$("#level2subcause1").val('');
 			$("#level2subcause").css('display','block').attr('required',true);
@@ -1315,7 +1531,7 @@ $(document).ready(function(){
 			lv2_p2p4 += '<option value="Quarterly">Quarterly</option>';
 			lv2_p2p4 += '<option value="Yearly">Yearly</option>';
 			$("#level2subcause").html(lv2_p2p4);
-			
+
 			$("#level2subcause1").css('display','none').attr('required',false);
 			$("#level2subcause1").val('');
 			$("#level2subcause").css('display','block').attr('required',true);
@@ -1349,28 +1565,28 @@ $(document).ready(function(){
 	$(document).on('change','.telephoneetiquette',function(){ idfc_calc(); });
 	$(document).on('change','.callclosing',function(){ idfc_calc(); });
 	idfc_calc();
-	
+
 //////// IDFC (NEW) /////////////
-	$(document).on('change','.idfc_new',function(){ 
-		idfc_new_calc(); 
+	$(document).on('change','.idfc_new',function(){
+		idfc_new_calc();
 	});
 	idfc_new_calc();
-	
-//////////////// SXC ////////////////////	
+
+//////////////// SXC ////////////////////
 	$(document).on('change','.sxc_point',function(){
 		sxc_calculation();
 	});
 	sxc_calculation();
-	
-//////////////// Ideal Living  ////////////////////	
-	$(document).on('change','.il_point',function(){ 
-		il_calculation(); 
+
+//////////////// Ideal Living  ////////////////////
+	$(document).on('change','.il_point',function(){
+		il_calculation();
 	});
 	il_calculation();
-	
-//////////////// Ideal Living Feedback ////////////////////	
-	$(document).on('change','#il_point_feedback',function(){ 
-		il_calculation_feedback(); 
+
+//////////////// Ideal Living Feedback ////////////////////
+	$(document).on('change','#il_point_feedback',function(){
+		il_calculation_feedback();
 	});
 
 	$(".points_epi").on("change",function(){
@@ -1381,9 +1597,9 @@ $(document).ready(function(){
 
 	il_calculation_feedback();
 
-	///////////////// wrong disposition feedback ///////////////////////	
+	///////////////// wrong disposition feedback ///////////////////////
 	$('#correct_disposition').attr("disabled", true);
-	
+
 	$('#wrong_disposition').on('change', function(){
 		if($(this).val()=='1'){
 			$('#correct_disposition').show();
@@ -1398,74 +1614,94 @@ $(document).ready(function(){
 			$('#correct_disposition').attr('required',false);
 			$('#correct_disposition').prop('disabled',true);
 			$('#il_point_feedback').attr('disabled', false);
-			
-			
+
+
 		}
 	});
 
 ////////////////// Homeward Health /////////////////////
-	$(document).on('change','.homewardVal',function(){ 
-		homeward_health_calc(); 
+	$(document).on('change','.homewardVal',function(){
+		homeward_health_calc();
 	});
-	homeward_health_calc();	
+	homeward_health_calc();
 
 ////////////////// Kenny-U-Pull /////////////////////
-	$(document).on('change','.kennyVal',function(){ 
-		kenny_u_pull_calc(); 
+	$(document).on('change','.kennyVal',function(){
+		kenny_u_pull_calc();
 	});
-	kenny_u_pull_calc();	
-	
+	kenny_u_pull_calc();
+
 ////////////////// SENSIO /////////////////////
-	$(document).on('change','.sensioVal',function(){ 
-		sensio_calc(); 
+	$(document).on('change','.sensioVal',function(){
+		sensio_calc();
 	});
 	sensio_calc();
-	
+
 ////////////////// CINEMARK /////////////////////
-	$(document).on('change','.amd_point',function(){ 
-		cinemark_calc(); 
+	$(document).on('change','.amd_point',function(){
+		cinemark_calc();
 	});
 	cinemark_calc();
-	
+
 ///////////////// Chegg /////////////////////////////
 	$(document).on('change','.chegg',function(){
 		chegg_calculation();
 	});
 	chegg_calculation();
-	
+
 	/* $(document).on('change','.chegg_rubric',function(){
 		chegg_rubric_calc();
 	});
 	chegg_rubric_calc(); */
-	
-////////////////////////////////////////////////////////////////	
+
+////////////////////////////////////////////////////////////////
 	$( "#agent_id" ).on('change' , function(){
 		var aid = this.value;
 		if(aid=="") alert("Please Select Agent")
-		var URL='<?php echo base_url();?>qa_metropolis/getTLname';
+		var URL='<?php echo base_url();?>qa_ameridial/getTLname';
 		$('#sktPleaseWait').modal('show');
 		$.ajax({
-			type: 'POST',    
+			type: 'POST',
 			url:URL,
 			data:'aid='+aid,
 			success: function(aList){
 				var json_obj = $.parseJSON(aList);
-				$('#tl_name').empty().append($('#tl_name').val(''));	
-				//for (var i in json_obj) $('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
+				$('#tl_name').empty().append($('#tl_name').val(''));
+				
 				for (var i in json_obj) $('#tl_id').append($('#tl_id').val(json_obj[i].assigned_to));
+				for (var i in json_obj){
+					if($('#tl_name').val(json_obj[i].tl_name)!=''){
+						console.log(json_obj[0].tl_name);
+						$('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
+
+					}else{
+						alert("Agent is not assigned any TL.Please assign one from manage user section or contact your HR/Manager");
+					}
+					
+				}
+				for (var i in json_obj){
+					if($('#tl_names').val(json_obj[i].tl_name)!=''){
+						console.log(json_obj[0].tl_name);
+						$('#tl_names').append($('#tl_names').val(json_obj[i].tl_name));
+
+					}else{
+						alert("Agent is not assigned any TL.Please assign one from manage user section or contact your HR/Manager");
+					}
+					
+				}
 				for (var i in json_obj) $('#fusion_id').append($('#fusion_id').val(json_obj[i].fusion_id));
 				for (var i in json_obj) $('#campaign').append($('#campaign').val(json_obj[i].process_name));
 				for (var i in json_obj) $('#site').append($('#site').val(json_obj[i].office_id));
 				for (var i in json_obj) $('#tenure').append($('#tenure').val(json_obj[i].tenure+' Days'));
-				
+
 				$('#sktPleaseWait').modal('hide');
 			},
-			error: function(){	
+			error: function(){
 				alert('Fail!');
 			}
 		});
 	});
-	
+
 /////////// Hygiene /////////////
 	/*$("#process_id").on('change',function(){
 		var pid = this.value;
@@ -1473,32 +1709,32 @@ $(document).ready(function(){
 		var URL='<?php echo base_url();?>qa_hygiene/getAgent';
 		$('#sktPleaseWait').modal('show');
 		$.ajax({
-		   type: 'POST',    
+		   type: 'POST',
 		   url:URL,
 		   data:'pid='+pid,
 		   success: function(pList){
 				var json_obj = $.parseJSON(pList);//parse JSON
-				$('#agent_id').empty();	
+				$('#agent_id').empty();
 				$('#agent_id').append($('<option></option>').val('').html('--Select--'));
-				
+
 				for (var i in json_obj){
 					$('#agent_id').append($('<option></option>').val(json_obj[i].id).html(json_obj[i].name));
 				}
-				
-				$('#sktPleaseWait').modal('hide');	
+
+				$('#sktPleaseWait').modal('hide');
 			},
-			error: function(){	
+			error: function(){
 				alert('Fail!');
 			}
-		}); 
+		});
 	});*/
-	
+
 //////////////////////////////////////
 
 		$("#form_audit_user").submit(function (e) {
 			$('#qaformsubmit').prop('disabled',true);
 		});
-		
+
 		$("#form_agent_user").submit(function(e){
 			$('#btnagentSave').prop('disabled',true);
 		});
@@ -1514,7 +1750,7 @@ $(document).ready(function(){
 		$("#form_agent_call_user").submit(function(e){
 			$('#btnagentSave').prop('disabled',true);
 		});
-		
+
 		$("#form_mgnt_user").submit(function(e){
 			$('#btnmgntSave').prop('disabled',true);
 		});
@@ -1522,7 +1758,7 @@ $(document).ready(function(){
 		$("#form_mgnt_call_user").submit(function(e){
 			$('#btnmgntSave').prop('disabled',true);
 		});
-	
+
 /////////////////////////////////
 
 });
@@ -1530,7 +1766,7 @@ $(document).ready(function(){
 
 
 <script type="text/javascript">
-	
+
 ////////////////////METROPOLIS////////////////////////////
 	function overall_score(){
 		var a = parseInt($("#welcome_customer").val());
@@ -1543,7 +1779,7 @@ $(document).ready(function(){
 		var h = parseInt($("#action_solution").val());
 		var i = parseInt($("#proper_docu").val());
 		var j = $("#zero_tolerance").val();
-		
+
 		if(f==-1 || g==-1 || h==-1 || j=='ZTP'){
 			var tot = 0;
 		}else{
@@ -1555,7 +1791,7 @@ $(document).ready(function(){
 		return tot;
 	}
 
-//////////////////////SWIGGY///////////////////////////////		
+//////////////////////SWIGGY///////////////////////////////
 	function swiggy_score(){
 		var a1 = parseInt($("#greeting").val());
 		var a2 = parseInt($("#identification").val());
@@ -1576,20 +1812,20 @@ $(document).ready(function(){
 		var a17 = parseInt($("#furtherassist").val());
 		var a18 = parseInt($("#callclose").val());
 		var a19 = $("#omt_ztp").val();
-		
+
 		if(a8==-1 || a9==-1 || a10==-1 || a16==-1 || a19=='Yes'){
 			var swiggytot = 0;
 		}else{
 			var swiggytot = a1+a2+a3+a4+a5+a6+a7+a8+a9+a10+a11+a12+a13+a14+a15+a16+a17+a18;
 		}
-		
+
 		if(!isNaN(swiggytot)){
 			document.getElementById("swiggy_score").value= swiggytot+'%';
 		}
 		return swiggytot;
 	}
-	
-//////////////////////PAYNEARBY///////////////////////////////	
+
+//////////////////////PAYNEARBY///////////////////////////////
 	function paynearby_score(){
 		var a1 = parseInt($("#opening_greeting option:selected").attr("data_val"));
 		var a2 = parseInt($("#initial_empathy option:selected").attr("data_val"));
@@ -1618,17 +1854,17 @@ $(document).ready(function(){
 		var a25 = parseInt($("#minor_error option:selected").attr("data_val"));
 		var a26 = parseInt($("#satisfy_rapport option:selected").attr("data_val"));
 		var a27 = parseInt($("#closing_script option:selected").attr("data_val"));
-		
+
 		if(a21==-1 || a22==-1 || a23==-1 || a24==-1){
 			var paynearby_tot = 0;
 		}else{
 			var paynearby_tot = a1+a2+a3+a4+a5+a6+a7+a8+a9+a10+a11+a12+a13+a14+a15+a16+a17+a18+a19+a20+a21+a22+a23+a24+a25+a26+a27;
 		}
-		
+
 		if(!isNaN(paynearby_tot)){
 			document.getElementById("paynearby_score").value= paynearby_tot+'%';
 		}
-		
+
 		if(parseInt(paynearby_tot) <= 50){
 			document.getElementById("paynearby_grade").value= 'D';
 		}else if(parseInt(paynearby_tot) > 50 && parseInt(paynearby_tot) <= 70){
@@ -1640,10 +1876,10 @@ $(document).ready(function(){
 		}else{
 			document.getElementById("paynearby_grade").value= '';
 		}
-		
+
 		return paynearby_tot;
 	}
-	
+
 	/*------------ Outbound ------------*/
 	function paynearby_ob(){
 		var pnbScore=0;
@@ -1651,11 +1887,11 @@ $(document).ready(function(){
 			var score_type = parseInt($(element).children("option:selected").attr('obSales'));
 			pnbScore = pnbScore+score_type;
 		});
-		
+
 		if(!isNaN(pnbScore)){
 			$('#pnb_ob_score').val(pnbScore+'%');
 		}
-		
+
 	///// Sales //////
 		if($("#ob_sales_AF1").val()=='Fatal' || $("#ob_sales_AF2").val()=='Fatal'){
 			$('.ob_sales_AF').val(0);
@@ -1668,9 +1904,9 @@ $(document).ready(function(){
 		}else{
 			$('.ob_service_AF').val(pnbScore+'%');
 		}
-	
+
 	}
-	
+
 	/*------------ Email ------------*/
 	function paynearby_email(){
 		var pnbEmailScore=0;
@@ -1678,20 +1914,20 @@ $(document).ready(function(){
 			var score_type = parseInt($(element).children("option:selected").attr('email_val'));
 			pnbEmailScore = pnbEmailScore + score_type;
 		});
-		
+
 		if(!isNaN(pnbEmailScore)){
 			$('#pnbEmailScore').val(pnbEmailScore+'%');
 		}
-		
+
 		if($("#pnbEmailFatal1").val()=='Fatal'){
 			$('.pnbRmailAF').val(0);
 		}else{
 			$('.pnbRmailAF').val(pnbEmailScore+'%');
 		}
-	
+
 	}
-	
-///////////////////////////Jury's Inn//////////////////////////////	
+
+///////////////////////////Jury's Inn//////////////////////////////
 	function do_calculation(){
 		var score = 0;
 		var scoreable = 0;
@@ -1700,10 +1936,10 @@ $(document).ready(function(){
 		var fail_count = 0;
 		var na_count = 0;
 
-		
+
 		$('.jurry_points').each(function(index,element){
 			var score_type = $(element).val();
-			
+
 			if(score_type == 'Yes'){
 				pass_count = pass_count + 1;
 				var weightage = parseInt($(element).children("option:selected").attr('ji_val'));
@@ -1723,15 +1959,15 @@ $(document).ready(function(){
 		});
 		quality_score_percent = ((score*100)/scoreable).toFixed(2);
 
-		
-		
+
+
 		$('#jurys_inn_earned_score').val(score);
 		$('#jurys_inn_possible_score').val(scoreable);
-		
+
 		$('#pass_count').val(pass_count);
 		$('#fail_count').val(fail_count);
 		$('#na_count').val(na_count);
-		
+
 	//////////////// Customer/Business/Compliance //////////////////
 		var customerScore1 = 0;
 		var customerScoreable1 = 0;
@@ -1786,7 +2022,7 @@ $(document).ready(function(){
 		var complianceScore1 = 0;
 		var complianceScoreable1 = 0;
 		var compliancePercentage1 = 0;
-		$('.compliance').each(function(index,element){
+		$('.compliance1').each(function(index,element){
 			var scc = $(element).val();
 			if(scc == 'Yes'){
 				var wc = parseInt($(element).children("option:selected").attr('ji_val'));
@@ -1807,7 +2043,7 @@ $(document).ready(function(){
 		if(!isNaN(compliancePercentage1)){
 			$('#complJiCisScore').val(compliancePercentage1+'%');
 		}
-	
+
 	///////////////CIS///////////////
 		if($('#recognise_gdpr').val() == 'No' || $('#overcome_terms').val() == 'No' || $('#closure_booking').val() == 'No'){
 			$('#jurysinn_PF').css("color", "red").val('Fail');
@@ -1818,13 +2054,13 @@ $(document).ready(function(){
 			}else{
 				$('#jurysinn_PF').css("color", "green").val('Pass');
 			}
-			
+
 			if(!isNaN(quality_score_percent)){
 				$('#jurys_inn_overall_score').val(quality_score_percent+'%');
 			}
 		}
-		
-	/////////////CIS Email///////////////	
+
+	/////////////CIS Email///////////////
 		if($('#agentusetemplate').val() == 'No' || $('#agentusesignature').val() == 'No' || $('#agentuseinformation').val() == 'No' || $('#duplicatereservation').val()=='No' || $('#bookingmade').val()=='No' || $('#incorrectbookingchange').val()=='No' || $('#escalationagainstemail').val()=='No'){
 			$('#ji_email_PF').css("color", "red").val('Fail');
 			$('.jiEmail').val(0);
@@ -1834,13 +2070,13 @@ $(document).ready(function(){
 			}else{
 				$('#ji_email_PF').css("color", "green").val('Pass');
 			}
-			
+
 			if(!isNaN(quality_score_percent)){
 				$('.jiEmail').val(quality_score_percent+'%');
 			}
 		}
-		
-	////////////Stag and Hen///////////////	
+
+	////////////Stag and Hen///////////////
 		if($('#stag_hen_AF1').val() == 'No' || $('#stag_hen_AF2').val() == 'No'){
 			$('.stag_hen_fatal').val(0);
 		}else{
@@ -1848,8 +2084,8 @@ $(document).ready(function(){
 				$('.stag_hen_fatal').val(quality_score_percent+'%');
 			}
 		}
-		
-	////////////CIS GDS///////////////	
+
+	////////////CIS GDS///////////////
 		if($('#cis_gds_AF1').val() == 'No' || $('#cis_gds_AF2').val() == 'No' || $('#cis_gds_AF3').val() == 'No' || $('#cis_gds_AF4').val() == 'No' || $('#cis_gds_AF5').val() == 'No'){
 			$('.cis_gds_fatal').val(0);
 		}else{
@@ -1857,8 +2093,8 @@ $(document).ready(function(){
 				$('.cis_gds_fatal').val(quality_score_percent+'%');
 			}
 		}
-		
-	////////////GDS & Pre Arrival///////////////	
+
+	////////////GDS & Pre Arrival///////////////
 		if($('#gds_prearrival_AF1').val() == 'No' || $('#gds_prearrival_AF2').val() == 'No' || $('#gds_prearrival_AF3').val() == 'No' || $('#gds_prearrival_AF4').val() == 'No' || $('#gds_prearrival_AF5').val() == 'No' || $('#gds_prearrival_AF6').val() == 'No' || $('#gds_prearrival_AF7').val() == 'No' || $('#gds_prearrival_AF8').val() == 'No' || $('#gds_prearrival_AF9').val() == 'No' || $('#gds_prearrival_AF10').val() == 'No' || $('#gds_prearrival_AF11').val() == 'No' || $('#gds_prearrival_AF12').val() == 'No' || $('#gds_prearrival_AF13').val() == 'No' || $('#gds_prearrival_AF14').val() == 'No' || $('#gds_prearrival_AF15').val() == 'No'){
 			$('.gds_prearrival_fatal').val(0);
 		}else{
@@ -1866,8 +2102,8 @@ $(document).ready(function(){
 				$('.gds_prearrival_fatal').val(quality_score_percent+'%');
 			}
 		}
-		
-	////////////Stifel///////////////	
+
+	////////////Stifel///////////////
 		if($('#stifel_AF1').val()=='No' || $('#stifel_AF2').val()=='No' || $('#stifel_AF3').val()=='No' || $('#stifel_AF4').val()=='No' || $('#stifel_AF5').val()=='No' || $('#stifel_AF6').val()=='No'){
 			$('.stifel_fatal').val(0);
 		}else{
@@ -1875,10 +2111,10 @@ $(document).ready(function(){
 				$('.stifel_fatal').val(quality_score_percent+'%');
 			}
 		}
-	
+
 	////////////////
 	}
-	
+
 ////////////////////// India Bulls ////////////////////
 	function bull_score(){
 		var a1 = parseInt($("#bullgreeting option:selected").attr("bull_val"));
@@ -1890,37 +2126,37 @@ $(document).ready(function(){
 		var a7 = parseInt($("#bulllanguage option:selected").attr("bull_val"));
 		var a8 = parseInt($("#bullproactive option:selected").attr("bull_val"));
 		var a9 = parseInt($("#bulldisposition option:selected").attr("bull_val"));
-		
+
 		if(a3==-1 || a5==-1 || a6==-1 || a9==-1){
 			var bull_tot = 0;
 		}else{
 			var bull_tot = a1+a2+a3+a4+a5+a6+a7+a8+a9;
 		}
-		
+
 		if(!isNaN(bull_tot)){
 			document.getElementById("bullScore").value= bull_tot+'%';
 		}
 	}
-	
-////////////////// Araca Shop ////////////////////////	
+
+////////////////// Araca Shop ////////////////////////
 	function araca_score(){
 		var arcScore=0;
 		$('.aracaVal').each(function(index,element){
 			score_type = parseInt($(element).children("option:selected").attr('arc_val'));
 			arcScore = score_type+arcScore;
 		});
-		
+
 		if(!isNaN(arcScore)){
 			$('#aracaScore').val(arcScore+'%');
 		}
 	}
-	
+
 /////////////////////// Super Daily //////////////////////////
 	function superdaily_calculation(){
 		var score = 0;
 		var scoreable = 0;
 		var quality_score_percent = 0;
-		
+
 		$('.comm_point').each(function(index,element){
 			var score_type1 = $(element).val();
 			if(score_type1 == 'Pass' || score_type1 == 'N/A'){
@@ -1932,7 +2168,7 @@ $(document).ready(function(){
 			}
 		});
 		$('#sd_communication_score').val(score+'%');
-		
+
 		$('.reso_point').each(function(index,element){
 			var score_type = $(element).val();
 			if(score_type == 'Pass' || score_type == 'N/A'){
@@ -1944,32 +2180,32 @@ $(document).ready(function(){
 			}
 		});
 		$('#sd_resolution_score').val(scoreable+'%');
-		
+
 		quality_score_percent = (score+scoreable);
-		
+
 		if(!isNaN(quality_score_percent)){
 			$('#superdaily_overall_score').val(quality_score_percent+'%');
 		}
-		
+
 		if($('#af1').val()=='Fatal' || $('#af2').val()=='Fatal' || $('#af4').val()=='Fatal' || $('#af5').val()=='Yes' || $('#af6').val()=='Fail' || $('#af7').val()=='Fail'){
 			$('.autoFail').val(0+'%');
 		}else{
 			$('.autoFail').val(quality_score_percent+'%');
 		}
-		
+
 	}
 
 //////////////////// Super Daily Call Audit Calculation  //////////////////////////
-	
+
 	function superdaily_call_calculation(){
-		
+
 		//alert("hi");
 
 		var callHandScore = 0;
 		var score = 0;
 		var scoreable = 0;
 		var quality_score_percent = 0;
-		
+
 		$('.call_hand_skill').each(function(index,element){
 			var score_type1 = $(element).val();
 			if(score_type1 == 'Pass' || score_type1 == 'N/A'){
@@ -1993,7 +2229,7 @@ $(document).ready(function(){
 		});
 		callHandScore=(callHandScore+score);
 		$('#sd_communication_score1').val(callHandScore+'%');
-		
+
 		$('.reso_point1').each(function(index,element){
 			var score_type = $(element).val();
 			if(score_type == 'Pass' || score_type == 'N/A'){
@@ -2006,13 +2242,13 @@ $(document).ready(function(){
 		});
 
 		$('#sd_resolution_score1').val(scoreable+'%');
-		
+
 		quality_score_percent = (callHandScore+scoreable);
-		
+
 		if(!isNaN(quality_score_percent)){
 			$('#superdaily_overall_score1').val(quality_score_percent+'%');
 		}
-		
+
 		//$(document).on('change','.autof1',function(){
 			// console.log($('#acf1').val());
 			if($('#acf1').val()=='Fail' || $('#acf2').val()=='Fail' || $('#acf3').val()=='Fail' || $('#acf4').val()=='Fail' || $('#acf5').val()=='Fail' || $('#acf6').val()=='Fail' || $('#acf7').val()=='Fail'){
@@ -2021,7 +2257,7 @@ $(document).ready(function(){
 				$('.autoFail1').val(quality_score_percent+'%');
 			}
 		//});
-		
+
 	}
 
 /////////////////// Entice Energy ///////////////////////
@@ -2029,10 +2265,10 @@ $(document).ready(function(){
 		var score = 0;
 		var scoreable = 0;
 		var quality_score_percent = 0;
-		
+
 		$('.ee_points').each(function(index,element){
 			var score_type = $(element).val();
-			
+
 			if(score_type == 'Yes'){
 				var weightage = parseFloat($(element).children("option:selected").attr('ee_val'));
 				score = score + weightage;
@@ -2047,25 +2283,25 @@ $(document).ready(function(){
 			}
 		});
 		quality_score_percent = ((score*100)/scoreable).toFixed(2);
-		
+
 		$('#ee_earned_score').val(score);
 		$('#ee_possible_score').val(scoreable);
-		
+
 		if(!isNaN(quality_score_percent)){
 			$('#ee_overall_score').val(quality_score_percent+'%');
 		}
-		
+
 	}
-	
+
 /////////////////// DoubtNut ///////////////////////
 	function doubtnut_calc(){
 		var score = 0;
 		var scoreable = 0;
 		var quality_score_percent = 0;
-		
+
 		$('.doubtnut_points').each(function(index,element){
 			var score_type = $(element).val();
-			
+
 			if(score_type == 'Yes'){
 				var weightage = parseFloat($(element).children("option:selected").attr('doubtnut_val'));
 				score = score + weightage;
@@ -2080,14 +2316,14 @@ $(document).ready(function(){
 			}
 		});
 		quality_score_percent = ((score*100)/scoreable).toFixed(2);
-		
+
 		$('#dnt_earned_score').val(score);
 		$('#dnt_possible_score').val(scoreable);
-		
+
 		if(!isNaN(quality_score_percent)){
 			$('#doubtnut_score').val(quality_score_percent+'%');
 		}
-		
+
 	/////////////////
 		$(document).on('change','.dntfatal',function(){
 			if($('#dnt_fatal1').val()=='Fatal' || $('#dnt_fatal2').val()=='Fatal' || $('#dnt_fatal3').val()=='Fatal'){
@@ -2096,10 +2332,10 @@ $(document).ready(function(){
 				$('.doubtnutscore').val(quality_score_percent+'%');
 			}
 		});
-		
-	}	
-	
-//////////////////////////// IDFC //////////////////////////////////	
+
+	}
+
+//////////////////////////// IDFC //////////////////////////////////
 	function idfc_calc(){
 		var greeting = 0;
 		var purposecall = 0;
@@ -2107,9 +2343,9 @@ $(document).ready(function(){
 		var communicationskill = 0;
 		var telephoneetiquette = 0;
 		var callclosing = 0;
-		
+
 		var overallScr = 0;
-		
+
 		$('.greeting').each(function(index,element){
 			var score_type1 = $(element).val();
 			if(score_type1 == 'Yes' || score_type1 == 'N/A'){
@@ -2120,7 +2356,7 @@ $(document).ready(function(){
 				greeting = greeting + weightage1;
 			}
 		});
-		
+
 		if($('#gfatal1').val()=='No'){
 			$('#greetingScore').val(0);
 		}else{
@@ -2169,9 +2405,9 @@ $(document).ready(function(){
 				communicationskill = communicationskill + weightage4;
 			}
 		});
-		
+
 		if($('#csfatal1').val()=='No' || $('#csfatal2').val()=='No' || $('#csfatal3').val()=='No'){
-			$('#communicatioskillScore').val(0);	
+			$('#communicatioskillScore').val(0);
 		}else{
 			$('#communicatioskillScore').val(communicationskill.toFixed(2));
 		}
@@ -2186,7 +2422,7 @@ $(document).ready(function(){
 				telephoneetiquette = telephoneetiquette + weightage5;
 			}
 		});
-		
+
 		if($('#tefatal1').val()=='No' || $('#tefatal2').val()=='No' || $('#tefatal3').val()=='No'){
 			$('#telephoneetiquetteScore').val(0);
 		}else{
@@ -2206,7 +2442,7 @@ $(document).ready(function(){
 		$('#callclosingScore').val(callclosing.toFixed(2));
 	/////////////////////
 		overallScr = parseInt((greeting+purposecall+collectionstechnique+communicationskill+telephoneetiquette+callclosing));
-		
+
 		if($('#gfatal1').val()=='No' || $('#pcfatal1').val()=='No' || $('#ctfatal1').val()=='No' || $('#ctfatal2').val()=='No' || $('#ctfatal3').val()=='No' || $('#ctfatal4').val()=='No' || $('#csfatal1').val()=='No' || $('#csfatal2').val()=='No' || $('#csfatal3').val()=='No' || $('#tefatal1').val()=='No' || $('#tefatal2').val()=='No' || $('#tefatal3').val()=='No')
 		{
 			$('#idfcScore').val(0);
@@ -2215,17 +2451,17 @@ $(document).ready(function(){
 		{
 			$('#idfcScore').val(overallScr+'%');
 		}
-		
-	/////////////////////	
+
+	/////////////////////
 	}
-	
-	
-//////////////////////// SXC //////////////////////////////	
+
+
+//////////////////////// SXC //////////////////////////////
 	function sxc_calculation(){
 		var score = 0;
 		var scoreable = 0;
 		var quality_score_percent = 0;
-		
+
 		$('.sxc_point').each(function(index,element){
 			var score_type = $(element).val();
 			if(score_type == 'Yes'){
@@ -2242,21 +2478,21 @@ $(document).ready(function(){
 			}
 		});
 		quality_score_percent = ((score*100)/scoreable).toFixed(2);
-		
+
 		$('#sxc_earnedScore').val(score);
 		$('#sxc_possibleScore').val(scoreable);
-		
+
 		if(!isNaN(quality_score_percent)){
 			$('#sxc_overallScore').val(quality_score_percent+'%');
 		}
 	}
-	
-//////////////////////// Ideal Living //////////////////////////////	
+
+//////////////////////// Ideal Living //////////////////////////////
 	function il_calculation(){
 		var ilscore = 0;
 		var ilscoreable = 0;
 		var il_score_percent = 0;
-		
+
 		$('.il_point').each(function(index,element){
 			var score_type = $(element).val();
 			if(score_type == 'Absent'){
@@ -2283,27 +2519,27 @@ $(document).ready(function(){
 		});
 		$('#ilSalesActual').val(ilscore);
 		$('#ilSalesPossible').val(ilscoreable);
-		
+
 		il_score_percent = ((ilscore*100)/ilscoreable).toFixed(2);
-		
+
 		if(!isNaN(il_score_percent)){
 			$('#ilSalesScore').val(il_score_percent+'%');
 		}
-		
+
 	////////////////
 		if($("#ilsales_AF").val()=='Yes'){
 			$('.ilsales_fatal').val(0);
 		}else{
 			$('.ilsales_fatal').val(il_score_percent+'%');
 		}
-		
+
 		if($("#ilcs_AF").val()=='Fail'){
 			$('.autofail').val(0);
 		}else{
 			$('.autofail').val(il_score_percent+'%');
 		}
-	
-	
+
+
 	}
 
 	/////////saqlain ideal living feedback verification//////////
@@ -2313,7 +2549,7 @@ $(document).ready(function(){
 		var ilscore = 0;
 		var ilscoreable = 0;
 		var il_score_percent = 0;
-		
+
 		$('.il_point').each(function(index,element){
 			var score_type = $(element).val();
 			if(score_type == '0'){
@@ -2340,9 +2576,9 @@ $(document).ready(function(){
 		});
 		$('#ilSalesActual').val(ilscore);
 		$('#ilSalesPossible').val(ilscoreable);
-		
+
 		il_score_percent = ((ilscore*100)/ilscoreable).toFixed(2);
-		
+
 		if(!isNaN(il_score_percent)){
 			$('#ilSalesScore').val(il_score_percent+'%');
 		}
@@ -2350,7 +2586,7 @@ $(document).ready(function(){
 	}
 
 	//////////////////////Homeward Health////////////////////////////
-	
+
 	function homeward_health_calc(){
 
 		var score = 0;
@@ -2362,7 +2598,7 @@ $(document).ready(function(){
 		$('.homewardVal').each(function(index,element){
 			var score_type = $(element).val();
 
-			
+
 			if(score_type == 'Yes'){
 				pass_count = pass_count + 1;
 				var weightage = parseFloat($(element).children("option:selected").attr('homeward_val'));
@@ -2378,7 +2614,7 @@ $(document).ready(function(){
 				score = score + weightage;
 				scoreable = scoreable + weightage;
 			}
-			 
+
 			if(score_type == 4){
 				//alert(score_type);
 				pass_count = pass_count + 1;
@@ -2409,8 +2645,8 @@ $(document).ready(function(){
 			}
 		});
 		quality_score_percent = ((score*100)/scoreable).toFixed(2);
-		
-		$('#homewardEarnedScore').val(score);   
+
+		$('#homewardEarnedScore').val(score);
 		$('#homewardPossibleScore').val(scoreable);
 
 		// if(!isNaN(quality_score_percent)){
@@ -2422,14 +2658,14 @@ $(document).ready(function(){
 		}else{
 			if(!isNaN(quality_score_percent)){
 				$('#homewardOverallScore').val(quality_score_percent+'%');
-			}	
+			}
 		}
 
-		
+
 		$('#pass_count').val(pass_count);
 		$('#fail_count').val(fail_count);
 		$('#na_count').val(na_count);
-		
+
 
 		//////////////// Customer/Business/Compliance //////////////////
 		var customerScore = 0;
@@ -2448,7 +2684,7 @@ $(document).ready(function(){
 				var w1 = parseFloat($(element).children("option:selected").attr('homeward_val'));
 				customerScore = customerScore + w1;
 				customerScoreable = customerScoreable + w1;
-			} 
+			}
 			if(sc1 == '4'){
 				var w1 = parseFloat($(element).children("option:selected").attr('homeward_val'));
 				customerScore = customerScore + w1;
@@ -2478,7 +2714,7 @@ $(document).ready(function(){
 		}else{
 			if(!isNaN(customerPercentage)){
 				$('#custSenScore').val(customerPercentage+'%');
-			}	
+			}
 		}
 	////////////
 		var businessScore = 0;
@@ -2536,7 +2772,7 @@ $(document).ready(function(){
 	/////////////////////////////////////////////////
 
 	//////////////////////Kenny-U-Pull////////////////////////////
-	
+
 	function kenny_u_pull_calc(){
 
 		var score = 0;
@@ -2547,7 +2783,7 @@ $(document).ready(function(){
 		var na_count = 0;
 		$('.kennyVal').each(function(index,element){
 			var score_type = $(element).val();
-			
+
 			if(score_type == 'Yes'){
 				pass_count = pass_count + 1;
 				var weightage = parseFloat($(element).children("option:selected").attr('kenny_val'));
@@ -2565,8 +2801,8 @@ $(document).ready(function(){
 			}
 		});
 		quality_score_percent = ((score*100)/scoreable).toFixed(2);
-		
-		$('#kennyEarnedScore').val(score);   
+
+		$('#kennyEarnedScore').val(score);
 		$('#kennyPossibleScore').val(scoreable);
 
 		// if(!isNaN(quality_score_percent)){
@@ -2578,14 +2814,14 @@ $(document).ready(function(){
 		}else{
 			if(!isNaN(quality_score_percent)){
 				$('#kennyOverallScore').val(quality_score_percent+'%');
-			}	
+			}
 		}
 
-		
+
 		$('#pass_count').val(pass_count);
 		$('#fail_count').val(fail_count);
 		$('#na_count').val(na_count);
-		
+
 
 		//////////////// Customer/Business/Compliance //////////////////
 		var customerScore = 0;
@@ -2617,7 +2853,7 @@ $(document).ready(function(){
 		}else{
 			if(!isNaN(quality_score_percent)){
 				$('#custSenScore').val(quality_score_percent+'%');
-			}	
+			}
 		}
 	////////////
 		var businessScore = 0;
@@ -2673,8 +2909,8 @@ $(document).ready(function(){
 
 
 	/////////////////////////////////////////////////
-	
-////////////////// SENSIO ////////////////////////	
+
+////////////////// SENSIO ////////////////////////
 	function sensio_calc(){
 
 		var score = 0;
@@ -2685,7 +2921,7 @@ $(document).ready(function(){
 		var na_count = 0;
 		$('.sensioVal').each(function(index,element){
 			var score_type = $(element).val();
-			
+
 			if(score_type == 'Yes'){
 				pass_count = pass_count + 1;
 				var weightage = parseFloat($(element).children("option:selected").attr('sen_val'));
@@ -2703,7 +2939,7 @@ $(document).ready(function(){
 			}
 		});
 		quality_score_percent = ((score*100)/scoreable).toFixed(2);
-		
+
 		$('#sensioEarnedScore').val(score);
 		$('#sensioPossibleScore').val(scoreable);
 
@@ -2716,14 +2952,14 @@ $(document).ready(function(){
 		}else{
 			if(!isNaN(quality_score_percent)){
 				$('#sensioOverallScore').val(quality_score_percent+'%');
-			}	
+			}
 		}
 
-		
+
 		$('#pass_count').val(pass_count);
 		$('#fail_count').val(fail_count);
 		$('#na_count').val(na_count);
-		
+
 
 		//////////////// Customer/Business/Compliance //////////////////
 		var customerScore = 0;
@@ -2755,7 +2991,7 @@ $(document).ready(function(){
 		}else{
 			if(!isNaN(quality_score_percent)){
 				$('#custSenScore').val(quality_score_percent+'%');
-			}	
+			}
 		}
 	////////////
 		var businessScore = 0;
@@ -2820,13 +3056,27 @@ $(document).ready(function(){
 		var na_count = 0;
 		$('.amd_point').each(function(index,element){
 			var score_type = $(element).val();
-			
+
 			if(score_type == 'Effective'){
 				pass_count = pass_count + 1;
 				var weightage = parseInt($(element).children("option:selected").attr('amd_val'));
 				score = score + weightage;
 				scoreable = scoreable + weightage;
-			}else if(score_type == 'Unacceptable'){
+			}
+			else if(score_type == 'Pass'){
+				pass_count = pass_count + 1;
+				var weightage = parseInt($(element).children("option:selected").attr('amd_val'));
+				score = score + weightage;
+				scoreable = scoreable + weightage;
+			}
+			else if(score_type == 'Fail'){
+
+				//fail_count = fail_count + 1;
+				var weightage = parseInt($(element).children("option:selected").attr('amd_val'));
+				//score = score + weightage;
+				scoreable = scoreable + weightage;
+			}
+			else if(score_type == 'Unacceptable'){
 				fail_count = fail_count + 1;
 				var weightage = parseInt($(element).children("option:selected").attr('amd_val'));
 				scoreable = scoreable + weightage;
@@ -2834,30 +3084,223 @@ $(document).ready(function(){
 				na_count = na_count + 1;
 			}else if(score_type == 'Effective with errors'){
 				var weightage = parseInt($(element).children("option:selected").attr('amd_val'));
-				var weightage1 = parseInt($(element).children("option:selected").attr('amd_max'));
+			//	var weightage1 = parseInt($(element).children("option:selected").attr('amd_max'));
 				score = score + weightage;
-				scoreable = scoreable + weightage1;
+				scoreable = scoreable + weightage;
 			}
 		});
 		quality_score_percent = ((score*100)/scoreable).toFixed(2);
-		
-		$('#cin_earned_score').val(score);
-		$('#cin_possible_score').val(scoreable);
 
+		$('#cin_earned_score').val(score);
+		$('#cin_earned_scores').val(score);
+		$('#cin_possible_score').val(scoreable);
+		$('#cin_possible_scores').val(scoreable);
 		if(!isNaN(quality_score_percent)){
 			$('#cin_overall_score').val(quality_score_percent+'%');
 		}
-		
+
 		$('#pass_count').val(pass_count);
 		$('#fail_count').val(fail_count);
 		$('#na_count').val(na_count);
-		
+
 	//////////
-		if($("#cinemarkAF1").val()=='Yes' || $("#cinemarkAF2").val()=='Yes' || $("#cinemarkAF3").val()=='Yes'){
+		if($("#cinemarkAF1").val()=='Fail' || $("#cinemarkAF2").val()=='Fail' || $("#cinemarkAF3").val()=='Fail'){
 			$(".cinemarkFatal").val(0);
 		}else{
 			$(".cinemarkFatal").val(quality_score_percent+'%');
 		}
+
+
+
+
+
+
+// new added
+
+var GreetingsScore = 0;
+		var GreetingsScoreable = 0;
+		var GreetingsPercentage = 0;
+
+		$('.namaste').each(function(index,element){
+			//alert(123);
+			var sc1 = $(element).val();
+
+			if(sc1 == 'Effective'){
+				var w1 = parseInt($(element).children("option:selected").attr('amd_val'));
+				GreetingsScore = GreetingsScore + w1;
+				GreetingsScoreable = GreetingsScoreable + w1;
+			}else if(sc1 == 'Unacceptable'){
+				var w1 = parseInt($(element).children("option:selected").attr('amd_val'));
+				GreetingsScoreable = GreetingsScoreable + w1;
+			}else if(sc1 == 'N/A'){
+				var w1 = parseInt($(element).children("option:selected").attr('amd_val'));
+				GreetingsScore = GreetingsScore + w1;
+				GreetingsScoreable = GreetingsScoreable + w1;
+			}
+
+		});
+		$('#namasteinEarned').val(GreetingsScore);
+		$('#namasteinEarneds').val(GreetingsScore);
+		$('#namastePossible').val(GreetingsScoreable);
+		GreetingsPercentage = ((GreetingsScore*100)/GreetingsScoreable).toFixed(2);
+		if(!isNaN(GreetingsPercentage)){
+			$('#namasteinScore').val(GreetingsPercentage+'%');
+		}
+
+
+		var callScore = 0;
+		var callScoreable = 0;
+		var callPercentage = 0;
+
+		$('.call').each(function(index,element){
+			//alert(123);
+			var sc1 = $(element).val();
+
+			if(sc1 == 'Effective'){
+				var w1 = parseInt($(element).children("option:selected").attr('amd_val'));
+				callScore = callScore + w1;
+				callScoreable = callScoreable + w1;
+			}else if(sc1 == 'Unacceptable'){
+				var w1 = parseInt($(element).children("option:selected").attr('amd_val'));
+				callScoreable = callScoreable + w1;
+			}else if(sc1 == 'N/A'){
+				var w1 = parseInt($(element).children("option:selected").attr('amd_val'));
+				callScore = callScore + w1;
+				callScoreable = callScoreable + w1;
+			}
+
+		});
+		$('#callinEarned').val(callScore);
+		$('#callinEarneds').val(callScore);
+		$('#callPossible').val(callScoreable);
+		callPercentage = ((callScore*100)/callScoreable).toFixed(2);
+		if(!isNaN(callPercentage)){
+			$('#callinScore').val(callPercentage+'%');
+		}
+
+
+
+		var skillScore = 0;
+		var skillScoreable = 0;
+		var skillPercentage = 0;
+
+		$('.skill').each(function(index,element){
+			//alert(123);
+			var sc1 = $(element).val();
+
+			if(sc1 == 'Effective'){
+				var w1 = parseInt($(element).children("option:selected").attr('amd_val'));
+				skillScore = skillScore + w1;
+				skillScoreable = skillScoreable + w1;
+			}
+			else if(sc1 == 'Effective with errors'){
+				var w1 = parseInt($(element).children("option:selected").attr('amd_val'));
+skillScore = skillScore + w1-4;
+				skillScoreable = skillScoreable + w1;
+
+
+			}
+
+
+			else if(sc1 == 'Unacceptable'){
+				var w1 = parseInt($(element).children("option:selected").attr('amd_val'));
+				skillScoreable = skillScoreable + w1;
+			}else if(sc1 == 'N/A'){
+				var w1 = parseInt($(element).children("option:selected").attr('amd_val'));
+				skillScore = skillScore + w1;
+				skillScoreable = skillScoreable + w1;
+			}
+
+		});
+		$('#skillinEarned').val(skillScore);
+		$('#skillinEarneds').val(skillScore);
+		$('#skillPossible').val(skillScoreable);
+		skillPercentage = ((skillScore*100)/skillScoreable).toFixed(2);
+		if(!isNaN(skillPercentage)){
+			$('#skillinScore').val(skillPercentage+'%');
+		}
+
+		var closeScore = 0;
+		var closeScoreable = 0;
+		var closePercentage = 0;
+
+		$('.close').each(function(index,element){
+			//alert(123);
+			var sc1 = $(element).val();
+
+			if(sc1 == 'Effective'){
+				var w1 = parseInt($(element).children("option:selected").attr('amd_val'));
+				closeScore = closeScore + w1;
+				closeScoreable = closeScoreable + w1;
+			}else if(sc1 == 'Unacceptable'){
+				var w1 = parseInt($(element).children("option:selected").attr('amd_val'));
+				closeScoreable = closeScoreable + w1;
+			}else if(sc1 == 'N/A'){
+				var w1 = parseInt($(element).children("option:selected").attr('amd_val'));
+				closeScore = closeScore + w1;
+				closeScoreable = closeScoreable + w1;
+			}
+
+		});
+		$('#closeinEarned').val(closeScore);
+		$('#closeinEarneds').val(closeScore);
+		$('#closePossible').val(closeScoreable);
+		closePercentage = ((closeScore*100)/closeScoreable).toFixed(2);
+		if(!isNaN(closePercentage)){
+			$('#closeinScore').val(closePercentage+'%');
+		}
+
+
+		var autoScore = 0;
+		var autoScoreable = 0;
+		var autoPercentage = 0;
+
+		$('.auto').each(function(index,element){
+			//alert(123);
+			var sc1 = $(element).val();
+
+			if(sc1 == 'Pass'){
+				var w1 = parseInt($(element).children("option:selected").attr('amd_val'));
+				autoScore = autoScore + w1;
+				autoScoreable = autoScoreable + w1;
+			}else if(sc1 == 'Fail'){
+				var w1 = parseInt($(element).children("option:selected").attr('amd_val'));
+				autoScoreable = autoScoreable + w1;
+			}
+
+		});
+		$('#autoinEarned').val(autoScore);
+		$('#autoinEarneds').val(autoScore);
+		$('#autoPossible').val(autoScoreable);
+		autoPercentage = ((autoScore*100)/autoScoreable).toFixed(2);
+		if(!isNaN(autoPercentage)){
+			$('#autoinScore').val(autoPercentage+'%');
+		}
+
+
+	// ednded
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		//////////////// Customer/Business/Compliance //////////////////
 		var customerScore = 0;
@@ -2876,7 +3319,16 @@ $(document).ready(function(){
 				var w1 = parseInt($(element).children("option:selected").attr('amd_val'));
 				customerScore = customerScore + w1;
 				customerScoreable = customerScoreable + w1;
+			}else if(sc1 == 'Effective with errors'){
+				var w1 = parseInt($(element).children("option:selected").attr('amd_val'));
+				customerScore = customerScore + w1-4;
+				customerScoreable = customerScoreable + w1;
 			}
+
+
+
+
+
 		});
 		$('#custCinEarned').text(customerScore);
 		$('#custCinPossible').text(customerScoreable);
@@ -2919,10 +3371,28 @@ $(document).ready(function(){
 				var w3 = parseInt($(element).children("option:selected").attr('amd_val'));
 				complianceScore = complianceScore + w3;
 				complianceScoreable = complianceScoreable + w3;
-			}else if(sc3 == 'Unacceptable'){
+			}
+			else if(sc3 == 'Fail'){
+				//alert(123);
+				var w3 = parseInt($(element).children("option:selected").attr('amd_val'));
+
+				complianceScoreable = complianceScoreable + w3;
+			}
+			else if(sc3 == 'Pass'){
+				//alert(456);
+				var w3 = parseInt($(element).children("option:selected").attr('amd_val'));
+				//complianceScore = complianceScore + w3;
+				complianceScore = complianceScore + w3;
+				complianceScoreable = complianceScoreable + w3;
+			}
+
+
+			else if(sc3 == 'Unacceptable'){
 				var w3 = parseInt($(element).children("option:selected").attr('amd_val'));
 				complianceScoreable = complianceScoreable + w3;
-			}else if(sc3 == 'N/A'){
+			}
+
+			else if(sc3 == 'N/A'){
 				var w3 = parseInt($(element).children("option:selected").attr('amd_val'));
 				complianceScore = complianceScore + w3;
 				complianceScoreable = complianceScoreable + w3;
@@ -2937,33 +3407,111 @@ $(document).ready(function(){
 	}
 
 
-	
 </script>
 
- 
- <script>
-	function checkDec(el){
-		var ex = /^[0-9]+\.?[0-9]*$/;
-		if(ex.test(el.value)==false){
-			el.value = el.value.substring(0,el.value.length - 1);
+
+<script type="text/javascript">
+		function checkDec(el) {
+			var ex = /^[0-9]+\.?[0-9]*$/;
+
+			if (ex.test(el.value) == false) {
+				//console.log(el.value);
+				el.value = el.value.substring(0, el.value.length - 1);
+				alert("Number format required!");
+				$("#qaformsubmit").attr("disabled", "disabled");
+				$('#phone').val("");
+				return false;
+			}
+			if(el.value.length >10){
+       			//alert("required 10 digits, match requested format!");
+       			$("#start_phone").html("Required 10 digits, match requested format!");
+       			$("#qaformsubmit").attr("disabled", "disabled");
+       			return false;
+		    }else if(el.value.length <10){
+		    	$("#start_phone").html("Phone number can not be less than 10 digits!");
+		    	$("#qaformsubmit").attr("disabled", "disabled");
+       			return false;
+		    }
+		    else if(el.value.length == 10){
+		    	$("#start_phone").html("");
+		    	 $("#qaformsubmit").removeAttr("disabled");
+       			return false;
+		    }
+		    // else{
+		    // 	$("#start_phone").html("");
+		    // 	 $("#qaformsubmit").removeAttr("disabled");
+		    // }
+			console.log(el.value);
 		}
-	}
- </script>
- 
- 
+</script> 
+
+<script>
+$('INPUT[type="file"]').change(function () {
+    var ext = this.value.match(/\.(.+)$/)[1];
+    switch (ext) {
+        case 'mp4':
+        case 'mp3':
+		case 'wav':
+		case 'm4a':
+			$('#qaformsubmit').attr('disabled', false);
+        break;
+        default:
+            alert('This is not an allowed file type. Please upload allowed file type like [m4a,mp4,mp3,wav]');
+            this.value = '';
+    }
+});
+</script>
+
+<script type="text/javascript">
+	function checkDecConsumer(el) {
+			var ex = /^[0-9]+\.?[0-9]*$/;
+
+			if (ex.test(el.value) == false) {
+				//console.log(el.value);
+				el.value = el.value.substring(0, el.value.length - 1);
+				alert("Number format required!");
+				$("#qaformsubmit").attr("disabled", "disabled");
+				$('#consumer_no').val("");
+				return false;
+			}
+			if(el.value.length >25){
+       			//alert("required 10 digits, match requested format!");
+       			$("#start_phone").html("Account number can not be more than 25 digits!");
+       			$("#qaformsubmit").attr("disabled", "disabled");
+       			return false;
+		    }
+		    if(el.value.length < 1){
+		    	$("#start_phone").html("Account number can not be a negative digits!");
+		    	$("#qaformsubmit").attr("disabled", "disabled");
+       			return false;
+		    }
+		    else{
+		    	$("#start_phone").html("");
+		    	 $("#qaformsubmit").removeAttr("disabled");
+       			return false;
+		    }
+		    // else{
+		    // 	$("#start_phone").html("");
+		    // 	 $("#qaformsubmit").removeAttr("disabled");
+		    // }
+			console.log(el.value);
+		}
+</script>
+
+
  <script>
  //// KIWI ///
   var a,b,c;
-  
-   	$('.common').on('change', function(){ 
+
+   	$('.common').on('change', function(){
 		a = $('#text1').val();
 		b = $('#text2').val();
 		c = $('#text3').val();
 
 		check_pass_fail(a,b,c);
-		
+
 	});
-	
+
 	function check_pass_fail(a,b,c){
 
 			if(a==''){
@@ -2973,7 +3521,7 @@ $(document).ready(function(){
 			}else if(c== ''){
 				calculation();
 			}
-			
+
 			if(a=='Pass' && b=='Pass' && c=='Pass'){
 				//alert("success");
 				calculation();
@@ -2981,73 +3529,73 @@ $(document).ready(function(){
 				//alert("falilure");
 				calculation();
 				$('#quality_score').val(0);
-			} 
-			
-			
-			
-			
+			}
+
+
+
+
 	}
-	
+
 	var i=0;
-	
-	$('.common_calulation').on('change', function(){  
+
+	$('.common_calulation').on('change', function(){
 		t1 = $('#text1').val();
 		t2 = $('#text2').val();
 		t3 = $('#text3').val();
-		
+
 		a = $('#text4').val();
 		b = $('#text5').val();
 		c = $('#text6').val();
-		  
+
 		calculation();
 		check_pass_fail(t1,t2,t3);
-	 
+
 	});
-	
+
 	function calculation(){
 		a = $('#text4').val() != '' ? parseInt($('#text4').val()) : 0;
 		b = $('#text5').val() != '' ? parseInt($('#text5').val()) : 0;
 		c = $('#text6').val() != '' ? parseInt($('#text6').val()) : 0;
-		
+
         var total = (a+b+c);
-		
+
 			$('#achieved_score').val(parseInt(total));
 			var percentage = (total/100)*100;
 			$('#quality_score').val(parseInt(percentage));
-		
+
 			  $('#comment2').empty();
-			 
+
 				    $('#text4').val() != '0'? $('#comment2').append(''): $('#comment2').append('2.1 is Fail &');
 					$('#text5').val() != '0'? $('#comment2').append(''): $('#comment2').append(' 2.2 is Fail &');
 					$('#text6').val() != '0'? $('#comment2').append(''): $('#comment2').append(' 2.3 is Fail &');
-				
+
 				var h = $('#comment2').val();
 				var k = $.trim(h);
 				var j = k.split('&')
-			
+
 	}
- 
+
  </script>
- 
+
  <script>
    $('document').ready(function(){
 	   $('#accept_reject').on('change',function(){
-       
+
         var optionText = $("#accept_reject option:selected").text();
 		if(optionText === ''){
 			alert("Please select the Accept reject option");
 			$('#accept_reject').focus();
 		}
-        
+
     });
-	   
+
    });
 </script>
 
 
 <script>
 
-$( "#client_id" ).on('change' , function() {	
+$( "#client_id" ).on('change' , function() {
 		var aid = this.value;
 		if(aid=="") alert("Please Select Client ID")
 		var URL='<?php echo base_url();?>Qa_agent_coaching/get_client';
@@ -3056,38 +3604,38 @@ $( "#client_id" ).on('change' , function() {
 			type: 'POST',
 			url:URL,
 			data:'aid='+aid,
-			success: function(aList){ 
-				var json_obj = $.parseJSON(aList); 
-				
+			success: function(aList){
+				var json_obj = $.parseJSON(aList);
+
 					 $('#agent_id_process').empty();
-				     $('#agent_id_process').append("<option value=''>--Select--</option>"); 
+				     $('#agent_id_process').append("<option value=''>--Select--</option>");
 				for(i=0; i < json_obj.length;i++){
 					 var newoption = '<option value='+ json_obj[i].id +'>'+ json_obj[i].name+' - '+json_obj[i].office_id +'</option>';
 					 $('#agent_id_process').append(newoption);
 				}
-				
+
 				$('#sktPleaseWait').modal('hide');
 			},
-			error: function(){	
+			error: function(){
 				alert('Fail!');
 				$('#sktPleaseWait').modal('hide');
 			}
 		});
 	});
 
-	
-	$( "#agent_id_process" ).on('change' , function() {	
+
+	$( "#agent_id_process" ).on('change' , function() {
 		var aid = this.value;
 		if(aid=="") alert("Please Select Agent")
 		var URL='<?php echo base_url();?>qa_metropolis/getTLname';
 		$('#sktPleaseWait').modal('show');
 		$.ajax({
-			type: 'POST',    
+			type: 'POST',
 			url:URL,
 			data:'aid='+aid,
 			success: function(aList){
 				var json_obj = $.parseJSON(aList);
-				$('#tl_name').empty().append($('#tl_name').val(''));	
+				//$('#tl_name').empty().append($('#tl_name').val(''));
 				//for (var i in json_obj) $('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
 				for (var i in json_obj) $('#tl_id').append($('#tl_id').val(json_obj[i].assigned_to));
 				for (var i in json_obj) $('#fusion_id').append($('#fusion_id').val(json_obj[i].fusion_id));
@@ -3095,15 +3643,15 @@ $( "#client_id" ).on('change' , function() {
 				for (var i in json_obj) $('#process_id').append($('#process_id').val(json_obj[i].process_id));
 				for (var i in json_obj) $('#site').append($('#site').val(json_obj[i].office_id));
 				for (var i in json_obj) $('#tenure').append($('#tenure').val(json_obj[i].tenure+' Days'));
-				
+
 				$('#sktPleaseWait').modal('hide');
 			},
-			error: function(){	
+			error: function(){
 				alert('Fail!');
 			}
 		});
 	});
-	
+
 </script>
 
 <script>
@@ -3148,14 +3696,14 @@ $( "#client_id" ).on('change' , function() {
 			}
 		});
 		quality_score_percent = ((score*100)/scoreable).toFixed(2);
-		
+
 		$('#acm_earn_score').val(score);
 		$('#acm_possible_score').val(scoreable);
 
 		if(!isNaN(quality_score_percent)){
 			$('#acm_overall_score').val(quality_score_percent+'%');
 		}
-		
+
 		if($('#acmAF1').val()=='Yes' || $('#acmAF2').val()=='Yes' ){
 			$('.acmFatal').val(0);
 		}else{
@@ -3279,10 +3827,10 @@ $( "#client_id" ).on('change' , function() {
 		if(!isNaN(compliancePercentage)){
 			$('#complAcmScore').val(compliancePercentage+'%');
 		}
-	
+
 	}
-	
-	
+
+
 	$(document).ready(function(){
 		$(document).on('change','.acm_points',function(){ acm_score(); });
 		$(document).on('change','.customer',function(){ acm_score(); });
@@ -3290,13 +3838,13 @@ $( "#client_id" ).on('change' , function() {
 		$(document).on('change','.compliance',function(){ acm_score(); });
 		acm_score();
 	});
-		
+
 </script>
 
 <script>
 ///////////// Superdaily New ////////////////
 	$(document).ready(function(){
-		
+
 		$('#spdl_acpt').on('change', function(){
 			if($(this).val()=='Agent'){
 				var spdl_agent = '<option value="">Select</option>';
@@ -3349,8 +3897,8 @@ $( "#client_id" ).on('change' , function() {
 				$("#spdl_why1").html(spdl_tech);
 			}
 		});
-		
-		
+
+
 		$(document).on('keyup','#ucp',function(){
 			superdaily_new();
 		});
@@ -3370,17 +3918,17 @@ $( "#client_id" ).on('change' , function() {
 			superdaily_new();
 		});
 		superdaily_new();
-		
+
 	});
-	
+
 	function superdaily_new(){
 		var ucpScore = 0;
 		var tnaScore = 0;
 		var cuScore = 0;
 		var hcScore = 0;
-		
+
 		$('.spdl').each(function(index,element){
-			
+
 			var ucp_score = $("#ucp").val();
 			$('#ucp_earned').val(ucp_score);
 			$('#ucp_possible').val(20);
@@ -3413,26 +3961,26 @@ $( "#client_id" ).on('change' , function() {
 				$('#hc_percentage').val(hcScore+'%');
 			}
 		//////////
-			
+
 			var min_overall_score = Math.min(ucpScore, tnaScore, cuScore, hcScore);
-			
+
 		////////Superdaily//////////
 			if($('#spdlAF1').val()=='Yes' || $('#spdlAF2').val()=='Yes'){
 				$('#newSPDL').val(0);
 			}else{
 				$('#newSPDL').val(min_overall_score+'%');
 			}
-		
+
 		////////Superdaily (Complaint Resolution)//////////
 			if($('#spdlResoAF1').val()=='No' || $('#spdlResoAF2').val()=='No' || $('#spdlResoAF3').val()=='Yes' || $('#spdlResoAF4').val()=='Yes'){
 				$('#newSPDLReso').val(0);
 			}else{
 				$('#newSPDLReso').val(min_overall_score+'%');
 			}
-			
-		
+
+
 		});
-		
+
 	}
 </script>
 
@@ -3441,7 +3989,7 @@ $( "#client_id" ).on('change' , function() {
 <script type="text/javascript">
 /////////////////// Payneraby [QA Feedback] /////////////////////
 	$(document).ready(function(){
-		
+
 		$(".addQaFeedback").click(function(){
 			var mpid=$(this).attr("mpid");
 			var pnb_tbl=$(this).attr("pnb_tbl");
@@ -3450,6 +3998,6 @@ $( "#client_id" ).on('change' , function() {
 			$("#addQaFeedbackModel").modal('show');
 
 		});
-		
+
 	});
 </script>

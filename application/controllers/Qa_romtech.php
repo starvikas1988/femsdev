@@ -386,8 +386,8 @@ public function add_edit_romtech_inbound($romtech_inbound_id){
 			$data["array"] = $a;
 
 			$this->load->view("dashboard",$data);
-		}
 	}
+}
 
 public function edit_qa_romtech($ajio_id)  // working file sougata
 

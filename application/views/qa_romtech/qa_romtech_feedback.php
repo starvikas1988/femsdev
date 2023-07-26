@@ -24,7 +24,7 @@
 
 									<div class="form-group">
 										<label>From Date (MM/DD/YYYY)</label>
-										<input type="text" id="from_date"  onchange="date_validation(this.value,'S')"    name="from_date" value="<?php $date= mysql2mmddyy($from_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<input type="text" id="from_date"  onchange="date_validation(this.value,'S')" name="from_date" value="<?php $date= mysql2mmddyy($from_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
 										<span class="start_date_error" style="color:red"></span>
 									</div>
 								</div>

@@ -19718,7 +19718,6 @@ public function qa_homeadvisor_report(){
 		$data["show_table"] = false;
 		$data["aside_template"] = "reports_qa/aside.php";
 		$data["content_template"] = "reports_qa/qa_homeadvisor_report.php";
-		$data["content_js"] = "qa_hcco_v3_js.php";
 
 		$date_from="";
 		$date_to="";
@@ -38416,7 +38415,7 @@ else if($pid=="cci_medicare"){
 			$data["show_table"] = false;
 			$data["aside_template"] = "reports_qa/aside.php";
 			$data["content_template"] = "reports_qa/qa_stifel_report.php";
-			$data["content_js"] = "qa_metropolis_js.php";
+			$data["content_js"] = "qa_kabbage_js.php";
 
 			$data['location_list'] = $this->Common_model->get_office_location_list();
 
@@ -38430,46 +38429,29 @@ else if($pid=="cci_medicare"){
 			$cond="";
 			$cond1="";
 
-			$campaign = $this->input->get('campaign');
-			$date_from = $this->input->get('date_from');
-			$date_to = $this->input->get('date_to');
-			
-
-			if($date_from==""){ 
-				$date_from=CurrDate();
-			}else{
-				$date_from = mmddyy2mysql($date_from);
-			}
-			
-			if($date_to==""){ 
-				$date_to=CurrDate();
-			}else{
-				$date_to = mmddyy2mysql($date_to);
-			}
-
 			$data["qa_stifel_list"] = array();
 
 			if($this->input->get('show')=='Show')
 			{
-				//$date_from = mmddyy2mysql($this->input->get('date_from'));
-				//$date_to = mmddyy2mysql($this->input->get('date_to'));
+				$date_from = mmddyy2mysql($this->input->get('date_from'));
+				$date_to = mmddyy2mysql($this->input->get('date_to'));
 				$office_id = $this->input->get('office_id');
-				//$audit_type = $this->input->get('audit_type');
+				$audit_type = $this->input->get('audit_type');
 
 				if($date_from !="" && $date_to!=="" )  $cond= " Where (audit_date >= '$date_from' and audit_date <= '$date_to' )";
 
 				if($office_id=="All") $cond .= "";
 				else $cond .=" and office_id='$office_id'";
 
-				// if($audit_type=="All"){
-				// 	if(get_login_type()=="client"){
-				// 		$cond .= "audit_type not in ('Operation Audit','Trainer Audit')";
-				// 	}else{
-				// 		$cond .= "";
-				// 	}
-				// }else{
-				// 	$cond .=" and audit_type='$audit_type'";
-				// }
+				if($audit_type=="All"){
+					if(get_login_type()=="client"){
+						$cond .= "audit_type not in ('Operation Audit','Trainer Audit')";
+					}else{
+						$cond .= "";
+					}
+				}else{
+					$cond .=" and audit_type='$audit_type'";
+				}
 
 				if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
 					$cond1 .=" And (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
@@ -38480,18 +38462,18 @@ else if($pid=="cci_medicare"){
 				}
 
 
-				 $qSql="SELECT * from
+				$qSql="SELECT * from
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
 				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
-				(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_".$campaign."_feedback) xx Left Join
+				(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_stifel_feedback) xx Left Join
 				(Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process, doj, DATEDIFF(CURDATE(), doj) as tenure from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 order by audit_date";
 
 				$fullAray = $this->Common_model->get_query_result_array($qSql);
 				$data["qa_stifel_list"] = $fullAray;
-				$this->create_qa_stifel_CSV($fullAray,$campaign);
-				$dn_link = base_url()."reports_qa/download_qa_stifel_CSV/".$campaign;
+				$this->create_qa_stifel_CSV($fullAray);
+				$dn_link = base_url()."reports_qa/download_qa_stifel_CSV/";
 			}
 
 			$data['download_link']=$dn_link;
@@ -38500,220 +38482,113 @@ else if($pid=="cci_medicare"){
 			$data['date_to'] = $date_to;
 			$data['office_id']=$office_id;
 			$data['audit_type']=$audit_type;
-			$data['campaign']=$campaign;
-
 			$this->load->view('dashboard',$data);
 		}
 	}
 
 
-	public function download_qa_stifel_CSV($campaign)
+	public function download_qa_stifel_CSV()
 	{
 		$currDate=date("Y-m-d");
 		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
-		$newfile="QA stifel ".$campaign." Audit List-'".$currDate."'.csv";
+		$newfile="QA stifel Audit List-'".$currDate."'.csv";
 		header('Content-Disposition: attachment;  filename="'.$newfile.'"');
 		readfile($filename);
 	}
 
-	public function create_qa_stifel_CSV($rr,$campaign)
+	public function create_qa_stifel_CSV($rr)
 	{
 		$currDate=date("Y-m-d");
 		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
 		$fopen = fopen($filename,"w+");
 
-		// echo"<pre>";
-		// print_r($rr);
-		// echo"</pre>";
-		// exit();
-		if($campaign=='stifel'){
 		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date", "Call Duration", "Hold Duration", "Verification Duration", "Interaction ID", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Opening", "Closing", "Empathy / Apology", "Ownership / Assurance", "Call Control", "Transfer", "Tone / Rate Of Speech / Fumbling / Pacing", "Active Listening", "Professionalism", "**Issue Identification / Understanding", "Probing", "**False Commitment(Correct and Accurate Information)", "**Verification process followed", "**ZTP","Rudeness","Call Avoidance", "Remarks1", "Remarks2", "Remarks3", "Remarks4", "Remarks5", "Remarks6", "Remarks7", "Remarks8", "Remarks9", "Remarks10", "Remarks11", "Remarks12", "Remarks13", "Remarks14", "Remarks15","Remarks16","Customer score","Business score","Compliance score", "Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
-		}else if($campaign=='stifel_v1'){
-			$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date", "Call Duration",
-			 "Call Link", "Account", "KPI - ACPT",
-			 "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Earned Score","Possible Score", "Overall Score",
-				"Greeting and Farewell:	Opening : Did the agent open the call within 10 second using their name and the appropriate branding for the call?",
-				"Greeting and Farewell:Closing : Did the agent offer further assistance before closing the call and closed the call using the appropriate branding?",
-				"Ownership:Ownership/ Assurance : Did the agent showed willingness to assist the customer by providing the statement like I will definitely assist you with that. etc",
-				"Ownership:Did the agent offer to stay on the call until the issue has been resolved?",
-				"Verification:Did the agent verify the customer with the necessary information?",
-				"Resolution:Issue Identification / Understanding : Did the agent ask proper set of probing questions to fully understand the customers concern?",
-				"Resolution:Correct & Accurate Information : Did the agent deliver the correct and accurate information and resolution to the customer?",
-				"Hold and Transfer Protocol:Hold and Dead air Procedure : Did the agent ask for permission prior placing the customer on hold? / Did the agent refresh the hold if the duration is longer than what the customer was advised? / Did the agent avoid dead air more than 20 secs?",
-				"Hold and Transfer Protocol:Transfer : Did the agent properly transfer call if required? / The agent is not require to stay on the call once it was transferred not unless the customer request it",
-				"ZTP: Rudeness : Did the agent avoid using negative remarks or inappropriate words?",
-				"ZTP: Correct & Accurate Information : Did the agent deliver the correct and accurate information and resolution to the customer?",
-				"Soft Skills and Telephone Etiquettes:Empathy / Apology : Did the agent provide empathy / apology whenever it is required?",
-				"Soft Skills and Telephone Etiquettes:	Tone / Pacing / Fumbling : Did the agent able to converse in a pleasant tone with appropriate rate of speech confidence and enthusiasm?",
-				"Soft Skills and Telephone Etiquettes:Active Listening : Did the agent demonstrate active listening?",
-				"Soft Skills and Telephone Etiquettes:	Professionalism : Did the agent speak in a respectful tone use proper manners and say please and thank you throughout the conversation?",
-			   "Remarks1", "Remarks2", "Remarks3", "Remarks4", "Remarks5", "Remarks6", "Remarks7", "Remarks8", "Remarks9", "Remarks10", "Remarks11", "Remarks12", "Remarks13", "Remarks14", "Remarks15",
-			   "Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
-		}
 
 		$row = "";
 		foreach($header as $data) $row .= ''.$data.',';
 		fwrite($fopen,rtrim($row,",")."\r\n");
 		$searches = array("\r", "\n", "\r\n");
-		if($campaign=='stifel'){
-				foreach($rr as $user){
-				if($user['entry_by']!=''){
-					$auditorName = $user['auditor_name'];
-				}else{
-					$auditorName = $user['client_name'];
-				}
 
-				if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
-					$interval1 = '---';
-				}else{
-					$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
-				}
-
-				$row = '"'.$auditorName.'",';
-				$row .= '"'.$user['audit_date'].'",';
-				$row .= '"'.$user['fname']." ".$user['lname'].'",';
-				$row .= '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['call_duration'].'",';
-				$row .= '"'.$user['hold_duration'].'",';
-				$row .= '"'.$user['verification_duration'].'",';
-				$row .= '"'.$user['interaction_id'].'",';
-				$row .= '"'.$user['audit_type'].'",';
-				$row .= '"'.$user['voc'].'",';
-				$row .= '"'.$user['audit_start_time'].'",';
-				$row .= '"'.$user['entry_date'].'",';
-				$row .= '"'.$interval1.'",';
-				$row .= '"'.$user['overall_score'].'%'.'",';
-				$row .= '"'.$user['opening'].'",';
-				$row .= '"'.$user['closing'].'",';
-				$row .= '"'.$user['empathy_apology'].'",';
-				$row .= '"'.$user['owenship_assurance'].'",';
-				$row .= '"'.$user['hold_protocol'].'",';
-				$row .= '"'.$user['transfer'].'",';
-				$row .= '"'.$user['rate_of_speech'].'",';
-				$row .= '"'.$user['active_listening'].'",';
-				$row .= '"'.$user['parallel_conversion'].'",';
-				$row .= '"'.$user['issue_identification'].'",';
-				$row .= '"'.$user['probing'].'",';
-				$row .= '"'.$user['false_commitment'].'",';
-				$row .= '"'.$user['verification_process_follow'].'",';
-				$row .= '"'.$user['ztp'].'",';
-				$row .= '"'.$user['rudeness'].'",';
-				$row .= '"'.$user['call_avoidance'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt1'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt2'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt3'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt4'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt5'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt6'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt7'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt8'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt9'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt10'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt11'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt12'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt13'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt14'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt15'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt16'])).'",';
-				$row .= '"'.$user['customer_score'].'%'.'",';
-				$row .= '"'.$user['business_score'].'%'.'",';
-				$row .= '"'.$user['compliance_score'].'%'.'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
-				$row .= '"'.$user['agnt_fd_acpt'].'",';
-				$row .= '"'.$user['agent_rvw_date'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
-				$row .= '"'.$user['mgnt_rvw_date'].'",';
-				$row .= '"'.$user['mgnt_rvw_name'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
-				$row .= '"'.$user['client_rvw_date'].'",';
-				$row .= '"'.$user['client_rvw_name'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
-
-				fwrite($fopen,$row."\r\n");
+		foreach($rr as $user){
+			if($user['entry_by']!=''){
+				$auditorName = $user['auditor_name'];
+			}else{
+				$auditorName = $user['client_name'];
 			}
-			fclose($fopen);
-		}
-		if($campaign=='stifel_v1'){
-			foreach($rr as $user){
-				if($user['entry_by']!=''){
-					$auditorName = $user['auditor_name'];
-				}else{
-					$auditorName = $user['client_name'];
-				}
 
-				if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
-					$interval1 = '---';
-				}else{
-					$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
-				}
-
-				$row = '"'.$auditorName.'",';
-				$row .= '"'.$user['audit_date'].'",';
-				$row .= '"'.$user['fname']." ".$user['lname'].'",';
-				$row .= '"'.$user['fusion_id'].'",';
-				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['call_date'].'",';
-				$row .= '"'.$user['call_duration'].'",';
-				$row .= '"'.$user['call_link'].'",';
-				$row .= '"'.$user['account'].'",';
-				$row .= '"'.$user['KPI_ACPT'].'",';
-				$row .= '"'.$user['audit_type'].'",';
-				$row .= '"'.$user['voc'].'",';
-				$row .= '"'.$user['audit_start_time'].'",';
-				$row .= '"'.$user['entry_date'].'",';
-				$row .= '"'.$interval1.'",';
-				$row .= '"'.$user['earned_score'].'%'.'",';
-				$row .= '"'.$user['possible_score'].'%'.'",';
-				$row .= '"'.$user['overall_score'].'%'.'",';
-				$row .= '"'.$user['greeting_opening'].'",';
-				$row .= '"'.$user['greeting_closing'].'",';
-				$row .= '"'.$user['ownership_assurance'].'",';
-				$row .= '"'.$user['issue_resolved'].'",';
-				$row .= '"'.$user['verification'].'",';
-				$row .= '"'.$user['issue_identification'].'",';
-				$row .= '"'.$user['accurate_information'].'",';
-				$row .= '"'.$user['dead_air'].'",';
-				$row .= '"'.$user['transfer_call'].'",';
-				$row .= '"'.$user['rudeness'].'",';
-				$row .= '"'.$user['call_avoidance'].'",';
-				$row .= '"'.$user['empathy'].'",';
-				$row .= '"'.$user['tone_pacing'].'",';
-				$row .= '"'.$user['active_listening'].'",';
-				$row .= '"'.$user['professionalism'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm1'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm2'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm3'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm4'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm5'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm6'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm7'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm8'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm9'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm10'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm11'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm12'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm13'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm14'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm15'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
-				$row .= '"'.$user['agnt_fd_acpt'].'",';
-				$row .= '"'.$user['agent_rvw_date'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
-				$row .= '"'.$user['mgnt_rvw_date'].'",';
-				$row .= '"'.$user['mgnt_rvw_name'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
-				$row .= '"'.$user['client_rvw_date'].'",';
-				$row .= '"'.$user['client_rvw_name'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
-
-				fwrite($fopen,$row."\r\n");
+			if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+				$interval1 = '---';
+			}else{
+				$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
 			}
-			fclose($fopen);
+
+			$row = '"'.$auditorName.'",';
+			$row .= '"'.$user['audit_date'].'",';
+			$row .= '"'.$user['fname']." ".$user['lname'].'",';
+			$row .= '"'.$user['fusion_id'].'",';
+			$row .= '"'.$user['tl_name'].'",';
+			$row .= '"'.$user['call_date'].'",';
+			$row .= '"'.$user['call_duration'].'",';
+			$row .= '"'.$user['hold_duration'].'",';
+			$row .= '"'.$user['verification_duration'].'",';
+			$row .= '"'.$user['interaction_id'].'",';
+			$row .= '"'.$user['audit_type'].'",';
+			$row .= '"'.$user['voc'].'",';
+			$row .= '"'.$user['audit_start_time'].'",';
+			$row .= '"'.$user['entry_date'].'",';
+			$row .= '"'.$interval1.'",';
+			$row .= '"'.$user['overall_score'].'%'.'",';
+			$row .= '"'.$user['opening'].'",';
+			$row .= '"'.$user['closing'].'",';
+			$row .= '"'.$user['empathy_apology'].'",';
+			$row .= '"'.$user['owenship_assurance'].'",';
+			$row .= '"'.$user['hold_protocol'].'",';
+			$row .= '"'.$user['transfer'].'",';
+			$row .= '"'.$user['rate_of_speech'].'",';
+			$row .= '"'.$user['active_listening'].'",';
+			$row .= '"'.$user['parallel_conversion'].'",';
+			$row .= '"'.$user['issue_identification'].'",';
+			$row .= '"'.$user['probing'].'",';
+			$row .= '"'.$user['false_commitment'].'",';
+			$row .= '"'.$user['verification_process_follow'].'",';
+			$row .= '"'.$user['ztp'].'",';
+			$row .= '"'.$user['rudeness'].'",';
+			$row .= '"'.$user['call_avoidance'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt1'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt2'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt3'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt4'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt5'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt6'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt7'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt8'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt9'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt10'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt11'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt12'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt13'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt14'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt15'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt16'])).'",';
+			$row .= '"'.$user['customer_score'].'%'.'",';
+			$row .= '"'.$user['business_score'].'%'.'",';
+			$row .= '"'.$user['compliance_score'].'%'.'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+			$row .= '"'.$user['agnt_fd_acpt'].'",';
+			$row .= '"'.$user['agent_rvw_date'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+			$row .= '"'.$user['mgnt_rvw_date'].'",';
+			$row .= '"'.$user['mgnt_rvw_name'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
+			$row .= '"'.$user['client_rvw_date'].'",';
+			$row .= '"'.$user['client_rvw_name'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
+
+			fwrite($fopen,$row."\r\n");
 		}
+		fclose($fopen);
+
 	}
 
 

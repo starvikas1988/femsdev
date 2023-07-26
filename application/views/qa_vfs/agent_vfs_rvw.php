@@ -1215,12 +1215,12 @@ input[type='checkbox']{
 										<tr>
 											<td rowspan=5 style="background-color:#BFC9CA"><b>2. Composition</b></td>
 											<td colspan=3>a. Formatting</td>
-											<td>5</td>
+											<td>3</td>
 											<td>
 												<select class="form-control vfsVal" id="" name="formatting" disabled>
-													<option vfs_val=5 <?php echo $agent_vfs['formatting']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-													<option vfs_val=5 <?php echo $agent_vfs['formatting']=='No'?"selected":""; ?> value="No">No</option>
-													<option vfs_val=0 <?php echo $agent_vfs['formatting']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+													<option vfs_val=3 <?php echo $agent_vfs['formatting']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+													<option vfs_val=3 <?php echo $agent_vfs['formatting']=='No'?"selected":""; ?> value="No">No</option>
+													<option vfs_val=3 <?php echo $agent_vfs['formatting']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 										</tr>
@@ -1259,12 +1259,12 @@ input[type='checkbox']{
 										</tr>
 										<tr>
 											<td colspan=3>d. Correct and accurate grammar usage</td>
-											<td>5</td>
+											<td>6</td>
 											<td>
 												<select class="form-control vfsVal" id="" name="correct_grammar_use" disabled>
-													<option vfs_val=5 <?php echo $agent_vfs['correct_grammar_use']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-													<option vfs_val=5 <?php echo $agent_vfs['correct_grammar_use']=='No'?"selected":""; ?> value="No">No</option>
-													<option vfs_val=0 <?php echo $agent_vfs['correct_grammar_use']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+													<option vfs_val=6 <?php echo $agent_vfs['correct_grammar_use']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+													<option vfs_val=6 <?php echo $agent_vfs['correct_grammar_use']=='No'?"selected":""; ?> value="No">No</option>
+													<option vfs_val=6 <?php echo $agent_vfs['correct_grammar_use']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 										</tr>
@@ -1292,12 +1292,12 @@ input[type='checkbox']{
 										</tr> -->
 										<tr>
 											<td colspan=3>e. Further assistance & Correct closing</td>
-											<td>3</td>
+											<td>7</td>
 											<td>
 												<select class="form-control vfsVal" id="" name="further_assistance" disabled>
-													<option vfs_val=3 <?php echo $agent_vfs['further_assistance']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-													<option vfs_val=3 <?php echo $agent_vfs['further_assistance']=='No'?"selected":""; ?> value="No">No</option>
-													<option vfs_val=0 <?php echo $agent_vfs['further_assistance']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+													<option vfs_val=7 <?php echo $agent_vfs['further_assistance']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+													<option vfs_val=7 <?php echo $agent_vfs['further_assistance']=='No'?"selected":""; ?> value="No">No</option>
+													<option vfs_val=7 <?php echo $agent_vfs['further_assistance']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 												</select>
 											</td>
 										</tr> 

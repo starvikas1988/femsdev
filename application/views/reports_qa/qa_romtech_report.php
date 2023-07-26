@@ -41,7 +41,7 @@
 										<label>To Date (MM/DD/YYYY)</label>
 										<input type="text" id="to_date" name="date_to"   onchange="date_validation(this.value,'E')"    value="<?php $date= mysql2mmddyy($date_to); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
 										<span class="end_date_error" style="color:red"></span>
-									</div>
+								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">

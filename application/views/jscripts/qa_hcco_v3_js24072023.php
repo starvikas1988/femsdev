@@ -1,37 +1,4 @@
 <!-- AVON SCRIPT -->
-<script type="text/javascript">
-	$(function() {
-		$('#audit_type').each(function(){
-		$valdet=$(this).val();
-		
-		if($valdet=="Calibration"){
-			console.log($valdet);
-			$('.auType').show();
-			$('#auditor_type').attr('required',true);
-			$('#auditor_type').prop('disabled',false);
-		}else{
-			$('.auType').hide();
-			$('#auditor_type').attr('required',false);
-			$('#auditor_type').prop('disabled',true);
-		}
-	});
-	});
-	
-	
-
-	// $('#audit_type').on('change', function(){
-	// 	if($(this).val()=='Calibration'){
-	// 		$('.auType').show();
-	// 		$('#auditor_type').attr('required',true);
-	// 		$('#auditor_type').prop('disabled',false);
-	// 	}else{
-	// 		$('.auType').hide();
-	// 		$('#auditor_type').attr('required',false);
-	// 		$('#auditor_type').prop('disabled',true);
-	// 	}
-	// });
-</script>
-
 <!-- Score Counter Script-->
 <script src="<?php echo base_url() ?>assets/css/search-filter/js/bootstrap-multiselect.js"></script>
 <link rel="stylesheet" href="<?php echo base_url() ?>assets/css/search-filter/css/selectize.bootstrap3.min.css" />
@@ -280,6 +247,21 @@ $(function() {
 			console.log(el.value);
 		}
 </script>
+
+<script type="text/javascript">
+	// $(function () {
+	// 	$( "#audit_type" ).on('change' , function() {
+	// 		let val = $(this).val();
+	// 		if(val == 'Calibration'){
+	// 			$('#auditor_type').attr('required','required');
+	// 		}else{
+	// 			$('#auditor_type').attr('required', false);
+	// 		}
+	// 	});
+	// });
+</script>
+
+
 
 <script>
 $('INPUT[type="file"]').change(function () {
@@ -531,7 +513,7 @@ $('INPUT[type="file"]').change(function () {
 	});
 	kenny_u_pull_calc();	
 </script> -->
-<!-- <script type="text/javascript">
+<script type="text/javascript">
 	///////////////// Calibration - Auditor Type ///////////////////////	
 	//$('.auType').hide();
 	
@@ -590,7 +572,7 @@ $('INPUT[type="file"]').change(function () {
 			$('#auditor_type').prop('disabled',true);
 		}
 	});
-</script> -->
+</script>
 <script type="text/javascript">
 	
 	$('#tl_id').on('click', function(){
@@ -637,34 +619,15 @@ $('INPUT[type="file"]').change(function () {
 							$("#business_overall_score").val(parseFloat((business_earned/business_possible)*100).toFixed(2)+"%");
 						}
 
-						
-								if(($('#hcco_Fail2').val()=='Pass' || $('#hcco_Fail3').val()=='Pass' || $('#hcco_Fail4').val()=='Pass' || $('#hcco_Fail5').val()=='Pass' || $('#hcco_Fail6').val()=='Pass' || $('#hcco_Fail7').val()=='Pass' || $('#hcco_Fail8').val()=='Pass' || $('#hcco_Fail9').val()=='Pass' || $('#hcco_Fail10').val()=='Pass')){
-								//console.log("okk");
-								$("#hcco_v3_overall_score").val(parseFloat((earned_score/possible_score)*100).toFixed(2)+"%");
-								$('#hcco_Fail1').val('Pass');
-							}else{
-								
-								quality_score_percent = (0.00).toFixed(2);
-								$('.hcco_v3Fatal').val(quality_score_percent+'%');
-								$('#hcco_Fail1').val('Fail');
-							}
-							
-						 if($('#hcco_Fail1').val()=='Fail' && ($('#hcco_Fail2').val()=='Pass' && $('#hcco_Fail3').val()=='Pass' && $('#hcco_Fail4').val()=='Pass' && $('#hcco_Fail5').val()=='Pass' && $('#hcco_Fail6').val()=='Pass' && $('#hcco_Fail7').val()=='Pass' && $('#hcco_Fail8').val()=='Pass' && $('#hcco_Fail9').val()=='Pass' && $('#hcco_Fail10').val()=='Pass')){
-							//console.log("okk");
-							$("#hcco_v3_overall_score").val(parseFloat((earned_score/possible_score)*100).toFixed(2)+"%");
-							$('#hcco_Fail1').val('Pass');
-						}
-						else if($('#hcco_Fail1').val()=='Fail' || $('#hcco_Fail2').val()=='Fail' || $('#hcco_Fail3').val()=='Fail' || $('#hcco_Fail4').val()=='Fail' || $('#hcco_Fail5').val()=='Fail' || $('#hcco_Fail6').val()=='Fail' || $('#hcco_Fail7').val()=='Fail' || $('#hcco_Fail8').val()=='Fail' || $('#hcco_Fail9').val()=='Fail' || $('#hcco_Fail10').val()=='Fail'){
+						if($('#hcco_Fail1').val()=='Fail'){
 							quality_score_percent = (0.00).toFixed(2);
 							$('.hcco_v3Fatal').val(quality_score_percent+'%');
-							$('#hcco_Fail1').val('Fail');
-						}
-						else{
+							//$('.phs_chatemail_v2Fatal').val(0.00).toFixed(2);
+						}else{
 							$("#hcco_v3_overall_score").val(parseFloat((earned_score/possible_score)*100).toFixed(2)+"%");
 						}	
 					}
 				});
-
 			
 			if(!isNaN(earned_score)){
 				$("#hcco_v3_earned_score").val(earned_score);
@@ -673,8 +636,6 @@ $('INPUT[type="file"]').change(function () {
 				$("#hcco_v3_possible_score").val(possible_score);
 			}
 	}
-
-
 </script>
 
 
