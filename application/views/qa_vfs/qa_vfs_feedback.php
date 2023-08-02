@@ -1,14 +1,36 @@
+<link rel="stylesheet" href="<?php echo base_url() ?>assets/css/search-filter/css/selectize.bootstrap3.min.css" />
+<link rel="stylesheet" href="<?php echo base_url() ?>assets/css/search-filter/css/custom.css" />
+<style>
+	input[type=submit] {
+	background-color: #4c7aaf;
+	border: none;
+	color: white;
+	padding: 10px 20px!important;
+	width: 120px;
+	text-decoration: none;
+	margin: 4px 2px;
+}
+</style>
 <style type="text/css">
-	.btn-submit {
-    width: 100px;
-    padding: 12px!important;
-    font-size: 12px;
-    border-radius: 4px;
-    border: none!important;
+.upload-path {
+	display: inline-block!important;
+	padding: 8px;
+	min-width: 250px;
+	max-width: 100%;
+	font-style: italic;
+	border: 1px solid #ccc!important;
+	border-radius: 5px!important;
+	transition: all 0.5s ease-in-out 0s;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.new-audit .pull-left {
+	margin-bottom: 15px;
 }
 
 .new-audit .btn {
-	width: 100px;
+	width: 120px;
 	padding: 10px;
 	border-radius: 4px;
 	margin-top: 6px;
@@ -51,15 +73,17 @@
 							<div class="row">
 								<div class="col-md-3">
 									<div class="form-group">
-										<label>From Date (mm/dd/yyyy)</label>
-										<input type="text" id="from_date" name="from_date" value="<?php echo mysql2mmddyy($from_date); ?>" class="form-control">
+										<label>From Date (MM/DD/YYYY)</label>
+										<input type="text" id="from_date"  name="from_date" onchange="date_validation(this.value,'S')" value="<?php $date= mysql2mmddyy($from_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="start_date_error" style="color:red"></span>
 									</div>
 								</div>  
 								<div class="col-md-3"> 
 									<div class="form-group">
-										<label>To Date (mm/dd/yyyy)</label>
-										<input type="text" id="to_date" name="to_date" value="<?php echo mysql2mmddyy($to_date); ?>" class="form-control">
-									</div> 
+										<label>To Date (MM/DD/YYYY)</label>
+										<input type="text" id="to_date" name="to_date" onchange="date_validation(this.value,'E')"  value="<?php $date= mysql2mmddyy($to_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="end_date_error" style="color:red"></span>
+									</div>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
@@ -76,7 +100,7 @@
 									</div>
 								</div>
 								<div class="col-md-1" style="margin-top:20px">
-									<button class="btn btn-success waves-effect" a href="<?php echo base_url()?>Qa_vfs" type="submit" id='btnView' name='btnView' value="View">View</button>
+									<button class="btn btn-success blains-effect" a href="<?php echo base_url()?>Qa_vfs" type="submit" id='btnView' name='btnView' value="View">View</button>
 								</div>
 							</div>
 							
@@ -110,10 +134,10 @@
 									<div class="form-group">
 										<?= $this->session->flashdata('Success');?>
 											<?= form_open( base_url('Qa_vfs/import_vfs_chat_excel_data'),array('method'=>'post','enctype'=>'multipart/form-data'));?>
-												<input class="upload-path" disabled />
+												<!-- <input class="upload-path" disabled /> -->
 												<label class="upload">
 												<span>Upload Sample</span>
-													<input type="file" id="upl_file" name="file" required>  </label>
+													<input type="file" id="upl_file" name="file" class="upload-path new-top" required>  </label>
 												<input type="submit" id="uploadsubmitdata" name="submit" class="btn-submit btn-primary">
 												<?= form_close();?>
 									</div>
@@ -177,7 +201,7 @@
 											$attach_file = explode(",",$row['attach_file']);
 											foreach($attach_file as $mp){
 										?>	
-											<audio controls="controls" controlsList="nodownload" style="width:120px; height:25px; background-color:#607F93"> 
+											<audio controls="controls" controlsList="download" style="width:120px; height:25px; background-color:#607F93"> 
 											  <source src="<?php echo base_url(); ?>qa_files/qa_vfs/chat/<?php echo $mp; ?>" type="audio/ogg">
 											  <source src="<?php echo base_url(); ?>qa_files/qa_vfs/chat/<?php echo $mp; ?>" type="audio/mpeg">
 											</audio>
@@ -232,17 +256,17 @@
 									<div class="form-group">
 										<?= $this->session->flashdata('Success');?>
 											<?= form_open( base_url('Qa_vfs/import_vfs_call_excel_data'),array('method'=>'post','enctype'=>'multipart/form-data'));?>
-												<input class="upload-path" disabled />
+												<!-- <input class="upload-path" disabled /> -->
 												<label class="upload">
 												<span>Upload Sample</span>
-													<input type="file" id="upl_file1" name="file" required>  </label>
+													<input type="file" id="upl_file1" name="file" class="upload-path new-top" required>  </label>
 												<input type="submit" id="uploadsubmitdata1" name="submit" class="btn-submit btn-primary">
 												<?= form_close();?>
 									</div>
 								</div>
 								<div class="col-sm-4">
 									<div class="form-group pull-right" > <a href="<?php echo base_url();?>Qa_vfs/sample_vfs_call_download" class="btn btn-success" title="Download Sample Call Excel" download="Sample call Excel.xlsx" style="margin-right:5px;">Sample Excel</a>
-									<a class="btn btn-primary" href="<?php echo base_url(); ?>Qa_vfs/add_edit_vfs_chat/<?php echo $chat_id ?>">Add Audit</a>
+									<a class="btn btn-primary" href="<?php echo base_url(); ?>Qa_vfs/add_edit_vfs_call/<?php echo $chat_id ?>">Add Audit</a>
 								</div>
 								</div>	
 									<?php } ?>
@@ -298,7 +322,7 @@
 											$attach_file = explode(",",$row['attach_file']);
 											foreach($attach_file as $mp){
 										?>	
-											<audio controls="controls" controlsList="nodownload" style="width:120px; height:25px; background-color:#607F93"> 
+											<audio controls="controls" controlsList="download" style="width:120px; height:25px; background-color:#607F93"> 
 											  <source src="<?php echo base_url(); ?>qa_files/qa_vfs/call/<?php echo $mp; ?>" type="audio/ogg">
 											  <source src="<?php echo base_url(); ?>qa_files/qa_vfs/call/<?php echo $mp; ?>" type="audio/mpeg">
 											</audio>
@@ -353,17 +377,17 @@
 									<div class="form-group">
 										<?= $this->session->flashdata('Success');?>
 											<?= form_open( base_url('Qa_vfs/import_vfs_email_excel_data'),array('method'=>'post','enctype'=>'multipart/form-data'));?>
-												<input class="upload-path" disabled />
+												<!-- <input class="upload-path" disabled /> -->
 												<label class="upload">
 												<span>Upload Sample</span>
-													<input type="file" id="upl_file2" name="file" required>  </label>
+													<input type="file" id="upl_file2" name="file" class="upload-path new-top"required>  </label>
 												<input type="submit" id="uploadsubmitdata2" name="submit" class="btn-submit btn-primary">
 												<?= form_close();?>
 									</div>
 								</div>
 								<div class="col-sm-4">
 									<div class="form-group pull-right" > <a href="<?php echo base_url();?>Qa_vfs/sample_vfs_email_download" class="btn btn-success" title="Download Sample Voicemail Excel" download="Sample voicemail Excel.xlsx" style="margin-right:5px;">Sample Excel</a>
-									<a class="btn btn-primary" href="<?php echo base_url(); ?>Qa_vfs/add_edit_vfs_chat/<?php echo $chat_id ?>">Add Audit</a>
+									<a class="btn btn-primary" href="<?php echo base_url(); ?>Qa_vfs/add_edit_vfs_email/<?php echo $chat_id ?>">Add Audit</a>
 								</div>
 								</div>	
 									<?php } ?>
@@ -419,7 +443,7 @@
 											$attach_file = explode(",",$row['attach_file']);
 											foreach($attach_file as $mp){
 										?>	
-											<audio controls="controls" controlsList="nodownload" style="width:120px; height:25px; background-color:#607F93"> 
+											<audio controls="controls" controlsList="download" style="width:120px; height:25px; background-color:#607F93"> 
 											  <source src="<?php echo base_url(); ?>qa_files/qa_vfs/email/<?php echo $mp; ?>" type="audio/ogg">
 											  <source src="<?php echo base_url(); ?>qa_files/qa_vfs/email/<?php echo $mp; ?>" type="audio/mpeg">
 											</audio>

@@ -20013,7 +20013,7 @@ public function qa_homeadvisor_report(){
 		$filename = "./assets/reports/Report".get_user_id().".csv";
 		$fopen = fopen($filename,"w+");
 		
-		$header = array("Auditor", "Agent", "Employee MWP ID", "L1/TL Name", "Audit Date", "Ticket/NICE Contact ID", "Call Date", "Call Duration", "KPI", "KPI-ACPT", "Call Link", "Booking ID/SR #", "Audit Type", "Auditor Type", "Predictive CSAT/VOC", "Audit Start Date and Time", "Audit End Date and Time", "Interval(In Second)", "Earned Score", "Possible Score", "Overall Score",
+		$header = array("Auditor", "Agent", "Employee MWP ID", "L1/TL Name", "Audit Date", "Ticket/NICE Contact ID", "Call Date", "Call Duration", "KPI", "KPI-ACPT", "Call Link", "Booking ID/SR #", "Audit Type", "Auditor Type", "Predictive CSAT/VOC", "Agent Tenure (in Days)", "Audit Start Date and Time", "Audit End Date and Time", "Interval(In Second)", "Earned Score", "Possible Score", "Overall Score",
 		"Issue or Need Identification","Remarks","Comments", "Issue Resolution","Remarks","Comments", "Brand & Intro","Remarks","Comments", "Address Objections","Remarks","Comments", "Tone and Pace","Remarks","Comments", "App Pitch","Remarks","Comments", "Stella Expectations","Remarks","Comments", "Consent Statements","Remarks","Comments", "Service Request Policy Adherence","Remarks","Comments", "Set Expectations","Remarks","Comments", "Cross Sale (XS) Strategy","Remarks","Comments", "Cross Sale (XS) Policy","Remarks","Comments", "Call Disposition Tagging","Remarks","Comments", "Critical Fail Behaviors","Remarks","Comments",
 		"Agent was not stella phishing?","Comments", "Agent was not avoiding Stella Survey?","Comments", "Attempted to Cross Sell?","Remarks", "AHT Related Spot Check-Agent","Comments", "AHT Related Spot Check-Customer","Comments", "AHT Related Spot Check-Process","Comments", "AHT Related Spot Check-Technology","Comments", "Conversion Related Spot Check-Agent","Comments", "Conversion Related Spot Check-Customer","Comments", "Conversion Related Spot Check-Process","Comments", "Conversion Related Spot Check-Technology","Comments", "SR/HR Related Spot Check-Agent","Comments", "SR/HR Related Spot Check-Customer","Comments", "SR/HR Related Spot Check-Process","Comments", "SR/HR Related Spot Check-Technology","Comments", "CSAT Related Spot Check-Agent","Comments", "CSAT Related Spot Check-Customer","Comments", "CSAT Related Spot Check-Process","Comments", "CSAT Related Spot Check-Technology","Comments",
 		"Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date and Time", "Agent Review Comment", "Management Review By", "Management Review Date and Time", "Management Review Comment", "Client Review By", "Client Review Date and Time", "Client Review Comment");
@@ -20050,6 +20050,7 @@ public function qa_homeadvisor_report(){
 			$row .= '"'.$user['audit_type'].'",';
 			$row .= '"'.$user['auditor_type'].'",';
 			$row .= '"'.$user['voc'].'",';
+			$row .= '"'.$user['tenure'].'",';
 			$row .= '"'.$user['audit_start_time'].'",';
 			$row .= '"'.$user['entry_date'].'",';
 			$row .= '"'.$interval1.'",';
@@ -20171,7 +20172,7 @@ public function qa_homeadvisor_report(){
 		$filename = "./assets/reports/Report".get_user_id().".csv";
 		$fopen = fopen($filename,"w+");
 		
-		$header = array("Auditor", "Agent", "Employee MWP ID", "L1/TL Name", "Audit Date", "Ticket/NICE Contact ID", "Call Date", "Call Duration", "KPI", "KPI-ACPT", "Call Link", "Booking ID/SR #", "Audit Type", "Auditor Type", "Predictive CSAT/VOC", "Audit Start Date and Time", "Audit End Date and Time", "Interval(In Second)", "Earned Score", "Possible Score", "Overall Score",
+		$header = array("Auditor", "Agent", "Employee MWP ID", "L1/TL Name", "Audit Date", "Ticket/NICE Contact ID", "Call Date", "Call Duration", "KPI", "KPI-ACPT", "Call Link", "Booking ID/SR #", "Audit Type", "Auditor Type", "Predictive CSAT/VOC", "Agent Tenure (in Days)", "Audit Start Date and Time", "Audit End Date and Time", "Interval(In Second)", "Earned Score", "Possible Score", "Overall Score",
 		"Issue or Need Identification","Remarks","Comments", "Issue Resolution","Remarks","Comments", "Brand & Intro","Remarks","Comments", "Address Objections","Remarks","Comments", "Tone and Pace","Remarks","Comments", "App Pitch","Remarks","Comments", "Call Disposition Tagging","Remarks","Comments", "Critical Fail Behaviors","Remarks","Comments",
 		"Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date and Time", "Agent Review Comment", "Management Review By", "Management Review Date and Time", "Management Review Comment", "Client Review By", "Client Review Date and Time", "Client Review Comment");
 		
@@ -20207,6 +20208,7 @@ public function qa_homeadvisor_report(){
 			$row .= '"'.$user['audit_type'].'",';
 			$row .= '"'.$user['auditor_type'].'",';
 			$row .= '"'.$user['voc'].'",';
+			$row .= '"'.$user['tenure'].'",';
 			$row .= '"'.$user['audit_start_time'].'",';
 			$row .= '"'.$user['entry_date'].'",';
 			$row .= '"'.$interval1.'",';
@@ -38527,7 +38529,8 @@ else if($pid=="cci_medicare"){
 		// echo"</pre>";
 		// exit();
 		if($campaign=='stifel'){
-		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date", "Call Duration", "Hold Duration", "Verification Duration", "Interaction ID", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Opening", "Closing", "Empathy / Apology", "Ownership / Assurance", "Call Control", "Transfer", "Tone / Rate Of Speech / Fumbling / Pacing", "Active Listening", "Professionalism", "**Issue Identification / Understanding", "Probing", "**False Commitment(Correct and Accurate Information)", "**Verification process followed", "**ZTP","Rudeness","Call Avoidance", "Remarks1", "Remarks2", "Remarks3", "Remarks4", "Remarks5", "Remarks6", "Remarks7", "Remarks8", "Remarks9", "Remarks10", "Remarks11", "Remarks12", "Remarks13", "Remarks14", "Remarks15","Remarks16","Customer score","Business score","Compliance score", "Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
+		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date", "Call Duration", "Site/Location", "File No", 
+			"Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Opening", "Closing", "Needs to offer to stay on the call until the issue has been resolved", "Ownership / Assurance", "Call Control", "Transfer", "Tone / Rate Of Speech / Fumbling / Pacing", "Active Listening", "Professionalism", "Issue Identification / Understanding", "False Commitment(Correct and Accurate Information)", "Verification","Rudeness","Call Avoidance","Empathy", "Remarks1", "Remarks2", "Remarks3", "Remarks4", "Remarks5", "Remarks6", "Remarks7", "Remarks8", "Remarks9", "Remarks10", "Remarks11", "Remarks12", "Remarks13", "Remarks14", "Remarks15","Customer score","Business score","Compliance score", "Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
 		}else if($campaign=='stifel_v1'){
 			$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date", "Call Duration",
 			 "Call Link", "Account", "KPI - ACPT",
@@ -38576,9 +38579,8 @@ else if($pid=="cci_medicare"){
 				$row .= '"'.$user['tl_name'].'",';
 				$row .= '"'.$user['call_date'].'",';
 				$row .= '"'.$user['call_duration'].'",';
-				$row .= '"'.$user['hold_duration'].'",';
-				$row .= '"'.$user['verification_duration'].'",';
-				$row .= '"'.$user['interaction_id'].'",';
+				$row .= '"'.$user['site'].'",';
+				$row .= '"'.$user['file_no'].'",';
 				$row .= '"'.$user['audit_type'].'",';
 				$row .= '"'.$user['voc'].'",';
 				$row .= '"'.$user['audit_start_time'].'",';
@@ -38587,7 +38589,7 @@ else if($pid=="cci_medicare"){
 				$row .= '"'.$user['overall_score'].'%'.'",';
 				$row .= '"'.$user['opening'].'",';
 				$row .= '"'.$user['closing'].'",';
-				$row .= '"'.$user['empathy_apology'].'",';
+				$row .= '"'.$user['stay_on_call'].'",';
 				$row .= '"'.$user['owenship_assurance'].'",';
 				$row .= '"'.$user['hold_protocol'].'",';
 				$row .= '"'.$user['transfer'].'",';
@@ -38595,14 +38597,15 @@ else if($pid=="cci_medicare"){
 				$row .= '"'.$user['active_listening'].'",';
 				$row .= '"'.$user['parallel_conversion'].'",';
 				$row .= '"'.$user['issue_identification'].'",';
-				$row .= '"'.$user['probing'].'",';
+				//$row .= '"'.$user['probing'].'",';
 				$row .= '"'.$user['false_commitment'].'",';
 				$row .= '"'.$user['verification_process_follow'].'",';
-				$row .= '"'.$user['ztp'].'",';
-				$row .= '"'.$user['rudeness'].'",';
+				//$row .= '"'.$user['ztp'].'",';
+				$row .= '"'.$user['rudeness'].'",'; 
 				$row .= '"'.$user['call_avoidance'].'",';
+				$row .= '"'.$user['empathy'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt1'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt2'])).'",';
+				//$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt2'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt3'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt4'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt5'])).'",';
@@ -38612,11 +38615,12 @@ else if($pid=="cci_medicare"){
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt9'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt10'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt11'])).'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt12'])).'",';
+				//$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt12'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt13'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt14'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt15'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt16'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt17'])).'",';
 				$row .= '"'.$user['customer_score'].'%'.'",';
 				$row .= '"'.$user['business_score'].'%'.'",';
 				$row .= '"'.$user['compliance_score'].'%'.'",';
@@ -51276,7 +51280,7 @@ public function download_qa_credit_pro_CSV()
 		$main_url =  $currentURL.''.$controller.'/'.$edit_url;
 		$fopen = fopen($filename,"w+");
 
-		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date", "Call Duration", "Type", "Interaction ID", "Call Link", "Site/Location", "ACPT", "Audit Type", "Auditor Type", "VOC","Audit Link","Tenure","Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Earned Score", "Possible Score","Overall Score",
+		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date", "Call Duration", "Type", "Interaction ID", "Call Link", "Site/Location", "ACPT", "Audit Type", "Auditor Type", "VOC","Audit Link","Agent Tenure","Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Earned Score", "Possible Score","Overall Score",
 		"Has the caller been properly greeted and verified?", "Did we show empathy/sympathy when necessary if applicable?",
 		 "Did we adjust to the callers pace and demeanor?(especially when faced with a difficult situation)",
 		 "Did we use the callers name two times throughout the call?",
@@ -51297,7 +51301,7 @@ public function download_qa_credit_pro_CSV()
 		  "Did we properly close the call?",
 		  "Was there a proper greeting at the beginning of the call?",
 		"Remarks 1", "Remarks 2", "Remarks 3", "Remarks 4", "Remarks 5", "Remarks 6", "Remarks 7", "Remarks 8", "Remarks 9", "Remarks 10", "Remarks 11", "Remarks 12", "Remarks 13", "Remarks 14", "Remarks 15", "Remarks 16", "Remarks 17", "Remarks 18", "Remarks 19", "Remarks 20",
-		"Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date","Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment","Client Review Date", "Client Review Name", "Client Review Note");
+		"Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date & Time","Agent Comment","Mgnt Review Date & Time","Mgnt Review By", "Mgnt Comment","Client Review Date & Time", "Client Review Name", "Client Review Note");
 
 		$row = "";
 		foreach($header as $data) $row .= ''.$data.',';

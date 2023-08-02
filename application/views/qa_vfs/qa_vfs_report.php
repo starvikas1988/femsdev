@@ -15,18 +15,19 @@
 						<div class="row">
 						  <form id="form_new_user" method="GET" action="<?php echo base_url('qa_vfs/qa_vfs_report'); ?>">	
 						  <?php echo form_open('',array('method' => 'get')) ?>
-						  
-							<div class="col-md-3">
-								<div class="form-group">
-									<label>Search Audit Date From - (mm/dd/yyyy)</label>
-									<input type="text" id="from_date" name="date_from" value="<?php echo mysql2mmddyy($date_from); ?>" class="form-control" required autocomplete="off">
-								</div>
+						  <div class="col-md-3">
+							<div class="form-group">
+										<label>From Date (MM/DD/YYYY)</label>
+										<input type="text" id="from_date"  name="date_from" onchange="date_validation(this.value,'S')" value="<?php $date= mysql2mmddyy($date_from); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="start_date_error" style="color:red"></span>
+									</div>
 							</div>
 							<div class="col-md-3">
 								<div class="form-group">
-									<label>Search Audit Date To - (mm/dd/yyyy)</label>
-									<input type="text" id="to_date" name="date_to" value="<?php echo mysql2mmddyy($date_to); ?>" class="form-control" required autocomplete="off">
-								</div>
+										<label>To Date (MM/DD/YYYY)</label>
+										<input type="text" id="to_date" name="date_to" onchange="date_validation(this.value,'E')"  value="<?php $date= mysql2mmddyy($date_to); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="end_date_error" style="color:red"></span>
+									</div>
 							</div>
 							<div class="col-md-2">
 								<div class="form-group">
@@ -55,7 +56,7 @@
 							</div>
 							<div class="col-md-1" style='margin-top:22px;'>
 								<div class="form-group">
-									<button class="btn btn-primary waves-effect" a href="<?php echo base_url()?>qa_vfs/qa_vfs_report" type="submit" id='show' name='show' value="Show">SHOW</button>
+									<button class="btn btn-primary blains-effect" a href="<?php echo base_url()?>qa_vfs/qa_vfs_report" type="submit" id='show' name='show' value="Show">SHOW</button>
 								</div>
 							</div>
 							

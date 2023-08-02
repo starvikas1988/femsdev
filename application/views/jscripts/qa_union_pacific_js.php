@@ -34,6 +34,10 @@ $(function() {
 			
 				$('#tl_name').empty();
 				$('#tl_name').append($('#tl_name').val(''));
+
+				$('#tl_names').empty();
+				$('#tl_names').append($('#tl_names').val(''));
+				
 				$('#fusion_id').empty();
 				$('#fusion_id').append($('#fusion_id').val(''));
 				

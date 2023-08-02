@@ -628,36 +628,6 @@ public function add_edit_v1_stifel($stifel_id){
 			$data["content_template"] = "qa_stifel/agent_stifel_rvw.php";
 			$data["content_js"] = "qa_metropolis_js.php";
 			$data["agentUrl"] = "qa_stifel/agent_stifel_feedback";
-
-			/******** Randamiser Start***********/
-			
-			
-			$rand_id=0;
-			if(!empty($this->uri->segment(4))){
-				$rand_id=$this->uri->segment(4);
-			}
-			$data['rand_id']=$rand_id;
-			$data["rand_data"] = "";
-			if($rand_id!=0){
-				$sql = "SELECT client_id, process_id FROM qa_randamiser_general_data WHERE id=$rand_id";
-				$dataClientProID = $this->Common_model->get_query_row_array($sql);
-				//print_r($dataClientProID);
-				//echo "<br>";
-				$client_id = $dataClientProID['client_id'];
-				$pro_id = $dataClientProID['process_id'];;
-				$curDateTime=CurrMySqlDate();
-				$upArr = array('distribution_opend_by' =>$current_user,'distribution_opened_datetime'=>$curDateTime);
-				$this->db->where('id', $rand_id);
-				$this->db->update('qa_randamiser_general_data',$upArr);
-				
-				$randSql="Select srd.*,srd.aht as call_duration, S.id as sid, S.fname, S.lname, S.xpoid, S.assigned_to,
-				(select concat(fname, ' ', lname) as name from signin s1 where s1.id=S.assigned_to) as tl_name,DATEDIFF(CURDATE(), S.doj) as tenure
-				from qa_randamiser_general_data srd Left Join signin S On srd.fusion_id=S.fusion_id where srd.audit_status=0 and srd.id='$rand_id'";
-				$data["rand_data"] = $rand_data =  $this->Common_model->get_query_row_array($randSql);
-				//print_r($rand_data);
-				
-			}
-			/* Randamiser Code End */
 			
 			$qSql="SELECT * from
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,

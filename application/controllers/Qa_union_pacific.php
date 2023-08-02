@@ -307,65 +307,8 @@ public function add_edit_union_pacific($union_pacific_data_id){
 	/////////////vikas ends/////////////////////////
 
 /*------------------- Agent Part ---------------------*/
-	// public function agent_union_pacific_data_feedback(){
-	// 	if(check_logged_in()){
-	// 		$user_site_id= get_user_site_id();
-	// 		$role_id= get_role_id();
-	// 		$current_user = get_user_id();
-	// 		$data["aside_template"] = "qa/aside.php";
-	// 		$data["content_template"] = "qa_union_pacific/agent_union_pacific_data_feedback.php";
-	// 		// $data["content_js"] = "qa_kabbage_js.php";
-	// 		$data["content_js"] = "qa_union_pacific_js.php";
-	// 		$data["agentUrl"] = "qa_union_pacific/agent_union_pacific_data_feedback";
 
-
-	// 		$qSql="Select count(id) as value from qa_union_pacific_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
-	// 		$data["tot_feedback"] =  $this->Common_model->get_single_value($qSql);
-
-	// 		$qSql="Select count(id) as value from qa_union_pacific_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit') and agent_rvw_date is Null";
-	// 		$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql);
-
-	// 		$from_date = '';
-	// 		$to_date = '';
-	// 		$cond="";
-
-
-	// 		if($this->input->get('btnView')=='View')
-	// 		{
-	// 			$from_date = mmddyy2mysql($this->input->get('from_date'));
-	// 			$to_date = mmddyy2mysql($this->input->get('to_date'));
-
-	// 			if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') and agent_id='$current_user'";
-
-	// 			$qSql = "SELECT * from
-	// 			(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-	// 			(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-	// 			(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-	// 			(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_union_pacific_feedback $cond And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
-	// 			(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
-	// 			$data["agent_rvw_list"] = $this->Common_model->get_query_result_array($qSql);
-
-	// 		}else{
-
-	// 			$qSql="SELECT * from
-	// 			(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-	// 			(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-	// 			(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-	// 			(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_union_pacific_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
-	// 			(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
-	// 			$data["agent_rvw_list"] = $this->Common_model->get_query_result_array($qSql);
-
-	// 		}
-
-	// 		$data["from_date"] = $from_date;
-	// 		$data["to_date"] = $to_date;
-
-	// 		$this->load->view('dashboard',$data);
-	// 	}
-	// }
-
-	
-	public function agent_union_pacific_data_feedback(){
+	public function agent_union_pacific_feedback(){
 		if(check_logged_in())
 		{
 			$user_site_id= get_user_site_id();
@@ -373,118 +316,87 @@ public function add_edit_union_pacific($union_pacific_data_id){
 			$current_user = get_user_id();
 			
 			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_union_pacific/agent_union_pacific_data_feedback.php";
+			$data["content_template"] = "qa_union_pacific/agent_union_pacific_feedback.php";
 			$data["content_js"] = "qa_union_pacific_js.php";
-			$data["agentUrl"] = "qa_union_pacific/agent_union_pacific_data_feedback";
+			$data["agentUrl"] = "qa_union_pacific/agent_union_pacific_feedback";
 			
 			$from_date = '';
 			$to_date = '';
-			$campaign = '';
+			$campaign = 'union_pacific';
 			$cond="";
-			$campaign = $this->input->get('campaign');
+			//$campaign = $this->input->get('campaign');
 
 			$fromDate = $this->input->get('from_date');
 			$toDate = $this->input->get('to_date');
 			
 
-			if($from_date==""){ 
+			if($fromDate==""){ 
 				$from_date=CurrDate();
 			}else{
-				$from_date = mmddyy2mysql($from_date);
+				$from_date = mmddyy2mysql($fromDate);
 			}
 			
-			if($to_date==""){ 
+			if($toDate==""){ 
 				$to_date=CurrDate();
 			}else{
-				$to_date = mmddyy2mysql($to_date);
+				$to_date = mmddyy2mysql($toDate);
 			}
 			
-			if($campaign!=''){
+		
 				
-				$qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
+				$qSql="Select count(id) as value from qa_union_pacific_feedback where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
 				$data["tot_feedback"] =  $this->Common_model->get_single_value($qSql);
-				$qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit') and agent_rvw_date is Null";
+				$qSql="Select count(id) as value from qa_union_pacific_feedback where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit') and agent_rvw_date is Null";
 				$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql);
+
+				if($from_date!="" && $to_date!=="" ){ 
+						$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit') ";
+					}else{
+						$cond= " Where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit') ";
+					}
 				
 				if($this->input->get('btnView')=='View')
 				{
 					
 					
-					if($fromDate!="" && $toDate!=="" ){ 
-						$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit') ";
-					}else{
-						$cond= " Where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit') ";
-					}
-					
 					$qSql = "SELECT * from
 					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 					(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 					(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-					(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_".$campaign."_feedback $cond) xx Left Join
+					(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_union_pacific_feedback $cond) xx Left Join
+					(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as campaign from signin) yy on (xx.agent_id=yy.sid)";
+					$data["agent_rvw_list"] = $this->Common_model->get_query_result_array($qSql);	
+					
+				}else{
+					$qSql = "SELECT * from
+					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+					(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+					(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+					(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_union_pacific_feedback $cond) xx Left Join
 					(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as campaign from signin) yy on (xx.agent_id=yy.sid)";
 					$data["agent_rvw_list"] = $this->Common_model->get_query_result_array($qSql);	
 				}
 			
-			}
+			
 			
 			$data["from_date"] = $from_date;
 			$data["to_date"] = $to_date;
-			$data["campaign"] = $campaign;
 			$this->load->view('dashboard',$data);
 		}
 	}
 
-	// public function agent_union_pacific_data_rvw($id){
-	// 	if(check_logged_in()){
-	// 		$current_user=get_user_id();
-	// 		$user_office_id=get_user_office_id();
-	// 		$data["aside_template"] = "qa/aside.php";
-	// 		$data["content_template"] = "qa_union_pacific/agent_union_pacific_data_rvw.php";
-	// 		// $data["content_js"] = "qa_kabbage_js.php";
-	// 		$data["content_js"] = "qa_union_pacific_js.php";
-	// 		$data["agentUrl"] = "qa_union_pacific/agent_union_pacific_data_feedback";
 
-	// 		$qSql="SELECT * from
-	// 			(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-	// 			(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-	// 			(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-	// 			(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_union_pacific_feedback where id='$id') xx Left Join
-	// 			(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
-	// 		$data["union_pacific_data"] = $this->Common_model->get_query_row_array($qSql);
-
-	// 		$data["pnid"]=$id;
-
-	// 		if($this->input->post('pnid'))
-	// 		{
-	// 			$pnid=$this->input->post('pnid');
-	// 			$curDateTime=CurrMySqlDate();
-	// 			$log=get_logs();
-
-	// 			$field_array1=array(
-	// 				"agnt_fd_acpt" => $this->input->post('agnt_fd_acpt'),
-	// 				"agent_rvw_note" => $this->input->post('note'),
-	// 				"agent_rvw_date" => $curDateTime
-	// 			);
-	// 			$this->db->where('id', $pnid);
-	// 			$this->db->update('qa_union_pacific_feedback',$field_array1);
-
-	// 			redirect('qa_union_pacific/agent_union_pacific_data_feedback');
-
-	// 		}else{
-	// 			$this->load->view('dashboard',$data);
-	// 		}
-	// 	}
-	// }
-
-	public function agent_union_pacific_data_rvw($id,$campaign){
+	public function agent_union_pacific_rvw($id){
 		if(check_logged_in()){
 			$current_user=get_user_id();
 			$user_office_id=get_user_office_id();
 			
 			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_union_pacific/agent_union_pacific_data_rvw.php";
+			$data["content_template"] = "qa_union_pacific/agent_union_pacific_rvw.php";
 			$data["content_js"] = "qa_union_pacific_js.php";
-			$data["agentUrl"] = "qa_union_pacific/agent_union_pacific_data_feedback";
+			$data["agentUrl"] = "qa_union_pacific/agent_union_pacific_feedback";
+
+			$campaign = 'union_pacific';
 
 			/******** Randamiser Start***********/
 			
@@ -520,12 +432,12 @@ public function add_edit_union_pacific($union_pacific_data_id){
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_".$campaign."_feedback where id='$id') xx Left Join
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_union_pacific_feedback where id='$id') xx Left Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as campaign from signin) yy on (xx.agent_id=yy.sid)";
 			$data["union_pacific_data"] = $this->Common_model->get_query_row_array($qSql);
 			
 			$data["pnid"]=$id;
-			$data["campaign"]=$campaign;
+			//$data["campaign"]=$campaign;
 			
 			if($this->input->post('pnid'))
 			{
@@ -539,9 +451,9 @@ public function add_edit_union_pacific($union_pacific_data_id){
 					"agent_rvw_date" => $curDateTime
 				);
 				$this->db->where('id', $pnid);
-				$this->db->update('qa_'.$campaign.'_feedback',$field_array1);
+				$this->db->update('qa_union_pacific_feedback',$field_array1);
 					
-				redirect('qa_union_pacific/agent_union_pacific_data_feedback');
+				redirect('qa_union_pacific/agent_union_pacific_feedback');
 				
 			}else{
 				$this->load->view('dashboard',$data);
@@ -563,7 +475,7 @@ public function add_edit_union_pacific($union_pacific_data_id){
 			$data["show_table"] = false;
 			$data["aside_template"] = "reports/aside.php";
 			$data["content_template"] = "qa_union_pacific/qa_union_pacific_report.php";
-			$data["content_js"] = "qa_kabbage_js.php";
+			$data["content_js"] = "qa_union_pacific_js.php";
 
 			$data['location_list'] = $this->Common_model->get_office_location_list();
 
@@ -639,7 +551,7 @@ public function add_edit_union_pacific($union_pacific_data_id){
 	{
 		$currDate=date("Y-m-d");
 		$filename = "./assets/reports/Report".get_user_id().".csv";
-		$newfile="QA union_pacific_data Audit List-'".$currDate."'.csv";
+		$newfile="QA Union Pacific Audit List-'".$currDate."'.csv";
 		header('Content-Disposition: attachment;  filename="'.$newfile.'"');
 		readfile($filename);
 	}
@@ -650,7 +562,45 @@ public function add_edit_union_pacific($union_pacific_data_id){
 		$filename = "./assets/reports/Report".get_user_id().".csv";
 		$fopen = fopen($filename,"w+");
 
-		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date", "Call Duration", "Hold Duration", "Verification Duration", "Interaction ID", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score", "Opening", "Recording Verbiage", "Closing", "Empathy / Apology", "Ownership / Assurance", "Hold Protocol", "Transfer", "Tone / Rate Of Speech / Fumbling", "Active Listening", "Interruption /Parallel Conversation", "**Issue Identification / Understanding", "Probing", "**False Commitment", "**Verification process followed", "**ZTP", "Remarks1", "Remarks2", "Remarks3", "Remarks4", "Remarks5", "Remarks6", "Remarks7", "Remarks8", "Remarks9", "Remarks10", "Remarks11", "Remarks12", "Remarks13", "Remarks14", "Remarks15", "Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
+		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Supervisor", "Call Date", "Call Duration", "Call Link", "Account", "KPI - ACPT", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Earned Score","Possible Score", "Overall Score",
+			"Opening: Identify himself/herself by first name and state that he/she is calling from Union Pacific or LOUP at the beginning of the call? **SQ** (Example: Hi this is Amity calling from Union Pacific)",
+			"Opening : Provide the Quality Assurance Statement verbatim before any specific account information was discussed?**SQ** Recording disclosure: All calls are recorded and may be monitored for Quality Assurance.",
+			"Opening: Did the agent get caller's name and then use that throughout the call?",
+			"Opening: State the client name and the purpose of the communication?",
+			"Opening: Did the rep ask for callback permission as per Reg F policy?",
+			"Opening: Sate/Ask for balance due?",
+			"Effort: Ask for a reason for delinquency/intention to resolve the account?",
+			"Effort: Full and Complete information taken? Examples: Did the agent ask appropriate open/close ended probing questions?",
+			"Effort: Followed the previous conversations on the account for the follow-up call.",
+			"Effort: Able to take a promise to pay on the account by providing banking info as to where the RP can send their payment?",
+			"Compliance: Did not Misrepresent their identity or authorization and status of the consumers account?",
+			"Compliance: Did not Discuss or imply that any type of legal actions - will be taken or property repossessed also on time barred accounts amd Did not Threaten to take actions that VRS or the client cannot legally take?",
+			"Compliance: Did not Make any false representations regarding the nature of the communication?",
+			"Compliance: Did not Contact the consumer at any unusual times (sate regulations) or outside the hours of 8:00 am and 5:00 pm CST? Note: Avoid calling customer's personal phone during evening/nightime.",
+			"Compliance: Did not Communicate with the consumer after learning the consumer is represented by an attorney filed for bankruptcy unless a permissible reason exists? (account should be escalated back to UP if this conversation has occurred)",
+			"Compliance: Enter Status code/disposition codes correctly to ensure that inappropriate dialing does not take place?",
+			"Compliance: Did not Make any statement that could constitute unfair deceptive or abusive acts or practices that may raise UDAAP concerns?",
+			"Compliance: Did not Communicate or threaten to communicate false credit information or information which should be known to be false and utilized the proper CBR script whenever a consumer enquires about that?",
+			"Compliance: Handle the consumer's dispute correctly and take appropriate action including providing the consumer with the correct contact information to submit a written dispute or complaint or offer to escalate the call?",
+			"Compliance: Did not Make any statement that could be considered discriminatory towards a consumer or a violation of VRS ECOA policy?",
+			"Verification: Demonstrate Active Listening?",
+			"Verification: Anticipate and overcome objections?",
+			"Verification: Did the collector get connected with the consumer by building a rapport?",
+			"Verification: Did the collector use system appropriately? Examples: Appropriate usage of system to provide accurate information / to provide a breakdown of balance (as required)",
+			"Soft Skills / Telephone Etiquettes: Offer any apologies/empathy statement on RPs unfortunate situation",
+			"Soft Skills / Telephone Etiquettes: 	Did collector hung up on RP? / Did collector interrupt or talked over RP? / Did collector has disrespectful attitude/tone?",
+			"Soft Skills / Telephone Etiquettes: Did the agent avoid dead air on the call? Instead place on hold if necessary.",
+			"Soft Skills / Telephone Etiquettes: Was the collector tone pleasant and accommodating? / Was the collector tone came across as confident and sounded knowledable?",
+			"Closing: Summarize the call?",
+			"Closing: Provided UP / LOUP call back number?",
+			"Closing: Set appropriate timelines and expectations for follow up?",
+			"Closing: Close the call Professionally with proper greeting? / Did collector ask if there are any further questions?",
+			"Documentation: Document thoroughly the context of the conversation? Examples: All the important information happened during the conversation; Payment Promise information; Update information if changing the phone number; Update information if change staus is required.",
+			"Documentation: Remove any phone numbers known to be incorrect?**SQ**",
+			"Documentation: Escalate the account to a supervisor for handling if appropriate? / If required for further account handling escalate it to Union Pacific / LOUP.",
+		 "Remarks1", "Remarks2", "Remarks3", "Remarks4", "Remarks5", "Remarks6", "Remarks7", "Remarks8", "Remarks9", "Remarks10", "Remarks11", "Remarks12", "Remarks13", "Remarks14", "Remarks15", "Remarks16", "Remarks17", "Remarks18", "Remarks19","Remarks20",
+		 "Remarks21", "Remarks22","Remarks23", "Remarks24", "Remarks25", "Remarks26", "Remarks27", "Remarks28", "Remarks29", "Remarks30", "Remarks31", "Remarks32", "Remarks33", "Remarks34", "Remarks35",
+		  "Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
 
 		$row = "";
 		foreach($header as $data) $row .= ''.$data.',';
@@ -677,45 +627,87 @@ public function add_edit_union_pacific($union_pacific_data_id){
 			$row .= '"'.$user['tl_name'].'",';
 			$row .= '"'.$user['call_date'].'",';
 			$row .= '"'.$user['call_duration'].'",';
-			$row .= '"'.$user['hold_duration'].'",';
-			$row .= '"'.$user['verification_duration'].'",';
-			$row .= '"'.$user['interaction_id'].'",';
+			$row .= '"'.$user['call_link'].'",';
+			$row .= '"'.$user['account'].'",';
+			$row .= '"'.$user['KPI_ACPT'].'",';
 			$row .= '"'.$user['audit_type'].'",';
 			$row .= '"'.$user['voc'].'",';
 			$row .= '"'.$user['audit_start_time'].'",';
 			$row .= '"'.$user['entry_date'].'",';
 			$row .= '"'.$interval1.'",';
+			$row .= '"'.$user['earned_score'].'",';
+			$row .= '"'.$user['possible_score'].'",';
 			$row .= '"'.$user['overall_score'].'%'.'",';
-			$row .= '"'.$user['opening'].'",';
-			$row .= '"'.$user['recording_verbiage'].'",';
-			$row .= '"'.$user['closing'].'",';
-			$row .= '"'.$user['empathy_apology'].'",';
-			$row .= '"'.$user['owenship_assurance'].'",';
-			$row .= '"'.$user['hold_protocol'].'",';
-			$row .= '"'.$user['transfer'].'",';
-			$row .= '"'.$user['rate_of_speech'].'",';
+			$row .= '"'.$user['identify_himself'].'",';
+			$row .= '"'.$user['provide_quality_assurance'].'",';
+			$row .= '"'.$user['get_callers_name'].'",';
+			$row .= '"'.$user['purpose_communication'].'",';
+			$row .= '"'.$user['callback_permission'].'",';
+			$row .= '"'.$user['balance_due'].'",';
+			$row .= '"'.$user['intention_resolve'].'",';
+			$row .= '"'.$user['complete_information'].'",';
+			$row .= '"'.$user['previous_conversations'].'",';
+			$row .= '"'.$user['promise_pay'].'",';
+			$row .= '"'.$user['misrepresent_identity'].'",';
+			$row .= '"'.$user['imply_leagal_actions'].'",';
+			$row .= '"'.$user['nature_of_communication'].'",';
+			$row .= '"'.$user['contact_consumer'].'",';
+			$row .= '"'.$user['communicate_consumer'].'",';
+			$row .= '"'.$user['status_code'].'",';
+			$row .= '"'.$user['abusive_acts'].'",';
+			$row .= '"'.$user['false_credit_information'].'",';
+			$row .= '"'.$user['take_appropriate_action'].'",';
+			$row .= '"'.$user['violation_ECOA_policy'].'",';
 			$row .= '"'.$user['active_listening'].'",';
-			$row .= '"'.$user['parallel_conversion'].'",';
-			$row .= '"'.$user['issue_identification'].'",';
-			$row .= '"'.$user['probing'].'",';
-			$row .= '"'.$user['false_commitment'].'",';
-			$row .= '"'.$user['verification_process_follow'].'",';
-			$row .= '"'.$user['ztp'].'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt1'])).'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt2'])).'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt3'])).'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt4'])).'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt5'])).'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt6'])).'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt7'])).'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt8'])).'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt9'])).'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt10'])).'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt11'])).'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt12'])).'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt13'])).'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt14'])).'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt15'])).'",';
+			$row .= '"'.$user['overcome_objections'].'",';
+			$row .= '"'.$user['building_rapport'].'",';
+			$row .= '"'.$user['use_system_appropriately'].'",';
+			$row .= '"'.$user['empathy_statement'].'",';
+			$row .= '"'.$user['hung_up_RP'].'",';
+			$row .= '"'.$user['dead_air'].'",';
+			$row .= '"'.$user['pleasant_tone'].'",';
+			$row .= '"'.$user['summarize_call'].'",';
+			$row .= '"'.$user['provided_UP'].'",';
+			$row .= '"'.$user['follow_up'].'",';
+			$row .= '"'.$user['proper_greeting'].'",';
+			$row .= '"'.$user['context_conversation'].'",';
+			$row .= '"'.$user['remove_phone_no'].'",';
+			$row .= '"'.$user['escalate_account'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm1'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm2'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm3'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm4'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm5'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm6'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm7'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm8'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm9'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm10'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm11'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm12'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm13'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm14'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm15'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm16'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm17'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm18'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm19'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm20'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm21'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm22'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm23'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm24'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm25'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm26'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm27'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm28'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm29'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm30'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm31'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm32'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm33'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm34'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['comm35'])).'",';
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
 			$row .= '"'.$user['agnt_fd_acpt'].'",';

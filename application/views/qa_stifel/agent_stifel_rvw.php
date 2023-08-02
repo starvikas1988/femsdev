@@ -25,53 +25,114 @@
 		<div class="row">
 			<div class="col-12">
 				<div class="widget">
-				
+				  <form id="form_audit_user" method="POST" action="" enctype="multipart/form-data">
+					
 					<div class="widget-body">
-						<div class="table-responsive">
+					 	<div class="table-responsive">
 							<table class="table table-striped skt-table" width="100%">
 								<tbody>
-									<tr style="background-color:#AEB6BF"><td colspan="9" id="theader" style="font-size:30px">Stifel Scorecard</td></tr>
-									
 									<tr>
-										<td style="width:100px;">QA Name:</td>
-										<?php if($stifel['entry_by']!=''){
+										<td colspan="9" id="theader" style="font-size:40px">Stifel Scorecard</td>
+										<input type="hidden" name="audit_start_time" value="<?php echo CurrMySqlDate(); ?>">
+									</tr>
+									<?php
+										
+											$tl_id = $stifel['tl_id'];
+											$tl_name = $stifel['tl_name'];
+											if($stifel['entry_by']!=''){
 												$auditorName = $stifel['auditor_name'];
 											}else{
 												$auditorName = $stifel['client_name'];
-										} ?>
-										<td style="width:220px"><input type="text" class="form-control" value="<?php echo $auditorName; ?>" disabled></td>
-										<td style="width:100px">Audit Date:</td>
-										<td style="width:220px"><input type="text" class="form-control" value="<?php echo mysql2mmddyy($stifel['audit_date']); ?>" disabled></td>
-										<td style="width: 100px;">Call Date:</td>
-										<td colspan="4"><input type="text" class="form-control" value="<?php echo mysql2mmddyy($stifel['call_date']); ?>" disabled></td>
+											}
+											$auditDate = mysql2mmddyy($stifel['audit_date']);
+											$clDate_val = mysqlDt2mmddyy($stifel['call_date']);
+										
+									?>
+									<tr>
+										<td style="width:130px;">Auditor Name:<span style="font-size:24px;color:red">*</span></td>
+										<td colspan="2"><input type="text" class="form-control" value="<?php echo $auditorName; ?>" disabled></td>
+										<td >Audit Date:<span style="font-size:24px;color:red">*</span></td>
+										<td colspan="2"><input type="text" class="form-control" value="<?php echo $auditDate; ?>" disabled></td>
+										<td style="width:100px;">Call Date:<span style="font-size:24px;color:red">*</span></td>
+										<td colspan="2"><input type="text" class="form-control" id="call_date_time" name="call_date" value="<?php echo $clDate_val; ?>" disabled></td>
 									</tr>
 									<tr>
-										<td style="width:100px;">Agent:</td>
-										<td style="width:220px">
-											<select class="form-control" disabled>
-												<option><?php echo $stifel['fname']." ".$stifel['lname']." - [".$stifel['fusion_id']."]" ?></option>
+										<td style="width:130px;">Agent:<span style="font-size:24px;color:red">*</span></td>
+										<td colspan="2">
+											<select class="form-control" id="agent_id" name="data[agent_id]" disabled >
+												<option value="<?php echo $stifel['agent_id'] ?>"><?php echo $stifel['fname']." ".$stifel['lname'] ?></option>
+												<option value="">-Select-</option>
+												<?php foreach($agentName as $row):  ?>
+													<option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
+												<?php endforeach; ?>
 											</select>
 										</td>
-										<td  style="width:100px;">L1 Supervisor:</td>
-										<td style="width:220px;"><select class="form-control" disabled><option><?php echo $stifel['tl_name'] ?></option></select></td>
-										<td style="width:100px;">Interaction ID:</td>
-										<td colspan="4"><input type="text" class="form-control" value="<?php echo $stifel['interaction_id'] ?>" disabled></td>
+										<td >Fusion ID:<span style="font-size:24px;color:red">*</span></td>
+										<td colspan="2"><input type="text" class="form-control" id="fusion_id" value="<?php echo $stifel['fusion_id'] ?>" readonly ></td>
+										<td style="width:100px;">L1 Supervisor:<span style="font-size:24px;color:red">*</span></td>
+										<td colspan="2">
+											<input type="text" class="form-control" id="tl_names"  value="<?php echo $tl_name; ?>" readonly>
+											<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $tl_id; ?>" disabled>
+										</td>
 									</tr>
 									<tr>
-										<td style="width:100px;">Call Duration:</td>
-										<td style="width:220px;"><input type="text" class="form-control" value="<?php echo $stifel['call_duration'] ?>" disabled></td>
-										<td style="width:100px;">Hold Duration:</td>
-										<td style="width:220px;"><input type="text" class="form-control" value="<?php echo $stifel['hold_duration'] ?>" disabled></td>
-										<td style="width: 100px;">Verification Duration:</td>
-										<td colspan="4"><input type="text" class="form-control" value="<?php echo $stifel['verification_duration'] ?>" disabled></td>
+										<td style="width:130px;">Call Duration:<span style="font-size:24px;color:red">*</span></td>
+										<td colspan="2"><input type="text" class="form-control" id="call_duration" onkeydown="return false;" name="data[call_duration]" value="<?php echo $stifel['call_duration'] ?>" disabled></td>
+										<td>Site/Location:<span style="font-size:24px;color:red">*</span></td>
+										<td colspan="2"><input type="text" class="form-control" id="" name="data[site]" value="<?php echo $stifel['site'] ?>" disabled></td>
+										<td style="width:100px;">File No:<span style="font-size:24px;color:red">*</span></td>
+										<td colspan="2"><input type="text" class="form-control" id="file_no" name="data[file_no]" value="<?php echo $stifel['file_no'] ?>" disabled></td>
 									</tr>
 									<tr>
-										<td style="width:100px;">Audit Type:</td>
-										<td style="width:220px;"><select class="form-control" disabled><option><?php echo $stifel['audit_type'] ?></option></select></td>
-										<td style="width:100px;">VOC:</td>
-										<td style="width:220px;"><select class="form-control" disabled><option><?php echo $stifel['voc'] ?></option></select></td>
-										<td style="width: 100px;font-weight:bold; font-size:16px; text-align:right">Overall Score:</td>
-										<td colspan="4"><input type="text" class="form-control" style="font-weight:bold" value="<?php echo $stifel['overall_score'] ?>" disabled></td>
+									
+										<td>Audit Type:<span style="font-size:24px;color:red">*</span></td>
+										<td colspan="2">
+											<select class="form-control" id="audit_type" name="data[audit_type]" disabled>
+												<option value="">-Select-</option>
+												 <option value="CQ Audit" <?= ($stifel['audit_type']=="CQ Audit")?"selected":"" ?>>CQ Audit</option>
+                                                    <option value="BQ Audit" <?= ($stifel['audit_type']=="BQ Audit")?"selected":"" ?>>BQ Audit</option>
+                                                    <option value="Calibration" <?= ($stifel['audit_type']=="Calibration")?"selected":"" ?>>Calibration</option>
+                                                    <option value="Pre-Certificate Mock Call" <?= ($stifel['audit_type']=="Pre-Certificate Mock Call")?"selected":"" ?>>Pre-Certificate Mock Call</option>
+                                                    <option value="Certification Audit" <?= ($stifel['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
+                                                    <option value="WoW Call"  <?= ($stifel['audit_type']=="WoW Call")?"selected":"" ?>>WoW Call</option>
+                                                    <option value="Hygiene Audit"  <?= ($stifel['audit_type']=="Hygiene Audit")?"selected":"" ?>>Hygiene Audit</option>
+                                                    <option value="Operation Audit"  <?= ($stifel['audit_type']=="Operation Audit")?"selected":"" ?>>Operation Audit</option>
+                                                    <option value="Trainer Audit"  <?= ($stifel['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option> 
+                                                    <option value="QA Supervisor Audit"  <?= ($stifel['audit_type']=="QA Supervisor Audit")?"selected":"" ?>>QA Supervisor Audit</option> 
+											</select>
+										</td>
+										<td class="auType" style="width: 100px;">Auditor Type<span style="font-size:24px;color:red">*</span></td>
+										<td class="auType">
+											<select class="form-control" id="auditor_type" name="data[auditor_type]">
+												<option value="">-Select-</option>
+												<option value="Master">Master</option>
+												<option value="Regular">Regular</option>
+											</select>
+										</td>
+										<td>VOC:<span style="font-size:24px;color:red">*</span></td>
+										<td colspan="2">
+											<select class="form-control" id="voc" name="data[voc]" disabled>
+												<option value="">-Select-</option>
+												<option <?php echo $stifel['voc']=='1'?"selected":""; ?> value="1">1</option>
+												<option <?php echo $stifel['voc']=='2'?"selected":""; ?> value="2">2</option>
+												<option <?php echo $stifel['voc']=='3'?"selected":""; ?> value="3">3</option>
+												<option <?php echo $stifel['voc']=='4'?"selected":""; ?> value="4">4</option>
+												<option <?php echo $stifel['voc']=='5'?"selected":""; ?> value="5">5</option>
+												<option <?php echo $stifel['voc']=='6'?"selected":""; ?> value="6">6</option>
+												<option <?php echo $stifel['voc']=='7'?"selected":""; ?> value="7">7</option>
+												<option <?php echo $stifel['voc']=='8'?"selected":""; ?> value="8">8</option>
+												<option <?php echo $stifel['voc']=='9'?"selected":""; ?> value="9">9</option>
+												<option <?php echo $stifel['voc']=='10'?"selected":""; ?> value="10">10</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td style="font-weight:bold; font-size:16px; text-align:right">Earned Score:</td>
+										<td colspan="2"><input type="text" value="<?= $stifel['earned_score']?>" readonly id="jurys_inn_earned_score" name="data[earned_score]" class="form-control" style="font-weight:bold"></td>
+										<td style="font-weight:bold; font-size:16px; text-align:right">Possible Score:</td>
+										<td colspan="2"><input type="text" value="<?= $stifel['possible_score']?>" readonly id="jurys_inn_possible_score" name="data[possible_score]" class="form-control" style="font-weight:bold"></td>
+										<td style="font-weight:bold; font-size:16px; text-align:right">Overall Score:</td>
+										<td colspan="2"><input type="text" readonly id="jurys_inn_overall_score" name="data[overall_score]" class="form-control stifel_fatal" style="font-weight:bold" value="<?php echo $stifel['overall_score'] ?>"></td>
 									</tr>
 									<tr style="height:25px; font-weight:bold; background-color:#D2B4DE">
 										<td>PARAMETER</td>
@@ -83,72 +144,60 @@
 									</tr>
 									<tr>
 										<td class="eml" rowspan=2>Greeting and Farewell</td>
-										<td colspan=2>Opening</td>
-										<td>10</td>
+										<td colspan=2 style="color:red">Opening</td>
+										<td>5</td>
 										<td>
-											<select class="form-control jurry_points customer" name="data[opening]" disabled>
-												<option value="">-Select-</option>
+											<select class="form-control jurry_points customer" id="stifel_AF7" name="data[opening]" disabled>
+												<!-- <option value="">-Select-</option> -->
 												<option ji_val=5 <?php echo $stifel['opening'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option ji_val=5 <?php echo $stifel['opening'] == "No"?"selected":"";?> value="No">No</option>
 												<option ji_val=5 <?php echo $stifel['opening'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
-										<td colspan=2><input type="text" name="data[cmt1]" class="form-control" value="<?php echo $stifel['cmt1'] ?>" disabled></td>
+										<td colspan=2><input type="text" name="data[cmt1]" class="form-control" disabled value="<?php echo $stifel['cmt1'] ?>"></td>
 										<td>Customer Critical</td>
 									</tr>
-									<!-- <tr>
-										<td colspan=2>Recording Verbiage</td>
-										<td>
-											<select class="form-control jurry_points business" name="data[recording_verbiage]" disabled>
-												<option value="">-Select-</option>
-												<option ji_val=10 <?php echo $stifel['recording_verbiage'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=10 <?php echo $stifel['recording_verbiage'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=0 <?php echo $stifel['recording_verbiage'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
-											</select> 
-										</td>
-										<td colspan=2><input type="text" name="data[cmt2]" class="form-control" value="<?php echo $stifel['cmt2'] ?>" disabled></td>
-									</tr> -->
 									<tr>
-										<td colspan=2>Closing</td>
-										<td>10</td>
+										<td colspan=2 style="color:red">Closing</td>
+										<td>5</td>
 										<td>
-											<select class="form-control jurry_points customer" name="data[closing]" disabled>
-												<option value="">-Select-</option>
+											<select class="form-control jurry_points customer"  id="stifel_AF8" name="data[closing]" disabled>
+												<!-- <option value="">-Select-</option> -->
 												<option ji_val=5 <?php echo $stifel['closing'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option ji_val=5 <?php echo $stifel['closing'] == "No"?"selected":"";?> value="No">No</option>
 												<option ji_val=5 <?php echo $stifel['closing'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
-										<td colspan=2><input type="text" name="data[cmt3]" class="form-control" value="<?php echo $stifel['cmt3'] ?>" disabled></td>
+										<td colspan=2><input type="text" name="data[cmt3]" class="form-control" disabled value="<?php echo $stifel['cmt3'] ?>"></td>
 										<td>Customer Critical</td>
 									</tr>
 									<tr>
-										<td class="eml" rowspan=2>Empathy and Ownership</td>
-										<td colspan=2>Empathy / Apology</td>
+										<td class="eml" rowspan=2>Ownership</td>
+										<td colspan=2>Needs to offer to stay on the call until the issue has been resolved</td>
 										<td>10</td>
 										<td>
-											<select class="form-control jurry_points customer" name="data[empathy_apology]" disabled>
-												<option value="">-Select-</option>
-												<option ji_val=10 <?php echo $stifel['empathy_apology'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=10 <?php echo $stifel['empathy_apology'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=10 <?php echo $stifel['empathy_apology'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+											<select class="form-control jurry_points customer" name="data[stay_on_call]" disabled>
+												<!-- <option value="">-Select-</option> -->
+												<option ji_val=10 <?php echo $stifel['stay_on_call'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option ji_val=10 <?php echo $stifel['stay_on_call'] == "No"?"selected":"";?> value="No">No</option>
+												<option ji_val=10 <?php echo $stifel['stay_on_call'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
-										<td colspan=2><input type="text" name="data[cmt4]" class="form-control" value="<?php echo $stifel['cmt4'] ?>" disabled></td>
+										<td colspan=2><input type="text" name="data[cmt4]" class="form-control" disabled value="<?php echo $stifel['cmt4'] ?>"></td>
 										<td>Customer Critical</td>
 									</tr>
 									<tr>
 										<td colspan=2>Ownership / Assurance</td>
-										<td>9</td>
+										<td>10</td>
 										<td>
 											<select class="form-control jurry_points customer" name="data[owenship_assurance]" disabled>
-												<option value="">-Select-</option>
-												<option ji_val=5 <?php echo $stifel['owenship_assurance'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=5 <?php echo $stifel['owenship_assurance'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=5 <?php echo $stifel['owenship_assurance'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<!-- <option value="">-Select-</option> -->
+												<option ji_val=10 <?php echo $stifel['owenship_assurance'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option ji_val=10 <?php echo $stifel['owenship_assurance'] == "No"?"selected":"";?> value="No">No</option>
+												<option ji_val=10 <?php echo $stifel['owenship_assurance'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
-										<td colspan=2><input type="text" name="data[cmt5]" class="form-control" value="<?php echo $stifel['cmt5'] ?>" disabled ></td>
+										<td colspan=2><input type="text" name="data[cmt5]" class="form-control" disabled value="<?php echo $stifel['cmt5'] ?>"></td>
 										<td>Customer Critical</td>
 									</tr>
 									<tr>
@@ -157,156 +206,158 @@
 										<td>10</td>
 										<td>
 											<select class="form-control jurry_points customer" name="data[hold_protocol]" disabled>
-												<option value="">-Select-</option>
-												<option ji_val=5 <?php echo $stifel['hold_protocol'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=5 <?php echo $stifel['hold_protocol'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=5 <?php echo $stifel['hold_protocol'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<!-- <option value="">-Select-</option> -->
+												<option ji_val=10 <?php echo $stifel['hold_protocol'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option ji_val=10 <?php echo $stifel['hold_protocol'] == "No"?"selected":"";?> value="No">No</option>
+												<option ji_val=10 <?php echo $stifel['hold_protocol'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
-										<td colspan=2><input type="text" name="data[cmt6]" class="form-control" value="<?php echo $stifel['cmt6'] ?>" disabled></td>
+										<td colspan=2><input type="text" name="data[cmt6]" class="form-control" disabled value="<?php echo $stifel['cmt6'] ?>"></td>
 										<td>Customer Critical</td>
 									</tr>
 									<tr>
 										<td colspan=2>Transfer</td>
-										<td>9</td>
+										<td>10</td>
 										<td>
 											<select class="form-control jurry_points business" name="data[transfer]" disabled>
-												<option value="">-Select-</option>
-												<option ji_val=5 <?php echo $stifel['transfer'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=5 <?php echo $stifel['transfer'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=5 <?php echo $stifel['transfer'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<!-- <option value="">-Select-</option> -->
+												<option ji_val=10 <?php echo $stifel['transfer'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option ji_val=10 <?php echo $stifel['transfer'] == "No"?"selected":"";?> value="No">No</option>
+												<option ji_val=10 <?php echo $stifel['transfer'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
-										<td colspan=2><input type="text" name="data[cmt7]" class="form-control" value="<?php echo $stifel['cmt7'] ?>" disabled></td>
+										<td colspan=2><input type="text" name="data[cmt7]" class="form-control" disabled value="<?php echo $stifel['cmt7'] ?>"></td>
 										<td>Business Critical</td>
 									</tr>
 									<tr>
 										<td class="eml" rowspan=3>Effective Communication</td>
-										<td colspan=2>Tone / Rate Of Speech / Fumbling/ Pacing</td>
+										<td colspan=2 style="color:red">Tone / Rate Of Speech / Fumbling/Pacing</td>
 										<td>10</td>
 										<td>
-											<select class="form-control jurry_points customer" name="data[rate_of_speech]" disabled>
-												<option value="">-Select-</option>
-												<option ji_val=5 <?php echo $stifel['rate_of_speech'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=5 <?php echo $stifel['rate_of_speech'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=5 <?php echo $stifel['rate_of_speech'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+											<select class="form-control jurry_points customer"  id="stifel_AF10" name="data[rate_of_speech]" disabled>
+												<!-- <option value="">-Select-</option> -->
+												<option ji_val=10 <?php echo $stifel['rate_of_speech'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option ji_val=10 <?php echo $stifel['rate_of_speech'] == "No"?"selected":"";?> value="No">No</option>
+												<option ji_val=10 <?php echo $stifel['rate_of_speech'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
-										<td colspan=2><input type="text" name="data[cmt8]" class="form-control" value="<?php echo $stifel['cmt8'] ?>" disabled></td>
+										<td colspan=2><input type="text" name="data[cmt8]" class="form-control" disabled value="<?php echo $stifel['cmt8'] ?>"></td>
 										<td>Customer Critical</td>
 									</tr>
 									<tr>
-										<td colspan=2>Active Listening</td>
-										<td>9</td>
-										<td>
-											<select class="form-control jurry_points customer" name="data[active_listening]" disabled>
-												<option value="">-Select-</option>
-												<option ji_val=5 <?php echo $stifel['active_listening'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=5 <?php echo $stifel['active_listening'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=5 <?php echo $stifel['active_listening'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
-											</select> 
-										</td>
-										<td colspan=2><input type="text" name="data[cmt9]" class="form-control" value="<?php echo $stifel['cmt9'] ?>" disabled></td>
-										<td>Customer Critical</td>
-									</tr>
-									<tr>
-										<td colspan=2>Professionalism</td>
+										<td colspan=2 style="color:red">Active Listening</td>
 										<td>10</td>
 										<td>
-											<select class="form-control jurry_points customer" name="data[parallel_conversion]" disabled>
-												<option value="">-Select-</option>
-												<option ji_val=5 <?php echo $stifel['parallel_conversion'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=5 <?php echo $stifel['parallel_conversion'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=5 <?php echo $stifel['parallel_conversion'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+											<select class="form-control jurry_points customer"  id="stifel_AF11" name="data[active_listening]" disabled>
+												<!-- <option value="">-Select-</option> -->
+												<option ji_val=10 <?php echo $stifel['active_listening'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option ji_val=10 <?php echo $stifel['active_listening'] == "No"?"selected":"";?> value="No">No</option>
+												<option ji_val=10 <?php echo $stifel['active_listening'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
-										<td colspan=2><input type="text" name="data[cmt10]" class="form-control" value="<?php echo $stifel['cmt10'] ?>" disabled></td>
+										<td colspan=2><input type="text" name="data[cmt9]" class="form-control" disabled value="<?php echo $stifel['cmt9'] ?>"></td>
 										<td>Customer Critical</td>
 									</tr>
 									<tr>
-										<td class="eml" rowspan="2">Resolution Accuracy</td>
+										<td colspan=2 style="color:red">Professionalism</td>
+										<td>10</td>
+										<td>
+											<select class="form-control jurry_points customer" id="stifel_AF12"  name="data[parallel_conversion]" disabled>
+												<!-- <option value="">-Select-</option> -->
+												<option ji_val=10 <?php echo $stifel['parallel_conversion'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option ji_val=10 <?php echo $stifel['parallel_conversion'] == "No"?"selected":"";?> value="No">No</option>
+												<option ji_val=10 <?php echo $stifel['parallel_conversion'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+											</select> 
+										</td>
+										<td colspan=2><input type="text" name="data[cmt10]" class="form-control" disabled value="<?php echo $stifel['cmt10'] ?>"></td>
+										<td>Customer Critical</td>
+									</tr>
+									<tr>
+										<td class="eml" rowspan=2>Resolution</td>
 										<td colspan=2 style="color:red">Issue Identification / Understanding</td>
-										<td>3</td>
+										<td>2</td>
 										<td>
-											<select class="form-control jurry_points business" id="stag_hen_AF1" name="data[issue_identification]" disabled>
-												<option value="">-Select-</option>
-												<option ji_val=10 <?php echo $stifel['issue_identification'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=10 <?php echo $stifel['issue_identification'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=10 <?php echo $stifel['issue_identification'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+											<select class="form-control jurry_points business" id="stifel_AF1" name="data[issue_identification]" disabled>
+												<!-- <option value="">-Select-</option> -->
+												<option ji_val=2 <?php echo $stifel['issue_identification'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option ji_val=2 <?php echo $stifel['issue_identification'] == "No"?"selected":"";?> value="No">No</option>
+												<option ji_val=2 <?php echo $stifel['issue_identification'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
-										<td colspan=2><input type="text" name="data[cmt11]" class="form-control" value="<?php echo $stifel['cmt11'] ?>" disabled></td>
+										<td colspan=2><input type="text" name="data[cmt11]" class="form-control" disabled value="<?php echo $stifel['cmt11'] ?>"></td>
 										<td>Business Critical</td>
 									</tr>
-						<!-- 			<tr>
-										<td colspan=2>Probing</td>
-										<td>
-											<select class="form-control jurry_points customer" name="data[probing]" disabled>
-												<option value="">-Select-</option>
-												<option ji_val=10 <?php echo $stifel['probing'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=10 <?php echo $stifel['probing'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=10 <?php echo $stifel['probing'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
-											</select> 
-										</td>
-										<td colspan=2><input type="text" name="data[cmt12]" class="form-control" value="<?php echo $stifel['cmt12'] ?>" disabled></td>
-									</tr> -->
 									<tr>
 										<td colspan=2 style="color:red">False Commitment(Correct and Accurate Information)</td>
 										<td>3</td>
 										<td>
-											<select class="form-control jurry_points business" id="stag_hen_AF2" name="data[false_commitment]" disabled>
-												<option value="">-Select-</option>
-												<option ji_val=10 <?php echo $stifel['false_commitment'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=10 <?php echo $stifel['false_commitment'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=10 <?php echo $stifel['false_commitment'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+											<select class="form-control jurry_points business" id="stifel_AF2" name="data[false_commitment]" disabled>
+												<!-- <option value="">-Select-</option> -->
+												<option ji_val=3 <?php echo $stifel['false_commitment'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option ji_val=3 <?php echo $stifel['false_commitment'] == "No"?"selected":"";?> value="No">No</option>
+												<option ji_val=3 <?php echo $stifel['false_commitment'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
-										<td colspan=2><input type="text" name="data[cmt13]" class="form-control" value="<?php echo $stifel['cmt13'] ?>" disabled></td>
+										<td colspan=2><input type="text" name="data[cmt13]" class="form-control" disabled value="<?php echo $stifel['cmt13'] ?>"></td>
 										<td>Business Critical</td>
 									</tr>
 									<tr>
 										<td class="eml">Verification</td>
-										<td colspan=2 style="color:red">Verification process followed</td>
+										<td colspan=2 style="color:red">Verification</td>
 										<td>3</td>
 										<td>
-											<select class="form-control jurry_points compliance" id="stag_hen_AF3" name="data[verification_process_follow]" disabled>
-												<option value="">-Select-</option>
-												<option ji_val=10 <?php echo $stifel['verification_process_follow'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=10 <?php echo $stifel['verification_process_follow'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=10 <?php echo $stifel['verification_process_follow'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+											<select class="form-control jurry_points compliance1" id="stifel_AF3" name="data[verification_process_follow]" disabled>
+												<!-- <option value="">-Select-</option> -->
+												<option ji_val=3 <?php echo $stifel['verification_process_follow'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option ji_val=3 <?php echo $stifel['verification_process_follow'] == "No"?"selected":"";?> value="No">No</option>
+												<option ji_val=3 <?php echo $stifel['verification_process_follow'] == "N/A"?"selected":"";?> disabled value="N/A">N/A</option>
 											</select> 
 										</td>
-										<td colspan=2><input type="text" name="data[cmt14]" class="form-control" value="<?php echo $stifel['cmt14'] ?>" disabled></td>
+										<td colspan=2><input type="text" name="data[cmt14]" class="form-control" disabled value="<?php echo $stifel['cmt14'] ?>"></td>
 										<td>Compliance Critical</td>
 									</tr>
 									<tr>
-										<td class="eml" rowspan="2">ZTP</td>
+										<td class="eml" rowspan=2 >ZTP</td>
 										<td colspan=2 style="color:red">Rudeness</td>
 										<td>2</td>
 										<td>
-											<select class="form-control jurry_points customer" id="stag_hen_AF4" name="data[rudeness]" disabled>
-												<option value="">-Select-</option>
-												<option ji_val=0 <?php echo $stifel['rudeness'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=0 <?php echo $stifel['rudeness'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+											<select class="form-control jurry_points customer" id="stifel_AF5" name="data[rudeness]" disabled>
+												<!-- <option value="">-Select-</option> -->
+												<option ji_val=2 <?php echo $stifel['rudeness'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option ji_val=2 <?php echo $stifel['rudeness'] == "No"?"selected":"";?> value="No">No</option>
 											</select> 
 										</td>
-										<td colspan=2><input type="text" name="data[cmt15]" class="form-control" value="<?php echo $stifel['cmt15'] ?>" disabled></td>
+										<td colspan=2><input type="text" name="data[cmt15]" class="form-control" disabled value="<?php echo $stifel['cmt15'] ?>"></td>
 										<td>Customer Critical</td>
 									</tr>
 									<tr>
 										<td colspan=2 style="color:red">Call Avoidance</td>
 										<td>2</td>
 										<td>
-											<select class="form-control jurry_points customer" id="stifel_AF5" name="data[call_avoidance]" disabled>
-												<option value="">-Select-</option>
-												<option ji_val=2 <?php echo $stifel['call_avoidance'] == "Yes"?"selected":"";?> value="Yes">No</option>
-												<option ji_val=2 <?php echo $stifel['call_avoidance'] == "No"?"selected":"";?> value="No">Yes</option>
+											<select class="form-control jurry_points customer" id="stifel_AF6" name="data[call_avoidance]" disabled>
+												<!-- <option value="">-Select-</option> -->
+												<option ji_val=2 <?php echo $stifel['call_avoidance'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option ji_val=2 <?php echo $stifel['call_avoidance'] == "No"?"selected":"";?> value="No">No</option>
 											</select> 
 										</td>
-										<td colspan=2><input type="text" name="data[cmt16]" class="form-control" value="<?php echo $stifel['cmt16'] ?>" disabled></td>
+										<td colspan=2><input type="text" name="data[cmt16]" class="form-control" disabled value="<?php echo $stifel['cmt16'] ?>"></td>
 										<td>Customer Critical</td>
 									</tr>
-									<tr style="background-color:#D2B4DE"><td colspan=3>Customer Score</td><td colspan=3>Business Score</td><td colspan=3>Compliance Score</td></tr>
+									<tr>
+										<td class="eml" rowspan=1 >Empathy</td>
+										<td colspan=2 style="color:red">Empathy / Apology</td>
+										<td>8</td>
+										<td>
+											<select class="form-control jurry_points customer" id="stifel_AF9" name="data[empathy]" disabled>
+												<!-- <option value="">-Select-</option> -->
+												<option ji_val=8 <?php echo $stifel['empathy'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option ji_val=8 <?php echo $stifel['empathy'] == "No"?"selected":"";?> value="No">No</option>
+											</select> 
+										</td>
+										<td colspan=2><input type="text" name="data[cmt17]" class="form-control" disabled value="<?php echo $stifel['cmt17'] ?>"></td>
+										<td>Customer Critical</td>
+									</tr>
+									<tr style="background-color:#D2B4DE"><td colspan="3">Customer Score</td><td colspan="3">Business Score</td><td colspan="3">Compliance Score</td></tr>
 									<tr style="background-color:#D2B4DE">
 										<td>Earned:</td><td id="custJiCisEarned" colspan="2"></td><td>Earned:</td><td id="busiJiCisEarned" colspan="2"></td><td>Earned:</td><td id="complJiCisEarned" colspan="2"></td>
 									</tr>
@@ -320,38 +371,41 @@
 									</tr>
 									<tr>
 										<td>Call Summary:</td>
-										<td colspan="2"><textarea class="form-control" disabled><?php echo $stifel['call_summary'] ?></textarea></td>
+										<td colspan="3"><textarea class="form-control" name="data[call_summary]"><?php echo $stifel['call_summary'] ?></textarea></td>
 										<td>Feedback:</td>
-										<td colspan="5"><textarea class="form-control" disabled><?php echo $stifel['feedback'] ?></textarea></td>
+										<td colspan="3"><textarea class="form-control" name="data[feedback]"><?php echo $stifel['feedback'] ?></textarea></td>
 									</tr>
-									
 									<?php if($stifel['attach_file']!=''){ ?>
 									<tr oncontextmenu="return false;">
-										<td colspan="2">Audio Files</td>
-										<td colspan="6">
+										<td colspan="2">Audio Files (Mp4/Mp3/M4a/Wav)</td>
+										<td colspan="4">
 											<?php $attach_file = explode(",",$stifel['attach_file']);
-											 foreach($attach_file as $mp){ ?>
-												<audio controls='' style="background-color:#607F93"> 
-												  <source src="<?php echo base_url(); ?>qa_files/qa_stifel/<?php echo $mp; ?>" type="audio/ogg">
-												  <source src="<?php echo base_url(); ?>qa_files/qa_stifel/<?php echo $mp; ?>" type="audio/mpeg">
+											 foreach($attach_file as $af){ ?>
+												<audio oncontextmenu="return false;" controls controlslist="nodownload" style="background-color:#607F93">
+													  <source src="<?php echo base_url(); ?>qa_files/qa_stifel/<?php echo $af; ?>" type="audio/ogg">
+													  <source src="<?php echo base_url(); ?>qa_files/qa_stifel/<?php echo $af; ?>" type="audio/mpeg">
 												</audio> </br>
 											 <?php } ?>
 										</td>
 									</tr>
 									<?php } ?>
+
+									<tr>
+										<td style="font-size:12px">Manager Review:</td>
+										<td colspan="8" style="text-align:left"><?php echo $stifel['mgnt_rvw_note'] ?></td>
+									</tr>
+									<tr>
+										<td style="font-size:12px">Client Review:</td>
+										<td colspan="8" style="text-align:left"><?php echo $stifel['client_rvw_note'] ?></td>
+									</tr>
+
+									<tr><td colspan="10" style="background-color:#C5C8C8"></td></tr>
 									
-									<tr><td colspan="6" style="background-color:#C5C8C8"></td></tr>
-									
-									<tr><td style="font-size:16px" colspan="2">Manager Review:</td> <td colspan="6" style="text-align:left"><?php echo $stifel['mgnt_rvw_note'] ?></td></tr>
-									<tr><td style="font-size:16px" colspan="2">Client Review:</td> <td colspan="6" style="text-align:left"><?php echo $stifel['client_rvw_note'] ?></td></tr>
-									
-									<tr><td colspan="6" style="background-color:#C5C8C8"></td></tr>
-									
-									<form id="form_agent_user" method="POST" action="">
-									 <input type="hidden" name="pnid" class="form-control" value="<?php echo $pnid; ?>">
+									 <form id="form_agent_user" method="POST" action="">
+										<input type="hidden" name="pnid" class="form-control" value="<?php echo $pnid; ?>">
 										
 										<tr>
-											<td colspan=2 style="font-size:16px">Feedback Acceptance</td>
+											<td colspan=2 style="font-size:16px">Feedback Acceptance<span style="font-size:24px;color:red">*</span></td>
 											<td colspan=6>
 												<select class="form-control" id="" name="agnt_fd_acpt" required="">
 													<option value="">--Select--</option>
@@ -361,27 +415,31 @@
 											</td>
 										</tr>
 										<tr>
-											<td colspan=2 style="font-size:16px">Your Review</td>
-											<td colspan=6><textarea class="form-control" name="note" required=""><?php echo $stifel['agent_rvw_note'] ?></textarea></td>
+											<td colspan=2 style="font-size:16px">Your Review<span style="font-size:24px;color:red">*</span></td>
+											<td colspan=6><textarea class="form-control" name="note" required><?php echo $stifel['agent_rvw_note'] ?></textarea></td>
 										</tr>
 										
 										<?php if(is_access_qa_agent_module()==true){
 										if(is_available_qa_feedback($stifel['entry_date'],72) == true){ ?>
 											<tr>
 												<?php if($stifel['agent_rvw_note']==''){ ?>
-													<td colspan="9"><button class="btn btn-success waves-effect" type="submit" id='btnagentSave' name='btnSave' value="SAVE" style="width:500px">SAVE</button></td>
+													<td colspan="10"><button class="btn btn-success waves-effect" type="submit" id='btnagentSave' name='btnSave' value="SAVE" style="width:500px;margin:auto;display:block;">SAVE</button></td>
 												<?php } ?>
 											</tr>
 										<?php } 
 										} ?>
-									</form>	
+									
+									  </form>
+									
 								</tbody>
 							</table>
 						</div>
 					</div>
-				</div>	
+					
+				  </form>
+					
+				</div>
 			</div>
-		</form>	
 		</div>
 	<?php } ?>
 

@@ -81,7 +81,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td style="width:150px">Audit Date:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" value="<?php echo $auditDate; ?>" disabled></td>
 										<td>Date and time Of Chat:<span style="font-size:24px;color:red">*</span></td>
-										<td><input type="text" class="form-control" id="call_date" name="call_date" value="<?php echo $clDate_val; ?>" required></td>
+										<td><input type="text" class="form-control" id="call_date" name="call_date" onkeydown="return false;"  value="<?php echo $clDate_val; ?>" required></td>
 									</tr>
 									<tr>
 										<td>Employee Name:<span style="font-size:24px;color:red">*</span></td>
@@ -120,19 +120,15 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									</tr>
 									<tr>
 										<td>Week:<span style="font-size:24px;color:red">*</span></td>
+										<td><input type="text" class="form-control"  name="week" value="<?php echo $vfs_chat['week']; ?>" required></td>
+										<td>Fatal Error?:<span style="font-size:24px;color:red">*</span></td>
 										<td>
-											<select class="form-control"  name="week" required>
-												<option value="<?php echo $vfs_chat['week'] ?>"><?php echo $vfs_chat['week'] ?></option>
+											<select class="form-control" id="" name="autofail_status" required>
 												<option value="">-Select-</option>
-												<option value="Week1">Week1</option>
-												<option value="Week2">Week2</option>
-												<option value="Week3">Week3</option>
-												<option value="Week4">Week4</option>
-												<option value="Week5">Week5</option>
+												<option <?php echo $vfs_chat['autofail_status']=='Fatal'?"selected":""; ?> value="Fatal">Fatal</option>
+												<option <?php echo $vfs_chat['autofail_status']=='Non Fatal'?"selected":""; ?> value="Non Fatal">Non Fatal</option>
 											</select>
 										</td>
-										<td>Status:<span style="font-size:24px;color:red">*</span></td>
-										<td><input type="text" class="form-control" id="fatalspan3" name="autofail_status" value="<?php echo $vfs_chat['autofail_status']; ?>" readonly></td>
 										<td>Host/Country:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" name="host_country" value="<?php echo $vfs_chat['host_country']; ?>" required></td>
 									</tr>
@@ -150,6 +146,19 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<option <?php echo $vfs_chat['voc']=='5'?"selected":""; ?> value="5">5</option>
 											</select>
 										</td>
+										<td>ACPT:<span style="font-size:24px;color:red">*</span></td>
+										<td>
+												<select class="form-control" id="" name="acpt" required>
+													<option value="">-Select-</option>
+													<option value="Agent"  <?= ($vfs_chat['acpt']=="Agent")?"selected":"" ?>>Agent</option>
+													<option value="Process"  <?= ($vfs_chat['acpt']=="Process")?"selected":"" ?>>Process</option>
+													<option value="Customer"  <?= ($vfs_chat['acpt']=="Customer")?"selected":"" ?>>Customer</option>
+													<option value="Technology"  <?= ($vfs_chat['acpt']=="Technology")?"selected":"" ?>>Technology</option>
+													<option value="NA"  <?= ($vfs_chat['acpt']=="NA")?"selected":"" ?>>NA</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
 										<td>Audit Type:<span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="audit_type" name="audit_type" required>
@@ -172,8 +181,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td class="auType">
 											<select class="form-control" id="auditor_type" name="auditor_type">
 												<option value="">-Select-</option>
-												<option value="Master">Master</option>
-												<option value="Regular">Regular</option>
+												 <option value="Master" <?= ($vfs_chat['auditor_type']=="Master")?"selected":"" ?>>Master</option> 
+												 <option value="Regular" <?= ($vfs_chat['auditor_type']=="Regular")?"selected":"" ?>>Regular</option> 
 											</select>
 										</td>
 									</tr>
@@ -206,9 +215,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>4</td>
 										<td>
 											<select class="form-control vfsVal" data-id="opening" name="appropiate_greeting" required><!-- <option value="">-Select-</option> -->
-												<option vfs_val=4 <?php echo $vfs_chat['appropiate_greeting']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=4 <?php echo $vfs_chat['appropiate_greeting']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=4 <?php echo $vfs_chat['appropiate_greeting']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=4 vfs_max="4" <?php echo $vfs_chat['appropiate_greeting']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max="4" <?php echo $vfs_chat['appropiate_greeting']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=4 vfs_max="4" <?php echo $vfs_chat['appropiate_greeting']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_appropiate_greeting">4</td>
@@ -230,9 +239,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control vfsVal"  data-id="technical_aspects" name="response_time" required>
 												<!-- <option value="">-Select-</option> -->
-												<option vfs_val=5 <?php echo $vfs_chat['response_time']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=5 <?php echo $vfs_chat['response_time']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=5 <?php echo $vfs_chat['response_time']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['response_time']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max="5" <?php echo $vfs_chat['response_time']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['response_time']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_response_time">5</td>
@@ -245,9 +254,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control vfsVal"  data-id="technical_aspects" name="FCR_achieved" required>
 												<!-- <option value="">-Select-</option> -->
-												<option vfs_val=5 <?php echo $vfs_chat['FCR_achieved']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=5 <?php echo $vfs_chat['FCR_achieved']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=5 <?php echo $vfs_chat['FCR_achieved']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['FCR_achieved']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max="5" <?php echo $vfs_chat['FCR_achieved']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['FCR_achieved']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_FCR_achieved">5</td>
@@ -260,12 +269,12 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control vfsVal"  data-id="technical_aspects" name="accurate_information" required>
 												<!-- <option value="">-Select-</option> -->
-												<option vfs_val=4 <?php echo $vfs_chat['accurate_information']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=4 <?php echo $vfs_chat['accurate_information']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=4 <?php echo $vfs_chat['accurate_information']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=4 vfs_max="4" <?php echo $vfs_chat['accurate_information']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max="4" <?php echo $vfs_chat['accurate_information']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=4 vfs_max="4" <?php echo $vfs_chat['accurate_information']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
-										<td id="score_understand_issue">4</td>
+										<td id="score_accurate_information">4</td>
 										<td><textarea class="form-control" name="comm3"><?php echo $vfs_chat['comm3'] ?></textarea></td>
 									</tr>
 									<tr>
@@ -275,29 +284,15 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control vfsVal"  data-id="technical_aspects" name="understand_issue" required>
 												<!-- <option value="">-Select-</option> -->
-												<option vfs_val=9 <?php echo $vfs_chat['understand_issue']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=9 <?php echo $vfs_chat['understand_issue']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=9 <?php echo $vfs_chat['understand_issue']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=9 vfs_max="9" <?php echo $vfs_chat['understand_issue']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max="9" <?php echo $vfs_chat['understand_issue']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=9 vfs_max="9" <?php echo $vfs_chat['understand_issue']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_understand_issue">9</td>
 										<td><textarea class="form-control" name="comm4"><?php echo $vfs_chat['comm4'] ?></textarea></td>
 									</tr>
-									<!-- <tr>
-										<td></td>
-										<td colspan=1>e. Attentiveness displayed</td>
-										<td>5</td>
-										<td>
-											<select class="form-control vfsVal"  data-id="technical_aspects" name="attentiveness_display" required>
-												
-												<option vfs_val=5 <?php echo $vfs_chat['attentiveness_display']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=5 <?php echo $vfs_chat['attentiveness_display']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_chat['attentiveness_display']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
-											</select>
-										</td>
-										<td id="score_attentiveness_display">5</td>
-										<td><textarea class="form-control" name="comm5"><?php echo $vfs_chat['comm5'] ?></textarea></td>
-									</tr> -->
+								
 									<tr>
 										<td></td>
 										<td colspan=1>e.Paraphrasing</td>
@@ -305,9 +300,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control vfsVal"  data-id="technical_aspects" name="paraphrasing" required>
 												<!-- <option value="">-Select-</option> -->
-												<option vfs_val=5 <?php echo $vfs_chat['paraphrasing']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=5 <?php echo $vfs_chat['paraphrasing']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=5 <?php echo $vfs_chat['paraphrasing']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['paraphrasing']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max="5" <?php echo $vfs_chat['paraphrasing']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['paraphrasing']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_paraphrasing">5</td>
@@ -315,14 +310,14 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									</tr>
 									<tr>
 										<td></td>
-										<td colspan=1>g. Used all the available resources for providing resolution</td>
+										<td colspan=1>f. Used all the available resources for providing resolution</td>
 										<td>5</td>
 										<td>
 											<select class="form-control vfsVal"  data-id="technical_aspects" name="use_available_resource" required>
 												<!-- <option value="">-Select-</option> -->
-												<option vfs_val=5 <?php echo $vfs_chat['use_available_resource']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=5 <?php echo $vfs_chat['use_available_resource']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=5 <?php echo $vfs_chat['use_available_resource']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['use_available_resource']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max="5" <?php echo $vfs_chat['use_available_resource']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['use_available_resource']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_use_available_resource">5</td>
@@ -330,14 +325,14 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									</tr>
 									<tr>
 										<td></td>
-										<td colspan=1>h. Appropriate Probing</td>
+										<td colspan=1>g. Appropriate Probing</td>
 										<td>5</td>
 										<td>
 											<select class="form-control vfsVal"  data-id="technical_aspects" name="appropiate_probing" required>
 												<!-- <option value="">-Select-</option> -->
-												<option vfs_val=5 <?php echo $vfs_chat['appropiate_probing']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=5 <?php echo $vfs_chat['appropiate_probing']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=5 <?php echo $vfs_chat['appropiate_probing']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['appropiate_probing']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max="5" <?php echo $vfs_chat['appropiate_probing']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['appropiate_probing']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_appropiate_probing">5</td>
@@ -357,9 +352,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>10</td>
 										<td>
 											<select class="form-control vfsVal"  data-id="additions" name="VAS_options" required>
-												<option vfs_val=10 <?php echo $vfs_chat['VAS_options']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=10 <?php echo $vfs_chat['VAS_options']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=10 <?php echo $vfs_chat['VAS_options']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=10 vfs_max="10" <?php echo $vfs_chat['VAS_options']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max="10" <?php echo $vfs_chat['VAS_options']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=10 vfs_max="10" <?php echo $vfs_chat['VAS_options']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_VAS_options">10</td>
@@ -371,9 +366,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>7</td>
 										<td>
 											<select class="form-control vfsVal"  data-id="additions" name="awareness_created" required>
-												<option vfs_val=7 <?php echo $vfs_chat['awareness_created']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=7 <?php echo $vfs_chat['awareness_created']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=7 <?php echo $vfs_chat['awareness_created']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=7 vfs_max="7" <?php echo $vfs_chat['awareness_created']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max="7" <?php echo $vfs_chat['awareness_created']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=7 vfs_max="7" <?php echo $vfs_chat['awareness_created']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_awareness_created">7</td>
@@ -394,28 +389,15 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>5</td>
 										<td>
 											<select class="form-control vfsVal"  data-id="documentation" name="correct_disposition" required>
-												<option vfs_val=5 <?php echo $vfs_chat['correct_disposition']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=5 <?php echo $vfs_chat['correct_disposition']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=5 <?php echo $vfs_chat['correct_disposition']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['correct_disposition']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max="5" <?php echo $vfs_chat['correct_disposition']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['correct_disposition']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_correct_disposition">5</td>
 										<td><textarea class="form-control" name="comm11"><?php echo $vfs_chat['comm11'] ?></textarea></td>
 									</tr>
-									<!-- <tr>
-										<td></td>
-										<td colspan=1>b. Update ASM/V2</td>
-										<td>5</td>
-										<td>
-											<select class="form-control vfsVal"  data-id="documentation" name="update_ASM" required>
-												<option vfs_val=5 <?php echo $vfs_chat['update_ASM']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=5 <?php echo $vfs_chat['update_ASM']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_chat['update_ASM']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
-											</select>
-										</td>
-										<td id="score_update_ASM">5</td>
-										<td><textarea class="form-control" name="comm12"><?php echo $vfs_chat['comm12'] ?></textarea></td>
-									</tr> -->
+									
 									<tr>
 										<td style="background-color:#BFC9CA"><b>5</b></td>
 										<td colspan=1 style="background-color:#BFC9CA">Hold Protocol</td>
@@ -431,28 +413,15 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>5</td>
 										<td>
 											<select class="form-control vfsVal"  data-id="hold_required" name="hold_required" required>
-												<option vfs_val=5 <?php echo $vfs_chat['hold_required']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=5 <?php echo $vfs_chat['hold_required']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=5 <?php echo $vfs_chat['hold_required']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['hold_required']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max="5" <?php echo $vfs_chat['hold_required']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['hold_required']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_hold_required">5</td>
 										<td><textarea class="form-control" name="comm13"><?php echo $vfs_chat['comm13'] ?></textarea></td>
 									</tr>
-									<!-- <tr>
-										<td></td>
-										<td colspan=1>b. Hold Guidelines followed</td>
-										<td>1</td>
-										<td>
-											<select class="form-control vfsVal"  data-id="hold_protocol" name="hold_guidelines" required>
-												<option vfs_val=1 <?php echo $vfs_chat['hold_guidelines']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=1 <?php echo $vfs_chat['hold_guidelines']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_chat['hold_guidelines']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
-											</select>
-										</td>
-										<td id="score_hold_guidelines">1</td>
-										<td><textarea class="form-control" name="comm14"><?php echo $vfs_chat['comm14'] ?></textarea></td>
-									</tr> -->
+									
 									<tr>
 										<td style="background-color:#BFC9CA"><b>6</b></td>
 										<td colspan=1 style="background-color:#BFC9CA">Communication</td>
@@ -468,9 +437,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>5</td>
 										<td>
 											<select class="form-control vfsVal"  data-id="communication" name="formatting" required>
-												<option vfs_val=5 <?php echo $vfs_chat['formatting']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=5 <?php echo $vfs_chat['formatting']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=5 <?php echo $vfs_chat['formatting']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['formatting']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max="5" <?php echo $vfs_chat['formatting']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['formatting']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_formatting">5</td>
@@ -482,9 +451,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>5</td>
 										<td>
 											<select class="form-control vfsVal"  data-id="communication" name="avoid_negative_statement" required>
-												<option vfs_val=5 <?php echo $vfs_chat['avoid_negative_statement']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=5 <?php echo $vfs_chat['avoid_negative_statement']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=5 <?php echo $vfs_chat['avoid_negative_statement']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['avoid_negative_statement']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max="5" <?php echo $vfs_chat['avoid_negative_statement']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['avoid_negative_statement']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_avoid_negative_statement">5</td>
@@ -496,9 +465,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>5</td>
 										<td>
 											<select class="form-control vfsVal"  data-id="communication" name="procedure_guide_step" required>
-												<option vfs_val=5 <?php echo $vfs_chat['procedure_guide_step']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=5 <?php echo $vfs_chat['procedure_guide_step']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=5 <?php echo $vfs_chat['procedure_guide_step']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['procedure_guide_step']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max="5" <?php echo $vfs_chat['procedure_guide_step']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['procedure_guide_step']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_procedure_guide_step">5</td>
@@ -510,9 +479,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>5</td>
 										<td>
 											<select class="form-control vfsVal"  data-id="communication" name="avoid_slangs" required>
-												<option vfs_val=5 <?php echo $vfs_chat['avoid_slangs']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=5 <?php echo $vfs_chat['avoid_slangs']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=5 <?php echo $vfs_chat['avoid_slangs']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['avoid_slangs']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max="5" <?php echo $vfs_chat['avoid_slangs']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['avoid_slangs']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_avoid_slangs">5</td>
@@ -524,9 +493,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>6</td>
 										<td>
 											<select class="form-control vfsVal"  data-id="communication" name="correct_grammar_use" required>
-												<option vfs_val=6 <?php echo $vfs_chat['correct_grammar_use']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=6 <?php echo $vfs_chat['correct_grammar_use']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=6 <?php echo $vfs_chat['correct_grammar_use']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=6 vfs_max="6" <?php echo $vfs_chat['correct_grammar_use']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max="6" <?php echo $vfs_chat['correct_grammar_use']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=6 vfs_max="6" <?php echo $vfs_chat['correct_grammar_use']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_correct_grammar_use">6</td>
@@ -538,9 +507,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>3</td>
 										<td>
 											<select class="form-control vfsVal"  data-id="communication" name="further_assistance" required>
-												<option vfs_val=3 <?php echo $vfs_chat['further_assistance']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=3 <?php echo $vfs_chat['further_assistance']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=3 <?php echo $vfs_chat['further_assistance']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=3 vfs_max="3" <?php echo $vfs_chat['further_assistance']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max="3" <?php echo $vfs_chat['further_assistance']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=3 vfs_max="3" <?php echo $vfs_chat['further_assistance']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_further_assistance">3</td>
@@ -551,7 +520,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td colspan=1 style="background-color:#BFC9CA">Chat Closing</td>
 										<td style="background-color:#BFC9CA">2</td>
 										<td style="background-color:#BFC9CA"></td>
-										<td style="background-color:#BFC9CA" id="score_chat-closing">2</td>
+										<td style="background-color:#BFC9CA" id="score_closing">2</td>
 										<td style="background-color:#BFC9CA"></td>
 
 									</tr>
@@ -561,9 +530,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>2</td>
 										<td>
 											<select class="form-control vfsVal" data-id="closing" name="chat_adherence" required>
-												<option vfs_val=2 <?php echo $vfs_chat['chat_adherence']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=2 <?php echo $vfs_chat['chat_adherence']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_chat['chat_adherence']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option vfs_val=2 vfs_max="2" <?php echo $vfs_chat['chat_adherence']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max="2" <?php echo $vfs_chat['chat_adherence']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=2 vfs_max="2"<?php echo $vfs_chat['chat_adherence']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_chat_adherence">2</td>
@@ -585,8 +554,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td></td>
 										<td>
 											<select class="form-control vfsVal fatal_epi" id="chatAutof1" name="delayed_opening" required>
-												<option vfs_val=0 <?php echo $vfs_chat['delayed_opening']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_chat['delayed_opening']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max=0 <?php echo $vfs_chat['delayed_opening']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=0 vfs_max=0 <?php echo $vfs_chat['delayed_opening']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 											</select>
 										</td>
 										<td></td>
@@ -598,8 +567,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td></td>
 										<td>
 											<select class="form-control vfsVal fatal_epi" id="chatAutof2" name="rude_on_chat" required>
-												<option vfs_val=0 <?php echo $vfs_chat['rude_on_chat']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_chat['rude_on_chat']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max=0 <?php echo $vfs_chat['rude_on_chat']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=0 vfs_max=0 <?php echo $vfs_chat['rude_on_chat']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 											</select>
 										</td>
 										<td></td>
@@ -611,8 +580,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td></td>
 										<td>
 											<select class="form-control vfsVal fatal_epi" id="chatAutof3" name="inacurate_information" required>
-												<option vfs_val=0 <?php echo $vfs_chat['inacurate_information']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_chat['inacurate_information']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max=0 <?php echo $vfs_chat['inacurate_information']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=0 vfs_max=0 <?php echo $vfs_chat['inacurate_information']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 											</select>
 										</td>
 										<td></td>
@@ -624,8 +593,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td></td>
 										<td>
 											<select class="form-control vfsVal fatal_epi" id="chatAutof4" name="complaint_avoidance" required>
-												<option vfs_val=0 <?php echo $vfs_chat['complaint_avoidance']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_chat['complaint_avoidance']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max=0 <?php echo $vfs_chat['complaint_avoidance']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=0 vfs_max=0 <?php echo $vfs_chat['complaint_avoidance']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 											</select>
 										</td>
 										<td></td>
@@ -644,8 +613,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td></td>
 										<td colspan=1>a. Disposition</td>
 										<td></td>
-										<td>
-										</td>
+										<td><textarea class="form-control" name="comm32"><?php echo $vfs_chat['comm32'] ?></textarea></td>
 										<td></td>
 										<td><textarea class="form-control" name="comm26"><?php echo $vfs_chat['comm26'] ?></textarea></td>
 									</tr>
@@ -653,8 +621,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td></td>
 										<td colspan=1>b. Communication mode through which customer contacted previously</td>
 										<td></td>
-										<td>
-										</td>
+										<td><textarea class="form-control" name="comm33"><?php echo $vfs_chat['comm33'] ?></textarea></td>
 										<td></td>
 										<td><textarea class="form-control" name="comm27"><?php echo $vfs_chat['comm27'] ?></textarea></td>
 									</tr>
@@ -662,8 +629,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td></td>
 										<td colspan=1>c. Description of Disposition selected</td>
 										<td></td>
-										<td>
-										</td>
+										<td><textarea class="form-control" name="comm34"><?php echo $vfs_chat['comm34'] ?></textarea></td>
 										<td></td>
 										<td><textarea class="form-control" name="comm28"><?php echo $vfs_chat['comm28'] ?></textarea></td>
 									</tr>
@@ -672,9 +638,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td colspan=1>d. Was this the first time customer called us ?</td>
 										<td></td>
 										<td>
-											 <select class="form-control vfsVal" id="" name="customer_called_first" required>
+											 <select class="form-control vfsVal" id="" name="customer_called_first">
 												<option value="">Select</option>
-												<option vfs_val=0 <?php echo $vfs_chat['customer_called_first']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=0 vfs_max=0 <?php echo $vfs_chat['customer_called_first']=='No'?"selected":""; ?> value="No">No</option>
 												<option vfs_val=0 <?php echo $vfs_chat['customer_called_first']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 											</select>
 										</td>
@@ -686,10 +652,10 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td colspan=1>e. Did the customer contact us more than once but less than 3 times ?</td>
 										<td></td>
 										<td>
-											 <select class="form-control vfsVal" id="" name="customer_contact_more_one_less_three" required>
+											 <select class="form-control vfsVal" id="" name="customer_contact_more_one_less_three">
 												<option value="">Select</option>
-												<option vfs_val=0 <?php echo $vfs_chat['customer_contact_more_one_less_three']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_chat['customer_contact_more_one_less_three']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max=0 <?php echo $vfs_chat['customer_contact_more_one_less_three']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=0 vfs_max=0 <?php echo $vfs_chat['customer_contact_more_one_less_three']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 											</select>
 										</td>
 										<td></td>
@@ -700,10 +666,10 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td colspan=1>f. Did the customer contact us more than 3 times ?</td>
 										<td></td>
 										<td>
-											 <select class="form-control vfsVal" id="" name="customer_contact_more_three" required>
+											 <select class="form-control vfsVal" id="" name="customer_contact_more_three">
 												<option value="">Select</option>
-												<option vfs_val=0 <?php echo $vfs_chat['customer_contact_more_three']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=0 <?php echo $vfs_chat['customer_contact_more_three']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max=0 <?php echo $vfs_chat['customer_contact_more_three']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=0 vfs_max=0 <?php echo $vfs_chat['customer_contact_more_three']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 											</select>
 										</td>
 										<td></td>

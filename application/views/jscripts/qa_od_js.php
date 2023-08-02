@@ -1,15 +1,109 @@
 
 <script>
+$('INPUT[type="file"]').change(function () {
+    var ext = this.value.match(/\.(.+)$/)[1];
+    switch (ext) {
+        case 'mp4':
+        case 'mp3':
+		case 'wav':
+		case 'm4a':
+			$('#qaformsubmit').attr('disabled', false);
+        break;
+        default:
+            alert('This is not an allowed file type. Please upload allowed file type like [m4a,mp4,mp3,wav]');
+            this.value = '';
+    }
+});
+</script>
+<script type="text/javascript">
+	$(document).ready(function () {
+	 // console.log("Hello World!");
+	  var start_date	=	$("#from_date").val();
+	  var end_date		=	$("#to_date").val();
+	  if(start_date == '' && end_date == ''){
+		  	$(".blains-effect").attr("disabled",true);
+			$(".blains-effect").css('cursor', 'no-drop');
+	  }
+	  if(end_date == ''){
+	  		$(".blains-effect").attr("disabled",true);
+			$(".blains-effect").css('cursor', 'no-drop');
+	  }
+	  if(start_date == ''){
+	  		$(".blains-effect").attr("disabled",true);
+			$(".blains-effect").css('cursor', 'no-drop');
+	  }
+	});
+</script>
+
+<script type="text/javascript">
+	
+	function date_validation(val,type){
+	// alert(val);
+		$(".end_date_error").html("");
+		$(".start_date_error").html("");
+		
+		if(type=='E'){
+		var start_date=$("#from_date").val();
+		//if(val<start_date)
+		if(start_date!=''){
+			if(Date.parse(val) < Date.parse(start_date))
+			{
+				$(".end_date_error").html("To Date must be greater or equal to From Date");
+				 $(".blains-effect").attr("disabled",true);
+				 $(".blains-effect").css('cursor', 'no-drop');
+			}
+			else{
+				 $(".blains-effect").attr("disabled",false);
+				 $(".blains-effect").css('cursor', 'pointer');
+				}
+
+		}else{
+				 $(".blains-effect").attr("disabled",true);
+				 $(".blains-effect").css('cursor', 'no-drop');
+		}
+		
+		}
+		else{
+			var end_date=$("#to_date").val();
+		//if(val>end_date && end_date!='')
+		
+		if(end_date!=''){
+			if(Date.parse(val) > Date.parse(end_date) && end_date!='')
+		{
+			$(".start_date_error").html("From  Date  must be less or equal to  To Date");
+			 $(".blains-effect").attr("disabled",true);
+			 $(".blains-effect").css('cursor', 'no-drop');
+			
+		}
+		else{
+			 $(".blains-effect").attr("disabled",false);
+			 $(".blains-effect").css('cursor', 'pointer');
+			}
+		}else{
+			$(".blains-effect").attr("disabled",true);
+			 $(".blains-effect").css('cursor', 'no-drop');
+		}
+		
+		}
+	}
+</script>
+
+<script>
 $(document).ready(function(){	
 
-		$("#from_date").datepicker();
-		$("#to_date").datepicker();
+		
 		$("#chat_date").datepicker();
-		$("#call_date").datepicker({  maxDate: new Date() });
-		$("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });
-		$("#audit_date").datepicker();
 		$("#mgnt_review_date").datepicker();
 		$("#review_date").datepicker({  maxDate: new Date() });
+
+	$("#audit_date").datepicker();
+	$("#call_date").datepicker({maxDate: new Date()}); //datetimepicker
+	$("#call_date_time").datetimepicker({maxDate: new Date()});
+	//$("#call_date").datepicker({ minDate: 0 });
+	$("#copy_received").datepicker();
+	$("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });
+	$("#from_date").datepicker({maxDate: new Date() });
+	$("#to_date").datepicker({maxDate: new Date() });
 		
 		$("#coach_name").select2();
 		$("#agent_id").select2();
@@ -28,19 +122,7 @@ $(document).ready(function(){
 	}); */
 	
 ///////////////// Calibration - Auditor Type ///////////////////////	
-	$('.auType').hide();
-	
-	$('#audit_type').on('change', function(){
-		if($(this).val()=='Calibration'){
-			$('.auType').show();
-			$('#auditor_type').attr('required',true);
-			$('#auditor_type').prop('disabled',false);
-		}else{
-			$('.auType').hide();
-			$('#auditor_type').attr('required',false);
-			$('#auditor_type').prop('disabled',true);
-		}
-	});	
+
 
 ////////CONNECT//////	
 	$('#ack_chat_cust').on('change', function() {
@@ -231,7 +313,7 @@ $(document).ready(function(){
 	
 </script>	
 
-<script>
+<!-- <script>
 function date_validation(val,type){ 
 	// alert(val);
 		$(".end_date_error").html("");
@@ -267,7 +349,7 @@ function date_validation(val,type){
 
 		}
 	}
-</script>
+</script> -->
 
 <script>
 
@@ -346,6 +428,67 @@ function date_validation(val,type){
 		});
 	});	
  </script>
+
+ <script type="text/javascript">
+	///////////////// Calibration - Auditor Type ///////////////////////	
+	//$('.auType').hide();
+	
+	if($("#audit_type").val() == "Calibration"){
+		$('.auType').show();
+		$('#auditor_type').attr('required',true);
+		$('#auditor_type').prop('disabled',false);
+	}
+	
+	$('#audit_type').each(function(){
+		$valdet=$(this).val();
+		console.log($valdet);
+		if($valdet=="Calibration"){
+			$('.auType').show();
+			$('#auditor_type').attr('required',true);
+			$('#auditor_type').prop('disabled',false);
+		}else{
+			$('.auType').hide();
+			$('#auditor_type').attr('required',false);
+			$('#auditor_type').prop('disabled',true);
+		}
+	});
+
+	$('#audit_type').on('change', function(){
+		if($(this).val()=='Calibration'){
+			$('.auType').show();
+			$('#auditor_type').attr('required',true);
+			$('#auditor_type').prop('disabled',false);
+		}else{
+			$('.auType').hide();
+			$('#auditor_type').attr('required',false);
+			$('#auditor_type').prop('disabled',true);
+		}
+	});
+
+	///////////////////hcci core/////////////////
+
+	$('#audit_type').each(function(){
+		$valdet=$(this).val();
+		if($valdet=="Calibration"){
+			$('.auType_epi').show();
+		}else{
+			$('.auType_epi').hide();
+		}
+	});
+
+	$('#audit_type').on('change', function(){
+		if($(this).val()=='Calibration'){
+			$('.auType_epi').show();
+			$('#auditor_type').attr('required',true);
+			$('#auditor_type').prop('disabled',false);
+		}else{
+			//alert(222);
+			$('.auType_epi').hide();
+			$('#auditor_type').attr('required',false);
+			$('#auditor_type').prop('disabled',true);
+		}
+	});
+</script>
  
  <script>
  /////////////// VFS ////////////////////////
@@ -364,25 +507,31 @@ function date_validation(val,type){
 			if(score_type == 'Yes'){
 				var nameVal = $.trim($(element).attr('name'));			
 				var weightage = parseFloat($(element).children("option:selected").attr('vfs_val'));
+				var weightage_possible = parseFloat($(element).children("option:selected").attr('vfs_max'));
 				var final_total=$.trim($(this).data('id'));
 				score = score + weightage;
 				sub_score=sub_score + weightage;
-				scoreable = scoreable + weightage;
+				scoreable = scoreable + weightage_possible;
 				$("#score_"+nameVal).html(weightage);
 				$("#score_"+final_total).html(sub_score);
 			}else if(score_type == 'No'){
 				var nameVal = $.trim($(element).attr('name'));
 				var weightage = parseFloat($(element).children("option:selected").attr('vfs_val'));
+				var weightage_possible = parseFloat($(element).children("option:selected").attr('vfs_max'));
 				var final_total=$.trim($(this).data('id'));
-				scoreable = scoreable + weightage;
+				//console.log(nameVal);
+				//console.log(final_total);
+				scoreable = scoreable + weightage_possible;
 				$("#score_"+final_total).html(sub_score);
 				$("#score_"+nameVal).html(0);
 			}else if(score_type == 'N/A'){
 				var nameVal = $.trim($(element).attr('name'));
 				var weightage = parseFloat($(element).children("option:selected").attr('vfs_val'));
+				var weightage_possible = parseFloat($(element).children("option:selected").attr('vfs_max'));
 				var final_total=$.trim($(this).data('id'));	
 				score = score + weightage;
-				scoreable = scoreable + weightage;
+				scoreable = scoreable + weightage_possible;
+				sub_score=sub_score + weightage;
 				$("#score_"+nameVal).html(weightage);
 				$("#score_"+final_total).html(sub_score);	
 			}

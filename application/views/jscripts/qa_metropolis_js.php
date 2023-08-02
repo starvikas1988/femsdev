@@ -2104,7 +2104,7 @@ $(document).ready(function(){
 		}
 
 	////////////Stifel///////////////
-		if($('#stifel_AF1').val()=='No' || $('#stifel_AF2').val()=='No' || $('#stifel_AF3').val()=='No' || $('#stifel_AF4').val()=='No' || $('#stifel_AF5').val()=='No' || $('#stifel_AF6').val()=='No'){
+		if($('#stifel_AF1').val()=='No' || $('#stifel_AF2').val()=='No' || $('#stifel_AF3').val()=='No' || $('#stifel_AF4').val()=='No' || $('#stifel_AF5').val()=='No' || $('#stifel_AF6').val()=='No' || $('#stifel_AF7').val()=='No' || $('#stifel_AF8').val()=='No' || $('#stifel_AF9').val()=='No' || $('#stifel_AF10').val()=='No' || $('#stifel_AF11').val()=='No' || $('#stifel_AF12').val()=='No'){
 			$('.stifel_fatal').val(0);
 		}else{
 			if(!isNaN(quality_score_percent)){
