@@ -80,11 +80,11 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td style="width:300px"><input type="text" class="form-control" value="<?php echo $auditorName; ?>" disabled></td>
 										<td style="width:150px">Audit Date:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" value="<?php echo $auditDate; ?>" disabled></td>
-										<td>Date and time Of Chat:<span style="font-size:24px;color:red">*</span></td>
+										<td>Chat Date:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" id="call_date" name="call_date" onkeydown="return false;"  value="<?php echo $clDate_val; ?>" required></td>
 									</tr>
 									<tr>
-										<td>Employee Name:<span style="font-size:24px;color:red">*</span></td>
+										<td>Agent Name:<span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="agent_id" name="agent_id" required>
 												<option value="<?php echo $vfs_chat['agent_id'] ?>"><?php echo $vfs_chat['fname']." ".$vfs_chat['lname'] ?></option>
@@ -98,20 +98,12 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td><input type="text" class="form-control" id="fusion_id" name="" value="<?php echo $vfs_chat['fusion_id']; ?>" readonly></td>
 										<td>L1 Supervisor:<span style="font-size:24px;color:red">*</span></td>
 										<td style="width:250px">
-											<!-- <select class="form-control" id="tl_id" name="tl_id" readonly>
-												<option value="<?php echo $vfs_chat['tl_id'] ?>"><?php echo $vfs_chat['tl_name'] ?></option>
-												<option value="">--Select--</option>
-												<?php foreach($tlname as $tl): ?>
-													<option value="<?php echo $tl['id']; ?>"><?php echo $tl['fname']." ".$tl['lname']; ?></option>
-												<?php endforeach; ?>	
-											</select> -->
-
 											<input type="text" class="form-control" id="tl_name"  value="<?php echo $vfs_chat['tl_name']; ?>" readonly>
 												<input type="hidden" class="form-control" id="tl_id" name="tl_id" value="<?php echo $vfs_chat['tl_id'] ?>" required>
 										</td>
 									</tr>
 									<tr>
-										<td>Call Duration:<span style="font-size:24px;color:red">*</span></td>
+										<td>Chat Duration:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" id="call_duration" onkeydown="return false;" name="call_duration" value="<?php echo $vfs_chat['call_duration']; ?>" required></td>
 										<td>Mission:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control"  name="mission" value="<?php echo $vfs_chat['mission']; ?>" required></td>
@@ -341,7 +333,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									<tr>
 										<td style="background-color:#BFC9CA"><b>3</b></td>
 										<td colspan=1 style="background-color:#BFC9CA">Additions</td>
-										<td style="background-color:#BFC9CA">14</td>
+										<td style="background-color:#BFC9CA">17</td>
 										<td style="background-color:#BFC9CA"></td>
 										<td style="background-color:#BFC9CA" id="score_additions">17</td>
 										<td style="background-color:#BFC9CA"></td>
@@ -378,7 +370,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									<tr>
 										<td style="background-color:#BFC9CA"><b>4</b></td>
 										<td colspan=1 style="background-color:#BFC9CA">Documentation</td>
-										<td style="background-color:#BFC9CA">10</td>
+										<td style="background-color:#BFC9CA">5</td>
 										<td style="background-color:#BFC9CA"></td>
 										<td style="background-color:#BFC9CA" id="score_documentation">5</td>
 										<td style="background-color:#BFC9CA"></td>
@@ -401,7 +393,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									<tr>
 										<td style="background-color:#BFC9CA"><b>5</b></td>
 										<td colspan=1 style="background-color:#BFC9CA">Hold Protocol</td>
-										<td style="background-color:#BFC9CA">3</td>
+										<td style="background-color:#BFC9CA">5</td>
 										<td style="background-color:#BFC9CA"></td>
 										<td style="background-color:#BFC9CA" id="score_hold_protocol">5</td>
 										<td style="background-color:#BFC9CA"></td>
@@ -540,7 +532,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									</tr>
 								
 									<tr>
-										<td style="background-color:#BFC9CA"><b>9</b></td>
+										<td style="background-color:#BFC9CA"><b>8</b></td>
 										<td colspan=1 style="background-color:#BFC9CA">Fatal Parameters</td>
 										<td style="background-color:#BFC9CA"></td>
 										<td style="background-color:#BFC9CA"></td>
@@ -601,7 +593,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td><textarea class="form-control" name="comm25"><?php echo $vfs_chat['comm25'] ?></textarea></td>
 									</tr>
 									<tr>
-										<td style="background-color:#BFC9CA"><b>10</b></td>
+										<td style="background-color:#BFC9CA"><b>9</b></td>
 										<td colspan=1 style="background-color:#BFC9CA">First Time Resolution (FTR)</td>
 										<td style="background-color:#BFC9CA"></td>
 										<td style="background-color:#BFC9CA"></td>
@@ -682,7 +674,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td colspan=2><textarea class="form-control"  name="inprovement_area"><?php echo $vfs_chat['inprovement_area'] ?></textarea></td>
 									</tr> -->
 									<tr>
-										<td>Chat Summary:</td>
+										<td>Call Summary:</td>
 										<td colspan=2><textarea class="form-control"  name="call_summary"><?php echo $vfs_chat['call_summary'] ?></textarea></td>
 										<td>Feedback:</td>
 										<td colspan=2><textarea class="form-control"  name="feedback"><?php echo $vfs_chat['feedback'] ?></textarea></td>

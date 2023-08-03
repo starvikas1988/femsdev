@@ -79,11 +79,11 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td style="width:300px"><input type="text" class="form-control" value="<?php echo $auditorName; ?>" disabled></td>
 										<td style="width:150px">Audit Date:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" value="<?php echo $auditDate; ?>" disabled></td>
-										<td>Date and time of Call:<span style="font-size:24px;color:red">*</span></td>
+										<td>Call Date:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" id="call_date" name="call_date" onkeydown="return false;" value="<?php echo $clDate_val; ?>" required></td>
 									</tr>
 									<tr>
-										<td>Employee Name:<span style="font-size:24px;color:red">*</span></td>
+										<td>Agent Name:<span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="agent_id" name="agent_id" required>
 												<option value="<?php echo $vfs_call['agent_id'] ?>"><?php echo $vfs_call['fname']." ".$vfs_call['lname'] ?></option>
