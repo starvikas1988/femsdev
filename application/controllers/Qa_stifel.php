@@ -85,46 +85,6 @@
     }
   }
 
-	// private function stifel_upload_files($files,$path)
- //    {
- //        $config['upload_path'] = $path;
-	// 	$config['allowed_types'] = 'mp3|avi|mp4|wmv|wav';
-	// 	$config['max_size'] = '2024000';
-	// 	$this->load->library('upload', $config);
-	// 	$this->upload->initialize($config);
- //        $images = array();
- //        foreach ($files['name'] as $key => $image) {
-	// 		$_FILES['uFiles']['name']= $files['name'][$key];
-	// 		$_FILES['uFiles']['type']= $files['type'][$key];
-	// 		$_FILES['uFiles']['tmp_name']= $files['tmp_name'][$key];
-	// 		$_FILES['uFiles']['error']= $files['error'][$key];
-	// 		$_FILES['uFiles']['size']= $files['size'][$key];
-
- //            if ($this->upload->do_upload('uFiles')) {
-	// 			$info = $this->upload->data();
-	// 			$ext = $info['file_ext'];
-	// 			$file_path = $info['file_path'];
-	// 			$full_path = $info['full_path'];
-	// 			$file_name = $info['file_name'];
-	// 			if(strtolower($ext)== '.wav'){
-
-	// 				$file_name = str_replace(".","_",$file_name).".mp3";
-	// 				$new_path = $file_path.$file_name;
-	// 				$comdFile=FCPATH."assets/script/wavtomp3.sh '$full_path' '$new_path'";
-	// 				$output = shell_exec( $comdFile);
-	// 				sleep(2);
-	// 			}
-
-	// 			$images[] = $file_name;
-
-
- //            } else {
- //                return false;
- //            }
- //        }
- //        return $images;
- //    }
-
 
 	public function index(){
 		if(check_logged_in())
@@ -526,8 +486,8 @@ public function add_edit_v1_stifel($stifel_id){
 			$cond="";
 			$campaign = $this->input->get('campaign');
 
-			$fromDate = $this->input->get('from_date');
-			$toDate = $this->input->get('to_date');
+			$from_date = $this->input->get('from_date');
+			$to_date = $this->input->get('to_date');
 			
 
 			if($from_date==""){ 
@@ -553,8 +513,8 @@ public function add_edit_v1_stifel($stifel_id){
 				{
 					
 					
-					if($fromDate!="" && $toDate!=="" ){ 
-						$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit') ";
+					if($from_date!="" && $to_date!=="" ){ 
+						$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit') ";
 					}else{
 						$cond= " Where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit') ";
 					}

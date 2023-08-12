@@ -5117,7 +5117,7 @@ public function create_qa_oyo_sig_itc_CSV($rr)
 	{
 		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
 		$fopen = fopen($filename,"w+");
-		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Tenure (in Days)", "Tenure Bucket", "Recording Date and Time", "Avaya ID", "Call Duration", "Phone", "Booking ID", "Geography to be audited", "Type of Audit", "Cancellation Sub Type", "Call Type", "Can be Automated", "Call Sub Type", "Tagging by Agent - Call Type", "Tagging by Agent - Call Sub Type","Property Code","Agent Disposition","QA Disposition", "Audit Type", "Auditor Type", "VOC", "ACPT","Prepay Adharanc","Payments Status", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score",
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Tenure (in Days)", "Tenure Bucket", "Recording Date and Time", "Avaya ID", "Call Duration", "Phone", "Booking ID", "Geography to be audited", "Type of Audit", "Cancellation Sub Type", "Call Type", "Can be Automated", "Call Sub Type", "Tagging by Agent - Call Type", "Tagging by Agent - Call Sub Type","Property Code","Agent Disposition","QA Disposition", "Audit Type", "Auditor Type", "VOC", "ACPT","Prepay Adharanc","Payments Status", "Property Type", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score",
 		 	"Delayed Opening >5 sec",
 		 	"Was the opening correct?",
 		 	"Did the agent ask for further assistance?",
@@ -5215,6 +5215,7 @@ public function create_qa_oyo_sig_itc_CSV($rr)
 			$row .= '"'.$user['acpt'].'",';
 			$row .= '"'.$user['prepay_adharance'].'",';
 			$row .= '"'.$user['payments_status'].'",';
+			$row .= '"'.$user['property_type'].'",';
 			$row .= '"'.$user['audit_start_time'].'",';
 			$row .= '"'.$user['entry_date'].'",';
 			$row .= '"'.$interval1.'",';
@@ -5920,7 +5921,9 @@ public function create_qa_oyo_esal_CSV($rr)
 
 	public function headerDetails(){
 
-		return $arrayName = array ("Auditor Name","Audit Date","Fusion Id","Agent","L1 Super","Phone","Call Date","Call Duration","Campaign","Booking Id","APCT","Audit Type","Auditor Type","VOC","Czentrix","AT_calltype","AT_subtype","Correct Calltype","Correct Subtype","Lead conversion Done","Non Conversion Reason","L1","L2","Service Score","Soft Skill Score","Overall Result","Overall Score","Booking Details","Guest Understand","Complete Resolution","Objection Handling","Retention Efforts","Ownership Resolve","Customer Issue","Effective Probing","Sale Future","Selling Skills","Customer Objection","Hotel Amenities","Multiple Option","Whatsapp Option","Lifeline Compliance","OYO Assist","Escalation Metrix","SIG CID","Greet Customer Branding","Courtesy Confidence","Apology Empathy","Interruption","Active Listening","Switch Language","Grammar Sentence","Guest Permission","Verbiage Followed","Dead Air","Does Infraction Exist","Choose Reason","Tier","Attempt","Equivalent_to","Call Summary","BOD","Feedback","Entry By","Entry Date","Audit Start Date","Client entry by","Mgnt review by","Mgnt review note","Mgnt review date","Agent review note","Agent review date","Client review by","Client review note","Client_rvw_date");
+		return $arrayName = array ("Auditor Name","Audit Date","Fusion Id","Agent","L1 Super","Phone","Call Date","Call Duration","Campaign","Booking Id","APCT","Audit Type","Auditor Type","VOC","Czentrix","AT_calltype","AT_subtype","Correct Calltype","Correct Subtype","Lead conversion Done","Non Conversion Reason","L1","L2","Service Score","Soft Skill Score","Overall Result","Overall Score","Booking Details","Guest Understand","Complete Resolution","Objection Handling","Retention Efforts","Ownership Resolve","Customer Issue","Effective Probing","Sale Future","Selling Skills","Customer Objection","Hotel Amenities","Multiple Option","Whatsapp Option","Lifeline Compliance","OYO Assist","Escalation Metrix","SIG CID","Greet Customer Branding","Courtesy Confidence","Apology Empathy","Interruption","Active Listening","Switch Language","Grammar Sentence","Guest Permission","Verbiage Followed","Dead Air","Does Infraction Exist","Choose Reason","Tier","Attempt","Equivalent_to","Call Summary","BOD","Feedback",
+		"Hygiene Sampling - Agent was not stella phishing?","Remarks","Hygiene Sampling - Agent was not avoiding Stella Survey?","Remarks","Hygiene Sampling - Attempted to Cross Sell?","Remarks","AHT Related Spot Check - Agent","Remarks","AHT Related Spot Check - Customer","Remarks","AHT Related Spot Check - Process","Remarks","AHT Related Spot Check - Technology","Remarks","Conversion Related Spot Check - Agent","Remarks","Conversion Related Spot Check - Customer","Remarks","Conversion Related Spot Check - Process","Remarks","Conversion Related Spot Check - Technology","Remarks","SR/HR Related Spot Check - Agent","Remarks","SR/HR Related Spot Check - Customer","Remarks","SR/HR Related Spot Check - Process","Remarks","SR/HR Related Spot Check - Technology","Remarks","CSAT Related Spot Check - Agent","Remarks","CSAT Related Spot Check - Customer","Remarks","CSAT Related Spot Check - Process","Remarks","CSAT Related Spot Check - Technology","Remarks",
+		"Entry By","Entry Date","Audit Start Date","Client entry by","Mgnt review by","Mgnt review note","Mgnt review date","Agent review note","Agent review date","Client review by","Client review note","Client_rvw_date");
 
 	}
 
@@ -23242,25 +23245,25 @@ public function create_qa_craftjack_CSV($rr,$campaign)
 		
 		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent Name", "L1 Supervisor", "Customer Name", "Customer Phone No", "Call Date", "Call Duration","Audit Start Date Time", "Audit End Date Time","Interval(In Second)",
 		 "AHT RCA","L1","L2","Type of Call","Week No","Reason of Cancellation","Audit Type","Auditor Type", "VOC","Tenure","Audit Link","Possible Score", "Earned Score", "Overall Score","Business Score","Customer Score","Compliance Score",
-		"1.1 Did the agent greet the customer promptly?","Comment 1",
-		"1.2 Did the agent provide his/her name?","Comment 2",
-		"1.3 Did the agent informed the customer about the recorded line?","Comment 3",
-		"1.4 Did the agent ask how/he or she could assist the caller?","Comment 4",
-		"2.1 Did the agent checked the Customers Account?","Comment 5",
-		"2.2 Did the agent tried to solve the customers Issue?","Comment 6",
-		"2.3 Did the agent ask the customer the cancellation reason?","Comment 7",
-		"2.4 Did the agent make an offer or an attempt to try to save the account?","Comment 8",
+		"1.1 Did the agent greet the customer promptly?","Comment",
+		"1.2 Did the agent provide his/her name?","Comment",
+		"1.3 Did the agent informed the customer about the recorded line?","Comment",
+		"1.4 Did the agent ask how/he or she could assist the caller?","Comment",
+		"2.1 Did the agent checked the Customers Account?","Comment",
+		"2.2 Did the agent tried to solve the customers Issue?","Comment",
+		"2.3 Did the agent ask the customer the cancellation reason?","Comment",
+		"2.4 Did the agent make an offer or an attempt to try to save the account?","Comment",
 		"2.5 Did the agent leave detailed notes?","Comment 9",
-		"2.6 Did the agent inform the SP about the statement that will be sent after the call?","Comment 10",
-		"2.5 Did the agent leave detailed notes?","Comment 11",
-		"3.1 Did the agent have an appropriate tone and Pacing? Did the agent rush the call?","Comment 12",
-		"3.2 Did the agent use empathy & assurance to help statements over the call (if applicable)?","Comment 13",
-		"3.3 Did the agent intentionally interrupted the customer?","Comment 14",
-		"3.4 Professionalism","Comment 15",
-		"3.5 Did the agent follow the hold procedure/ dead air?","Comment 16",
-		"4.1 Did the agent offer further assistance once the primary issue of the customer is addressed?","Comment 17",
-		"4.2 Did the agent close the call correctly?","Comment 18",
-    	
+		"2.6 Did the agent inform the SP about the statement that will be sent after the call?","Comment",
+		"2.7 Did the agent leave detailed notes?","Comment",
+		"2.8 Did the agent pause the recording when caller is providing their credit card information?","Comment",
+		"3.1 Did the agent have an appropriate tone and Pacing? Did the agent rush the call?","Comment",
+		"3.2 Did the agent use empathy & assurance to help statements over the call (if applicable)?","Comment",
+		"3.3 Did the agent intentionally interrupted the customer?","Comment",
+		"3.4 Professionalism","Comment",
+		"3.5 Did the agent follow the hold procedure/ dead air?","Comment",
+		"4.1 Did the agent offer further assistance once the primary issue of the customer is addressed?","Comment",
+		"4.2 Did the agent close the call correctly?","Comment",
 		"Call Summary", "Feedback", "Agent Review Date/Time", "Agent Comment","Feedback Acceptance", "Management Review Date/Time","Management Review By", "Management Comment","Client Review Date/Time", "Client Review Name", "Client Review Note" );
 
 		$row = "";
@@ -23337,6 +23340,8 @@ public function create_qa_craftjack_CSV($rr,$campaign)
 				$row .= '"'.$user['cmt10'].'",';
 				$row .= '"'.$user['educate_customer'].'",';
 				$row .= '"'.$user['cmt11'].'",';
+				$row .= '"'.$user['agent_pause_recording'].'",';
+				$row .= '"'.$user['cmt19'].'",';
 				$row .= '"'.$user['appropriate_tone'].'",';
 				$row .= '"'.$user['cmt12'].'",';
 				$row .= '"'.$user['use_empathy'].'",';
@@ -23353,6 +23358,219 @@ public function create_qa_craftjack_CSV($rr,$campaign)
 				$row .= '"'.$user['cmt18'].'",';
 			
 				
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+				$row .= '"'.$user['agent_rvw_date'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+				$row .= '"'.$user['agnt_fd_acpt'].'",';
+				$row .= '"'.$user['mgnt_rvw_date'].'",';
+				$row .= '"'.$user['mgnt_rvw_name'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
+				$row .= '"'.$user['client_rvw_date'].'",';
+				$row .= '"'.$user['client_rvw_name'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
+
+			fwrite($fopen,$row."\r\n");
+		}
+		fclose($fopen);
+
+		///////////////////vikas////////////////////////
+	}
+	else if($campaign == 'craftjack_inbound_outbound'){
+		///////////////////vikas////////////////////////
+		$currentURL = base_url();
+		$controller = "Qa_craftjack";
+		$edit_url = "add_edit_craftjack_inbound_outbound";
+		$main_url =  $currentURL.''.$controller.'/'.$edit_url;
+		
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent Name", "L1 Supervisor", "Customer Name", "Customer Phone No", "Call Date", "Call Duration","Audit Start Date Time", "Audit End Date Time","Interval(In Second)",
+		 "Location","No of SR","SR/Link","Type of Call","Audit Type","Auditor Type", "VOC","Audit Link","Possible Score", "Earned Score", "Overall Score","Business Score","Customer Score","Compliance Score",
+		"1.Introduction: Agent asked/mentioned customers name?","Comment1",
+		"2.Introduction: Agent mentioned his/her name?","Comment2",
+		"3.Introduction: Agent confirmed Requested Job.","Comment3",
+		"4.Introduction: Agent Opened call Properly (did the agent deliver the opening spiel within the first 5 seconds).","Comment4",
+		"1.Follow Up: Did the agent ask for brief description about the project?","Comment5",
+		"2.Follow Up: Did the agent follow the questions to the panel?","Comment6",
+		"3.Follow Up: Did the agent select the correct panel?","Comment7",
+		"4.Follow Up: Did the agent probe if Job done?","Comment8",
+		"5.Follow Up: Did the agent ask if the Job done by suggested company?","Comment9",
+		"6.Follow Up: Did the agent probe experience (job done)?","Comment10",
+		"1.Communication: Active Listening","Comment11",
+		"2.Communication: Call Etiquette","Comment12",
+		"3.Communication: Dead Air","Comment13",
+		"4.Communication: Interrupted customer","Comment14",
+		"5.Communication: Ownership of call","Comment15",
+		"6.Communication: Rate of speech / Clarity","Comment16",
+		"1.Cross Sell: Rate of speech / Clarity","Comment17",
+		"1.SR: Authorized to Send Details","Comment18",
+		"2.SR: Did the agent understand the correct project Request?","Comment19",
+		"3.SR: 	Gather Contact Details (email/phone/address)","Comment20",
+		"4.SR: Offered General Contractor","Comment21",
+		"5.SR: Verified Authorization of the Project","Comment22",
+		"1.Closing: Did the agent ended the call with the closure greeting? Thank you for calling improvenet","Comment23",
+		"1.Critical Fails: Valid SR?","Comment24",
+		"2.Critical Fails: Correct CTT?","Comment25",
+		"3.Critical Fails: Read Contact Verbatim?","Comment26",
+		"4.Critical Fails: Agent mentioned about the recorded line?","Comment27",
+		"1.ACPT PARAMETER:Hygiene Sampling - Agent was not stella phishing?","Remarks1",
+		"2.ACPT PARAMETER:Hygiene Sampling - Agent was not avoiding Stella Survey?","Remarks2",
+		"3.ACPT PARAMETER:Hygiene Sampling - Attempted to Cross Sell?","Remarks3",
+		"4.ACPT PARAMETER:AHT Related Spot Check - Agent","Remarks4",
+		"5.ACPT PARAMETER:AHT Related Spot Check - Customer","Remarks5",
+		"6.ACPT PARAMETER:AHT Related Spot Check - Process","Remarks6",
+		"7.ACPT PARAMETER:AHT Related Spot Check - Technology","Remarks7",
+		"8.ACPT PARAMETER:Conversion Related Spot Check - Agent","Remarks8",
+		"9.ACPT PARAMETER:Conversion Related Spot Check - Customer","Remarks9",
+		"10.ACPT PARAMETER:Conversion Related Spot Check - Process","Remarks10",
+		"11.ACPT PARAMETER:Conversion Related Spot Check - Technology","Remarks11",
+		"12.ACPT PARAMETER:SR/HR Related Spot Check - Agent","Remarks12",
+		"13.ACPT PARAMETER:SR/HR Related Spot Check - Customer","Remarks13",
+		"14.ACPT PARAMETER:SR/HR Related Spot Check - Process","Remarks14",
+		"15.ACPT PARAMETER:SR/HR Related Spot Check - Technology","Remarks15",
+		"16.ACPT PARAMETER:CSAT Related Spot Check - Agent","Remarks16",
+		"17.ACPT PARAMETER:CSAT Related Spot Check - Customer","Remarks17",
+		"18.ACPT PARAMETER:CSAT Related Spot Check - Process","Remarks18",
+		"19.ACPT PARAMETER:CSAT Related Spot Check - Technology","Remarks19",
+		"Call Summary", "Feedback", "Agent Review Date/Time", "Agent Comment","Feedback Acceptance", "Management Review Date/Time","Management Review By", "Management Comment","Client Review Date/Time", "Client Review Name", "Client Review Note" );
+
+		$row = "";
+		foreach($header as $data) $row .= ''.$data.',';
+		fwrite($fopen,rtrim($row,",")."\r\n");
+		$searches = array("\r", "\n", "\r\n");
+
+		foreach($rr as $user){
+			$call_summary = '';
+			$aoi = '';
+			if($user['entry_by']!=''){
+				$auditorName = $user['auditor_name'];
+			}else{
+				$auditorName = $user['client_name'];
+			}
+
+			if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+				$interval1 = '---';
+			}else{
+				$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+			}
+			$main_urls = $main_url.'/'.$user['id'];
+			$row = '"'.$user['auditor_name'].'",';
+				$row .= '"'.$user['audit_date'].'",';
+				$row .= '"'.$user['fusion_id'].'",';
+				$row .= '"'.$user['fname']." ".$user['lname'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				$row .= '"'.$user['customer_name'].'",';
+				$row .= '"'.$user['phone_no'].'",';
+				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['call_duration'].'",';
+				$row .= '"'.$user['audit_start_time'].'",';
+		        $row .= '"'.$user['entry_date'].'",';
+		        $row .= '"'.$interval1.'",';
+				$row .= '"'.$user['location'].'",';
+				$row .= '"'.$user['no_of_SR'].'",';
+				$row .= '"'.$user['sr_link'].'",';
+				$row .= '"'.$user['call_type'].'",';
+				$row .= '"'.$user['audit_type'].'",';
+				$row .= '"'.$user['auditor_type'].'",';
+				$row .= '"'.$user['voc'].'",';
+				$row .= '"'.$main_urls.'",';
+				$row .= '"'.$user['possible_score'].'",';
+				$row .= '"'.$user['earned_score'].'",';
+				$row .= '"'.$user['overall_score'].'",';
+				$row .= '"'.$user['business_overall_score'].'",';
+				$row .= '"'.$user['customer_overall_score'].'",';
+				$row .= '"'.$user['compliance_overall_score'].'",';
+				$row .= '"'.$user['intro_mentioned_customer_name'].'",';
+				$row .= '"'.$user['cmt1'].'",';
+				$row .= '"'.$user['intro_agent_mentioned_name'].'",';
+				$row .= '"'.$user['cmt2'].'",';
+				$row .= '"'.$user['intro_confirmed_requested_job'].'",';
+				$row .= '"'.$user['cmt3'].'",';
+				$row .= '"'.$user['intro_opened_call_properly'].'",';
+				$row .= '"'.$user['cmt4'].'",';
+				$row .= '"'.$user['follow_up_brief_description'].'",';
+				$row .= '"'.$user['cmt5'].'",';
+				$row .= '"'.$user['follow_up_questions_panel_ib'].'",';
+				$row .= '"'.$user['cmt6'].'",';
+				$row .= '"'.$user['follow_up_access_correct_panel_ib'].'",';
+				$row .= '"'.$user['cmt7'].'",';
+				$row .= '"'.$user['follow_up_probe_job_done_ob'].'",';
+				$row .= '"'.$user['cmt8'].'",';
+				$row .= '"'.$user['follow_up_job_done_by_suggested_company_ob'].'",';
+				$row .= '"'.$user['cmt9'].'",';
+				$row .= '"'.$user['follow_up_probe_experience_ob'].'",';
+				$row .= '"'.$user['cmt10'].'",';
+				$row .= '"'.$user['communication_active_listening'].'",';
+				$row .= '"'.$user['cmt11'].'",';
+				$row .= '"'.$user['communication_call_etiquette'].'",';
+				$row .= '"'.$user['cmt12'].'",';
+				$row .= '"'.$user['communication_dead_air'].'",';
+				$row .= '"'.$user['cmt13'].'",';
+				$row .= '"'.$user['communication_interrupted_customer'].'",';
+				$row .= '"'.$user['cmt14'].'",';
+				$row .= '"'.$user['communication_ownership_call'].'",';
+				$row .= '"'.$user['cmt15'].'",';
+				$row .= '"'.$user['communication_rate_of_speech'].'",';
+				$row .= '"'.$user['cmt16'].'",';
+				$row .= '"'.$user['cross_sell_offered_upsell'].'",';
+				$row .= '"'.$user['cmt17'].'",';
+				$row .= '"'.$user['sr_send_details_ob'].'",';
+				$row .= '"'.$user['cmt18'].'",';
+				$row .= '"'.$user['sr_correct_project_request'].'",';
+				$row .= '"'.$user['cmt19'].'",';
+				$row .= '"'.$user['sr_gather_contact_details'].'",';
+				$row .= '"'.$user['cmt20'].'",';
+				$row .= '"'.$user['sr_general_contracter'].'",';
+				$row .= '"'.$user['cmt21'].'",';
+				$row .= '"'.$user['sr_verified_auth_project'].'",';
+				$row .= '"'.$user['cmt22'].'",';
+				$row .= '"'.$user['closing_closure_greeting'].'",';
+				$row .= '"'.$user['cmt23'].'",';
+				$row .= '"'.$user['critical_valid_SR'].'",';
+				$row .= '"'.$user['cmt24'].'",';
+				$row .= '"'.$user['critical_correct_CTT'].'",';
+				$row .= '"'.$user['cmt25'].'",';
+				$row .= '"'.$user['critical_contact_verbatim'].'",';
+				$row .= '"'.$user['cmt26'].'",';
+				$row .= '"'.$user['critical_recorded_line'].'",';
+				$row .= '"'.$user['cmt27'].'",';
+				$row .= '"'.$user['stella_phishing'].'",';
+				$row .= '"'.$user['acpt_cmt1'].'",';
+				$row .= '"'.$user['avoid_stella_survey'].'",';
+				$row .= '"'.$user['acpt_cmt2'].'",';
+				$row .= '"'.$user['attempt_cross_sell'].'",';
+				$row .= '"'.$user['acpt_cmt3'].'",';
+				$row .= '"'.$user['aht_related_agent'].'",';
+				$row .= '"'.$user['acpt_cmt4'].'",';
+				$row .= '"'.$user['aht_related_customer'].'",';
+				$row .= '"'.$user['acpt_cmt5'].'",';
+				$row .= '"'.$user['aht_related_process'].'",';
+				$row .= '"'.$user['acpt_cmt6'].'",';
+				$row .= '"'.$user['aht_related_technology'].'",';
+				$row .= '"'.$user['acpt_cmt7'].'",';
+				$row .= '"'.$user['conversion_related_agent'].'",';
+				$row .= '"'.$user['acpt_cmt8'].'",';
+				$row .= '"'.$user['conversion_related_customer'].'",';
+				$row .= '"'.$user['acpt_cmt9'].'",';
+				$row .= '"'.$user['conversion_related_process'].'",';
+				$row .= '"'.$user['acpt_cmt10'].'",';
+				$row .= '"'.$user['conversion_related_technology'].'",';
+				$row .= '"'.$user['acpt_cmt11'].'",';
+				$row .= '"'.$user['sr_related_agent'].'",';
+				$row .= '"'.$user['acpt_cmt12'].'",';
+				$row .= '"'.$user['sr_related_customer'].'",';
+				$row .= '"'.$user['acpt_cmt13'].'",';
+				$row .= '"'.$user['sr_related_process'].'",';
+				$row .= '"'.$user['acpt_cmt14'].'",';
+				$row .= '"'.$user['sr_related_technology'].'",';
+				$row .= '"'.$user['acpt_cmt15'].'",';
+				$row .= '"'.$user['csat_related_agent'].'",';
+				$row .= '"'.$user['acpt_cmt16'].'",';
+				$row .= '"'.$user['csat_related_customer'].'",';
+				$row .= '"'.$user['acpt_cmt17'].'",';
+				$row .= '"'.$user['csat_related_process'].'",';
+				$row .= '"'.$user['acpt_cmt18'].'",';
+				$row .= '"'.$user['csat_related_technology'].'",';
+				$row .= '"'.$user['acpt_cmt19'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
 				$row .= '"'.$user['agent_rvw_date'].'",';
@@ -38534,7 +38752,7 @@ else if($pid=="cci_medicare"){
 		}else if($campaign=='stifel_v1'){
 			$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Super", "Call Date", "Call Duration",
 			 "Call Link", "Account", "KPI - ACPT",
-			 "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Earned Score","Possible Score", "Overall Score",
+			 "Audit Type","Auditor Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Earned Score","Possible Score", "Overall Score",
 				"Greeting and Farewell:	Opening : Did the agent open the call within 10 second using their name and the appropriate branding for the call?",
 				"Greeting and Farewell:Closing : Did the agent offer further assistance before closing the call and closed the call using the appropriate branding?",
 				"Ownership:Ownership/ Assurance : Did the agent showed willingness to assist the customer by providing the statement like I will definitely assist you with that. etc",
@@ -38545,13 +38763,13 @@ else if($pid=="cci_medicare"){
 				"Hold and Transfer Protocol:Hold and Dead air Procedure : Did the agent ask for permission prior placing the customer on hold? / Did the agent refresh the hold if the duration is longer than what the customer was advised? / Did the agent avoid dead air more than 20 secs?",
 				"Hold and Transfer Protocol:Transfer : Did the agent properly transfer call if required? / The agent is not require to stay on the call once it was transferred not unless the customer request it",
 				"ZTP: Rudeness : Did the agent avoid using negative remarks or inappropriate words?",
-				"ZTP: Correct & Accurate Information : Did the agent deliver the correct and accurate information and resolution to the customer?",
+				"ZTP: Call Avoidance : Did the agent try to avoid the call?",
 				"Soft Skills and Telephone Etiquettes:Empathy / Apology : Did the agent provide empathy / apology whenever it is required?",
 				"Soft Skills and Telephone Etiquettes:	Tone / Pacing / Fumbling : Did the agent able to converse in a pleasant tone with appropriate rate of speech confidence and enthusiasm?",
 				"Soft Skills and Telephone Etiquettes:Active Listening : Did the agent demonstrate active listening?",
 				"Soft Skills and Telephone Etiquettes:	Professionalism : Did the agent speak in a respectful tone use proper manners and say please and thank you throughout the conversation?",
 			   "Remarks1", "Remarks2", "Remarks3", "Remarks4", "Remarks5", "Remarks6", "Remarks7", "Remarks8", "Remarks9", "Remarks10", "Remarks11", "Remarks12", "Remarks13", "Remarks14", "Remarks15",
-			   "Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
+			   "Observations", "Area of opportunity", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
 		}
 
 		$row = "";
@@ -38665,6 +38883,7 @@ else if($pid=="cci_medicare"){
 				$row .= '"'.$user['account'].'",';
 				$row .= '"'.$user['KPI_ACPT'].'",';
 				$row .= '"'.$user['audit_type'].'",';
+				$row .= '"'.$user['auditor_type'].'",';
 				$row .= '"'.$user['voc'].'",';
 				$row .= '"'.$user['audit_start_time'].'",';
 				$row .= '"'.$user['entry_date'].'",';

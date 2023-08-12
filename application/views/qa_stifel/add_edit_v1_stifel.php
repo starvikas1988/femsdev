@@ -57,7 +57,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 							<table class="table table-striped skt-table" width="100%">
 								<tbody>
 									<tr style="background-color:#AEB6BF">
-										<td colspan="6" id="theader">Stifel [VERSION V1] Form  </td>
+										<td colspan="6" id="theader">Stifel Banking Form  </td>
 										<input type="hidden" name="audit_start_time" value="<?php echo CurrMySqlDate(); ?>">
 									</tr>
 									<tr>
@@ -65,8 +65,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									<?php
 										if ($stifel_id == 0) {
 											$auditorName = get_username();
-											//$auditDate = CurrDateMDY();
-											$auditDate =  CurrDateTimeMDY();
+											$auditDate = CurrDateMDY();
+											//$auditDate =  CurrDateTimeMDY();
 											$clDate_val = '';
 										} else {
 											if ($stifel_v2_data['entry_by'] != '') {
@@ -99,13 +99,20 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td style="width:150px">Audit Date:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" value="<?php echo $auditDate; ?>" disabled></td>
 										<td>Call Date:<span style="font-size:24px;color:red">*</span></td>
-										<td><input type="text" class="form-control" id="call_date" name="call_date" value="<?php echo $clDate_val; ?>" required></td>
+										<td><input type="text" class="form-control" id="call_date" name="call_date" onkeydown="return false;" value="<?php echo $clDate_val; ?>" required></td>
 									</tr>
 									<tr>
 										<td>Employee Name:<span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="agent_id" name="data[agent_id]" required>
-												<option value="<?php echo $stifel_v2_data['agent_id'] ?>"><?php echo $agent_name; ?></option>
+												<?php 
+												if($stifel_v2_data['agent_id']!=''){
+													?>
+													<option value="<?php echo $stifel_v2_data['agent_id'] ?>"><?php echo $agent_name; ?></option>
+													<?php
+												}
+												?>
+												
 												<option value="">-Select-</option>
 												<?php foreach($agentName as $row):  ?>
 													<option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
@@ -150,6 +157,11 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<option <?php echo $stifel_v2_data['voc']=='3'?"selected":""; ?> value="3">3</option>
 												<option <?php echo $stifel_v2_data['voc']=='4'?"selected":""; ?> value="4">4</option>
 												<option <?php echo $stifel_v2_data['voc']=='5'?"selected":""; ?> value="5">5</option>
+												<option value="6"  <?= ($stifel_v2_data['voc']=="6")?"selected":"" ?>>6</option>
+												<option value="7"  <?= ($stifel_v2_data['voc']=="7")?"selected":"" ?>>7</option>
+												<option value="8"  <?= ($stifel_v2_data['voc']=="8")?"selected":"" ?>>8</option>
+												<option value="9"  <?= ($stifel_v2_data['voc']=="9")?"selected":"" ?>>9</option>
+												<option value="10"  <?= ($stifel_v2_data['voc']=="10")?"selected":"" ?>>10</option>
 											</select>
 										</td>
 										<td>Audit Type:<span style="font-size:24px;color:red">*</span></td>
@@ -174,8 +186,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td class="auType">
 											<select class="form-control" id="auditor_type" name="data[auditor_type]">
 												<option value="">-Select-</option>
-												<option value="Master">Master</option>
-												<option value="Regular">Regular</option>
+												<option value="Master" <?= ($stifel_v2_data['auditor_type']=="Master")?"selected":"" ?>>Master</option> 
+												 <option value="Regular" <?= ($stifel_v2_data['auditor_type']=="Regular")?"selected":"" ?>>Regular</option> 
 											</select>
 										</td>
 									</tr>
@@ -274,13 +286,12 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control stifelVal_v2" id="stifel_v2_Fatal1" name="data[verification]" required>
 												<option stifel_v2_val=10 stifel_v2_max="10" <?php echo $stifel_v2_data['verification']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option stifel_v2_val=0 stifel_v2_max="10" <?php echo $stifel_v2_data['verification']=='No'?"selected":""; ?> value="No">No</option>
-												<option stifel_v2_val=10 stifel_v2_max="10" <?php echo $stifel_v2_data['verification']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td><input type="text" name="data[comm5]" class="form-control" value="<?php echo $stifel_v2_data['comm5'] ?>"></td>
 									</tr>
 									<tr>
-										<td style="background-color:#BFC9CA"><b>6</b></td>
+										<td style="background-color:#BFC9CA"><b>4</b></td>
 										<td colspan=2 style="background-color:#BFC9CA">Resolution</td>
 										<td style="background-color:#BFC9CA">25</td>
 										<td style="background-color:#BFC9CA"></td>
@@ -294,7 +305,6 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control stifelVal_v2" id="stifel_v2_Fatal2" name="data[issue_identification]" required>
 												<option stifel_v2_val=13 stifel_v2_max="13" <?php echo $stifel_v2_data['issue_identification']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option stifel_v2_val=0 stifel_v2_max="13"  <?php echo $stifel_v2_data['issue_identification']=='No'?"selected":""; ?> value="No">No</option>
-												<option stifel_v2_val=13 stifel_v2_max="13"  <?php echo $stifel_v2_data['issue_identification']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td><input type="text" name="data[comm6]" class="form-control" value="<?php echo $stifel_v2_data['comm6'] ?>"></td>
@@ -307,13 +317,12 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control stifelVal_v2" id="stifel_v2_Fatal3" name="data[accurate_information]" required>
 												<option stifel_v2_val=12 stifel_v2_max="12" <?php echo $stifel_v2_data['accurate_information']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option stifel_v2_val=0 stifel_v2_max="12" <?php echo $stifel_v2_data['accurate_information']=='No'?"selected":""; ?> value="No">No</option>
-												<option stifel_v2_val=12 stifel_v2_max="12" <?php echo $stifel_v2_data['accurate_information']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td><input type="text" name="data[comm7]" class="form-control" value="<?php echo $stifel_v2_data['comm7'] ?>"></td>
 									</tr>
 									<tr>
-										<td style="background-color:#BFC9CA"><b>7</b></td>
+										<td style="background-color:#BFC9CA"><b>5</b></td>
 										<td colspan=2 style="background-color:#BFC9CA">Hold and Transfer Protocol</td>
 										<td style="background-color:#BFC9CA">10</td>
 										<td style="background-color:#BFC9CA"></td>
@@ -346,7 +355,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td><input type="text" name="data[comm9]" class="form-control" value="<?php echo $stifel_v2_data['comm9'] ?>"></td>
 									</tr>
 									<tr>
-										<td style="background-color:#BFC9CA"><b>8</b></td>
+										<td style="background-color:#BFC9CA"><b>6</b></td>
 										<td colspan=2 style="background-color:#BFC9CA">ZTP</td>
 										<td style="background-color:#BFC9CA">5</td>
 										<td style="background-color:#BFC9CA"></td>
@@ -360,26 +369,24 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											<select class="form-control stifelVal_v2" id="stifel_v2_Fatal4" name="data[rudeness]" required>
 												<option stifel_v2_val=3 stifel_v2_max="3" <?php echo $stifel_v2_data['rudeness']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option stifel_v2_val=0 stifel_v2_max="3" <?php echo $stifel_v2_data['rudeness']=='No'?"selected":""; ?> value="No">No</option>
-												<option stifel_v2_val=3 stifel_v2_max="3" <?php echo $stifel_v2_data['rudeness']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td><input type="text" name="data[comm10]" class="form-control" value="<?php echo $stifel_v2_data['comm10'] ?>"></td>
 									</tr>
 									<tr>
 										<td></td>
-										<td colspan=2 style="color:red;">Correct & Accurate Information : Did the agent deliver the correct and accurate information and resolution to the customer?</td>
+										<td colspan=2 style="color:red;">Call Avoidance : Did the agent try to avoid the call?</td>
 										<td>2</td>
 										<td>
 											<select class="form-control stifelVal_v2" id="stifel_v2_Fatal5" name="data[call_avoidance]" required>
 												<option stifel_v2_val=2 stifel_v2_max="2" <?php echo $stifel_v2_data['call_avoidance']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option stifel_v2_val=0 stifel_v2_max="2" <?php echo $stifel_v2_data['call_avoidance']=='No'?"selected":""; ?> value="No">No</option>
-												<option stifel_v2_val=2 stifel_v2_max="2" <?php echo $stifel_v2_data['call_avoidance']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td><input type="text" name="data[comm11]" class="form-control" value="<?php echo $stifel_v2_data['comm11'] ?>"></td>
 									</tr>
 									<tr>
-										<td style="background-color:#BFC9CA"><b>9</b></td>
+										<td style="background-color:#BFC9CA"><b>7</b></td>
 										<td colspan=2 style="background-color:#BFC9CA">Soft Skills and Telephone Etiquettes</td>
 										<td style="background-color:#BFC9CA">30</td>
 										<td style="background-color:#BFC9CA"></td>

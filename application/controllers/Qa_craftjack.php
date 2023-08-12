@@ -11,7 +11,7 @@
 
 	private function edu_upload_files($files,$path)
     {
-        $config['upload_path'] = $path;
+    $config['upload_path'] = $path;
 		$config['allowed_types'] = 'mp3|avi|mp4|wmv|wav';
 		$config['max_size'] = '2024000';
 		$this->load->library('upload', $config);
@@ -215,10 +215,15 @@
 				(Select id as sid, fname, lname, fusion_id, get_process_names(id) as campaign, assigned_to from signin) yy on (xx.agent_id=yy.sid) $ops_cond order by audit_date";
 			$data["craftjack_mtl_data"] = $this->Common_model->get_query_result_array($qSql);
 
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_craftjack_inbound_outbound_feedback $cond) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, get_process_names(id) as campaign, assigned_to from signin) yy on (xx.agent_id=yy.sid) $ops_cond order by audit_date";
+			$data["craftjack_inbound_outbound_data"] = $this->Common_model->get_query_result_array($qSql);
 
-			/* $qSql = "SELECT * from
-				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name from qa_craftjack_feedback $cond) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) Left join (Select fd_id, note as agent_note, date(entry_date) as agent_rvw_date from qa_craftjack_agent_rvw) zz on (xx.id=zz.fd_id) Left Join (Select fd_id as mgnt_fd_id, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as mgnt_name, note as mgnt_note, date(entry_date) as mgnt_rvw_date from qa_craftjack_mgnt_rvw) ww on (xx.id=ww.mgnt_fd_id) $ops_cond order by audit_date";
-			$data["qa_craftjack_data"] = $this->Common_model->get_query_result_array($qSql); */
+		
 
 			$data["from_date"] = $from_date;
 			$data["to_date"] = $to_date;
@@ -427,6 +432,159 @@
 				}
 
 				redirect('Qa_craftjack');
+			}
+			$data["array"] = $a;
+
+			$this->load->view("dashboard",$data);
+		}
+	}
+
+	public function add_edit_craftjack_inbound_outbound($craftjack_inbound_outbound_id){
+		if(check_logged_in())
+		{
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_craftjack/add_edit_craftjack_inbound_outbound.php";
+			$data["content_js"] = "qa_craftjack_avon_js.php";
+			$data['craftjack_inbound_outbound_id']=$craftjack_inbound_outbound_id;
+			$tl_mgnt_cond='';
+
+			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and assigned_to='$current_user'";
+			}else{
+				$tl_mgnt_cond="";
+			}
+
+			/******** Randamiser Start***********/
+			
+			
+			$rand_id=0;
+			if(!empty($this->uri->segment(4))){
+				$rand_id=$this->uri->segment(4);
+			}
+			$data['rand_id']=$rand_id;
+			$data["rand_data"] = "";
+			if($rand_id!=0){
+				$sql = "SELECT client_id, process_id FROM qa_randamiser_general_data WHERE id=$rand_id";
+				$dataClientProID = $this->Common_model->get_query_row_array($sql);
+				//print_r($dataClientProID);
+				//echo "<br>";
+				$client_id = $dataClientProID['client_id'];
+				$pro_id = $dataClientProID['process_id'];;
+				$curDateTime=CurrMySqlDate();
+				$upArr = array('distribution_opend_by' =>$current_user,'distribution_opened_datetime'=>$curDateTime);
+				$this->db->where('id', $rand_id);
+				$this->db->update('qa_randamiser_general_data',$upArr);
+				
+				$randSql="Select srd.*,srd.aht as call_duration, S.id as sid, S.fname, S.lname, S.xpoid, S.assigned_to,
+				(select concat(fname, ' ', lname) as name from signin s1 where s1.id=S.assigned_to) as tl_name,DATEDIFF(CURDATE(), S.doj) as tenure
+				from qa_randamiser_general_data srd Left Join signin S On srd.fusion_id=S.fusion_id where srd.audit_status=0 and srd.id='$rand_id'";
+				$data["rand_data"] = $rand_data =  $this->Common_model->get_query_row_array($randSql);
+				//print_r($rand_data);
+				
+			}
+			/* Randamiser Code End */
+			 $qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,19) and is_assign_process(id,31) and status=1  order by name";
+        $data['agentName'] = $this->Common_model->get_query_result_array( $qSql );
+
+	
+			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
+
+			$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
+				from qa_craftjack_inbound_outbound_feedback where id='$craftjack_inbound_outbound_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			$data["craftjack_inbound_outbound_data"] = $adtsht = $this->Common_model->get_query_row_array($qSql);
+
+			$data['global_element'] = global_acpt_edit($adtsht);
+
+			$curDateTime=CurrMySqlDate();
+			$a = array();
+
+			$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
+
+			if($field_array['agent_id']){
+
+				if($craftjack_inbound_outbound_id==0){
+					$field_array=$this->input->post('data');
+					$field_array['audit_date']=CurrDate();
+					$field_array['call_date']=mmddyy2mysql($this->input->post('call_date'));
+					$field_array['entry_date']=$curDateTime;
+					$field_array['audit_start_time']=$this->input->post('audit_start_time');
+					
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						$a = $this->craftjack_upload_files($_FILES['attach_file'], $path='./qa_files/craftjack/qa_audio_files/');
+						$field_array["attach_file"] = implode(',',$a);
+					}
+
+					$rowid= data_inserter('qa_craftjack_inbound_outbound_feedback',$field_array);
+					if(get_login_type()=="client"){
+						$add_array = array("client_entryby" => $current_user);
+					}else{
+						$add_array = array("entry_by" => $current_user);
+					}
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_craftjack_inbound_outbound_feedback',$add_array);
+
+				}else{
+
+					$field_array1=$this->input->post('data');
+					$field_array1['call_date']=mmddyy2mysql($this->input->post('call_date'));
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						if(!file_exists("./qa_files/craftjack/qa_audio_files/")){
+							mkdir("./qa_files/craftjack/qa_audio_files/");
+						}
+						$a = $this->craftjack_upload_files( $_FILES['attach_file'], $path = './qa_files/craftjack/qa_audio_files/' );
+						$field_array1['attach_file'] = implode( ',', $a );
+					}
+
+					$this->db->where('id', $craftjack_inbound_outbound_id);
+					$this->db->update('qa_craftjack_inbound_outbound_feedback',$field_array1);
+					/////////////
+					if(get_login_type()=="client"){
+						$edit_array = array(
+							"client_rvw_by" => $current_user,
+							"client_rvw_note" => $this->input->post('note'),
+							"client_rvw_date" => $curDateTime
+						);
+					}else{
+						$edit_array = array(
+							"mgnt_rvw_by" => $current_user,
+							"mgnt_rvw_note" => $this->input->post('note'),
+							"mgnt_rvw_date" => $curDateTime
+						);
+					}
+					$this->db->where('id', $craftjack_inbound_outbound_id);
+					$this->db->update('qa_craftjack_inbound_outbound_feedback',$edit_array);
+				}
+				
+					/* Randamiser section */
+				if($rand_id!=0){
+					$rand_cdr_array = array("audit_status" => 1);
+					$this->db->where('id', $rand_id);
+					$this->db->update('qa_randamiser_general_data',$rand_cdr_array);
+					
+					$rand_array = array("is_rand" => 1);
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_craftjack_inbound_outbound_feedback',$rand_array);
+					}
+
+				
+				if(isset($rand_data['upload_date']) && !empty($rand_data['upload_date'])){
+					$up_date = date('Y-m-d', strtotime($rand_data['upload_date']));
+					redirect('Impoter_xls/data_distribute?from_date='.$up_date.'&client_id='.$client_id.'&pro_id='.$pro_id.'&submit=Submit');
+				}else{
+					redirect('Qa_craftjack');
+				}
+				//redirect('Qa_craftjack');
 			}
 			$data["array"] = $a;
 
@@ -725,12 +883,17 @@
 			$qSql="Select count(id) as value from qa_craftjack_new_feedback where id  not in (select fd_id from qa_craftjack_agent_rvw) and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')";
 			$data["total_new_agent_yet_rvw"] =  $this->Common_model->get_single_value($qSql);
 
-			$qSql="Select count(id) as value from qa_craftjack_mtl_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit','WoW Call')";
+			$qSql="Select count(id) as value from qa_craftjack_mtl_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','WOW Call')";
 			$data["tot_mtl_agent_feedback"] =  $this->Common_model->get_single_value($qSql);
 
-			$qSql="Select count(id) as value from qa_craftjack_mtl_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit','WoW Call') ";
-
+			$qSql="Select count(id) as value from qa_craftjack_mtl_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','WOW Call') ";
 			$data["tot_mtl_agent_yet_rvw"] =  $this->Common_model->get_single_value($qSql);
+
+			$qSql="Select count(id) as value from  qa_craftjack_inbound_outbound_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','WOW Call')";
+			$data["tot_ib_ob_agent_feedback"] =  $this->Common_model->get_single_value($qSql);
+
+			$qSql="Select count(id) as value from  qa_craftjack_inbound_outbound_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','WOW Call') ";
+			$data["tot_ib_ob_agent_yet_rvw"] =  $this->Common_model->get_single_value($qSql);
 		
 			// $qSql="Select count(id) as value from qa_craftjack_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')";
 			// $data["tot_agent_feedback"] =  $this->Common_model->get_single_value($qSql);
@@ -775,15 +938,18 @@
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_craftjack_mtl_feedback $cond and agent_id ='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','WoW Call')) xx Inner Join
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_craftjack_mtl_feedback $cond and agent_id ='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','WOW Call')) xx Inner Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
 				$data["agent_review_mtl_list"] = $this->Common_model->get_query_result_array($qSql);
 
-				/* $qSql = "SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name from qa_craftjack_feedback $cond and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id from signin) yy on (xx.agent_id=yy.sid) Left join (Select fd_id, note as agent_note, date(entry_date) as agent_rvw_date from qa_craftjack_agent_rvw) zz on (xx.id=zz.fd_id) Left Join (Select fd_id as mgnt_fd_id, note as mgnt_note, date(entry_date) as mgnt_rvw_date, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as mgnt_name from qa_craftjack_mgnt_rvw) ww on (xx.id=ww.mgnt_fd_id)";
-				$data["agent_review_list"] = $this->Common_model->get_query_result_array($qSql); */
+				$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_craftjack_inbound_outbound_feedback $cond and agent_id ='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','WOW Call')) xx Inner Join
+				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+				$data["agent_review_ib_ob_list"] = $this->Common_model->get_query_result_array($qSql);
 
-				 // $qSql = "SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name from qa_craftjack_cebu_feedback $cond and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id from signin) yy on (xx.agent_id=yy.sid) Left join (Select fd_id, note as agent_note, date(entry_date) as agent_rvw_date from qa_craftjack_cebu_agent_rvw) zz on (xx.id=zz.fd_id) Left Join (Select fd_id as mgnt_fd_id, note as mgnt_note, date(entry_date) as mgnt_rvw_date, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as mgnt_name from qa_craftjack_cebu_mgnt_rvw) ww on (xx.id=ww.mgnt_fd_id)";
-				 // $data["agent_cebu_review_list"] = $this->Common_model->get_query_result_array($qSql);
 
 				 $qSql = "SELECT * from
 					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
@@ -807,15 +973,17 @@
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_craftjack_mtl_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','WoW Call')) xx Inner Join
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_craftjack_mtl_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','WOW Call')) xx Inner Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
 				$data["agent_review_mtl_list"] = $this->Common_model->get_query_result_array($qSql);
 
-				/* $qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name from qa_craftjack_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id from signin) yy on (xx.agent_id=yy.sid) Left join (Select fd_id, note as agent_note, date(entry_date) as agent_rvw_date from qa_craftjack_agent_rvw) zz on (xx.id=zz.fd_id) Left Join (Select fd_id as mgnt_fd_id, note as mgnt_note, date(entry_date) as mgnt_rvw_date, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as mgnt_name from qa_craftjack_mgnt_rvw) ww on (xx.id=ww.mgnt_fd_id) where xx.id not in (select fd_id from qa_craftjack_agent_rvw)";
-				$data["agent_review_list"] = $this->Common_model->get_query_result_array($qSql); */
-
-				// $qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name from qa_craftjack_cebu_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit')) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id from signin) yy on (xx.agent_id=yy.sid) Left join (Select fd_id, note as agent_note, date(entry_date) as agent_rvw_date from qa_craftjack_cebu_agent_rvw) zz on (xx.id=zz.fd_id) Left Join (Select fd_id as mgnt_fd_id, note as mgnt_note, date(entry_date) as mgnt_rvw_date, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as mgnt_name from qa_craftjack_cebu_mgnt_rvw) ww on (xx.id=ww.mgnt_fd_id) where xx.id not in (select fd_id from qa_craftjack_cebu_agent_rvw)";
-				// $data["agent_cebu_review_list"] = $this->Common_model->get_query_result_array($qSql);
+				$qSql="SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_craftjack_inbound_outbound_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','WOW Call')) xx Inner Join
+				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+				$data["agent_review_ib_ob_list"] = $this->Common_model->get_query_result_array($qSql);
 
 				$qSql = "SELECT * from
 					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
@@ -903,6 +1071,77 @@
 				);
 				$this->db->where('id', $craftjack_id);
 				$this->db->update('qa_craftjack_mtl_feedback',$field_array);
+				
+				redirect('Qa_craftjack/agent_craftjack_feedback');
+				
+			}else{
+				$this->load->view('dashboard',$data);
+			}
+		}
+	}
+
+	public function agent_craftjack_ib_ob_feedback_rvw($id){
+		if(check_logged_in()){
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+			
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_craftjack/agent_craftjack_ib_ob_feedback_rvw.php";
+			$data["agentUrl"] = "qa_craftjack/agent_craftjack_feedback";
+			$data["content_js"] = "qa_craftjack_avon_js.php";
+			
+
+			/******** Randamiser Start***********/
+			
+			
+			$rand_id=0;
+			if(!empty($this->uri->segment(4))){
+				$rand_id=$this->uri->segment(4);
+			}
+			$data['rand_id']=$rand_id;
+			$data["rand_data"] = "";
+			if($rand_id!=0){
+				$sql = "SELECT client_id, process_id FROM qa_randamiser_general_data WHERE id=$rand_id";
+				$dataClientProID = $this->Common_model->get_query_row_array($sql);
+				//print_r($dataClientProID);
+				//echo "<br>";
+				$client_id = $dataClientProID['client_id'];
+				$pro_id = $dataClientProID['process_id'];;
+				$curDateTime=CurrMySqlDate();
+				$upArr = array('distribution_opend_by' =>$current_user,'distribution_opened_datetime'=>$curDateTime);
+				$this->db->where('id', $rand_id);
+				$this->db->update('qa_randamiser_general_data',$upArr);
+				
+				$randSql="Select srd.*,srd.aht as call_duration, S.id as sid, S.fname, S.lname, S.xpoid, S.assigned_to,
+				(select concat(fname, ' ', lname) as name from signin s1 where s1.id=S.assigned_to) as tl_name,DATEDIFF(CURDATE(), S.doj) as tenure
+				from qa_randamiser_general_data srd Left Join signin S On srd.fusion_id=S.fusion_id where srd.audit_status=0 and srd.id='$rand_id'";
+				$data["rand_data"] = $rand_data =  $this->Common_model->get_query_row_array($randSql);
+				//print_r($rand_data);
+				
+			}
+			/* Randamiser Code End */
+			
+			
+			$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name,agent_rvw_note as agent_note,mgnt_rvw_note as mgnt_note from qa_craftjack_inbound_outbound_feedback where id=$id) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
+			$data["craftjack_inbound_outbound_data"] = $adtsht = $this->Common_model->get_query_row_array($qSql);
+			
+			$data['global_element'] = global_acpt_edit($adtsht);
+
+			$data["craftjack_inbound_outbound_id"]=$id;			
+			
+			if($this->input->post('craftjack_inbound_outbound_id'))
+			{
+				$craftjack_id=$this->input->post('craftjack_inbound_outbound_id');
+				$curDateTime=CurrMySqlDate();
+				$log=get_logs();
+				
+				$field_array=array(
+					"agent_rvw_note" => $this->input->post('note'),
+					"agnt_fd_acpt" => $this->input->post('agnt_fd_acpt'),
+					"agent_rvw_date" => $curDateTime
+				);
+				$this->db->where('id', $craftjack_id);
+				$this->db->update('qa_craftjack_inbound_outbound_feedback',$field_array);
 				
 				redirect('Qa_craftjack/agent_craftjack_feedback');
 				

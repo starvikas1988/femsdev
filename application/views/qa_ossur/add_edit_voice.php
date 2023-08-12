@@ -378,7 +378,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 	                            <div class="col-sm-12">
 	                                 <div class="form-group ">
 	                                    <label for="full_form">Overall Score:</label>
-	                                    <input type="text" id="overall_score" name="data[overall_score]" class="form-control" value="<?php echo $auditData['overall_score']; ?>" readonly>
+	                                    <input type="text" id="overall_score" name="data[overall_score]" class="form-control ossurVoiceFatal" value="<?php echo $auditData['overall_score']; ?>" readonly>
 	                                </div>
 	                            </div>
 	                        </div>
@@ -444,10 +444,10 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									</tr>
 									<tr><th colspan=5 scope="row" class="scope">Policies & Procedures</th></tr>
 									<tr>
-										<td class="paddingTop">Did the rep pull the correct account?</td>
+										<td class="paddingTop" style="color:red">Did the rep pull the correct account?</td>
 										<td>5</td>
 										<td>
-											<select class="form-control scorecalc compliance" name="data[pull_correct_account]" required>
+											<select class="form-control scorecalc compliance" id="ossurVoiceAF1" name="data[pull_correct_account]" required>
 												<option scr_val='5' scr_max='5' <?php echo $auditData['pull_correct_account']=="Correctly"?"selected":"";?> value="Correctly">Correctly</option>
 												<option scr_val='3' scr_max='5' <?php echo $auditData['pull_correct_account']=="Partially"?"selected":"";?> value="Partially">Partially</option>
 												<option scr_val='0' scr_max='5' <?php echo $auditData['pull_correct_account']=="Missed"?"selected":"";?> value="Missed">Missed</option>
@@ -457,10 +457,10 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>Compliance Critical</td>
 									</tr>
 									<tr>
-										<td class="paddingTop">Did the rep ask for caller's name, PO number and enter the correct information?</td>
+										<td class="paddingTop" style="color:red">Did the rep ask for caller's name, PO number and enter the correct information?</td>
 										<td>5</td>
 										<td>
-											<select class="form-control scorecalc compliance" name="data[ask_caller_name]" required>
+											<select class="form-control scorecalc compliance" id="ossurVoiceAF2" name="data[ask_caller_name]" required>
 												<option scr_val='5' scr_max='5' <?php echo $auditData['ask_caller_name']=="Correctly"?"selected":"";?> value="Correctly">Correctly</option>
 												<option scr_val='3' scr_max='5' <?php echo $auditData['ask_caller_name']=="Partially"?"selected":"";?> value="Partially">Partially</option>
 												<option scr_val='0' scr_max='5' <?php echo $auditData['ask_caller_name']=="Missed"?"selected":"";?> value="Missed">Missed</option>
@@ -470,10 +470,10 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>Compliance Critical</td>
 									</tr>
 									<tr>
-										<td class="paddingTop">Was the shipping address correct?</td>
+										<td class="paddingTop" style="color:red">Was the shipping address correct?</td>
 										<td>5</td>
 										<td>
-											<select class="form-control scorecalc compliance" name="data[shipping_address]" required>
+											<select class="form-control scorecalc compliance" id="ossurVoiceAF3" name="data[shipping_address]" required>
 												<option scr_val='5' scr_max='5' <?php echo $auditData['shipping_address']=="Correctly"?"selected":"";?> value="Correctly">Correctly</option>
 												<option scr_val='3' scr_max='5' <?php echo $auditData['shipping_address']=="Partially"?"selected":"";?> value="Partially">Partially</option>
 												<option scr_val='0' scr_max='5' <?php echo $auditData['shipping_address']=="Missed"?"selected":"";?> value="Missed">Missed</option>
@@ -483,10 +483,10 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>Compliance Critical</td>
 									</tr>
 									<tr>
-										<td class="paddingTop">Did the agent select the correct product names and quantities?</td>
+										<td class="paddingTop" style="color:red">Did the agent select the correct product names and quantities?</td>
 										<td>5</td>
 										<td>
-											<select class="form-control scorecalc customer" name="data[select_correct_product]" required>
+											<select class="form-control scorecalc customer" id="ossurVoiceAF4" name="data[select_correct_product]" required>
 												<option scr_val='5' scr_max='5' <?php echo $auditData['select_correct_product']=="Correctly"?"selected":"";?> value="Correctly">Correctly</option>
 												<option scr_val='3' scr_max='5' <?php echo $auditData['select_correct_product']=="Partially"?"selected":"";?> value="Partially">Partially</option>
 												<option scr_val='0' scr_max='5' <?php echo $auditData['select_correct_product']=="Missed"?"selected":"";?> value="Missed">Missed</option>
@@ -575,10 +575,10 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>Business Critical</td>
 									</tr>
 									<tr>
-										<td class="paddingTop">Did the rep abuse hold/put customer on hold for more than 4 minutes?</td>
+										<td class="paddingTop" style="color:red">Did the rep abuse hold/put customer on hold for more than 4 minutes?</td>
 										<td>5</td>
 										<td>
-											<select class="form-control scorecalc business" name="data[put_customer_hold]" required>
+											<select class="form-control scorecalc business" id="ossurVoiceAF5" name="data[put_customer_hold]" required>
 												<option scr_val='5' scr_max='5' <?php echo $auditData['put_customer_hold']=="Correctly"?"selected":"";?> value="Correctly">Correctly</option>
 												<option scr_val='3' scr_max='5' <?php echo $auditData['put_customer_hold']=="Partially"?"selected":"";?> value="Partially">Partially</option>
 												<option scr_val='0' scr_max='5' <?php echo $auditData['put_customer_hold']=="Missed"?"selected":"";?> value="Missed">Missed</option>
@@ -615,10 +615,10 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>Customer Critical</td>
 									</tr>
 									<tr>
-										<td class="paddingTop">Was the agent courteous and professional during the call?</td>
+										<td class="paddingTop" style="color:red">Was the agent courteous and professional during the call?</td>
 										<td>5</td>
 										<td>
-											<select class="form-control scorecalc customer" name="data[professional_during_call]" required>
+											<select class="form-control scorecalc customer" id="ossurVoiceAF6" name="data[professional_during_call]" required>
 												<option scr_val='5' scr_max='5' <?php echo $auditData['professional_during_call']=="Correctly"?"selected":"";?> value="Correctly">Correctly</option>
 												<option scr_val='3' scr_max='5' <?php echo $auditData['professional_during_call']=="Partially"?"selected":"";?> value="Partially">Partially</option>
 												<option scr_val='0' scr_max='5' <?php echo $auditData['professional_during_call']=="Missed"?"selected":"";?> value="Missed">Missed</option>
@@ -667,6 +667,13 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td><textarea class="form-control" name="data[cmt20]"><?php echo $auditData['cmt20'] ?></textarea></td>
 										<td>Business Critical</td>
 									</tr>
+									
+									<!-- Add ACPT -->
+										<?php $adtsht='';
+											echo $global_element.'/'.$adtsht; 
+										?>
+									<!-- -->
+									
 								</tbody>
 								<tfoot></tfoot>
 							</table>

@@ -417,6 +417,12 @@ $(document).ready(function(){
 						</a>
 					</li>
 
+					<li class="menu-item">
+						<a href="<?php echo base_url('Qa_agent_coaching_new/agent_coaching_feedback'); ?>" class="menu-link">
+							<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+							<span class="">GRBM Agent Coaching</span>
+						</a>
+					</li>
 
 
 
@@ -1015,6 +1021,12 @@ $(document).ready(function(){
 								<span class="">Park West</span>
 							</a>
 						</li>
+						<li class="menu-item">
+						<a href="<?php echo base_url('Qa_agent_coaching_new'); ?>" class="menu-link">
+							<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+							<span class="">GRBM Coaching</span>
+						</a>
+					</li>
 						<li class="menu-item">
 							<a href="<?php echo base_url('Qa_epgi')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>

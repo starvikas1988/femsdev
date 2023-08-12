@@ -148,7 +148,7 @@
 											    <option value="Agent" <?= ($craftjack_mtl['AHT_RCA']=="Agent")?"selected":"" ?>>Agent</option>
 												<option value="Customer" <?= ($craftjack_mtl['AHT_RCA']=="Customer")?"selected":"" ?>>Customer</option>
 												<option value="Process" <?= ($craftjack_mtl['AHT_RCA']=="Process")?"selected":"" ?>>Process</option>
-												<option value="Technical" <?= ($craftjack_mtl['AHT_RCA']=="Technical")?"selected":"" ?>>Technical</option>
+												<option value="Technology" <?= ($craftjack_mtl['AHT_RCA']=="Technology")?"selected":"" ?>>Technology</option>
 												<option value="NA" <?= ($craftjack_mtl['AHT_RCA']=="NA")?"selected":"" ?>>NA</option>
 											
 										</select>
@@ -214,7 +214,7 @@
                                                     <option value="Calibration" <?= ($craftjack_mtl['audit_type']=="Calibration")?"selected":"" ?>>Calibration</option>
                                                     <option value="Pre-Certificate Mock Call" <?= ($craftjack_mtl['audit_type']=="Pre-Certificate Mock Call")?"selected":"" ?>>Pre-Certificate Mock Call</option>
                                                     <option value="Certification Audit" <?= ($craftjack_mtl['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
-                                                    <option value="WoW Call"  <?= ($craftjack_mtl['audit_type']=="WoW Call")?"selected":"" ?>>WoW Call Audit</option>
+                                                    <option value="WOW Call"  <?= ($craftjack_mtl['audit_type']=="WOW Call")?"selected":"" ?>>WOW Call</option>
                                                    
                                                     
                                                 </select>
@@ -291,13 +291,13 @@
 										</tr>
 										<tr>
 											<td colspan="2">1.4 Did the agent ask how/he or she could assist the caller?</td>
-											<td>7</td>
+											<td>6</td>
 											<td>
 												<select class="form-control mtl_point customer"  name="data[assist_caller]" required>
 													
-													<option mtl_val=7 mtl_max="7" <?= $craftjack_mtl["assist_caller"] == "Pass" ? "selected" : "" ?> value="Pass">Pass</option>
-													<option mtl_val=0 mtl_max="7" <?= $craftjack_mtl["assist_caller"] == "Fail" ? "selected" : "" ?> value="Fail">Fail</option>
-													<option mtl_val=0 mtl_max="7" <?= $craftjack_mtl["assist_caller"] == "N/A" ? "selected" : "" ?> value="N/A">N/A</option>
+													<option mtl_val=6 mtl_max="6" <?= $craftjack_mtl["assist_caller"] == "Pass" ? "selected" : "" ?> value="Pass">Pass</option>
+													<option mtl_val=0 mtl_max="6" <?= $craftjack_mtl["assist_caller"] == "Fail" ? "selected" : "" ?> value="Fail">Fail</option>
+													<option mtl_val=0 mtl_max="6" <?= $craftjack_mtl["assist_caller"] == "N/A" ? "selected" : "" ?> value="N/A">N/A</option>
 												</select>
 											</td>
 											<td colspan=2><input type="text" name="data[cmt4]" class="form-control" value="<?php echo $craftjack_mtl['cmt4'] ?>"></td>
@@ -305,7 +305,7 @@
 										</tr>
 
 										<tr>
-											<td class="eml" rowspan=7>Process and Procedure</td>
+											<td class="eml" rowspan=8>Process and Procedure</td>
 											<td colspan=2>2.1 Did the agent checked the Customer’s Account?</td>
 											<td>10</td>
 											<td>
@@ -405,6 +405,20 @@
 											</td>
 											<td colspan=2><input type="text" name="data[cmt11]" class="form-control" value="<?php echo $craftjack_mtl['cmt11'] ?>"></td>
 											<td style="font-weight:bold; background-color:#D7BDE2">Customer Citical</td>
+										</tr>
+										<tr>
+											<td  colspan="2" class="text-danger">2.8 Did the agent pause the recording when caller is providing their credit card information?</td>
+											<td>1</td>
+											<td>
+												<select class="form-control mtl_point compliance" id="ajioAF6" name="data[agent_pause_recording]" required>
+													
+													<option mtl_val=1 mtl_max="1" <?= $craftjack_mtl["agent_pause_recording"] == "Pass" ? "selected" : "" ?> value="Pass">Pass</option>
+													<option mtl_val=0 mtl_max="1" <?= $craftjack_mtl["agent_pause_recording"] == "Fail" ? "selected" : "" ?> value="Fail">Fail</option>
+													<option mtl_val=0 <?= $craftjack_mtl["agent_pause_recording"] == "N/A" ? "selected" : "" ?> value="N/A">N/A</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" name="data[cmt19]" class="form-control" value="<?php echo $craftjack_mtl['cmt19'] ?>"></td>
+											<td style="font-weight:bold; background-color:#D7BDE2">Compliance Citical</td>
 										</tr>
 										<tr>
 											<td class="eml" rowspan=5>Soft Skills</td>

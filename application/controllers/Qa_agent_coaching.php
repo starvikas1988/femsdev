@@ -20,16 +20,20 @@
 			$data['sel']="pending";
 			$client_id = get_client_ids();
 
-			if(get_dept_folder()=="qa" ||  get_global_access()=='1' || $client_id==0){
+			if(is_access_coach_module()==true){
 				$qSQL="SELECT * FROM office_location WHERE is_active=1 ORDER BY office_name";
 			}else{
 				$qSQL="SELECT * FROM office_location where abbr=(select office_id from signin where id='$current_user') OR (select oth_office_access from signin where id='$current_user') like CONCAT('%',abbr,'%') ORDER BY office_name";
 			}
 			$data["off_loc"] = $this->Common_model->get_query_result_array($qSQL);
+			
+			$processSql="SELECT * FROM process where is_active=1";
+			$data["process"] = $this->Common_model->get_query_result_array($processSql);
 
 			$from_date = $this->input->get('from_date');
 			$to_date = $this->input->get('to_date');
 			$office_id=$this->input->get('office_id');
+			$process_id=$this->input->get('process_id');
 			$agent_feedback=$this->input->get('agent_feedback');
 
 			if($from_date==""){
@@ -57,6 +61,12 @@
 
 			if($office_id!=""){
 				$cond .=" and S.office_id='$office_id'";
+			}else{
+				$cond .="";
+			}
+			
+			if($process_id!=""){
+				$cond .=" and is_assign_process(S.id,$process_id)";
 			}else{
 				$cond .="";
 			}
@@ -101,6 +111,7 @@
 			$data["from_date"] = $from_date;
 			$data["to_date"] = $to_date;
 			$data["office_id"] = $office_id;
+			$data["process_id"] = $process_id;
 			$data["agent_feedback"] = $agent_feedback;
 			$this->load->view("dashboard",$data);
 		}
@@ -119,8 +130,10 @@
 	public function getTLname(){
 		if(check_logged_in()){
 			$aid=$this->input->post('aid');
-			$qSql = "Select id, assigned_to, fusion_id, get_process_names(id) as process_name, office_id, dept_id, (SELECT description from department d where d.id=(SELECT dept_id from signin s where s.id=signin.id)) as department_name FROM signin where id = '$aid'";
-			echo json_encode($this->Common_model->get_query_result_array($qSql));
+			$tlSql = "Select id, assigned_to, fusion_id, get_process_names(id) as process_name, office_id, dept_id,
+			(SELECT description from department d where d.id=(SELECT dept_id from signin s where s.id=signin.id)) as department_name,
+			(select concat(fname, ' ', lname) from signin sc where sc.id=signin.assigned_to) as tl_name FROM signin where id = '$aid'";
+			echo json_encode($this->Common_model->get_query_result_array($tlSql));
 		}
 	}
 
@@ -158,7 +171,7 @@
 			$qSql="SELECT * FROM client $cond";
 			$data['client']= $this->Common_model->get_query_result_array($qSql);
 
-			$qSql = "SELECT * FROM signin where id not in (select id from role where folder='agent')";
+			$qSql = "SELECT * FROM signin where id not in (select id from role where folder='agent') and status=1";
 			$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
 
 			$curDateTime=CurrMySqlDate();
@@ -175,11 +188,103 @@
 					"audit_date" => CurrDate(),
 					"call_date" => mdydt2mysql($this->input->post('call_date')),
 					"agent_id" => $this->input->post('agent_id'),
-					"call_id" => $this->input->post('case_id'),
+					"call_id" => $this->input->post('call_id'),
 					"coaching_reason" => $coaching_reason,
-          "rca_level1"=>$this->input->post("rca_level1"),
-          "rca_level2"=>$this->input->post("rca_level2"),
-          "rca_level3"=>$this->input->post("rca_level3"),
+					"rca_level1"=>$this->input->post("rca_level1"),
+					"rca_level2"=>$this->input->post("rca_level2"),
+					"rca_level3"=>$this->input->post("rca_level3"),
+					
+					"call_type"=>$this->input->post("call_type"),
+					"observation_method"=>$this->input->post("observation_method"),
+					"for_follow_up"=>$this->input->post("for_follow_up"),
+					"coaching_docu"=>$this->input->post("coaching_docu"),
+					"nps1"=>$this->input->post("nps1"),
+					"nps2"=>$this->input->post("nps2"),
+					"nps3"=>$this->input->post("nps3"),
+					"nps4"=>$this->input->post("nps4"),
+					"nps5"=>$this->input->post("nps5"),
+					"nps6"=>$this->input->post("nps6"),
+					"nps7"=>$this->input->post("nps7"),
+					"nps8"=>$this->input->post("nps8"),
+					"nps9"=>$this->input->post("nps9"),
+					"nps10"=>$this->input->post("nps10"),
+					"nps11"=>$this->input->post("nps11"),
+					"nps12"=>$this->input->post("nps12"),
+					"nps13"=>$this->input->post("nps13"),
+					"nps14"=>$this->input->post("nps14"),
+					"nps_cmt1"=>$this->input->post("nps_cmt1"),
+					"nps_cmt2"=>$this->input->post("nps_cmt2"),
+					"nps_cmt3"=>$this->input->post("nps_cmt3"),
+					"nps_cmt4"=>$this->input->post("nps_cmt4"),
+					"nps_cmt5"=>$this->input->post("nps_cmt5"),
+					"nps_cmt6"=>$this->input->post("nps_cmt6"),
+					"nps_cmt7"=>$this->input->post("nps_cmt7"),
+					"nps_cmt8"=>$this->input->post("nps_cmt8"),
+					"nps_cmt9"=>$this->input->post("nps_cmt9"),
+					"nps_cmt10"=>$this->input->post("nps_cmt10"),
+					"nps_cmt11"=>$this->input->post("nps_cmt11"),
+					"nps_cmt12"=>$this->input->post("nps_cmt12"),
+					"nps_cmt13"=>$this->input->post("nps_cmt13"),
+					"nps_cmt14"=>$this->input->post("nps_cmt14"),
+					"aht1"=>$this->input->post("aht1"),
+					"aht2"=>$this->input->post("aht2"),
+					"aht3"=>$this->input->post("aht3"),
+					"aht4"=>$this->input->post("aht4"),
+					"aht5"=>$this->input->post("aht5"),
+					"aht6"=>$this->input->post("aht6"),
+					"aht7"=>$this->input->post("aht7"),
+					"aht8"=>$this->input->post("aht8"),
+					"aht9"=>$this->input->post("aht9"),
+					"aht_cmt1"=>$this->input->post("aht_cmt1"),
+					"aht_cmt2"=>$this->input->post("aht_cmt2"),
+					"aht_cmt3"=>$this->input->post("aht_cmt3"),
+					"aht_cmt4"=>$this->input->post("aht_cmt4"),
+					"aht_cmt5"=>$this->input->post("aht_cmt5"),
+					"aht_cmt6"=>$this->input->post("aht_cmt6"),
+					"aht_cmt7"=>$this->input->post("aht_cmt7"),
+					"aht_cmt8"=>$this->input->post("aht_cmt8"),
+					"aht_cmt9"=>$this->input->post("aht_cmt9"),
+					"revenue1"=>$this->input->post("revenue1"),
+					"revenue2"=>$this->input->post("revenue2"),
+					"revenue3"=>$this->input->post("revenue3"),
+					"revenue4"=>$this->input->post("revenue4"),
+					"revenue5"=>$this->input->post("revenue5"),
+					"revenue_cmt1"=>$this->input->post("revenue_cmt1"),
+					"revenue_cmt2"=>$this->input->post("revenue_cmt2"),
+					"revenue_cmt3"=>$this->input->post("revenue_cmt3"),
+					"revenue_cmt4"=>$this->input->post("revenue_cmt4"),
+					"revenue_cmt5"=>$this->input->post("revenue_cmt5"),
+					"compliance1"=>$this->input->post("compliance1"),
+					"compliance2"=>$this->input->post("compliance2"),
+					"compliance3"=>$this->input->post("compliance3"),
+					"compliance4"=>$this->input->post("compliance4"),
+					"compliance5"=>$this->input->post("compliance5"),
+					"compliance6"=>$this->input->post("compliance6"),
+					"compliance7"=>$this->input->post("compliance7"),
+					"compliance_cmt1"=>$this->input->post("compliance_cmt1"),
+					"compliance_cmt2"=>$this->input->post("compliance_cmt2"),
+					"compliance_cmt3"=>$this->input->post("compliance_cmt3"),
+					"compliance_cmt4"=>$this->input->post("compliance_cmt4"),
+					"compliance_cmt5"=>$this->input->post("compliance_cmt5"),
+					"compliance_cmt6"=>$this->input->post("compliance_cmt6"),
+					"compliance_cmt7"=>$this->input->post("compliance_cmt7"),
+					"non_cust_interact1"=>$this->input->post("non_cust_interact1"),
+					"non_cust_interact2"=>$this->input->post("non_cust_interact2"),
+					"non_cust_interact3"=>$this->input->post("non_cust_interact3"),
+					"non_cust_interact4"=>$this->input->post("non_cust_interact4"),
+					"non_cust_interact_cmt1"=>$this->input->post("non_cust_interact_cmt1"),
+					"non_cust_interact_cmt2"=>$this->input->post("non_cust_interact_cmt2"),
+					"non_cust_interact_cmt3"=>$this->input->post("non_cust_interact_cmt3"),
+					"non_cust_interact_cmt4"=>$this->input->post("non_cust_interact_cmt4"),
+					"nps_result"=>$this->input->post("nps_result"),
+					"aht_result"=>$this->input->post("aht_result"),
+					"quality_result"=>$this->input->post("quality_result"),
+					"conversion_result"=>$this->input->post("conversion_result"),
+					"crosssell_result"=>$this->input->post("crosssell_result"),
+					"adherence_result"=>$this->input->post("adherence_result"),
+					"behavioral_improvement"=>$this->input->post("behavioral_improvement"),
+					"behavioral_improvement_cmt"=>$this->input->post("behavioral_improvement_cmt"),
+					
 					"entry_by" => $current_user,
 					"entry_date" => $curDateTime,
 					"log"=> get_logs()
@@ -389,7 +494,14 @@
 
 			/*$qSql="SELECT id,agent_id,attach_file,call_date,call_id,(SELECT fusion_id from signin s where s.id=qa_coaching_feedback.agent_id) as fusion_id,(SELECT description from department d where d.id=(SELECT dept_id from signin s where s.id=qa_coaching_feedback.agent_id)) as department_name,(select office_abbr from site where site.id=(SELECT site_id from signin where id=qa_coaching_feedback.agent_id)) as site_name,(SELECT client_id from info_assign_client where user_id=qa_coaching_feedback.agent_id) as client_id,(select fullname from client c where c.id=(SELECT client_id from info_assign_client where user_id=qa_coaching_feedback.agent_id)) as client_name,(select concat(fname, ' ', lname) as name from signin s where s.id=qa_coaching_feedback.entry_by) as auditor_name,audit_date,(select concat(fname, ' ', lname) from signin s where s.id=qa_coaching_feedback.agent_id) as agent_name,(SELECT `assigned_to` FROM `signin` WHERE id=qa_coaching_feedback.agent_id) as tl_id,(select concat(fname, ' ', lname) from signin s where s.id=(SELECT `assigned_to` FROM `signin` WHERE id=qa_coaching_feedback.agent_id)) as tl_name,(SELECT `process_id` FROM `info_assign_process` WHERE user_id=qa_coaching_feedback.agent_id) as process_id,(select name from process p where p.id=(SELECT `process_id` FROM `info_assign_process` WHERE user_id=qa_coaching_feedback.agent_id)) as process_name from qa_coaching_feedback WHERE id=$id";*/
 
-			$qSql="SELECT Q.*, S.fusion_id, S.dept_id, CONCAT(S.fname, ' ', S.lname) as agent_name, S.assigned_to, CONCAT(T.fname, ' ', T.lname) as tl_name,get_client_ids(Q.agent_id) as client_id, get_client_names(Q.agent_id) as client_name, get_process_ids(Q.agent_id) AS process_id, get_process_names(Q.agent_id) AS process_name, CONCAT(A.fname, ' ', A.lname)  AS auditor_name,audit_date,(SELECT description from department d where d.id=(SELECT dept_id from signin s where s.id=Q.agent_id)) as department_name from qa_coaching_feedback Q LEFT JOIN  signin S on Q.agent_id = S.id left join signin T on T.id = S.assigned_to left join signin A on Q.entry_by = A.id   WHERE Q.id=$id";
+			$qSql="SELECT Q.*, S.fusion_id, S.dept_id, CONCAT(S.fname, ' ', S.lname) as agent_name, S.assigned_to, CONCAT(T.fname, ' ', T.lname) as tl_name, get_client_ids(Q.agent_id) as client_id, get_client_names(Q.agent_id) as client_name, get_process_ids(Q.agent_id) AS process_id, get_process_names(Q.agent_id) AS process_name, CONCAT(A.fname, ' ', A.lname)  AS auditor_name, audit_date,
+			(SELECT description from department d where d.id=(SELECT dept_id from signin s where s.id=Q.agent_id)) as department_name,
+			(SELECT office_name from office_location ol where ol.abbr=(SELECT office_id from signin sol where sol.id=Q.agent_id)) as location
+			from qa_coaching_feedback Q
+			Left Join signin S on Q.agent_id = S.id
+			Left Join signin T on T.id = S.assigned_to
+			Left Join signin A on Q.entry_by = A.id 
+			WHERE Q.id=$id";
 			$data["Qa_agent_coaching"] = $this->Common_model->get_query_row_array($qSql);
 
 			$data["pnid"]=$id;
@@ -469,7 +581,7 @@
 
 				//$qSql = "SELECT id,(select concat(fname, ' ', lname) as name from signin s where s.id=qa_coaching_feedback.entry_by) as auditor_name,audit_date,(select concat(fname, ' ', lname) from signin s where s.id=qa_coaching_feedback.agent_id) as agent_name,(select concat(fname, ' ', lname) from signin s where s.id=(SELECT `assigned_to` FROM `signin` WHERE id=qa_coaching_feedback.agent_id)) as tl_name,(select name from process p where p.id=(SELECT `process_id` FROM `info_assign_process` WHERE user_id=qa_coaching_feedback.agent_id)) as process_name,(select comment from qa_coaching_agent_rvw qag where qag.cf_id=qa_coaching_feedback.id) as agent_feedback,(select comment from qa_coaching_mgnt_rvw qmg where qmg.cf_id=qa_coaching_feedback.id order by id desc limit 1) as mgnt_feedback from qa_coaching_feedback $cond order by qa_coaching_feedback.entry_date desc";
 
-				echo $qSql="SELECT Q.*, CONCAT(S.fname, ' ', S.lname) as agent_name, CONCAT(T.fname, ' ', T.lname) as tl_name, get_process_names(Q.agent_id) AS process_name,
+				$qSql="SELECT Q.*, CONCAT(S.fname, ' ', S.lname) as agent_name, CONCAT(T.fname, ' ', T.lname) as tl_name, get_process_names(Q.agent_id) AS process_name,
 						QC.entry_date as agent_rvw_date, QC.comment as agent_feedback, CONCAT(A.fname, ' ', A.lname)  AS auditor_name,audit_date
 						from qa_coaching_feedback Q
 						inner join  signin S on Q.agent_id = S.id
@@ -517,7 +629,8 @@
 			//$qSql="SELECT id,agent_id,attach_file,call_date,call_id,(SELECT fusion_id from signin s where s.id=qa_coaching_feedback.agent_id) as fusion_id,(SELECT description from department d where d.id=(SELECT dept_id from signin s where s.id=qa_coaching_feedback.agent_id)) as department_name,(select office_abbr from site where site.id=(SELECT site_id from signin where id=qa_coaching_feedback.agent_id)) as site_name,(SELECT client_id from info_assign_client where user_id=qa_coaching_feedback.agent_id) as client_id,(select fullname from client c where c.id=(SELECT client_id from info_assign_client where user_id=qa_coaching_feedback.agent_id)) as client_name,(select concat(fname, ' ', lname) as name from signin s where s.id=qa_coaching_feedback.entry_by) as auditor_name,audit_date,(select concat(fname, ' ', lname) from signin s where s.id=qa_coaching_feedback.agent_id) as agent_name,(SELECT `assigned_to` FROM `signin` WHERE id=qa_coaching_feedback.agent_id) as tl_id,(select concat(fname, ' ', lname) from signin s where s.id=(SELECT `assigned_to` FROM `signin` WHERE id=qa_coaching_feedback.agent_id)) as tl_name,(SELECT `process_id` FROM `info_assign_process` WHERE user_id=qa_coaching_feedback.agent_id) as process_id,(select name from process p where p.id=(SELECT `process_id` FROM `info_assign_process` WHERE user_id=qa_coaching_feedback.agent_id)) as process_name from qa_coaching_feedback WHERE id=$id";
 
 			$qSql="SELECT Q.*, S.fusion_id, S.dept_id, CONCAT(S.fname, ' ', S.lname) as agent_name, S.assigned_to, CONCAT(T.fname, ' ', T.lname) as tl_name, get_client_ids(Q.agent_id) as client_id, get_client_names(Q.agent_id) as client_name, get_process_ids(Q.agent_id) AS process_id, get_process_names(Q.agent_id) AS process_name, CONCAT(A.fname, ' ', A.lname)  AS auditor_name,audit_date,
-			(SELECT description from department d where d.id=(SELECT dept_id from signin s where s.id=Q.agent_id)) as department_name
+			(SELECT description from department d where d.id=(SELECT dept_id from signin s where s.id=Q.agent_id)) as department_name,
+			(SELECT office_name from office_location ol where ol.abbr=(SELECT office_id from signin sol where sol.id=Q.agent_id)) as location
 				from qa_coaching_feedback Q
 				inner join  signin S on Q.agent_id = S.id
 				inner join signin T on T.id = S.assigned_to
@@ -698,5 +811,6 @@
 
 		fclose($fopen);
 	}
-	
-}
+
+
+ }

@@ -87,7 +87,14 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>Agent Name:<span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="agent_id" name="agent_id" required>
-												<option value="<?php echo $vfs_chat['agent_id'] ?>"><?php echo $vfs_chat['fname']." ".$vfs_chat['lname'] ?></option>
+												<?php 
+												if($vfs_chat['agent_id']!=''){
+													?>
+													<option value="<?php echo $vfs_chat['agent_id'] ?>"><?php echo $vfs_chat['fname']." ".$vfs_chat['lname'] ?></option>
+													<?php
+												}
+												?>
+												
 												<option value="">-Select-</option>
 												<?php foreach($agentName as $row):  ?>
 													<option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
@@ -179,9 +186,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										</td>
 									</tr>
 									<tr>
-										<td style="font-weight:bold">Total Score:</td>
+										<td style="font-weight:bold">Earned Score:</td>
 										<td><input type="text" readonly id="vfsEarned" name="earned_score" class="form-control" style="font-weight:bold" value="<?php echo $vfs_chat['overall_score'] ?>"></td>
-										<td style="font-weight:bold">Target:</td>
+										<td style="font-weight:bold">Possible Score:</td>
 										<td><input type="text" readonly id="vfsPossible" name="possible_score" class="form-control" style="font-weight:bold" value="<?php echo $vfs_chat['overall_score'] ?>"></td>
 										<td style="font-weight:bold">Overall Score Percentage:</td>
 										<td><input type="text" readonly id="vfsOverallScore" name="overall_score" class="form-control vfsChatFatal" style="font-weight:bold" value="<?php echo $vfs_chat['overall_score'] ?>"></td>
@@ -404,7 +411,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td colspan=1>a. Was Hold Required & Hold guidelines following</td>
 										<td>5</td>
 										<td>
-											<select class="form-control vfsVal"  data-id="hold_required" name="hold_required" required>
+											<select class="form-control vfsVal"  data-id="hold_protocol" name="hold_required" required>
 												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['hold_required']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=0 vfs_max="5" <?php echo $vfs_chat['hold_required']=='No'?"selected":""; ?> value="No">No</option>
 												<option vfs_val=5 vfs_max="5" <?php echo $vfs_chat['hold_required']=='N/A'?"selected":""; ?> value="N/A">N/A</option>

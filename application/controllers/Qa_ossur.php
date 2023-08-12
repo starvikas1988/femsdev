@@ -243,12 +243,13 @@
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
 				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
 				from qa_ossur_voice_feedback where id='$adt_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
-			$data["auditData"] = $this->Common_model->get_query_row_array($qSql);
+			$data["auditData"]= $adtsht = $this->Common_model->get_query_row_array($qSql);
 			
 			//$currDate=CurrDate();
 			$curDateTime=CurrMySqlDate();
 			$a = array();
 			
+			$data['global_element'] = global_acpt_edit($adtsht);
 			
 			$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
 			if($field_array['agent_id']){
@@ -390,12 +391,13 @@
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
 				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
 				from qa_ossur_email_feedback where id='$adt_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
-			$data["auditData"] = $this->Common_model->get_query_row_array($qSql);
+			$data["auditData"] = $adtsht = $this->Common_model->get_query_row_array($qSql);
 			
 			//$currDate=CurrDate();
 			$curDateTime=CurrMySqlDate();
 			$a = array();
 			
+			$data['global_element'] = global_acpt_edit($adtsht);
 			
 			$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
 			if($field_array['agent_id']){
@@ -556,7 +558,9 @@
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
 				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_ossur_".$campaign."_feedback where id='$adt_id') xx Left Join
 				(Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
-			$data["auditData"] = $this->Common_model->get_query_row_array($qSql);
+			$data["auditData"] = $adtsht = $this->Common_model->get_query_row_array($qSql);
+			
+			$data['global_element'] = global_acpt_edit($adtsht);
 			
 			if($this->input->post('pnid'))
 			{
@@ -690,11 +694,13 @@
 		if($campaign=="voice"){
 			$header = array("Auditor", "Agent", "Employee MWP ID", "L1/TL Name", "Audit Date", "Ticket/File/Call ID", "Call Date", "Call Duration", "Phone Number", "Site/Location", "ACPT", "Call Type", "Reason of the Call", "Type of Violation", "Audit Type", "Auditor Type", "Predictive CSAT/VOC", "Audit Start Date and Time", "Audit End Date and Time", "Interval(In Second)", "Earned Score", "Possible Score", "Overall Score",
 			"Did rep appropriately greet the caller?","Comment", "Did the rep understand and demonstrate willingness to assist?","Comment", "Did the agent offer Empathy/Apology? (if applicable)","Comment", "Did the rep pull the correct account?","Comment", "Did the rep ask for caller name PO number and enter the correct information?","Comment", "Was the shipping address correct?","Comment", "Did the agent select the correct product names and quantities?","Comment", "If caller called to cancel an order did the agent cancel the correct sales order number?","Comment", "Was the agent able to correctly process return authorization or return label?","Comment", "Was the agent able to provide the correct general information or tracking information? (if required)","Comment", "Did the rep apply free shipping? (if applicable)","Comment", "Did the rep call the correct dept and transfer appropriately? (If applicable)","Comment", "Did the rep refresh caller every 20 seconds to avoid long periods of silence through out the call?","Comment", "Did the rep abuse hold/put customer on hold for more than 4 minutes?","Comment", "Did the agent speak clearly concisely and at an appropriate pace and avoid interruption?","Comment", "Did the agent use thank you you are welcome I am sorry etc throughout the call?","Comment", "Was the agent courteous and professional during the call?","Comment", "Was the correct sales order number provided?","Comment", "Did the agent provide ETA for the order?","Comment", "Did the agent thank the customer for calling?","Comment",
+			"Hygiene Sampling - Agent was not stella phishing?","Remarks","Hygiene Sampling - Agent was not avoiding Stella Survey?","Remarks","Hygiene Sampling - Attempted to Cross Sell?","Remarks","AHT Related Spot Check - Agent","Remarks","AHT Related Spot Check - Customer","Remarks","AHT Related Spot Check - Process","Remarks","AHT Related Spot Check - Technology","Remarks","Conversion Related Spot Check - Agent","Remarks","Conversion Related Spot Check - Customer","Remarks","Conversion Related Spot Check - Process","Remarks","Conversion Related Spot Check - Technology","Remarks","SR/HR Related Spot Check - Agent","Remarks","SR/HR Related Spot Check - Customer","Remarks","SR/HR Related Spot Check - Process","Remarks","SR/HR Related Spot Check - Technology","Remarks","CSAT Related Spot Check - Agent","Remarks","CSAT Related Spot Check - Customer","Remarks","CSAT Related Spot Check - Process","Remarks","CSAT Related Spot Check - Technology","Remarks",
 			"Customer Critical Earn","Customer Critical Possible","Customer Critical Overall", "Business Critical Earn","Business Critical Possible","Business Critical Overall", "Compliance Critical Earn","Compliance Critical Possible","Compliance Critical Overall",
 			"Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date and Time", "Agent Review Comment", "Management Review By", "Management Review Date and Time", "Management Review Comment", "Client Review By", "Client Review Date and Time", "Client Review Comment");
 		}else if ($campaign=="email"){
 			$header = array("Auditor", "Agent", "Employee MWP ID", "L1/TL Name", "Audit Date", "Ticket/Sales Oredr No", "Email Date", "Reason of the Email", "Type of Violation", "Audit Type", "Auditor Type", "Predictive CSAT", "Audit Start Date and Time", "Audit End Date and Time", "Interval(In Second)", "Earned Score", "Possible Score", "Overall Score",
 			"Was the account number correct?","Comment", "Order received by - was fielded correct?","Comment", "Was the order placed by - correct?","Comment", "Was the PO number entered correctly?","Comment", "Was the shipping address correct?","Comment", "Were the correct items selected?","Comment", "Correct quantities added?","Comment", "Was the shipping method correct?","Comment", "Was the preferred DC selected properly?","Comment", "Was the free freight removed? (If applicable)","Comment", "Was the order released?","Comment",
+			"Hygiene Sampling - Agent was not stella phishing?","Remarks","Hygiene Sampling - Agent was not avoiding Stella Survey?","Remarks","Hygiene Sampling - Attempted to Cross Sell?","Remarks","AHT Related Spot Check - Agent","Remarks","AHT Related Spot Check - Customer","Remarks","AHT Related Spot Check - Process","Remarks","AHT Related Spot Check - Technology","Remarks","Conversion Related Spot Check - Agent","Remarks","Conversion Related Spot Check - Customer","Remarks","Conversion Related Spot Check - Process","Remarks","Conversion Related Spot Check - Technology","Remarks","SR/HR Related Spot Check - Agent","Remarks","SR/HR Related Spot Check - Customer","Remarks","SR/HR Related Spot Check - Process","Remarks","SR/HR Related Spot Check - Technology","Remarks","CSAT Related Spot Check - Agent","Remarks","CSAT Related Spot Check - Customer","Remarks","CSAT Related Spot Check - Process","Remarks","CSAT Related Spot Check - Technology","Remarks",
 			"Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date and Time", "Agent Review Comment", "Management Review By", "Management Review Date and Time", "Management Review Comment", "Client Review By", "Client Review Date and Time", "Client Review Comment");
 		}
 		
@@ -781,6 +787,44 @@
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt19'])).'",';
 				$row .= '"'.$user['thank_customer_calling'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt20'])).'",';
+				$row .= '"'.$user['stella_phishing'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt1'])).'",';
+				$row .= '"'.$user['avoid_stella_survey'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt2'])).'",';
+				$row .= '"'.$user['attempt_cross_sell'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt3'])).'",';
+				$row .= '"'.$user['aht_related_agent'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt4'])).'",';
+				$row .= '"'.$user['aht_related_customer'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt5'])).'",';
+				$row .= '"'.$user['aht_related_process'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt6'])).'",';
+				$row .= '"'.$user['aht_related_technology'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt7'])).'",';
+				$row .= '"'.$user['conversion_related_agent'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt8'])).'",';
+				$row .= '"'.$user['conversion_related_customer'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt9'])).'",';
+				$row .= '"'.$user['conversion_related_process'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt10'])).'",';
+				$row .= '"'.$user['conversion_related_technology'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt11'])).'",';
+				$row .= '"'.$user['sr_related_agent'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt12'])).'",';
+				$row .= '"'.$user['sr_related_customer'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt13'])).'",';
+				$row .= '"'.$user['sr_related_process'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt14'])).'",';
+				$row .= '"'.$user['sr_related_technology'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt15'])).'",';
+				$row .= '"'.$user['csat_related_agent'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt16'])).'",';
+				$row .= '"'.$user['csat_related_customer'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt17'])).'",';
+				$row .= '"'.$user['csat_related_process'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt18'])).'",';
+				$row .= '"'.$user['csat_related_technology'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt19'])).'",';
 				$row .= '"'.$user['customer_score'].'",';
 				$row .= '"'.$user['customer_scoreable'].'",';
 				$row .= '"'.$user['customer_percentage'].'",';
@@ -859,6 +903,44 @@
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt10'])).'",';
 				$row .= '"'.$user['order_released'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt11'])).'",';
+				$row .= '"'.$user['stella_phishing'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt1'])).'",';
+				$row .= '"'.$user['avoid_stella_survey'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt2'])).'",';
+				$row .= '"'.$user['attempt_cross_sell'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt3'])).'",';
+				$row .= '"'.$user['aht_related_agent'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt4'])).'",';
+				$row .= '"'.$user['aht_related_customer'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt5'])).'",';
+				$row .= '"'.$user['aht_related_process'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt6'])).'",';
+				$row .= '"'.$user['aht_related_technology'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt7'])).'",';
+				$row .= '"'.$user['conversion_related_agent'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt8'])).'",';
+				$row .= '"'.$user['conversion_related_customer'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt9'])).'",';
+				$row .= '"'.$user['conversion_related_process'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt10'])).'",';
+				$row .= '"'.$user['conversion_related_technology'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt11'])).'",';
+				$row .= '"'.$user['sr_related_agent'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt12'])).'",';
+				$row .= '"'.$user['sr_related_customer'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt13'])).'",';
+				$row .= '"'.$user['sr_related_process'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt14'])).'",';
+				$row .= '"'.$user['sr_related_technology'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt15'])).'",';
+				$row .= '"'.$user['csat_related_agent'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt16'])).'",';
+				$row .= '"'.$user['csat_related_customer'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt17'])).'",';
+				$row .= '"'.$user['csat_related_process'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt18'])).'",';
+				$row .= '"'.$user['csat_related_technology'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['acpt_cmt19'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
 				$row .= '"'.$user['agnt_fd_acpt'].'",';

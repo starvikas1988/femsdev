@@ -60,6 +60,7 @@
 										<option <?php echo $campaign=='craftjack_mtl'?"selected":""; ?> value="craftjack_mtl">Craftjack [MTL]</option>
 										<option <?php echo $campaign=='craftjack_new'?"selected":""; ?> value="craftjack_new">Craftjack [Jamaica]</option>
 										<option <?php echo $campaign=='craftjack_cebu'?"selected":""; ?> value="craftjack_cebu">Craftjack [Cebu]</option>
+										<option <?php echo $campaign=='craftjack_inbound_outbound'?"selected":""; ?> value="craftjack_inbound_outbound">Craftjack [Inbound Outbound]</option>
 									</select>
 								</div>
 							</div>

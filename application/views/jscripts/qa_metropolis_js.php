@@ -1945,7 +1945,17 @@ $(document).ready(function(){
 				var weightage = parseInt($(element).children("option:selected").attr('ji_val'));
 				score = score + weightage;
 				scoreable = scoreable + weightage;
-			}else if(score_type == 'No'){
+			}else if(score_type == 'Pass'){
+				pass_count = pass_count + 1;
+				var weightage = parseInt($(element).children("option:selected").attr('ji_val'));
+				score = score + weightage;
+				scoreable = scoreable + weightage;
+			}else if(score_type == 'Fail'){
+				fail_count = fail_count + 1;
+				var weightage = parseInt($(element).children("option:selected").attr('ji_val'));
+				scoreable = scoreable + weightage;
+			}
+			else if(score_type == 'No'){
 				fail_count = fail_count + 1;
 				var weightage = parseInt($(element).children("option:selected").attr('ji_val'));
 				scoreable = scoreable + weightage;
@@ -1978,6 +1988,13 @@ $(document).ready(function(){
 				var w = parseInt($(element).children("option:selected").attr('ji_val'));
 				customerScore1 = customerScore1 + w;
 				customerScoreable1 = customerScoreable1 + w;
+			}else if(sc == 'Pass'){
+				var w = parseInt($(element).children("option:selected").attr('ji_val'));
+				customerScore1 = customerScore1 + w;
+				customerScoreable1 = customerScoreable1 + w;
+			}else if(sc == 'Fail'){
+				var w = parseInt($(element).children("option:selected").attr('ji_val'));
+				customerScoreable1 = customerScoreable1 + w;
 			}else if(sc == 'No'){
 				var w = parseInt($(element).children("option:selected").attr('ji_val'));
 				customerScoreable1 = customerScoreable1 + w;
@@ -2003,6 +2020,13 @@ $(document).ready(function(){
 				var wb = parseInt($(element).children("option:selected").attr('ji_val'));
 				businessScore1 = businessScore1 + wb;
 				businessScoreable1 = businessScoreable1 + wb;
+			}else if(scb == 'Pass'){
+				var wb = parseInt($(element).children("option:selected").attr('ji_val'));
+				businessScore1 = businessScore1 + wb;
+				businessScoreable1 = businessScoreable1 + wb;
+			}else if(scb == 'Fail'){
+				var wb = parseInt($(element).children("option:selected").attr('ji_val'));
+				businessScoreable1 = businessScoreable1 + wb;
 			}else if(scb == 'No'){
 				var wb = parseInt($(element).children("option:selected").attr('ji_val'));
 				businessScoreable1 = businessScoreable1 + wb;
@@ -2027,6 +2051,13 @@ $(document).ready(function(){
 			if(scc == 'Yes'){
 				var wc = parseInt($(element).children("option:selected").attr('ji_val'));
 				complianceScore1 = complianceScore1 + wc;
+				complianceScoreable1 = complianceScoreable1 + wc;
+			}else if(scc == 'Pass'){
+				var wc = parseInt($(element).children("option:selected").attr('ji_val'));
+				complianceScore1 = complianceScore1 + wc;
+				complianceScoreable1 = complianceScoreable1 + wc;
+			}else if(scc == 'Fail'){
+				var wc = parseInt($(element).children("option:selected").attr('ji_val'));
 				complianceScoreable1 = complianceScoreable1 + wc;
 			}else if(scc == 'No'){
 				var wc = parseInt($(element).children("option:selected").attr('ji_val'));
@@ -2104,7 +2135,7 @@ $(document).ready(function(){
 		}
 
 	////////////Stifel///////////////
-		if($('#stifel_AF1').val()=='No' || $('#stifel_AF2').val()=='No' || $('#stifel_AF3').val()=='No' || $('#stifel_AF4').val()=='No' || $('#stifel_AF5').val()=='No' || $('#stifel_AF6').val()=='No' || $('#stifel_AF7').val()=='No' || $('#stifel_AF8').val()=='No' || $('#stifel_AF9').val()=='No' || $('#stifel_AF10').val()=='No' || $('#stifel_AF11').val()=='No' || $('#stifel_AF12').val()=='No'){
+		if($('#stifel_AF1').val()=='Fail' || $('#stifel_AF2').val()=='Fail' || $('#stifel_AF3').val()=='Fail' || $('#stifel_AF4').val()=='Fail' || $('#stifel_AF5').val()=='Fail' || $('#stifel_AF6').val()=='Fail' || $('#stifel_AF7').val()=='Fail' || $('#stifel_AF8').val()=='Fail' || $('#stifel_AF9').val()=='Fail' || $('#stifel_AF10').val()=='Fail' || $('#stifel_AF11').val()=='Fail' || $('#stifel_AF12').val()=='Fail'){
 			$('.stifel_fatal').val(0);
 		}else{
 			if(!isNaN(quality_score_percent)){

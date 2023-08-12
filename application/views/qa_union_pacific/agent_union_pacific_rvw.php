@@ -143,6 +143,11 @@ input[type='checkbox']{
 												<option <?php echo $union_pacific_data['voc']=='3'?"selected":""; ?> value="3">3</option>
 												<option <?php echo $union_pacific_data['voc']=='4'?"selected":""; ?> value="4">4</option>
 												<option <?php echo $union_pacific_data['voc']=='5'?"selected":""; ?> value="5">5</option>
+												<option value="6"  <?= ($union_pacific_data['voc']=="6")?"selected":"" ?>>6</option>
+												<option value="7"  <?= ($union_pacific_data['voc']=="7")?"selected":"" ?>>7</option>
+												<option value="8"  <?= ($union_pacific_data['voc']=="8")?"selected":"" ?>>8</option>
+												<option value="9"  <?= ($union_pacific_data['voc']=="9")?"selected":"" ?>>9</option>
+												<option value="10"  <?= ($union_pacific_data['voc']=="10")?"selected":"" ?>>10</option>
 											</select>
 										</td>
 										<td>Audit Type:<span style="font-size:24px;color:red">*</span></td>

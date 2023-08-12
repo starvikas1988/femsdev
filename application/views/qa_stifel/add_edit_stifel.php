@@ -169,9 +169,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control jurry_points customer" id="stifel_AF7" name="data[opening]" required>
 												<!-- <option value="">-Select-</option> -->
-												<option ji_val=5 <?php echo $stifel['opening'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=5 <?php echo $stifel['opening'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=5 <?php echo $stifel['opening'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ji_val=5 <?php echo $stifel['opening'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
+												<option ji_val=5 <?php echo $stifel['opening'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
 											</select> 
 										</td>
 										<td colspan=2><input type="text" name="data[cmt1]" class="form-control" value="<?php echo $stifel['cmt1'] ?>"></td>
@@ -183,9 +182,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control jurry_points customer"  id="stifel_AF8" name="data[closing]" required>
 												<!-- <option value="">-Select-</option> -->
-												<option ji_val=5 <?php echo $stifel['closing'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=5 <?php echo $stifel['closing'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=5 <?php echo $stifel['closing'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ji_val=5 <?php echo $stifel['closing'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
+												<option ji_val=5 <?php echo $stifel['closing'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
 											</select> 
 										</td>
 										<td colspan=2><input type="text" name="data[cmt3]" class="form-control" value="<?php echo $stifel['cmt3'] ?>"></td>
@@ -198,8 +196,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control jurry_points customer" name="data[stay_on_call]" required>
 												<!-- <option value="">-Select-</option> -->
-												<option ji_val=10 <?php echo $stifel['stay_on_call'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=10 <?php echo $stifel['stay_on_call'] == "No"?"selected":"";?> value="No">No</option>
+												<option ji_val=10 <?php echo $stifel['stay_on_call'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
+												<option ji_val=10 <?php echo $stifel['stay_on_call'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
 												<option ji_val=10 <?php echo $stifel['stay_on_call'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
@@ -212,8 +210,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control jurry_points customer" name="data[owenship_assurance]" required>
 												<!-- <option value="">-Select-</option> -->
-												<option ji_val=10 <?php echo $stifel['owenship_assurance'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=10 <?php echo $stifel['owenship_assurance'] == "No"?"selected":"";?> value="No">No</option>
+												<option ji_val=10 <?php echo $stifel['owenship_assurance'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
+												<option ji_val=10 <?php echo $stifel['owenship_assurance'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
 												<option ji_val=10 <?php echo $stifel['owenship_assurance'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
@@ -227,8 +225,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control jurry_points customer" name="data[hold_protocol]" required>
 												<!-- <option value="">-Select-</option> -->
-												<option ji_val=10 <?php echo $stifel['hold_protocol'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=10 <?php echo $stifel['hold_protocol'] == "No"?"selected":"";?> value="No">No</option>
+												<option ji_val=10 <?php echo $stifel['hold_protocol'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
+												<option ji_val=10 <?php echo $stifel['hold_protocol'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
 												<option ji_val=10 <?php echo $stifel['hold_protocol'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
@@ -241,8 +239,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control jurry_points business" name="data[transfer]" required>
 												<!-- <option value="">-Select-</option> -->
-												<option ji_val=10 <?php echo $stifel['transfer'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=10 <?php echo $stifel['transfer'] == "No"?"selected":"";?> value="No">No</option>
+												<option ji_val=10 <?php echo $stifel['transfer'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
+												<option ji_val=10 <?php echo $stifel['transfer'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
 												<option ji_val=10 <?php echo $stifel['transfer'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
@@ -256,9 +254,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control jurry_points customer"  id="stifel_AF10" name="data[rate_of_speech]" required>
 												<!-- <option value="">-Select-</option> -->
-												<option ji_val=10 <?php echo $stifel['rate_of_speech'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=10 <?php echo $stifel['rate_of_speech'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=10 <?php echo $stifel['rate_of_speech'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ji_val=10 <?php echo $stifel['rate_of_speech'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
+												<option ji_val=10 <?php echo $stifel['rate_of_speech'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
 											</select> 
 										</td>
 										<td colspan=2><input type="text" name="data[cmt8]" class="form-control" value="<?php echo $stifel['cmt8'] ?>"></td>
@@ -270,9 +267,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control jurry_points customer"  id="stifel_AF11" name="data[active_listening]" required>
 												<!-- <option value="">-Select-</option> -->
-												<option ji_val=10 <?php echo $stifel['active_listening'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=10 <?php echo $stifel['active_listening'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=10 <?php echo $stifel['active_listening'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ji_val=10 <?php echo $stifel['active_listening'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
+												<option ji_val=10 <?php echo $stifel['active_listening'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
 											</select> 
 										</td>
 										<td colspan=2><input type="text" name="data[cmt9]" class="form-control" value="<?php echo $stifel['cmt9'] ?>"></td>
@@ -284,9 +280,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control jurry_points customer" id="stifel_AF12"  name="data[parallel_conversion]" required>
 												<!-- <option value="">-Select-</option> -->
-												<option ji_val=10 <?php echo $stifel['parallel_conversion'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=10 <?php echo $stifel['parallel_conversion'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=10 <?php echo $stifel['parallel_conversion'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ji_val=10 <?php echo $stifel['parallel_conversion'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
+												<option ji_val=10 <?php echo $stifel['parallel_conversion'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
 											</select> 
 										</td>
 										<td colspan=2><input type="text" name="data[cmt10]" class="form-control" value="<?php echo $stifel['cmt10'] ?>"></td>
@@ -299,9 +294,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control jurry_points business" id="stifel_AF1" name="data[issue_identification]" required>
 												<!-- <option value="">-Select-</option> -->
-												<option ji_val=2 <?php echo $stifel['issue_identification'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=2 <?php echo $stifel['issue_identification'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=2 <?php echo $stifel['issue_identification'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ji_val=2 <?php echo $stifel['issue_identification'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
+												<option ji_val=2 <?php echo $stifel['issue_identification'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
 											</select> 
 										</td>
 										<td colspan=2><input type="text" name="data[cmt11]" class="form-control" value="<?php echo $stifel['cmt11'] ?>"></td>
@@ -313,9 +307,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control jurry_points business" id="stifel_AF2" name="data[false_commitment]" required>
 												<!-- <option value="">-Select-</option> -->
-												<option ji_val=3 <?php echo $stifel['false_commitment'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=3 <?php echo $stifel['false_commitment'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=3 <?php echo $stifel['false_commitment'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ji_val=3 <?php echo $stifel['false_commitment'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
+												<option ji_val=3 <?php echo $stifel['false_commitment'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
 											</select> 
 										</td>
 										<td colspan=2><input type="text" name="data[cmt13]" class="form-control" value="<?php echo $stifel['cmt13'] ?>"></td>
@@ -328,9 +321,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control jurry_points compliance1" id="stifel_AF3" name="data[verification_process_follow]" required>
 												<!-- <option value="">-Select-</option> -->
-												<option ji_val=3 <?php echo $stifel['verification_process_follow'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=3 <?php echo $stifel['verification_process_follow'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=3 <?php echo $stifel['verification_process_follow'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ji_val=3 <?php echo $stifel['verification_process_follow'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
+												<option ji_val=3 <?php echo $stifel['verification_process_follow'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
 											</select> 
 										</td>
 										<td colspan=2><input type="text" name="data[cmt14]" class="form-control" value="<?php echo $stifel['cmt14'] ?>"></td>
@@ -343,8 +335,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control jurry_points customer" id="stifel_AF5" name="data[rudeness]" required>
 												<!-- <option value="">-Select-</option> -->
-												<option ji_val=2 <?php echo $stifel['rudeness'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=2 <?php echo $stifel['rudeness'] == "No"?"selected":"";?> value="No">No</option>
+												<option ji_val=2 <?php echo $stifel['rudeness'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
+												<option ji_val=2 <?php echo $stifel['rudeness'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
 											</select> 
 										</td>
 										<td colspan=2><input type="text" name="data[cmt15]" class="form-control" value="<?php echo $stifel['cmt15'] ?>"></td>
@@ -356,8 +348,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control jurry_points customer" id="stifel_AF6" name="data[call_avoidance]" required>
 												<!-- <option value="">-Select-</option> -->
-												<option ji_val=2 <?php echo $stifel['call_avoidance'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=2 <?php echo $stifel['call_avoidance'] == "No"?"selected":"";?> value="No">No</option>
+												<option ji_val=2 <?php echo $stifel['call_avoidance'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
+												<option ji_val=2 <?php echo $stifel['call_avoidance'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
 											</select> 
 										</td>
 										<td colspan=2><input type="text" name="data[cmt16]" class="form-control" value="<?php echo $stifel['cmt16'] ?>"></td>
@@ -370,8 +362,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>
 											<select class="form-control jurry_points customer" id="stifel_AF9" name="data[empathy]" required>
 												<!-- <option value="">-Select-</option> -->
-												<option ji_val=8 <?php echo $stifel['empathy'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=8 <?php echo $stifel['empathy'] == "No"?"selected":"";?> value="No">No</option>
+												<option ji_val=8 <?php echo $stifel['empathy'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
+												<option ji_val=8 <?php echo $stifel['empathy'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
 											</select> 
 										</td>
 										<td colspan=2><input type="text" name="data[cmt17]" class="form-control" value="<?php echo $stifel['cmt17'] ?>"></td>

@@ -756,7 +756,7 @@ input[type='checkbox']{
 										<td style="width:300px"><input type="text" class="form-control" value="<?php echo $auditorName; ?>" disabled></td>
 										<td style="width:150px">Audit Date:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" value="<?php echo $auditDate; ?>" disabled></td>
-										<td>Date and time Of Chat:<span style="font-size:24px;color:red">*</span></td>
+										<td>Chat Date:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" id="call_date" name="call_date" onkeydown="return false;"  value="<?php echo $clDate_val; ?>" disabled></td>
 									</tr>
 									<tr>
@@ -774,14 +774,6 @@ input[type='checkbox']{
 										<td><input type="text" class="form-control" id="fusion_id" name="" value="<?php echo $agent_vfs['fusion_id']; ?>" readonly></td>
 										<td>L1 Supervisor:<span style="font-size:24px;color:red">*</span></td>
 										<td style="width:250px">
-											<!-- <select class="form-control" id="tl_id" name="tl_id" readonly>
-												<option value="<?php echo $agent_vfs['tl_id'] ?>"><?php echo $agent_vfs['tl_name'] ?></option>
-												<option value="">--Select--</option>
-												<?php foreach($tlname as $tl): ?>
-													<option value="<?php echo $tl['id']; ?>"><?php echo $tl['fname']." ".$tl['lname']; ?></option>
-												<?php endforeach; ?>	
-											</select> -->
-
 											<input type="text" class="form-control" id="tl_name"  value="<?php echo $agent_vfs['tl_name']; ?>" readonly>
 												<input type="hidden" class="form-control" id="tl_id" name="tl_id" value="<?php echo $agent_vfs['tl_id'] ?>" disabled>
 										</td>
@@ -1088,7 +1080,7 @@ input[type='checkbox']{
 										<td colspan=1>a. Was Hold disabled & Hold guidelines following</td>
 										<td>5</td>
 										<td>
-											<select class="form-control vfsVal"  data-id="hold_required" name="hold_required" disabled>
+											<select class="form-control vfsVal"  data-id="hold_protocol" name="hold_required" disabled>
 												<option vfs_val=5 vfs_max="5" <?php echo $agent_vfs['hold_required']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
 												<option vfs_val=0 vfs_max="5" <?php echo $agent_vfs['hold_required']=='No'?"selected":""; ?> value="No">No</option>
 												<option vfs_val=5 vfs_max="5" <?php echo $agent_vfs['hold_required']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
@@ -1497,7 +1489,7 @@ input[type='checkbox']{
 												<option <?php echo $agent_vfs['autofail_status']=='Non Fatal'?"selected":""; ?> value="Non Fatal">Non Fatal</option>
 											</select>
 										</td>
-										<td>Host/Country:</td>
+										<td>Host/Country:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" name="host_country" value="<?php echo $agent_vfs['host_country']; ?>" disabled></td>
 									</tr>
 									<tr>
@@ -2009,7 +2001,7 @@ input[type='checkbox']{
 									</tr>	
 									
 									<tr>
-										<td>Email Summary:</td>
+										<td>Call Summary:</td>
 										<td colspan=2><textarea class="form-control"  disabled name="call_summary"><?php echo $agent_vfs['call_summary'] ?></textarea></td>
 										<td>Feedback:</td>
 										<td colspan=2><textarea class="form-control"  disabled name="feedback"><?php echo $agent_vfs['feedback'] ?></textarea></td>

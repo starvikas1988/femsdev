@@ -53,7 +53,7 @@
 									<select class="form-control" name="campaign" required>
 										<option value="">--Select--</option>
 										<option <?php echo $campaign=='stifel'?"selected":""; ?> value="stifel">Stifel</option>
-										<option <?php echo $campaign=='stifel_v1'?"selected":""; ?> value="stifel_v1">Stifel [VERSION 1]</option>
+										<option <?php echo $campaign=='stifel_v1'?"selected":""; ?> value="stifel_v1">Stifel Banking</option>
 									</select>
 
 									<!-- <label>Select Audit Type</label>

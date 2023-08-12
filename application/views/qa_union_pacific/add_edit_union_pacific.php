@@ -65,8 +65,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									<?php
 										if ($union_pacific_data_id == 0) {
 											$auditorName = get_username();
-											//$auditDate = CurrDateMDY();
-											$auditDate =  CurrDateTimeMDY();
+											$auditDate = CurrDateMDY();
+											//$auditDate =  CurrDateTimeMDY();
 											$clDate_val = '';
 										} else {
 											if ($union_pacific_data['entry_by'] != '') {
@@ -99,7 +99,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td style="width:150px">Audit Date:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" value="<?php echo $auditDate; ?>" disabled></td>
 										<td>Call Date:<span style="font-size:24px;color:red">*</span></td>
-										<td><input type="text" class="form-control" id="call_date" name="call_date" value="<?php echo $clDate_val; ?>" required></td>
+										<td><input type="text" class="form-control" id="call_date" name="call_date" onkeydown="return false;" value="<?php echo $clDate_val; ?>" required></td>
 									</tr>
 									<tr>
 										<td>Employee Name:<span style="font-size:24px;color:red">*</span></td>
@@ -159,6 +159,11 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<option <?php echo $union_pacific_data['voc']=='3'?"selected":""; ?> value="3">3</option>
 												<option <?php echo $union_pacific_data['voc']=='4'?"selected":""; ?> value="4">4</option>
 												<option <?php echo $union_pacific_data['voc']=='5'?"selected":""; ?> value="5">5</option>
+												<option value="6"  <?= ($union_pacific_data['voc']=="6")?"selected":"" ?>>6</option>
+												<option value="7"  <?= ($union_pacific_data['voc']=="7")?"selected":"" ?>>7</option>
+												<option value="8"  <?= ($union_pacific_data['voc']=="8")?"selected":"" ?>>8</option>
+												<option value="9"  <?= ($union_pacific_data['voc']=="9")?"selected":"" ?>>9</option>
+												<option value="10"  <?= ($union_pacific_data['voc']=="10")?"selected":"" ?>>10</option>
 											</select>
 										</td>
 										<td>Audit Type:<span style="font-size:24px;color:red">*</span></td>
@@ -183,8 +188,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td class="auType">
 											<select class="form-control" id="auditor_type" name="data[auditor_type]">
 												<option value="">-Select-</option>
-												<option value="Master">Master</option>
-												<option value="Regular">Regular</option>
+												<option value="Master" <?= ($union_pacific_data['auditor_type']=="Master")?"selected":"" ?>>Master</option> 
+												 <option value="Regular" <?= ($union_pacific_data['auditor_type']=="Regular")?"selected":"" ?>>Regular</option> 
 											</select>
 										</td>
 									</tr>
@@ -753,7 +758,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<tr><td colspan=2 style="font-size:16px; font-weight:bold">Management Review:</td><td colspan=4><?php echo $union_pacific_data['mgnt_rvw_note'] ?></td></tr>
 										<tr><td colspan=2 style="font-size:16px; font-weight:bold">Client Review:</td><td colspan=4><?php echo $union_pacific_data['client_rvw_note'] ?></td></tr>
 										
-										<tr><td colspan=2  style="font-size:16px">Your Review</td><td colspan=4><textarea class="form-control1" style="width:100%" id="note" name="note" required></textarea></td></tr>
+										<tr><td colspan=2  style="font-size:16px">Your Review<span style="font-size:24px;color:red">*</span></td><td colspan=4><textarea class="form-control1" style="width:100%" id="note" name="note" required></textarea></td></tr>
 									<?php } ?>
 										
 									<?php 

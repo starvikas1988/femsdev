@@ -40,9 +40,13 @@
 									<div class="form-group">
 										<label>Select Campaign</label>
 										<select class="form-control" id="" name="campaign" required>
-											<option value="">--Select--</option>
+											<option value="">All</option>
 											<option <?php echo $campaign=='att'?"selected":""; ?> value="att">AT&T </option>
 											<option <?php echo $campaign=='fiberconnect'?"selected":""; ?> value="fiberconnect">Fiberconnect</option>
+											<option <?php echo $campaign=='acc'?"selected":""; ?> value="acc">ACC</option>
+											<option <?php echo $campaign=='att_collection_gbrm'?"selected":""; ?> value="att_collection_gbrm">Collection GBRM</option>
+											<option <?php echo $campaign=='att_fiberconnect_whitespace'?"selected":""; ?> value="att_fiberconnect_whitespace">Fibeconnect Whitespace</option>
+											<!-- <option <?php //echo $campaign=='agent_coaching'?"selected":""; ?> value="agent_coaching">Agent Coaching</option> -->
 											<!--
 											<option <?php //echo $campaign=='att_verint'?"selected":""; ?> value="att_verint">AT&T Verint</option>
 											<option <?php //echo $campaign=='att_florida'?"selected":""; ?> value="att_florida">AT&T Florida</option>
@@ -97,7 +101,6 @@
 										<th>L1 Supervisor</th>
 										<th>Call Duration</th>
 										<th>Total Score</th>
-										<th>Audio</th>
 										<th>Agent Review Date</th>
 										<th>Mgnt Review By</th>
 										<th>Mgnt Review Date</th>
@@ -118,19 +121,6 @@
 										<td><?php echo $row['call_duration']; ?></td>
 										
 										<td><?php echo $row['overall_score']."%"; ?></td>
-										<td oncontextmenu="return false;">
-										<?php
-											if($row['attach_file']!=''){
-											$attach_file = explode(",",$row['attach_file']);
-											foreach($attach_file as $mp){ 
-										?>	
-											<audio controls='' style="width:120px; height:25px; background-color:#607F93"> 
-											  <source src="<?php echo base_url(); ?>qa_files/qa_att/<?php echo $mp; ?>" type="audio/ogg">
-											  <source src="<?php echo base_url(); ?>qa_files/qa_att/<?php echo $mp; ?>" type="audio/mpeg">
-											</audio>
-										<?php }  
-											}	?>
-										</td>
 										<td><?php echo $row['agent_rvw_date']; ?></td>
 										<td><?php echo $row['mgnt_rvw_name']; ?></td>
 										<td><?php echo $row['mgnt_rvw_date']; ?></td>
@@ -144,10 +134,14 @@
 												<a class="btn btn-success" href="<?php echo base_url(); ?>qa_att/agent_fiberconnect_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
 											<?php //}else if($campaign=='att_verint'){ ?>
 												<!--<a class="btn btn-success" href="<?php echo base_url(); ?>qa_attverint/agent_attverint_feedback_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>-->
-											<?php //}else if($campaign=='att_florida'){ ?>
-												<!--<a class="btn btn-success" href="<?php echo base_url(); ?>qa_attflorida/agent_attflorida_feedback_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>-->
+											<?php }else if($campaign=='acc'){ ?>
+												<a class="btn btn-success" href="<?php echo base_url(); ?>qa_att/agent_acc_feedback_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
 											<?php }else if($campaign=='att_compliance'){ ?>
 												<a class="btn btn-success" href="<?php echo base_url(); ?>qa_att/agent_compliance_feedback_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
+											<?php }else if($campaign=='att_collection_gbrm'){ ?>
+												<a class="btn btn-success" href="<?php echo base_url(); ?>qa_att/agent_gbrm_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
+											<?php } else if($campaign=='att_fiberconnect_whitespace'){ ?>
+												<a class="btn btn-success" href="<?php echo base_url(); ?>qa_att/agent_whitespace_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
 											<?php } ?>
 											
 										</td>
@@ -163,7 +157,6 @@
 										<th>L1 Supervisor</th>
 										<th>Call Duration</th>
 										<th>Total Score</th>
-										<th>Audio</th>
 										<th>Agent Review Date</th>
 										<th>Mgnt Review By</th>
 										<th>Mgnt Review Date</th>

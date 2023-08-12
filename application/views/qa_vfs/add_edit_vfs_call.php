@@ -86,7 +86,14 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>Agent Name:<span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="agent_id" name="agent_id" required>
-												<option value="<?php echo $vfs_call['agent_id'] ?>"><?php echo $vfs_call['fname']." ".$vfs_call['lname'] ?></option>
+											<?php 
+												if($vfs_call['agent_id']!=''){
+													?>
+													<option value="<?php echo $vfs_call['agent_id'] ?>"><?php echo $vfs_call['fname']." ".$vfs_call['lname'] ?></option>
+													<?php
+												}
+												?>
+												
 												<option value="">-Select-</option>
 												<?php foreach($agentName as $row):  ?>
 													<option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>

@@ -86,7 +86,14 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>Agent Name:<span style="font-size:24px;color:red">*</span></td>
 										<td>
 											<select class="form-control" id="agent_id" name="agent_id" required>
-												<option value="<?php echo $vfs_email['agent_id'] ?>"><?php echo $vfs_email['fname']." ".$vfs_email['lname'] ?></option>
+												<?php 
+												if($vfs_email['agent_id']!=''){
+													?>
+													<option value="<?php echo $vfs_email['agent_id'] ?>"><?php echo $vfs_email['fname']." ".$vfs_email['lname'] ?></option>
+													<?php
+												}
+												?>
+												
 												<option value="">-Select-</option>
 												<?php foreach($agentName as $row):  ?>
 													<option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
@@ -121,7 +128,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<option <?php echo $vfs_email['autofail_status']=='Non Fatal'?"selected":""; ?> value="Non Fatal">Non Fatal</option>
 											</select>
 										</td>
-										<td>Host/Country:</td>
+										<td>Host/Country:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" name="host_country" value="<?php echo $vfs_email['host_country']; ?>" required></td>
 									</tr>
 									<tr>
@@ -638,7 +645,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td colspan=2><textarea class="form-control"  name="inprovement_area"><?php echo $vfs_email['inprovement_area'] ?></textarea></td>
 									</tr> -->
 									<tr>
-										<td>Email Summary:</td>
+										<td>Call Summary:</td>
 										<td colspan=2><textarea class="form-control"  name="call_summary"><?php echo $vfs_email['call_summary'] ?></textarea></td>
 										<td>Feedback:</td>
 										<td colspan=2><textarea class="form-control"  name="feedback"><?php echo $vfs_email['feedback'] ?></textarea></td>

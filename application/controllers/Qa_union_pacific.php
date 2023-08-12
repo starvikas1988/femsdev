@@ -350,7 +350,7 @@ public function add_edit_union_pacific($union_pacific_data_id){
 				$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql);
 
 				if($from_date!="" && $to_date!=="" ){ 
-						$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit') ";
+						$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
 					}else{
 						$cond= " Where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit') ";
 					}
@@ -562,7 +562,7 @@ public function add_edit_union_pacific($union_pacific_data_id){
 		$filename = "./assets/reports/Report".get_user_id().".csv";
 		$fopen = fopen($filename,"w+");
 
-		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Supervisor", "Call Date", "Call Duration", "Call Link", "Account", "KPI - ACPT", "Audit Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Earned Score","Possible Score", "Overall Score",
+		$header = array("Auditor Name", "Audit Date", "Agent", "Fusion ID", "L1 Supervisor", "Call Date", "Call Duration", "Call Link", "Account", "KPI - ACPT", "Audit Type","Auditor Type", "VOC", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Earned Score","Possible Score", "Overall Score",
 			"Opening: Identify himself/herself by first name and state that he/she is calling from Union Pacific or LOUP at the beginning of the call? **SQ** (Example: Hi this is Amity calling from Union Pacific)",
 			"Opening : Provide the Quality Assurance Statement verbatim before any specific account information was discussed?**SQ** Recording disclosure: All calls are recorded and may be monitored for Quality Assurance.",
 			"Opening: Did the agent get caller's name and then use that throughout the call?",
@@ -600,7 +600,7 @@ public function add_edit_union_pacific($union_pacific_data_id){
 			"Documentation: Escalate the account to a supervisor for handling if appropriate? / If required for further account handling escalate it to Union Pacific / LOUP.",
 		 "Remarks1", "Remarks2", "Remarks3", "Remarks4", "Remarks5", "Remarks6", "Remarks7", "Remarks8", "Remarks9", "Remarks10", "Remarks11", "Remarks12", "Remarks13", "Remarks14", "Remarks15", "Remarks16", "Remarks17", "Remarks18", "Remarks19","Remarks20",
 		 "Remarks21", "Remarks22","Remarks23", "Remarks24", "Remarks25", "Remarks26", "Remarks27", "Remarks28", "Remarks29", "Remarks30", "Remarks31", "Remarks32", "Remarks33", "Remarks34", "Remarks35",
-		  "Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
+		  "Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date/Time", "Agent Comment", "Mgnt Review Date/Time","Mgnt Review By", "Mgnt Comment", "Client Review Date/Time", "Client Review Name", "Client Review Note");
 
 		$row = "";
 		foreach($header as $data) $row .= ''.$data.',';
@@ -631,6 +631,7 @@ public function add_edit_union_pacific($union_pacific_data_id){
 			$row .= '"'.$user['account'].'",';
 			$row .= '"'.$user['KPI_ACPT'].'",';
 			$row .= '"'.$user['audit_type'].'",';
+			$row .= '"'.$user['auditor_type'].'",';
 			$row .= '"'.$user['voc'].'",';
 			$row .= '"'.$user['audit_start_time'].'",';
 			$row .= '"'.$user['entry_date'].'",';

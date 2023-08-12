@@ -310,14 +310,18 @@
 					"entry_date" => $curDateTime
 				);
 				
-				$a = $this->vfs_upload_files($_FILES['attach_file'],$path='./qa_files/qa_vfs/chat/');
-				$field_array["attach_file"] = implode(',',$a);
+				
 
 				if($chat_id==0){
 					
-					
 					$rowid= data_inserter('qa_vfs_chat_feedback',$field_array);
 					/////////
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						$a = $this->vfs_upload_files($_FILES['attach_file'], $path='./qa_files/qa_vfs/chat/');
+						$field_array3["attach_file"] = implode(',',$a);
+						$this->db->where('id', $rowid);
+						$this->db->update('qa_vfs_chat_feedback',$field_array3);
+					}
 					$field_array2 = array(
 						"audit_date" => CurrDate(),
 						"audit_start_time" => $this->input->post('audit_start_time')
@@ -338,21 +342,30 @@
 					$this->db->where('id', $chat_id);
 					$this->db->update('qa_vfs_chat_feedback',$field_array);
 				//////////
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						if(!file_exists("./qa_files/qa_vfs/chat/")){
+							mkdir("./qa_files/qa_vfs/chat/");
+						}
+						$a = $this->vfs_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_vfs/chat/' );
+						$field_array1['attach_file'] = implode( ',', $a );
+						$this->db->where('id', $chat_id);
+					   $this->db->update('qa_vfs_chat_feedback',$field_array1);
+					}
 					if(get_login_type()=="client"){
-						$field_array1 = array(
+						$edit_array = array(
 							"client_rvw_by" => $current_user,
 							"client_rvw_note" => $this->input->post('note'),
 							"client_rvw_date" => $curDateTime
 						);
 					}else{
-						$field_array1 = array(
+						$edit_array = array(
 							"mgnt_rvw_by" => $current_user,
 							"mgnt_rvw_note" => $this->input->post('note'),
 							"mgnt_rvw_date" => $curDateTime
 						);
 					}
 					$this->db->where('id', $chat_id);
-					$this->db->update('qa_vfs_chat_feedback',$field_array1);
+					$this->db->update('qa_vfs_chat_feedback',$edit_array);
 					
 				}
 				redirect('Qa_vfs');
@@ -479,12 +492,18 @@
 					"audit_start_time" => $this->input->post('audit_start_time'),
 				);
 				
-				$a = $this->vfs_upload_files($_FILES['attach_file'],$path='./qa_files/qa_vfs/call/');
-				$field_array["attach_file"] = implode(',',$a);
 
 				if($call_id==0){
+					
 					$rowid= data_inserter('qa_vfs_call_feedback',$field_array);
 					/////////
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						$a = $this->vfs_upload_files($_FILES['attach_file'], $path='./qa_files/qa_vfs/call/');
+						$field_array3["attach_file"] = implode(',',$a);
+						$this->db->where('id', $rowid);
+						$this->db->update('qa_vfs_call_feedback',$field_array3);
+					}
+
 					$field_array2 = array(
 						"audit_date" => CurrDate(),
 						"audit_start_time" => $this->input->post('audit_start_time')
@@ -508,21 +527,30 @@
 					$this->db->where('id', $call_id);
 					$this->db->update('qa_vfs_call_feedback',$field_array);
 				//////////
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						if(!file_exists("./qa_files/qa_vfs/call/")){
+							mkdir("./qa_files/qa_vfs/call/");
+						}
+						$a = $this->vfs_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_vfs/call/' );
+						$field_array1['attach_file'] = implode( ',', $a );
+						$this->db->where('id', $call_id);
+					   $this->db->update('qa_vfs_call_feedback',$field_array1);
+					}
 					if(get_login_type()=="client"){
-						$field_array1 = array(
+						$edit_array = array(
 							"client_rvw_by" => $current_user,
 							"client_rvw_note" => $this->input->post('note'),
 							"client_rvw_date" => $curDateTime
 						);
 					}else{
-						$field_array1 = array(
+						$edit_array = array(
 							"mgnt_rvw_by" => $current_user,
 							"mgnt_rvw_note" => $this->input->post('note'),
 							"mgnt_rvw_date" => $curDateTime
 						);
 					}
 					$this->db->where('id', $call_id);
-					$this->db->update('qa_vfs_call_feedback',$field_array1);
+					$this->db->update('qa_vfs_call_feedback',$edit_array);
 					
 				}
 				redirect('Qa_vfs');
@@ -580,30 +608,22 @@
 					"overall_score" => $this->input->post('overall_score'),
 					"earned_score" => $this->input->post('earned_score'),
 					"possible_score" => $this->input->post('possible_score'),
-					//"use_paragraph_idea" => $this->input->post('use_paragraph_idea'),
 					"salutation" => $this->input->post('salutation'),
 					"use_bullet_point" => $this->input->post('use_bullet_point'),
-					//"adhered_word_limit" => $this->input->post('adhered_word_limit'),
 					"definite_statements" => $this->input->post('definite_statements'),
 					"template_adherence" => $this->input->post('template_adherence'),
 					"interim_responce" => $this->input->post('interim_responce'),
 					"FCR_achieved" => $this->input->post('FCR_achieved'),
-					//"understand_issue" => $this->input->post('understand_issue'),
-					//"attentiveness_display" => $this->input->post('attentiveness_display'),
 					"customer_attentiveness" => $this->input->post('customer_attentiveness'),
 					"use_available_resource" => $this->input->post('use_available_resource'),
 					"standardized_subject" => $this->input->post('standardized_subject'),
 					"VAS_option" => $this->input->post('VAS_option'),
 					"awarreness_created" => $this->input->post('awarreness_created'),
 					"correct_disposition" => $this->input->post('correct_disposition'),
-					//"update_ASM" => $this->input->post('update_ASM'),
 					"formatting" => $this->input->post('formatting'),
-					//"show_customer_feel_value" => $this->input->post('show_customer_feel_value'),
 					"procedure_guide_step" => $this->input->post('procedure_guide_step'),
 					"avoid_slangs" => $this->input->post('avoid_slangs'),
 					"correct_grammar_use" => $this->input->post('correct_grammar_use'),
-					//"correct_closing" => $this->input->post('correct_closing'),
-					//"further_assistance" => $this->input->post('further_assistance'),
 					"correct_assistance" => $this->input->post('correct_assistance'),
 					"used_applicant" => $this->input->post('used_applicant'),
 					"complete_information" => $this->input->post('complete_information'),
@@ -644,20 +664,25 @@
 					"customer_called_more_three" => $this->input->post('customer_called_more_three'),
 					"call_summary" => $this->input->post('call_summary'),
 					"tenurity" => $this->input->post('tenurity'),
-					"agnt_fd_acpt" => $this->input->post('agnt_fd_acpt'),
 					"feedback" => $this->input->post('feedback'),
 					"entry_date" => $curDateTime
 				);
 				
-				$a = $this->vfs_upload_files($_FILES['attach_file'],$path='./qa_files/qa_vfs/email/');
-					$field_array["attach_file"] = implode(',',$a);
+					
 				
 				if($email_id==0){
+					
 					$rowid= data_inserter('qa_vfs_email_feedback',$field_array);
 					/////////
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						$a = $this->vfs_upload_files($_FILES['attach_file'], $path='./qa_files/qa_vfs/email/');
+						$field_array3["attach_file"] = implode(',',$a);
+						$this->db->where('id', $rowid);
+						$this->db->update('qa_vfs_email_feedback',$field_array3);
+					}
 					$field_array2 = array(
 						"audit_date" => CurrDate(),
-						"audit_start_time" => $this->input->post('audit_start_time')
+						"audit_start_time" => $this->input->post('audit_start_time'),
 					);
 					$this->db->where('id', $rowid);
 					$this->db->update('qa_vfs_email_feedback',$field_array2);
@@ -675,21 +700,32 @@
 					$this->db->where('id', $email_id);
 					$this->db->update('qa_vfs_email_feedback',$field_array);
 				//////////
+						if($_FILES['attach_file']['tmp_name'][0]!=''){
+						if(!file_exists("./qa_files/qa_vfs/email/")){
+							mkdir("./qa_files/qa_vfs/email/");
+						}
+						$a = $this->vfs_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_vfs/email/' );
+						$field_array1['attach_file'] = implode( ',', $a );
+						$this->db->where('id', $email_id);
+					   $this->db->update('qa_vfs_email_feedback',$field_array1);
+					}
+					
+
 					if(get_login_type()=="client"){
-						$field_array1 = array(
+						$edit_array = array(
 							"client_rvw_by" => $current_user,
 							"client_rvw_note" => $this->input->post('note'),
 							"client_rvw_date" => $curDateTime
 						);
 					}else{
-						$field_array1 = array(
+						$edit_array = array(
 							"mgnt_rvw_by" => $current_user,
 							"mgnt_rvw_note" => $this->input->post('note'),
 							"mgnt_rvw_date" => $curDateTime
 						);
 					}
 					$this->db->where('id', $email_id);
-					$this->db->update('qa_vfs_email_feedback',$field_array1);
+					$this->db->update('qa_vfs_email_feedback',$edit_array);
 					
 				}
 				redirect('Qa_vfs');
@@ -954,7 +990,7 @@
 			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Call Date", "Call Duration", "Mission", "Recording ID", "Week", "Host Country", "Audit Type","Auditor Type", "VOC","Audit Link","ACPT", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Fatal Error","Agent Tenurity", "Possible Score", "Earned Score", "Overall Score Percentage", "Opening - a)Appropriate greeting - as per script & Clear and Crisp opening", "Communication - a)Voice modulation (Maintained proper tone & pitch & volume throughout the call) & Appropriate pace & clarity of speech", "Communication - b)Empathy on call & Personalization / Power words", "Communication - c)Adjusted to customer language & Courteous & Professional", "Communication - d)No jargons - simple words used & Avoid fumbling & fillers", "Communication - e)Active listening / Attentiveness & Paraphrasing & Acknowledgment", "Communication - f)Grammatically correct sentences & Comprehension","Technical aspects - a)Appropriate Probing", "Technical aspects - b)Took ownership to resolve customers concern", "Technical aspects - c)Escalate the issue wherever required", "Technical aspects - d)Call control","Technical aspects - e)Query resolved on call - FTR","Technical aspects - f)Step by step procuedure to resolve the QRC(Query/Request/Complaint)","Value Additons- a)Offers VAS options wherever applicable", "Value Additons - b. Awareness created with regards to VFS website (wherever applicable)", "Documentation - a)Correct dispostion", "Documentation - b)Update ASM V2","Hold Protocol - a)Hold Guidelines followed","Call Closing - a)Further assistance & Adherence to call closing script", "Call Closing - b)Attempt to take feedback on experience CSAT","Fatal Parameter - a)Delayed opening", "Fatal Parameter - b)Rude on chat", "Fatal Parameter - c)Incomplete/Inaccurate Information shared", "Fatal Parameter - d)Complaint Avoidance","Comments 0","Comments 1","Comments 2","Comments 3","Comments 4","Comments 5","Comments 6","Comments 7","Comments 8","Comments 9","Comments 10","Comments 11","Comments 12","Comments 13","Comments 14","Comments 15","Comments 16","Comments 17","Comments 18","Comments 19","Comments 20","Comments 21","Comments 22","Comments 23","Disposition","Communication mode through which customer contacted previously","Description of Disposition selected","Was this the first time customer called us?","Did the customer call us more than once but less than 3 times?","Did the customer call us more than 3 times?","Comments 24","Comments 25","Comments 26",
 				 "Call Summary", "Feedback","Agent Review Date","Agent Feedback Acceptance", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
 		}else if($campaign=='email'){
-			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Chat Date", "AHT", "Mission", "Recording ID", "Week", "Host Country", "Audit Type","Auditor Type", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Fatal Error","Agent Tenurity","ACPT","Possible Score", "Earned Score", "Overall Score Percentage",
+			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent", "L1 Super", "Chat Date", "Email Responded Within", "Mission", "Recording ID", "Week", "Host Country", "Audit Type","Auditor Type", "VOC","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Fatal Error","Agent Tenurity","ACPT","Possible Score", "Earned Score", "Overall Score Percentage",
 			 "Content Writing - a) Greeting & Salutation used correctly",
 			 "Content Writing - b)Used bullet points where appropriate", 
 			 "Content Writing - c)Used one idea per paragraph & Simple & definite statements", 
@@ -985,7 +1021,7 @@
 			  "Comments 24",
 			  "Did the customer call us more than 3 times?",
 			  "Comments 25",
-			  "Email Summary", "Feedback", "Agent Review Date","Agent Feedback Acceptance", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
+			  "Call Summary", "Feedback", "Agent Review Date","Agent Feedback Acceptance", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
 		}
 		
 		$row = "";

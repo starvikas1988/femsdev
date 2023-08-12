@@ -40,7 +40,7 @@
 									<select class="form-control" id="" name="campaign" required>
 											<option value="">--Select--</option>
 											<option <?php echo $campaign=='stifel'?"selected":""; ?> value="stifel">Stifel</option>
-											<option <?php echo $campaign=='stifel_v1'?"selected":""; ?> value="stifel_v1">Stifel [VERSION 1]</option>
+											<option <?php echo $campaign=='stifel_v1'?"selected":""; ?> value="stifel_v1">Stifel Banking</option>
 										</select>
 									</div>
 								</div>
@@ -162,7 +162,12 @@
 						<div class="col-md-12">
 							<header class="widget-header">
 								<div class="col-md-6">
-									<h4 class="widget-title"> [<?php echo ucfirst($campaign) ?>]</h4>
+									<h4 class="widget-title"> [<?php if($campaign=='stifel_v1'){echo "Stifel Banking";
+									}else{
+										echo ucfirst($campaign);
+									}
+
+										 ?>]</h4>
 								</div>
 								<div class="col-md-6" style="float:right">
 									<span style="font-weight:bold; color:red">Total Feedback</span> <span class="badge" style="font-size:12px"><?php echo $tot_feedback; ?></span> - <span style="font-weight:bold; color:green">Yet To Review</span> <span class="badge" style="font-size:12px"><?php echo $yet_rvw; ?></span>

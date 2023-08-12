@@ -72,10 +72,16 @@
 						}
 				?>
 
-				<li class="menu-item">
+				<!-- <li class="menu-item">
 					<a href="<?php echo base_url('reports_qa/qa_agent_coaching_report')?>" class="menu-link">
 						<span class="menu-icon"><i class="zmdi zmdi-shield-check zmdi-hc-lg"></i></span>
 						<span class=""> Agent Coaching</span>
+					</a>
+				</li> -->
+				<li class="menu-item">
+					<a href="<?php echo base_url('Qa_agent_coaching_new/qa_agent_coaching_report')?>" class="menu-link">
+						<span class="menu-icon"><i class="zmdi zmdi-shield-check zmdi-hc-lg"></i></span>
+						<span class=""> GRBM Agent Coaching</span>
 					</a>
 				</li>
 
@@ -431,6 +437,12 @@
 								<a href="<?php echo base_url()?>reports_qa/qa_agent_coaching_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Agent Coaching</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>Qa_agent_coaching_new/qa_agent_coaching_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">GRBM Agent Coaching</span>
 								</a>
 							</li>
 							<li class="menu-item">
@@ -1314,6 +1326,12 @@
 								<a href="<?php echo base_url()?>reports_qa/qa_agent_coaching_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Agent Coaching</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>Qa_agent_coaching_new/qa_agent_coaching_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">GRBM Agent Coaching</span>
 								</a>
 							</li>
 							<li class="menu-item">

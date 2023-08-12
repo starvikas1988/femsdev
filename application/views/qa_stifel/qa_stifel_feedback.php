@@ -49,7 +49,7 @@
 									</div>
 								</div>
 								<div class="col-md-1" style="margin-top:20px">
-									<button class="btn btn-success waves-effect" a href="<?php echo base_url()?>qa_stifel" type="submit" id='btnView' name='btnView' value="View">View</button>
+									<button class="btn btn-success blains-effect" a href="<?php echo base_url()?>qa_stifel" type="submit" id='btnView' name='btnView' value="View">View</button>
 								</div>
 							</div>
 							
@@ -177,7 +177,7 @@
 						<div class="col-md-12">
 							<header class="widget-header">
 								<h4 class="widget-title">
-									<div class="pull-left">Stifel [VERSION V1]</div>
+									<div class="pull-left">Stifel Banking</div>
 									<?php if(is_access_qa_module()==true || get_login_type()=="client"){ 
 									$stifel_id=0; ?>
 									<div class="pull-right">
