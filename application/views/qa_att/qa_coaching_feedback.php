@@ -75,7 +75,7 @@
 									</div>
 								</div>
 								<div class="col-md-1" style="margin-top:20px">
-									<button class="btn btn-success waves-effect" a href="<?php echo base_url()?>Qa_agent_coaching_new" type="submit" id='btnView' name='btnView' value="View">View</button>
+									<button class="btn btn-success blains-effect" a href="<?php echo base_url()?>Qa_agent_coaching_new" type="submit" id='btnView' name='btnView' value="View">View</button>
 								</div>
 							</div>
 						</form>

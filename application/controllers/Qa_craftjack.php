@@ -150,6 +150,17 @@
     }
   }
 
+  public function getAgentName(){
+		if(check_logged_in()){
+		
+			$aid=$this->input->post('aid');
+
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id,(SELECT description from department d where d.id=(SELECT dept_id from signin s where s.id=signin.id)) as department_name FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6  AND office_id='$aid' and is_assign_client (id,19) and is_assign_process (id,31) and status=1  order by name";
+
+			echo json_encode($this->Common_model->get_query_result_array($qSql));
+		}
+	}
+
 /////////////////Home Craftjack vikas//////////////////
 
 	public function index(){
@@ -263,6 +274,7 @@
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sag where sag.id=agent_id) as agent_name,
 				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
 				from qa_craftjack_new_feedback where id='$craftjack_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
 			$data["craftjack_new"] = $this->Common_model->get_query_row_array($qSql);

@@ -159,6 +159,11 @@ textarea{
 	  padding: 50px;
 	  display: none;
 	}
+
+	.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
+	 float: left;
+	 display: none;
+	}
 </style>
 
 </style>
@@ -194,6 +199,8 @@ if(is_access_qa_edit_feedback()==false){ ?>
 											$auditorName = get_username();
 											$auditDate = date("m-d-Y",time());
 											$clDate_val='';
+											$tl_name = '';
+											$tl_id='';
 										}else{
 											if($auditData['entry_by']!=''){
 												$auditorName = $auditData['auditor_name'];
@@ -201,8 +208,10 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												$auditorName = $auditData['client_name'];
 											}
 											$auditDate = mysql2mmddyy($auditData['audit_date']);
-											$clDate_val = mdydt2mysql($auditData['call_date']);
+											$clDate_val = mysqlDt2mmddyy($auditData['call_date']);
 											$sel='';
+											$tl_name = $auditData['tl_name'];
+											$tl_id = $auditData['tl_id'];
 										}
 									?>
 									<tr>
@@ -210,27 +219,23 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td><input type="text" class="form-control" value="<?php echo get_username(); ?>" disabled></td>
 										<td>Client:<span style="font-size:24px;color:red">*</span></td>
 										<td style="width:250px">
-											<select class="form-control" style="text-align:center" id="client_id" name="client" required>
+											<input type="text" readonly class="form-control" id="" name="client" value="<?php echo $client['fullname']; ?>">
+										</td>
+										<td>Process:</td>
+										<td>
+												<select class="form-control" style="text-align:center" id="process_client" name="process_client" required>
 												<option value="">-Select-</option>
-												<?php foreach ($client as $key => $value){ 
-													if($value['id'] == $auditData['client_id']){
+												<?php foreach ($process as $key => $value){ 
+													if($value['id'] == $auditData['process_id']){
 														$sel = 'selected';
 
 													}else{
 														$sel='';
 													}
 													?>
-												<option value="<?php echo $value['id'] ?>" <?=$sel; ?>><?php echo $value['fullname'] ?></option>
+												<option value="<?php echo $value['id'] ?>" <?=$sel; ?>><?php echo $value['name'] ?></option>
 											<?php } ?>
 											</select>
-										</td>
-										<td>Process:</td>
-										<td>
-											<select class="form-control" style="text-align:center" id="process_client" name="process_client" readonly>
-												<?php if($auditData['process_id']!=''){ ?>
-												<option value="<?php echo $auditData['process_id']; ?>"><?php echo $auditData['process_name']; ?></option>
-											<?php }?>
-												<option value="">-Select-</option>
 											</select>
 										</td>
 									</tr>
@@ -246,7 +251,10 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										</td>
 										<td>L1 Supervisor:</td>
 										<td>
-											<select class="form-control" id="tl_id" name="data[tl_id]" readonly>
+											<input type="text" class="form-control" id="tl_name"  value="<?php echo $tl_name; ?>" readonly>
+												<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $tl_id; ?>" required>
+
+											<!-- <select class="form-control" id="tl_id" name="data[tl_id]" readonly>
 												<?php if($auditData['assigned_to']!=''){ ?>
 												<option value="<?php echo $auditData['assigned_to']; ?>"><?php echo $auditData['tl_name']; ?></option>
 												<?php }?>
@@ -254,17 +262,17 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<?php foreach($tlname as $tl): ?>
 													<option value="<?php echo $tl['id']; ?>"><?php echo $tl['fname']." ".$tl['lname']; ?></option>
 												<?php endforeach; ?>
-											</select>
+											</select> -->
 											<!--<input type="text" class="form-control" id="tl_name" name="tl_name" readonly>-->
 										</td>
 										<td>Call Date and Time:<span style="font-size:24px;color:red">*</span></td>
-										<td><input type="text" class="form-control" id="call_date" name="call_date" required autocomplete="off" onkeydown="return false;" value="<?php echo $auditData['call_date']; ?>"></td>
+										<td><input type="text" class="form-control" id="call_date_time" name="call_date" onkeydown="return false;"  value="<?php echo $clDate_val; ?>" required></td>
 									</tr>
 									<tr>
 										<td>Audit Date:</td>
 										<td><input type="text" class="form-control" value="<?php echo CurrDateMDY(); ?>" disabled></td>
-										<td>Site:</td>
-										<td><input type="text" readonly class="form-control" id="site" name="data[site]" value="<?php echo $auditData['location']; ?>"></td>
+										<td>Site/Location:<span style="font-size:24px;color:red">*</span></td>
+										<td><input type="text"  class="form-control"  name="data[site]" value="<?php echo $auditData['site']; ?>" required></td>
 										<td>Coaching Department:</td>
 										<td><input type="text" readonly class="form-control" id="dept_id" name="dept_id" value="<?php echo $auditData['department_name']; ?>"></td>
 									</tr>
@@ -305,16 +313,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									</tr>
 									<tr>
 										<td>Observation Method:</td>
-										<td>
-											<select class="form-control" name="data[observation_method]">
-												<option value="">--Select--</option>
-												<option value="Displayed"  <?= ($auditData['observation_method']=="Displayed")?"selected":"" ?>>Displayed</option>
-												<option value="Remote"  <?= ($auditData['observation_method']=="Remote")?"selected":"" ?>>Remote</option>
-												<option value="SBS"  <?= ($auditData['observation_method']=="SBS")?"selected":"" ?>>SBS</option>
-												<option value="Call Recording"  <?= ($auditData['observation_method']=="Call Recording")?"selected":"" ?>>Call Recording</option>
-											</select>
-										</td>
-										<td>For Follow Up?:</td>
+										<td><input type="text" class="form-control" name="data[observation_method]" value="<?php echo $auditData['observation_method']; ?>" required></td>
+										
+										<!-- <td>For Follow Up?:</td>
 										<td>
 											<select class="form-control" name="data[for_follow_up]">
 												<option value="">--Select--</option>
@@ -322,9 +323,9 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<option value="Yes"  <?= ($auditData['for_follow_up']=="Yes")?"selected":"" ?>>Yes</option>
 												<option value="No"  <?= ($auditData['for_follow_up']=="No")?"selected":"" ?>>No</option>
 											</select>
-										</td>
-										<td>Coaching Documentation:</td>
-										<td><textarea class="form-control" name="data[coaching_docu]"><?php echo $auditData['coaching_docu'] ?></textarea></td>
+										</td> -->
+									<!-- 	<td>Coaching Documentation:</td>
+										<td><textarea class="form-control" name="data[coaching_docu]"><?php echo $auditData['coaching_docu'] ?></textarea></td> -->
 									</tr>
 									<tr class="rca_fields" style="display:none">
 										<td colspan="6">Root Cause Analysis</td>
@@ -822,12 +823,12 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										</td>
 										<td><textarea class="form-control" name="data[cmt38]"><?php echo $auditData['cmt38'] ?></textarea></td>
 									</tr>
-									<tr>
+								<!-- 	<tr>
 											<td>Comments:</td>
-											<td colspan=4><textarea class="form-control" name="data[call_summary]"><?php echo $auditData['call_summary'] ?></textarea></td>
-										</tr>
+											<td colspan=4><textarea class="form-control" name="data[call_summary]"><?php //echo $auditData['call_summary'] ?></textarea></td>
+									</tr> -->
 									
-									<tr>
+								<!-- 	<tr>
 											<td colspan=2>Upload Files [m4a,mp4,mp3,wav]</td>
 											<?php if ($att_id == 0) { ?>
 												<td colspan=6>
@@ -851,7 +852,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 													<b>No Files</b></td>';
 												}
 											} ?>
-										</tr>
+										</tr> -->
 
 										<?php if ($att_id != 0) { ?>
 											<tr>
@@ -866,10 +867,10 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<td colspan=2 style="font-size:16px; font-weight:bold">Management Review:</td>
 												<td colspan=4><?php echo $auditData['mgnt_rvw_note'] ?></td>
 											</tr>
-											<tr>
+											<!-- <tr>
 												<td colspan=2 style="font-size:16px; font-weight:bold">Client Review:</td>
-												<td colspan=4><?php echo $auditData['client_rvw_note'] ?></td>
-											</tr>
+												<td colspan=4><?php //echo $auditData['client_rvw_note'] ?></td>
+											</tr> -->
 
 											<tr>
 												<td colspan=2 style="font-size:16px">Your Review<span style="font-size:24px;color:red">*</span></td>

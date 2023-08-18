@@ -23383,7 +23383,7 @@ public function create_qa_craftjack_CSV($rr,$campaign)
 		$edit_url = "add_edit_craftjack_inbound_outbound";
 		$main_url =  $currentURL.''.$controller.'/'.$edit_url;
 		
-		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent Name", "L1 Supervisor", "Customer Name", "Customer Phone No", "Call Date", "Call Duration","Audit Start Date Time", "Audit End Date Time","Interval(In Second)",
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent Name", "L1 Supervisor", "Customer Name", "Customer Phone", "Call Date", "Call Duration","Audit Start Date Time", "Audit End Date Time","Interval(In Second)",
 		 "Location","No of SR","SR/Link","Type of Call","Audit Type","Auditor Type", "VOC","Audit Link","Possible Score", "Earned Score", "Overall Score","Business Score","Customer Score","Compliance Score",
 		"1.Introduction: Agent asked/mentioned customers name?","Comment1",
 		"2.Introduction: Agent mentioned his/her name?","Comment2",
@@ -23401,7 +23401,7 @@ public function create_qa_craftjack_CSV($rr,$campaign)
 		"4.Communication: Interrupted customer","Comment14",
 		"5.Communication: Ownership of call","Comment15",
 		"6.Communication: Rate of speech / Clarity","Comment16",
-		"1.Cross Sell: Rate of speech / Clarity","Comment17",
+		"1.Cross Sell: Offered Upshell","Comment17",
 		"1.SR: Authorized to Send Details","Comment18",
 		"2.SR: Did the agent understand the correct project Request?","Comment19",
 		"3.SR: 	Gather Contact Details (email/phone/address)","Comment20",
@@ -23412,25 +23412,18 @@ public function create_qa_craftjack_CSV($rr,$campaign)
 		"2.Critical Fails: Correct CTT?","Comment25",
 		"3.Critical Fails: Read Contact Verbatim?","Comment26",
 		"4.Critical Fails: Agent mentioned about the recorded line?","Comment27",
-		"1.ACPT PARAMETER:Hygiene Sampling - Agent was not stella phishing?","Remarks1",
-		"2.ACPT PARAMETER:Hygiene Sampling - Agent was not avoiding Stella Survey?","Remarks2",
-		"3.ACPT PARAMETER:Hygiene Sampling - Attempted to Cross Sell?","Remarks3",
-		"4.ACPT PARAMETER:AHT Related Spot Check - Agent","Remarks4",
-		"5.ACPT PARAMETER:AHT Related Spot Check - Customer","Remarks5",
-		"6.ACPT PARAMETER:AHT Related Spot Check - Process","Remarks6",
-		"7.ACPT PARAMETER:AHT Related Spot Check - Technology","Remarks7",
-		"8.ACPT PARAMETER:Conversion Related Spot Check - Agent","Remarks8",
-		"9.ACPT PARAMETER:Conversion Related Spot Check - Customer","Remarks9",
-		"10.ACPT PARAMETER:Conversion Related Spot Check - Process","Remarks10",
-		"11.ACPT PARAMETER:Conversion Related Spot Check - Technology","Remarks11",
-		"12.ACPT PARAMETER:SR/HR Related Spot Check - Agent","Remarks12",
-		"13.ACPT PARAMETER:SR/HR Related Spot Check - Customer","Remarks13",
-		"14.ACPT PARAMETER:SR/HR Related Spot Check - Process","Remarks14",
-		"15.ACPT PARAMETER:SR/HR Related Spot Check - Technology","Remarks15",
-		"16.ACPT PARAMETER:CSAT Related Spot Check - Agent","Remarks16",
-		"17.ACPT PARAMETER:CSAT Related Spot Check - Customer","Remarks17",
-		"18.ACPT PARAMETER:CSAT Related Spot Check - Process","Remarks18",
-		"19.ACPT PARAMETER:CSAT Related Spot Check - Technology","Remarks19",
+		"1.ACPT PARAMETER:AHT Related Spot Check - Agent","Remarks1",
+		"2.ACPT PARAMETER:AHT Related Spot Check - Customer","Remarks2",
+		"3.ACPT PARAMETER:AHT Related Spot Check - Process","Remarks3",
+		"4.ACPT PARAMETER:AHT Related Spot Check - Technology","Remarks4",
+		"5.ACPT PARAMETER:Conversion Related Spot Check - Agent","Remarks5",
+		"6.ACPT PARAMETER:Conversion Related Spot Check - Customer","Remarks6",
+		"7.ACPT PARAMETER:Conversion Related Spot Check - Process","Remarks7",
+		"8.ACPT PARAMETER:Conversion Related Spot Check - Technology","Remarks8",
+		"9.ACPT PARAMETER:SR/HR Related Spot Check - Agent","Remarks9",
+		"10.ACPT PARAMETER:SR/HR Related Spot Check - Customer","Remarks10",
+		"11.ACPT PARAMETER:SR/HR Related Spot Check - Process","Remarks11",
+		"12.ACPT PARAMETER:SR/HR Related Spot Check - Technology","Remarks12",
 		"Call Summary", "Feedback", "Agent Review Date/Time", "Agent Comment","Feedback Acceptance", "Management Review Date/Time","Management Review By", "Management Comment","Client Review Date/Time", "Client Review Name", "Client Review Note" );
 
 		$row = "";
@@ -23533,12 +23526,6 @@ public function create_qa_craftjack_CSV($rr,$campaign)
 				$row .= '"'.$user['cmt26'].'",';
 				$row .= '"'.$user['critical_recorded_line'].'",';
 				$row .= '"'.$user['cmt27'].'",';
-				$row .= '"'.$user['stella_phishing'].'",';
-				$row .= '"'.$user['acpt_cmt1'].'",';
-				$row .= '"'.$user['avoid_stella_survey'].'",';
-				$row .= '"'.$user['acpt_cmt2'].'",';
-				$row .= '"'.$user['attempt_cross_sell'].'",';
-				$row .= '"'.$user['acpt_cmt3'].'",';
 				$row .= '"'.$user['aht_related_agent'].'",';
 				$row .= '"'.$user['acpt_cmt4'].'",';
 				$row .= '"'.$user['aht_related_customer'].'",';
@@ -23563,14 +23550,6 @@ public function create_qa_craftjack_CSV($rr,$campaign)
 				$row .= '"'.$user['acpt_cmt14'].'",';
 				$row .= '"'.$user['sr_related_technology'].'",';
 				$row .= '"'.$user['acpt_cmt15'].'",';
-				$row .= '"'.$user['csat_related_agent'].'",';
-				$row .= '"'.$user['acpt_cmt16'].'",';
-				$row .= '"'.$user['csat_related_customer'].'",';
-				$row .= '"'.$user['acpt_cmt17'].'",';
-				$row .= '"'.$user['csat_related_process'].'",';
-				$row .= '"'.$user['acpt_cmt18'].'",';
-				$row .= '"'.$user['csat_related_technology'].'",';
-				$row .= '"'.$user['acpt_cmt19'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
 				$row .= '"'.$user['agent_rvw_date'].'",';

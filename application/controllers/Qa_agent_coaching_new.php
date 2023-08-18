@@ -93,6 +93,7 @@
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_att/qa_coaching_feedback.php";
 			$data['sel']="pending";
+			$data["content_js"] = "qa_audit_js.php";
 			$client_id = get_client_ids();
 
 			if(is_access_coach_module()==true){
@@ -221,8 +222,8 @@
 	}
 
 	public function processName(){
-		$client_id = $this->input->post('aid');
-		$qSql="SELECT * FROM process where client_id = $client_id and is_active=1";
+		 $client_id = $this->input->post('aid');
+		 $qSql="SELECT * FROM process where client_id = $client_id and is_active=1";
 		$value = $this->Common_model->get_query_result_array($qSql);
 		echo  json_encode($value);
 	}
@@ -231,24 +232,26 @@
 	public function add_edit_feedback($att_id)
 	{
 		if(check_logged_in()){
-			$client_id = get_client_ids();
+			//$client_id = 157;
 			$current_user=get_user_id();
 			$user_office_id=get_user_office_id();
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_att/add_edit_feedback.php";
+			//$data["content_js"] = "qa_audit_js.php";
 			$data['att_id']=$att_id;
 
 			$cond='';
-			if(get_global_access()=='1' || is_access_coach_module()==true){
-				$cond .= '';
-			}else{
-				$cond .= " where id in ($client_id)";
-			}
+			
+			$cond .= " where id =157";
+			
 			$qSql="SELECT * FROM client $cond";
-			$data['client']= $this->Common_model->get_query_result_array($qSql);
+			$data['client']= $this->Common_model->get_query_row_array($qSql);
 
 			$qSql = "SELECT * FROM signin where id not in (select id from role where folder='agent') and status=1";
 			$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+
+			$qSql = "SELECT * FROM process where client_id =157";
+			$data['process']= $this->Common_model->get_query_result_array($qSql);
 
 			$curDateTime=CurrMySqlDate();
 			$a = array();
@@ -278,8 +281,8 @@
 					$field_array['entry_date']=$curDateTime;
 					$field_array['call_date']=mdydt2mysql($this->input->post('call_date'));
 					$field_array['audit_start_time']=$this->input->post('audit_start_time');
-					$a = $this->edu_upload_files($_FILES['attach_file'], $path='./qa_files/qa_att/gbrm/');
-					$field_array["attach_file"] = implode(',',$a);
+					// $a = $this->edu_upload_files($_FILES['attach_file'], $path='./qa_files/qa_att/gbrm/');
+					// $field_array["attach_file"] = implode(',',$a);
 					$rowid= data_inserter('qa_coaching_GRBM_feedback',$field_array);
 				
 					if(get_login_type()=="client"){
@@ -294,13 +297,21 @@
 					// echo"<pre>";
 					// print_r($field_array);
 					// echo"</pre>";
-					// die();
+					// exit();
 					
 				}else{
 					$field_array1=$this->input->post('data');
+					
+						
 					$field_array1['call_date']=mdydt2mysql($this->input->post('call_date'));
+					
+					
 					$this->db->where('id', $att_id);
 					$this->db->update('qa_coaching_GRBM_feedback',$field_array1);
+					// echo"<pre>";
+					// print_r($field_array1);
+					// echo"</pre>";
+					// die();
 					/////////////
 					if(get_login_type()=="client"){
 						$edit_array = array(
@@ -639,8 +650,8 @@
 		// exit;
 		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
 		$fopen = fopen($filename,"w+");
-		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent Name", "L1 Super", "Process","site", "Call ID","Coaching Reason", "Coaching Department",
-		"Call Type","Observation Method","For Follow Up?","Coaching Documentation",
+		$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent Name", "L1 Super", "Process","Site/Location", "Call ID","Coaching Reason", "Coaching Department",
+		"Call Type","Observation Method",
 		"QUALITY:Greeting",
 		"QUALITY:comment1",
 		"QUALITY:Make it Personal",
@@ -713,12 +724,11 @@
 		"COMPLIANCE:comment18",
 		"COMPLIANCE:Camping",
 		"COMPLIANCE:comment19",
-		"COMPLIANCE:Falsify AT&T’s or Cx records",
+		"COMPLIANCE:Falsify AT&Ts or Cx records",
 		"COMPLIANCE:comment20",
 		"COMPLIANCE:Misrepresent or misleading",
 		"COMPLIANCE:comment21",
-
-		"Call Summary", "Feedback","Acceptance Feedback", "Agent Review Date", "Agent Comment", "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
+		"Acceptance Feedback", "Agent Comment", "Agent Review Date",  "Mgnt Review Date","Mgnt Review By", "Mgnt Comment");
 
 		$row = "";
 		foreach($header as $data) $row .= ''.$data.',';
@@ -739,8 +749,8 @@
 			$row .= '"'.$user['dept_name'].'",';
 			$row .= '"'.$user['call_type'].'",';
 			$row .= '"'.$user['observation_method'].'",';
-			$row .= '"'.$user['for_follow_up'].'",';
-			$row .= '"'.$user['coaching_docu'].'",';
+			//$row .= '"'.$user['for_follow_up'].'",';
+			//$row .= '"'.$user['coaching_docu'].'",';
 			$row .= '"'.$user['greeting'].'",';
 			$row .= '"'.$user['cmt1'].'",';
 			$row .= '"'.$user['make_it_personal'].'",';
@@ -817,8 +827,8 @@
 			$row .= '"'.$user['cmt37'].'",';
 			$row .= '"'.$user['misrepresent'].'",';
 			$row .= '"'.$user['cmt38'].'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
-			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+			//$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+			//$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
 			$row .= '"'.$user['agnt_fd_acpt'].'",';
       $row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
 			$row .= '"'.$user['agent_rvw_date'].'",';

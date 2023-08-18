@@ -188,8 +188,11 @@ textarea{
 												$auditorName = $auditData['client_name'];
 											}
 											$auditDate = mysql2mmddyy($auditData['audit_date']);
-											$clDate_val = mdydt2mysql($auditData['call_date']);
+											$clDate_val = mysqlDt2mmddyy($auditData['call_date']);
 											$sel='';
+
+											$tl_name = $auditData['tl_name'];
+											$tl_id = $auditData['tl_id'];
 										
 									?>
 									<tr>
@@ -233,7 +236,10 @@ textarea{
 										</td>
 										<td>L1 Supervisor:</td>
 										<td>
-											<select class="form-control" id="tl_id" name="data[tl_id]" readonly>
+											<input type="text" class="form-control" id="tl_name"  value="<?php echo $tl_name; ?>" readonly>
+												<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $tl_id; ?>" disabled>
+
+											<!-- <select class="form-control" id="tl_id" name="data[tl_id]" readonly>
 												<?php if($auditData['assigned_to']!=''){ ?>
 												<option value="<?php echo $auditData['assigned_to']; ?>"><?php echo $auditData['tl_name']; ?></option>
 												<?php }?>
@@ -241,7 +247,7 @@ textarea{
 												<?php foreach($tlname as $tl): ?>
 													<option value="<?php echo $tl['id']; ?>"><?php echo $tl['fname']." ".$tl['lname']; ?></option>
 												<?php endforeach; ?>
-											</select>
+											</select> -->
 											
 										</td>
 										<td>Call Date and Time:<span style="font-size:24px;color:red">*</span></td>
@@ -250,8 +256,8 @@ textarea{
 									<tr>
 										<td>Audit Date:</td>
 										<td><input type="text" class="form-control" value="<?php echo CurrDateMDY(); ?>" disabled></td>
-										<td>Site:</td>
-										<td><input type="text" readonly class="form-control" id="site" name="data[site]" value="<?php echo $auditData['location']; ?>"></td>
+										<td>Site/Location:<span style="font-size:24px;color:red">*</span></td>
+										<td><input type="text" readonly class="form-control"  name="data[site]" value="<?php echo $auditData['site']; ?>"></td>
 										<td>Coaching Department:</td>
 										<td><input type="text" readonly class="form-control" id="dept_id" name="dept_id" value="<?php echo $auditData['department_name']; ?>"></td>
 									</tr>
@@ -292,26 +298,7 @@ textarea{
 									</tr>
 									<tr>
 										<td>Observation Method:</td>
-										<td>
-											<select class="form-control" name="data[observation_method]">
-												<option value="">--Select--</option>
-												<option value="Displayed"  <?= ($auditData['observation_method']=="Displayed")?"selected":"" ?>>Displayed</option>
-												<option value="Remote"  <?= ($auditData['observation_method']=="Remote")?"selected":"" ?>>Remote</option>
-												<option value="SBS"  <?= ($auditData['observation_method']=="SBS")?"selected":"" ?>>SBS</option>
-												<option value="Call Recording"  <?= ($auditData['observation_method']=="Call Recording")?"selected":"" ?>>Call Recording</option>
-											</select>
-										</td>
-										<td>For Follow Up?:</td>
-										<td>
-											<select class="form-control" name="data[for_follow_up]">
-												<option value="">--Select--</option>
-												<option value="Displayed"  <?= ($auditData['for_follow_up']=="Displayed")?"selected":"" ?>>Displayed</option>
-												<option value="Yes"  <?= ($auditData['for_follow_up']=="Yes")?"selected":"" ?>>Yes</option>
-												<option value="No"  <?= ($auditData['for_follow_up']=="No")?"selected":"" ?>>No</option>
-											</select>
-										</td>
-										<td>Coaching Documentation:</td>
-										<td><textarea class="form-control" name="data[coaching_docu]"><?php echo $auditData['coaching_docu'] ?></textarea></td>
+										<td><input type="text" class="form-control" name="data[observation_method]" value="<?php echo $auditData['observation_method']; ?>" disabled></td>
 									</tr>
 									<tr class="rca_fields" style="display:none">
 										<td colspan="6">Root Cause Analysis</td>
@@ -354,7 +341,7 @@ textarea{
 								</thead>
 								<tbody>
 									<tr>
-										<th scope="row" class="scope" rowspan=17>STANDARD/ disabled QUALITY</th>
+										<th scope="row" class="scope" rowspan=17>STANDARD/ REQUIRED QUALITY</th>
 										<td class="paddingTop">Greeting</td>
 										<td>
 											<select class="form-control scorecalc" name="data[greeting]" disabled>
@@ -560,7 +547,7 @@ textarea{
 									</tr>
 								
 									<tr>
-										<th scope="row" class="scope" rowspan=21>STANDARD/ disabled COMPLIANCE</th>
+										<th scope="row" class="scope" rowspan=21>STANDARD/ REQUIRED COMPLIANCE</th>
 										<td class="paddingTop">Authentication</td>
 										<td>
 											<select class="form-control comp_scorecalc" id="" name="data[authentication]" disabled>
@@ -606,13 +593,13 @@ textarea{
 										<td><textarea class="form-control" disabled name="data[cmt21]"><?php echo $auditData['cmt21'] ?></textarea></td>
 									</tr>
 									<tr>
-										<td class="paddingTop">disabled disclosures</td>
+										<td class="paddingTop">Required disclosures</td>
 										
 										<td>
-											<select class="form-control comp_scorecalc" id="" name="data[disabled_disclosures]" disabled>
+											<select class="form-control comp_scorecalc" id="" name="data[required_disclosures]" disabled>
 												<option value="">Select</option>
-												<option <?php echo $auditData['disabled_disclosures']=="No"?"selected":"";?> value="No">No</option>
-												<option <?php echo $auditData['disabled_disclosures']=="Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option <?php echo $auditData['required_disclosures']=="No"?"selected":"";?> value="No">No</option>
+												<option <?php echo $auditData['required_disclosures']=="Yes"?"selected":"";?> value="Yes">Yes</option>
 											</select>
 										</td>
 										<td><textarea class="form-control" disabled name="data[cmt22]"><?php echo $auditData['cmt22'] ?></textarea></td>
@@ -833,10 +820,10 @@ textarea{
 										<td style="font-size:12px">Manager Review:</td>
 										<td colspan="8" style="text-align:left"><?php echo $auditData['mgnt_rvw_note'] ?></td>
 									</tr>
-									<tr>
+									<!-- <tr>
 										<td style="font-size:12px">Client Review:</td>
-										<td colspan="8" style="text-align:left"><?php echo $auditData['client_rvw_note'] ?></td>
-									</tr>
+										<td colspan="8" style="text-align:left"><?php //echo $auditData['client_rvw_note'] ?></td>
+									</tr> -->
 
 									<tr><td colspan="8" style="background-color:#C5C8C8"></td></tr>
 									

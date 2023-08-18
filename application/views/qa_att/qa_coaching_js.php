@@ -8,6 +8,11 @@ $(document).ready(function(){
 	$("#call_date").datetimepicker({maxDate: new Date()});
 	//$("#call_date").datepicker({maxDate: new Date()}); //datetimepicker
 	$("#call_date_time").datetimepicker({maxDate: new Date()});
+	// $('#call_date_time').datetimepicker({
+	// 	    maxDate: new Date(),
+	// 	    timeFormat:  "HH:mm:ss"
+		    
+	// 	});
 	//$("#call_date").datepicker({ minDate: 0 });
 	$("#copy_received").datepicker();
 	$("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });
@@ -38,10 +43,11 @@ $(document).ready(function(){
 	$( "#client_id" ).on('change' , function() {
 
 		localStorage.setItem('client_id',this.value);
-		console.log(localStorage.getItem('client_id'));
+		//console.log(localStorage.getItem('client_id'));
 		var aid = this.value;
+		console.log(aid);
 		if(aid=="") alert("Please Select Process")
-		var URL='<?php echo base_url();?>qa_agent_coaching/processName';
+		var URL='<?php echo base_url();?>qa_agent_coaching_new/processName';
 		$('#sktPleaseWait').modal('show');
 		$.ajax({
 			type: 'POST',
@@ -64,27 +70,36 @@ $(document).ready(function(){
 	///////////////// Agent Name ///////////////////////
 	$( "#process_client" ).on('change' , function() {
 		var aid = this.value;
-		var cid=localStorage.getItem('client_id');
-		if(aid=="") alert("Please Select Agent")
-		var URL='<?php echo base_url();?>qa_agent_coaching/getAgentname';
-		$('#sktPleaseWait').modal('show');
-		$.ajax({
-			type: 'POST',
-			url:URL,
-			data:{aid:aid,
-			cid:cid},
-			success: function(aList){
-				var json_obj = $.parseJSON(aList);
-				$('#agent_id').empty();
-				$('#agent_id').append($('#agent_id').val(''));
-				$('#agent_id').append('<option value="">-Select-</option>');
-				for (var i in json_obj) $('#agent_id').append('<option value="'+json_obj[i].id+'">'+json_obj[i].name+"-("+json_obj[i].fusion_id+")"+'</option>');
-				$('#sktPleaseWait').modal('hide');
-			},
-			error: function(){
-				alert('Fail!');
-			}
-		});
+		var cid=157;
+		if(aid==""){
+			alert("Please Select Process");
+			$('#agent_id').empty();
+			$('#agent_id').append($('#tl_id').val(''));
+			$('#tl_id').empty();
+			$('#tl_id').append($('#tl_id').val(''));
+		}else{
+			var URL='<?php echo base_url();?>qa_agent_coaching/getAgentname';
+			$('#sktPleaseWait').modal('show');
+		
+				$.ajax({
+				type: 'POST',
+				url:URL,
+				data:{aid:aid,
+				cid:cid},
+				success: function(aList){
+					var json_obj = $.parseJSON(aList);
+					$('#agent_id').empty();
+					$('#agent_id').append($('#agent_id').val(''));
+					$('#agent_id').append('<option value="">-Select-</option>');
+					for (var i in json_obj) $('#agent_id').append('<option value="'+json_obj[i].id+'">'+json_obj[i].name+"-("+json_obj[i].fusion_id+")"+'</option>');
+					$('#sktPleaseWait').modal('hide');
+				},
+				error: function(){
+					alert('Fail!');
+				}
+			});
+		} 
+		
 	});
 
 
@@ -92,7 +107,7 @@ $(document).ready(function(){
 	$( "#agent_id" ).on('change' , function() {
 		var aid = this.value;
 		if(aid=="") alert("Please Select Agent")
-		var URL='<?php echo base_url();?>qa_agent_coaching_new/getTlname';
+		var URL='<?php echo base_url();?>qa_agent_coaching/getTlname';
 		$('#sktPleaseWait').modal('show');
 		$.ajax({
 			type: 'POST',
@@ -108,7 +123,7 @@ $(document).ready(function(){
 				for (var i in json_obj) $('#campaign').append($('#campaign').val(json_obj[i].process_name));
 				for (var i in json_obj) $('#office_id').append($('#office_id').val(json_obj[i].office_id));
 				for (var i in json_obj) $('#dept_id').append($('#dept_id').val(json_obj[i].department_name));
-					for (var i in json_obj) $('#site').append($('#site').val(json_obj[i].site_name));
+					// for (var i in json_obj) $('#site').append($('#site').val(json_obj[i].site_name));
 				$('#sktPleaseWait').modal('hide');
 			},
 			error: function(){
@@ -145,6 +160,7 @@ $(document).ready(function(){
 
 </script>
 <script type="text/javascript">
+	
 	///////////////// Calibration - Auditor Type ///////////////////////	
 	//$('.auType').hide();
 	

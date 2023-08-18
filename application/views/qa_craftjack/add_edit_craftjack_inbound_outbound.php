@@ -94,9 +94,9 @@
 												<select class="form-control" id="location" name="data[location]" required>
 											
 											    <option value="">-Select-</option>
-											    <option value="Jamaica" <?= ($craftjack_inbound_outbound_data['location']=="Jamaica")?"selected":"" ?>>Jamaica</option>
-												<option value="Cebu" <?= ($craftjack_inbound_outbound_data['location']=="Cebu")?"selected":"" ?>>Cebu</option>
-												<option value="ESal" <?= ($craftjack_inbound_outbound_data['location']=="ESal")?"selected":"" ?>>ESal</option>
+											    <option value="JAM" <?= ($craftjack_inbound_outbound_data['location']=="JAM")?"selected":"" ?>>Jamaica</option>
+												<option value="CEB" <?= ($craftjack_inbound_outbound_data['location']=="CEB")?"selected":"" ?>>Cebu</option>
+												<option value="ELS" <?= ($craftjack_inbound_outbound_data['location']=="ELS")?"selected":"" ?>>ESal</option>
 										</select>
 											</td>
 											
@@ -108,34 +108,15 @@
 											</td>
 											<td>Agent Name:<span style="font-size:24px;color:red">*</span></td>
 											<td colspan="2">
-												<select class="form-control" id="agent_ids" name="data[agent_id]" required>
-													<?php 
-													if($craftjack_inbound_outbound_data['agent_id']!=''){
-														?>
-														<option value="<?php echo $craftjack_inbound_outbound_data['agent_id'] ?>"><?php echo $agent_name?></option>
-														<?php
-													}else{
-														?>
-														<option value="">Select</option>
-														<?php
-													}
-													?>
-													
-													
-													<?php foreach ($agentName as $row) :  ?>
-													<?php 
-													if($row['id'] == $craftjack_inbound_outbound_data['agent_id']){
-														continue;
-													}else{
-														?>
-														<option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
-														<?php
-													}
-													?>
-														
-													<?php endforeach; ?>
-												</select>
+												<select class="form-control" style="text-align:center" id="agent_ids" name="data[agent_id]" required>
+												<?php if($craftjack_inbound_outbound_data['agent_id']!=''){ ?>
+												<option value="<?php echo $craftjack_inbound_outbound_data['agent_id']; ?>"><?php echo $craftjack_inbound_outbound_data['fname']." ".$craftjack_inbound_outbound_data['lname']."-(".$craftjack_inbound_outbound_data['fusion_id'].")"; ?></option>
+												<?php }?>
+												<option value="">-Select-</option>
+											</select>
 											</td>
+												
+											
 											<td>Fusion ID:<span style="font-size:24px;color:red">*</span></td>
 											<td colspan="2"><input type="text" class="form-control" id="fusion_id" required value="<?php echo $craftjack_inbound_outbound_data['fusion_id'] ?>" readonly></td>
 											
@@ -157,7 +138,7 @@
 											
 										</select>
 											</td>
-											<td>Customer Number:<span style="font-size:24px;color:red">*</span></td>
+											<td>Customer Phone:<span style="font-size:24px;color:red">*</span></td>
 											<td colspan="2"><input type="text" class="form-control" name="data[phone_no]" value="<?php echo $craftjack_inbound_outbound_data['phone_no'] ?>" onkeyup="checkDec(this);" required>
 												<span id="start_phone" style="color:red"></span></td>
 										</tr>
@@ -190,11 +171,6 @@
 													<option value="3"  <?= ($craftjack_inbound_outbound_data['voc']=="3")?"selected":"" ?>>3</option>
 													<option value="4"  <?= ($craftjack_inbound_outbound_data['voc']=="4")?"selected":"" ?>>4</option>
 													<option value="5"  <?= ($craftjack_inbound_outbound_data['voc']=="5")?"selected":"" ?>>5</option>
-													<option value="6"  <?= ($craftjack_inbound_outbound_data['voc']=="6")?"selected":"" ?>>6</option>
-													<option value="7"  <?= ($craftjack_inbound_outbound_data['voc']=="7")?"selected":"" ?>>7</option>
-													<option value="8"  <?= ($craftjack_inbound_outbound_data['voc']=="8")?"selected":"" ?>>8</option>
-													<option value="9"  <?= ($craftjack_inbound_outbound_data['voc']=="9")?"selected":"" ?>>9</option>
-													<option value="10"  <?= ($craftjack_inbound_outbound_data['voc']=="10")?"selected":"" ?>>10</option>
 												</select>
 											</td>
 											<td>Audit Type:<span style="font-size:24px;color:red">*</span></td>
@@ -206,6 +182,8 @@
                                                     <option value="Calibration" <?= ($craftjack_inbound_outbound_data['audit_type']=="Calibration")?"selected":"" ?>>Calibration</option>
                                                     <option value="Pre-Certificate Mock Call" <?= ($craftjack_inbound_outbound_data['audit_type']=="Pre-Certificate Mock Call")?"selected":"" ?>>Pre-Certificate Mock Call</option>
                                                     <option value="Certification Audit" <?= ($craftjack_inbound_outbound_data['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
+                                                    <option value="Operation Audit"  <?= ($craftjack_inbound_outbound_data['audit_type']=="Operation Audit")?"selected":"" ?>>Operation Audit</option>
+                                                    <option value="Trainer Audit"  <?= ($craftjack_inbound_outbound_data['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option> 
                                                     <option value="WOW Call"  <?= ($craftjack_inbound_outbound_data['audit_type']=="WOW Call")?"selected":"" ?>>WOW Call</option>  
                                                 </select>
 											</td>
@@ -301,7 +279,7 @@
 											</select>
 										</td>
 										<td colspan=2><input type="text" name="data[cmt4]" class="form-control" value="<?php echo $craftjack_inbound_outbound_data['cmt4'] ?>"></td>
-										<td style="font-weight:bold; background-color:#D7BDE2">Business</td>
+										<td style="font-weight:bold; background-color:#D7BDE2">Compliance</td>
 									</tr>
 									
 									<tr>
@@ -501,7 +479,7 @@
 									</tr>
 									<tr>
 										<td>IB/OB</td>
-										<td colspan=2>Rate of speech / Clarity</td>
+										<td colspan=2>Offered Upshell</td>
 										<td>10</td>
 										<td>
 											<select class="form-control craftjack_inbound_outbound_point craftjack_IB_OB_point_ib craftjack_IB_OB_point_ob business business_ib business_ob" id="" name="data[cross_sell_offered_upsell]" required>
@@ -618,7 +596,9 @@
 									<tr>
 										<td style="background-color:#BFC9CA"><b>G</b></td>
 										<td colspan=2 style="background-color:#BFC9CA">Critical Fails</td>
-										<td style="background-color:#BFC9CA">40</td>
+										<td style="background-color:#BFC9CA">
+											<input type="text" name="critical_error" id="critical_error" value="40" readonly>
+										</td>
 										<td style="background-color:#BFC9CA">
 											<input type="text" name="autofail_status" id="autofail_status" value="Pass" readonly>
 										</td>
@@ -665,21 +645,214 @@
 										<td style="font-weight:bold; background-color:#D7BDE2">Compliance</td>
 									</tr>
 									<tr>
-										<td>IB/OB</td>
-										<td colspan=2 style="color:red">Agent mentioned about the recorded line?</td>
-										<td>10</td>
-										<td>
-											<select class="form-control craftjack_inbound_outbound_point craftjack_IB_OB_point_ib craftjack_IB_OB_point_ob compliance compliance_ib compliance_ob" id="ib_ob_Fail4" name="data[critical_recorded_line]" required>
+										<td class="ob_show">OB</td>
+										<td class="ob_show" colspan=2 style="color:red">Agent mentioned about the recorded line?</td>
+										<td class="ob_show">10</td>
+										<td class="ob_show">
+											<select class="form-control craftjack_inbound_outbound_point craftjack_IB_OB_point_ob compliance compliance_ob" id="ib_ob_Fail4" name="data[critical_recorded_line]" required>
 												<option craftjack_inbound_outbound_val=10 craftjack_inbound_outbound_max="10" <?php echo $craftjack_inbound_outbound_data['critical_recorded_line']=='Pass'?"selected":""; ?> value="Pass">Pass</option>
 												<option craftjack_inbound_outbound_val=0 craftjack_inbound_outbound_max="10" <?php echo $craftjack_inbound_outbound_data['critical_recorded_line']=='Fail'?"selected":""; ?> value="Fail">Fail</option>
 											</select>
 										</td>
-										<td colspan=2><input type="text" name="data[cmt27]" class="form-control" value="<?php echo $craftjack_inbound_outbound_data['cmt27'] ?>"></td>
-										<td style="font-weight:bold; background-color:#D7BDE2">Compliance</td>
+										<td class="ob_show" colspan=2><input type="text" name="data[cmt27]" class="form-control" value="<?php echo $craftjack_inbound_outbound_data['cmt27'] ?>"></td>
+										<td class="ob_show" style="font-weight:bold; background-color:#D7BDE2">Compliance</td>
 									</tr>
+
+									<tr>
+										<td style="background-color:#BFC9CA"><b></b></td>
+										<td colspan=2 style="background-color:#BFC9CA">ACPT PARAMETER</td>
+										<td style="background-color:#BFC9CA">ACPT SUB PARAMETER</td>
+										<td style="background-color:#BFC9CA">STATUS</td>
+										<td colspan=3 style="background-color:#BFC9CA">REMARKS</td>
+										
+									</tr>
+									<tr>
+										<td>IB/OB</td>
+										<td colspan=2>AHT Related Spot Check</td>
+										<td>Agent</td>
+										<td>
+											<select class="form-control" id="" name="data[aht_related_agent]" required>
+												<option  <?php echo $craftjack_inbound_outbound_data['aht_related_agent']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['aht_related_agent']=='Previous / Other Agent'?"selected":""; ?> value="Previous / Other Agent">Previous / Other Agent</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['aht_related_agent']=='Product Knowledge'?"selected":""; ?> value="Product Knowledge">Product Knowledge</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['aht_related_agent']=='Resolution'?"selected":""; ?> value="Resolution">Resolution</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['aht_related_agent']=='Soft Skills'?"selected":""; ?> value="Soft Skills">Soft Skills</option>
+												
+											</select>
+										</td>
+										<td colspan=3><input type="text" name="data[acpt_cmt4]" class="form-control" value="<?php echo $craftjack_inbound_outbound_data['acpt_cmt4'] ?>"></td>
+										
+									</tr>
+									<tr>
+										<td>IB/OB</td>
+										<td colspan=2>AHT Related Spot Check</td>
+										<td>Customer</td>
+										<td>
+											<select class="form-control" id="" name="data[aht_related_customer]" required>
+												<option  <?php echo $craftjack_inbound_outbound_data['aht_related_customer']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['aht_related_customer']=='Call disconnected'?"selected":""; ?> value="Call disconnected">Call disconnected</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['aht_related_customer']=='Customer on hold'?"selected":""; ?> value="Customer on hold">Customer on hold</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['aht_related_customer']=='Know It All Customer'?"selected":""; ?> value="Know It All Customer">Know It All Customer</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['aht_related_customer']=='Multiple concern/request'?"selected":""; ?> value="Multiple concern/request">Multiple concern/request</option>
+												
+											</select>
+										</td>
+										<td colspan=3><input type="text" name="data[acpt_cmt5]" class="form-control" value="<?php echo $craftjack_inbound_outbound_data['acpt_cmt5'] ?>"></td>
+									</tr>
+									<tr>
+										<td>IB/OB</td>
+										<td colspan=2>AHT Related Spot Check</td>
+										<td>Process</td>
+										<td>
+											<select class="form-control" id="" name="data[aht_related_process]" required>
+												<option  <?php echo $craftjack_inbound_outbound_data['aht_related_process']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['aht_related_process']=='Rules and Protocols'?"selected":""; ?> value="Rules and Protocols">Rules and Protocols</option>
+											</select>
+										</td>
+										<td colspan=3><input type="text" name="data[acpt_cmt6]" class="form-control" value="<?php echo $craftjack_inbound_outbound_data['acpt_cmt6'] ?>"></td>
+									</tr>
+									<tr>
+										<td>IB/OB</td>
+										<td colspan=2>AHT Related Spot Check</td>
+										<td>Technology</td>
+										<td>
+											<select class="form-control" id="" name="data[aht_related_technology]" required>
+												<option  <?php echo $craftjack_inbound_outbound_data['aht_related_technology']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['aht_related_technology']=='System Latency'?"selected":""; ?> value="System Latency">System Latency</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['aht_related_technology']=='System Downtime'?"selected":""; ?> value="System Downtime">System Downtime</option>
+												
+											</select>
+										</td>
+										<td colspan=3><input type="text" name="data[acpt_cmt7]" class="form-control" value="<?php echo $craftjack_inbound_outbound_data['acpt_cmt7'] ?>"></td>
+									</tr>
+									<tr>
+										<td>IB/OB</td>
+										<td colspan=2>Conversion Related Spot Check</td>
+										<td>Agent</td>
+										<td>
+											<select class="form-control" id="" name="data[conversion_related_agent]" required>
+												<option  <?php echo $craftjack_inbound_outbound_data['conversion_related_agent']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['conversion_related_agent']=='Previous / Other Agent'?"selected":""; ?> value="Previous / Other Agent">Previous / Other Agent</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['conversion_related_agent']=='Product Knowledge'?"selected":""; ?> value="Product Knowledge">Product Knowledge</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['conversion_related_agent']=='Soft Skills'?"selected":""; ?> value="Soft Skills">Soft Skills</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['conversion_related_agent']=='Skipped Cross Sell'?"selected":""; ?> value="Skipped Cross Sell">Skipped Cross Sell</option>
+												
+											</select>
+										</td>
+										<td colspan=3><input type="text" name="data[acpt_cmt8]" class="form-control" value="<?php echo $craftjack_inbound_outbound_data['acpt_cmt8'] ?>"></td>
+									</tr>
+									<tr>
+										<td>IB/OB</td>
+										<td colspan=2>Conversion Related Spot Check</td>
+										<td>Customer</td>
+										<td>
+											<select class="form-control" id="" name="data[conversion_related_customer]" required>
+												<option  <?php echo $craftjack_inbound_outbound_data['conversion_related_customer']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['conversion_related_customer']=='Customer on hold'?"selected":""; ?> value="Customer on hold">Customer on hold</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['conversion_related_customer']=='In a hurry'?"selected":""; ?> value="In a hurry">In a hurry</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['conversion_related_customer']=='Know It All Customer'?"selected":""; ?> value="Know It All Customer">Know It All Customer</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['conversion_related_customer']=='Not in Need'?"selected":""; ?> value="Not in Need">Not in Need</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['conversion_related_customer']=='Pro Related Bad Experience'?"selected":""; ?> value="Pro Related Bad Experience">Pro Related Bad Experience</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['conversion_related_customer']=='Self Service'?"selected":""; ?> value="Self Service">Self Service</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['conversion_related_customer']=='Undecided'?"selected":""; ?> value="Undecided">Undecided</option>
+												
+											</select>
+										</td>
+										<td colspan=3><input type="text" name="data[acpt_cmt9]" class="form-control" value="<?php echo $craftjack_inbound_outbound_data['acpt_cmt9'] ?>"></td>
+									</tr>
+									<tr>
+										<td>IB/OB</td>
+										<td colspan=2>Conversion Related Spot Check</td>
+										<td>Process</td>
+										<td>
+											<select class="form-control" id="" name="data[conversion_related_process]" required>
+												<option  <?php echo $craftjack_inbound_outbound_data['conversion_related_process']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['conversion_related_process']=='Rules and Protocols'?"selected":""; ?> value="Rules and Protocols">Rules and Protocols</option>
+											</select>
+										</td>
+										<td colspan=3><input type="text" name="data[acpt_cmt10]" class="form-control" value="<?php echo $craftjack_inbound_outbound_data['acpt_cmt10'] ?>"></td>
+									</tr>
+									<tr>
+										<td>IB/OB</td>
+										<td colspan=2>Conversion Related Spot Check</td>
+										<td>Technology</td>
+										<td>
+											<select class="form-control" id="" name="data[conversion_related_technology]" required>
+												<option  <?php echo $craftjack_inbound_outbound_data['conversion_related_technology']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['conversion_related_technology']=='System Latency'?"selected":""; ?> value="System Latency">System Latency</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['conversion_related_technology']=='System Downtime'?"selected":""; ?> value="System Downtime">System Downtime</option>
+												
+											</select>
+										</td>
+										<td colspan=3><input type="text" name="data[acpt_cmt11]" class="form-control" value="<?php echo $craftjack_inbound_outbound_data['acpt_cmt11'] ?>"></td>
+									</tr>
+									<tr>
+										<td>IB/OB</td>
+										<td colspan=2>SR/HR Related Spot Check</td>
+										<td>Agent</td>
+										<td>
+											<select class="form-control" id="" name="data[sr_related_agent]" required>
+												<option  <?php echo $craftjack_inbound_outbound_data['sr_related_agent']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['sr_related_agent']=='Did not submit SR'?"selected":""; ?> value="Did not submit SR">Did not submit SR</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['sr_related_agent']=='Product Knowledge'?"selected":""; ?> value="Product Knowledge">Product Knowledge</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['sr_related_agent']=='Resolution'?"selected":""; ?> value="Resolution">Resolution</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['sr_related_agent']=='Soft Skills'?"selected":""; ?> value="Soft Skills">Soft Skills</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['sr_related_agent']=='Skipped Cross Sell'?"selected":""; ?> value="Skipped Cross Sell">Skipped Cross Sell</option>
+												
+											</select>
+										</td>
+										<td colspan=3><input type="text" name="data[acpt_cmt12]" class="form-control" value="<?php echo $craftjack_inbound_outbound_data['acpt_cmt12'] ?>"></td>
+									</tr>
+									<tr>
+										<td>IB/OB</td>
+										<td colspan=2>SR/HR Related Spot Check</td>
+										<td>Customer</td>
+										<td>
+											<select class="form-control" id="" name="data[sr_related_customer]" required>
+												<option  <?php echo $craftjack_inbound_outbound_data['sr_related_customer']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['sr_related_customer']=='Customer on hold'?"selected":""; ?> value="Customer on hold">Customer on hold</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['sr_related_customer']=='In a hurry'?"selected":""; ?> value="In a hurry">In a hurry</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['sr_related_customer']=='Know It All Customer'?"selected":""; ?> value="Know It All Customer">Know It All Customer</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['sr_related_customer']=='Not in Need'?"selected":""; ?> value="Not in Need">Not in Need</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['sr_related_customer']=='Pricy Pro'?"selected":""; ?> value="Pricy Pro">Pricy Pro</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['sr_related_customer']=='Pro Related Bad Experience'?"selected":""; ?> value="Pro Related Bad Experience">Pro Related Bad Experience</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['sr_related_customer']=='Self Service'?"selected":""; ?> value="Self Service">Self Service</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['sr_related_customer']=='Undecided'?"selected":""; ?> value="Undecided">Undecided</option>
+												
+											</select>
+										</td>
+										<td colspan=3><input type="text" name="data[acpt_cmt13]" class="form-control" value="<?php echo $craftjack_inbound_outbound_data['acpt_cmt13'] ?>"></td>
+									</tr>
+									<tr>
+										<td>IB/OB</td>
+										<td colspan=2>SR/HR Related Spot Check</td>
+										<td>Process</td>
+										<td>
+											<select class="form-control" id="" name="data[sr_related_process]" required>
+												<option  <?php echo $craftjack_inbound_outbound_data['sr_related_process']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['sr_related_process']=='Rules and Protocols'?"selected":""; ?> value="Rules and Protocols">Rules and Protocols</option>
+											</select>
+										</td>
+										<td colspan=3><input type="text" name="data[acpt_cmt14]" class="form-control" value="<?php echo $craftjack_inbound_outbound_data['acpt_cmt14'] ?>"></td>
+									</tr>
+									<tr>
+										<td>IB/OB</td>
+										<td colspan=2>SR/HR Related Spot Check</td>
+										<td>Technology</td>
+										<td>
+											<select class="form-control" id="" name="data[sr_related_technology]" required>
+												<option  <?php echo $craftjack_inbound_outbound_data['sr_related_technology']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['sr_related_technology']=='System Downtime'?"selected":""; ?> value="System Downtime">System Downtime</option>
+												<option  <?php echo $craftjack_inbound_outbound_data['sr_related_technology']=='System Latency'?"selected":""; ?> value="System Latency">System Latency</option>
+												
+											</select>
+										</td>
+										<td colspan=3><input type="text" name="data[acpt_cmt15]" class="form-control" value="<?php echo $craftjack_inbound_outbound_data['acpt_cmt15'] ?>"></td>
+									</tr>
+
 									<!-- Add ACPT -->
-										<?php $adtsht='';
-											echo $global_element.'/'.$adtsht; 
+										<?php //$adtsht='';
+											//echo $global_element.'/'.$adtsht; 
 										?>
 									<!-- -->		
 									<tr style="font-weight:bold; background-color:#D7BDE2">

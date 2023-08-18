@@ -74,6 +74,42 @@ $(function() {
 </script>
 
 <script type="text/javascript">
+	$( "#location" ).on('change' , function() {
+
+		var aid = this.value;
+		//console.log(aid);
+		if(aid==""){
+			alert("Please Select Location");
+			$('#agent_ids').empty();
+			$('#agent_ids').append($('#agent_ids').val());
+			$('#fusion_id').empty();
+			$('#fusion_id').append($('#fusion_id').val(''));
+		}else{
+			var URL='<?php echo base_url();?>Qa_craftjack/getAgentName';
+			$('#sktPleaseWait').modal('show');
+			$.ajax({
+				type: 'POST',
+				url:URL,
+				data:'aid='+aid,
+				success: function(aList){
+					var json_obj = $.parseJSON(aList);
+					$('#agent_ids').empty();
+					$('#agent_ids').append($('#agent_ids').val());
+					$('#agent_ids').append('<option value="">-Select-</option>');
+					for (var i in json_obj) $('#agent_ids').append('<option value="'+json_obj[i].id+'">'+json_obj[i].name+"-("+json_obj[i].fusion_id+")"+'</option>');
+
+					$('#sktPleaseWait').modal('hide');
+				},
+				error: function(){
+					alert('Fail!');
+				}
+			});
+		} 
+		
+	});
+</script>
+
+<script type="text/javascript">
 	
 		$(function() {
 		$( "#agent_ids" ).on('change' , function() {
@@ -375,16 +411,21 @@ $('INPUT[type="file"]').change(function () {
 	////////////inbound/outbound//////////////
 	$('#type_of_call').each(function(){
 		$valdet=$(this).val();
+		if($valdet == ''){
+			$('.ib_show').show();
+			$('.ob_show').show();
+		}
 		if($valdet=="IB"){
 			$('.ib_show').show();
 			$('.ob_show').hide();
 		}else if($valdet=="OB"){
 			$('.ib_show').hide();
 			$('.ob_show').show();
-		}else{
-			//$('.ib_show').hide();
-			//$('.ob_show').hide();
-		}
+		 }
+		 //else{
+		// 	$('.ib_show').show();
+		// 	$('.ob_show').show();
+		// }
 		
 	});
 
@@ -432,23 +473,24 @@ $('INPUT[type="file"]').change(function () {
 			$('#ob_show4').attr('required',true);
 			$('#ob_show4').prop('disabled',false);
 		}else{
-			// $('.ib_show').hide();
-			// $('.ob_show').hide();
+			$('.ib_show').show();
+			$('.ob_show').show();
 
-			// $('#ib_show1').attr('required',false);
-			// $('#ib_show1').prop('disabled',true);
+			$('#ib_show1').attr('required',false);
+			$('#ib_show1').prop('disabled',true);
 
-			// $('#ob_show1').attr('required',false);
-			// $('#ob_show1').prop('disabled',true);
+			$('#ob_show1').attr('required',false);
+			$('#ob_show1').prop('disabled',true);
 
-			// $('#ob_show2').attr('required',false);
-			// $('#ob_show2').prop('disabled',true);
+			$('#ob_show2').attr('required',false);
+			$('#ob_show2').prop('disabled',true);
 
-			// $('#ob_show3').attr('required',false);
-			// $('#ob_show3').prop('disabled',true);
+			$('#ob_show3').attr('required',false);
+			$('#ob_show3').prop('disabled',true);
 
-			// $('#ob_show4').attr('required',false);
-			// $('#ob_show4').prop('disabled',true);
+			$('#ob_show4').attr('required',false);
+			$('#ob_show4').prop('disabled',true);
+			craftjack_inbound_outbound_calcs();
 		}
 	});
 
@@ -707,7 +749,7 @@ $('INPUT[type="file"]').change(function () {
 			$('#mtl_overall_score').val(quality_score_percent+'%');
 		}
 
-		if($('#ib_ob_Fail1').val()=='Fail' || $('#ib_ob_Fail2').val()=='Fail' || $('#ib_ob_Fail3').val()=='Fail' || $('#ib_ob_Fail4').val()=='Fail'){
+		if($('#ib_ob_Fail1').val()=='Fail' || $('#ib_ob_Fail2').val()=='Fail' || $('#ib_ob_Fail3').val()=='Fail'){
 			quality_score_percent = (0.00).toFixed(2);
 			$('.acgFatal').val(quality_score_percent+'%');
 			$('#autofail_status').val('Fail');
@@ -717,6 +759,8 @@ $('INPUT[type="file"]').change(function () {
 			$('.mtl_overall_score').val(quality_score_percent+'%');
 		}
 		$('#follow_up').val('20');
+		$('#sr').val('40');
+		$('#critical_error').val('30');
 	
 		//////////////// Customer/Business/Compliance //////////////////
 		var customerScore = 0;
@@ -854,7 +898,8 @@ $('INPUT[type="file"]').change(function () {
 		}
 
 		$('#follow_up').val('25');
-		$('#sr').val('40');
+		$('#sr').val('45');
+		$('#critical_error').val('40');
 	
 		//////////////// Customer/Business/Compliance //////////////////
 		var customerScore = 0;

@@ -5,18 +5,26 @@
 		$("#agent_id").select2();
 		$("#from_date").datepicker({maxDate: new Date() });
 	    $("#to_date").datepicker({maxDate: new Date() });
+	    $("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });
 		$("#audit_date").datepicker({
 			dateFormat: 'mm-dd-yy'
 		});
-		$("#call_date").datepicker({
-			maxDate: new Date(),
-			dateFormat: 'mm-dd-yy'
-		});
-		$("#call_date_time").datetimepicker({
-			maxDate: new Date(),
-			dateFormat: 'mm-dd-yy'
-		});
-		$("#call_duration").timepicker({ timeFormat:'HH:mm:ss', showButtonPanel:false });
+		$("#call_date").datepicker({maxDate: new Date()}); //datetimepicker
+		$("#call_date_time").datetimepicker({ timeFormat:'HH:mm:ss',maxDate: new Date()});
+		// $('#call_date_time').datetimepicker({
+		//     dateFormat: "yy-mm-dd",
+		//     timeFormat:  "hh:mm:ss"
+		// });
+		// $("#call_date").datepicker({
+		// 	maxDate: new Date(),
+		// 	dateFormat: 'mm-dd-yy'
+		// });
+		// $("#call_date_time").datetimepicker({
+		// 	maxDate: new Date(),
+		// 	dateFormat: 'mm-dd-yy'
+		// });
+
+		//$("#call_duration").timepicker({ timeFormat:'HH:mm:ss', showButtonPanel:false });
 		$("#call_duration1").timepicker({ timeFormat:'HH:mm:ss', showButtonPanel:false });
 		// $("#from_date").datepicker({
 		// 	onSelect: function(selected) {
@@ -190,6 +198,25 @@
 
 		}
 	}
+</script>
+<script type="text/javascript">
+	$(document).ready(function () {
+	 // console.log("Hello World!");
+	  var start_date	=	$("#from_date").val();
+	  var end_date		=	$("#to_date").val();
+	  if(start_date == '' && end_date == ''){
+		  	$(".blains-effect").attr("disabled",true);
+			$(".blains-effect").css('cursor', 'no-drop');
+	  }
+	  if(end_date == ''){
+	  		$(".blains-effect").attr("disabled",true);
+			$(".blains-effect").css('cursor', 'no-drop');
+	  }
+	  if(start_date == ''){
+	  		$(".blains-effect").attr("disabled",true);
+			$(".blains-effect").css('cursor', 'no-drop');
+	  }
+	});
 </script>
 <script>
 //////////////////// Phone Number Validation ///////////////////
