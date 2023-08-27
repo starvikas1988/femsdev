@@ -25,27 +25,30 @@
 							<div class="row">
 								<div class="col-md-3">
 									<div class="form-group">
-										<label>From Date (mm/dd/yyyy)</label>
-										<input type="text" id="from_date" name="from_date" value="<?php echo mysql2mmddyy($from_date); ?>" class="form-control">
+										<label>From Date (MM/DD/YYYY)</label>
+										<input type="text" id="from_date" name="from_date" onchange="date_validation(this.value,'S')" value="<?php $date= mysql2mmddyy($from_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="start_date_error" style="color:red"></span>
 									</div>
 								</div>  
-								<div class="col-md-3"> 
-									<div class="form-group">
-										<label>To Date (mm/dd/yyyy)</label>
-										<input type="text" id="to_date" name="to_date" value="<?php echo mysql2mmddyy($to_date); ?>" class="form-control">
-									</div> 
+							<div class="col-md-3">	
+								<div class="form-group">
+										<label>To Date (MM/DD/YYYY)</label>
+										<input type="text" id="to_date" name="to_date" onchange="date_validation(this.value,'E')"  value="<?php $date= mysql2mmddyy($to_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="end_date_error" style="color:red"></span>
 								</div>
+							</div>
 								
 								<div class="col-md-4">
 									<div class="form-group">
 										<label>Select Campaign</label>
 										<select class="form-control" id="" name="campaign" required>
-											<option value="">All</option>
+											<option value="">Select</option>
 											<option <?php echo $campaign=='att'?"selected":""; ?> value="att">AT&T </option>
 											<option <?php echo $campaign=='fiberconnect'?"selected":""; ?> value="fiberconnect">Fiberconnect</option>
 											<option <?php echo $campaign=='acc'?"selected":""; ?> value="acc">ACC</option>
 											<option <?php echo $campaign=='att_collection_gbrm'?"selected":""; ?> value="att_collection_gbrm">Collection GBRM</option>
 											<option <?php echo $campaign=='att_fiberconnect_whitespace'?"selected":""; ?> value="att_fiberconnect_whitespace">Fibeconnect Whitespace</option>
+											<option <?php echo $campaign=='fiberconnect_greenspace'?"selected":""; ?> value="fiberconnect_greenspace">Fibeconnect Greenspace</option>
 											<!-- <option <?php //echo $campaign=='agent_coaching'?"selected":""; ?> value="agent_coaching">Agent Coaching</option> -->
 											<!--
 											<option <?php //echo $campaign=='att_verint'?"selected":""; ?> value="att_verint">AT&T Verint</option>
@@ -57,7 +60,7 @@
 								</div>
 										
 								<div class="col-md-1" style="margin-top:20px">
-									<button class="btn btn-success waves-effect" a href="<?php echo base_url()?>qa_att/agent_att_feedback" type="submit" id='btnView' name='btnView' value="View">View</button>
+									<button class="btn btn-success blains-effect" a href="<?php echo base_url()?>qa_att/agent_att_feedback" type="submit" id='btnView' name='btnView' value="View">View</button>
 								</div>
 							</div>
 							
@@ -79,7 +82,7 @@
 						<div class="col-md-12">
 							<header class="widget-header">
 								<div class="col-md-6">
-									<h4 class="widget-title">AT&T </h4>
+									<h4 class="widget-title">AT&T <?php echo ucfirst($campaign); ?></h4>
 								</div>
 								<div class="col-md-6" style="float:right">
 									<span style="font-weight:bold; color:red">Total Feedback</span> <span class="badge" style="font-size:12px"><?php echo $tot_feedback; ?></span> - <span style="font-weight:bold; color:green">Yet To Review</span> <span class="badge" style="font-size:12px"><?php echo $yet_rvw; ?></span>
@@ -142,6 +145,8 @@
 												<a class="btn btn-success" href="<?php echo base_url(); ?>qa_att/agent_gbrm_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
 											<?php } else if($campaign=='att_fiberconnect_whitespace'){ ?>
 												<a class="btn btn-success" href="<?php echo base_url(); ?>qa_att/agent_whitespace_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
+											<?php } else if($campaign=='fiberconnect_greenspace'){ ?>
+												<a class="btn btn-success" href="<?php echo base_url(); ?>qa_att/agent_greenspace_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
 											<?php } ?>
 											
 										</td>

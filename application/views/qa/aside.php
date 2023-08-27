@@ -417,12 +417,12 @@ $(document).ready(function(){
 						</a>
 					</li>
 
-					<li class="menu-item">
-						<a href="<?php echo base_url('Qa_agent_coaching_new/agent_coaching_feedback'); ?>" class="menu-link">
+					<!--<li class="menu-item">
+						<a href="<?php //echo base_url('Qa_agent_coaching_new/agent_coaching_feedback'); ?>" class="menu-link">
 							<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 							<span class="">GRBM Agent Coaching</span>
 						</a>
-					</li>
+					</li>-->
 
 
 
@@ -1022,18 +1022,6 @@ $(document).ready(function(){
 							</a>
 						</li>
 						<li class="menu-item">
-						<a href="<?php echo base_url('Qa_agent_coaching_new'); ?>" class="menu-link">
-							<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
-							<span class="">GRBM Coaching</span>
-						</a>
-					</li>
-						<li class="menu-item">
-							<a href="<?php echo base_url('Qa_epgi')?>" class="menu-link">
-								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
-								<span class="">EPGI</span>
-							</a>
-						</li>
-						<li class="menu-item">
 							<a href="<?php echo base_url('Qa_ayming')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 								<span class="">AYMING</span>
@@ -1049,6 +1037,24 @@ $(document).ready(function(){
 							<a href="<?php echo base_url('Qa_sea_world')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 								<span class="">Sea World</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_travel_pro')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Travel Pro Scorecard</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_clever_care')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Clever Care</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_conduent_direct_express')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Conduent- Direct Express</span>
 							</a>
 						</li>
 						<li class="menu-item">
@@ -1630,6 +1636,12 @@ $(document).ready(function(){
 									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/sabal'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 										<span class="">SABAL</span>
+									</a>
+								</li>
+								<li>
+									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/epgi'); ?>">
+										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+										<span class="">EPGI</span>
 									</a>
 								</li>
 								<li>

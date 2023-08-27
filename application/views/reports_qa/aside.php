@@ -578,6 +578,24 @@
 								</a>
 							</li>
 							<li class="menu-item">
+								<a href="<?php echo base_url()?>Qa_travel_pro/qa_travel_pro_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Travel Pro Scorecard</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>Qa_clever_care/qa_clever_care_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Clever Care</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>Qa_conduent_direct_express/qa_conduent_direct_express_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Conduent- Direct Express</span>
+								</a>
+							</li>
+							<li class="menu-item">
 								<a href="<?php echo base_url()?>Qa_union_pacific/qa_union_pacific_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Union Pacific</span>
