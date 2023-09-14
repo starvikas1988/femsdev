@@ -22,20 +22,22 @@
 							<div class="row">
 								<div class="col-md-3">
 									<div class="form-group">
-										<label>From Date (mm/dd/yyyy)</label>
-										<input type="text" id="from_date" name="from_date" value="<?php echo mysql2mmddyy($from_date); ?>" class="form-control" readonly>
+										<label>From Date (MM/DD/YYYY)</label>
+										<input type="text" id="from_date"      name="from_date" onchange="date_validation(this.value,'S')" value="<?php $date= mysql2mmddyy($from_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="start_date_error" style="color:red"></span>
 									</div>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<label>To Date (mm/dd/yyyy)</label>
-										<input type="text" id="to_date" name="to_date" value="<?php echo mysql2mmddyy($to_date); ?>" class="form-control" readonly>
+										<label>To Date (MM/DD/YYYY)</label>
+										<input type="text" id="to_date" name="to_date" onchange="date_validation(this.value,'E')"       value="<?php $date= mysql2mmddyy($to_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="end_date_error" style="color:red"></span>
 									</div>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
 										<label>Agent</label>
-										<select class="form-control" id="" name="agent_id">
+										<select class="form-control" id="agent" name="agent_id[]" multiple>
 											<option value="">-Select-</option>
 											<?php foreach($agentName as $row):
 												$sCss='';
@@ -47,7 +49,7 @@
 									</div>
 								</div>
 								<div class="col-md-1" style="margin-top:20px">
-									<button class="btn btn-success waves-effect" a href="<?php echo base_url()?>Qa_paynearby/paynearby_outbound" type="submit" id='btnView' name='btnView' value="View">View</button>
+									<button class="btn btn-success blains-effect" a href="<?php echo base_url()?>Qa_paynearby/paynearby_outbound" type="submit" id='btnView' name='btnView' value="View">View</button>
 								</div>
 							</div>
 
@@ -58,6 +60,93 @@
 
 			</div>
 		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<div class="widget">
+				
+					<div class="row">
+						<div class="col-md-12">
+							<header class="widget-header">
+								<h4 class="widget-title">
+									<div class="pull-left">PNB OUTBOUND Sales V1</div>
+									<?php if(is_access_qa_module()==true){ ?>
+									<div class="pull-right">
+										<a class="btn btn-primary" href="<?php echo base_url(); ?>Qa_paynearby/add_edit_pnb_outbound_sales_v1/0">Add Feedback</a>
+									</div>	
+									<?php } ?>
+								</h4>
+							</header>
+						</div>
+						<hr class="widget-separator">
+					</div>
+				
+					<div class="widget-body">
+						<div class="table-responsive">
+							<table id="default-datatable" data-plugin="DataTable" class="table table-striped skt-table" cellspacing="0" width="100%">
+								<thead>
+									<tr class="bg-info">
+										<th>SL</th>
+										<th>Auditor</th>
+										<th>Audit Date</th>
+										<th>Fusion ID</th>
+										<th>Agent Name</th>
+										<th>L1 Supervisor</th>
+										<th>Call Date</th>
+										<th>Total Score</th>
+										<th>Agent Review Date</th>
+										<th>Mgnt Review By</th>
+										<th>Mgnt Review Date</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php $i=1;
+									foreach($paynearby_outbound_sales_v1 as $row): ?>
+									<tr>
+										<td><?php echo $i++; ?></td>
+										<td><?php echo $row['auditor_name']; ?></td>
+										<td><?php echo $row['audit_date']; ?></td>
+										<td><?php echo $row['fusion_id']; ?></td>
+										<td><?php echo $row['fname']." ".$row['lname']; ?></td>
+										<td><?php echo $row['tl_name']; ?></td>
+										<td><?php echo $row['call_date']; ?></td>
+										<td><?php echo $row['overall_score']; ?></td>
+										<td><?php echo $row['agent_rvw_date']; ?></td>
+										<td><?php echo $row['mgnt_rvw_name']; ?></td>
+										<td><?php echo $row['mgnt_rvw_date']; ?></td>
+										<td>
+											<?php $cjid=$row['id']; ?>
+											
+											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_paynearby/add_edit_pnb_outbound_sales_v1/<?php echo $cjid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit/Review</a>
+										</td>
+									</tr>
+									<?php endforeach; ?>
+								</tbody>
+								<tfoot>
+									<tr class="bg-info">
+										<th>SL</th>
+										<th>Auditor</th>
+										<th>Audit Date</th>
+										<th>Fusion ID</th>
+										<th>Agent Name</th>
+										<th>L1 Supervisor</th>
+										<th>Call Date</th>
+										<th>Total Score</th>
+										<th>Agent Review Date</th>
+										<th>Mgnt Review By</th>
+										<th>Mgnt Review Date</th>
+										<th>Action</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php //////////////////////////////////////////////////////////////////?>
 
 		<div class="row">
 			<div class="col-12">
@@ -624,6 +713,11 @@
 	</section>
 </div>
 
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#agent").select2();
+	});
+</script>
 
 <!----------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------->

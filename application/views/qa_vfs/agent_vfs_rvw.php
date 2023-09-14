@@ -88,7 +88,7 @@ input[type='checkbox']{
 									</tr>
 									<tr>
 										<td>Call Duration:<span style="font-size:24px;color:red">*</span></td>
-										<td><input type="text" class="form-control" id="call_duration" name="call_duration" onkeydown="return false;" value="<?php echo $agent_vfs['call_duration']; ?>" disabled></td>
+										<td><input type="text" class="form-control" id="" name="call_duration"  value="<?php echo $agent_vfs['call_duration']; ?>" disabled></td>
 										<td>Mission:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control"  name="mission" value="<?php echo $agent_vfs['mission']; ?>" disabled></td>
 										<td>Recording ID:<span style="font-size:24px;color:red">*</span></td>
@@ -99,13 +99,14 @@ input[type='checkbox']{
 										<td><input type="text" class="form-control"  name="week" value="<?php echo $agent_vfs['week']; ?>" disabled></td>
 										
 										<td>Fatal Error?:<span style="font-size:24px;color:red">*</span></td>
-										<td>
+										<td><input type="text" class="form-control" id="fatalspan1" name="autofail_status" value="<?php echo $agent_vfs['autofail_status']; ?>" readonly></td>
+										<!-- <td>
 											<select class="form-control" id="" name="autofail_status" disabled>
 												<option value="">-Select-</option>
-												<option <?php echo $agent_vfs['autofail_status']=='Fatal'?"selected":""; ?> value="Fatal">Fatal</option>
-												<option <?php echo $agent_vfs['autofail_status']=='Non Fatal'?"selected":""; ?> value="Non Fatal">Non Fatal</option>
+												<option <?php //echo $agent_vfs['autofail_status']=='Fatal'?"selected":""; ?> value="Fatal">Fatal</option>
+												<option <?php //echo $agent_vfs['autofail_status']=='Non Fatal'?"selected":""; ?> value="Non Fatal">Non Fatal</option>
 											</select>
-										</td>
+										</td> -->
 										
 										<td>Host/Country:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" name="host_country" value="<?php echo $agent_vfs['host_country']; ?>" disabled></td>
@@ -153,19 +154,16 @@ input[type='checkbox']{
                                                     <option value="QA Supervisor Audit"  <?= ($agent_vfs['audit_type']=="QA Supervisor Audit")?"selected":"" ?>>QA Supervisor Audit</option> 
                                                 </select>
 										</td>
-										<td class="auType">Auditor Type<span style="font-size:24px;color:red">*</span></td>
-										<td class="auType">
-											<select class="form-control" id="auditor_type" name="auditor_type">
-												<option value="Master" <?= ($agent_vfs['auditor_type']=="Master")?"selected":"" ?>>Master</option> 
-												 <option value="Regular" <?= ($agent_vfs['auditor_type']=="Regular")?"selected":"" ?>>Regular</option> 
-											</select>
-										</td>
+										<td>L1:<span style="font-size:24px;color:red">*</span></td>
+										<td><input type="text" class="form-control" value="<?php echo $agent_vfs['l1']; ?>" disabled></td>
+										<td>L2:<span style="font-size:24px;color:red">*</span></td>
+										<td><input type="text" class="form-control" value="<?php echo $agent_vfs['l2']; ?>" disabled></td>
 									</tr>
 									<tr>
 										<td style="font-weight:bold">Earned Score:</td>
-										<td><input type="text" readonly id="vfsEarned" name="earned_score" class="form-control" style="font-weight:bold" value="<?php echo $agent_vfs['overall_score'] ?>"></td>
+										<td><input type="text" readonly id="" name="earned_score" class="form-control" style="font-weight:bold" value="<?php echo $agent_vfs['earned_score'] ?>"></td>
 										<td style="font-weight:bold">Possible Score:</td>
-										<td><input type="text" readonly id="vfsPossible" name="possible_score" class="form-control" style="font-weight:bold" value="<?php echo $agent_vfs['overall_score'] ?>"></td>
+										<td><input type="text" readonly id="vfsPossible" name="possible_score" class="form-control" style="font-weight:bold" value="<?php echo $agent_vfs['possible_score'] ?>"></td>
 										<td style="font-weight:bold">Overall Score Percentage:</td>
 										<td><input type="text" readonly id="vfsOverallScore" name="overall_score" class="form-control vfsCallFatal" style="font-weight:bold" value="<?php echo $agent_vfs['overall_score'] ?>"></td>
 									</tr>	
@@ -464,10 +462,10 @@ input[type='checkbox']{
 										<td colspan=1>a. Hold Guidelines followed</td>
 										<td>5</td>
 										<td>
-											<select class="form-control vfsVal" data-id="hold_protocol"  name="hold_disabled" disabled>
-												<option vfs_val=5 vfs_max='5' <?php echo $agent_vfs['hold_disabled']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
-												<option vfs_val=0 vfs_max='5' <?php echo $agent_vfs['hold_disabled']=='No'?"selected":""; ?> value="No">No</option>
-												<option vfs_val=5 vfs_max='5' <?php echo $agent_vfs['hold_disabled']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
+											<select class="form-control vfsVal" data-id="hold_protocol"  name="hold_required" disabled>
+												<option vfs_val=5 vfs_max='5' <?php echo $agent_vfs['hold_required']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option vfs_val=0 vfs_max='5' <?php echo $agent_vfs['hold_required']=='No'?"selected":""; ?> value="No">No</option>
+												<option vfs_val=5 vfs_max='5' <?php echo $agent_vfs['hold_required']=='N/A'?"selected":""; ?> value="N/A">N/A</option>
 											</select>
 										</td>
 										<td id="score_hold_disabled">5</td>
@@ -652,10 +650,16 @@ input[type='checkbox']{
 									</tr>
 									
 									<tr>
-										<td>Call Summary:</td>
-										<td colspan=2><textarea class="form-control"  disabled name="call_summary"><?php echo $agent_vfs['call_summary'] ?></textarea></td>
-										<td>Feedback:</td>
-										<td colspan=2><textarea class="form-control"  disabled name="feedback"><?php echo $agent_vfs['feedback'] ?></textarea></td>
+										<td>Reason For Fatal Error:</td>
+										<td colspan=2><textarea class="form-control" ><?php echo $agent_vfs['reason_for_fatal'] ?></textarea></td>
+										<td>Improvement Area:</td>
+										<td colspan=2><textarea class="form-control" ><?php echo $agent_vfs['inprovement_area'] ?></textarea></td>
+									</tr>
+									<tr>
+										<td>QA Remarks:</td>
+										<td colspan=2><textarea class="form-control" ><?php echo $agent_vfs['call_summary'] ?></textarea></td>
+										<!--<td>Feedback:</td>
+										<td colspan=2><textarea class="form-control" ><?php echo $agent_vfs['feedback'] ?></textarea></td>-->
 									</tr>
 									<?php if($agent_vfs['attach_file']!=''){ ?>
 									<tr oncontextmenu="return false;">
@@ -779,8 +783,8 @@ input[type='checkbox']{
 										</td>
 									</tr>
 									<tr>
-										<td>Call Duration:<span style="font-size:24px;color:red">*</span></td>
-										<td><input type="text" class="form-control" id="call_duration" onkeydown="return false;" name="call_duration" value="<?php echo $agent_vfs['call_duration']; ?>" disabled></td>
+										<td>Chat Duration:<span style="font-size:24px;color:red">*</span></td>
+										<td><input type="text" class="form-control" id=""  name="call_duration" value="<?php echo $agent_vfs['call_duration']; ?>" disabled></td>
 										<td>Mission:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control"  name="mission" value="<?php echo $agent_vfs['mission']; ?>" disabled></td>
 										<td>Recording ID:<span style="font-size:24px;color:red">*</span></td>
@@ -790,13 +794,14 @@ input[type='checkbox']{
 										<td>Week:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control"  name="week" value="<?php echo $agent_vfs['week']; ?>" disabled></td>
 										<td>Fatal Error?:<span style="font-size:24px;color:red">*</span></td>
-										<td>
+										<td><input type="text" class="form-control" id="fatalspan3" name="autofail_status" value="<?php echo $agent_vfs['autofail_status']; ?>" readonly></td>
+										<!-- <td>
 											<select class="form-control" id="" name="autofail_status" disabled>
 												<option value="">-Select-</option>
-												<option <?php echo $agent_vfs['autofail_status']=='Fatal'?"selected":""; ?> value="Fatal">Fatal</option>
-												<option <?php echo $agent_vfs['autofail_status']=='Non Fatal'?"selected":""; ?> value="Non Fatal">Non Fatal</option>
+												<option <?php //echo $agent_vfs['autofail_status']=='Fatal'?"selected":""; ?> value="Fatal">Fatal</option>
+												<option <?php //echo $agent_vfs['autofail_status']=='Non Fatal'?"selected":""; ?> value="Non Fatal">Non Fatal</option>
 											</select>
-										</td>
+										</td> -->
 										<td>Host/Country:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control" name="host_country" value="<?php echo $agent_vfs['host_country']; ?>" disabled></td>
 									</tr>
@@ -843,22 +848,16 @@ input[type='checkbox']{
                                                     <option value="QA Supervisor Audit"  <?= ($agent_vfs['audit_type']=="QA Supervisor Audit")?"selected":"" ?>>QA Supervisor Audit</option> 
                                                 </select>
 										</td>
-									</tr>
-									<tr>
-										<td class="auType">Auditor Type<span style="font-size:24px;color:red">*</span></td>
-										<td class="auType">
-											<select class="form-control" id="auditor_type" name="auditor_type">
-												<option value="">-Select-</option>
-												 <option value="Master" <?= ($agent_vfs['auditor_type']=="Master")?"selected":"" ?>>Master</option> 
-												 <option value="Regular" <?= ($agent_vfs['auditor_type']=="Regular")?"selected":"" ?>>Regular</option> 
-											</select>
-										</td>
+										<td>L1:<span style="font-size:24px;color:red">*</span></td>
+										<td><input type="text" class="form-control" value="<?php echo $agent_vfs['l1']; ?>" disabled></td>
+										<td>L2:<span style="font-size:24px;color:red">*</span></td>
+										<td><input type="text" class="form-control" value="<?php echo $agent_vfs['l2']; ?>" disabled></td>
 									</tr>
 									<tr>
 										<td style="font-weight:bold">Earned Score:</td>
-										<td><input type="text" readonly id="vfsEarned" name="earned_score" class="form-control" style="font-weight:bold" value="<?php echo $agent_vfs['overall_score'] ?>"></td>
+										<td><input type="text" readonly id="" name="earned_score" class="form-control" style="font-weight:bold" value="<?php echo $agent_vfs['earned_score'] ?>"></td>
 										<td style="font-weight:bold">Possible Score:</td>
-										<td><input type="text" readonly id="vfsPossible" name="possible_score" class="form-control" style="font-weight:bold" value="<?php echo $agent_vfs['overall_score'] ?>"></td>
+										<td><input type="text" readonly id="vfsPossible" name="possible_score" class="form-control" style="font-weight:bold" value="<?php echo $agent_vfs['possible_score'] ?>"></td>
 										<td style="font-weight:bold">Overall Score Percentage:</td>
 										<td><input type="text" readonly id="vfsOverallScore" name="overall_score" class="form-control vfsChatFatal" style="font-weight:bold" value="<?php echo $agent_vfs['overall_score'] ?>"></td>
 									</tr>
@@ -1344,10 +1343,16 @@ input[type='checkbox']{
 										<td><textarea class="form-control" disabled name="comm31"><?php echo $agent_vfs['comm31'] ?></textarea></td>
 									</tr>
 									<tr>
-										<td>Call Summary:</td>
-										<td colspan=2><textarea class="form-control"  name="call_summary"><?php echo $agent_vfs['call_summary'] ?></textarea></td>
-										<td>Feedback:</td>
-										<td colspan=2><textarea class="form-control"  name="feedback"><?php echo $agent_vfs['feedback'] ?></textarea></td>
+										<td>Reason For Fatal Error:</td>
+										<td colspan=2><textarea class="form-control" ><?php echo $agent_vfs['reason_for_fatal'] ?></textarea></td>
+										<td>Improvement Area:</td>
+										<td colspan=2><textarea class="form-control" ><?php echo $agent_vfs['inprovement_area'] ?></textarea></td>
+									</tr>
+									<tr>
+										<td>QA Remarks:</td>
+										<td colspan=2><textarea class="form-control" ><?php echo $agent_vfs['call_summary'] ?></textarea></td>
+										<!--<td>Feedback:</td>
+										<td colspan=2><textarea class="form-control" ><?php echo $agent_vfs['feedback'] ?></textarea></td>-->
 									</tr>
 									<?php if($agent_vfs['attach_file']!=''){ ?>
 									<tr oncontextmenu="return false;">
@@ -1471,7 +1476,7 @@ input[type='checkbox']{
 									</tr>
 									<tr>
 										<td>Email Responded Within:<span style="font-size:24px;color:red">*</span></td>
-										<td><input type="text" class="form-control" id="call_duration" name="call_duration" onkeydown="return false;" value="<?php echo $agent_vfs['call_duration']; ?>" disabled></td>
+										<td><input type="text" class="form-control" id="" name="call_duration"  value="<?php echo $agent_vfs['call_duration']; ?>" disabled></td>
 										<td>Mission:<span style="font-size:24px;color:red">*</span></td>
 										<td><input type="text" class="form-control"  name="mission" value="<?php echo $agent_vfs['mission']; ?>" disabled></td>
 										<td>Recording ID:<span style="font-size:24px;color:red">*</span></td>
@@ -1482,14 +1487,15 @@ input[type='checkbox']{
 										<td><input type="text" class="form-control"  name="week" value="<?php echo $agent_vfs['week']; ?>" disabled></td>
 										
 										<td>Fatal Error?:<span style="font-size:24px;color:red">*</span></td>
-										<td>
+										<td><input type="text" class="form-control" id="fatalspan2" name="autofail_status" value="<?php echo $agent_vfs['autofail_status']; ?>" readonly></td>
+										<!-- <td>
 											<select class="form-control" id="" name="autofail_status" disabled>
 												<option value="">-Select-</option>
-												<option <?php echo $agent_vfs['autofail_status']=='Fatal'?"selected":""; ?> value="Fatal">Fatal</option>
-												<option <?php echo $agent_vfs['autofail_status']=='Non Fatal'?"selected":""; ?> value="Non Fatal">Non Fatal</option>
+												<option <?php //echo $agent_vfs['autofail_status']=='Fatal'?"selected":""; ?> value="Fatal">Fatal</option>
+												<option <?php //echo $agent_vfs['autofail_status']=='Non Fatal'?"selected":""; ?> value="Non Fatal">Non Fatal</option>
 											</select>
-										</td>
-										<td>Host/Country:<span style="font-size:24px;color:red">*</span></td>
+										</td> -->
+										<td>Host/Country:</td>
 										<td><input type="text" class="form-control" name="host_country" value="<?php echo $agent_vfs['host_country']; ?>" disabled></td>
 									</tr>
 									<tr>
@@ -1535,22 +1541,16 @@ input[type='checkbox']{
                                                     <option value="QA Supervisor Audit"  <?= ($agent_vfs['audit_type']=="QA Supervisor Audit")?"selected":"" ?>>QA Supervisor Audit</option> 
                                                 </select>
 										</td>
-									
-										<td class="auType">Auditor Type:<span style="font-size:24px;color:red">*</span></td>
-										<td class="auType">
-											<select class="form-control" id="auditor_type" name="auditor_type">
-												<option value="">-Select-</option>
-												 <option value="Master" <?= ($agent_vfs['auditor_type']=="Master")?"selected":"" ?>>Master</option> 
-												 <option value="Regular" <?= ($agent_vfs['auditor_type']=="Regular")?"selected":"" ?>>Regular</option> 
-											</select>
-										</td>
-										
+										<td>L1:<span style="font-size:24px;color:red">*</span></td>
+										<td><input type="text" class="form-control" value="<?php echo $agent_vfs['l1']; ?>" disabled></td>
+										<td>L2:<span style="font-size:24px;color:red">*</span></td>
+										<td><input type="text" class="form-control" value="<?php echo $agent_vfs['l2']; ?>" disabled></td>
 									</tr>
 									<tr>
 										<td style="font-weight:bold">Earned Score:</td>
-										<td><input type="text" readonly id="vfsEarned" name="earned_score" class="form-control" style="font-weight:bold" value="<?php echo $agent_vfs['overall_score'] ?>"></td>
+										<td><input type="text" readonly id="" name="earned_score" class="form-control" style="font-weight:bold" value="<?php echo $agent_vfs['earned_score'] ?>"></td>
 										<td style="font-weight:bold">Possible Score:</td>
-										<td><input type="text" readonly id="vfsPossible" name="possible_score" class="form-control" style="font-weight:bold" value="<?php echo $agent_vfs['overall_score'] ?>"></td>
+										<td><input type="text" readonly id="vfsPossible" name="possible_score" class="form-control" style="font-weight:bold" value="<?php echo $agent_vfs['possible_score'] ?>"></td>
 										<td style="font-weight:bold">Overall Score Percentage:</td>
 										<td><input type="text" readonly id="vfsOverallScore" name="overall_score" class="form-control vfsEmailFatal" style="font-weight:bold" value="<?php echo $agent_vfs['overall_score'] ?>"></td>
 									</tr>
@@ -2001,10 +2001,16 @@ input[type='checkbox']{
 									</tr>	
 									
 									<tr>
-										<td>Call Summary:</td>
-										<td colspan=2><textarea class="form-control"  disabled name="call_summary"><?php echo $agent_vfs['call_summary'] ?></textarea></td>
-										<td>Feedback:</td>
-										<td colspan=2><textarea class="form-control"  disabled name="feedback"><?php echo $agent_vfs['feedback'] ?></textarea></td>
+										<td>Reason For Fatal Error:</td>
+										<td colspan=2><textarea class="form-control" ><?php echo $agent_vfs['reason_for_fatal'] ?></textarea></td>
+										<td>Improvement Area:</td>
+										<td colspan=2><textarea class="form-control" ><?php echo $agent_vfs['inprovement_area'] ?></textarea></td>
+									</tr>
+									<tr>
+										<!--<td>QA Remarks:</td>
+										<td colspan=2><textarea class="form-control" ><?php echo $agent_vfs['call_summary'] ?></textarea></td>-->
+										<!--<td>Feedback:</td>
+										<td colspan=2><textarea class="form-control" ><?php echo $agent_vfs['feedback'] ?></textarea></td>-->
 									</tr>
 									
 									<?php if($agent_vfs['attach_file']!=''){ ?>

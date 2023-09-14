@@ -622,6 +622,7 @@ class Qa_oyo extends CI_Controller {
 					"voc" => $this->input->post('voc'),
 					"prepay_adharance" => $this->input->post('prepay_adharance'),
 					"payments_status" => $this->input->post('payments_status'),
+					"property_type" => $this->input->post('property_type'),
 					"overall_score" => $this->input->post('overall_score'),
 					"delayed_opening" => $this->input->post('delayed_opening'),
 					"was_opening_correct" => $this->input->post('was_opening_correct'),
@@ -760,65 +761,54 @@ class Qa_oyo extends CI_Controller {
 			$data["content_template"] = "qa_oyo/uk_us/agent_oyo_uk_us_fd.php";
 			$data["content_js"] = "qa_oyo/uk_us_js.php";
 			$data["agentUrl"] = "qa_oyo/agent_oyo_uk_us_fd";
-			
-			
-			$qSql="Select count(id) as value from qa_oyo_uk_us_new_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit','Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')";
-			$data["tot_feedback"] =  $this->Common_model->get_single_value($qSql);
-			
-			$qSql="Select count(id) as value from qa_oyo_uk_us_new_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit') and agent_rvw_date is Null";
-			$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql);
-				
+
 			$from_date = '';
 			$to_date = '';
+			$campaign="";
 			$cond="";
+			$cond1="";
 			
+			$campaign = $this->input->get('campaign');
 			
-			if($this->input->get('btnView')=='View')
-			{
-				$from_date = mmddyy2mysql($this->input->get('from_date'));
-				$to_date = mmddyy2mysql($this->input->get('to_date'));
+			if($campaign!=""){
 				
-				if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date' ) ";
+				$qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' $cond1 And audit_type in ('CQ Audit', 'BQ Audit', 'Pre-Certificate Mock Call', 'Certificate Audit')";
+				$data["tot_feedback"] =  $this->Common_model->get_single_value($qSql);
 				
-				$qSql = "SELECT * from
-				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_oyo_uk_us_feedback $cond and agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')) xx Left Join
-				(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as campaign from signin) yy on (xx.agent_id=yy.sid)";
-				$data["agent_ukus_list"] = $this->Common_model->get_query_result_array($qSql);
+				$qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_rvw_date is null and agent_id='$current_user' $cond1 And audit_type in ('CQ Audit', 'BQ Audit', 'Pre-Certificate Mock Call', 'Certificate Audit')";
+				$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql);
+				
+				if($this->input->get('btnView')=='View')
+				{
+				
+					$fromDate = $this->input->get('from_date');
+					if($fromDate!="") $from_date = mmddyy2mysql($fromDate);
 
-				$qSql = "SELECT * from
-				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_oyo_uk_us_new_feedback $cond and agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')) xx Left Join
-				(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as campaign from signin) yy on (xx.agent_id=yy.sid)";
-				$data["agent_ukusnew_list"] = $this->Common_model->get_query_result_array($qSql);
+					$toDate = $this->input->get('to_date');
+					if($toDate!="") $to_date = mmddyy2mysql($toDate);
+
+					if($fromDate !="" && $toDate!=="" ){
+						$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit','Calibration', 'Operation Audit', 'Trainer Audit') ";
+					}else{
+						$cond= " Where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Calibration','Operation Audit', 'Trainer Audit') ";
+					}
 					
-			}else{
-	
-				$qSql="SELECT * from
-				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_oyo_uk_us_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit','Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')) xx Left Join
-				(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as campaign from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
-				$data["agent_ukus_list"] = $this->Common_model->get_query_result_array($qSql);
-
-				$qSql="SELECT * from
-				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_oyo_uk_us_new_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit','Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')) xx Left Join
-				(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as campaign from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
-				$data["agent_ukusnew_list"] = $this->Common_model->get_query_result_array($qSql);	
-	
+					
+					$qSql = "SELECT * from
+					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+					(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+					(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+					(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_".$campaign."_feedback $cond and agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')) xx Left Join
+					(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as campaign from signin) yy on (xx.agent_id=yy.sid)";
+					$data["agent_oyo_list"] = $this->Common_model->get_query_result_array($qSql);
+				
+				}
+				
 			}
-			//echo'<pre>';print_r($qSql);die();
 
 			$data["from_date"] = $from_date;
-			$data["to_date"] = $to_date;			
+			$data["to_date"] = $to_date;	
+			$data['campaign']=$campaign;		
 			$this->load->view('dashboard',$data);
 		}
 	}
@@ -1343,7 +1333,364 @@ public function agent_oyo_wallet_recharge_rvw($id){
 		}
 	}
 }
+/*==============================================================================================*/
+/////////////////////////////////////// OYO ESAL Audit ///////////////////////////////////////////////
+/*==============================================================================================*/
+public function oyo_esal(){
+	if(check_logged_in())
+	{
+		$current_user = get_user_id();
+		$data["aside_template"] = "qa/aside.php";
+		$data["content_template"] = "qa_oyo/esal/qa_esal_feedback.php";
+		$data["content_js"] = "qa_oyo/uk_us_js.php";
+		$tl_mgnt_cond='';
+		
+		if(is_access_qa_oyo_fd_entry()==true){
+			$tl_mgnt_cond="";
+		}else{
+			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and assigned_to='$current_user'";
+			}else{
+				$tl_mgnt_cond="";
+			}
+		}
+		
+		$qSql="Select id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_process(id,171) and status=1 $tl_mgnt_cond order by name";
+		$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
+		
+		$from_date = $this->input->get('from_date');
+		$to_date = $this->input->get('to_date');
+		$agent_id = $this->input->get('agent_id');
+		$cond="";
+		
+		if($from_date==""){ 
+			$from_date=CurrDate();
+		}else{
+			$from_date = mmddyy2mysql($from_date);
+		}
+		
+		if($to_date==""){ 
+			$to_date=CurrDate();
+		}else{
+			$to_date = mmddyy2mysql($to_date);
+		}
+		
+		if($from_date !="" && $to_date!=="" )  $cond= " Where (date(audit_date) >= '$from_date' and date(audit_date) <= '$to_date' ) ";
+		if($agent_id !="")	$cond .=" and agent_id='$agent_id'";
+		
+		if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+			$ops_cond=" Where (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+		}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+			$ops_cond=" Where assigned_to='$current_user'";
+		}else{
+			$ops_cond="";
+		}
+	
+	/////////////////////////
+		$qSql = "SELECT * from
+			(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+			(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+			(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+			(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
+			from qa_oyo_esal_feedback $cond) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) $ops_cond order by audit_date";
+		$data["esal_data"] = $this->Common_model->get_query_result_array($qSql);
+		//print_r($data["wallet_recharge_data"]);
+		//exit;
+		$data["from_date"] = $from_date;
+		$data["to_date"] = $to_date;
+		$data["agent_id"] = $agent_id;
+		
+		$this->load->view("dashboard",$data);
+	}
+}
+public function add_edit_esal($esal_id){
+	if(check_logged_in())
+	{
+		$current_user=get_user_id();
+		$user_office_id=get_user_office_id();
+		
+		$data["aside_template"] = "qa/aside.php";
+		$data["content_template"] = "qa_oyo/esal/add_edit_esal.php";
+		$data["content_js"] = "qa_oyo/uk_us_js.php";
+		$data['esal_id']=$esal_id;
+		$tl_mgnt_cond='';
+		
+		if(is_access_qa_oyo_fd_entry()==true){
+			$tl_mgnt_cond="";
+		}else{
+			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and assigned_to='$current_user'";
+			}else{
+				$tl_mgnt_cond="";
+			}
+		}
+		$qSql="Select id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_process(id,171) and status=1 $tl_mgnt_cond order by name";
+		$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
+		
+		$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
+		$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+		
+		$qSql = "SELECT * from
+			(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+			(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+			(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+			(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
+			from qa_oyo_esal_feedback where id='$esal_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+		$data["esal"] = $this->Common_model->get_query_row_array($qSql);
+		
+		//$currDate=CurrDate();
+		$curDateTime=CurrMySqlDate();
+		$a = array();
+		
+		if($this->input->post('agent_id')){
+			
+			$field_array=array(
+				"agent_id" => $this->input->post('agent_id'),
+				"tl_id" => $this->input->post('tl_id'),
+				"call_date" => mdydt2mysql($this->input->post('call_date')),
+				"call_duration" => $this->input->post('call_duration'),
+				"booking_id" => $this->input->post('booking_id'),
+				"phone_no" => $this->input->post('phone_no'),
+				"disposition" => $this->input->post('disposition'),
+				"correct_dispo" => $this->input->post('correct_dispo'),
+				"wrong_dispo" => $this->input->post('wrong_dispo'),
+				"audit_type" => $this->input->post('audit_type'),
+				"auditor_type" => $this->input->post('auditor_type'),
+				"voc" => $this->input->post('voc'),
+				"possible_score" => $this->input->post('possible_score'),
+				"earned_score" => $this->input->post('earned_score'),
+				"overall_score" => $this->input->post('overall_score'),
+				"amenities_features" => $this->input->post('amenities_features'),
+				"acknowledge" => $this->input->post('acknowledge'),
+				"closing_statement" => $this->input->post('closing_statement'),
+				"rejection" => $this->input->post('rejection'),
+				"rebuttals" => $this->input->post('rebuttals'),
+				"alternate_property" => $this->input->post('alternate_property'),
+				"pm_required" => $this->input->post('pm_required'),
+				"effectively_pitch" => $this->input->post('effectively_pitch'),
+				"proactively" => $this->input->post('proactively'),
+				"call_payment" => $this->input->post('call_payment'),
+				"personalized" => $this->input->post('personalized'),
+				"further_assistance" => $this->input->post('further_assistance'),
+				"active_listening" => $this->input->post('active_listening'),
+				"correct_opening" => $this->input->post('correct_opening'),
+				"polite_corteous" => $this->input->post('polite_corteous'),
+				"voice_tone" => $this->input->post('voice_tone'),
+				"hold_procedure" => $this->input->post('hold_procedure'),
+				"acpt" => $this->input->post('acpt'),
+				"l1" => $this->input->post('l1'),
+				"l2" => $this->input->post('l2'),
+				"l3" => $this->input->post('l3'),
+				"cmt1" => $this->input->post('cmt1'),
+				"cmt2" => $this->input->post('cmt2'),
+				"cmt3" => $this->input->post('cmt3'),
+				"cmt4" => $this->input->post('cmt4'),
+				"cmt5" => $this->input->post('cmt5'),
+				"cmt6" => $this->input->post('cmt6'),
+				"cmt7" => $this->input->post('cmt7'),
+				"cmt8" => $this->input->post('cmt8'),
+				"cmt9" => $this->input->post('cmt9'),
+				"cmt10" => $this->input->post('cmt10'),
+				"cmt11" => $this->input->post('cmt11'),
+				"cmt12" => $this->input->post('cmt12'),
+				"cmt13" => $this->input->post('cmt13'),
+				"cmt14" => $this->input->post('cmt14'),
+				"cmt15" => $this->input->post('cmt15'),
+				"cmt16" => $this->input->post('cmt16'),
+				"cmt17" => $this->input->post('cmt17'),
+				"call_summary" => $this->input->post('call_summary'),
+				"feedback" => $this->input->post('feedback'),
+			
+				
+			);
+			
+			
+			if($esal_id==0){
+				
+				$a = $this->esal_upload_files($_FILES['attach_file'], $path='./qa_files/qa_oyo_internal/oyo_esal/');
+				$field_array["attach_file"] = implode(',',$a);
+				// print_r($field_array);
+				// exit();
+				$rowid= data_inserter('qa_oyo_esal_feedback',$field_array);
+				/////////
+				$field_array2 = array(
+					"audit_date" => CurrDate(),
+					"entry_date" => getEstToLocalCurrUser($curDateTime),
+					"audit_start_time" => getEstToLocalCurrUser($this->input->post('audit_start_time'))
+				);
+				$this->db->where('id', $rowid);
+				$this->db->update('qa_oyo_esal_feedback',$field_array2);
+				///////////
+				if(get_login_type()=="client"){
+					$field_array1 = array("client_entryby" => $current_user);
+				}else{
+					$field_array1 = array("entry_by" => $current_user);
+				}
+				$this->db->where('id', $rowid);
+				$this->db->update('qa_oyo_esal_feedback',$field_array1);
+				
+			}else{
+				$field_array1=$this->input->post('data');
+				if(!isset($field_array1['auditor_type'])){
+					$field_array1['auditor_type'] = "";
+				}
+				$this->db->where('id', $esal_id);
+				$this->db->update('qa_oyo_esal_feedback',$field_array);
+				/////////
+				if(get_login_type()=="client"){
+					$field_array1 = array(
+						"client_rvw_by" => $current_user,
+						"client_rvw_note" => $this->input->post('note'),
+						"client_rvw_date" => $curDateTime
+					);
+				}else{
+					$field_array1 = array(
+						"mgnt_rvw_by" => $current_user,
+						"mgnt_rvw_note" => $this->input->post('note'),
+						"mgnt_rvw_date" => $curDateTime
+					);
+				}
+				$this->db->where('id', $esal_id);
+				$this->db->update('qa_oyo_esal_feedback',$field_array1);
+				
+			}
+			
+			redirect('qa_oyo/oyo_esal');
+		}
+		$data["array"] = $a;
+		$this->load->view("dashboard",$data);
+	}
+}
+
+private function esal_upload_files($files,$path){
+	$config['upload_path'] = $path;
+	$config['allowed_types'] = 'mp3|avi|mp4|wmv|wav';
+	$config['max_size'] = '2024000';
+	$this->load->library('upload', $config);
+	$this->upload->initialize($config);
+
+	$images = array();
+	foreach ($files['name'] as $key => $image) {           
+		$_FILES['images[]']['name']= $files['name'][$key];
+		$_FILES['images[]']['type']= $files['type'][$key];
+		$_FILES['images[]']['tmp_name']= $files['tmp_name'][$key];
+		$_FILES['images[]']['error']= $files['error'][$key];
+		$_FILES['images[]']['size']= $files['size'][$key];
+
+		if ($this->upload->do_upload('images[]')) {
+			$info = $this->upload->data();
+			$images[] = $info['file_name'];
+		} else {
+			return false;
+		}
+	}
+	return $images;
+}
 
 
+// public function agent_oyo_esal_fd()
+// {
+// 	if(check_logged_in())
+// 	{
+// 		$user_site_id= get_user_site_id();
+// 		$role_id= get_role_id();
+// 		$current_user = get_user_id();
+		
+// 		$data["aside_template"] = "qa/aside.php";
+// 		$data["content_template"] = "qa_oyo/esal/agent_oyo_esal_fd.php";
+// 		$data["content_js"] = "qa_oyo/uk_us_js.php";
+// 		$data["agentUrl"] = "qa_oyo/agent_oyo_esal_fd";
+		
+		
+// 		$qSql="Select count(id) as value from qa_oyo_esal_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit','Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')";
+// 		$data["tot_feedback"] =  $this->Common_model->get_single_value($qSql);
+		
+// 		$qSql="Select count(id) as value from qa_oyo_esal_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit') and agent_rvw_date is Null";
+// 		$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql);
+			
+// 		$from_date = '';
+// 		$to_date = '';
+// 		$cond="";
+		
+		
+// 		if($this->input->get('btnView')=='View')
+// 		{
+// 			$from_date = mmddyy2mysql($this->input->get('from_date'));
+// 			$to_date = mmddyy2mysql($this->input->get('to_date'));
+			
+// 			if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date' ) ";
+			
+// 			$qSql = "SELECT * from
+// 			(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+// 			(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+// 			(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+// 			(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_oyo_esal_feedback $cond and agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')) xx Left Join
+// 			(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as campaign from signin) yy on (xx.agent_id=yy.sid)";
+// 			$data["agent_esal_list"] = $this->Common_model->get_query_result_array($qSql);
+				
+// 		}else{
+
+// 			$qSql="SELECT * from
+// 			(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+// 			(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+// 			(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+// 			(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_oyo_esal_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit','Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')) xx Left Join
+// 			(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as campaign from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
+// 			$data["agent_esal_list"] = $this->Common_model->get_query_result_array($qSql);	
+
+// 		}
+// 		//echo'<pre>';print_r($qSql);die();
+
+// 		$data["from_date"] = $from_date;
+// 		$data["to_date"] = $to_date;			
+// 		$this->load->view('dashboard',$data);
+// 	}
+// }
+
+public function agent_oyo_esal_rvw($id){
+	if(check_logged_in()){
+		$current_user=get_user_id();
+		$user_office_id=get_user_office_id();
+		$data['wallet_recharge_id']=$id;
+		$data["aside_template"] = "qa/aside.php";
+		$data["content_template"] = "qa_oyo/esal/agent_oyo_esal_rvw.php";
+		$data["content_js"] = "qa_oyo/uk_us_js.php";
+		$data["agentUrl"] = "qa_oyo/agent_oyo_uk_us_fd";
+		
+		$qSql="SELECT * from
+			(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+			(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+			(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+			(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_oyo_esal_feedback where id='$id') xx Left Join
+			(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as campaign from signin) yy on (xx.agent_id=yy.sid)";
+		$data["esal"] = $this->Common_model->get_query_row_array($qSql);
+		
+		$data["pnid"]=$id;
+		
+		if($this->input->post('pnid'))
+		{
+			$pnid=$this->input->post('pnid');
+			$curDateTime=CurrMySqlDate();
+			$log=get_logs();
+				
+			$field_array1=array(
+				"agnt_fd_acpt" => $this->input->post('agnt_fd_acpt'),
+				"agent_rvw_note" => $this->input->post('note'),
+				"agent_rvw_date" => $curDateTime
+			);
+			$this->db->where('id', $pnid);
+			$this->db->update('qa_oyo_esal_feedback',$field_array1);
+				
+			redirect('Qa_oyo/agent_oyo_uk_us_fd');
+			
+		}else{
+			$this->load->view('dashboard',$data);
+		}
+	}
+}
 	
 }

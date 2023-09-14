@@ -17,15 +17,18 @@
 						  <?php echo form_open('',array('method' => 'get')) ?>
 
 							<div class="col-md-3">
+								
 								<div class="form-group">
-									<label>Search Date From - Audit Date (mm/dd/yyyy)</label>
-									<input type="text" id="from_date" name="date_from" value="<?php echo mysql2mmddyy($date_from); ?>" class="form-control" readonly autocomplete="off">
+										<label>From Date (MM/DD/YYYY)</label>
+										<input type="text" id="from_date"  onchange="date_validation(this.value,'S')"    name="date_from" value="<?php $date= mysql2mmddyy($date_from); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="start_date_error" style="color:red"></span>
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="form-group">
-									<label>Search Date To - Audit Date (mm/dd/yyyy)</label>
-									<input type="text" id="to_date" name="date_to" value="<?php echo mysql2mmddyy($date_to); ?>" class="form-control" readonly autocomplete="off">
+										<label>To Date (MM/DD/YYYY)</label>
+										<input type="text" id="to_date" name="date_to"   onchange="date_validation(this.value,'E')"    value="<?php $date= mysql2mmddyy($date_to); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="end_date_error" style="color:red"></span>
 								</div>
 							</div>
 							<div class="col-md-4">
@@ -38,10 +41,10 @@
 										<option <?php echo $audit_type=='Calibration'?"selected":""; ?> value="Calibration">Calibration</option>
 										<option <?php echo $audit_type=='Pre-Certificate Mock Call'?"selected":""; ?> value="Pre-Certificate Mock Call">Pre-Certificate Mock Call</option>
 										<option <?php echo $audit_type=='Certificate Audit'?"selected":""; ?> value="Certificate Audit">Certificate Audit</option>
-										<?php if(get_login_type()!="client"){ ?>
-											<option <?php echo $audit_type=='Operation Audit'?"selected":""; ?> value="Operation Audit">Operation Audit</option>
-											<option <?php echo $audit_type=='Trainer Audit'?"selected":""; ?> value="Trainer Audit">Trainer Audit</option>
-										<?php } ?>
+										<option <?php echo $audit_type=='Trainer Audit'?"selected":""; ?> value="Trainer Audit">Trainer Audit</option>
+										<option <?php echo $audit_type=='Operation Audit'?"selected":""; ?> value="Operation Audit">Operation Audit</option>
+										<option <?php echo $audit_type=='OJT Audit'?"selected":""; ?> value="OJT Audit">OJT Audit</option>
+										
 									</select>
 								</div>
 							</div>
@@ -80,6 +83,7 @@
 											<option <?php echo $campaign=='new_inb'?"selected":""; ?> value="new_inb">Inbound</option>
 											<option <?php echo $campaign=='new_kyc_inb'?"selected":""; ?> value="new_kyc_inb">KYC Inbound</option>
 											<option <?php echo $campaign=='new_outbound'?"selected":""; ?> value="new_outbound">Outbound</option>
+											<option <?php echo $campaign=='pnb_ob_sales_v1'?"selected":""; ?> value="pnb_ob_sales_v1">PNB OUTBOUND Sales V1</option>
 											<option <?php echo $campaign=='new_one_outbound'?"selected":""; ?> value="new_one_outbound">Retention VRM</option>
 											<option <?php echo $campaign=='new_email'?"selected":""; ?> value="new_email">Email</option>
 											<option <?php echo $campaign=='new_social'?"selected":""; ?> value="new_social">Social Media</option>
@@ -89,7 +93,7 @@
 							</div>
 							<div class="col-md-1" style='margin-top:22px;'>
 								<div class="form-group">
-									<button class="btn btn-primary waves-effect" a href="<?php echo base_url()?>reports_qa/qa_paynearby_report" type="submit" id='show' name='show' value="Show">SHOW</button>
+									<button class="btn btn-primary blains-effect" a href="<?php echo base_url()?>reports_qa/qa_paynearby_report" type="submit" id='show' name='show' value="Show">SHOW</button>
 								</div>
 							</div>
 

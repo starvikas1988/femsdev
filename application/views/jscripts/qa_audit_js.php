@@ -316,6 +316,43 @@
 			$('#compliance_total').val(comp_overall_score+'%');
 		}
 		
+	///////////////////// AppHelp [parameter score] //////////////////////////
+		var soft_skill_score = 0;
+		$('.softskill').each(function(index,element){
+			var ss = parseFloat($(element).children("option:selected").attr('ss_score'));
+			soft_skill_score = soft_skill_score + ss;
+		});
+		if(!isNaN(soft_skill_score)){
+			$('#soft_skill_score').val(soft_skill_score.toFixed(2)+'%');
+		}
+		
+		var sales_process_score = 0;
+		$('.salesprocess').each(function(index,element){
+			var sp = parseFloat($(element).children("option:selected").attr('sp_score'));
+			sales_process_score = sales_process_score + sp;
+		});
+		if(!isNaN(sales_process_score)){
+			$('#sales_process_score').val(sales_process_score.toFixed(2)+'%');
+		}
+		
+		var process_procedure_score = 0;
+		$('.processprocedure').each(function(index,element){
+			var pp = parseFloat($(element).children("option:selected").attr('pp_score'));
+			process_procedure_score = process_procedure_score + pp;
+		});
+		if(!isNaN(process_procedure_score)){
+			$('#process_procedure_score').val(process_procedure_score.toFixed(2)+'%');
+		}
+		
+		var technical_trouble_score = 0;
+		$('.techtrouble').each(function(index,element){
+			var tt = parseFloat($(element).children("option:selected").attr('tt_score'));
+			technical_trouble_score = technical_trouble_score + tt;
+		});
+		if(!isNaN(technical_trouble_score)){
+			$('#technical_trouble_score').val(technical_trouble_score.toFixed(2)+'%');
+		}
+		
 	//////// Belmont //////////
 		if(score>=64 && score<=100){
 			$('#performance_rating').val('Excellent').css('color','green');
@@ -382,6 +419,20 @@
 			$(".coreUnconvertedFatal").val(overall_score+'%');
 		}
 		
+	///////////// AppHelp //////////////////
+		if($("#apphelpAF1").val()=='Yes'){
+			$(".apphelpFatal").val(0+'%');
+		}else{
+			$(".apphelpFatal").val(overall_score+'%');
+		}
+		
+	///////////// AppDirect //////////////////
+		if($("#appdirectAF1").val()=='Yes'){
+			$(".appdirectFatal").val(0+'%');
+		}else{
+			$(".appdirectFatal").val(overall_score+'%');
+		}
+		
 	
 	}
 	
@@ -390,6 +441,11 @@
 		$(document).on('change','.customer',function(){ score_calculation(); });
 		$(document).on('change','.business',function(){ score_calculation(); });
 		$(document).on('change','.compliance',function(){ score_calculation(); });
+	/////// AppHelp ///////
+		$(document).on('change','.softskill',function(){ score_calculation(); });
+		$(document).on('change','.salesprocess',function(){ score_calculation(); });
+		$(document).on('change','.processprocedure',function(){ score_calculation(); });
+		$(document).on('change','.techtrouble',function(){ score_calculation(); });
 	/////// ATT Compliance ///////
 		$(document).on('change','.comp_scorecalc',function(){ score_calculation(); });
 		

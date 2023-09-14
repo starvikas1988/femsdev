@@ -1058,6 +1058,12 @@ $(document).ready(function(){
 							</a>
 						</li>
 						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_assured_imaging')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Assured Imaging</span>
+							</a>
+						</li>
+						<li class="menu-item">
 							<a href="<?php echo base_url('Qa_kabbage')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 								<span class="">Kabbage</span>
@@ -1337,13 +1343,13 @@ $(document).ready(function(){
 								<li>
 									<a style="padding-left:50px" href="<?php echo base_url('Qa_ideal_living'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
-										<span class="">Sales</span>
+										<span class="">Ideal Living Sales</span>
 									</a>
 								</li>
 								<li>
 									<a style="padding-left:50px" href="<?php echo base_url('Qa_ideal_living/il_cs'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
-										<span class="">Customer Service</span>
+										<span class="">Ideal Living CS</span>
 									</a>
 								</li>
 							</ul>

@@ -4333,11 +4333,12 @@ public function getval($arrs, $k) {
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_homeadvisor/agent_bcci_feedback.php";
 			$data["agentUrl"] = "qa_homeadvisor/agent_bcci_feedback";
+			$data['content_js'] = 'qa_avon_js.php';
 			
-			$flex_Sql1="Select count(id) as value from qa_bcci where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
+			$flex_Sql1="Select count(id) as value from qa_bcci where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
 			$data["tot_bcci"] =  $this->Common_model->get_single_value($flex_Sql1);
 			
-			$flex_Sql2="Select count(id) as value from qa_bcci where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit') and agent_rvw_date is Null";
+			$flex_Sql2="Select count(id) as value from qa_bcci where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit') and agent_rvw_date is Null";
 			$data["yet_bcci"] =  $this->Common_model->get_single_value($flex_Sql2);
 				
 			$from_date = '';
@@ -4354,7 +4355,7 @@ public function getval($arrs, $k) {
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_bcci $cond and agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_bcci $cond and agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')) xx Left Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
 				$data["bcci_rvw"] = $this->Common_model->get_query_result_array($bcci_sql);
 					
@@ -4363,10 +4364,10 @@ public function getval($arrs, $k) {
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_bcci where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
-				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_bcci where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) ";
 				$data["bcci_rvw"] = $this->Common_model->get_query_result_array($bcci_sql);
-			
+			//Where xx.agent_rvw_date is Null
 			}
 			
 			$data["from_date"] = $from_date;

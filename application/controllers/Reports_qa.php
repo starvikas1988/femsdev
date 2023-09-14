@@ -1823,6 +1823,7 @@ public function create_qa_it_helpdesk_feedback_CSV($rr)
 			$data["show_table"] = false;
 			$data["aside_template"] = "reports_qa/aside.php";
 			$data["content_template"] = "reports_qa/qa_paynearby_report.php";
+			$data["content_js"] = "qa_pnb_outbound_sales_v1_js.php";
 
 			$data['location_list'] = $this->Common_model->get_office_location_list();
 
@@ -1863,6 +1864,8 @@ public function create_qa_it_helpdesk_feedback_CSV($rr)
 				$table="qa_paynearby_new_email_feedback";
 			}else if($campaign=="new_social"){
 				$table="qa_paynearby_new_social_media_feedback";
+			}else if($campaign=="pnb_ob_sales_v1"){
+				$table="qa_pnb_outbound_sales_v1_feedback";
 			}
 
 			$data["qa_paynearby_list"] = array();
@@ -1910,7 +1913,10 @@ public function create_qa_it_helpdesk_feedback_CSV($rr)
 						qa_paynearby_agent_rvw PAR ON P.id = PAR.fd_id LEFT JOIN
 						qa_paynearby_mgnt_rvw PMR ON P.id = PMR.fd_id
 						$cond $cond1 order by audit_date";
-				}else{
+				}else if($campaign=='pnb_ob_sales_v1'){
+					 $qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from ".$table.") xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, DATEDIFF(CURDATE(), doj) as tenure from signin) yy on (xx.agent_id=yy.sid) $cond order by audit_date";
+				}
+				else{
 					 $qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from ".$table.") xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as campaign, DATEDIFF(CURDATE(), doj) as tenure from signin) yy on (xx.agent_id=yy.sid) $cond order by audit_date";
 				}
 				$fullAray = $this->Common_model->get_query_result_array($qSql);
@@ -1977,6 +1983,8 @@ public function create_qa_it_helpdesk_feedback_CSV($rr)
 		  $pnb_hdr="Paynearby Outbound";
 		}else if($campaign=="new_one_outbound"){
 		  $pnb_hdr="Paynearby Retention VRM";
+		}else if($campaign=="pnb_ob_sales_v1"){
+		  $pnb_hdr="PNB OUTBOUND Sales V1";
 		}
 
 		$filename = "./qa_files/qa_reports_data/Report".get_user_id().".csv";
@@ -2030,6 +2038,51 @@ public function create_qa_it_helpdesk_feedback_CSV($rr)
 		  $header=array("Auditor Name", "Audit Date", "Fusion ID", "Agent Name", "L1 Super", "Call Date/Time", "Call Duration", "Incoming Number", "Campaign", "Register No", "Customer Name", "Ticket Number", "Call Disconnect By", "Tagging/Disposition", "Query/Service", "Type Of Call", "Audit Type", "Prediactive CSAT", "VOC", "Issue Resolved", "Customer came with (mood)", "Priority", "Product related", "Process related", "Agent related", "Needs Escalation", "Call Back Required?", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)", "Overall Score",
 		  "Was the advisor fluent in his/her written communication skills?","Reason 1","Remark 1", "Agent Shared The Correct/Complete Information(Email-Resolution)","Reason 2","Remark 2", "Actioned the request/complaint/concern correctly","Reason 3","Remark 3", "Did the agent follow prescribed template when replying","Reason 4","Remark 4", "Did the agent call back to collect missing details?","Reason 5","Remark 5", "Standard Call Opening","Reason 6","Remark 6", "Assurance / Paraphrasing","Reason 7","Remark 7", "Appropriate Empathy/Apology Wherever Applicable","Reason 8","Remark 8", "Communication Skill of the associate during close-looping","Reason 9","Remark 9", "Effective Probing/System utilization or navigation","Reason 10","Remark 10", "Closing","Reason 11","Remark 11", "Agent Shared The Correct/Complete Information(In-Call)","Reason 12","Remark 12", "Tagging/Appropriate Remarks updation","Reason 13","Remark 13", "Policy And Procedure Followed By The Agent","Reason 14","Remark 14",
 		  "Call Summary", "Feedback", "QA Feedback Type", "QA Feedback", "QA Feedback Date", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By", "Mgnt Comment");
+		}else if($campaign=='pnb_ob_sales_v1'){
+			$header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent Name", "L1 Supervisor", "Call Date", "Call Duration", "Incoming Number", "Campaign", "Register No", "Customer Name", "Call Link", "Ticket Number", "Call Disconnect By", "Tagging/Disposition", "Query/Service", "Type Of Call", "Audit Type","Auditor Type","Prediactive CSAT","Issue Resolved","Customer came with (mood)","Priority","Product related","Process related","Agent related","Needs Escalation","Call Back Required?", "VOC","ACPT", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Possible Score","Earned Score", "Overall Score",
+				"Call opening:Standard Call Opening (Greeting With Company Name Right Party Confirmation)",
+				"Remarks1",
+				"Call opening:Purpose of the call",
+				"Remarks2",
+				"Call opening:Seek Permission",
+				"Remarks3",
+				"Call Business criticality:Benefit of product with real time example",
+				"Remarks4",
+				"Call Business criticality:Complete product presentation",
+				"Remarks5",
+				"Call Business criticality:Earning potential",
+				"Remarks6",
+				"Objection Handling:Sales Urgency creation & Proper effective Rebuttal Given (Agent efforts to sell on call)",
+				"Remarks7",
+				"Objection Handling:Effective Probing (open / close ended questions to be asked as per propose purchase )",
+				"Remarks8",
+				"Objection Handling:Complete product & process information",
+				"Remarks9",
+				"Objection Handling:Lead creation",
+				"Remarks10",
+				"Sales building skill/ soft skill:Appropriate Empathy/Apology Wherever Applicable / Professional Tone / Assurance",
+				"Remarks11",
+				"Sales building skill/ soft skill:Personalization & Connect",
+				"Remarks12",
+				"Sales building skill/ soft skill:Ros/Clarity Of Speech / Jargons",
+				"Remarks13",
+				"Sales building skill/ soft skill:Active Listening/Attentive On Call",
+				"Remarks14",
+				"Sales building skill/ soft skill:Interruption & Parallel Talking",
+				"Remarks15",
+				"Sales building skill/ soft skill:HMT",
+				"Remarks16",
+				"Documentation:Convox/CRM Comments captured properly",
+				"Remarks17",
+				"Documentation:Tagging/Disposition",
+				"Remarks18",
+				"Call closing:Admiration and service promise",
+				"Remarks19",
+				"Call closing:Positive call closing",
+				"Remarks20",
+				"Zero Tolerance Policy:Policy And Procedure Followed By The Agent As Per ZTP (Rude And Profanity Etc).",
+				"Remarks21",
+				"Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date/Time", "Agent Comment", "Mgnt Review Date/Time", "Mgnt Review By", "Mgnt Comment","Client Review Date/Time", "Client Review Name", "Client Review Note");
 		}
 
 		$row = "";
@@ -3093,6 +3146,110 @@ public function create_qa_it_helpdesk_feedback_CSV($rr)
 				fwrite($fopen,$row."\r\n");
 			}
 			fclose($fopen);
+		}else if($campaign=='pnb_ob_sales_v1'){
+
+		     foreach($rr as $user){
+				if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+					$interval1 = '---';
+				}else{
+					$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+				}
+
+				$row = '"'.$user['auditor_name'].'",';
+				$row .= '"'.$user['audit_date'].'",';
+				$row .= '"'.$user['fusion_id'].'",';
+				$row .= '"'.$user['fname']." ".$user['lname'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				//$row .= '"'.$user['tenure'].'",';
+				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['call_duration'].'",';
+				$row .= '"'.$user['incoming_no'].'",';
+				$row .= '"'.$user['campaign'].'",';
+				$row .= '"'.$user['register_no'].'",';
+				$row .= '"'.$user['customer_name'].'",';
+				$row .= '"'.$user['call_link'].'",';
+				$row .= '"'.$user['ticket_no'].'",';
+				$row .= '"'.$user['call_disconnect_by'].'",';
+				$row .= '"'.$user['tagging'].'",';
+				$row .= '"'.$user['query_service'].'",';
+				$row .= '"'.$user['call_type'].'",';
+				$row .= '"'.$user['audit_type'].'",';
+				$row .= '"'.$user['auditor_type'].'",';
+				$row .= '"'.$user['customer_voc'].'",';
+				$row .= '"'.$user['issue_resolved'].'",';
+				$row .= '"'.$user['customer_came_with_mood'].'",';
+				$row .= '"'.$user['priority'].'",';
+				$row .= '"'.$user['product_related'].'",';
+				$row .= '"'.$user['process_related'].'",';
+				$row .= '"'.$user['agent_related'].'",';
+				$row .= '"'.$user['need_escalation'].'",';
+				$row .= '"'.$user['call_back_required'].'",';
+				$row .= '"'.$user['voc'].'",';
+				$row .= '"'.$user['acpt'].'",';
+				$row .= '"'.ConvServerToLocal($user['audit_start_time']).'",';
+				$row .= '"'.ConvServerToLocal($user['entry_date']).'",';
+				$row .= '"'.$interval1.'",';
+				$row .= '"'.$user['possible_score'].'",';
+				$row .= '"'.$user['earned_score'].'",';
+				$row .= '"'.$user['overall_score'].'%'.'",';
+				$row .= '"'.$user['call_opening_greeting'].'",';
+				$row .= '"'.$user['cmt1'].'",';
+				$row .= '"'.$user['call_purpose'].'",';
+				$row .= '"'.$user['cmt2'].'",';
+				$row .= '"'.$user['seek_permission'].'",';
+				$row .= '"'.$user['cmt3'].'",';
+				$row .= '"'.$user['product_benefit'].'",';
+				$row .= '"'.$user['cmt4'].'",';
+				$row .= '"'.$user['complete_product'].'",';
+				$row .= '"'.$user['cmt5'].'",';
+				$row .= '"'.$user['earning_potential'].'",';
+				$row .= '"'.$user['cmt6'].'",';
+				$row .= '"'.$user['sales_urgency'].'",';
+				$row .= '"'.$user['cmt7'].'",';
+				$row .= '"'.$user['effective_probing'].'",';
+				$row .= '"'.$user['cmt8'].'",';
+				$row .= '"'.$user['process_information'].'",';
+				$row .= '"'.$user['cmt9'].'",';
+				$row .= '"'.$user['lead_creation'].'",';
+				$row .= '"'.$user['cmt10'].'",';
+				$row .= '"'.$user['appropriate_empathy'].'",';
+				$row .= '"'.$user['cmt11'].'",';
+				$row .= '"'.$user['personalization_connect'].'",';
+				$row .= '"'.$user['cmt12'].'",';
+				$row .= '"'.$user['jargons'].'",';
+				$row .= '"'.$user['cmt13'].'",';
+				$row .= '"'.$user['active_listening'].'",';
+				$row .= '"'.$user['cmt14'].'",';
+				$row .= '"'.$user['interruption_talk'].'",';
+				$row .= '"'.$user['cmt15'].'",';
+				$row .= '"'.$user['hmt'].'",';
+				$row .= '"'.$user['cmt16'].'",';
+				$row .= '"'.$user['convox_comment'].'",';
+				$row .= '"'.$user['cmt17'].'",';
+				$row .= '"'.$user['tagging'].'",';
+				$row .= '"'.$user['cmt18'].'",';
+				$row .= '"'.$user['service_promise'].'",';
+				$row .= '"'.$user['cmt19'].'",';
+				$row .= '"'.$user['positive_call_closing'].'",';
+				$row .= '"'.$user['cmt20'].'",';
+				$row .= '"'.$user['ztp'].'",';
+				$row .= '"'.$user['cmt21'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+				$row .= '"'.$user['agnt_fd_acpt'].'",';
+				$row .= '"'.ConvServerToLocal($user['agent_rvw_date']).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+				$row .= '"'.ConvServerToLocal($user['mgnt_rvw_date']).'",';
+				$row .= '"'.$user['mgnt_rvw_name'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
+				$row .= '"'.$user['client_rvw_date'].'",';
+				$row .= '"'.$user['client_rvw_name'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
+
+				fwrite($fopen,$row."\r\n");
+			}
+			fclose($fopen);
+
 		}else if($campaign=='new_one_outbound'){
 
 			foreach($rr as $user){
@@ -21621,7 +21778,7 @@ public function create_qa_hcco_SR_v3_CSV($rr)
         "11. You mentioned all health triggers on the account before the call ended",
 
         "12. You showed additional willingness to help if the account was 45 days or younger (courtesy credit and/or sought out manager help looked at tenure/ratings/etc.)",
-
+        "Required",
         "13. You informed the customer the call may be monitored or recorded if they did not hear it in the IVR",
         "14. Your notes included the name of whom we spoke with a brief professional and accurate summary of the conversation",
         "15. We verified the account by asking for their phone number personal name and business name",
@@ -21688,6 +21845,7 @@ public function create_qa_hcco_SR_v3_CSV($rr)
             $row .= '"'.$common_yes_no[$user['additional_willingness']].'",';
 
             //Required
+            $row .= '"'.$common_pass_fail[$user['required_fatal']].'",';
             $row .= '"'.$common_pass_fail[$user['informed_cust_call']].'",';
             $row .= '"'.$common_pass_fail[$user['note_incl_name']].'",';
             $row .= '"'.$common_pass_fail[$user['verified_account']].'",';

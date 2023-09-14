@@ -1,6 +1,6 @@
 <?php
 
- class Qa_clever_care extends CI_Controller{
+ class Qa_assured_imaging extends CI_Controller{
 
 	public function __construct(){
 		parent::__construct();
@@ -8,47 +8,6 @@
 		$this->load->model('Common_model');
 	}
 
-
-	private function edu_upload_files($files,$path)
-    {
-      $config['upload_path'] = $path;
-			$config['allowed_types'] = 'mp3|avi|mp4|wmv|wav';
-			$config['max_size'] = '2024000';
-			$this->load->library('upload', $config);
-			$this->upload->initialize($config);
-        $images = array();
-        foreach ($files['name'] as $key => $image) {
-			$_FILES['uFiles']['name']= $files['name'][$key];
-			$_FILES['uFiles']['type']= $files['type'][$key];
-			$_FILES['uFiles']['tmp_name']= $files['tmp_name'][$key];
-			$_FILES['uFiles']['error']= $files['error'][$key];
-			$_FILES['uFiles']['size']= $files['size'][$key];
-
-            if ($this->upload->do_upload('uFiles')) {
-				$info = $this->upload->data();
-				$ext = $info['file_ext'];
-				$file_path = $info['file_path'];
-				$full_path = $info['full_path'];
-				$file_name = $info['file_name'];
-				if(strtolower($ext)== '.wav'){
-
-					$file_name = str_replace(".","_",$file_name).".mp3";
-					$new_path = $file_path.$file_name;
-					$comdFile=FCPATH."assets/script/wavtomp3.sh '$full_path' '$new_path'";
-					$output = shell_exec( $comdFile);
-					sleep(2);
-				}
-
-				$images[] = $file_name;
-
-
-            } else {
-                return false;
-            }
-        }
-        return $images;
-    }
-	/////////////////////////////////////////////////
 
    public function createPath($path)
 	{
@@ -85,7 +44,7 @@
     	}
 	}
 
-  private function clever_care_upload_files($files,$path)   // this is for file uploaging purpose
+  private function assured_imaging_upload_files($files,$path)   // this is for file uploaging purpose
   {
     $result=$this->createPath($path);
     if($result){
@@ -127,17 +86,17 @@
     }
   }
 
-/////////////////Home Sea World vikas//////////////////
+/////////////////Home assured imaging vikas//////////////////
 
 	public function index(){
 		if(check_logged_in())
 		{
 			$current_user = get_user_id();
 			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_clever_care/qa_clever_care_feedback.php";
-			$data["content_js"] = "qa_clever_care_js.php";
+			$data["content_template"] = "qa_assured_imaging/qa_assured_imaging_feedback.php";
+			$data["content_js"] = "qa_assured_imaging_js.php";
 
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,381) and is_assign_process (id,904)  and status=1  order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,420) and is_assign_process (id,908)  and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 			
 			//is_assign_client (id,374) and is_assign_process (id,818)
@@ -174,9 +133,9 @@
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_clever_care_feedback $cond) xx Left Join
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_assured_imaging_feedback $cond) xx Left Join
 				(Select id as sid, fname, lname, fusion_id, get_process_names(id) as campaign, assigned_to from signin) yy on (xx.agent_id=yy.sid) $ops_cond order by audit_date";
-			$data["clever_care_data"] = $this->Common_model->get_query_result_array($qSql);
+			$data["assured_imaging_data"] = $this->Common_model->get_query_result_array($qSql);
 
 			$data["from_date"] = $from_date;
 			$data["to_date"] = $to_date;
@@ -188,17 +147,17 @@
 
 	///////////////////vikas/////////////////////////////
 
-	public function add_edit_clever_care($clever_care_id){
+	public function add_edit_assured_imaging($assured_imaging_id){
 		if(check_logged_in())
 		{
 			$current_user=get_user_id();
 			$user_office_id=get_user_office_id();
 
 			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_clever_care/add_edit_clever_care.php";
-			$data["content_js"] = "qa_clever_care_js.php";
-			//$data["content_js"] = "qa_clio_js.php";
-			$data['clever_care_id']=$clever_care_id;
+			$data["content_template"] = "qa_assured_imaging/add_edit_assured_imaging.php";
+			$data["content_js"] = "qa_assured_imaging_js.php";
+
+			$data['assured_imaging_id']=$assured_imaging_id;
 			$tl_mgnt_cond='';
 
 			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
@@ -239,7 +198,7 @@
 			}
 			/* Randamiser Code End */
 
-			$qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,381) and is_assign_process(id,904) and status=1  order by name";
+			$qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,420) and is_assign_process(id,908) and status=1  order by name";
 	      $data['agentName'] = $this->Common_model->get_query_result_array( $qSql );
 
 			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
@@ -251,8 +210,8 @@
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
 				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
-				from qa_clever_care_feedback where id='$clever_care_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
-			$data["clever_care_data"] = $this->Common_model->get_query_row_array($qSql);
+				from qa_assured_imaging_feedback where id='$assured_imaging_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			$data["assured_imaging_data"] = $this->Common_model->get_query_row_array($qSql);
 
 			$curDateTime=CurrMySqlDate();
 			$a = array();
@@ -261,7 +220,7 @@
 
 			if($field_array['agent_id']){
 
-				if($clever_care_id==0){
+				if($assured_imaging_id==0){
 					$field_array=$this->input->post('data');
 					$field_array['audit_date']=CurrDate();
 					$field_array['call_date']=mmddyy2mysql($this->input->post('call_date'));
@@ -269,33 +228,33 @@
 					$field_array['audit_start_time']=$this->input->post('audit_start_time');
 					
 					if($_FILES['attach_file']['tmp_name'][0]!=''){
-						$a = $this->clever_care_upload_files($_FILES['attach_file'], $path='./qa_files/clever_care/');
+						$a = $this->assured_imaging_upload_files($_FILES['attach_file'], $path='./qa_files/assured_imaging/');
 						$field_array["attach_file"] = implode(',',$a);
 					}
 
-					$rowid= data_inserter('qa_clever_care_feedback',$field_array);
+					$rowid= data_inserter('qa_assured_imaging_feedback',$field_array);
 					if(get_login_type()=="client"){
 						$add_array = array("client_entryby" => $current_user);
 					}else{
 						$add_array = array("entry_by" => $current_user);
 					}
 					$this->db->where('id', $rowid);
-					$this->db->update('qa_clever_care_feedback',$add_array);
+					$this->db->update('qa_assured_imaging_feedback',$add_array);
 
 				}else{
 
 					$field_array1=$this->input->post('data');
 					$field_array1['call_date']=mmddyy2mysql($this->input->post('call_date'));
 					if($_FILES['attach_file']['tmp_name'][0]!=''){
-						if(!file_exists("./qa_files/clever_care/")){
-							mkdir("./qa_files/clever_care/");
+						if(!file_exists("./qa_files/assured_imaging/")){
+							mkdir("./qa_files/assured_imaging/");
 						}
-						$a = $this->clever_care_upload_files( $_FILES['attach_file'], $path = './qa_files/clever_care/' );
+						$a = $this->assured_imaging_upload_files( $_FILES['attach_file'], $path = './qa_files/assured_imaging/' );
 						$field_array1['attach_file'] = implode( ',', $a );
 					}
 
-					$this->db->where('id', $clever_care_id);
-					$this->db->update('qa_clever_care_feedback',$field_array1);
+					$this->db->where('id', $assured_imaging_id);
+					$this->db->update('qa_assured_imaging_feedback',$field_array1);
 					/////////////
 					if(get_login_type()=="client"){
 						$edit_array = array(
@@ -310,8 +269,8 @@
 							"mgnt_rvw_date" => $curDateTime
 						);
 					}
-					$this->db->where('id', $clever_care_id);
-					$this->db->update('qa_clever_care_feedback',$edit_array);
+					$this->db->where('id', $assured_imaging_id);
+					$this->db->update('qa_assured_imaging_feedback',$edit_array);
 
 						/* Randamiser section */
 					if($rand_id!=0){
@@ -321,7 +280,7 @@
 						
 						$rand_array = array("is_rand" => 1);
 						$this->db->where('id', $rowid);
-						$this->db->update('qa_clever_care_feedback',$rand_array);
+						$this->db->update('qa_assured_imaging_feedback',$rand_array);
 					}
 
 				}
@@ -330,7 +289,7 @@
 					$up_date = date('Y-m-d', strtotime($rand_data['upload_date']));
 					redirect('Impoter_xls/data_distribute?from_date='.$up_date.'&client_id='.$client_id.'&pro_id='.$pro_id.'&submit=Submit');
 				}else{
-					redirect('qa_clever_care');
+					redirect('Qa_assured_imaging');
 				}
 
 				
@@ -343,9 +302,9 @@
 
 
 
-  /////////////////Sea World  Agent part//////////////////////////
+  /////////////////assured imaging  Agent part//////////////////////////
 
-	public function agent_clever_care_feedback()
+	public function agent_assured_imaging_feedback()
 	{
 		if(check_logged_in())
 		{
@@ -354,15 +313,15 @@
 			$current_user = get_user_id();
 
 			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_clever_care/agent_clever_care_feedback.php";
-			$data["content_js"] = "qa_clever_care_js.php";
-			$data["agentUrl"] = "qa_clever_care/agent_clever_care_feedback";
+			$data["content_template"] = "qa_assured_imaging/agent_assured_imaging_feedback.php";
+			$data["content_js"] = "qa_assured_imaging_js.php";
+			$data["agentUrl"] = "Qa_assured_imaging/agent_assured_imaging_feedback";
 
 
-			$qSql="Select count(id) as value from qa_clever_care_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
+			$qSql="Select count(id) as value from qa_assured_imaging_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
 			$data["tot_agent_feedback"] =  $this->Common_model->get_single_value($qSql);
 
-			$qSql="Select count(id) as value from qa_clever_care_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
+			$qSql="Select count(id) as value from qa_assured_imaging_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
 
 			$data["tot_agent_yet_rvw"] =  $this->Common_model->get_single_value($qSql);
 
@@ -383,7 +342,7 @@
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_clever_care_feedback $cond and agent_id ='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call','QA Supervisor Audit', 'Certification Audit')) xx Inner Join
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_assured_imaging_feedback $cond and agent_id ='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call','QA Supervisor Audit', 'Certification Audit')) xx Inner Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
 				$data["agent_review_list"] = $this->Common_model->get_query_result_array($qSql);
 
@@ -395,7 +354,7 @@
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_clever_care_feedback where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call','QA Supervisor Audit', 'Certification Audit')) xx Inner Join
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_assured_imaging_feedback where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call','QA Supervisor Audit', 'Certification Audit')) xx Inner Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
 				$data["agent_review_list"] = $this->Common_model->get_query_result_array($qSql);
 				
@@ -410,23 +369,23 @@
 	
 	//////////////////////vikas starts////////////////////////////
 
-	public function agent_clever_care_rvw($id){
+	public function agent_assured_imaging_rvw($id){
 		if(check_logged_in()){
 			$current_user=get_user_id();
 			$user_office_id=get_user_office_id();
 			
 			$data["aside_template"] = "qa/aside.php";
-			$data["content_template"] = "qa_clever_care/agent_clever_care_rvw.php";
-			$data["agentUrl"] = "qa_clever_care/agent_clever_care_feedback";
-			$data["content_js"] = "qa_clever_care_js.php";
+			$data["content_template"] = "qa_assured_imaging/agent_assured_imaging_rvw.php";
+			$data["agentUrl"] = "qa_assured_imaging/agent_assured_imaging_feedback";
+			$data["content_js"] = "qa_assured_imaging_js.php";
 			
-			$qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,381) and is_assign_process(id,904) and status=1  order by name";
+			$qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,420) and is_assign_process(id,908) and status=1  order by name";
 	      $data['agentName'] = $this->Common_model->get_query_result_array( $qSql );
 	      
-			$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name,agent_rvw_note as agent_note,mgnt_rvw_note as mgnt_note from qa_clever_care_feedback where id=$id) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
-			$data["clever_care_data"] = $this->Common_model->get_query_row_array($qSql);
+			$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name,agent_rvw_note as agent_note,mgnt_rvw_note as mgnt_note from qa_assured_imaging_feedback where id=$id) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
+			$data["assured_imaging_data"] = $this->Common_model->get_query_row_array($qSql);
 			
-			$data["clever_care_id"]=$id;	
+			$data["assured_imaging_id"]=$id;	
 
 				/******** Randamiser Start***********/
 				
@@ -458,9 +417,9 @@
 				}
 				/* Randamiser Code End */		
 			
-			if($this->input->post('clever_care_id'))
+			if($this->input->post('assured_imaging_id'))
 			{
-				$clever_care_id=$this->input->post('clever_care_id');
+				$assured_imaging_id=$this->input->post('assured_imaging_id');
 				$curDateTime=CurrMySqlDate();
 				$log=get_logs();
 				
@@ -469,10 +428,10 @@
 					"agnt_fd_acpt" => $this->input->post('agnt_fd_acpt'),
 					"agent_rvw_date" => $curDateTime
 				);
-				$this->db->where('id', $clever_care_id);
-				$this->db->update('qa_clever_care_feedback',$field_array);
+				$this->db->where('id', $assured_imaging_id);
+				$this->db->update('qa_assured_imaging_feedback',$field_array);
 				
-				redirect('qa_clever_care/agent_clever_care_feedback');
+				redirect('qa_assured_imaging/agent_assured_imaging_feedback');
 				
 			}else{
 				$this->load->view('dashboard',$data);
@@ -497,10 +456,10 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////// QA Sea World REPORT ////////////////////////////////
+////////////////////////////////////// QA assured imaging REPORT ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-	public function qa_clever_care_report(){
+	public function qa_assured_imaging_report(){
 		if(check_logged_in()){
 
 			$office_id = "";
@@ -514,8 +473,8 @@
 			$data["show_table"] = false;
 
 			$data["aside_template"] = "reports_qa/aside.php";
-			$data["content_template"] = "qa_clever_care/qa_clever_care_report.php";
-			$data["content_js"] = "qa_clever_care_js.php";
+			$data["content_template"] = "qa_assured_imaging/qa_assured_imaging_report.php";
+			$data["content_js"] = "qa_assured_imaging_js.php";
 
 			$date_from="";
 			$date_to="";
@@ -541,7 +500,7 @@
 					$date_to = mmddyy2mysql($date_to);
 			}
 
-			$data["qa_clever_care_list"] = array();
+			$data["qa_assured_imaging_list"] = array();
 			//if($this->input->get('show')=='Show') {
 			   // $campaign = $this->input->get('campaign');
 				
@@ -572,16 +531,16 @@
 					(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 					(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
 					(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name,
-					(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_clever_care_feedback) xx Left Join
+					(select concat(fname, ' ', lname) as name from signin_client scx where scx.id=client_rvw_by) as client_rvw_name from qa_assured_imaging_feedback) xx Left Join
 					(Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_ids(id) as process_id, get_process_names(id) as process, doj, DATEDIFF(CURDATE(), doj) as tenure from signin) yy on (xx.agent_id=yy.sid) $cond $cond1 $cond2 order by audit_date";
 
 					$fullAray = $this->Common_model->get_query_result_array($qSql);
-					$data["qa_clever_care_list"] = $fullAray;
+					$data["qa_assured_imaging_list"] = $fullAray;
 			 
 
-				$this->create_qa_clever_care_CSV($fullAray);
+				$this->create_qa_assured_imaging_CSV($fullAray);
 
-				$dn_link = base_url()."qa_clever_care/download_qa_clever_care_CSV";
+				$dn_link = base_url()."qa_assured_imaging/download_qa_assured_imaging_CSV";
 
 
 			//}
@@ -598,67 +557,73 @@
 		}
 	}
 
-   ////////////Norther ///////////////////////////////
-	public function download_qa_clever_care_CSV()
+   ////////////Assured ///////////////////////////////
+	public function download_qa_assured_imaging_CSV()
 	{
 		$currDate=date("Y-m-d");
 		$filename = "./assets/reports/Report".get_user_id().".csv";
-		$newfile="Clever Care Audit List-'".$currDate."'.csv";
+		$newfile="Assured Imaging Audit List-'".$currDate."'.csv";
 
 		header('Content-Disposition: attachment;  filename="'.$newfile.'"');
 		readfile($filename);
 	}
 
-	public function create_qa_clever_care_CSV($rr)
+	public function create_qa_assured_imaging_CSV($rr)
 	{
 
 		$filename = "./assets/reports/Report".get_user_id().".csv";
 		$fopen = fopen($filename,"w+");
 	
-		 $header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent Name", "L1 Supervisor", "KPI - ACPT","Call Link","Account","	Record Id","Disposition", "Call Date", "Call Duration", "Audit Type", "Auditor Type", "VOC","Possible Score", "Earned Score", "Overall Score","Customer score","Business Score","Compliance Score",
-		 	"Q1.Agent mentioned his/her name trading name and determined speaking to the correct person.",
+		 $header = array("Auditor Name", "Audit Date", "Fusion ID", "Agent Name", "L1 Supervisor", "Skill","PO","Call ID", "Call Date", "Call Duration", "Audit Type", "Auditor Type", "VOC","Record Id","Possible Score", "Earned Score", "Overall Score",
+		 	"1a.Greeting:Answer the call promptly and greet the caller in a professional and friendly manner identifying oneself and the company. Use any script provided for partcular client/facility/event.",
 		 	"Remarks1",
-		 	"Q2.Agent mentioned the reason of the call through paraphrasing.",
+		 	"1b.Greeting: Identifying the company (inbound/outbound).",
 		 	"Remarks2",
-		 	"Q3.Demonstrated call control effectively throughout the call by listening and acknowledging the customers needs - explicit and implicit.",
+		 	"1c.Greeting: Offer Assistance (inbound willingness statement).",
 		 	"Remarks3",
-		 	"Q4.Maintained friendly demeanor built rapport and connected with the customer.",
+		 	"1d.Greeting: The representative fully explained the purpose for the call. (outbound).",
 		 	"Remarks4",
-		 	"Q5.Agent communicates effectively and does not have a negative effect to overall customer experience.",
+		 	"2a.Verification: Information Gathering: Ask necessary questions to collect additional information required for scheduling such as preferred dates times services documents such as insurance information and necessary referrals/orders.",
 		 	"Remarks5",
-		 	"Q6.The agents voice is clear and can be understood throughout the call.",
+		 	"2b.Verification: Maintain customer confidentiality and comply with data protection regulations during call handling and scheduling activities.",
 		 	"Remarks6",
-		 	"Q7.The agent speaks with consistent speed or pace matching the customers?",
+		 	"2c.Verification: Adhere to call center security protocols including password protection restricted access to customer information and secure handling of sensitive data.",
 		 	"Remarks7",
-		 	"Q8.Actively engaged with the customer.",
+		 	"2d.Verification:Maintains accuracy attention to detail professionalism and adherence to scheduling and HIPAA guidelines.",
 		 	"Remarks8",
-		 	"Q9.Displayed knowledge of the product tied features to benefits/ demonstrates working knowledge of procedures and health.",
+		 	"3a.Scheduling: Availability Check: Access the scheduling system calendar or event log to check the availability of resources staff or equipment for the requested appointment.",
 		 	"Remarks9",
-		 	"Q10.Did the agent listen to the customer and addressed all concerns/questions?",
+		 	"3b. Scheduling: Appointment Scheduling: Enter the appointment details into the scheduling systems ensuring accuracy and confirming the appointment with the customer. Provide all necessary documentation into patient chart.",
 		 	"Remarks10",
-		 	"Q11.Appropriately managed and handled objections - the agent used appropriate rebuttals and provides a solution removing obstacles in the wat to guide a purchase decision at the time.",
+		 	"3c.Scheduling: Confirmation: Provide the customer with appointment details including date time location and any additional instructions or requirements.",
 		 	"Remarks11",
-		 	"Q12.Did the agent investigate the account properly?",
+		 	"3d.Scheduling: Rescheduling: Follow the established procedure for rescheduling appointments accommodating customer requests while considering availability and minimizing disruption. Document any and all changes made and why.",
 		 	"Remarks12",
-		 	"Q13.Identified customer needs getting the facts on the table.",
+		 	"3e.Scheduling: Cancellations: Follow the established procedure for canceling appointments updating the scheduling system and notifying the relevant parties. Document any and all changes made and why.",
 		 	"Remarks13",
-		 	"Q14.Did the agent understand the customers priorities?",
+		 	"4a.Telephony: Correctly utilized phone system with little to no delay in communication.",
 		 	"Remarks14",
-		 	"Q15.Did the agent check the customers availabilty?",
+		 	"4b.Telephony:Used correct procedure for transferring to staff extension or department when/if necessary.",
 		 	"Remarks15",
-		 	"Q16.Did the agent check the customers readiness?",
+		 	"5a.Soft Skills: Avoided long silences during the call Active Listening: Listen attentively to the customers appointment request capturing all relevant details accurately.",
 		 	"Remarks16",
-		 	"Q17.Did the agent check the customer's ability to make decisions?",
+		 	"5b.Soft Skills:Did not interrupt the caller.",
 		 	"Remarks17",
-		 	"Q18.Did the agent dispose the call properly?",
+		 	"5c.Soft Skills:Was polite friendly and professional.",
 		 	"Remarks18",
-		 	"Q19.Did the agent document the call properly? (Interaction).",
+		 	"5d.Soft Skills:Call was kept to the point and utilized time efficiently.",
 		 	"Remarks19",
-		 	"Q20.Did the agent verify all the information (HIPAA Compliance).",
+		 	"5e.Soft Skills:Conveyed appropriate empathy when necessary while maintaining control of the call.",
 		 	"Remarks20",
-		 	"Q21.Did the agent manipulate client/s information?",
+		 	"6a.End Call:Offered further assistance.",
 		 	"Remarks21",
-    "Call Summary/Observation","Audit Start date and  Time ", "Audit End Date and  Time","Interval (in sec)",  "Feedback","Agent Acceptance", "Agent Review Date/Time", "Agent Comment", "Mgnt Review Date/Time","Mgnt Review By", "Mgnt Comment","Client Review Name","Client Review Note","Client Review Date and Time");
+		 	"6b.End Call:Call ended on a positive note with a summary/verification of actions and date of appointment(s).",
+		 	"Remarks22",
+		 	"6c.End Call:Utilizing correct disposition and documented throroughly.",
+		 	"Remarks23",
+		 	"6d.End Call:Thanked the caller for his/her time and branded the call.",
+		 	"Remarks24",
+    "Call Summary","Audit Start date and  Time ", "Audit End Date and  Time","Interval (in sec)", "Feedback","Agent Acceptance", "Agent Review Date/Time", "Agent Comment", "Mgnt Review Date/Time","Mgnt Review By", "Mgnt Comment","Client Review Name","Client Review Note","Client Review Date and Time");
 
 		
 
@@ -679,64 +644,66 @@
 				$row .= '"'.$user['fusion_id'].'",';
 				$row .= '"'.$user['fname']." ".$user['lname'].'",';
 				$row .= '"'.$user['tl_name'].'",';
-				$row .= '"'.$user['acpt'].'",';
-				$row .= '"'.$user['call_link'].'",';
-				$row .= '"'.$user['account'].'",';
-				$row .= '"'.$user['record_id'].'",';
-				$row .= '"'.$user['disposition'].'",';
+				$row .= '"'.$user['skill'].'",';
+				$row .= '"'.$user['po'].'",';
+				$row .= '"'.$user['call_id'].'",';
 				$row .= '"'.$user['call_date'].'",';
 				$row .= '"'.$user['call_duration'].'",';
 				$row .= '"'.$user['audit_type'].'",';
 				$row .= '"'.$user['auditor_type'].'",';
 				$row .= '"'.$user['voc'].'",';
+				$row .= '"'.$user['record_id'].'",';
 				$row .= '"'.$user['possible_score'].'",';
 				$row .= '"'.$user['earned_score'].'",';
 				$row .= '"'.$user['overall_score'].'",';
-				$row .= '"'.$user['customer_overall_score'].'%'.'",';
-			  $row .= '"'.$user['business_overall_score'].'%'.'",';
-			  $row .= '"'.$user['compliance_overall_score'].'%'.'",';
-				$row .= '"'.$user['trading_name'].'",';
+				$row .= '"'.$user['call_promptly'].'",';
 				$row .= '"'.$user['cmt1'].'",';
-				$row .= '"'.$user['reason_of_call'].'",';
+				$row .= '"'.$user['identifying_company'].'",';
 				$row .= '"'.$user['cmt2'].'",';
-				$row .= '"'.$user['acknowledging_customer'].'",';
+				$row .= '"'.$user['offer_assistance'].'",';
 				$row .= '"'.$user['cmt3'].'",';
-				$row .= '"'.$user['built_rapport'].'",';
+				$row .= '"'.$user['call_purpose'].'",';
 				$row .= '"'.$user['cmt4'].'",';
-				$row .= '"'.$user['negative_effect'].'",';
+				$row .= '"'.$user['information_gathering'].'",';
 				$row .= '"'.$user['cmt5'].'",';
-				$row .= '"'.$user['voice_clear'].'",';
+				$row .= '"'.$user['customer_confidentiality'].'",';
 				$row .= '"'.$user['cmt6'].'",';
-				$row .= '"'.$user['pace_matching'].'",';
+				$row .= '"'.$user['security_protocols'].'",';
 				$row .= '"'.$user['cmt7'].'",';
-				$row .= '"'.$user['actively_engaged'].'",';
+				$row .= '"'.$user['professionalism'].'",';
 				$row .= '"'.$user['cmt8'].'",';
-				$row .= '"'.$user['features_to_benefits'].'",';
+				$row .= '"'.$user['availability_check'].'",';
 				$row .= '"'.$user['cmt9'].'",';
-        $row .= '"'.$user['addressed_concerns'].'",';
+        $row .= '"'.$user['appointment_scheduling'].'",';
         $row .= '"'.$user['cmt10'].'",';
-        $row .= '"'.$user['handled_objections'].'",';
+        $row .= '"'.$user['confirmation'].'",';
         $row .= '"'.$user['cmt11'].'",';
-        $row .= '"'.$user['investigate_account'].'",';
+        $row .= '"'.$user['rescheduling'].'",';
         $row .= '"'.$user['cmt12'].'",';
-        $row .= '"'.$user['getting_facts'].'",';
+        $row .= '"'.$user['cancellations'].'",';
         $row .= '"'.$user['cmt13'].'",';
-        $row .= '"'.$user['customers_priorities'].'",';
+        $row .= '"'.$user['utilized_phone'].'",';
         $row .= '"'.$user['cmt14'].'",';
-        $row .= '"'.$user['customers_availabilty'].'",';
+        $row .= '"'.$user['correct_procedure'].'",';
         $row .= '"'.$user['cmt15'].'",';
-        $row .= '"'.$user['customers_readiness'].'",';
+        $row .= '"'.$user['active_listening'].'",';
         $row .= '"'.$user['cmt16'].'",';
-        $row .= '"'.$user['make_decisions'].'",';
+        $row .= '"'.$user['interrupt_caller'].'",';
         $row .= '"'.$user['cmt17'].'",';
-        $row .= '"'.$user['dispose_call_properly'].'",';
+        $row .= '"'.$user['polite'].'",';
         $row .= '"'.$user['cmt18'].'",';
-        $row .= '"'.$user['document_call_properly'].'",';
+        $row .= '"'.$user['utilized_time_efficiently'].'",';
         $row .= '"'.$user['cmt19'].'",';
-        $row .= '"'.$user['verify_information'].'",';
+        $row .= '"'.$user['appropriate_empathy'].'",';
         $row .= '"'.$user['cmt20'].'",';
-        $row .= '"'.$user['manipulate_information'].'",';
+        $row .= '"'.$user['further_assistance'].'",';
         $row .= '"'.$user['cmt21'].'",';
+        $row .= '"'.$user['positive_note'].'",';
+        $row .= '"'.$user['cmt22'].'",';
+        $row .= '"'.$user['correct_disposition'].'",';
+        $row .= '"'.$user['cmt23'].'",';
+        $row .= '"'.$user['branded_call'].'",';
+        $row .= '"'.$user['cmt24'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
 				$row .= '"'.$user['audit_start_time'].'",';
 	      $row .= '"'.$user['entry_date'].'",';
@@ -750,7 +717,6 @@
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_name'])).'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'",';
-
   			$row .= '"'.$user['client_rvw_date'].'",';
 
 				fwrite($fopen,$row."\r\n");

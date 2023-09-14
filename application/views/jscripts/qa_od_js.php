@@ -530,7 +530,7 @@ function date_validation(val,type){
 				var weightage_possible = parseFloat($(element).children("option:selected").attr('vfs_max'));
 				var final_total=$.trim($(this).data('id'));	
 				score = score + weightage;
-				scoreable = scoreable + weightage_possible;
+				//scoreable = scoreable + weightage_possible;
 				sub_score=sub_score + weightage;
 				$("#score_"+nameVal).html(weightage);
 				$("#score_"+final_total).html(sub_score);	
@@ -551,6 +551,8 @@ function date_validation(val,type){
 		
 		if(!isNaN(quality_score_percent)){
 			$('#vfsOverallScore').val(quality_score_percent+'%');
+		}else{
+			$('#vfsOverallScore').val('0.00'+'%');
 		}
 		
 	/*---- Chat ---*/

@@ -596,6 +596,12 @@
 								</a>
 							</li>
 							<li class="menu-item">
+								<a href="<?php echo base_url()?>Qa_assured_imaging/qa_assured_imaging_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Assured Imaging</span>
+								</a>
+							</li>
+							<li class="menu-item">
 								<a href="<?php echo base_url()?>Qa_union_pacific/qa_union_pacific_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Union Pacific</span>

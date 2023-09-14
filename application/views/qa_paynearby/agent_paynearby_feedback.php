@@ -22,14 +22,16 @@
 							<div class="row">
 								<div class="col-md-3">
 									<div class="form-group">
-										<label>From Date (mm/dd/yyyy)</label>
-										<input type="text" id="from_date" name="from_date" value="<?php echo mysql2mmddyy($from_date); ?>" class="form-control" readonly>
+										<label>From Date (MM/DD/YYYY)</label>
+										<input type="text" id="from_date"  name="from_date" onchange="date_validation(this.value,'S')" value="<?php $date= mysql2mmddyy($from_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="start_date_error" style="color:red"></span>
 									</div>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<label>To Date (mm/dd/yyyy)</label>
-										<input type="text" id="to_date" name="to_date" value="<?php echo mysql2mmddyy($to_date); ?>" class="form-control" readonly>
+										<label>To Date (MM/DD/YYYY)</label>
+										<input type="text" id="to_date" name="to_date" onchange="date_validation(this.value,'E')"       value="<?php $date= mysql2mmddyy($to_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly>
+										<span class="end_date_error" style="color:red"></span>
 									</div>
 								</div>
 								<div class="col-md-3">
@@ -51,6 +53,7 @@
 												<option <?php echo $campaign=='new_inb'?"selected":""; ?> value="new_inb">Inbound</option>
 												<option <?php echo $campaign=='new_kyc_inb'?"selected":""; ?> value="new_kyc_inb">KYC Inbound</option>
 												<option <?php echo $campaign=='new_outbound'?"selected":""; ?> value="new_outbound">Outbound</option>
+												<option <?php echo $campaign=='pnb_ob_sales_v1'?"selected":""; ?> value="pnb_ob_sales_v1">PNB OUTBOUND Sales V1</option>
 												<option <?php echo $campaign=='new_one_outbound'?"selected":""; ?> value="new_one_outbound">Retention VRM</option>
 												<option <?php echo $campaign=='new_email'?"selected":""; ?> value="new_email">Email</option>
 												<option <?php echo $campaign=='new_social'?"selected":""; ?> value="new_social">Social Media</option>
@@ -59,7 +62,7 @@
 									</div>
 								</div>
 								<div class="col-md-1" style="margin-top:20px">
-									<button class="btn btn-success waves-effect" a href="<?php echo base_url()?>Qa_paynearby/agent_paynearby_feedback" type="submit" id='btnView' name='btnView' value="View">View</button>
+									<button class="btn btn-success blains-effect" a href="<?php echo base_url()?>Qa_paynearby/agent_paynearby_feedback" type="submit" id='btnView' name='btnView' value="View">View</button>
 								</div>
 							</div>
 
@@ -104,6 +107,8 @@
 										$pnb_hdr="KYC Inbound";
 									}else if($campaign=="new_outbound"){
 										$pnb_hdr="Outbound";
+									}else if($campaign=="pnb_ob_sales_v1"){
+										$pnb_hdr="PNB OUTBOUND Sales V1";
 									}else if($campaign=="new_one_outbound"){
 										$pnb_hdr="Retention VRM";
 									}else if($campaign=="new_email"){
@@ -171,6 +176,8 @@
 												<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_paynearby/agent_paynearby_rvw_new/kyc/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">View / Review</a>
 											<?php }else if($campaign=="new_outbound"){?>
 												<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_paynearby/agent_paynearby_rvw_new/outbound/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">View / Review</a>
+											<?php }else if($campaign=="pnb_ob_sales_v1"){?>
+												<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_paynearby/agent_paynearby_rvw_new/pnb_ob_sales_v1/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">View / Review</a>
 											<?php }else if($campaign=="new_one_outbound"){?>
 												<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_paynearby/agent_paynearby_rvw_new/new_one_outbound/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">View / Review</a>
 											<?php }else if($campaign=="new_email"){?>
