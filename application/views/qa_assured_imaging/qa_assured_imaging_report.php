@@ -35,17 +35,16 @@
 
 							<!-------------added-------------->
 
-							<!-- <div class="col-md-4">
+							 <div class="col-md-4">
 								<div class="form-group">
 									<label> Select Campaign</label>
 									<select class="form-control" id="campaign" name="campaign" required>
 										<option value=''>Select</option>
-										<option <?php echo $campaign=='1'?"selected":""; ?> value="1">ACC [Old] </option>
-										<option <?php echo $campaign=='2'?"selected":""; ?> value="2">ACC [New] </option>
-										<option <?php echo $campaign=='3'?"selected":""; ?> value="3">ACG </option>
+										<option <?php echo $campaign=='assured_imaging'?"selected":""; ?> value="assured_imaging">Assured Imaging</option>
+										<option <?php echo $campaign=='assured_imaging_card'?"selected":""; ?> value="assured_imaging_card">Audit Card</option>
 									</select>
 								</div>
-							</div> -->
+							</div> 
 
 						</div>	
 						<div class="row">

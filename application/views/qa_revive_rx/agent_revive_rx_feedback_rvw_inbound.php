@@ -185,7 +185,7 @@
 									</tr>
 									<tr>
 										
-										<td colspan=4>Did we use polite vocabulary (Thank you and appologies)</td>
+										<td colspan=4>Did we use polite vocabulary (Thank you and apologies)</td>
 										<td>2</td>
 										<td>
 											<select class="form-control revive_rx_inbound_point" id="" name="data[polite_vocabulary]" disabled>
@@ -199,7 +199,7 @@
 									</tr>
 									<tr>
 										
-										<td colspan=4>Did not overtalk the costumer</td>
+										<td colspan=4>Did not overtalk the customer</td>
 										<td>3</td>
 										<td>
 											<select class="form-control revive_rx_inbound_point" id="" name="data[overtalk_customer]" disabled>
@@ -272,7 +272,7 @@
 									</tr>
 									<tr>
 										
-										<td colspan=4>Verified Patients current contact information</td>
+										<td colspan=4>Verified Patient's current contact information</td>
 										<td>3</td>
 										<td>
 											<select class="form-control revive_rx_inbound_point" id="" name="data[contact_information]" disabled>
@@ -314,7 +314,7 @@
 									</tr>
 									<tr>
 										
-										<td colspan=4>Agent asked for claryfing and probing questions</td>
+										<td colspan=4>Agent asked for clarifying and probing questions</td>
 										<td>2</td>
 										<td>
 											<select class="form-control revive_rx_inbound_point" id="" name="data[probing_questions]" disabled>
@@ -328,7 +328,7 @@
 									</tr>
 									<tr>
 										
-										<td colspan=4>Followed proper hold and transder procedures</td>
+										<td colspan=4>Followed proper hold and transfer procedures</td>
 										<td>5</td>
 										<td>
 											<select class="form-control revive_rx_inbound_point" id="" name="data[hold_transfer]" disabled>
@@ -356,7 +356,7 @@
 									</tr>
 									<tr>
 										
-										<td colspan=4>Update the system acordingly (TXT messages, assessment, allergies, future tasks, pay simple payment)</td>
+										<td colspan=4>Update the system acordingly (TEXT messages, assessment, allergies, future tasks, pay simple payment)</td>
 										<td>7</td>
 										<td>
 											<select class="form-control revive_rx_inbound_point" id="" name="data[update_system]" disabled>
@@ -384,7 +384,7 @@
 									</tr>
 									<tr>
 										
-										<td colspan=4>Left voicemail and sent TXT message (unable to contact patient).</td>
+										<td colspan=4>Left voicemail and sent TEXT message (unable to contact patient).</td>
 										<td>7</td>
 										<td>
 											<select class="form-control revive_rx_inbound_point" id="" name="data[left_voicemail]" disabled>
@@ -429,7 +429,7 @@
 									</tr>
 									<tr>
 										
-										<td colspan=4 style="color: red;">Propertly authenticates (Complete shipping address and DOB)</td>
+										<td colspan=4 style="color: red;">Properly authenticates (Complete shipping address and DOB)</td>
 										<td>15</td>
 										<td>
 											<select class="form-control revive_rx_inbound_point" id="inbound_fatal1" name="data[propertly_authenticates]" disabled>

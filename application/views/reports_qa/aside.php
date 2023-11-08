@@ -106,6 +106,12 @@
 								</a>
 							</li>
 							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_apphelp/qa_apphelp_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">AppHelp</span>
+								</a>
+							</li>
+							<li class="menu-item">
 								<a href="<?php echo base_url()?>qa_argel/qa_argel_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">ARGEL</span>
@@ -115,6 +121,12 @@
 								<a href="<?php echo base_url()?>qa_ossur/qa_ossur_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Ossur</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_appdirect/qa_appdirect_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">AppDirect</span>
 								</a>
 							</li>
 							<li class="menu-item">
@@ -329,6 +341,12 @@
 								<a href="<?php echo base_url()?>reports_qa/qa_sentry_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Sentry</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_pajamagram/qa_pajamagram_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Vermont Teddy Bear [Coaching]</span>
 								</a>
 							</li>
 							<li class="menu-item">
@@ -575,6 +593,18 @@
 								<a href="<?php echo base_url()?>Qa_sea_world/qa_sea_world_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Sea World</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>Qa_scan/qa_scan_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Scan</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>Qa_superbill_outbound/qa_superbill_outbound_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Superbill-Outbound</span>
 								</a>
 							</li>
 							<li class="menu-item">

@@ -879,6 +879,18 @@ $(document).ready(function(){
 										<span class="">AJIO CCSR</span>
 									</a>
 								</li>
+								<li>
+									<a style="padding-left:50px" href="<?php echo base_url('Qa_ajio/ajio_social_media'); ?>">
+										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+										<span class="">AJIO Social Media</span>
+									</a>
+								</li>
+								<li>
+									<a style="padding-left:50px" href="<?php echo base_url('Qa_ajio/ajio_ccsr_voice_email'); ?>">
+										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+										<span class="">AJIO CCSR Voice & Email</span>
+									</a>
+								</li>
 							</ul>
 						</li>
 						<li class="menu-item">
@@ -1040,6 +1052,18 @@ $(document).ready(function(){
 							</a>
 						</li>
 						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_scan')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Scan</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_superbill_outbound')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Superbill-Outbound</span>
+							</a>
+						</li>
+						<li class="menu-item">
 							<a href="<?php echo base_url('Qa_travel_pro')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 								<span class="">Travel Pro Scorecard</span>
@@ -1103,6 +1127,18 @@ $(document).ready(function(){
 							<a href="<?php echo base_url('qa_ltfs')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 								<span class="">LTFS</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_apphelp/qa_feedback')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">AppHelp</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_appdirect/qa_feedback')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">AppDirect</span>
 							</a>
 						</li>
 					</ul>
@@ -1250,6 +1286,12 @@ $(document).ready(function(){
 								<span class="">Leonardo Hotels</span>
 							</a>
 						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('qa_pajamagram/qa_feedback')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Vermont Teddy Bear [Coaching]</span>
+							</a>
+						</li>
 						<!--<li class="menu-item has-submenu">
 							<a href="" class="menu-link submenu-toggle">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
@@ -1352,6 +1394,12 @@ $(document).ready(function(){
 										<span class="">Ideal Living CS</span>
 									</a>
 								</li>
+								<li>
+									<a style="padding-left:50px" href="<?php echo base_url('Qa_ideal_living/dr_campaign'); ?>">
+										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+										<span class="">Ideal Living DR Campaign</span>
+									</a>
+								</li>
 							</ul>
 						</li>
 
@@ -1371,24 +1419,24 @@ $(document).ready(function(){
 										<span class="">Fortune Builder</span>
 									</a>
 								</li>
-								<li>
+								<!--<li>
 									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/purity_bottle/'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 										<span class="">Purity Free Bottle</span>
 									</a>
-								</li>
-								<li>
+								</li>-->
+								<!--<li>
 									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/purity_catalog/'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 										<span class="">Purity Catalog</span>
 									</a>
-								</li>
-								<li>
+								</li>-->
+								<!--<li>
 									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/purity_care/'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 										<span class="">Purity Care</span>
 									</a>
-								</li>
+								</li>-->
 								<li>
 									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/conduent'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
@@ -1747,6 +1795,12 @@ $(document).ready(function(){
 
 							</ul>
 
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_conduent_direct_express')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Conduent- Direct Express</span>
+							</a>
 						</li>
 						<li class="menu-item">
 							<a href="<?php echo base_url('qa_ameridial/follet')?>" class="menu-link">

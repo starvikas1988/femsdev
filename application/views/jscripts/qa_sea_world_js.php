@@ -430,7 +430,7 @@ $('INPUT[type="file"]').change(function () {
 ////////////////vikas//////////////////////////////
 
 
- <script type="text/javascript">
+<script type="text/javascript">
  		function sea_world_calc(){
 		let score_park = 0;
 		let scoreable_park = 0;
@@ -444,7 +444,7 @@ $('INPUT[type="file"]').change(function () {
 		$('.sea_world_point').each(function(index,element){
 			let score_type_park = $(element).val();
 			
-			if(score_type_park == 'Yes'){
+			if(score_type_park == 'Yes' || score_type_park == 'Pass'){
 				pass_count_park = pass_count_park + 1;
 				let w1_park = parseFloat($(element).children("option:selected").attr('sea_world_val'));
 				let w2_park = parseFloat($(element).children("option:selected").attr('sea_world_max'));
@@ -452,7 +452,7 @@ $('INPUT[type="file"]').change(function () {
 				score_park = score_park + w1_park;
 				scoreable_park = scoreable_park + w2_park;
 
-			}else if(score_type_park == 'No'){
+			}else if(score_type_park == 'No' || score_type_park == 'Fail'){
 				fail_count_park = fail_count_park + 1;
 				let w1_park = parseFloat($(element).children("option:selected").attr('sea_world_val'));
 				let w2_park = parseFloat($(element).children("option:selected").attr('sea_world_max'));
@@ -486,13 +486,11 @@ $('INPUT[type="file"]').change(function () {
 			$('#sea_world_overall_score').val(quality_score_percent_park+'%');
 		}
 
-		if($('#parkAF1').val()=='Fail' || $('#parkAF2').val()=='Fail' || $('#parkAF3').val()=='Fail' || $('#parkAF4').val()=='Fail' || $('#parkAF5').val()=='Fail' || $('#parkAF6').val()=='Fail' || $('#parkAF7').val()=='Fail' || $('#parkAF8').val()=='Fail' || $('#parkAF9').val()=='Fail'  || $('#parkAF10').val()=='Fail' || $('#parkAF11').val()=='Fail' || $('#parkAF12').val()=='Fail' || $('#parkAF13').val()=='Fail' || $('#parkAF14').val()=='Fail' || $('#parkAF15').val()=='Fail' || $('#parkAF16').val()=='Fail' || $('#parkAF17').val()=='Fail' || $('#parkAF18').val()=='Fail' || $('#parkAF19').val()=='Fail' || $('#parkAF20').val()=='Fail' || $('#parkAF21').val()=='Fail' || $('#parkAF22').val()=='Fail' || $('#parkAF23').val()=='Fail' || $('#parkAF24').val()=='Fail' || $('#parkAF25').val()=='Fail' || $('#parkAF26').val()=='Fail' || $('#parkAF27').val()=='Fail' || $('#parkAF28').val()=='Fail' || $('#parkAF29').val()=='Fail'){
-			console.log($('#parkAF1').val());
-
-			quality_score_percent_park = (0.00).toFixed(2);
-			$('.parkFatal').val(quality_score_percent_park+'%');
+		
+		if($('#seaworldAF1').val()=='Fail' || $('#seaworldAF2').val()=='Fail' || $('#seaworldAF3').val()=='Fail' || $('#seaworldAF4').val()=='Fail' || $('#seaworldAF5').val()=='Fail' || $('#seaworldAF6').val()=='Fail'){
+			$('.seaworldFatal').val(0+'%');
 		}else{
-			$('#sea_world_overall_score').val(quality_score_percent_park+'%');
+			$('.seaworldFatal').val(quality_score_percent_park+'%');
 		}
 	}
 	
@@ -500,6 +498,76 @@ $('INPUT[type="file"]').change(function () {
 		sea_world_calc();
 	});
 	sea_world_calc();
+</script>
+
+<script type="text/javascript">
+ 		function sea_world_chat_calc(){
+		let score_park = 0;
+		let scoreable_park = 0;
+		let quality_score_percent_park = 0.00;
+		let pass_count_park = 0;
+		let fail_count_park = 0;
+		let na_count_park = 0;
+		let score_sea_world_chat_final = 0;
+		let scoreable_sea_world_chat_final = 0;
+
+		$('.sea_world_chat_point').each(function(index,element){
+			let score_type_park = $(element).val();
+			
+			if(score_type_park == 'Yes' || score_type_park == 'Pass'){
+				pass_count_park = pass_count_park + 1;
+				let w1_park = parseFloat($(element).children("option:selected").attr('sea_world_chat_val'));
+				let w2_park = parseFloat($(element).children("option:selected").attr('sea_world_chat_max'));
+				
+				score_park = score_park + w1_park;
+				scoreable_park = scoreable_park + w2_park;
+
+			}else if(score_type_park == 'No' || score_type_park == 'Fail'){
+				fail_count_park = fail_count_park + 1;
+				let w1_park = parseFloat($(element).children("option:selected").attr('sea_world_chat_val'));
+				let w2_park = parseFloat($(element).children("option:selected").attr('sea_world_chat_max'));
+
+				//score = score + w1;
+				scoreable_park = scoreable_park + w2_park;
+				//scoreable = scoreable + weightage;
+			}else if(score_type_park == 'NA'){
+				na_count_park = na_count_park + 1;
+				let w1_park = parseFloat($(element).children("option:selected").attr('sea_world_chat_val'));
+				let w2_park = parseFloat($(element).children("option:selected").attr('sea_world_chat_max'));
+				score_park = score_park + w1_park;
+				scoreable_park = scoreable_park + w2_park;
+			}
+		});
+		quality_score_percent_park = ((score_park*100)/scoreable_park).toFixed(2);
+
+		if(quality_score_percent_park == "NaN"){
+			quality_score_percent_park = (0.00).toFixed(2);
+		}else{
+			quality_score_percent_park = quality_score_percent_park;
+		}
+		
+      score_sea_world_chat_final     = (score_park).toFixed(2);
+      scoreable_sea_world_chat_final = (scoreable_park).toFixed(2);
+
+		$('#sea_world_chat_earned_score').val(score_sea_world_chat_final);
+		$('#sea_world_chat_possible_score').val(scoreable_sea_world_chat_final);
+		
+		if(!isNaN(quality_score_percent_park)){
+			$('#sea_world_chat_overall_score').val(quality_score_percent_park+'%');
+		}
+
+		
+		if($('#seaworldChatAF1').val()=='Fail' || $('#seaworldChatAF2').val()=='Fail' || $('#seaworldChatAF3').val()=='Fail' || $('#seaworldChatAF4').val()=='Fail' || $('#seaworldChatAF5').val()=='Fail' || $('#seaworldChatAF6').val()=='Fail'){
+			$('.seaworldChatFatal').val(0+'%');
+		}else{
+			$('.seaworldChatFatal').val(quality_score_percent_park+'%');
+		}
+	}
+	
+	$(document).on('change','.sea_world_chat_point',function(){
+		sea_world_chat_calc();
+	});
+	sea_world_chat_calc();
 </script>
 
 

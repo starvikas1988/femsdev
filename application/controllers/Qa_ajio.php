@@ -1047,6 +1047,447 @@
 			$this->load->view("dashboard",$data);
 		}
 	}
+
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////// Social Media ////////////////////////////
+/////////////////////////////////////////////////////////////////////////	
+
+	public function ajio_social_media(){
+		if(check_logged_in())
+		{
+			$current_user = get_user_id();
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_ajio/qa_ajio_social_media_feedback.php";
+			$data["content_js"] = "qa_ajio_social_media_js.php";
+			
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,245) and is_assign_process(id,547) and status=1 order by name";
+			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
+			
+			$from_date = $this->input->get('from_date');
+			$to_date = $this->input->get('to_date');
+			$agent_id = $this->input->get('agent_id');
+			$cond="";
+			$ops_cond="";
+			
+			if($from_date==""){ 
+				$from_date=CurrDate();
+			}else{
+				$from_date = mmddyy2mysql($from_date);
+			}
+			
+			if($to_date==""){ 
+				$to_date=CurrDate();
+			}else{
+				$to_date = mmddyy2mysql($to_date);
+			}
+			
+			if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date')";
+			if($agent_id !="")	$cond .=" and agent_id='$agent_id'";
+			
+			if(get_user_fusion_id()=='FKOL009915'){
+				$ops_cond="";
+			}else{
+				if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+					$ops_cond=" Where (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+				}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+					$ops_cond=" Where assigned_to='$current_user'";
+				}else if(get_login_type()=="client"){
+					$ops_cond=" Where audit_type not in ('Operation Audit','Trainer Audit')";
+				}else{
+					$ops_cond="";
+				}
+			}
+		
+			
+
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_ajio_social_media_feedback $cond) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, get_client_ids(id) as client, get_process_ids(id) as pid, get_process_names(id) as process, assigned_to from signin) yy on (xx.agent_id=yy.sid) $ops_cond order by audit_date";
+			$data["ajio_social_media_data"] = $this->Common_model->get_query_result_array($qSql);
+		
+			
+			$data["from_date"] = $from_date;
+			$data["to_date"] = $to_date;
+			$data["agent_id"] = $agent_id;
+			
+			$this->load->view("dashboard",$data);
+		}
+	}
+
+	public function add_edit_ajio_social_media($ajio_social_media_id){
+		if(check_logged_in())
+		{
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_ajio/add_edit_ajio_social_media.php";
+			$data["content_js"] = "qa_ajio_social_media_js.php";
+	
+			$data['ajio_social_media_id']=$ajio_social_media_id;
+			$tl_mgnt_cond='';
+
+			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and assigned_to='$current_user'";
+			}else{
+				$tl_mgnt_cond="";
+			}
+
+			/******** Randamiser Start***********/
+			
+			
+			$rand_id=0;
+			if(!empty($this->uri->segment(4))){
+				$rand_id=$this->uri->segment(4);
+			}
+			$data['rand_id']=$rand_id;
+			$data["rand_data"] = "";
+			if($rand_id!=0){
+				$sql = "SELECT client_id, process_id FROM qa_randamiser_general_data WHERE id=$rand_id";
+				$dataClientProID = $this->Common_model->get_query_row_array($sql);
+				//print_r($dataClientProID);
+				//echo "<br>";
+				$client_id = $dataClientProID['client_id'];
+				$pro_id = $dataClientProID['process_id'];;
+				$curDateTime=CurrMySqlDate();
+				$upArr = array('distribution_opend_by' =>$current_user,'distribution_opened_datetime'=>$curDateTime);
+				$this->db->where('id', $rand_id);
+				$this->db->update('qa_randamiser_general_data',$upArr);
+				
+				$randSql="Select srd.*,srd.aht as call_duration, S.id as sid, S.fname, S.lname, S.xpoid, S.assigned_to,
+				(select concat(fname, ' ', lname) as name from signin s1 where s1.id=S.assigned_to) as tl_name,DATEDIFF(CURDATE(), S.doj) as tenure
+				from qa_randamiser_general_data srd Left Join signin S On srd.fusion_id=S.fusion_id where srd.audit_status=0 and srd.id='$rand_id'";
+				$data["rand_data"] = $rand_data =  $this->Common_model->get_query_row_array($randSql);
+				//print_r($rand_data);
+				
+			}
+			/* Randamiser Code End */
+
+			$qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,245) and is_assign_process(id,547) and status=1  order by name";
+	      $data['agentName'] = $this->Common_model->get_query_result_array( $qSql );
+
+			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
+
+			$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
+				from qa_ajio_social_media_feedback where id='$ajio_social_media_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			$data["ajio_social_media_data"] = $this->Common_model->get_query_row_array($qSql);
+
+			$curDateTime=CurrMySqlDate();
+			$a = array();
+
+			$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
+
+			if($field_array['agent_id']){
+
+				if($ajio_social_media_id==0){
+					$field_array=$this->input->post('data');
+					$field_array['audit_date']=CurrDate();
+					$field_array['call_date']=mdydt2mysql($this->input->post('call_date'));
+					$field_array['entry_date']=$curDateTime;
+					$field_array['audit_start_time']=$this->input->post('audit_start_time');
+					
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						$a = $this->ajio_upload_files($_FILES['attach_file'], $path='./qa_files/ajio_social_media/');
+						$field_array["attach_file"] = implode(',',$a);
+					}
+
+					$rowid= data_inserter('qa_ajio_social_media_feedback',$field_array);
+					if(get_login_type()=="client"){
+						$add_array = array("client_entryby" => $current_user);
+					}else{
+						$add_array = array("entry_by" => $current_user);
+					}
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_ajio_social_media_feedback',$add_array);
+
+				}else{
+
+					$field_array1=$this->input->post('data');
+					$field_array1['call_date']=mdydt2mysql($this->input->post('call_date'));
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						if(!file_exists("./qa_files/ajio_social_media/")){
+							mkdir("./qa_files/ajio_social_media/");
+						}
+						$a = $this->ajio_upload_files( $_FILES['attach_file'], $path = './qa_files/ajio_social_media/' );
+						$field_array1['attach_file'] = implode( ',', $a );
+					}
+
+					$this->db->where('id', $ajio_social_media_id);
+					$this->db->update('qa_ajio_social_media_feedback',$field_array1);
+					/////////////
+					if(get_login_type()=="client"){
+						$edit_array = array(
+							"client_rvw_by" => $current_user,
+							"client_rvw_note" => $this->input->post('note'),
+							"client_rvw_date" => $curDateTime
+						);
+					}else{
+						$edit_array = array(
+							"mgnt_rvw_by" => $current_user,
+							"mgnt_rvw_note" => $this->input->post('note'),
+							"mgnt_rvw_date" => $curDateTime
+						);
+					}
+					$this->db->where('id', $ajio_social_media_id);
+					$this->db->update('qa_ajio_social_media_feedback',$edit_array);
+
+						/* Randamiser section */
+					if($rand_id!=0){
+						$rand_cdr_array = array("audit_status" => 1);
+						$this->db->where('id', $rand_id);
+						$this->db->update('qa_randamiser_general_data',$rand_cdr_array);
+						
+						$rand_array = array("is_rand" => 1);
+						$this->db->where('id', $rowid);
+						$this->db->update('qa_ajio_social_media_feedback',$rand_array);
+					}
+
+				}
+
+				if(isset($rand_data['upload_date']) && !empty($rand_data['upload_date'])){
+					$up_date = date('Y-m-d', strtotime($rand_data['upload_date']));
+					redirect('Impoter_xls/data_distribute?from_date='.$up_date.'&client_id='.$client_id.'&pro_id='.$pro_id.'&submit=Submit');
+				}else{
+					redirect('Qa_ajio/ajio_social_media');
+				}
+
+				
+			}
+			$data["array"] = $a;
+
+			$this->load->view("dashboard",$data);
+		}
+	}
+
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////// ccsr_voice_email ////////////////////////////
+/////////////////////////////////////////////////////////////////////////	
+
+	public function ajio_ccsr_voice_email(){
+		if(check_logged_in())
+		{
+			$current_user = get_user_id();
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_ajio/qa_ajio_ccsr_voice_email_feedback.php";
+			$data["content_js"] = "qa_ajio_ccsr_voice_email_js.php";
+			
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,245) and is_assign_process(id,494) and status=1 order by name";
+			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
+			
+			$from_date = $this->input->get('from_date');
+			$to_date = $this->input->get('to_date');
+			$agent_id = $this->input->get('agent_id');
+			$cond="";
+			$ops_cond="";
+			
+			if($from_date==""){ 
+				$from_date=CurrDate();
+			}else{
+				$from_date = mmddyy2mysql($from_date);
+			}
+			
+			if($to_date==""){ 
+				$to_date=CurrDate();
+			}else{
+				$to_date = mmddyy2mysql($to_date);
+			}
+			
+			if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date')";
+			if($agent_id !="")	$cond .=" and agent_id='$agent_id'";
+			
+			if(get_user_fusion_id()=='FKOL009915'){
+				$ops_cond="";
+			}else{
+				if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+					$ops_cond=" Where (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+				}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+					$ops_cond=" Where assigned_to='$current_user'";
+				}else if(get_login_type()=="client"){
+					$ops_cond=" Where audit_type not in ('Operation Audit','Trainer Audit')";
+				}else{
+					$ops_cond="";
+				}
+			}
+		
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_ajio_ccsr_voice_email_feedback $cond) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, get_client_ids(id) as client, get_process_ids(id) as pid, get_process_names(id) as process, assigned_to from signin) yy on (xx.agent_id=yy.sid) $ops_cond order by audit_date";
+			$data["ajio_ccsr_voice_email_data"] = $this->Common_model->get_query_result_array($qSql);
+		
+			
+			$data["from_date"] = $from_date;
+			$data["to_date"] = $to_date;
+			$data["agent_id"] = $agent_id;
+			
+			$this->load->view("dashboard",$data);
+		}
+	}
+
+	public function add_edit_ajio_ccsr_voice_email($ajio_ccsr_voice_email_id){
+		if(check_logged_in())
+		{
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_ajio/add_edit_ajio_ccsr_voice_email.php";
+			$data["content_js"] = "qa_ajio_ccsr_voice_email_js.php";
+	
+			$data['ajio_ccsr_voice_email_id']=$ajio_ccsr_voice_email_id;
+			$tl_mgnt_cond='';
+
+			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and assigned_to='$current_user'";
+			}else{
+				$tl_mgnt_cond="";
+			}
+
+			/******** Randamiser Start***********/
+			
+			
+			$rand_id=0;
+			if(!empty($this->uri->segment(4))){
+				$rand_id=$this->uri->segment(4);
+			}
+			$data['rand_id']=$rand_id;
+			$data["rand_data"] = "";
+			if($rand_id!=0){
+				$sql = "SELECT client_id, process_id FROM qa_randamiser_general_data WHERE id=$rand_id";
+				$dataClientProID = $this->Common_model->get_query_row_array($sql);
+			
+				$client_id = $dataClientProID['client_id'];
+				$pro_id = $dataClientProID['process_id'];;
+				$curDateTime=CurrMySqlDate();
+				$upArr = array('distribution_opend_by' =>$current_user,'distribution_opened_datetime'=>$curDateTime);
+				$this->db->where('id', $rand_id);
+				$this->db->update('qa_randamiser_general_data',$upArr);
+				
+				$randSql="Select srd.*,srd.aht as call_duration, S.id as sid, S.fname, S.lname, S.xpoid, S.assigned_to,
+				(select concat(fname, ' ', lname) as name from signin s1 where s1.id=S.assigned_to) as tl_name,DATEDIFF(CURDATE(), S.doj) as tenure
+				from qa_randamiser_general_data srd Left Join signin S On srd.fusion_id=S.fusion_id where srd.audit_status=0 and srd.id='$rand_id'";
+				$data["rand_data"] = $rand_data =  $this->Common_model->get_query_row_array($randSql);
+				//print_r($rand_data);
+				
+			}
+			/* Randamiser Code End */
+
+			$qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,245) and is_assign_process(id,494) and status=1  order by name";
+	      $data['agentName'] = $this->Common_model->get_query_result_array( $qSql );
+
+			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
+
+			$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
+				from qa_ajio_ccsr_voice_email_feedback where id='$ajio_ccsr_voice_email_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			$data["ajio_ccsr_voice_email_data"] = $this->Common_model->get_query_row_array($qSql);
+
+			$curDateTime=CurrMySqlDate();
+			$a = array();
+
+			$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
+
+			if($field_array['agent_id']){
+
+				if($ajio_ccsr_voice_email_id==0){
+					$field_array=$this->input->post('data');
+					$field_array['audit_date']=CurrDate();
+					$field_array['call_date']=mdydt2mysql($this->input->post('call_date'));
+					$field_array['entry_date']=$curDateTime;
+					$field_array['audit_start_time']=$this->input->post('audit_start_time');
+					
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						$a = $this->ajio_upload_files($_FILES['attach_file'], $path='./qa_files/ajio_ccsr_voice_email/');
+						$field_array["attach_file"] = implode(',',$a);
+					}
+
+					$rowid= data_inserter('qa_ajio_ccsr_voice_email_feedback',$field_array);
+					if(get_login_type()=="client"){
+						$add_array = array("client_entryby" => $current_user);
+					}else{
+						$add_array = array("entry_by" => $current_user);
+					}
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_ajio_ccsr_voice_email_feedback',$add_array);
+
+				}else{
+
+					$field_array1=$this->input->post('data');
+					$field_array1['call_date']=mdydt2mysql($this->input->post('call_date'));
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						if(!file_exists("./qa_files/ajio_ccsr_voice_email/")){
+							mkdir("./qa_files/ajio_ccsr_voice_email/");
+						}
+						$a = $this->ajio_upload_files( $_FILES['attach_file'], $path = './qa_files/ajio_ccsr_voice_email/' );
+						$field_array1['attach_file'] = implode( ',', $a );
+					}
+
+					$this->db->where('id', $ajio_ccsr_voice_email_id);
+					$this->db->update('qa_ajio_ccsr_voice_email_feedback',$field_array1);
+					/////////////
+					if(get_login_type()=="client"){
+						$edit_array = array(
+							"client_rvw_by" => $current_user,
+							"client_rvw_note" => $this->input->post('note'),
+							"client_rvw_date" => $curDateTime
+						);
+					}else{
+						$edit_array = array(
+							"mgnt_rvw_by" => $current_user,
+							"mgnt_rvw_note" => $this->input->post('note'),
+							"mgnt_rvw_date" => $curDateTime
+						);
+					}
+					$this->db->where('id', $ajio_ccsr_voice_email_id);
+					$this->db->update('qa_ajio_ccsr_voice_email_feedback',$edit_array);
+
+						/* Randamiser section */
+					if($rand_id!=0){
+						$rand_cdr_array = array("audit_status" => 1);
+						$this->db->where('id', $rand_id);
+						$this->db->update('qa_randamiser_general_data',$rand_cdr_array);
+						
+						$rand_array = array("is_rand" => 1);
+						$this->db->where('id', $rowid);
+						$this->db->update('qa_ajio_ccsr_voice_email_feedback',$rand_array);
+					}
+
+				}
+
+				if(isset($rand_data['upload_date']) && !empty($rand_data['upload_date'])){
+					$up_date = date('Y-m-d', strtotime($rand_data['upload_date']));
+					redirect('Impoter_xls/data_distribute?from_date='.$up_date.'&client_id='.$client_id.'&pro_id='.$pro_id.'&submit=Submit');
+				}else{
+					redirect('Qa_ajio/ajio_ccsr_voice_email');
+				}
+
+				
+			}
+			$data["array"] = $a;
+
+			$this->load->view("dashboard",$data);
+		}
+	}
 	
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////// CHAT ////////////////////////////////////
@@ -1614,34 +2055,35 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 			$cond="";
 			
 			$campaign = $this->input->get('campaign');
-			$from_date = $this->input->get('from_date');
-			$to_date = $this->input->get('to_date');
-
-			if($from_date==""){ 
-				$from_date=CurrDate();
-			}else{
-				$from_date = mmddyy2mysql($from_date);
-			}
-			
-			if($to_date==""){ 
-				$to_date=CurrDate();
-			}else{
-				$to_date = mmddyy2mysql($to_date);
-			}
-			
-			if($from_date !="" && $to_date!=="" ){ 
-						$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
-					}else{
-						$cond= " Where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
-					}
 
 			
 			if($campaign!=""){
+				
+				$from_date = $this->input->get('from_date');
+				$to_date = $this->input->get('to_date');
+
+				if($from_date==""){ 
+					$from_date=CurrDate();
+				}else{
+					$from_date = mmddyy2mysql($from_date);
+				}
+				
+				if($to_date==""){ 
+					$to_date=CurrDate();
+				}else{
+					$to_date = mmddyy2mysql($to_date);
+				}
+				
+				if($from_date !="" && $to_date!=="" ){ 
+					$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
+				}else{
+					$cond= " Where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
+				}
 			
-				$qSql="Select count(id) as value from qa_ajio_".$campaign."_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
+				$qSql="Select count(id) as value from qa_ajio_".$campaign."_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
 				$data["tot_feedback"] =  $this->Common_model->get_single_value($qSql);
 				
-				$qSql="Select count(id) as value from qa_ajio_".$campaign."_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit') and agent_rvw_date is Null";
+				$qSql="Select count(id) as value from qa_ajio_".$campaign."_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit') and agent_rvw_date is Null";
 				$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql);
 				
 				
@@ -1668,14 +2110,8 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 					(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
 					$data["agent_rvw_list"] = $this->Common_model->get_query_result_array($qSql);
 						
-				}else{
-		
-					// $qSql="SELECT * from
-					// (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-					// (select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-					// (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-					// (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_ajio_".$campaign."_feedback $cond) xx Left Join
-					// (Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
+				}
+				/* else{
 
 					$qSql="SELECT * from
 					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
@@ -1685,7 +2121,7 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 					(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
 					$data["agent_rvw_list"] = $this->Common_model->get_query_result_array($qSql);
 		
-				}
+				} */
 				
 			}
 			
@@ -1704,7 +2140,19 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 			$user_office_id=get_user_office_id();
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_ajio/agent_ajio_rvw.php";
-			$data["content_js"] = "qa_kabbage_js.php";
+			if($campaign == 'social_media'){
+				$data["content_js"] = "qa_ajio_social_media_js.php";
+				$qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,245) and is_assign_process(id,547) and status=1  order by name";
+	      $data['agentName'] = $this->Common_model->get_query_result_array( $qSql );
+			}if($campaign == 'ccsr_voice_email'){
+				$data["content_js"] = "qa_ajio_ccsr_voice_email_js.php";
+
+				$qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,245) and is_assign_process(id,494) and status=1  order by name";
+	      $data['agentName'] = $this->Common_model->get_query_result_array( $qSql );
+			}else{
+				$data["content_js"] = "qa_kabbage_js.php";
+			}
+			
 			$data["agentUrl"] = "qa_ajio/agent_ajio_feedback";
 			$data["campaign"] = $campaign;
 			$data["pnid"]=$id;
@@ -1753,7 +2201,8 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 			$data["show_table"] = false;
 			$data["aside_template"] = "reports_qa/aside.php";
 			$data["content_template"] = "qa_ajio/qa_ajio_report.php";
-			$data["content_js"] = "qa_kabbage_js.php";
+			$data["content_js"] = "qa_ajio_social_media_js.php";
+			//$data["content_js"] = "qa_kabbage_js.php";
 			$data['location_list'] = $this->Common_model->get_office_location_list();
 
 			$office_id = "";
@@ -1891,6 +2340,38 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 			"Did the champ document the case correctly and adhered to tagging guidelines.","L1 Reason14","Remark14",
 			"As per AJIO ZTP guidelines","L1 Reason15","Remark15",
 			"Call Synopsis", "Call Observation", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");	
+		}else if($campaign=="social_media"){
+			$header = array("Auditor Name","Audit Date", "Agent Name", "Employee ID", "L1 Supervisor","Auditors BP Id", "Call Date/Time","Call Duration","Interaction ID", "Audit Type", "Auditor Type", "VOC","Tagging by Evaluator", "Overall Score", "Earned Score", "Possible Score", "Fatal Count", "Pre Fatal Score", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Ticket Type","Order Id","Ticket Id","Call Synopsis","KPI - ACPT",
+			"Responded to customers concern(s) correctly.","L1 Reason1","L2 Reason1",
+			"Addressed/redirected customers issue for resolution wherever applicable","L1 Reason2","L2 Reason2",
+			"Refered to previous interactions to understand the issue.","L1 Reason3","L2 Reason3",
+			"Interaction was documented as per guidelines.","L1 Reason4","L2 Reason4",
+			"Validated Customer information.","L1 Reason5","L2 Reason5",
+			"When necessary ask the customer to move to a private channel (DM or FB Message).","L1 Reason6","L2 Reason6",
+			"Clarify the issue by asking probing questions. Made Outbound calls wherever required.","L1 Reason7","L2 Reason7",
+			"Include hyperlinks relevant hashtags etc that push helpful content.","L1 Reason8","L2 Reason8",
+			"Use AJIO voice and a friendly tone to build rapport and brand confidence.","L1 Reason9","L2 Reason9",
+			"Avoid spelling grammar or punctuation errors that cause confusion.","L1 Reason10","L2 Reason10",
+			"Make customers feel heard and appreciated.","L1 Reason11","L2 Reason11",
+			"As per AJIO ZTP guidelines","L1 Reason12","L2 Reason12",
+			"Call Summary", "Feedback","Agent Feedback Acceptance", "Agent Review Date", "Agent Comment", "Mgnt Review Date", "Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");	
+		}else if($campaign=="ccsr_voice_email"){
+			$header = array("Auditor Name","Audit Date", "Agent Name", "Employee ID", "L1 Supervisor","Auditors BP Id", "Call Date/Time","Call Duration","Interaction ID", "Audit Type", "Auditor Type", "VOC","Tagging by Evaluator", "Overall Score", "Earned Score", "Possible Score", "Fatal Count", "Pre Fatal Score", "Audit Start Date Time", "Audit End Date Time", "Interval(In Second)","Ticket Type","Order Id","Ticket Id","Call Synopsis","KPI - ACPT",
+			"Did the champ follow the OB call script and introduce himself properly.","L1 Reason1","L2 Defect1",
+			"Champ followed the 3 strike rule of customer contact","L1 Reason2","L2 Defect2",
+			"Did the champ offer further assistance and follow appropriate call closure / Call back request fullfilled as per the guideline.","L1 Reason3","L2 Defect3",
+			"Was the champ polite and used apology and assurance wherever required","L1 Reason4","L2 Defect4",
+			"Was the champ able to comprehend and articulate the resolution to the cusomer in a manner which was easily understood by the customer by following AJIO standrad - Email a. champ use appropriate template(s) and customized it to ensure all concerns raised were answered appropriately (Auto fail) b. AJIO's approved template format font font size adhered (Mark down) c.Did the champ maintain accuracy of written communication ensuring no grammatical errors SVAs Punctuation and sentence construction errors(Mark Down)","L1 Reason5","L2 Defect5",
+			"Did the champ display active listening skills without making the customer repeat.","L1 Reason6","L2 Defect6",
+			"Was the champ able to handle objections effectively and offer rebuttals wherever required. (Especially in case of where the resolution is not in customer's favour).","L1 Reason7","L2 Defect7",
+			"Did the champ refer to different applications/portals/tools/SOP/KM to identify the root cause of customer issue and enable resolution.","L1 Reason8","L2 Defect8",
+			"Did the champ check the previous complaint history.(repeat complaint resolution provided on previous complaint.Reason of reopen) and took action acordingly.","L1 Reason9","L2 Defect9",
+			"Did the champ correctly redirect/reassign/reopen the complaint wherever required. Includes when the resolution provided by stakeholder is not valid","L1 Reason10","L2 Defect10",
+			"Any other underlying issue on the account was also addressed proactively.","L1 Reason11","L2 Defect11",
+			"All the queries were answered properly and in an informative way to avoid repeat call. Champ provided a clear understanding of action taken and the way forward to the customer. (Any Information needed from Cx Follow up action reuired by customer. Taking confirmation of the understadning of resolution)","L1 Reason12","L2 Defect12",
+			"Did the champ document the case correctly and adhered to tagging guidelines. Includes closing the complaint appropariately by selecting the correct ICR reason","L1 Defect13","L2 Reason14",
+			"As per AJIO ZTP guidelines","L1 Reason14","L2 Defect14",
+			"Call Summary", "Feedback", "Agent Feedback Acceptance", "Agent Review Date", "Agent Review", "Mgnt Review Date", "Mgnt Review By", "Management Review", "Client Review Date", "Client Review Name", "Client Review Note");	
 		}
 
 		$row = "";
@@ -2408,9 +2889,6 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 				fwrite($fopen,$row."\r\n");
 			}
 			fclose($fopen);	
-
-			
-
 		}else if($campaign=="inb_hygiene"){
 
 			foreach($rr as $user)
@@ -2673,6 +3151,197 @@ public function add_edit_ajio_ccsr_nonvoice($ajio_id){
 				fwrite($fopen,$row."\r\n");
 			}
 			fclose($fopen);
+		}else if($campaign=="social_media"){
+
+			foreach($rr as $user)
+			{
+				if($user['entry_by']!=''){
+					$auditorName = $user['auditor_name'];
+				}else{
+					$auditorName = $user['client_name'];
+				}
+
+				if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+					$interval1 = '---';
+				}else{
+					$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+				}
+
+				$row = '"'.$auditorName.'",';
+				$row .= '"'.$user['audit_date'].'",';
+				$row .= '"'.$user['fname']." ".$user['lname'].'",';
+				$row .= '"'.$user['fusion_id'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				$row .= '"'.$user['agent_bp_id'].'",';
+				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['call_duration'].'",';
+				$row .= '"'.$user['interaction_id'].'",';
+				$row .= '"'.$user['audit_type'].'",';
+				$row .= '"'.$user['auditor_type'].'",';
+				$row .= '"'.$user['voc'].'",';
+				$row .= '"'.$user['tagging_evaluator'].'",';
+				$row .= '"'.$user['overall_score'].'",';
+				$row .= '"'.$user['earned_score'].'",';
+				$row .= '"'.$user['possible_score'].'",';
+				$row .= '"'.$user['fatal_count'].'",';
+				$row .= '"'.$user['pre_fatal_score'].'",';
+				$row .= '"'.$user['audit_start_time'].'",';
+				$row .= '"'.$user['entry_date'].'",';
+				$row .= '"'.$interval1.'",';
+				$row .= '"'.$user['ticket_type'].'",';
+				$row .= '"'.$user['order_id'].'",';
+				$row .= '"'.$user['ticket_id'].'",';
+				$row .= '"'.$user['call_synopsis'].'",';
+				$row .= '"'.$user['KPI_ACPT'].'",';
+				$row .= '"'.$user['customers_concern'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason1'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt1'])).'",';
+				$row .= '"'.$user['customers_issue'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason2'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt2'])).'",';
+				$row .= '"'.$user['previous_interaction'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason3'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt3'])).'",';
+				$row .= '"'.$user['documented_guidelines'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason4'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt4'])).'",';
+				$row .= '"'.$user['customer_information'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason5'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt5'])).'",';
+				$row .= '"'.$user['private_channel'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason6'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt6'])).'",';
+				$row .= '"'.$user['probing_questions'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason7'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt7'])).'",';
+				$row .= '"'.$user['relevant_hashtags'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason8'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt8'])).'",';
+				$row .= '"'.$user['friendly_tone'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason9'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt9'])).'",';
+				$row .= '"'.$user['avoid_punctuation'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason10'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt10'])).'",';
+				$row .= '"'.$user['feel_heard'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason11'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt11'])).'",';
+				$row .= '"'.$user['ztp_guidelines'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason12'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt12'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+				$row .= '"'.$user['agnt_fd_acpt'].'",';
+				$row .= '"'.$user['agent_rvw_date'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+				$row .= '"'.$user['mgnt_rvw_date'].'",';
+				$row .= '"'.$user['mgnt_rvw_name'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
+				$row .= '"'.$user['client_rvw_date'].'",';
+				$row .= '"'.$user['client_rvw_name'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
+				fwrite($fopen,$row."\r\n");
+			}
+			fclose($fopen);	
+		}else if($campaign=="ccsr_voice_email"){
+
+			foreach($rr as $user)
+			{
+				if($user['entry_by']!=''){
+					$auditorName = $user['auditor_name'];
+				}else{
+					$auditorName = $user['client_name'];
+				}
+
+				if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+					$interval1 = '---';
+				}else{
+					$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+				}
+
+				$row = '"'.$auditorName.'",';
+				$row .= '"'.$user['audit_date'].'",';
+				$row .= '"'.$user['fname']." ".$user['lname'].'",';
+				$row .= '"'.$user['fusion_id'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				$row .= '"'.$user['agent_bp_id'].'",';
+				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['call_duration'].'",';
+				$row .= '"'.$user['interaction_id'].'",';
+				$row .= '"'.$user['audit_type'].'",';
+				$row .= '"'.$user['auditor_type'].'",';
+				$row .= '"'.$user['voc'].'",';
+				$row .= '"'.$user['tagging_evaluator'].'",';
+				$row .= '"'.$user['overall_score'].'",';
+				$row .= '"'.$user['earned_score'].'",';
+				$row .= '"'.$user['possible_score'].'",';
+				$row .= '"'.$user['fatal_count'].'",';
+				$row .= '"'.$user['pre_fatal_score'].'",';
+				$row .= '"'.$user['audit_start_time'].'",';
+				$row .= '"'.$user['entry_date'].'",';
+				$row .= '"'.$interval1.'",';
+				$row .= '"'.$user['ticket_type'].'",';
+				$row .= '"'.$user['order_id'].'",';
+				$row .= '"'.$user['ticket_id'].'",';
+				$row .= '"'.$user['call_synopsis'].'",';
+				$row .= '"'.$user['KPI_ACPT'].'",';
+				$row .= '"'.$user['follow_OB_call'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason1'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt1'])).'",';
+				$row .= '"'.$user['three_strike_rule'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason2'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt2'])).'",';
+				$row .= '"'.$user['further_assistance'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason3'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt3'])).'",';
+				$row .= '"'.$user['polite'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason4'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt4'])).'",';
+				$row .= '"'.$user['comprehend_articulate'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason5'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt5'])).'",';
+				$row .= '"'.$user['active_listening'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason6'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt6'])).'",';
+				$row .= '"'.$user['handle_objections'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason7'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt7'])).'",';
+				$row .= '"'.$user['enable_resolution'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason8'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt8'])).'",';
+				$row .= '"'.$user['complaint_history'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason9'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt9'])).'",';
+				$row .= '"'.$user['reopen_complaint'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason10'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt10'])).'",';
+				$row .= '"'.$user['addressed_proactively'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason11'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt11'])).'",';
+				$row .= '"'.$user['answered_properly'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason12'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt12'])).'",';
+				$row .= '"'.$user['tagging_guidelines'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason13'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt13'])).'",';
+				$row .= '"'.$user['ztp_guidelines'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['l1_reason14'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['cmt14'])).'",';
+
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+				$row .= '"'.$user['agnt_fd_acpt'].'",';
+				$row .= '"'.$user['agent_rvw_date'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+				$row .= '"'.$user['mgnt_rvw_date'].'",';
+				$row .= '"'.$user['mgnt_rvw_name'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
+				$row .= '"'.$user['client_rvw_date'].'",';
+				$row .= '"'.$user['client_rvw_name'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
+				fwrite($fopen,$row."\r\n");
+			}
+			fclose($fopen);	
 		}
 	}
 }

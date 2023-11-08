@@ -269,6 +269,18 @@ $('INPUT[type="file"]').change(function () {
             this.value = '';
     }
 });
+
+var input = document.getElementById("attach_file");
+var selectedFile;
+input.addEventListener('change', updateImageDisplay);
+function updateImageDisplay() {
+    if(input.files.length==0) {
+        input.files = selectedFile;
+   }
+   else {
+       selectedFile = input.files;
+   }
+}
 </script>
 
 <script>
@@ -431,39 +443,39 @@ $('INPUT[type="file"]').change(function () {
 
 
  <script type="text/javascript">
- 		function assured_imaging_calc(){
+ 		function aifi_calc(){
 		let score_park = 0;
 		let scoreable_park = 0;
 		let quality_score_percent_park = 0.00;
 		let pass_count_park = 0;
 		let fail_count_park = 0;
 		let na_count_park = 0;
-		let score_sea_world_final = 0;
-		let scoreable_sea_world_final = 0;
+		let score_aifi_final = 0;
+		let scoreable_aifi_final = 0;
 
-		$('.assured_imaging_point').each(function(index,element){
+		$('.aifi_point').each(function(index,element){
 			let score_type_park = $(element).val();
 			
-			if(score_type_park == 'Excellent'){
+			if(score_type_park == 'Pass'){
 				pass_count_park = pass_count_park + 1;
-				let w1_park = parseFloat($(element).children("option:selected").attr('assured_imaging_val'));
-				let w2_park = parseFloat($(element).children("option:selected").attr('assured_imaging_max'));
+				let w1_park = parseFloat($(element).children("option:selected").attr('aifi_val'));
+				let w2_park = parseFloat($(element).children("option:selected").attr('aifi_max'));
 				
 				score_park = score_park + w1_park;
 				scoreable_park = scoreable_park + w2_park;
 
-			}else if(score_type_park == 'Unsatisfactory'){
+			}else if(score_type_park == 'Fail'){
 				fail_count_park = fail_count_park + 1;
-				let w1_park = parseFloat($(element).children("option:selected").attr('assured_imaging_val'));
-				let w2_park = parseFloat($(element).children("option:selected").attr('assured_imaging_max'));
+				let w1_park = parseFloat($(element).children("option:selected").attr('aifi_val'));
+				let w2_park = parseFloat($(element).children("option:selected").attr('aifi_max'));
 
 				//score = score + w1;
 				scoreable_park = scoreable_park + w2_park;
 				//scoreable = scoreable + weightage;
-			}else if(score_type_park == 'Opportunity'){
+			}else if(score_type_park == 'NA'){
 				na_count_park = na_count_park + 1;
-				let w1_park = parseFloat($(element).children("option:selected").attr('assured_imaging_val'));
-				let w2_park = parseFloat($(element).children("option:selected").attr('assured_imaging_max'));
+				let w1_park = parseFloat($(element).children("option:selected").attr('aifi_val'));
+				let w2_park = parseFloat($(element).children("option:selected").attr('aifi_max'));
 				score_park = score_park + w1_park;
 				scoreable_park = scoreable_park + w2_park;
 			}
@@ -476,30 +488,30 @@ $('INPUT[type="file"]').change(function () {
 			quality_score_percent_park = quality_score_percent_park;
 		}
 		
-      score_sea_world_final     = (score_park).toFixed(2);
-      scoreable_sea_world_final = (scoreable_park).toFixed(2);
+      score_aifi_final     = (score_park).toFixed(2);
+      scoreable_aifi_final = (scoreable_park).toFixed(2);
 
-		$('#assured_imaging_earned_score').val(score_sea_world_final);
-		$('#assured_imaging_possible_score').val(scoreable_sea_world_final);
+		$('#aifi_earned_score').val(score_aifi_final);
+		$('#aifi_possible_score').val(scoreable_aifi_final);
 		
 		if(!isNaN(quality_score_percent_park)){
-			$('#assured_imaging_overall_score').val(quality_score_percent_park+'%');
+			$('#aifi_overall_score').val(quality_score_percent_park+'%');
 		}
 
-		if($('#parkAF1').val()=='Fail' || $('#parkAF2').val()=='Fail' || $('#parkAF3').val()=='Fail' || $('#parkAF4').val()=='Fail' || $('#parkAF5').val()=='Fail' || $('#parkAF6').val()=='Fail' || $('#parkAF7').val()=='Fail' || $('#parkAF8').val()=='Fail' || $('#parkAF9').val()=='Fail'  || $('#parkAF10').val()=='Fail' || $('#parkAF11').val()=='Fail' || $('#parkAF12').val()=='Fail' || $('#parkAF13').val()=='Fail' || $('#parkAF14').val()=='Fail' || $('#parkAF15').val()=='Fail' || $('#parkAF16').val()=='Fail' || $('#parkAF17').val()=='Fail' || $('#parkAF18').val()=='Fail' || $('#parkAF19').val()=='Fail' || $('#parkAF20').val()=='Fail' || $('#parkAF21').val()=='Fail' || $('#parkAF22').val()=='Fail' || $('#parkAF23').val()=='Fail' || $('#parkAF24').val()=='Fail' || $('#parkAF25').val()=='Fail' || $('#parkAF26').val()=='Fail' || $('#parkAF27').val()=='Fail' || $('#parkAF28').val()=='Fail' || $('#parkAF29').val()=='Fail'){
-			console.log($('#parkAF1').val());
+		if($('#aifiAF1').val()=='Fail' || $('#aifiAF2').val()=='Fail' || $('#aifiAF3').val()=='Fail'){
+			console.log($('#aifiAF1').val());
 
 			quality_score_percent_park = (0.00).toFixed(2);
-			$('.parkFatal').val(quality_score_percent_park+'%');
+			$('.aifiFatal').val(quality_score_percent_park+'%');
 		}else{
-			$('#assured_imaging_overall_score').val(quality_score_percent_park+'%');
+			$('#aifi_overall_score').val(quality_score_percent_park+'%');
 		}
 	}
 	
-	$(document).on('change','.assured_imaging_point',function(){
-		assured_imaging_calc();
+	$(document).on('change','.aifi_point',function(){
+		aifi_calc();
 	});
-	assured_imaging_calc();
+	aifi_calc();
 </script>
 
 
@@ -509,7 +521,7 @@ $('INPUT[type="file"]').change(function () {
 	$(document).ready(function(){
 		$("#from_date, #to_date, #call_date").datepicker();
 		$("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });
-		<?php if($this->uri->segment(2)=="Qa_sea_world" && $this->uri->segment(4)=="0"){?>
+		<?php if($this->uri->segment(2)=="Qa_grid_aifi" && $this->uri->segment(4)=="0"){?>
 			//console.log("okk");
 			//$("#epgi_earned_score, #epgi_possible_score").val("0");
 		<?php }?>
