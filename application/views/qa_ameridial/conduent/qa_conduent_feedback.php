@@ -4,20 +4,16 @@
 
 		<div class="row">
 			<div class="col-12">
-
 				<div class="widget">
-				
 					<div class="row">
-						<div class="col-md-10">
+						<div class="col-md-12">
 							<header class="widget-header">
 								<h4 class="widget-title">Search Feedback</h4>
 							</header>
 						</div>	
 						<hr class="widget-separator">
 					</div>
-				
 					<div class="widget-body">
-						
 						<form id="form_new_user" method="GET" action="<?php echo base_url('Qa_ameridial/conduent'); ?>">
 							<div class="row">
 								<div class="col-md-3">
@@ -52,12 +48,9 @@
 									<button class="btn btn-success waves-effect" a href="<?php echo base_url()?>Qa_ameridial/conduent" type="submit" id='btnView' name='btnView' value="View">View</button>
 								</div>
 							</div>
-							
 						</form>
-						
 					</div>
 				</div>
-
 			</div>		
 		</div>
 	
@@ -65,24 +58,34 @@
 		<div class="row">
 			<div class="col-12">
 				<div class="widget">
-				
 					<div class="row">
 						<div class="col-md-12">
 							<header class="widget-header">
 								<h4 class="widget-title">
 									<div class="pull-left">Conduent</div>
+									<?php $rand ="condulent";
+									$client_id =133;
+									$pro_id=706; ?>
+									
 									<?php if(is_access_qa_module()==true){ 
 									$conduent_id=0 ?>
 									<div class="pull-right">
 										<a class="btn btn-primary" href="<?php echo base_url(); ?>Qa_ameridial/add_edit_conduent/<?php echo $conduent_id ?>">Add Audit</a>
 									</div>
 									<?php } ?>
+									<!--<div class="pull-right new-btn">
+										<?php if(is_access_qa_module()==true || get_login_type()=="client" || is_access_randamiser()==true){ ?>
+											<a class="btn btn-primary" target="_blank" href="<?php echo base_url(); ?>qa_randamiser_vikas/data_upload_freshdesk/<?php echo $client_id; ?>/<?php echo $pro_id; ?>">Sampling/ Randamiser</a>
+										<?php }
+										if(is_access_agent_categorisation()==true){ ?>
+											<a class="btn btn-primary" target="_blank" href="<?php echo base_url(); ?>qa_agent_categorisation_vikas/index/<?php echo $client_id; ?>/<?php echo $pro_id; ?>">Agent Categorisation</a>
+										<?php } ?>
+									</div>-->
 								</h4>
 							</header>
 						</div>
 						<hr class="widget-separator">
 					</div>
-				
 					<div class="widget-body">
 						<div class="table-responsive">
 							<table id="default-datatable" data-plugin="DataTable" class="table table-striped skt-table" cellspacing="0" width="100%">
@@ -160,10 +163,94 @@
 								</tfoot>
 							</table>
 						</div>
-						
 					</div>
 				</div>
 			</div>
 		</div>
+		
+		
+		<div class="row">
+			<div class="col-12">
+				<div class="widget">
+				
+					<div class="row">
+						<div class="col-md-12">
+							<header class="widget-header">
+								<h4 class="widget-title">
+									<div class="pull-left">Conduent- Direct Express</div>
+									<?php if(is_access_qa_module()==true){ ?>
+									<div class="pull-right">
+										<a class="btn btn-primary" href="<?php echo base_url(); ?>Qa_ameridial/add_edit_conduent_direct_express/0">Add Feedback</a>
+									</div>	
+									<?php } ?>
+								</h4>
+							</header>
+						</div>
+						<hr class="widget-separator">
+					</div>
+					<div class="widget-body">
+						<div class="table-responsive">
+							<table id="default-datatable" data-plugin="DataTable" class="table table-striped skt-table" cellspacing="0" width="100%">
+								<thead>
+									<tr class="bg-info">
+										<th>SL</th>
+										<th>Auditor</th>
+										<th>Audit Date</th>
+										<th>Fusion ID</th>
+										<th>Agent Name</th>
+										<th>L1 Supervisor</th>
+										<th>Call Date</th>
+										<th>Total Score</th>
+										<th>Agent Review Date</th>
+										<th>Mgnt Review By</th>
+										<th>Mgnt Review Date</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php $i=1;
+									foreach($conduent_direct_express_data as $row): ?>
+									<tr>
+										<td><?php echo $i++; ?></td>
+										<td><?php echo $row['auditor_name']; ?></td>
+										<td><?php echo $row['audit_date']; ?></td>
+										<td><?php echo $row['fusion_id']; ?></td>
+										<td><?php echo $row['fname']." ".$row['lname']; ?></td>
+										<td><?php echo $row['tl_name']; ?></td>
+										<td><?php echo $row['call_date']; ?></td>
+										<td><?php echo $row['overall_score']; ?></td>
+										<td><?php echo $row['agent_rvw_date']; ?></td>
+										<td><?php echo $row['mgnt_name']; ?></td>
+										<td><?php echo $row['mgnt_rvw_date']; ?></td>
+										<td>
+											<?php $cjid=$row['id']; ?>
+											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_ameridial/add_edit_conduent_direct_express/<?php echo $cjid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit/Review</a>
+										</td>
+									</tr>
+									<?php endforeach; ?>
+								</tbody>
+								<tfoot>
+									<tr class="bg-info">
+										<th>SL</th>
+										<th>Auditor</th>
+										<th>Audit Date</th>
+										<th>Fusion ID</th>
+										<th>Agent Name</th>
+										<th>L1 Supervisor</th>
+										<th>Call Date</th>
+										<th>Total Score</th>
+										<th>Agent Review Date</th>
+										<th>Mgnt Review By</th>
+										<th>Mgnt Review Date</th>
+										<th>Action</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
 	</section>
 </div>

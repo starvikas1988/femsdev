@@ -937,13 +937,13 @@ $(document).ready(function(){
 						<li class="menu-item">
 							<a href="<?php echo base_url('Qa_freedom_financial')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
-								<span class="">FREEDOM FINANCIAL</span>
+								<span class="">Achieve Collection</span>
 							</a>
 						</li>
 						<li class="menu-item">
 							<a href="<?php echo base_url('qa_freedom_customer_service')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
-								<span class="">FREEDOM CUSTOMER SERVICE</span>
+								<span class="">Achieve Cs</span>
 							</a>
 						</li>
 						<li class="menu-item">
@@ -1052,9 +1052,21 @@ $(document).ready(function(){
 							</a>
 						</li>
 						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_urban_piper')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Urban Piper</span>
+							</a>
+						</li>
+						<li class="menu-item">
 							<a href="<?php echo base_url('Qa_scan')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 								<span class="">Scan</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_lunajoy')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">LunaJoy</span>
 							</a>
 						</li>
 						<li class="menu-item">
@@ -1075,12 +1087,12 @@ $(document).ready(function(){
 								<span class="">Clever Care</span>
 							</a>
 						</li>
-						<li class="menu-item">
-							<a href="<?php echo base_url('Qa_conduent_direct_express')?>" class="menu-link">
+						<!--<li class="menu-item">
+							<a href="<?php //echo base_url('Qa_conduent_direct_express')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 								<span class="">Conduent- Direct Express</span>
 							</a>
-						</li>
+						</li>-->
 						<li class="menu-item">
 							<a href="<?php echo base_url('Qa_assured_imaging')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
@@ -1406,6 +1418,62 @@ $(document).ready(function(){
 						<?php } ?>
 
 						<?php if(isADLocation()==true || is_access_qa_module()==true || is_access_qa_operations_module()==true){ ?>
+						
+						<li class="menu-item">
+							<a href="<?php echo base_url('qa_ameridial/conduent')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Conduent</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('qa_ameridial/qpc'); ?>">
+								<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+								<span class="">QPC</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('qa_ameridial/blains'); ?>">
+								<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+								<span class="">BLAINS</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('qa_ameridial/touchfuse'); ?>">
+								<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+								<span class="">TOUCHFUSE</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('qa_ameridial/sontiq'); ?>">
+								<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+								<span class="">Sontiq</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('qa_ameridial/lockheed'); ?>">
+								<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+								<span class="">Lockheed Martin</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('qa_ameridial/affinity'); ?>">
+								<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+								<span class="">Affinity</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('qa_ameridial/delta'); ?>">
+								<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+								<span class="" style="font-size:12px">DELTA DENTAL [Illinois]</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('qa_ameridial/delta_dental_iowa'); ?>">
+								<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+								<span class="" style="font-size:12px">DELTA DENTAL [IOWA]</span>
+							</a>
+						</li>
+						
 						<li class="menu-item has-submenu">
 							<a href="" class="menu-link submenu-toggle">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
@@ -1437,12 +1505,13 @@ $(document).ready(function(){
 										<span class="">Purity Care</span>
 									</a>
 								</li>-->
-								<li>
+								
+								<!--<li>
 									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/conduent'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 										<span class="">Conduent</span>
 									</a>
-								</li>
+								</li>-->
 								<li>
 									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/hoveround_feedback'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
@@ -1461,12 +1530,12 @@ $(document).ready(function(){
 										<span class="">STC Scoresheet</span>
 									</a>
 								</li>
-								<li>
+								<!--<li>
 									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/touchfuse'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 										<span class="">TOUCHFUSE</span>
 									</a>
-								</li>
+								</li>-->
 								<li>
 									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/tbn_feedback'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
@@ -1545,12 +1614,12 @@ $(document).ready(function(){
 										<span class="">Icario</span>
 									</a>
 								</li>
-								<li>
+								<!--<li>
 									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/qpc'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 										<span class="">QPC</span>
 									</a>
-								</li>
+								</li>-->
 								<li>
 									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/ancient_nutrition'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
@@ -1569,12 +1638,12 @@ $(document).ready(function(){
 										<span class="">Ameridial Non-Profit</span>
 									</a>
 								</li>
-								<li>
+								<!--<li>
 									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/blains'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 										<span class="">BLAINS</span>
 									</a>
-								</li>
+								</li>-->
 								<li>
 									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/pajamagram'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
@@ -1716,30 +1785,30 @@ $(document).ready(function(){
 										<span class="">Air Method</span>
 									</a>
 								</li>
-								<li>
+								<!--<li>
 									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/delta'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 										<span class="" style="font-size:12px">DELTA DENTAL [Illinois]</span>
 									</a>
-								</li>
-								<li>
+								</li>-->
+								<!--<li>
 									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/delta_dental_iowa'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 										<span class="" style="font-size:12px">DELTA DENTAL [IOWA]</span>
 									</a>
-								</li>
+								</li>-->
 								<li>
 									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/trapollo'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 										<span class="">TRAPOLLO</span>
 									</a>
 								</li>
-								<li>
+								<!--<li>
 									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/sontiq'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 										<span class="">Sontiq</span>
 									</a>
-								</li>
+								</li>-->
 								<li>
 									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/hcpss'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
@@ -1767,12 +1836,12 @@ $(document).ready(function(){
 										<span class="">McKinsey</span>
 									</a>
 								</li>
-								<li>
+								<!--<li>
 									<a style="padding-left:50px" href="<?php echo base_url('qa_affinity'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 										<span class="">Affinity</span>
 									</a>
-								</li>
+								</li>-->
 								<li>
 									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/cci_medicare'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
@@ -1785,23 +1854,23 @@ $(document).ready(function(){
 										<span class="">CCI Commercial</span>
 									</a>
 								</li>
-								<li>
+								<!--<li>
 									<a style="padding-left:50px" href="<?php echo base_url('qa_ameridial/lockheed'); ?>">
 										<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 										<span class="">Lockheed Martin</span>
 									</a>
-								</li>
+								</li>-->
 
 
 							</ul>
 
 						</li>
-						<li class="menu-item">
+						<!--<li class="menu-item">
 							<a href="<?php echo base_url('Qa_conduent_direct_express')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 								<span class="">Conduent- Direct Express</span>
 							</a>
-						</li>
+						</li>-->
 						<li class="menu-item">
 							<a href="<?php echo base_url('qa_ameridial/follet')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
@@ -1892,6 +1961,12 @@ $(document).ready(function(){
 							<a href="<?php echo base_url('qa_belmont/qa_feedback')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
 								<span class="">Belmont</span>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="<?php echo base_url('qa_healthmitra/qa_feedback')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Healthmitra</span>
 							</a>
 						</li>
 						<li class="menu-item">
@@ -2686,6 +2761,12 @@ $(document).ready(function(){
 						<span class="menu-caret foldable"><i class="zmdi zmdi-hc-sm zmdi-chevron-right"></i></span>
 					</a>
 					<ul class="submenu">
+						<li class="menu-item">
+							<a href="<?php echo base_url('Qa_urban_piper')?>" class="menu-link">
+								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+								<span class="">Urban Piper</span>
+							</a>
+						</li>
 						<li>
 							<a style="padding-left:50px" href="<?php echo base_url('Qa_huda')?>" class="menu-link">
 								<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>

@@ -42,6 +42,8 @@
 										<option value=''>Select</option>
 										<option <?php echo $campaign=='sea_world'?"selected":""; ?> value="sea_world">Sea World</option>
 										<option <?php echo $campaign=='sea_world_chat'?"selected":""; ?> value="sea_world_chat">Sea World Chat</option>
+										<option <?php echo $campaign=='fc_escalation'?"selected":""; ?> value="fc_escalation">FC Escalation</option>
+										<option <?php echo $campaign=='fc_hotline'?"selected":""; ?> value="fc_hotline">FC Hotline</option>
 									</select>
 								</div>
 							</div> 

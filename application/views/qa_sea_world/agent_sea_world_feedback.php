@@ -18,7 +18,7 @@
 				
 					<div class="widget-body">
 						
-						<form id="form_new_user" method="GET" action="<?php echo base_url('Qa_scan/agent_scan_feedback'); ?>">
+						<form id="form_new_user" method="GET" action="<?php echo base_url('Qa_sea_world/agent_sea_world_feedback'); ?>">
 							<div class="row">
 								<div class="col-md-3">
 									
@@ -38,7 +38,7 @@
 									</div>
 								</div>
 								<div class="col-md-1" style="margin-top:20px">
-									<button class="btn btn-success blains-effect" a href="<?php echo base_url()?>Qa_scan/agent_scan_feedback" type="submit" id='btnView' name='btnView' value="View">View</button>
+									<button class="btn btn-success blains-effect" a href="<?php echo base_url()?>Qa_sea_world/agent_sea_world_feedback" type="submit" id='btnView' name='btnView' value="View">View</button>
 								</div>
 							</div>
 							
@@ -103,9 +103,9 @@
 										<td><?php echo $row['mgnt_rvw_name']; ?></td>
 										<td><?php echo $row['mgnt_rvw_date']; ?></td>
 										<td>
-											<?php $scan_id=$row['id']; ?>
+											<?php $sea_world_id=$row['id']; ?>
 											
-											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_scan/agent_scan_rvw/<?php echo $scan_id ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">View/Review</a>
+											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_sea_world/agent_sea_world_rvw/<?php echo $sea_world_id ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">View/Review</a>
 										</td>
 									</tr>
 									<?php endforeach; ?>
@@ -188,7 +188,173 @@
 										<td>
 											<?php $sea_world_id=$row['id']; ?>
 											
-											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_scan/agent_sea_world_chat_rvw/<?php echo $sea_world_id ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">View/Review</a>
+											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_sea_world/agent_sea_world_chat_rvw/<?php echo $sea_world_id ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">View/Review</a>
+										</td>
+									</tr>
+									<?php endforeach; ?>
+								</tbody>
+								<tfoot>
+									<tr class="bg-info">
+										<th>SL</th>
+										<th>Auditor</th>
+										<th>Audit Date</th>
+										<th>Fusion ID</th>
+										<th>Agent Name</th>
+										<th>L1 Supervisor</th>
+										<th>Call Date/Time</th>
+										<th>Total Score</th>
+										<th>Agent Review Date/Time</th>
+										<th>Mgnt Review By</th>
+										<th>Mgnt Review Date/Time</th>
+										<th>Action</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<div class="widget">
+				
+					<div class="row">
+						<div class="col-md-12">
+							<header class="widget-header">
+								<div class="col-md-6">
+									<h4 class="widget-title">FC Escalation</h4>
+								</div>
+								<div class="col-md-6" style="float:right">
+									<span style="font-weight:bold; color:red">Total Feedback</span> <span class="badge" style="font-size:12px"><?php echo $tot_agent_fc_feedback; ?></span> - <span style="font-weight:bold; color:green">Yet To Review</span> <span class="badge" style="font-size:12px"><?php echo $tot_agent_fc_yet_rvw; ?></span>
+								</div>
+							</header>
+						</div>
+						<hr class="widget-separator">
+					</div>
+				
+					<div class="widget-body">
+						<div class="table-responsive">
+							<table id="default-datatable" data-plugin="DataTable" class="table table-striped skt-table" cellspacing="0" width="100%">
+								<thead>
+									<tr class="bg-info">
+										<th>SL</th>
+										<th>Auditor</th>
+										<th>Audit Date</th>
+										<th>Fusion ID</th>
+										<th>Agent Name</th>
+										<th>L1 Supervisor</th>
+										<th>Call Date/Time</th>
+										<th>Total Score</th>
+										<th>Agent Review Date/Time</th>
+										<th>Mgnt Review By</th>
+										<th>Mgnt Review Date/Time</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php $i=1;
+									foreach($agent_review_fc_list as $row): ?>
+									<tr>
+										<td><?php echo $i++; ?></td>
+										<td><?php echo $row['auditor_name']; ?></td>
+										<td><?php echo $row['audit_date']; ?></td>
+										<td><?php echo $row['fusion_id']; ?></td>
+										<td><?php echo $row['fname']." ".$row['lname']; ?></td>
+										<td><?php echo $row['tl_name']; ?></td>
+										<td><?php echo $row['call_date']; ?></td>
+										<td><?php echo $row['overall_score']; ?></td>
+										<td><?php echo $row['agent_rvw_date']; ?></td>
+										<td><?php echo $row['mgnt_rvw_name']; ?></td>
+										<td><?php echo $row['mgnt_rvw_date']; ?></td>
+										<td>
+											<?php $sea_world_id=$row['id']; ?>
+											
+											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_sea_world/agent_fc_escalation_rvw/<?php echo $sea_world_id ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">View/Review</a>
+										</td>
+									</tr>
+									<?php endforeach; ?>
+								</tbody>
+								<tfoot>
+									<tr class="bg-info">
+										<th>SL</th>
+										<th>Auditor</th>
+										<th>Audit Date</th>
+										<th>Fusion ID</th>
+										<th>Agent Name</th>
+										<th>L1 Supervisor</th>
+										<th>Call Date/Time</th>
+										<th>Total Score</th>
+										<th>Agent Review Date/Time</th>
+										<th>Mgnt Review By</th>
+										<th>Mgnt Review Date/Time</th>
+										<th>Action</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<div class="widget">
+				
+					<div class="row">
+						<div class="col-md-12">
+							<header class="widget-header">
+								<div class="col-md-6">
+									<h4 class="widget-title">FC Hotline</h4>
+								</div>
+								<div class="col-md-6" style="float:right">
+									<span style="font-weight:bold; color:red">Total Feedback</span> <span class="badge" style="font-size:12px"><?php echo $tot_agent_fc_hotline_feedback; ?></span> - <span style="font-weight:bold; color:green">Yet To Review</span> <span class="badge" style="font-size:12px"><?php echo $tot_agent_fc_hotline_yet_rvw; ?></span>
+								</div>
+							</header>
+						</div>
+						<hr class="widget-separator">
+					</div>
+				
+					<div class="widget-body">
+						<div class="table-responsive">
+							<table id="default-datatable" data-plugin="DataTable" class="table table-striped skt-table" cellspacing="0" width="100%">
+								<thead>
+									<tr class="bg-info">
+										<th>SL</th>
+										<th>Auditor</th>
+										<th>Audit Date</th>
+										<th>Fusion ID</th>
+										<th>Agent Name</th>
+										<th>L1 Supervisor</th>
+										<th>Call Date/Time</th>
+										<th>Total Score</th>
+										<th>Agent Review Date/Time</th>
+										<th>Mgnt Review By</th>
+										<th>Mgnt Review Date/Time</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php $i=1;
+									foreach($agent_review_fc_hotline_list as $row): ?>
+									<tr>
+										<td><?php echo $i++; ?></td>
+										<td><?php echo $row['auditor_name']; ?></td>
+										<td><?php echo $row['audit_date']; ?></td>
+										<td><?php echo $row['fusion_id']; ?></td>
+										<td><?php echo $row['fname']." ".$row['lname']; ?></td>
+										<td><?php echo $row['tl_name']; ?></td>
+										<td><?php echo $row['call_date']; ?></td>
+										<td><?php echo $row['overall_score']; ?></td>
+										<td><?php echo $row['agent_rvw_date']; ?></td>
+										<td><?php echo $row['mgnt_rvw_name']; ?></td>
+										<td><?php echo $row['mgnt_rvw_date']; ?></td>
+										<td>
+											<?php $sea_world_id=$row['id']; ?>
+											
+											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_sea_world/agent_fc_hotline_rvw/<?php echo $sea_world_id ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">View/Review</a>
 										</td>
 									</tr>
 									<?php endforeach; ?>

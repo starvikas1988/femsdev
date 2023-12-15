@@ -13,7 +13,7 @@
 	public function getTLname(){
 		if(check_logged_in()){
 			$aid=$this->input->post('aid');
-			$qSql = "Select id, assigned_to, fusion_id, get_process_names(id) as process_name, office_id, (select concat(fname, ' ', lname) from signin tl where tl.id=signin.assigned_to) as tl_name FROM signin where id = '$aid'";
+			$qSql = "Select id, assigned_to, fusion_id, get_process_names(id) as process_name, office_id, (select concat(fname, ' ', lname) from signin tl where tl.id=signin.assigned_to) as tl_name, doj, DATEDIFF(CURDATE(), doj) as agent_tenure FROM signin where id = '$aid'";
 			echo json_encode($this->Common_model->get_query_result_array($qSql));
 		}
 	}
@@ -133,6 +133,35 @@
             }
         }
         return $images;
+    }
+	
+	
+	private function audio_upload_files($files,$path)
+    {
+		$result=$this->createPath($path);
+    	if($result){
+			$config['upload_path'] = $path;
+			$config['allowed_types'] = '*';
+			$config['max_size'] = '2024000';
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+			$images = array();
+			foreach ($files['name'] as $key => $image) {           
+				$_FILES['images[]']['name']= $files['name'][$key];
+				$_FILES['images[]']['type']= $files['type'][$key];
+				$_FILES['images[]']['tmp_name']= $files['tmp_name'][$key];
+				$_FILES['images[]']['error']= $files['error'][$key];
+				$_FILES['images[]']['size']= $files['size'][$key];
+
+				if ($this->upload->do_upload('images[]')) {
+					$info = $this->upload->data();
+					$images[] = $info['file_name'];
+				} else {
+					return false;
+				}
+			}
+			return $images;
+		}
     }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -3166,7 +3195,7 @@ public function agent_kenny_rvw($id){
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_ameridial/hoveround/hoveround_feedback.php";
 
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,134) and status=1  order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,'134,366') and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 
 			$from_date = $this->input->get('from_date');
@@ -3312,7 +3341,7 @@ public function agent_kenny_rvw($id){
 			$data["content_template"] = "qa_ameridial/hoveround/add_hoveround_jam.php";
 			// $data["content_js"] = "qa_ameridial_healthcare_js.php";
 
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_process(id,'782,783') and status=1  order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,366) and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 
 			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
@@ -4112,7 +4141,7 @@ public function agent_kenny_rvw($id){
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_ameridial/touchfuse/tf_feedback.php";
 
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,134) and status=1  order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 
 			$from_date = $this->input->get('from_date');
@@ -4184,7 +4213,7 @@ public function agent_kenny_rvw($id){
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_ameridial/touchfuse/add_tf.php";
 
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,134) and status=1  order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 
 			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
@@ -4231,7 +4260,7 @@ public function agent_kenny_rvw($id){
 					"entry_date" => $curDateTime,
 					"audit_start_time" => $this->input->post('audit_start_time')
 				);
-				$a = $this->amd_upload_files($_FILES['attach_file'], $path='./qa_files/qa_ameridial/touchfuse/');
+				$a = $this->audio_upload_files($_FILES['attach_file'], $path='./qa_files/qa_ameridial/touchfuse/');
 				$field_array["attach_file"] = implode(',',$a);
 				$rowid= data_inserter('qa_amd_touchfuse_feedback',$field_array);
 			/////////////
@@ -4262,7 +4291,7 @@ public function agent_kenny_rvw($id){
 			$data["content_template"] = "qa_ameridial/touchfuse/add_tf_new.php";
 			$data["content_js"] = "qa_ameridial_healthcare_js.php";
 
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,134) and status=1  order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 
 			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
@@ -4342,7 +4371,7 @@ public function agent_kenny_rvw($id){
 					"entry_date" => $curDateTime,
 					"audit_start_time" => $this->input->post('audit_start_time')
 				);
-				$a = $this->amd_upload_files($_FILES['attach_file'], $path='./qa_files/qa_ameridial/touchfuse/');
+				$a = $this->audio_upload_files($_FILES['attach_file'], $path='./qa_files/qa_ameridial/touchfuse/');
 				$field_array["attach_file"] = implode(',',$a);
 				$rowid= data_inserter('qa_amd_touchfuse_new_feedback',$field_array);
 			/////////////
@@ -4391,7 +4420,7 @@ public function agent_kenny_rvw($id){
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_ameridial/touchfuse/mgnt_tf_rvw.php";
 
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,134) and status=1  order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 
 			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
@@ -4483,7 +4512,7 @@ public function agent_kenny_rvw($id){
 			$data["content_template"] = "qa_ameridial/touchfuse/mgnt_tf_rvw_new.php";
 			$data["content_js"] = "qa_ameridial_healthcare_js.php";
 
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,134) and status=1  order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 
 			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
@@ -8937,7 +8966,7 @@ public function lifi(){
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_ameridial/qpc/qa_feedback.php";
 
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,134) and status=1  order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 
 			$from_date = $this->input->get('from_date');
@@ -9001,7 +9030,7 @@ public function lifi(){
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_ameridial/qpc/add_feedback.php";
 
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,134) and status=1  order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 
 			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
@@ -9095,7 +9124,7 @@ public function lifi(){
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_ameridial/qpc/mgnt_rvw.php";
 
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,134) and status=1  order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 
 			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
@@ -10920,7 +10949,7 @@ public function blains(){
 				$to_date = mmddyy2mysql($to_date);
 			}
 
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,134) and is_assign_process(id,271) and status=1  order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 
 		////////////////////////
@@ -11056,19 +11085,19 @@ public function blains(){
 				}
 
 			if($page=='delta'){
-				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,133) and is_assign_process(id,268) and status=1  order by name";
+				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			}else if($page=='trapollo'){
-				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,133) and is_assign_process(id,443) and status=1  order by name";
+				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			}else if($page=='brightway_prescreen' || $page=='brightway_evaluation'){
-				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,134) and is_assign_process(id,377) and status=1 order by name";
+				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1 order by name";
 			}else if($page=='follet'){
-				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and (is_assign_client (id,184) or is_assign_client (id,185)) and (is_assign_process (id,378) or is_assign_process (id,379)) and status=1  order by name";
+				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			}else if($page=='blains' || $page=='blains_v2'){
-				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,134) and is_assign_process(id,271) and status=1 order by name";
+				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1 order by name";
 			}else if($page=='sontiq'){
-				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client (id,134) and is_assign_process(id,465) and status=1  order by name";
+				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			}else{
-				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client (id,134) and status=1  order by name";
+				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			}
 			// echo $qSql;
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
@@ -11086,8 +11115,8 @@ public function blains(){
 				$data['rand_id']=$rand_id;
 				$data["rand_data"] = "";
 				if($rand_id!=0){
-					$client_id=134;
-					$pro_id = 271;
+					$client_id=648;
+					$pro_id = 1113;
 					$curDateTime=CurrMySqlDate();
 					$upArr = array('distribution_opend_by' =>$current_user,'distribution_opened_datetime'=>$curDateTime);
 					$this->db->where('id', $rand_id);
@@ -11124,7 +11153,7 @@ public function blains(){
 					$field_array['entry_by']=$current_user;
 				}
 
-				$a = $this->amd_upload_files($_FILES['attach_file'],$path='./qa_files/qa_ameridial/'.$page);
+				$a = $this->audio_upload_files($_FILES['attach_file'],$path='./qa_files/qa_ameridial/'.$page);
 				$field_array["attach_file"] = implode(',',$a);
 				// echo '<pre>';
 				// print_r($field_array);
@@ -11246,19 +11275,19 @@ public function mgnt_process_rvw($page,$id){
 				$table_cal=$page;
 
 			if($page=='delta'){
-				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,133) and is_assign_process(id,268) and status=1  order by name";
+				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			}else if($page=='trapollo'){
-				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,133) and is_assign_process(id,443) and status=1  order by name";
+				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			}else if($page=='follet'){
-				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and (is_assign_client (id,184) or is_assign_client (id,185)) and (is_assign_process (id,378) or is_assign_process (id,379)) and status=1  order by name";
+				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			}else if($page=='blains' || $page=='blains_v2'){
-				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,134) and is_assign_process(id,271) and status=1 order by name";
+				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1 order by name";
 			}else if($page=='brightway_prescreen' || $page=='brightway_evaluation'){
-				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,134) and is_assign_process(id,377) and status=1 order by name";
+				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1 order by name";
 			}else if($page=='sontiq'){
-				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client (id,134) and is_assign_process(id,465) and status=1  order by name";
+				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			}else{
-				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client (id,134) and status=1  order by name";
+				$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` ".$ops_cond." dept_id=6 and role_id in (select id from role where folder ='agent') and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			}
 
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
@@ -11490,7 +11519,7 @@ public function sontiq(){
 				$to_date = mmddyy2mysql($to_date);
 			}
 
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client (id,133) and is_assign_process (id,268) and status=1  order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 
 		////////////////////////
@@ -11536,19 +11565,19 @@ public function sontiq(){
 	}
 
 
-public function scoreCard(){
+	public function scoreCard(){
     	return $arrayName = array('Effective','Unacceptable','N/A');
     }
 
-public function scoreVal(){
+	public function scoreVal(){
     	return $arrayName = array("val0"=>"0","val1"=>"1","val1p5"=>"1.5","val2"=>"2","val3"=>"3","val4"=>"4","val5"=>"5","val6"=>"6","val8"=>"8","val10"=>"10","val15"=>"15");
     }
 
-public function trapollo_columnname(){
+	public function trapollo_columnname(){
     	return array("promply","goodTimeTalk","callRecord","priorReaching","memberCorrectly","availabilityBox","availabilityTape","callerIns","confirmAddress","dateSpecified","handledEffectively","leastOnce","pleaseThankYou","silencesCall","agentSpeak","agentSpeakClearly","repReapeat","memberQuestions","anythingElse","memberCall","TMCfollowing","ticketNote","promisedTime","custEmpathy","repMember","callPromised","agentConfirmAdd","properGreeting","agentDocument");
     }
 
-public function parameter_trapollo_scrorecard_details(){
+	public function parameter_trapollo_scrorecard_details(){
     	return array("1.1 Did the rep greet the caller promptly and properly?","1.2 Did the rep ask if it is a good time to talk?","1.3 Did the rep advise that the call is recorded?","2.1 Did the rep try all phone numbers on file prior to reaching back out to the customer?","2.2 Did the rep verify the member correctly?","2.3 Did the agent correctly check availability of box?","2.4 Did the rep correctly check availability of tape?","2.5 Did the rep refer the caller to the instructions in the box? ","2.6 Did the rep confirm the address?","2.7 Was the correct call tag initiated and pick up by date specified?","3.1 Did the agent reassure the caller that everything would be handled effectively?","3.3 Did the agent address the member by name at least once?","3.4 Did the agent use 'please' and 'thank you' throughout the call?","3.5 Did the agent minimize extended silences throughout the call?","3.6 Did the agent speak with sincere warmth in his/her voice? (empathy)","3.7 Did the agent speak clearly?","4.1 Did the rep repeat or reiterate the instructions so that they are clear?","4.2 Did the rep ask if the member had any questions or was clear on the process?","4.3 Did the rep ask if there was anything else we could help with? ","4.4 Did the rep collect a good call back number?","4.5 Did the rep leave complete, detailed notes in documentation in TMC following the 5 'w s?'","4.1 Did the rep have all information updated correctly in the ticket note?","4.2 If a callback was promised, was this done on time?","4.3 Did the rep treat the customer with both empathy and respect and behave professionally?","4.4 Did the rep call the correct member?","4.5 Did the rep initiate the call tag as promised?","4.6 Did the agent confirm the address?","4.7 Did the agent use the proper greeting? ","4.8 Did the agent document using the 4 'w s?'");
     }
 
@@ -11722,7 +11751,7 @@ public function parameter_trapollo_scrorecard_details(){
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_ameridial/delta/dd_iowa_feedback.php";
 
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,133) and is_assign_process(id,262) and status=1  order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 
 			$from_date = $this->input->get('from_date');
@@ -11783,7 +11812,7 @@ public function parameter_trapollo_scrorecard_details(){
 			$data["content_template"] = "qa_ameridial/delta/add_edit_dd_iowa.php";
 			$data["iowa_id"]=$iowa_id;
 
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,133) and is_assign_process(id,262) and status=1  order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 
 			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
@@ -11853,7 +11882,7 @@ public function parameter_trapollo_scrorecard_details(){
 ///////////////////////////// Follet (Start) /////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 
-public function follet(){
+	public function follet(){
 		if(check_logged_in())
 		{
 			$current_user = get_user_id();
@@ -11913,6 +11942,171 @@ public function follet(){
 
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////// Follet (End) /////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////// EPGI (Start) /////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+
+	public function epgi(){
+		if(check_logged_in())
+		{
+			$current_user = get_user_id();
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_ameridial/epgi/qa_epgi_feedback.php";
+			$data["content_js"] = "qa_epgi_js.php";
+
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,133) and status=1  order by name";
+			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
+
+			$from_date = $this->input->get('from_date');
+			$to_date = $this->input->get('to_date');
+			$agent_id = $this->input->get('agent_id');
+			$cond="";
+
+			if($from_date==""){
+				$from_date=CurrDate();
+			}else{
+				$from_date = mmddyy2mysql($from_date);
+			}
+
+			if($to_date==""){
+				$to_date=CurrDate();
+			}else{
+				$to_date = mmddyy2mysql($to_date);
+			}
+
+			if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date' ) ";
+			if($agent_id !="")	$cond .=" and agent_id='$agent_id'";
+
+			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+				$ops_cond=" Where (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+				$ops_cond=" Where assigned_to='$current_user'";
+			}else{
+				$ops_cond="";
+			}
+
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_epgi_feedback $cond) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, get_process_names(id) as campaign, assigned_to from signin) yy on (xx.agent_id=yy.sid) $ops_cond order by audit_date";
+			$data["epgi_data"] = $this->Common_model->get_query_result_array($qSql);
+
+			$data["from_date"] = $from_date;
+			$data["to_date"] = $to_date;
+			$data["agent_id"] = $agent_id;
+			$this->load->view("dashboard",$data);
+		}
+	}
+	
+	
+	public function add_edit_epgi($epgi_id){
+		if(check_logged_in())
+		{
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_ameridial/epgi/add_edit_epgi.php";
+			$data["content_js"] = "qa_epgi_js.php";
+			$data['epgi_id']=$epgi_id;
+			$tl_mgnt_cond='';
+
+			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and assigned_to='$current_user'";
+			}else{
+				$tl_mgnt_cond="";
+			}
+
+
+			$qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,133) and status=1  order by name";
+	          $data['agentName'] = $this->Common_model->get_query_result_array( $qSql );
+
+			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
+			$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
+				from qa_epgi_feedback where id='$epgi_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			$data["epgi_data"] = $this->Common_model->get_query_row_array($qSql);
+
+			$curDateTime=CurrMySqlDate();
+			$a = array();
+
+			$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
+
+			if($field_array['agent_id']){
+
+				if($epgi_id==0){
+					$field_array=$this->input->post('data');
+					$field_array['audit_date']=CurrDate();
+					$field_array['call_date']=mmddyy2mysql($this->input->post('call_date'));
+					$field_array['entry_date']=$curDateTime;
+					$field_array['audit_start_time']=$this->input->post('audit_start_time');
+					
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						$a = $this->epgi_upload_files($_FILES['attach_file'], $path='./qa_files/qa_epgi/');
+						$field_array["attach_file"] = implode(',',$a);
+					}
+
+					$rowid= data_inserter('qa_epgi_feedback',$field_array);
+					if(get_login_type()=="client"){
+						$add_array = array("client_entryby" => $current_user);
+					}else{
+						$add_array = array("entry_by" => $current_user);
+					}
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_epgi_feedback',$add_array);
+
+				}else{
+
+					$field_array1=$this->input->post('data');
+					$field_array1['call_date']=mmddyy2mysql($this->input->post('call_date'));
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						if(!file_exists("./qa_files/qa_epgi/")){
+							mkdir("./qa_files/qa_epgi/");
+						}
+						$a = $this->epgi_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_epgi/' );
+						$field_array1['attach_file'] = implode( ',', $a );
+					}
+
+					$this->db->where('id', $epgi_id);
+					$this->db->update('qa_epgi_feedback',$field_array1);
+					/////////////
+					if(get_login_type()=="client"){
+						$edit_array = array(
+							"client_rvw_by" => $current_user,
+							"client_rvw_note" => $this->input->post('note'),
+							"client_rvw_date" => $curDateTime
+						);
+					}else{
+						$edit_array = array(
+							"mgnt_rvw_by" => $current_user,
+							"mgnt_rvw_note" => $this->input->post('note'),
+							"mgnt_rvw_date" => $curDateTime
+						);
+					}
+					$this->db->where('id', $epgi_id);
+					$this->db->update('qa_epgi_feedback',$edit_array);
+
+				}
+				redirect('Qa_epgi');
+			}
+			$data["array"] = $a;
+			$this->load->view("dashboard",$data);
+		}
+	}
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////// EPGI (End) /////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -13857,7 +14051,7 @@ public function add_edit_airmethod_email($am_id){
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_ameridial/qpc_esal/qpc_esal_feedback.php";
 
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,134) and office_id in ('ELS') and status=1 order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and office_id in ('ELS') and status=1 order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 
 			$from_date = $this->input->get('from_date');
@@ -13931,7 +14125,7 @@ public function add_edit_airmethod_email($am_id){
 				$tl_mgnt_cond="";
 			}
 
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,134) and office_id in ('ELS') and status=1  order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 
 			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
@@ -18610,6 +18804,12 @@ public function add_edit_cinemark($cinemark_id){
 				}else if ($campaign=="homeward_health") {
 					$qSql1="Select count(id) as value from qa_homeward_health_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit','WOW Call', 'Trainer Audit')";
 					$qSql2="Select count(id) as value from qa_homeward_health_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit','WOW Call', 'Trainer Audit')";
+				}else if ($campaign=="epgi") {
+					$qSql1="Select count(id) as value from qa_epgi_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit','WOW Call', 'Trainer Audit')";
+					$qSql2="Select count(id) as value from qa_epgi_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit','WOW Call', 'Trainer Audit')";
+				}else if ($campaign=="conduent_direct_express") {
+					$qSql1="Select count(id) as value from qa_conduent_direct_express_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit','WOW Call', 'Trainer Audit')";
+					$qSql2="Select count(id) as value from qa_conduent_direct_express_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit','WOW Call', 'Trainer Audit')";
 				}else{
 					$qSql1="Select count(id) as value from qa_amd_".$campaign."_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'WOW Call','Operation Audit', 'Trainer Audit')";
 					$qSql2="Select count(id) as value from qa_amd_".$campaign."_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit','WOW Call', 'Trainer Audit')";
@@ -18639,8 +18839,11 @@ public function add_edit_cinemark($cinemark_id){
 						$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_kenny_u_pull_feedback $cond) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
 					}else if($campaign=="homeward_health"){
 						$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_homeward_health_feedback $cond) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
-					}
-					else{
+					}else if($campaign=="epgi"){
+						$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_epgi_feedback $cond) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
+					}else if($campaign=="conduent_direct_express"){
+						$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_conduent_direct_express_feedback $cond) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
+					}else{
 					 $qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_amd_".$campaign."_feedback $cond) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process_name from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
 					}
 					$data["agent_list"] = $this->Common_model->get_query_result_array($qSql);
@@ -18670,8 +18873,11 @@ public function add_edit_cinemark($cinemark_id){
 				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name,agent_rvw_note as agent_note,mgnt_rvw_note as mgnt_note from qa_kenny_u_pull_feedback where id=$id) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
 			}else if ($campaign=="homeward_health") {
 				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name,agent_rvw_note as agent_note,mgnt_rvw_note as mgnt_note from qa_homeward_health_feedback where id=$id) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
-			}
-			else{
+			}else if ($campaign=="epgi") {
+				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name,agent_rvw_note as agent_note,mgnt_rvw_note as mgnt_note from qa_epgi_feedback where id=$id) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
+			}else if ($campaign=="conduent_direct_express") {
+				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name,agent_rvw_note as agent_note,mgnt_rvw_note as mgnt_note from qa_conduent_direct_express_feedback where id=$id) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
+			}else{
 				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name,agent_rvw_note as agent_note,mgnt_rvw_note as mgnt_note from qa_amd_".$campaign."_feedback where id=$id) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to,get_process_names(id) as process_name from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
 			}
 			$data["agnt_feedback"] = $this->Common_model->get_query_row_array($qSql);
@@ -18681,7 +18887,7 @@ public function add_edit_cinemark($cinemark_id){
 
 			if($campaign=="mercy_ship"){
 				$table='qa_mercy_feedback';
-			}else if($campaign=="homeward_health" || $campaign=="kenny_u_pull"){
+			}else if($campaign=="homeward_health" || $campaign=="kenny_u_pull" || $campaign=="epgi" || $campaign=="conduent_direct_express"){
 				$table='qa_'.$campaign.'_feedback';
 			}
 			else{
@@ -20445,7 +20651,7 @@ public function cci_medicare(){
 
  ///////////////////////////////////////////////////////////////////////////////////////////
 
-public function lockheed(){
+	public function lockheed(){
 		if(check_logged_in())
 		{
 			$current_user = get_user_id();
@@ -20453,7 +20659,7 @@ public function lockheed(){
 			$data["content_template"] = "qa_ameridial/lockheed/feedback_lockheed.php";
 			$data["content_js"] = "qa_ameridial_js.php";
 
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,133) and status=1 order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1 order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 
 			$from_date = $this->input->get('from_date');
@@ -20528,7 +20734,7 @@ public function lockheed(){
 				$tl_mgnt_cond="";
 			}
 
-			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,133) and status=1  order by name";
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
 			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 
 			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
@@ -20702,311 +20908,721 @@ public function lockheed(){
 
  ///////////////////////////////////////////////////////////////////////////////////////////
 
- public function conduent(){
-	if(check_logged_in())
-	{
-		$current_user = get_user_id();
-		$data["aside_template"] = "qa/aside.php";
-		$data["content_template"] = "qa_ameridial/conduent/qa_conduent_feedback.php";
-		//$data["content_js"] = "qa_ameridial_js.php";
+	 public function conduent(){
+		if(check_logged_in())
+		{
+			$current_user = get_user_id();
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_ameridial/conduent/qa_conduent_feedback.php";
+			//$data["content_js"] = "qa_ameridial_js.php";
 
-		$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,133) and status=1 order by name";
-		$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1 order by name";
+			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
 
-		$from_date = $this->input->get('from_date');
-		$to_date = $this->input->get('to_date');
-		$agent_id = $this->input->get('agent_id');
-		$file = $this->input->get('file');
-		$cond="";
+			$from_date = $this->input->get('from_date');
+			$to_date = $this->input->get('to_date');
+			$agent_id = $this->input->get('agent_id');
+			$file = $this->input->get('file');
+			$cond="";
 
-		if($from_date==""){
-			$from_date=CurrDate();
-		}else{
-			$from_date = mmddyy2mysql($from_date);
-		}
-
-		if($to_date==""){
-			$to_date=CurrDate();
-		}else{
-			$to_date = mmddyy2mysql($to_date);
-		}
-
-		if($from_date !="" && $to_date!=="" )  $cond= " Where (date(audit_date) >= '$from_date' and date(audit_date) <= '$to_date' ) ";
-		if($agent_id !="")	$cond .=" and agent_id='$agent_id'";
-		if($file !="")	$cond .=" and file_no like '%$file%'";
-
-		if(get_user_fusion_id()!='FMIN000011' || get_user_fusion_id()!='FUTA000007' || get_user_fusion_id()!='FUTA000012'){
-			$ops_cond="";
-		}else{
-			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
-				$ops_cond=" Where (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
-			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
-				$ops_cond=" Where assigned_to='$current_user'";
+			if($from_date==""){
+				$from_date=CurrDate();
 			}else{
-				$ops_cond="";
+				$from_date = mmddyy2mysql($from_date);
 			}
+
+			if($to_date==""){
+				$to_date=CurrDate();
+			}else{
+				$to_date = mmddyy2mysql($to_date);
+			}
+
+			if($from_date !="" && $to_date!=="" )  $cond= " Where (date(audit_date) >= '$from_date' and date(audit_date) <= '$to_date' ) ";
+			if($agent_id !="")	$cond .=" and agent_id='$agent_id'";
+			if($file !="")	$cond .=" and file_no like '%$file%'";
+
+			if(get_user_fusion_id()!='FMIN000011' || get_user_fusion_id()!='FUTA000007' || get_user_fusion_id()!='FUTA000012'){
+				$ops_cond="";
+			}else{
+				if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+					$ops_cond=" Where (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+				}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+					$ops_cond=" Where assigned_to='$current_user'";
+				}else{
+					$ops_cond="";
+				}
+			}
+
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name
+				from qa_amd_conduent_feedback $cond) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, get_process_names(id) as campaign, assigned_to from signin) yy on (xx.agent_id=yy.sid) $ops_cond order by audit_date";
+			$data["conduent_data"] = $this->Common_model->get_query_result_array($qSql);
+		////////////////
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_conduent_direct_express_feedback $cond) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, get_process_names(id) as campaign, assigned_to from signin) yy on (xx.agent_id=yy.sid) $ops_cond order by audit_date";
+			$data["conduent_direct_express_data"] = $this->Common_model->get_query_result_array($qSql);
+
+			$data["from_date"] = $from_date;
+			$data["to_date"] = $to_date;
+			$data["agent_id"] = $agent_id;
+			$data["file"] = $file;
+			$this->load->view("dashboard",$data);
 		}
-
-		$qSql = "SELECT * from
-			(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-			(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-			(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name
-			from qa_amd_conduent_feedback $cond) xx Left Join
-			(Select id as sid, fname, lname, fusion_id, get_process_names(id) as campaign, assigned_to from signin) yy on (xx.agent_id=yy.sid) $ops_cond order by audit_date";
-		$data["conduent_data"] = $this->Common_model->get_query_result_array($qSql);
-
-		$data["from_date"] = $from_date;
-		$data["to_date"] = $to_date;
-		$data["agent_id"] = $agent_id;
-		$data["file"] = $file;
-
-		$this->load->view("dashboard",$data);
 	}
-}
 
 
-public function add_edit_conduent($conduent_id){
-	if(check_logged_in())
-	{
-		$current_user=get_user_id();
-		$user_office_id=get_user_office_id();
+	public function add_edit_conduent($conduent_id){
+		if(check_logged_in())
+		{
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
 
-		$data["aside_template"] = "qa/aside.php";
-		$data["content_template"] = "qa_ameridial/conduent/add_edit_conduent.php";
-		//$data["content_js"] = "qa_ameridial_js.php";
-		$data['conduent_id']=$conduent_id;
-		$tl_mgnt_cond='';
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_ameridial/conduent/add_edit_conduent.php";
+			//$data["content_js"] = "qa_ameridial_js.php";
+			$data['conduent_id']=$conduent_id;
+			$tl_mgnt_cond='';
 
-		if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
-			$tl_mgnt_cond=" and (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
-		}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
-			$tl_mgnt_cond=" and assigned_to='$current_user'";
-		}else{
-			$tl_mgnt_cond="";
+			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and assigned_to='$current_user'";
+			}else{
+				$tl_mgnt_cond="";
+			}
+
+			/******** Randamiser Start***********/
+				//VIKAS START//
+				//Condulent
+				$rand_id=0;
+				if(!empty($this->uri->segment(4))){
+					$rand_id=$this->uri->segment(4);
+				}
+				$data['rand_id']=$rand_id;
+				$data["rand_data"] = "";
+
+				if($rand_id!=0){
+					$client_id=660;
+					$pro_id = 1130;
+					$curDateTime=CurrMySqlDate();
+					$upArr = array('distribution_opend_by' =>$current_user,'distribution_opened_datetime'=>$curDateTime);
+					$this->db->where('id', $rand_id);
+					$this->db->update('qa_randamiser_conduent_data',$upArr);
+					
+					$randSql="Select srd.*,srd.aht as call_duration, S.id as sid, S.fname, S.lname, S.xpoid, S.assigned_to,
+					(select concat(fname, ' ', lname) as name from signin s1 where s1.id=S.assigned_to) as tl_name,
+					(SELECT r.folder as designation FROM `signin` sd
+				LEFT JOIN role r ON sd.role_id=r.id
+				where sd.fusion_id=srd.fusion_id) as designation,
+					DATEDIFF(CURDATE(), S.doj) as tenure
+					from qa_randamiser_conduent_data srd Left Join signin S On srd.fusion_id=S.fusion_id where srd.audit_status=0 and srd.id='$rand_id'";
+					$data["rand_data"] = $rand_data =  $this->Common_model->get_query_row_array($randSql);
+					
+				}
+				//VIKAS ENDS//
+				/******** Randamiser Ends**********/
+
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
+			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
+
+			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
+			$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
+				from qa_amd_conduent_feedback where id='$conduent_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			$data["conduent_add"] = $this->Common_model->get_query_row_array($qSql);
+
+			//$currDate=CurrDate();
+			$curDateTime=CurrMySqlDate();
+			$a = array();
+
+
+			$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
+
+			if($field_array['agent_id']){
+
+				if($conduent_id==0){
+
+					$field_array=$this->input->post('data');
+					$field_array['audit_date']=CurrDate();
+					$field_array['call_date']=mmddyy2mysql($this->input->post('call_date'));
+					//$field_array['copy_received']=mmddyy2mysql($this->input->post('copy_received'));
+					$field_array['entry_date']=$curDateTime;
+					$field_array['audit_start_time']=$this->input->post('audit_start_time');
+					$a = $this->amd_upload_files($_FILES['attach_file'], $path='./qa_files/qa_ameridial/conduent/');
+					$field_array["attach_file"] = implode(',',$a);
+
+					$rowid= data_inserter('qa_amd_conduent_feedback',$field_array);
+				///////////
+					if(get_login_type()=="client"){
+						$add_array = array("client_entryby" => $current_user);
+					}else{
+						$add_array = array("entry_by" => $current_user);
+					}
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_amd_conduent_feedback',$add_array);
+					if($rand_id!=0){
+					$rand_cdr_array = array("audit_status" => 1);
+					$this->db->where('id', $rand_id);
+					$this->db->update('qa_randamiser_conduent_data',$rand_cdr_array);
+					
+					$rand_array = array("is_rand" => 1);
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_amd_conduent_feedback',$rand_array);
+					}
+					/*******************Fatal Call Email Send functionality added on 12-12-22 START ***********************/
+						if($field_array['overall_score'] == 0){
+							$tablename = "qa_amd_conduent_feedback";
+							$sql = "SELECT tname.*, ip.email_id_off, ip_tl.email_id_off as tl_email, concat(s.fname, ' ', s.lname) as fullname,
+								(SELECT concat(tls.fname, ' ', tls.lname) as tl_fullname FROM signin tls WHERE tls.id=tname.tl_id) as tl_fullname
+								FROM $tablename tname
+								LEFT JOIN info_personal ip ON ip.user_id=tname.agent_id 
+								LEFT JOIN signin s ON s.id=tname.agent_id
+								LEFT JOIN signin tl ON tl.id = tname.tl_id
+								LEFT JOIN info_personal ip_tl ON ip_tl.user_id = tname.tl_id
+								WHERE tname.id=$rowid";
+							$result= $this->Common_model->get_query_row_array($sql);				
+							$sqlParam ="SELECT process_id,params_columns, fatal_param,param_column_desc FROM qa_defect where table_name='$tablename'"; 
+							$resultParams = $this->Common_model->get_query_row_array($sqlParam);
+							
+							$process = floor($resultParams['process_id']);
+							$sqlProcess ="SELECT name FROM process where id='$process'"; 
+							$resultProcess = $this->Common_model->get_query_row_array($sqlProcess);
+							
+							$params = explode(",", $resultParams['params_columns']);
+							$fatal_params = explode(",", $resultParams['fatal_param']);
+							$descArr = explode(",", $resultParams['param_column_desc']);
+							
+							$msgTable = "<Table BORDER=1>";
+							$msgTable .= "<TR><TH>SL.</TH> <TH>CALL AUDIT PARAMETERS</TH><TH>QA Rating</TH> </TR>";
+							
+							$i=1;
+							$j=0;
+							foreach($params as $par){
+								//echo $str = str_replace('_', ' ', $par)."<BR>";
+								if($result[$par]=='No'){
+									$msgTable .= "<TR><TD>".$i."</TD><TD>". $descArr[$j]."</TD> <TD style='color:#FF0000'>".$result[$par]."</TD></TR>";
+								}else{
+									$msgTable .= "<TR><TD>".$i."</TD><TD>". $descArr[$j]."</TD> <TD>".$result[$par]."</TD></TR>";
+								}
+								
+								$i++;
+								$j++;
+							}
+							///////////////////////////
+							//$j=1;
+							/* if(!empty($fatal_params)){
+								
+								foreach($fatal_params as $fatal_par){
+									if(!empty($fatal_par)){
+									$msgTable .= "<TR><TD>".$i."</TD><TD style='color:#FF0000'>".$descArr[($j-14)]."</TD> <TD>".$result[$fatal_par]."</TD></TR>";
+									
+									$i++;
+									$j++;
+									}
+								}
+							} */
+							
+							
+							$msgTable .= "<TR><TD colspan='2'>Overall Score</TD> <TD>".$result['overall_score']."%</TD></TR>";
+							$msgTable .= "</Table>";
+							
+							$eccA=array();
+							//$to = $result['tl_email']; // Have to open when email will trigger to the Respective TL of the Agent
+							$to = 'fallon.stovall@fusionbposervices.com,sarah.wolf@fusionbposervices.com,tina.church@fusionbposervices.com,amitabh.vartak@fusionbposervices.com,ashish.tere@fusionbposervices.com,Faisal.Anwar@fusionbposervices.com';
+							
+							$ebody = "Hello ". $result['tl_fullname'].",<br>";
+							$ebody .= "<p>Agent Name : ".$result['fullname']."</p>";
+							$ebody .= "<p>Phone Number :  ".$result['phone_number']."</p>";
+							$ebody .= "<p>Total Talk time : ".$result['call_duration']."</p>";
+							$ebody .= "<p>Audit Date time : ".ConvServerToLocal($result['entry_date'])."</p>";
+							$ebody .= "<p>Call Summary : ".$result['call_summary']."</p>";
+							$ebody .= "<p>Feedback : ".$result['feedback']."</p><br><br>";
+							$ebody .= "<p>Please listen the call from the MWP Tool and share feedback acceptancy :</p>";
+							$ebody .=  $msgTable;
+							$ebody .= "<p>Regards,</p>";
+							$ebody .= "<p>MWP Team</p>";
+							$esubject = "Fatal Call Alert - "." For Process - ".$resultProcess['name'].", Agent Name - ".$result['fullname']." Audit Date - ".$result['audit_date'];
+							
+							//echo $ebody;
+							//exit;
+						
+							$eccA[]="Bompalli.Somasundaram@omindtech.com";
+							$eccA[]="deb.dasgupta@omindtech.com";
+							$eccA[]="danish.khan@fusionbposervices.com";
+							$eccA[]="sumitra.bagchi@omindtech.com";
+							$eccA[]="anshuman.sarkar@fusionbposervices.com";
+							$eccA[]="leanna.hayes@fusionbposervices.com";
+							
+							$ecc = implode(',',$eccA);
+							$path = "";
+							$from_email="";
+							$from_name="";
+							
+							/* echo $esubject."<br>";
+							echo $ebody."<br>";
+							exit; */
+							
+							$send = $this->Email_model->send_email_sox("",$to, $ecc, $ebody, $esubject, $path, $from_email, $from_name, $isBcc="Y");
+							unset($eccA);
+						}
+						
+						
+						/*******************Fatal Call Email Send functionality added on 12-12-22 END ***********************/
+
+				}else{
+
+					$field_array1=$this->input->post('data');
+					$field_array1['call_date']=mmddyy2mysql($this->input->post('call_date'));
+					//$field_array1['copy_received']=mmddyy2mysql($this->input->post('copy_received'));
+					$this->db->where('id', $conduent_id);
+					$this->db->update('qa_amd_conduent_feedback',$field_array1);
+				/////////////
+					if(get_login_type()=="client"){
+						$edit_array = array(
+							"client_rvw_by" => $current_user,
+							"client_rvw_note" => $this->input->post('note'),
+							"client_rvw_date" => $curDateTime
+						);
+					}else{
+						$edit_array = array(
+							"mgnt_rvw_by" => $current_user,
+							"mgnt_rvw_note" => $this->input->post('note'),
+							"mgnt_rvw_date" => $curDateTime
+						);
+					}
+					$this->db->where('id', $conduent_id);
+					$this->db->update('qa_amd_conduent_feedback',$edit_array);
+
+				}
+
+				if(isset($rand_data['upload_date']) && !empty($rand_data['upload_date'])){
+						$up_date = date('Y-m-d', strtotime($rand_data['upload_date']));
+						redirect('Qa_randamiser_vikas/data_distribute_freshdesk?from_date='.$up_date.'&client_id='.$client_id.'&pro_id='.$pro_id.'&submit=Submit');
+					}else{
+						redirect('qa_ameridial/conduent');
+					}
+				//redirect('qa_ameridial/conduent');
+			}
+			$data["array"] = $a;
+			$this->load->view("dashboard",$data);
 		}
+	}
+	
+	
+	public function add_edit_conduent_direct_express($conduent_id){
+		if(check_logged_in())
+		{
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
 
-		/******** Randamiser Start***********/
-			//VIKAS START//
-			//Condulent
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_ameridial/conduent/add_edit_conduent_direct_express.php";
+			$data["content_js"] = "qa_conduent_direct_express_js.php";
+			$data['conduent_id']=$conduent_id;
+			$tl_mgnt_cond='';
+
+			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and assigned_to='$current_user'";
+			}else{
+				$tl_mgnt_cond="";
+			}
+
+			/******** Randamiser Start***********/
+			
+			
 			$rand_id=0;
 			if(!empty($this->uri->segment(4))){
 				$rand_id=$this->uri->segment(4);
 			}
 			$data['rand_id']=$rand_id;
 			$data["rand_data"] = "";
-
 			if($rand_id!=0){
-				$client_id=133;
-				$pro_id = 706;
+				$sql = "SELECT client_id, process_id FROM qa_randamiser_general_data WHERE id=$rand_id";
+				$dataClientProID = $this->Common_model->get_query_row_array($sql);
+				//print_r($dataClientProID);
+				//echo "<br>";
+				$client_id = $dataClientProID['client_id'];
+				$pro_id = $dataClientProID['process_id'];;
 				$curDateTime=CurrMySqlDate();
 				$upArr = array('distribution_opend_by' =>$current_user,'distribution_opened_datetime'=>$curDateTime);
 				$this->db->where('id', $rand_id);
-				$this->db->update('qa_randamiser_conduent_data',$upArr);
+				$this->db->update('qa_randamiser_general_data',$upArr);
 				
 				$randSql="Select srd.*,srd.aht as call_duration, S.id as sid, S.fname, S.lname, S.xpoid, S.assigned_to,
-				(select concat(fname, ' ', lname) as name from signin s1 where s1.id=S.assigned_to) as tl_name,
-				(SELECT r.folder as designation FROM `signin` sd
-			LEFT JOIN role r ON sd.role_id=r.id
-			where sd.fusion_id=srd.fusion_id) as designation,
-				DATEDIFF(CURDATE(), S.doj) as tenure
-				from qa_randamiser_conduent_data srd Left Join signin S On srd.fusion_id=S.fusion_id where srd.audit_status=0 and srd.id='$rand_id'";
+				(select concat(fname, ' ', lname) as name from signin s1 where s1.id=S.assigned_to) as tl_name,DATEDIFF(CURDATE(), S.doj) as tenure
+				from qa_randamiser_general_data srd Left Join signin S On srd.fusion_id=S.fusion_id where srd.audit_status=0 and srd.id='$rand_id'";
 				$data["rand_data"] = $rand_data =  $this->Common_model->get_query_row_array($randSql);
+				//print_r($rand_data);
 				
 			}
-			//VIKAS ENDS//
-			/******** Randamiser Ends**********/
+			/* Randamiser Code End */
 
-		$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,133) and status=1  order by name";
-		$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
+			$qSql = "SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
+			$data['agentName'] = $this->Common_model->get_query_result_array( $qSql );
 
-		$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
-		$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
+			$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
 
-		$qSql = "SELECT * from
-			(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-			(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-			(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-			(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
-			from qa_amd_conduent_feedback where id='$conduent_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
-		$data["conduent_add"] = $this->Common_model->get_query_row_array($qSql);
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
+				from qa_conduent_direct_express_feedback where id='$conduent_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			$data["conduent_direct_express_data"] = $this->Common_model->get_query_row_array($qSql);
 
-		//$currDate=CurrDate();
-		$curDateTime=CurrMySqlDate();
-		$a = array();
+			$curDateTime=CurrMySqlDate();
+			$a = array();
 
+			$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
 
-		$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
+			if($field_array['agent_id']){
 
-		if($field_array['agent_id']){
-
-			if($conduent_id==0){
-
-				$field_array=$this->input->post('data');
-				$field_array['audit_date']=CurrDate();
-				$field_array['call_date']=mmddyy2mysql($this->input->post('call_date'));
-				//$field_array['copy_received']=mmddyy2mysql($this->input->post('copy_received'));
-				$field_array['entry_date']=$curDateTime;
-				$field_array['audit_start_time']=$this->input->post('audit_start_time');
-				$a = $this->amd_upload_files($_FILES['attach_file'], $path='./qa_files/qa_ameridial/conduent/');
-				$field_array["attach_file"] = implode(',',$a);
-
-				$rowid= data_inserter('qa_amd_conduent_feedback',$field_array);
-			///////////
-				if(get_login_type()=="client"){
-					$add_array = array("client_entryby" => $current_user);
-				}else{
-					$add_array = array("entry_by" => $current_user);
-				}
-				$this->db->where('id', $rowid);
-				$this->db->update('qa_amd_conduent_feedback',$add_array);
-				if($rand_id!=0){
-				$rand_cdr_array = array("audit_status" => 1);
-				$this->db->where('id', $rand_id);
-				$this->db->update('qa_randamiser_conduent_data',$rand_cdr_array);
-				
-				$rand_array = array("is_rand" => 1);
-				$this->db->where('id', $rowid);
-				$this->db->update('qa_amd_conduent_feedback',$rand_array);
-				}
-				/*******************Fatal Call Email Send functionality added on 12-12-22 START ***********************/
-					if($field_array['overall_score'] == 0){
-						$tablename = "qa_amd_conduent_feedback";
-						$sql = "SELECT tname.*, ip.email_id_off, ip_tl.email_id_off as tl_email, concat(s.fname, ' ', s.lname) as fullname,
-							(SELECT concat(tls.fname, ' ', tls.lname) as tl_fullname FROM signin tls WHERE tls.id=tname.tl_id) as tl_fullname
-							FROM $tablename tname
-							LEFT JOIN info_personal ip ON ip.user_id=tname.agent_id 
-							LEFT JOIN signin s ON s.id=tname.agent_id
-							LEFT JOIN signin tl ON tl.id = tname.tl_id
-							LEFT JOIN info_personal ip_tl ON ip_tl.user_id = tname.tl_id
-							WHERE tname.id=$rowid";
-						$result= $this->Common_model->get_query_row_array($sql);				
-						$sqlParam ="SELECT process_id,params_columns, fatal_param,param_column_desc FROM qa_defect where table_name='$tablename'"; 
-						$resultParams = $this->Common_model->get_query_row_array($sqlParam);
-						
-						$process = floor($resultParams['process_id']);
-						$sqlProcess ="SELECT name FROM process where id='$process'"; 
-						$resultProcess = $this->Common_model->get_query_row_array($sqlProcess);
-						
-						$params = explode(",", $resultParams['params_columns']);
-						$fatal_params = explode(",", $resultParams['fatal_param']);
-						$descArr = explode(",", $resultParams['param_column_desc']);
-						
-						$msgTable = "<Table BORDER=1>";
-						$msgTable .= "<TR><TH>SL.</TH> <TH>CALL AUDIT PARAMETERS</TH><TH>QA Rating</TH> </TR>";
-						
-						$i=1;
-						$j=0;
-						foreach($params as $par){
-							//echo $str = str_replace('_', ' ', $par)."<BR>";
-							if($result[$par]=='No'){
-								$msgTable .= "<TR><TD>".$i."</TD><TD>". $descArr[$j]."</TD> <TD style='color:#FF0000'>".$result[$par]."</TD></TR>";
-							}else{
-								$msgTable .= "<TR><TD>".$i."</TD><TD>". $descArr[$j]."</TD> <TD>".$result[$par]."</TD></TR>";
-							}
-							
-							$i++;
-							$j++;
-						}
-						///////////////////////////
-						//$j=1;
-						/* if(!empty($fatal_params)){
-							
-							foreach($fatal_params as $fatal_par){
-								if(!empty($fatal_par)){
-								$msgTable .= "<TR><TD>".$i."</TD><TD style='color:#FF0000'>".$descArr[($j-14)]."</TD> <TD>".$result[$fatal_par]."</TD></TR>";
-								
-								$i++;
-								$j++;
-								}
-							}
-						} */
-						
-						
-						$msgTable .= "<TR><TD colspan='2'>Overall Score</TD> <TD>".$result['overall_score']."%</TD></TR>";
-						$msgTable .= "</Table>";
-						
-						$eccA=array();
-						//$to = $result['tl_email']; // Have to open when email will trigger to the Respective TL of the Agent
-						$to = 'fallon.stovall@fusionbposervices.com,sarah.wolf@fusionbposervices.com,tina.church@fusionbposervices.com,amitabh.vartak@fusionbposervices.com,ashish.tere@fusionbposervices.com,Faisal.Anwar@fusionbposervices.com';
-						
-						$ebody = "Hello ". $result['tl_fullname'].",<br>";
-						$ebody .= "<p>Agent Name : ".$result['fullname']."</p>";
-						$ebody .= "<p>Phone Number :  ".$result['phone_number']."</p>";
-						$ebody .= "<p>Total Talk time : ".$result['call_duration']."</p>";
-						$ebody .= "<p>Audit Date time : ".ConvServerToLocal($result['entry_date'])."</p>";
-						$ebody .= "<p>Call Summary : ".$result['call_summary']."</p>";
-						$ebody .= "<p>Feedback : ".$result['feedback']."</p><br><br>";
-						$ebody .= "<p>Please listen the call from the MWP Tool and share feedback acceptancy :</p>";
-						$ebody .=  $msgTable;
-						$ebody .= "<p>Regards,</p>";
-						$ebody .= "<p>MWP Team</p>";
-						$esubject = "Fatal Call Alert - "." For Process - ".$resultProcess['name'].", Agent Name - ".$result['fullname']." Audit Date - ".$result['audit_date'];
-						
-						//echo $ebody;
-						//exit;
+				if($conduent_id==0){
+					$field_array=$this->input->post('data');
+					$field_array['audit_date']=CurrDate();
+					$field_array['call_date']=mmddyy2mysql($this->input->post('call_date'));
+					$field_array['entry_date']=$curDateTime;
+					$field_array['audit_start_time']=$this->input->post('audit_start_time');
 					
-						$eccA[]="Bompalli.Somasundaram@omindtech.com";
-						$eccA[]="deb.dasgupta@omindtech.com";
-						$eccA[]="danish.khan@fusionbposervices.com";
-						$eccA[]="sumitra.bagchi@omindtech.com";
-						$eccA[]="anshuman.sarkar@fusionbposervices.com";
-						$eccA[]="leanna.hayes@fusionbposervices.com";
-						
-						$ecc = implode(',',$eccA);
-						$path = "";
-						$from_email="";
-						$from_name="";
-						
-						/* echo $esubject."<br>";
-						echo $ebody."<br>";
-						exit; */
-						
-						$send = $this->Email_model->send_email_sox("",$to, $ecc, $ebody, $esubject, $path, $from_email, $from_name, $isBcc="Y");
-						unset($eccA);
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						$a = $this->amd_upload_files($_FILES['attach_file'], $path='./qa_files/conduent_direct_express/');
+						$field_array["attach_file"] = implode(',',$a);
 					}
-					
-					
-					/*******************Fatal Call Email Send functionality added on 12-12-22 END ***********************/
 
-			}else{
+					$rowid= data_inserter('qa_conduent_direct_express_feedback',$field_array);
+					if(get_login_type()=="client"){
+						$add_array = array("client_entryby" => $current_user);
+					}else{
+						$add_array = array("entry_by" => $current_user);
+					}
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_conduent_direct_express_feedback',$add_array);
 
-				$field_array1=$this->input->post('data');
-				$field_array1['call_date']=mmddyy2mysql($this->input->post('call_date'));
-				//$field_array1['copy_received']=mmddyy2mysql($this->input->post('copy_received'));
-				$this->db->where('id', $conduent_id);
-				$this->db->update('qa_amd_conduent_feedback',$field_array1);
-			/////////////
-				if(get_login_type()=="client"){
-					$edit_array = array(
-						"client_rvw_by" => $current_user,
-						"client_rvw_note" => $this->input->post('note'),
-						"client_rvw_date" => $curDateTime
-					);
 				}else{
-					$edit_array = array(
-						"mgnt_rvw_by" => $current_user,
-						"mgnt_rvw_note" => $this->input->post('note'),
-						"mgnt_rvw_date" => $curDateTime
-					);
+
+					$field_array1=$this->input->post('data');
+					$field_array1['call_date']=mmddyy2mysql($this->input->post('call_date'));
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						if(!file_exists("./qa_files/conduent_direct_express/")){
+							mkdir("./qa_files/conduent_direct_express/");
+						}
+						$a = $this->amd_upload_files( $_FILES['attach_file'], $path = './qa_files/conduent_direct_express/' );
+						$field_array1['attach_file'] = implode( ',', $a );
+					}
+
+					$this->db->where('id', $conduent_id);
+					$this->db->update('qa_conduent_direct_express_feedback',$field_array1);
+					/////////////
+					if(get_login_type()=="client"){
+						$edit_array = array(
+							"client_rvw_by" => $current_user,
+							"client_rvw_note" => $this->input->post('note'),
+							"client_rvw_date" => $curDateTime
+						);
+					}else{
+						$edit_array = array(
+							"mgnt_rvw_by" => $current_user,
+							"mgnt_rvw_note" => $this->input->post('note'),
+							"mgnt_rvw_date" => $curDateTime
+						);
+					}
+					$this->db->where('id', $conduent_id);
+					$this->db->update('qa_conduent_direct_express_feedback',$edit_array);
+
+						/* Randamiser section */
+					if($rand_id!=0){
+						$rand_cdr_array = array("audit_status" => 1);
+						$this->db->where('id', $rand_id);
+						$this->db->update('qa_randamiser_general_data',$rand_cdr_array);
+						
+						$rand_array = array("is_rand" => 1);
+						$this->db->where('id', $rowid);
+						$this->db->update('qa_conduent_direct_express_feedback',$rand_array);
+					}
+
 				}
-				$this->db->where('id', $conduent_id);
-				$this->db->update('qa_amd_conduent_feedback',$edit_array);
 
-			}
-
-			if(isset($rand_data['upload_date']) && !empty($rand_data['upload_date'])){
+				if(isset($rand_data['upload_date']) && !empty($rand_data['upload_date'])){
 					$up_date = date('Y-m-d', strtotime($rand_data['upload_date']));
-					redirect('Qa_randamiser_vikas/data_distribute_freshdesk?from_date='.$up_date.'&client_id='.$client_id.'&pro_id='.$pro_id.'&submit=Submit');
+					redirect('Impoter_xls/data_distribute?from_date='.$up_date.'&client_id='.$client_id.'&pro_id='.$pro_id.'&submit=Submit');
 				}else{
 					redirect('qa_ameridial/conduent');
 				}
-			//redirect('qa_ameridial/conduent');
-		}
-		$data["array"] = $a;
-		$this->load->view("dashboard",$data);
-	}
-}
 
+			}
+			$data["array"] = $a;
+			$this->load->view("dashboard",$data);
+		}
+	}
+	
+	
+//////////////////////////////////////////////////////////////////////////
+/////////////////////////////// AFFINITY /////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+	public function affinity(){
+		if(check_logged_in())
+		{
+			$current_user = get_user_id();
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_ameridial/affinity/feedback_affinity.php";
+			$data["content_js"] = "qa_ameridial_healthcare_js.php";			
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM signin where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1 order by name";
+			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
+
+			$from_date = $this->input->get('from_date');
+			$to_date = $this->input->get('to_date');
+			$agent_id = $this->input->get('agent_id');
+			$file = $this->input->get('file');
+			$cond="";
+
+			if($from_date==""){
+				$from_date=CurrDate();
+			}else{
+				$from_date = mmddyy2mysql($from_date);
+			}
+
+			if($to_date==""){
+				$to_date=CurrDate();
+			}else{
+				$to_date = mmddyy2mysql($to_date);
+			}
+
+			if($from_date !="" && $to_date!=="" )  $cond= " Where (date(audit_date) >= '$from_date' and date(audit_date) <= '$to_date' ) ";
+			if($agent_id !="")	$cond .=" and agent_id='$agent_id'";
+			if($file !="")	$cond .=" and file_no like '%$file%'";
+
+			if(get_user_fusion_id()!='FMIN000011' || get_user_fusion_id()!='FUTA000007' || get_user_fusion_id()!='FUTA000012'){
+				$ops_cond="";
+			}else{
+				if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+					$ops_cond=" Where (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+				}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+					$ops_cond=" Where assigned_to='$current_user'";
+				}else{
+					$ops_cond="";
+				}
+			}
+
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_amd_affinity_feedback $cond) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, get_process_names(id) as campaign, assigned_to from signin) yy on (xx.agent_id=yy.sid) $ops_cond order by audit_date";
+			$data["affinity"] = $this->Common_model->get_query_result_array($qSql);
+		/////////////////
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_amd_affinity_pro_feedback $cond) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, get_process_names(id) as campaign, assigned_to from signin) yy on (xx.agent_id=yy.sid) $ops_cond order by audit_date";
+			$data["affinity_pro"] = $this->Common_model->get_query_result_array($qSql);
+		
+			$data["from_date"] = $from_date;
+			$data["to_date"] = $to_date;
+			$this->load->view("dashboard",$data);
+		}
+	}
+	
+	
+	public function add_edit_affinity($affinity_id){
+		if(check_logged_in())
+		{
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_ameridial/affinity/add_edit_affinity.php";
+			$data["content_js"] = "qa_ameridial_healthcare_js.php";
+			$data['affinity_id']=$affinity_id;
+			$tl_mgnt_cond='';
+			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and assigned_to='$current_user'";
+			}else{
+				$tl_mgnt_cond="";
+			}
+
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
+			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
+
+			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
+			$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
+				from qa_amd_affinity_feedback where id='$affinity_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			$data["affinity"] = $this->Common_model->get_query_row_array($qSql);
+			
+
+			$curDateTime=CurrMySqlDate();
+			$a = array();
+			
+			$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
+			
+			if($field_array['agent_id']){
+				
+				if($affinity_id==0){
+					$field_array=$this->input->post('data');
+					$field_array['audit_date']=CurrDate();
+					$field_array['entry_date']=$curDateTime;
+					$field_array['call_date']=mmddyy2mysql($this->input->post('call_date'));
+					$field_array['audit_start_time']=$this->input->post('audit_start_time');
+					$a = $this->edu_upload_files($_FILES['attach_file'], $path='./qa_files/affinity/');
+					$field_array["attach_file"] = implode(',',$a);
+					$rowid= data_inserter('qa_amd_affinity_feedback',$field_array);
+				
+					if(get_login_type()=="client"){
+						$current_user=get_user_id();
+						$add_array = array("client_entryby" => $current_user);
+					}else{
+						$current_user=get_user_id();
+						$add_array = array("entry_by" => $current_user);
+					}
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_amd_affinity_feedback',$add_array);
+					
+				}else{
+					$field_array1=$this->input->post('data');
+					$field_array1['call_date']=mmddyy2mysql($this->input->post('call_date'));
+					$this->db->where('id', $affinity_id);
+					$this->db->update('qa_amd_affinity_feedback',$field_array1);
+					/////////////
+					if(get_login_type()=="client"){
+						$edit_array = array(
+							"client_rvw_by" => $current_user,
+							"client_rvw_note" => $this->input->post('note'),
+							"client_rvw_date" => $curDateTime
+						);
+					}else{
+						$edit_array = array(
+							"mgnt_rvw_by" => $current_user,
+							"mgnt_rvw_note" => $this->input->post('note'),
+							"mgnt_rvw_date" => $curDateTime
+						);
+					}
+					$this->db->where('id', $affinity_id);
+					$this->db->update('qa_amd_affinity_feedback',$edit_array);
+					
+				}
+				redirect('Qa_ameridial/affinity');
+			}
+			$data["array"] = $a;
+			$this->load->view("dashboard",$data);
+		}
+	}
+
+
+
+	public function add_edit_affinity_pro($affinity_id){
+		if(check_logged_in())
+		{
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_ameridial/affinity/add_edit_affinity_pro.php";
+			$data["content_js"] = "qa_ameridial_healthcare_js.php";
+			$data['affinity_id']=$affinity_id;
+			$tl_mgnt_cond='';
+			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and assigned_to='$current_user'";
+			}else{
+				$tl_mgnt_cond="";
+			}
+
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,'660,709,648,705,700,687,646,640,665,656') and status=1  order by name";
+			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
+
+			$qSql = "SELECT id, fname, lname, fusion_id, office_id FROM signin where role_id in (select id from role where (folder in ('tl','trainer','am','manager')) or (name in ('Client Services'))) and status=1";
+			$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+			
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
+				from qa_amd_affinity_pro_feedback where id='$affinity_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			$data["affinity_pro"] = $this->Common_model->get_query_row_array($qSql);
+			
+
+			$curDateTime=CurrMySqlDate();
+			$a = array();
+			
+			$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
+			
+			if($field_array['agent_id']){
+				
+				if($affinity_id==0){
+					$field_array=$this->input->post('data');
+					$field_array['audit_date']=CurrDate();
+					$field_array['entry_date']=$curDateTime;
+					$field_array['call_date']=mmddyy2mysql($this->input->post('call_date'));
+					$field_array['audit_start_time']=$this->input->post('audit_start_time');
+					$a = $this->edu_upload_files($_FILES['attach_file'], $path='./qa_files/affinity/');
+					$field_array["attach_file"] = implode(',',$a);
+					$rowid= data_inserter('qa_amd_affinity_pro_feedback',$field_array);
+				
+					if(get_login_type()=="client"){
+						$current_user=get_user_id();
+						$add_array = array("client_entryby" => $current_user);
+					}else{
+						$current_user=get_user_id();
+						$add_array = array("entry_by" => $current_user);
+					}
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_amd_affinity_pro_feedback',$add_array);
+					
+				}else{
+					
+					$field_array1=$this->input->post('data');
+					$field_array1['call_date']=mmddyy2mysql($this->input->post('call_date'));
+					$this->db->where('id', $affinity_id);
+					$this->db->update('qa_amd_affinity_pro_feedback',$field_array1);
+					/////////////
+					if(get_login_type()=="client"){
+						$edit_array = array(
+							"client_rvw_by" => $current_user,
+							"client_rvw_note" => $this->input->post('note'),
+							"client_rvw_date" => $curDateTime
+						);
+					}else{
+						$edit_array = array(
+							"mgnt_rvw_by" => $current_user,
+							"mgnt_rvw_note" => $this->input->post('note'),
+							"mgnt_rvw_date" => $curDateTime
+						);
+					}
+					$this->db->where('id', $affinity_id);
+					$this->db->update('qa_amd_affinity_pro_feedback',$edit_array);
+					
+				}
+				redirect('Qa_ameridial/affinity');
+			}
+			$data["array"] = $a;
+			$this->load->view("dashboard",$data);
+		}
+	}
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 

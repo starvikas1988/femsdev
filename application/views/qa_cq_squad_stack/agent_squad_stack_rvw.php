@@ -308,7 +308,7 @@
 										<tr>
 											<td style="color:red; font-weight:bold">Critical</td>
 											<td style="color:Navy; font-weight:bold">Customer</td>
-											<td colspan=2 style="color:red;">Did the Sales Expert conduct the call without using abusive words or heated words?</td>
+											<td colspan=2 style="background-color:red;;color:white;font-weight:bold">Did the Sales Expert conduct the call without using abusive words or heated words?</td>
 											<td>6</td>
 											<td>
 												<select class="form-control squad_stack_point" id ="squadstackAF2" name="data[conduct_call_without_abusive]" disabled>

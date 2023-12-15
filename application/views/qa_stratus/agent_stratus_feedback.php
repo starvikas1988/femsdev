@@ -52,6 +52,7 @@
 											<option <?php echo $campaign=='stratus_outbound'?"selected":""; ?> value="stratus_outbound">Stratus Outbound</option>
 											<option <?php echo $campaign=='stratus_calltech'?"selected":""; ?> value="stratus_calltech">Call Tech</option>
 											<option <?php echo $campaign=='stratus_monitoringtech'?"selected":""; ?> value="stratus_monitoringtech">Monitoring Tech</option>
+											<option <?php echo $campaign=='stratus_monitoringtech_v1'?"selected":""; ?> value="stratus_monitoringtech_v1">Monitoring Tech V1</option>
 										</select>
 								</div>
 								</div>
@@ -152,6 +153,8 @@
 											<?php 
 										}elseif ($campaign=='stratus_monitoringtech'){		?>
 										<a class="btn btn-success" href="<?php echo base_url(); ?>qa_stratus/agent_monitoring_tech_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
+										<?php }elseif ($campaign=='stratus_monitoringtech_v1'){		?>
+										<a class="btn btn-success" href="<?php echo base_url(); ?>qa_stratus/agent_monitoring_tech_v1_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
 										<?php } ?>
 										</td>
 									</tr>

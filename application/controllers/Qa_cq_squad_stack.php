@@ -525,12 +525,15 @@ public function qa_cq_squad_stack_agent_feedback()
 			$qSql="Select count(id) as value from  qa_cq_squad_stack where agent_id='$current_user' and agent_rvw_date=' '";
 			$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql);
 
-			$qSql="Select count(id) as value from qa_squad_stack_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
-			$data["tot_agent_feedback"] =  $this->Common_model->get_single_value($qSql);
 
-			$qSql="Select count(id) as value from qa_squad_stack_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
+			$qSql_squad_stack="Select count(id) as value from qa_squad_stack_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
 
-			$data["tot_agent_yet_rvw"] =  $this->Common_model->get_single_value($qSql);
+			$data["tot_agent_feedback"] =  $this->Common_model->get_single_value($qSql_squad_stack);
+
+
+			$qSql_squad_stack="Select count(id) as value from qa_squad_stack_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
+
+			$data["tot_agent_yet_rvw"] =  $this->Common_model->get_single_value($qSql_squad_stack);
 			
 			
 			if($this->input->get('btnView')=='View')
@@ -561,7 +564,7 @@ public function qa_cq_squad_stack_agent_feedback()
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_squad_stack_feedback $cond) xx Left Join
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_squad_stack_feedback $cond And audit_type not in ('Calibration', 'Pre-Certificate Mock Call','QA Supervisor Audit', 'Certification Audit')) xx Left Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
 				$data["agent_squad_stack_rvw_list"] = $this->Common_model->get_query_result_array($qSql);
 					
@@ -579,7 +582,7 @@ public function qa_cq_squad_stack_agent_feedback()
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_squad_stack_feedback where agent_id='$current_user') xx Left Join
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_squad_stack_feedback where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call','QA Supervisor Audit', 'Certification Audit')) xx Left Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) ";
 				//Where xx.agent_rvw_date is Null
 				$data["agent_squad_stack_rvw_list"] = $this->Common_model->get_query_result_array($qSql);
@@ -976,7 +979,7 @@ $row .= '"'.$user['summarization_observation'].'",';
 
 }else if($campaign=='squad_stack_feedback'){
 	///////////////////////////
-$header = array("Auditor Name", "Audit Date ", "Agent Name ", "Employee ID ", "L1 Supervisor ", "Call Date/Time ", "Audit Type ", "Type of Auditor ", "Earned Score ", "Possible Score ", "Overall Score % ", "Auditor Type", "VOC","Call Id","Auditor's BP Id","KPI - ACPT", 
+$header = array("Auditor Name", "Audit Date ", "Agent Name ", "Employee ID ", "L1 Supervisor ", "Call Date/Time ","Call Duration", "Audit Type ","Earned Score ", "Possible Score ", "Overall Score % ", "Auditor Type", "VOC","Call Id","Auditor's BP Id","KPI - ACPT", 
 	"Did the Sales Expert use correct disposition on call?","Remarks",
 	"Was the call free from noise at SE's side?","Remarks",
 	"Did the Sales Expert modulate the rate of speech and tone when talking to the lead?","Remarks",
@@ -1032,8 +1035,8 @@ $header = array("Auditor Name", "Audit Date ", "Agent Name ", "Employee ID ", "L
 				$row .= '"'.$user['fusion_id'].'",';
 				$row .= '"'.$user['tl_name'].'",';
 				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['call_duration'].'",';
 				$row .= '"'.$user['audit_type'].'",';
-				$row .= '"'.$user['auditor_type'].'",';
 				$row .= '"'.$user['earned_score'].'",';
 				$row .= '"'.$user['possible_score'].'",';
 				$row .= '"'.$user['overall_score'].'"% ,';
@@ -1101,13 +1104,8 @@ $header = array("Auditor Name", "Audit Date ", "Agent Name ", "Employee ID ", "L
 				$row .= '"'.$user['mgnt_rvw_date'].'",';
 				$row .= '"'.$user['mgnt_rvw_name'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
-				
-				
-				
-				
 				$row .= '"'.$user['client_rvw_name'].'",';
-				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
-
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'",';
 				$row .= '"'.$user['client_rvw_date'].'",';
 
 		

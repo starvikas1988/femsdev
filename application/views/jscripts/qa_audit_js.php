@@ -6,9 +6,8 @@
 		$("#from_date").datepicker({maxDate: new Date() });
 	    $("#to_date").datepicker({maxDate: new Date() });
 	    $("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });
-		$("#audit_date").datepicker({
-			dateFormat: 'mm-dd-yy'
-		});
+		$("#audit_date").datepicker({ dateFormat: 'mm-dd-yy' });
+		$("#adtlist_audit_date").datepicker({ dateFormat: 'yy-mm-dd' });
 		$("#call_date").datepicker({maxDate: new Date()}); //datetimepicker
 		$("#call_date_time").datetimepicker({ timeFormat:'HH:mm:ss',maxDate: new Date()});
 		// $('#call_date_time').datetimepicker({
@@ -26,18 +25,20 @@
 
 		//$("#call_duration").timepicker({ timeFormat:'HH:mm:ss', showButtonPanel:false });
 		$("#call_duration1").timepicker({ timeFormat:'HH:mm:ss', showButtonPanel:false });
-		// $("#from_date").datepicker({
-		// 	onSelect: function(selected) {
-		// 	  $("#to_date").datepicker("option","minDate", selected);
-		// 	},
-		// 	dateFormat: 'mm-dd-yy'
-		// });
-		// $("#to_date").datepicker({
-		// 	onSelect: function(selected) {
-		// 	   $("#from_date").datepicker("option","maxDate", selected);
-		// 	},
-		// 	dateFormat: 'mm-dd-yy'
-		// });
+		$("#adtlist_from_date").datepicker({
+			onSelect: function(selected) {
+			  $("#adtlist_to_date").datepicker("option","minDate", selected);
+			},
+			maxDate: new Date(),
+			dateFormat: 'mm-dd-yy'
+		});
+		$("#adtlist_to_date").datepicker({
+			onSelect: function(selected) {
+			   $("#adtlist_from_date").datepicker("option","maxDate", selected);
+			},
+			maxDate: new Date(),
+			dateFormat: 'mm-dd-yy'
+		});
 		$("#call_start_date").datepicker({
 			onSelect: function(selected) {
 			  $("#call_end_date").datepicker("option","minDate", selected);
@@ -87,6 +88,7 @@
 					for (var i in json_obj) $('#fusion_id').append($('#fusion_id').val(json_obj[i].fusion_id));
 					for (var i in json_obj) $('#campaign').append($('#campaign').val(json_obj[i].process_name));
 					for (var i in json_obj) $('#office_id').append($('#office_id').val(json_obj[i].office_id));
+					for (var i in json_obj) $('#tenure').append($('#tenure').val(json_obj[i].tenure));
 					$('#sktPleaseWait').modal('hide');
 				},
 				error: function(){	
@@ -433,6 +435,13 @@
 			$(".appdirectFatal").val(overall_score+'%');
 		}
 		
+	///////////// Healthmitra //////////////////
+		if($("#healthMitraAF1").val()=='No' || $("#healthMitraAF2").val()=='No' || $("#healthMitraAF3").val()=='No' || $("#healthMitraAF4").val()=='No' || $("#healthMitraAF5").val()=='No'){
+			$(".healthMitraFatal").val(0+'%');
+		}else{
+			$(".healthMitraFatal").val(overall_score+'%');
+		}
+		
 	
 	}
 	
@@ -450,6 +459,79 @@
 		$(document).on('change','.comp_scorecalc',function(){ score_calculation(); });
 		
 		score_calculation();
+	});
+</script>
+
+
+<script>
+	function coaching_calc(){
+	/*---- Main score calculation ----*/
+		var score = 0;
+		var scoreable = 0;
+		var overall_score=0;
+		$('.cochCalc').each(function(index,element){
+			var w1 = parseFloat($(element).children("option:selected").attr('scr_val'));
+			var w2 = parseFloat($(element).children("option:selected").attr('scr_max'));
+			score = score + w1;
+			scoreable = scoreable + w2;
+		});
+		overall_score = ((score*100)/scoreable).toFixed(2);
+		$('#earnedScore').val(score.toFixed(2));
+		$('#possibleScore').val(scoreable.toFixed(2));
+		if(!isNaN(overall_score)){
+			if(score<=0){
+				$('#overallScore').val(0+'%');
+			}else{
+				$('#overallScore').val(overall_score+'%');
+			}
+		}
+		
+	//////Pajamagram [CSCall]///////
+		if(score>=16 && score<=17){
+			$('#overallPerformanceCSCall').val('Excellent call! Exceeds expectations');
+		}else if(score>=15 && score<16){
+			$('#overallPerformanceCSCall').val('Meets expectations');
+		}else if(score>=13 && score<=14){
+			$('#overallPerformanceCSCall').val('Meets most expectations');
+		}else if(score>=11 && score<=12){
+			$('#overallPerformanceCSCall').val('Meets some expectations');
+		}else if(score>=9 && score<=10){
+			$('#overallPerformanceCSCall').val('Does not meet expectations');
+		}else if(score<=8){
+			$('#overallPerformanceCSCall').val('Significant improvement needed');
+		}
+	//////Pajamagram [Email]///////
+		if(score>=10){
+			$('#overallPerformanceEmail').val('Meets expectations');
+		}else if(score>=9 && score<10){
+			$('#overallPerformanceEmail').val('Meets most expectations');
+		}else if(score>=7 && score<=8){
+			$('#overallPerformanceEmail').val('Meets some expectations');
+		}else if(score>=6 && score<7){
+			$('#overallPerformanceEmail').val('Does not meet expectations');
+		}else if(score<=5){
+			$('#overallPerformanceEmail').val('Significant improvement needed');
+		}
+	//////Pajamagram [SalesCall]///////
+		if(score>=16 && score<=17){
+			$('#overallPerformanceSalesCall').val('Excellent call! Exceeds expectations');
+		}else if(score>=15 && score<16){
+			$('#overallPerformanceSalesCall').val('Meets expectations');
+		}else if(score>=13 && score<=14){
+			$('#overallPerformanceSalesCall').val('Meets most expectations');
+		}else if(score>=11 && score<=12){
+			$('#overallPerformanceSalesCall').val('Meets some expectations');
+		}else if(score>=9 && score<=10){
+			$('#overallPerformanceSalesCall').val('Does not meet expectations');
+		}else if(score<=8){
+			$('#overallPerformanceSalesCall').val('Significant improvement needed');
+		}
+	
+	}
+	
+	$(document).ready(function(){
+		$(document).on('change','.cochCalc',function(){ coaching_calc(); });
+		coaching_calc();
 	});
 </script>
 

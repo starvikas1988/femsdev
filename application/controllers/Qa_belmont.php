@@ -108,7 +108,7 @@
 	public function getTLname(){
 		if(check_logged_in()){
 			$aid=$this->input->post('aid');
-			$qSql = "Select id, assigned_to, fusion_id, get_process_names(id) as process_name, office_id, (select concat(fname, ' ', lname) from signin tl where tl.id=signin.assigned_to) as tl_name FROM signin where id = '$aid'";
+			$qSql = "Select id, assigned_to, fusion_id, get_process_names(id) as process_name, office_id, (select concat(fname, ' ', lname) from signin tl where tl.id=signin.assigned_to) as tl_name, DATEDIFF(CURDATE(), doj) as tenure FROM signin where id = '$aid'";
 			echo json_encode($this->Common_model->get_query_result_array($qSql));
 		}
 	}

@@ -78,7 +78,7 @@
 				$file_name = $info['file_name'];
 				if(strtolower($ext)== '.wav'){
 
-					$file_name = str_replace(".","_",$file_name).".mp3";
+					$file_name = str_replace(".","_",$file_name).".wav";
 					$new_path = $file_path.$file_name;
 					$comdFile=FCPATH."assets/script/wavtomp3.sh '$full_path' '$new_path'";
 					$output = shell_exec( $comdFile);

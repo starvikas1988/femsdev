@@ -174,7 +174,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=5 <?php echo $monitoring_tech['routine_checks'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=5 <?php echo $monitoring_tech['routine_checks'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=0 <?php echo $monitoring_tech['routine_checks'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=5 <?php echo $monitoring_tech['routine_checks'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>5</td>
@@ -194,7 +194,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_report'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_report'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=0<?php echo $monitoring_tech['patient_report'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=1 <?php echo $monitoring_tech['patient_report'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -208,7 +208,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['amplifier'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['amplifier'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=0 <?php echo $monitoring_tech['amplifier'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=1 <?php echo $monitoring_tech['amplifier'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -222,7 +222,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['cameras'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['cameras'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=0 <?php echo $monitoring_tech['cameras'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=1 <?php echo $monitoring_tech['cameras'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -237,7 +237,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['highlighting'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['highlighting'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=0 <?php echo $monitoring_tech['highlighting'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=1 <?php echo $monitoring_tech['highlighting'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -251,7 +251,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['contacting'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['contacting'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=0 <?php echo $monitoring_tech['contacting'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=1 <?php echo $monitoring_tech['contacting'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -265,7 +265,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['initials'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['initials'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=0 <?php echo $monitoring_tech['initials'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=1 <?php echo $monitoring_tech['initials'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -279,7 +279,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=5 <?php echo $monitoring_tech['patient_call'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=5 <?php echo $monitoring_tech['patient_call'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=0 <?php echo $monitoring_tech['patient_call'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=5 <?php echo $monitoring_tech['patient_call'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>5</td>
@@ -298,7 +298,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['master_setup'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['master_setup'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=0 <?php echo $monitoring_tech['master_setup'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=1 <?php echo $monitoring_tech['master_setup'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -312,7 +312,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_rept'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_rept'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=0 <?php echo $monitoring_tech['patient_rept'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=1 <?php echo $monitoring_tech['patient_rept'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -326,7 +326,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_id'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_id'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=0 <?php echo $monitoring_tech['patient_id'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=1 <?php echo $monitoring_tech['patient_id'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -340,7 +340,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_phone'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_phone'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=0 <?php echo $monitoring_tech['patient_phone'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=1 <?php echo $monitoring_tech['patient_phone'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -354,7 +354,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['start_time'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['start_time'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=0 <?php echo $monitoring_tech['start_time'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=1 <?php echo $monitoring_tech['start_time'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -368,7 +368,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_cameras'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_cameras'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=0 <?php echo $monitoring_tech['patient_cameras'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=1 <?php echo $monitoring_tech['patient_cameras'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -382,7 +382,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_location'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['patient_location'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=0 <?php echo $monitoring_tech['patient_location'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=1 <?php echo $monitoring_tech['patient_location'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -396,7 +396,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=5 <?php echo $monitoring_tech['bright_tree'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=5 <?php echo $monitoring_tech['bright_tree'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=0 <?php echo $monitoring_tech['bright_tree'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=5 <?php echo $monitoring_tech['bright_tree'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>5</td>
@@ -415,7 +415,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['incorrect_time'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['incorrect_time'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=0 <?php echo $monitoring_tech['incorrect_time'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=1 <?php echo $monitoring_tech['incorrect_time'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -429,7 +429,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['data_card'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['data_card'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=0 <?php echo $monitoring_tech['data_card'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=1 <?php echo $monitoring_tech['data_card'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>
@@ -443,7 +443,7 @@ if(is_access_qa_edit_feedback()==false){ ?>
 												<!-- <option value="">-Select-</option> -->
 												<option stratus_val=1 <?php echo $monitoring_tech['configured'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
 												<option stratus_val=1 <?php echo $monitoring_tech['configured'] == "No"?"selected":"";?> value="No">No</option>
-												<option stratus_val=0 <?php echo $monitoring_tech['configured'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option stratus_val=1 <?php echo $monitoring_tech['configured'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select> 
 										</td>
 										<td>1</td>

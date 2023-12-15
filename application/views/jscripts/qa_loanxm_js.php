@@ -64,11 +64,11 @@ function stratus_calc() {
 
     $('.stratus_point').each(function(index, element) {
         var score_type = $(element).val();
-        if (score_type == 'Yes') {
+        if (score_type == 'Yes' || score_type == 'Pass') {
             var weightage = parseFloat($(element).children("option:selected").attr('stratus_val'));
             score = score + weightage;
             scoreable = scoreable + weightage;
-        } else if (score_type == 'No') {
+        } else if (score_type == 'No' || score_type == 'Fail') {
             var weightage = parseFloat($(element).children("option:selected").attr('stratus_val'));
             scoreable = scoreable + weightage;
         } else if (score_type == 'N/A') {
@@ -109,6 +109,15 @@ function stratus_calc() {
         $('.monitorinttech_fatal').val(quality_score_percent + '%');
         $("#param1").val('No');
     }
+
+    /////////////Monitoring Tech V1 /////////////////////////
+    if ($('#call_video_fatal').val() == 'Fail' || $('#call_OOR_fatal').val() == 'Fail') {
+        $('.monitorinttech_fatal').val(0);
+        $("#param1").val('Yes');
+    }else{
+        $('.monitorinttech_fatal').val(quality_score_percent + '%');
+        $("#param1").val('No');
+    }
     
     /////////////////////////////////
     // Autofail
@@ -142,15 +151,18 @@ function stratus_calc() {
 		var businessscore1 = 0;
 		var businessscoreable1 = 0;
 		var business_score_percent1 = 0;
+        var score_type1 = 0;
+        var score_type2 = 0;
+        var score_type3 = 0;
 		
 		$('.compliance').each(function(index,element){
 			var score_type1 = $(element).val();
 			
-			if(score_type1 == 'Yes'){
+			if(score_type1 == 'Yes' || score_type1 == 'Pass'){
 				var weightage1 = parseInt($(element).children("option:selected").attr('stratus_val'));
 				compliancescore1 = compliancescore1 + weightage1;
 				compliancescoreable1 = compliancescoreable1 + weightage1;
-			}else if(score_type1 == 'No'){
+			}else if(score_type1 == 'No' || score_type1 == 'Fail'){
 				var weightage1 = parseInt($(element).children("option:selected").attr('stratus_val'));
 				compliancescoreable1 = compliancescoreable1 + weightage1;
 			}else if(score_type1 == 'N/A'){
@@ -167,11 +179,11 @@ function stratus_calc() {
 		$('.customer').each(function(index,element){
 			var score_type2 = $(element).val();
 			
-			if(score_type2 == 'Yes'){
+			if(score_type2 == 'Yes' || score_type2 == 'Pass'){
 				var weightage2 = parseInt($(element).children("option:selected").attr('stratus_val'));
 				customerscore1 = customerscore1 + weightage2;
 				customerscoreable1 = customerscoreable1 + weightage2;
-			}else if(score_type2 == 'No'){
+			}else if(score_type2 == 'No' || score_type2 == 'Fail'){
 				var weightage2 = parseInt($(element).children("option:selected").attr('stratus_val'));
 				customerscoreable1 = customerscoreable1 + weightage2;
 			}else if(score_type2 == 'N/A'){
@@ -188,11 +200,11 @@ function stratus_calc() {
 		$('.business').each(function(index,element){
 			var score_type3 = $(element).val();
 			
-			if(score_type3 == 'Yes'){
+			if(score_type3 == 'Yes' || score_type3 == 'Pass'){
 				var weightage3 = parseInt($(element).children("option:selected").attr('stratus_val'));
 				businessscore1 = businessscore1 + weightage3;
 				businessscoreable1 = businessscoreable1 + weightage3;
-			}else if(score_type3 == 'No'){
+			}else if(score_type3 == 'No' || score_type3 == 'Fail'){
 				var weightage3 = parseInt($(element).children("option:selected").attr('stratus_val'));
 				businessscoreable1 = businessscoreable1 + weightage3;
 			}else if(score_type3 == 'N/A'){
@@ -207,10 +219,6 @@ function stratus_calc() {
 		$('#business_score_percent1').val(business_score_percent+'%');
 
 }
-
-
-
-
 
 $(document).on('change', '.stratus_point', function() {
     stratus_calc();
@@ -605,6 +613,13 @@ $(document).ready(function() {
     $("#from_date").datepicker({maxDate: new Date() });
     $("#to_date").datepicker({maxDate: new Date() });
     $("#go_live_date").datepicker();
+
+    $(document).ready(function() {
+    $("#call_date_time").datetimepicker({
+        maxDate: new Date(),
+        timeFormat: 'HH:mm:ss'
+    });
+});
 
 
     ///////////////// Calibration - Auditor Type ///////////////////////	

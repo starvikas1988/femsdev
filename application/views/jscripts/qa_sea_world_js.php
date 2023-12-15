@@ -570,6 +570,134 @@ $('INPUT[type="file"]').change(function () {
 	sea_world_chat_calc();
 </script>
 
+<script type="text/javascript">
+ 		function fc_escalation_calc(){
+		let score_park = 0;
+		let scoreable_park = 0;
+		let quality_score_percent_park = 0.00;
+		let pass_count_park = 0;
+		let fail_count_park = 0;
+		let na_count_park = 0;
+		let score_fc_escalation_final = 0;
+		let scoreable_fc_escalation_final = 0;
+
+		$('.fc_escalation_point').each(function(index,element){
+			let score_type_park = $(element).val();
+			
+			if(score_type_park == 'Yes'){
+				pass_count_park = pass_count_park + 1;
+				let w1_park = parseFloat($(element).children("option:selected").attr('fc_escalation_val'));
+				let w2_park = parseFloat($(element).children("option:selected").attr('fc_escalation_max'));
+				
+				score_park = score_park + w1_park;
+				scoreable_park = scoreable_park + w2_park;
+
+			}else if(score_type_park == 'No'){
+				fail_count_park = fail_count_park + 1;
+				let w1_park = parseFloat($(element).children("option:selected").attr('fc_escalation_val'));
+				let w2_park = parseFloat($(element).children("option:selected").attr('fc_escalation_max'));
+
+				//score = score + w1;
+				scoreable_park = scoreable_park + w2_park;
+				//scoreable = scoreable + weightage;
+			}
+		});
+		quality_score_percent_park = ((score_park*100)/scoreable_park).toFixed(2);
+
+		if(quality_score_percent_park == "NaN"){
+			quality_score_percent_park = (0.00).toFixed(2);
+		}else{
+			quality_score_percent_park = quality_score_percent_park;
+		}
+		
+      score_fc_escalation_final     = (score_park).toFixed(2);
+      scoreable_fc_escalation_final = (scoreable_park).toFixed(2);
+
+		$('#fc_escalation_earned_score').val(score_fc_escalation_final);
+		$('#fc_escalation_possible_score').val(scoreable_fc_escalation_final);
+		
+		if(!isNaN(quality_score_percent_park)){
+			$('#fc_escalation_overall_score').val(quality_score_percent_park+'%');
+		}
+
+		
+		if($('#fc_fatal1').val()=='Fail' || $('#fc_fatal2').val()=='Fail' || $('#fc_fatal3').val()=='Fail' || $('#fc_fatal4').val()=='Fail'){
+			$('.fc_escalationFatal').val(0+'%');
+		}else{
+			$('.fc_escalationFatal').val(quality_score_percent_park+'%');
+		}
+	}
+	
+	$(document).on('change','.fc_escalation_point',function(){
+		fc_escalation_calc();
+	});
+	fc_escalation_calc();
+</script>
+
+<script type="text/javascript">
+ 		function fc_hotline_calc(){
+		let score_park = 0;
+		let scoreable_park = 0;
+		let quality_score_percent_park = 0.00;
+		let pass_count_park = 0;
+		let fail_count_park = 0;
+		let na_count_park = 0;
+		let score_fc_hotline_final = 0;
+		let scoreable_fc_hotline_final = 0;
+
+		$('.fc_hotline_point').each(function(index,element){
+			let score_type_park = $(element).val();
+			
+			if(score_type_park == 'Yes'){
+				pass_count_park = pass_count_park + 1;
+				let w1_park = parseFloat($(element).children("option:selected").attr('fc_hotline_val'));
+				let w2_park = parseFloat($(element).children("option:selected").attr('fc_hotline_max'));
+				
+				score_park = score_park + w1_park;
+				scoreable_park = scoreable_park + w2_park;
+
+			}else if(score_type_park == 'No'){
+				fail_count_park = fail_count_park + 1;
+				let w1_park = parseFloat($(element).children("option:selected").attr('fc_hotline_val'));
+				let w2_park = parseFloat($(element).children("option:selected").attr('fc_hotline_max'));
+
+				//score = score + w1;
+				scoreable_park = scoreable_park + w2_park;
+				//scoreable = scoreable + weightage;
+			}
+		});
+		quality_score_percent_park = ((score_park*100)/scoreable_park).toFixed(2);
+
+		if(quality_score_percent_park == "NaN"){
+			quality_score_percent_park = (0.00).toFixed(2);
+		}else{
+			quality_score_percent_park = quality_score_percent_park;
+		}
+		
+      score_fc_hotline_final     = (score_park).toFixed(2);
+      scoreable_fc_hotline_final = (scoreable_park).toFixed(2);
+
+		$('#fc_hotline_earned_score').val(score_fc_hotline_final);
+		$('#fc_hotline_possible_score').val(scoreable_fc_hotline_final);
+		
+		if(!isNaN(quality_score_percent_park)){
+			$('#fc_hotline_overall_score').val(quality_score_percent_park+'%');
+		}
+
+		
+		if($('#fc_fatal1').val()=='Fail' || $('#fc_fatal2').val()=='Fail' || $('#fc_fatal3').val()=='Fail' || $('#fc_fatal4').val()=='Fail'){
+			$('.fc_hotlineFatal').val(0+'%');
+		}else{
+			$('.fc_hotlineFatal').val(quality_score_percent_park+'%');
+		}
+	}
+	
+	$(document).on('change','.fc_hotline_point',function(){
+		fc_hotline_calc();
+	});
+	fc_hotline_calc();
+</script>
+
 
 <script>
 	//$( "#datepicker" ).datepicker({ minDate: 0});

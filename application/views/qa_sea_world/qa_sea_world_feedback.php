@@ -288,5 +288,175 @@ input[type=submit] {
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-12">
+				<div class="widget">
+				
+					<div class="row">
+						<div class="col-md-12">
+							<header class="widget-header">
+								<h4 class="widget-title">
+									<div class="pull-left">FC ESCALATION</div>
+									<?php if(is_access_qa_module()==true){ ?>
+									<div class="pull-right">
+										<a class="btn btn-primary" href="<?php echo base_url(); ?>Qa_sea_world/add_edit_fc_escalation/0">Add Feedback</a>
+									</div>	
+									<?php } ?>
+								</h4>
+							</header>
+						</div>
+						<hr class="widget-separator">
+					</div>
+				
+					<div class="widget-body">
+						<div class="table-responsive">
+							<table id="default-datatable" data-plugin="DataTable" class="table table-striped skt-table" cellspacing="0" width="100%">
+								<thead>
+									<tr class="bg-info">
+										<th>SL</th>
+										<th>Auditor</th>
+										<th>Audit Date</th>
+										<th>Fusion ID</th>
+										<th>Agent Name</th>
+										<th>L1 Supervisor</th>
+										<th>Call Date/Time</th>
+										<th>Total Score</th>
+										<th>Agent Review Date</th>
+										<th>Mgnt Review By</th>
+										<th>Mgnt Review Date</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php $i=1;
+									foreach($fc_escalation_data as $row): ?>
+									<tr>
+										<td><?php echo $i++; ?></td>
+										<td><?php echo $row['auditor_name']; ?></td>
+										<td><?php echo $row['audit_date']; ?></td>
+										<td><?php echo $row['fusion_id']; ?></td>
+										<td><?php echo $row['fname']." ".$row['lname']; ?></td>
+										<td><?php echo $row['tl_name']; ?></td>
+										<td><?php echo $row['call_date']; ?></td>
+										<td><?php echo $row['overall_score']; ?></td>
+										<td><?php echo $row['agent_rvw_date']; ?></td>
+										<td><?php echo $row['mgnt_name']; ?></td>
+										<td><?php echo $row['mgnt_rvw_date']; ?></td>
+										<td>
+											<?php $cjid=$row['id']; ?>
+											
+											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_sea_world/add_edit_fc_escalation/<?php echo $cjid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit/Review</a>
+										</td>
+									</tr>
+									<?php endforeach; ?>
+								</tbody>
+								<tfoot>
+									<tr class="bg-info">
+										<th>SL</th>
+										<th>Auditor</th>
+										<th>Audit Date</th>
+										<th>Fusion ID</th>
+										<th>Agent Name</th>
+										<th>L1 Supervisor</th>
+										<th>Call Date</th>
+										<th>Total Score</th>
+										<th>Agent Review Date</th>
+										<th>Mgnt Review By</th>
+										<th>Mgnt Review Date</th>
+										<th>Action</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<div class="widget">
+				
+					<div class="row">
+						<div class="col-md-12">
+							<header class="widget-header">
+								<h4 class="widget-title">
+									<div class="pull-left">FC Hotline</div>
+									<?php if(is_access_qa_module()==true){ ?>
+									<div class="pull-right">
+										<a class="btn btn-primary" href="<?php echo base_url(); ?>Qa_sea_world/add_edit_fc_hotline/0">Add Feedback</a>
+									</div>	
+									<?php } ?>
+								</h4>
+							</header>
+						</div>
+						<hr class="widget-separator">
+					</div>
+				
+					<div class="widget-body">
+						<div class="table-responsive">
+							<table id="default-datatable" data-plugin="DataTable" class="table table-striped skt-table" cellspacing="0" width="100%">
+								<thead>
+									<tr class="bg-info">
+										<th>SL</th>
+										<th>Auditor</th>
+										<th>Audit Date</th>
+										<th>Fusion ID</th>
+										<th>Agent Name</th>
+										<th>L1 Supervisor</th>
+										<th>Call Date/Time</th>
+										<th>Total Score</th>
+										<th>Agent Review Date</th>
+										<th>Mgnt Review By</th>
+										<th>Mgnt Review Date</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php $i=1;
+									foreach($fc_hotline_data as $row): ?>
+									<tr>
+										<td><?php echo $i++; ?></td>
+										<td><?php echo $row['auditor_name']; ?></td>
+										<td><?php echo $row['audit_date']; ?></td>
+										<td><?php echo $row['fusion_id']; ?></td>
+										<td><?php echo $row['fname']." ".$row['lname']; ?></td>
+										<td><?php echo $row['tl_name']; ?></td>
+										<td><?php echo $row['call_date']; ?></td>
+										<td><?php echo $row['overall_score']; ?></td>
+										<td><?php echo $row['agent_rvw_date']; ?></td>
+										<td><?php echo $row['mgnt_name']; ?></td>
+										<td><?php echo $row['mgnt_rvw_date']; ?></td>
+										<td>
+											<?php $cjid=$row['id']; ?>
+											
+											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_sea_world/add_edit_fc_hotline/<?php echo $cjid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit/Review</a>
+										</td>
+									</tr>
+									<?php endforeach; ?>
+								</tbody>
+								<tfoot>
+									<tr class="bg-info">
+										<th>SL</th>
+										<th>Auditor</th>
+										<th>Audit Date</th>
+										<th>Fusion ID</th>
+										<th>Agent Name</th>
+										<th>L1 Supervisor</th>
+										<th>Call Date</th>
+										<th>Total Score</th>
+										<th>Agent Review Date</th>
+										<th>Mgnt Review By</th>
+										<th>Mgnt Review Date</th>
+										<th>Action</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
 	</section>
 </div>

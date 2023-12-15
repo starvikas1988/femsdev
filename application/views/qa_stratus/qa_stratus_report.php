@@ -81,6 +81,7 @@
 											<option <?php echo $campaign=='stratus_outbound'?"selected":""; ?> value="stratus_outbound">Stratus Outbound</option>
 											<option <?php echo $campaign=='stratus_calltech'?"selected":""; ?> value="stratus_calltech">Call Tech</option>
 											<option <?php echo $campaign=='stratus_monitoringtech'?"selected":""; ?> value="stratus_monitoringtech">Monitoring Tech</option>
+											<option <?php echo $campaign=='stratus_monitoringtech_v1'?"selected":""; ?> value="stratus_monitoringtech_v1">Monitoring Tech V1</option>
 										</select>
 								</div>
 							</div> 

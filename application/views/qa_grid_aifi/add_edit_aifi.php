@@ -283,25 +283,25 @@ if(is_access_qa_edit_feedback()==false){ ?>
 
 									<tr>
 										<td rowspan=2>Communication</td>
-										<td colspan="2">Did the operator sent a communication to the client where required</td>
-										<td>10</td>
+										<td colspan="2">Did the operator sent a communication to the client where required?</td>
+										<td>15</td>
 										<td>
 											<select class="form-control aifi_point" id="" name="data[sent_communication]" required>
-												<option aifi_val=10 aifi_max=10 <?php echo $aifi_data['sent_communication'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
-												<option aifi_val=0 aifi_max=10 <?php echo $aifi_data['sent_communication'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option aifi_val=10 aifi_max=10 <?php echo $aifi_data['sent_communication'] == "NA"?"selected":"";?> value="NA">NA</option>
+												<option aifi_val=15 aifi_max=15 <?php echo $aifi_data['sent_communication'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
+												<option aifi_val=0 aifi_max=15 <?php echo $aifi_data['sent_communication'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
+												<option aifi_val=15 aifi_max=15 <?php echo $aifi_data['sent_communication'] == "NA"?"selected":"";?> value="NA">NA</option>
 											</select>
 										</td>
 										<td><textarea class="form-control" name="data[cmt7]"><?php echo $aifi_data['cmt7'] ?></textarea></td>
 									</tr>
 									<tr>
-										<td colspan="2">Did the operator post an internal summary or info if required</td>
-										<td>10</td>
+										<td colspan="2">Did the operator post an internal summary?</td>
+										<td>15</td>
 										<td>
 											<select class="form-control aifi_point" id="" name="data[internal_summary]" required>
-												<option aifi_val=10 aifi_max=10 <?php echo $aifi_data['internal_summary'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
-												<option aifi_val=0 aifi_max=10 <?php echo $aifi_data['internal_summary'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option aifi_val=10 aifi_max=10 <?php echo $aifi_data['internal_summary'] == "NA"?"selected":"";?> value="NA">NA</option>
+												<option aifi_val=15 aifi_max=15 <?php echo $aifi_data['internal_summary'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
+												<option aifi_val=0 aifi_max=15 <?php echo $aifi_data['internal_summary'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
+												<option aifi_val=15 aifi_max=15 <?php echo $aifi_data['internal_summary'] == "NA"?"selected":"";?> value="NA">NA</option>
 											</select>
 										</td>
 										<td><textarea class="form-control" name="data[cmt8]"><?php echo $aifi_data['cmt8'] ?></textarea></td>
@@ -349,12 +349,12 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									</tr>
 									<tr>
 										<td colspan="2">Did the operator communicate in a clear and easy-to-understand way?</td>
-										<td>20</td>
+										<td>15</td>
 										<td>
 											<select class="form-control aifi_point" id="" name="data[communicate_clear]" required>
-												<option aifi_val=20 aifi_max=20 <?php echo $aifi_data['communicate_clear'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
-												<option aifi_val=0 aifi_max=20 <?php echo $aifi_data['communicate_clear'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option aifi_val=20 aifi_max=20 <?php echo $aifi_data['communicate_clear'] == "NA"?"selected":"";?> value="NA">NA</option>
+												<option aifi_val=15 aifi_max=15 <?php echo $aifi_data['communicate_clear'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
+												<option aifi_val=0 aifi_max=15 <?php echo $aifi_data['communicate_clear'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
+												<option aifi_val=15 aifi_max=15 <?php echo $aifi_data['communicate_clear'] == "NA"?"selected":"";?> value="NA">NA</option>
 											</select>
 										</td>
 										<td><textarea class="form-control" name="data[cmt12]"><?php echo $aifi_data['cmt12'] ?></textarea></td>
@@ -402,12 +402,12 @@ if(is_access_qa_edit_feedback()==false){ ?>
 									<tr>
 										<td rowspan=3>Form</td>
 										<td colspan="2">Did the operator communicate in a clear and easy-to-understand way</td>
-										<td>20</td>
+										<td>15</td>
 										<td>
 											<select class="form-control aifi_point" id="" name="data[communicate_easy]" required>
-												<option aifi_val=20 aifi_max=20 <?php echo $aifi_data['communicate_easy'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
-												<option aifi_val=0 aifi_max=20 <?php echo $aifi_data['communicate_easy'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
-												<option aifi_val=20 aifi_max=20 <?php echo $aifi_data['communicate_easy'] == "NA"?"selected":"";?> value="NA">NA</option>
+												<option aifi_val=15 aifi_max=15 <?php echo $aifi_data['communicate_easy'] == "Pass"?"selected":"";?> value="Pass">Pass</option>
+												<option aifi_val=0 aifi_max=15 <?php echo $aifi_data['communicate_easy'] == "Fail"?"selected":"";?> value="Fail">Fail</option>
+												<option aifi_val=15 aifi_max=15 <?php echo $aifi_data['communicate_easy'] == "NA"?"selected":"";?> value="NA">NA</option>
 											</select>
 										</td>
 										<td><textarea class="form-control" name="data[cmt16]"><?php echo $aifi_data['cmt16'] ?></textarea></td>

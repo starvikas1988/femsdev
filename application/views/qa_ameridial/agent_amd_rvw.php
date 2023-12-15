@@ -47,6 +47,8 @@
 												$cmpng="Fortune Builder";
 											}else if($campaign=='hoveround'){
 												$cmpng="Hoveround";
+											}else if($campaign=='hoveround_jam'){
+												$cmpng="Hoveround_jam";
 											}else if($campaign=='ncpssm'){
 												$cmpng="NCPSSM";
 											}else if($campaign=='stc'){
@@ -67,6 +69,8 @@
 												$cmpng="Purity Care New";
 											}else if($campaign=='conduent'){
 												$cmpng="Conduent";
+											}else if($campaign=='conduent_direct_express'){
+												$cmpng="Conduent - Direct Express";
 											}else if($campaign=='jfmi'){
 												$cmpng="JFMI";
 											}else if($campaign=='tpm'){
@@ -117,6 +121,8 @@
 												$cmpng="MAGNILIFE";
 											}else if($campaign=='blains'){
 												$cmpng="BLAINS";
+											}else if($campaign=='blains_v2'){
+												$cmpng="BLAINS VERSION 2";
 											}else if($campaign=='pajamagram'){
 												$cmpng="Pajamagram";
 											}else if($campaign=='delta'){
@@ -211,6 +217,8 @@
 												$cmpng="Kenny-U-Pull";
 											}else if($campaign=="ways2well"){
 												$cmpng="Ways-2-well";
+											}else if($campaign=="epgi"){
+												$cmpng="EPGI";
 											}
 										?>
 										<td colspan="8" style="font-size:30px; font-weight:bold">AMERIDIAL <?php echo ' ['.$cmpng.']'; ?></td>
@@ -587,7 +595,7 @@
 										</tr>
 										<tr>
 											<td>Fusion ID:<span style="font-size:24px;color:red">*</span></td><td><b><?php echo $agnt_feedback['fusion_id'] ?></b></td>
-											<td>Li Super:<span style="font-size:24px;color:red">*</span></td> <td><b><?php echo $agnt_feedback['tl_name'] ?></b></td>
+											<td>L1 Supervisor:<span style="font-size:24px;color:red">*</span></td> <td><b><?php echo $agnt_feedback['tl_name'] ?></b></td>
 											<td>File No:<span style="font-size:24px;color:red">*</span></td> <td><b><?php echo $agnt_feedback['file_no'] ?></b></td>
 
 										</tr>
@@ -601,6 +609,34 @@
 											<td>Campaign Code:<span style="font-size:24px;color:red">*</span></td> <td><b><?php echo $agnt_feedback['site'] ?></b></td>
 											<td>Filler 2:<span style="font-size:24px;color:red">*</span></td> <td><b><?php echo $agnt_feedback['filler'] ?></b></td>
 											<td>Area Code:<span style="font-size:24px;color:red">*</span></td> <td><b><?php echo $agnt_feedback['area_code'] ?></b></td>
+										</tr>
+										<?php }elseif($campaign=='blains_v2'){?>
+											<tr>
+											<td>QA Name:<span style="font-size:24px;color:red">*</span></td> <td></b><?php echo $agnt_feedback['auditor_name'] ?></b></td>
+											<td>Audit Date:<span style="font-size:24px;color:red">*</span></td> <td><b><?php echo $agnt_feedback['audit_date'] ?></b></td>
+											<td>Phone No:<span style="font-size:24px;color:red">*</span></td> <td><b><?php echo $agnt_feedback['phone'] ?></b></td>
+											<td>Agent:<span style="font-size:24px;color:red">*</span></td> <td><b><?php echo $agnt_feedback['fname'].' '.$agnt_feedback['lname'] ?></b></td>
+										</tr>
+										<tr>
+											<td>Fusion ID:<span style="font-size:24px;color:red">*</span></td><td><b><?php echo $agnt_feedback['fusion_id'] ?></b></td>
+											<td>L1 Supervisor:<span style="font-size:24px;color:red">*</span></td> <td><b><?php echo $agnt_feedback['tl_name'] ?></b></td>
+											<td>File No:<span style="font-size:24px;color:red">*</span></td> <td><b><?php echo $agnt_feedback['file_no'] ?></b></td>
+
+										</tr>
+										<tr>
+											<td>Call Date:<span style="font-size:24px;color:red">*</span></td> <td><b><?php echo $agnt_feedback['call_date'] ?></b></td>
+											<td>Call Duration:<span style="font-size:24px;color:red">*</span></td> <td><b><?php echo $agnt_feedback['call_duration'] ?></b></td>
+											<td>Audit Type:<span style="font-size:24px;color:red">*</span></td> <td><b><?php echo $agnt_feedback['audit_type'] ?></b></td>
+											<td>VOC:<span style="font-size:24px;color:red">*</span></td> <td><b><?php echo $agnt_feedback['voc'] ?></b></td>
+										</tr>
+										
+										<tr>
+											<td>Campaign Code:<span style="font-size:24px;color:red">*</span></td> <td><b><?php echo $agnt_feedback['site'] ?></b></td>
+											<td>Filler 2:<span style="font-size:24px;color:red">*</span></td> <td><b><?php echo $agnt_feedback['filler'] ?></b></td>
+											<td>Area Code:<span style="font-size:24px;color:red">*</span></td> <td><b><?php echo $agnt_feedback['area_code'] ?></b></td>
+										</tr>
+										<tr>
+											<td>Location:<span style="font-size:24px;color:red">*</span></td> <td readonly><b><?php echo $agnt_feedback['side_location'] ?></b></td>
 										</tr>
 										<?php }elseif($campaign=='pajamagram'){?>
 											<tr>
@@ -5228,6 +5264,82 @@
 										</tr>
 										<?php } ?>
 
+										<?php }else if($campaign=='hoveround_jam'){ ?>
+
+										<tr>
+										<td>Overall Score:</td> <td><b><?php echo $agnt_feedback['overall_score'] ?></b></td>
+										</tr>
+										<tr>
+										<td colspan="3">PARAMETER</td> <td>STATUS</td>
+										<td colspan="3">PARAMETER</td> <td>STATUS</td>
+										</tr>
+										<tr>
+										<td colspan=3>Did rep use appropriate greeting?</td> <td><b><?php echo $agnt_feedback['agentreadyforcall'] ?></b></td>
+										<td colspan=3>Did rep inform client that call may be recorded for quality assurance purposes?</td> <td><b><?php echo $agnt_feedback['agentgiveintro'] ?></b></td>
+										</tr>
+										<tr>
+										<td colspan=3>Did rep confirm caller's name?</td> <td><b><?php echo $agnt_feedback['agentcorrectprobe'] ?></b></td>
+										<td colspan=3>Did rep confirm caller's relationship to client?</td> <td><b><?php echo $agnt_feedback['agentverifycustomer'] ?></b></td>
+										</tr>
+										<tr>
+										<td colspan=3>Did rep verify the current address?</td> <td><b><?php echo $agnt_feedback['agentclosecall'] ?></b></td>
+										<td colspan=3>Did rep verify the current doctor information? (name, phone, fax #)</td> <td><b><?php echo $agnt_feedback['agentdisposition'] ?></b></td>
+										</tr>
+										<tr>
+										<td colspan=3>Did rep verify the full current insurance information/Eligibility?</td> <td><b><?php echo $agnt_feedback['dead_air'] ?></b></td>
+										<td colspan=3>Did rep attempt to call Dr's office to obtain/confirm mobility examination date?	</td> <td><b><?php echo $agnt_feedback['agentpolite'] ?></b></td>
+										</tr>
+										<tr>
+										<td colspan=3>Did rep inform the Dr's office that the visit is specifically for a mobility exam?</td> <td><b><?php echo $agnt_feedback['agentshowenergy'] ?></b></td>
+										<td colspan=3>Did rep ask all survey questions?</td> <td><b><?php echo $agnt_feedback['agenthavegoodtone'] ?></b></td>
+										</tr>
+										<tr>
+										<td colspan=3>Did rep clearly explain the process to client?</td> <td><b><?php echo $agnt_feedback['agentgiveaccurateinfo'] ?></b></td>
+										<td colspan=3>Did rep effectively use rebuttals (if applicable)?</td> <td><b><?php echo $agnt_feedback['email_address'] ?></b></td>
+										</tr>
+										<tr>
+										<td colspan=3>Did rep offer to transfer the client to customer solutions?</td> <td><b><?php echo $agnt_feedback['lead_properly'] ?></b></td>
+										<td colspan=3>Did rep ask if there was anything else they could help them with?</td> <td><b><?php echo $agnt_feedback['Rude_Remarks'] ?></b></td>
+										</tr>
+
+										<tr>
+										<td colspan=3>Did rep thank the client in an appropriate closing?</td> <td><b><?php echo $agnt_feedback['Avoidance'] ?></b></td>
+										<td colspan=3>Did rep conduct a warm transfer (if applicable):</td> <td><b><?php echo $agnt_feedback['warm_transfer'] ?></b></td>
+										</tr>
+										<tr>
+										<td colspan=3>Did rep effectively answer client's questions?</td> <td><b><?php echo $agnt_feedback['client_questions'] ?></b></td>
+										<td colspan=3>Did the rep display product knowledge?</td> <td><b><?php echo $agnt_feedback['product_knowledge'] ?></b></td>
+										</tr>
+										<tr>
+										<td colspan=3>Did the rep display a professional manner?</td> <td><b><?php echo $agnt_feedback['professional_manner'] ?></b></td>
+										<td colspan=3>Did rep avoid long silences during the call?</td> <td><b><?php echo $agnt_feedback['during_call'] ?></b></td>
+										</tr>
+										<tr>
+										<td colspan=3>Did the rep avoid interrupting or talking over the customer?</td> <td><b><?php echo $agnt_feedback['talking_over'] ?></b></td>
+										<td colspan=3>Did the rep speak clearly?</td> <td><b><?php echo $agnt_feedback['speak'] ?></b></td>
+										</tr>
+										<tr>
+										<td colspan=3>Did the rep sound friendly, empathetic, polite, and welcoming?</td> <td><b><?php echo $agnt_feedback['empathetic'] ?></b></td>
+										</tr>
+										<tr>
+										<td>Call Summary:</td> <td colspan=3><b><?php echo $agnt_feedback['call_summary'] ?></b></td>
+										<td>Feedback:</td> <td colspan=3><b><?php echo $agnt_feedback['feedback'] ?></b></td>
+										</tr>
+										<?php if($agnt_feedback['attach_file']!=''){ ?>
+										<tr oncontextmenu="return false;">
+										<td colspan=3>Audio Files</td>
+										<td colspan=5>
+										<?php $attach_file = explode(",",$agnt_feedback['attach_file']);
+										foreach($attach_file as $mp){ ?>
+										<audio controls='' style="background-color:#607F93">
+											<source src="<?php echo base_url(); ?>qa_files/qa_ameridial/hoveround/<?php echo $mp; ?>" type="audio/ogg">
+											<source src="<?php echo base_url(); ?>qa_files/qa_ameridial/hoveround/<?php echo $mp; ?>" type="audio/mpeg">
+										</audio> </br>
+										<?php } ?>
+										</td>
+										</tr>
+										<?php } ?>
+
 									<?php }else if($campaign=='ncpssm'){ ?>
 
 										<tr>
@@ -7745,11 +7857,12 @@
 											</td>
 										</tr>
 										<?php } ?>
-										<?php }else if($campaign == 'conduent'){?>
+										
+									<?php }else if($campaign == 'conduent'){ ?>
 
 										<tr>
-										<td>Site:</td><td><?php echo $agnt_feedback['site_location']; ?></td>
-										<td>Overall Score:</td> <td><b><?php echo $agnt_feedback['overall_score'].'%'; ?></b></td>
+											<td>Site:</td><td><?php echo $agnt_feedback['site_location']; ?></td>
+											<td>Overall Score:</td> <td><b><?php echo $agnt_feedback['overall_score'].'%'; ?></b></td>
 										</tr>
 										<tr>
 											<td colspan="3">PARAMETER</td> <td>STATUS</td>
@@ -7822,6 +7935,338 @@
 											</td>
 										</tr>
 										<?php } ?>
+										
+									<?php }else if($campaign == 'conduent_direct_express'){ ?>
+									
+										<tr>
+											<!-- <td>Site:</td><td><?php //echo $agnt_feedback['site_location']; ?></td> -->
+											<td>Overall Score:</td> <td><b><?php echo $agnt_feedback['overall_score'].'%'; ?></b></td>
+										</tr>
+										<tr class="eml" style="height:25px; font-weight:bold">
+											<td colspan=2>PARAMETER</td>
+											<td colspan=2>SUB PARAMETER</td>
+											<td>WEIGHTAGE</td>
+											<td>STATUS</td>
+											<td colspan=2>REMARKS</td>
+										</tr>
+
+										<tr>
+											<td colspan=2 class="eml" rowspan=4>Greeting</td>
+											<td colspan=2>1.1 - Clearly gave name and Branded</td>
+											<td>10</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="" name="data[branded]" disabled>
+													
+													<option conduent_direct_express_val=10 conduent_direct_express_max="10"<?php echo $agnt_feedback['branded'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="10" <?php echo $agnt_feedback['branded'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option conduent_direct_express_val=6 conduent_direct_express_max="10" <?php echo $agnt_feedback['branded'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt1]" class="form-control" value="<?php echo $agnt_feedback['cmt1'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2>1.2 - Did CSP demonstrate a good tone of voice throughout the call?</td>
+											<td>10</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="" name="data[good_tone]" disabled>
+													
+													<option conduent_direct_express_val=10 conduent_direct_express_max="10"<?php echo $agnt_feedback['good_tone'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="10" <?php echo $agnt_feedback['good_tone'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option conduent_direct_express_val=6 conduent_direct_express_max="10" <?php echo $agnt_feedback['good_tone'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt2]" class="form-control" value="<?php echo $agnt_feedback['cmt2'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2>1.3 - Did CSP properly verifiy account & make appropriate updates if necessary?</td>
+											<td>10</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="" name="data[verify_account]" disabled>
+													
+													<option conduent_direct_express_val=10 conduent_direct_express_max="10"<?php echo $agnt_feedback['verify_account'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="10" <?php echo $agnt_feedback['verify_account'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option conduent_direct_express_val=6 conduent_direct_express_max="10" <?php echo $agnt_feedback['verify_account'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt3]" class="form-control" value="<?php echo $agnt_feedback['cmt3'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2>1.4 - Did CSP deliver assurance statement after purpose?</td>
+											<td>10</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="" name="data[deliver_assurance]" disabled>
+													
+													<option conduent_direct_express_val=10 conduent_direct_express_max="10"<?php echo $agnt_feedback['deliver_assurance'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="10" <?php echo $agnt_feedback['deliver_assurance'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option conduent_direct_express_val=6 conduent_direct_express_max="10" <?php echo $agnt_feedback['deliver_assurance'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt4]" class="form-control" value="<?php echo $agnt_feedback['cmt4'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2 class="eml" rowspan=5>Call Processes</td>
+											<td colspan=2>2.1 - Did CSP refers to customer by last name at least once through the call? (Created Rapport.)</td>
+											<td>10</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="" name="data[created_rapport]" disabled>
+													
+													<option conduent_direct_express_val=10 conduent_direct_express_max="10"<?php echo $agnt_feedback['created_rapport'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="10" <?php echo $agnt_feedback['created_rapport'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option conduent_direct_express_val=6 conduent_direct_express_max="10" <?php echo $agnt_feedback['created_rapport'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt5]" class="form-control" value="<?php echo $agnt_feedback['cmt5'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2>2.2 - Did CSP maintain control of call?</td>
+											<td>10</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="" name="data[control_call]" disabled>
+													
+													<option conduent_direct_express_val=10 conduent_direct_express_max="10"<?php echo $agnt_feedback['control_call'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="10" <?php echo $agnt_feedback['control_call'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option conduent_direct_express_val=6 conduent_direct_express_max="10" <?php echo $agnt_feedback['control_call'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt6]" class="form-control" value="<?php echo $agnt_feedback['cmt6'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2>2.3 - Did CSP follow appropriate Hold/Wait process & avoid DEAD AIR?</td>
+											<td>10</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="" name="data[hold_process]" disabled>
+													
+													<option conduent_direct_express_val=10 conduent_direct_express_max="10"<?php echo $agnt_feedback['hold_process'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="10" <?php echo $agnt_feedback['hold_process'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option conduent_direct_express_val=6 conduent_direct_express_max="10" <?php echo $agnt_feedback['hold_process'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt7]" class="form-control" value="<?php echo $agnt_feedback['cmt7'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2>2.4 - Did CSP use soft skills?</td>
+											<td>10</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="" name="data[use_soft_skills]" disabled>
+													
+													<option conduent_direct_express_val=10 conduent_direct_express_max="10"<?php echo $agnt_feedback['use_soft_skills'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="10" <?php echo $agnt_feedback['use_soft_skills'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option conduent_direct_express_val=6 conduent_direct_express_max="10" <?php echo $agnt_feedback['use_soft_skills'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt8]" class="form-control" value="<?php echo $agnt_feedback['cmt8'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2>2.5 - Did CSP demonstrate active listening skills?</td>
+											<td>10</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="" name="data[active_listening]" disabled>
+													
+													<option conduent_direct_express_val=10 conduent_direct_express_max="10"<?php echo $agnt_feedback['active_listening'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="10" <?php echo $agnt_feedback['active_listening'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option conduent_direct_express_val=6 conduent_direct_express_max="10" <?php echo $agnt_feedback['active_listening'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt9]" class="form-control" value="<?php echo $agnt_feedback['cmt9'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2 class="eml" rowspan=3>One Call Resolution</td>
+											<td colspan=2>3.1 - Proper use of probing questions?</td>
+											<td>10</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="" name="data[probing_questions]" disabled>
+													
+													<option conduent_direct_express_val=10 conduent_direct_express_max="10"<?php echo $agnt_feedback['probing_questions'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="10" <?php echo $agnt_feedback['probing_questions'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option conduent_direct_express_val=6 conduent_direct_express_max="10" <?php echo $agnt_feedback['probing_questions'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt10]" class="form-control" value="<?php echo $agnt_feedback['cmt10'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2>3.2 - Did CSP use all available systems and tools towards a One Call Resolution?</td>
+											<td>10</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="" name="data[one_call_resolution]" disabled>
+													
+													<option conduent_direct_express_val=10 conduent_direct_express_max="10"<?php echo $agnt_feedback['one_call_resolution'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="10" <?php echo $agnt_feedback['one_call_resolution'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option conduent_direct_express_val=6 conduent_direct_express_max="10" <?php echo $agnt_feedback['one_call_resolution'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt11]" class="form-control" value="<?php echo $agnt_feedback['cmt11'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2>3.3 - Did CSP provide complete and accurate information?</td>
+											<td>10</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="" name="data[accurate_information]" disabled>
+													
+													<option conduent_direct_express_val=10 conduent_direct_express_max="10"<?php echo $agnt_feedback['accurate_information'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="10" <?php echo $agnt_feedback['accurate_information'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option conduent_direct_express_val=6 conduent_direct_express_max="10" <?php echo $agnt_feedback['accurate_information'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt12]" class="form-control" value="<?php echo $agnt_feedback['cmt12'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2 class="eml" rowspan=3>Closing</td>
+											<td colspan=2>4.1 - Did CSP meet documentation expectations?</td>
+											<td>10</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="" name="data[meet_documentation]" disabled>
+													
+													<option conduent_direct_express_val=10 conduent_direct_express_max="10"<?php echo $agnt_feedback['meet_documentation'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="10" <?php echo $agnt_feedback['meet_documentation'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option conduent_direct_express_val=6 conduent_direct_express_max="10" <?php echo $agnt_feedback['meet_documentation'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt13]" class="form-control" value="<?php echo $agnt_feedback['cmt13'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2>4.2 - Did CSP select the proper disposition?</td>
+											<td>10</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="" name="data[proper_disposition]" disabled>
+													
+													<option conduent_direct_express_val=10 conduent_direct_express_max="10"<?php echo $agnt_feedback['proper_disposition'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="10" <?php echo $agnt_feedback['proper_disposition'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option conduent_direct_express_val=6 conduent_direct_express_max="10" <?php echo $agnt_feedback['proper_disposition'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt14]" class="form-control" value="<?php echo $agnt_feedback['cmt14'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2>4.3 - Did CSP close the call properly?</td>
+											<td>10</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="" name="data[call_properly]" disabled>
+													
+													<option conduent_direct_express_val=10 conduent_direct_express_max="10"<?php echo $agnt_feedback['call_properly'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="10" <?php echo $agnt_feedback['call_properly'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+													<option conduent_direct_express_val=6 conduent_direct_express_max="10" <?php echo $agnt_feedback['call_properly'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt15]" class="form-control" value="<?php echo $agnt_feedback['cmt15'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2 class="eml" rowspan=8>Auto-Fail</td>
+											<td colspan=2 style="color:red">5.1 - CSP released account information or made changes to an unverified Cardholder.</td>
+											<td>0</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="conduentAF1" name="data[unverified_cardholder]" disabled>
+													
+													<option conduent_direct_express_val=0 conduent_direct_express_max="0"<?php echo $agnt_feedback['unverified_cardholder'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="0" <?php echo $agnt_feedback['unverified_cardholder'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt16]" class="form-control" value="<?php echo $agnt_feedback['cmt16'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2 style="color:red">5.2 - CSP did not resolve the Customer's issue and did not demonstrate willingness to assist.</td>
+											<td>0</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="conduentAF2" name="data[demonstrate_willingness]" disabled>
+													
+													<option conduent_direct_express_val=0 conduent_direct_express_max="0"<?php echo $agnt_feedback['demonstrate_willingness'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="0" <?php echo $agnt_feedback['demonstrate_willingness'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt17]" class="form-control" value="<?php echo $agnt_feedback['cmt17'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2 style="color:red">5.3 - CSP hung up on customer.</td>
+											<td>0</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="conduentAF3" name="data[hung_up]" disabled>
+													
+													<option conduent_direct_express_val=0 conduent_direct_express_max="0"<?php echo $agnt_feedback['hung_up'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="0" <?php echo $agnt_feedback['hung_up'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt18]" class="form-control" value="<?php echo $agnt_feedback['cmt18'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2 style="color:red">5.4 - CSP gives blatant incorrect information to Cardholder.</td>
+											<td>0</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="conduentAF4" name="data[incorrect_information]" disabled>
+													
+													<option conduent_direct_express_val=0 conduent_direct_express_max="0"<?php echo $agnt_feedback['incorrect_information'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="0" <?php echo $agnt_feedback['incorrect_information'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt19]" class="form-control" value="<?php echo $agnt_feedback['cmt19'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2 style="color:red">5.5 - CSP used inappropriate condescending/argumentative language or tone during the call.</td>
+											<td>0</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="conduentAF5" name="data[argumentative_language]" disabled>
+													
+													<option conduent_direct_express_val=0 conduent_direct_express_max="0"<?php echo $agnt_feedback['argumentative_language'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="0" <?php echo $agnt_feedback['argumentative_language'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt20]" class="form-control" value="<?php echo $agnt_feedback['cmt20'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2 style="color:red">5.6 - CSP did not successfully complete transaction/process.</td>
+											<td>0</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="conduentAF6" name="data[complete_transaction]" disabled>
+													
+													<option conduent_direct_express_val=0 conduent_direct_express_max="0"<?php echo $agnt_feedback['complete_transaction'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="0" <?php echo $agnt_feedback['complete_transaction'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt21]" class="form-control" value="<?php echo $agnt_feedback['cmt21'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2 style="color:red">5.7 - CSP did not leave any memos on accessed account.</td>
+											<td>0</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="conduentAF7" name="data[leave_memos]" disabled>
+													
+													<option conduent_direct_express_val=0 conduent_direct_express_max="0"<?php echo $agnt_feedback['leave_memos'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="0" <?php echo $agnt_feedback['leave_memos'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt22]" class="form-control" value="<?php echo $agnt_feedback['cmt22'] ?>"></td>
+										</tr>
+										<tr>
+											<td colspan=2 style="color:red">5.8 - Call Avoidance/Unjustified Transfer.</td>
+											<td>0</td>
+											<td>
+												<select class="form-control conduent_direct_express_point" id ="conduentAF8" name="data[call_avoidance]" disabled>
+													
+													<option conduent_direct_express_val=0 conduent_direct_express_max="0"<?php echo $agnt_feedback['call_avoidance'] == "Pass" ? "selected" : ""; ?> value="Pass">Pass</option>
+													<option conduent_direct_express_val=0 conduent_direct_express_max="0" <?php echo $agnt_feedback['call_avoidance'] == "Fail" ? "selected" : ""; ?> value="Fail">Fail</option>
+												</select>
+											</td>
+											<td colspan=2><input type="text" disabled name="data[cmt23]" class="form-control" value="<?php echo $agnt_feedback['cmt23'] ?>"></td>
+										</tr>
+										<tr>
+											<td>Call Summary:</td>
+											<td colspan=3><textarea class="form-control" disabled name="data[call_summary]"><?php echo $agnt_feedback['call_summary'] ?></textarea></td>
+											<td>Feedback:</td>
+											<td colspan=4><textarea class="form-control" disabled name="data[feedback]"><?php echo $agnt_feedback['feedback'] ?></textarea></td>
+										</tr>
+										<?php if($agnt_feedback['attach_file']!=''){ ?>
+										<tr oncontextmenu="return false;">
+											<td colspan="2">Audio Files (Mp4/Mp3/M4a/Wav)</td>
+											<td colspan="4">
+												<?php $attach_file = explode(",",$agnt_feedback['attach_file']);
+												 foreach($attach_file as $af){ ?>
+													<audio oncontextmenu="return false;" controls controlslist="nodownload" style="background-color:#607F93">
+														  <source src="<?php echo base_url(); ?>qa_files/conduent_direct_express/<?php echo $af; ?>" type="audio/ogg">
+														  <source src="<?php echo base_url(); ?>qa_files/conduent_direct_express/<?php echo $af; ?>" type="audio/mpeg">
+													</audio> </br>
+												 <?php } ?>
+											</td>
+										</tr>
+										<?php } ?>
+										
 									<?php }else if($campaign == 'ffai'){?>
 
 										<tr>
@@ -9520,7 +9965,7 @@
 								</tr>
 								<tr style="background-color:#D2B4DE"><td colspan=2>Customer Score</td><td colspan=4>Business Score</td><td colspan=4>Compliance Score</td></tr>
 									<tr style="background-color:#D2B4DE">
-										<td>Earned:</td><td colspan="">
+										 <!-- <td>Earned:</td><td colspan="">
 											<input type="text" readonly style="background-color:#D2B4DE; text-align:center" class="form-control" id="custlockEarned1" name="data[custlockEarned]" value="<?php echo $agnt_feedback['custlockEarned'] ?>">
 										</td>
 										<td>Earned:</td>
@@ -9530,10 +9975,10 @@
 										<td>Earned:</td>
 										<td colspan="3">
 											<input type="text" readonly style="background-color:#D2B4DE; text-align:center" class="form-control" id="compllockEarned1" name="data[compllockEarned]" value="<?php echo $agnt_feedback['compllockEarned'] ?>">
-										</td>
+										</td> -->
 									</tr>
 									<tr style="background-color:#D2B4DE">
-										<td>Possible:</td>
+										<!-- <td>Possible:</td>
 										<td colspan="">
 										<input type="text" readonly style="background-color:#D2B4DE; text-align:center" class="form-control" id="custlockPossible1" name="data[custlockPossible]" value="<?php echo $agnt_feedback['custlockPossible'] ?>">	
 										</td>
@@ -9544,8 +9989,8 @@
 										<td>Possible:</td>
 										<td colspan="3">
 										<input type="text" readonly style="background-color:#D2B4DE; text-align:center" class="form-control" id="compllockPossible1" name="data[compllockPossible]" value="<?php echo $agnt_feedback['compllockPossible'] ?>">	
-										</td>
-									</tr>
+										</td> -->
+									</tr> 
 									<tr style="background-color:#D2B4DE">
 										<td>Percentage:</td><td colspan=""><input type="text" readonly style="background-color:#D2B4DE; text-align:center" class="form-control" id="custlockScore" name="data[customer_score]" value="<?php echo $agnt_feedback['customer_score'] ?>"></td>
 										<td>Percentage:</td><td colspan="3"><input type="text" readonly style="background-color:#D2B4DE; text-align:center" class="form-control" id="busilockScore" name="data[business_score]" value="<?php echo $agnt_feedback['business_score'] ?>"></td>
@@ -9555,7 +10000,235 @@
 											<td>Call Summary:</td> <td colspan=3><b><?php echo $agnt_feedback['call_summary'] ?></b></td>
 											<td>Feedback:</td> <td colspan=3><b><?php echo $agnt_feedback['feedback'] ?></b></td>
 										</tr>
+										<?php if($agnt_feedback['attach_file']!=''){ ?>
+										<tr oncontextmenu="return false;">
+											<td colspan=3>Audio Files</td>
+											<td colspan=5>
+												<?php $attach_file = explode(",",$agnt_feedback['attach_file']);
+												 foreach($attach_file as $mp){ ?>
+													<audio controls='' style="background-color:#607F93">
+													  <source src="<?php echo base_url(); ?>qa_files/qa_ameridial/blains/<?php echo $mp; ?>" type="audio/ogg">
+													  <source src="<?php echo base_url(); ?>qa_files/qa_ameridial/blains/<?php echo $mp; ?>" type="audio/mpeg">
+													</audio> </br>
+												 <?php } ?>
+											</td>
+										</tr>	
+										<?php } ?>
+									
+										<?php }elseif ($campaign=='blains_v2') { ?>
 
+											<tr>
+											<td>Earned Score:</td> 
+											<td><b><?php echo $agnt_feedback['earned_score'].'%'; ?></b>
+											</td>
+											<td>Possible Score:</td> 
+											<td><b><?php echo $agnt_feedback['possible_score'].'%'; ?></b>
+											</td>
+											<td>Overall Score:</td> 
+											<td><b><?php echo $agnt_feedback['overall_score'].'%'; ?></b>
+											</td>
+											</tr>
+											<tr style="height:45px">
+											<!-- <td class="eml2">Category</td> -->
+											<td class="eml2" colspan=4>Sub Category</td>
+											<td class="eml2" style="width:150px">Status</td>
+											<td class="eml2" colspan=4>Remarks</td>
+											</tr>
+
+											<tr>
+											<!-- <td rowspan=2 class="eml1">Introduction and Call Path Procedure</td> -->
+											<td class="eml" colspan=4>Did the agent answer with a positive tone and correct introduction?
+											</td>
+											<td><b><?php echo $agnt_feedback['brand_name'] ?></b></td>
+											<td colspan=3><?php echo $agnt_feedback['cmt1'] ?></td>
+											</tr>
+
+											<tr>
+											<td class="eml" colspan=4>Did the agent answer the customer’s question correctly?</td>
+											<td>
+											<?php echo $agnt_feedback['least_once'] ?>
+											</td>
+											<td colspan=3><?php echo $agnt_feedback['cmt2'] ?></td>
+											</tr>
+
+											<tr>
+											<!-- <td rowspan=5 class="eml1">Script and FAQ's</td> -->
+											<td class="eml" colspan=4>Did the agent provide additional add on services and solution?</td>
+											<td>
+											<?php echo $agnt_feedback['phone_number'] ?>
+											</td>
+											<td colspan=3><?php echo $agnt_feedback['cmt3'] ?></td></tr>
+											<tr>
+											<td class="eml" colspan=4>Did the agent correctly identify the customer’s request and information?</td>
+											<td>
+											<?php echo $agnt_feedback['flagging_notating'] ?>
+											</td>
+											<td colspan=3><?php echo $agnt_feedback['cmt4'] ?></td></tr>
+											<tr>
+											<td class="eml" colspan=4>Did the agent offer the most appropriate solution to meet the customer’s need?</td>
+											<td>
+											<?php echo $agnt_feedback['if_required'] ?>
+
+											</td>
+											<td colspan=3>
+											<?php echo $agnt_feedback['cmt5'] ?></td></tr>
+											<tr>
+											<td class="eml" colspan=4>Did the agent use probing questions to understand the customer’s need?</td>
+											<td>
+											<?php echo $agnt_feedback['blains_website'] ?>
+
+											</td>
+											<td colspan=3><?php echo $agnt_feedback['cmt6'] ?></td></tr>
+											<tr>
+											<td class="eml" colspan=4>Did the agent follow the correct procedures for transferring the call (if applicable)?</td>
+											<td>
+											<?php echo $agnt_feedback['and_results'] ?>
+
+											</td>
+											<td colspan=3><?php echo $agnt_feedback['cmt7'] ?></td></tr>
+											<tr>
+											<!-- <td rowspan=5 class="eml1">Tone and Professionalism</td> -->
+											<td class="eml" colspan=4>Did the agent follow appropriate procedures with system/technology? </td>
+											<td>
+											<?php echo $agnt_feedback['and_recgnition'] ?>
+
+											</td>
+											<td colspan=3><?php echo $agnt_feedback['cmt8'] ?></td></tr>
+											<tr>
+											<td class="eml" colspan=4>Did the agent use empathetic listening skills?</td>
+											<td>
+											<?php echo $agnt_feedback['dead_air'] ?>
+
+											</td>
+											<td colspan=3>
+											<?php echo $agnt_feedback['cmt9'] ?></td></tr>
+											<tr>
+											<td class="eml" colspan=4>Did the agent show confidence in their answers and present themselves as the expert?</td>
+											<td>
+											<?php echo $agnt_feedback['and_pacing'] ?>
+
+											</td>
+											<td colspan=3><?php echo $agnt_feedback['cmt10'] ?></td></tr>
+
+											<tr>
+											<td class="eml" colspan=4>Did the agent speak clearly and use an appropriate tone/pace?</td>
+											<td>
+											<?php echo $agnt_feedback['the_request'] ?>
+
+											</td>
+											<td colspan=3><?php echo $agnt_feedback['cmt11'] ?></td></tr>
+
+											<tr>
+											<td class="eml" colspan=4>Did the agent display a professional manner throughout the call?</td>
+											<td>
+											<?php echo $agnt_feedback['with_customer'] ?>
+
+											</td>
+											<td colspan=3><?php echo $agnt_feedback['cmt12'] ?></td></tr>
+
+											<tr>
+											<!-- <td rowspan=1 class="eml1">E-Alerts and Upselling</td> -->
+											<td class="eml" colspan=4>Did the agent offer further assistance at the end of the call?</td>
+											<td>
+											<?php echo $agnt_feedback['time_is_right'] ?>
+
+											</td>
+											<td colspan=3><?php echo $agnt_feedback['cmt13'] ?></td></tr>
+
+											<tr>
+											<!-- <td rowspan=1 class="eml1">Closing Script</td> -->
+											<td class="eml" colspan=4>Did the agent close the call in an appropriate manner?</td>
+											<td>
+											<?php echo $agnt_feedback['call_properly'] ?>
+
+											</td>
+											<td colspan=3><?php echo $agnt_feedback['cmt14'] ?></td>
+											</tr>
+											<tr>
+											<!-- <td rowspan=1 class="eml1">Disposition</td> -->
+											<td class="eml" colspan=4>Was the customer satisfied with the call?</td>
+											<td>
+											<?php echo $agnt_feedback['call_dispose'] ?>
+
+											</td>
+											<td colspan=3><?php echo $agnt_feedback['cmt15'] ?></td>
+											</tr>
+											<tr>
+											<!-- <td rowspan=2 class="eml1" style="color:red">Other (Any score here =ZERO fatal for call)</td> -->
+											<td class="eml" colspan=4 style="color:red">Rude remarks / Inpropriate language</td>
+											<td>
+											<?php echo $agnt_feedback['rude_remarks'] ?>
+
+											</td>
+											<td colspan=3><?php echo $agnt_feedback['cmt16'] ?></td>
+											</tr>
+											<tr>
+											<td class="eml" colspan=4 style="color:red">Call Avoidance</td>
+											<td>
+											<?php echo $agnt_feedback['call_avoidance'] ?>
+
+											</td>
+											<td colspan=3><?php echo $agnt_feedback['cmt17'] ?></td>
+											</tr>
+											<tr>
+											<td class="eml" colspan=4 style="color:red">Did the agent dispose the call properly</td>
+											<td>
+											<?php echo $agnt_feedback['agent_dispose'] ?>
+
+											</td>
+											<td colspan=3><?php echo $agnt_feedback['cmt18'] ?></td>
+											</tr>
+											<tr style="background-color:#D2B4DE"><td colspan=2>Customer Score</td><td colspan=4>Business Score</td><td colspan=4>Compliance Score</td></tr>
+											<!-- <tr style="background-color:#D2B4DE">
+											<td>Earned:</td><td colspan="">
+											<input type="text" readonly style="background-color:#D2B4DE; text-align:center" class="form-control" id="custlockEarned" name="data[custlockEarned]" value="<?php echo $agnt_feedback['custlockEarned'] ?>">
+											</td>
+											 <td>Earned:</td>
+											<td colspan="3">
+											<input type="text" readonly style="background-color:#D2B4DE; text-align:center" class="form-control" id="busilockEarned" name="data[busilockEarned]" value="<?php echo $agnt_feedback['busilockEarned'] ?>">
+											</td>
+											<td>Earned:</td>
+											<td colspan="3">
+											<input type="text" readonly style="background-color:#D2B4DE; text-align:center" class="form-control" id="compllockEarned" name="data[compllockEarned]" value="<?php echo $agnt_feedback['compllockEarned'] ?>">
+											</td> -->
+											</tr>
+											<tr style="background-color:#D2B4DE">
+											<!-- <td>Possible:</td>
+											<td colspan="">
+											<input type="text" readonly style="background-color:#D2B4DE; text-align:center" class="form-control" id="custlockPossible" name="data[custlockPossible]" value="<?php echo $agnt_feedback['custlockPossible'] ?>">	
+											</td>
+											<td>Possible:</td>
+											<td colspan="3">
+											<input type="text" readonly style="background-color:#D2B4DE; text-align:center" class="form-control" id="busilockPossible" name="data[busilockPossible]" value="<?php echo $agnt_feedback['busilockPossible'] ?>">	
+											</td>
+											<td>Possible:</td>
+											<td colspan="3">
+											<input type="text" readonly style="background-color:#D2B4DE; text-align:center" class="form-control" id="compllockPossible" name="data[compllockPossible]" value="<?php echo $agnt_feedback['compllockPossible'] ?>">	
+											</td> -->
+											</tr>
+											<tr style="background-color:#D2B4DE">
+											<td>Percentage:</td><td colspan=""><input type="text" readonly style="background-color:#D2B4DE; text-align:center" class="form-control" id="custlockScore" name="data[customer_score]" value="<?php echo $agnt_feedback['customer_score'] ?>"></td>
+											<td>Percentage:</td><td colspan="3"><input type="text" readonly style="background-color:#D2B4DE; text-align:center" class="form-control" id="busilockScore" name="data[business_score]" value="<?php echo $agnt_feedback['business_score'] ?>"></td>
+											<td>Percentage:</td><td colspan="3"><input type="text" readonly style="background-color:#D2B4DE; text-align:center" class="form-control" id="compllockScore" name="data[compliance_score]" value="<?php echo $agnt_feedback['compliance_score'] ?>"></td>
+											</tr>	
+
+											<td>Call Summary:</td> <td colspan=3><b><?php echo $agnt_feedback['call_summary'] ?></b></td>
+											<td>Feedback:</td> <td colspan=3><b><?php echo $agnt_feedback['feedback'] ?></b></td>
+											</tr>
+											<?php if($agnt_feedback['attach_file']!=''){ ?>
+										<tr oncontextmenu="return false;">
+											<td colspan=3>Audio Files</td>
+											<td colspan=5>
+												<?php $attach_file = explode(",",$agnt_feedback['attach_file']);
+												 foreach($attach_file as $mp){ ?>
+													<audio controls='' style="background-color:#607F93">
+													  <source src="<?php echo base_url(); ?>qa_files/qa_ameridial/blains_v2/<?php echo $mp; ?>" type="audio/ogg">
+													  <source src="<?php echo base_url(); ?>qa_files/qa_ameridial/blains_v2/<?php echo $mp; ?>" type="audio/mpeg">
+													</audio> </br>
+												 <?php } ?>
+											</td>
+										</tr>	
+										<?php } ?>
 									<?php }elseif ($campaign=='pajamagram') { ?>
 
 										<tr><td>Overall Score:</td> <td><b><?php echo $agnt_feedback['overall_score'].'%'; ?></b></td></tr>
@@ -9699,13 +10372,19 @@
 											<td colspan=7>4.3 Did CER demonstrate confidence in responses?</td> <td><b><?php echo $agnt_feedback['splitbalanceinpart'] ?></b></td>
 										</tr>
 										<tr>
-											<td colspan=7>4.5 Did CER minimize silences and use fillers to obtain additional information? (no more than 10 secs of consecutive dead air throughtout the entire call.)</td> <td><b><?php echo $agnt_feedback['offersumsettlement'] ?></b></td>
+											<td colspan=7>4.4 Did CER minimize silences and use fillers to obtain additional information? (no more than 10 secs of consecutive dead air throughtout the entire call.)</td> <td><b><?php echo $agnt_feedback['offersumsettlement'] ?></b></td>
 										</tr>
 										<tr>
-											<td colspan=7>5.1 Did CER provide accurate information and/or demonstrate knowledge of client's benefit programs?</td> <td><b><?php echo $agnt_feedback['paymentplanwithpayment'] ?></b></td>
+											<td colspan=7>4.5 Did the CER show empathy to the customer and apologizes when applicable.</td> <td><b><?php echo $agnt_feedback['apologizes'] ?></b></td>
 										</tr>
 										<tr>
-											<td colspan=7>5.2 Did CER take correct action to resolve the caller's issues?</td> <td><b><?php echo $agnt_feedback['collectorfollowpropernegotiation'] ?></b></td>
+											<td colspan=7>4.6 Did the CER own the call and follow through to find an answer? Did CER refrain from using “I don’t know”statement.</td> <td><b><?php echo $agnt_feedback['cer_refrain'] ?></b></td>
+										</tr>
+										<tr>
+											<td colspan=7>5.1 Did CSR provide accurate information and/or demonstrate knowledge of client's benefit programs? Was this viewable through screen capture?</td> <td><b><?php echo $agnt_feedback['paymentplanwithpayment'] ?></b></td>
+										</tr>
+										<tr>
+											<td colspan=7>5.2 Did CER take correct action to resolve the caller's issues? Were additional services offered to assist the callers needs?</td> <td><b><?php echo $agnt_feedback['collectorfollowpropernegotiation'] ?></b></td>
 										</tr>
 										<tr>
 											<td colspan=7>5.5 Did CER promote self-service options where appropriate?</td> <td><b><?php echo $agnt_feedback['didcerpromote'] ?></b></td>
@@ -15325,7 +16004,7 @@
 
 									<tr>
 										
-										<td colspan=3 >Did CSR Reviewed Vaccination Record?</td>
+										<td colspan=3 >Did CSR get detailed location?</td>
 										<td>3</td>
 										<td colspan="4">
 											<select class="form-control amd_point business" name="data[Record]" required>
@@ -17441,8 +18120,494 @@
 										?>
 									</tr>
 
-								<?php } ?>
+								<?php }else if($campaign=='epgi'){ ?>
+								
+									<tr>
+										<td>Auditor Name:</td>
+										<?php if($agnt_feedback['entry_by']!=''){
+											$auditorName = $agnt_feedback['auditor_name'];
+										}else{
+											$auditorName = $agnt_feedback['client_name'];
+										} ?>
+										<td><input type="text" class="form-control" value="<?= $auditorName; ?>" disabled></td>
+										<td>Audit Date:</td>
+										<td colspan="2"><input type="text" class="form-control" value="<?= CurrDateTimeMDY() ?>" disabled></td>
+										<td>Transaction Date:<span style="font-size:24px;color:red">*</span></td>
+										<td>
+											<input type="text" id="call_date" name="call_date"  onkeydown="return false;" value="<?php echo mysql2mmddyy($agnt_feedback['call_date']); ?>" max="<?php echo date("Y-m-d"); ?>"  class="form-control" disabled>
+										</td>
+									</tr>
+									<tr>
+										<td>Agent Name:<span style="font-size:24px;color:red">*</span></td>
+										<td>
+											<select class="form-control" id="agent_id" name="data[agent_id]" disabled>
+												<?php 
+												if($agnt_feedback['agent_id']!=''){
+													?>
+													<option value="<?php echo $agnt_feedback['agent_id'] ?>"><?php echo $agnt_feedback['fname'] . " " . $agnt_feedback['lname'] ?></option>
+													<?php
+												}else{
+													?>
+													<option value="">Select</option>
+													<?php
+												}
+												?>
+												
+												<?php foreach ($agentName as $row) :  ?>
+													<option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
+												<?php endforeach; ?>
+											</select>
+										</td>
+										<td>Employee ID:</td>
+										<td colspan="2"><input type="text" class="form-control" id="fusion_id" disabled value="<?php echo $agnt_feedback['fusion_id'] ?>" readonly></td>
+										<td> TL Name:<span style="font-size:24px;color:red">*</span></td>
+										<td>
+											<input type="text" class="form-control" id="tl_name" disabled value="<?php echo $agnt_feedback['tl_name'] ?>" readonly>
+											<input type="hidden" class="form-control" id="tl_id" name="data[tl_id]" value="<?php echo $agnt_feedback['tl_id'] ?>" disabled>
+										</td>
+									</tr>
+									<tr>
+										<td>Call Id:<span style="font-size:24px;color:red">*</span></td>
+										<td>
+											<input type="text" id="call_id" name="data[call_id]"  value="<?php echo $agnt_feedback['call_id']; ?>" class="form-control" disabled>
+										</td>
+										<td>AHT:<span style="font-size:24px;color:red">*</span></td>
+										<td colspan="2"><input type="text" class="form-control" onkeydown="return false;" id="call_duration" name="data[call_duration]" value="<?php echo $agnt_feedback['call_duration']?>" disabled></td>
+										<td>Call Type:<span style="font-size:24px;color:red">*</span></td>
+										<td>
+											<select class="form-control" name="data[call_type]" disabled>
+												<option value="">-Select-</option>
+												<option value="Inbound" <?= ($agnt_feedback['call_type']=="Inbound")?"selected":""?>>Inbound</option>
+												<option value="Outbound" <?= ($agnt_feedback['call_type']=="Outbound")?"selected":""?>>Outbound</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td>ACPT<span style="font-size:24px;color:red">*</span></td>
+										<td>
+											<select class="form-control" name="data[acpt]" disabled>
+												<option value="">-Select-</option>
+												<option value="Agent"  <?= ($agnt_feedback['acpt']=="Agent")?"selected":"" ?>>Agent</option>
+												<option value="Process"  <?= ($agnt_feedback['acpt']=="Process")?"selected":"" ?>>Process</option>
+												<option value="Customer"  <?= ($agnt_feedback['acpt']=="Customer")?"selected":"" ?>>Customer</option>
+												<option value="Technology"  <?= ($agnt_feedback['acpt']=="Technology")?"selected":"" ?>>Technology</option>
+											</select>
+										</td>
+										<td>VOC:<span style="font-size:24px;color:red">*</span></td>
+										<td colspan="2">
+											<select class="form-control" id="voc" name="data[voc]" disabled>
+												
+												<option value="">-Select-</option>
+												<option value="1"  <?= ($agnt_feedback['voc']=="1")?"selected":"" ?>>1</option>
+												<option value="2"  <?= ($agnt_feedback['voc']=="2")?"selected":"" ?>>2</option>
+												<option value="3"  <?= ($agnt_feedback['voc']=="3")?"selected":"" ?>>3</option>
+												<option value="4"  <?= ($agnt_feedback['voc']=="4")?"selected":"" ?>>4</option>
+												<option value="5"  <?= ($agnt_feedback['voc']=="5")?"selected":"" ?>>5</option>
+												<option value="6"  <?= ($agnt_feedback['voc']=="6")?"selected":"" ?>>6</option>
+												<option value="7"  <?= ($agnt_feedback['voc']=="7")?"selected":"" ?>>7</option>
+												<option value="8"  <?= ($agnt_feedback['voc']=="8")?"selected":"" ?>>8</option>
+												<option value="9"  <?= ($agnt_feedback['voc']=="9")?"selected":"" ?>>9</option>
+												<option value="10"  <?= ($agnt_feedback['voc']=="10")?"selected":"" ?>>10</option>
+											</select>
+										</td>
+										<td>Audit Type:<span style="font-size:24px;color:red">*</span></td>
+										<td>
+											<select class="form-control" id="audit_type" name="data[audit_type]" disabled>
+												<option value="">-Select-</option>
+												<option value="CQ Audit" <?= ($agnt_feedback['audit_type']=="CQ Audit")?"selected":"" ?>>CQ Audit</option>
+												<option value="BQ Audit" <?= ($agnt_feedback['audit_type']=="BQ Audit")?"selected":"" ?>>BQ Audit</option>
+												<option value="Calibration" <?= ($agnt_feedback['audit_type']=="Calibration")?"selected":"" ?>>Calibration</option>
+												<option value="Pre-Certificate Mock Call" <?= ($agnt_feedback['audit_type']=="Pre-Certificate Mock Call")?"selected":"" ?>>Pre-Certificate Mock Call</option>
+												<option value="Certification Audit" <?= ($agnt_feedback['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
+												<option value="Operation Audit" <?= ($agnt_feedback['audit_type']=="Operation Audit")?"selected":"" ?>>Operation Audit</option>
+												<option value="Trainer Audit"  <?= ($agnt_feedback['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td style="font-weight:bold; font-size:16px; text-align:left">Earned Score</td>
+										<td><input type="text" readonly class="form-control" value="<?php echo $agnt_feedback['earned_score'] ?>" /></td>
+										<td style="font-weight:bold; font-size:16px; text-align:left">Possible Score</td>
+										<td><input type="text" readonly class="form-control" value="<?php echo $agnt_feedback['possible_score'] ?>" /></td>
+										<td style="font-weight:bold; font-size:16px; text-align:right">Overall Score:</td>
+										<td><input type="text" readonly class="form-control" style="font-weight:bold" value="<?php echo $agnt_feedback['overall_score'] ?>"></td>
+									</tr>
+									<tr class="eml" style="height:25px; font-weight:bold">
+										<td>Critical Accuracy</td>
+										<td>PARAMETER</td>
+										<td colspan=2>SUB PARAMETER</td>
+										<td>Weightage</td>
+										<td>STATUS</td>
+										<td colspan=2>REMARKS</td>
+									</tr>
+									<tr>
+										<td class="eml" rowspan=6 style="font-weight:bold; background-color:#d6bf91">Business Critical</td>
+										<td class="eml" rowspan=4>Greeting</td>
+										<td colspan=2>The appropriate greeting was used (inbound/outbound)</td>
+										<td>2</td>
+										<td>
+											<select class="form-control epgi_point business" name="data[appropriate_greeting]" disabled>
+												
+												<option epgi_val=2 <?php echo $agnt_feedback['appropriate_greeting'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=1 <?php echo $agnt_feedback['appropriate_greeting'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['appropriate_greeting'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=2 <?php echo $agnt_feedback['appropriate_greeting'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+										
+										<td colspan=2><input type="text" name="data[cmt1]" class="form-control" value="<?php echo $agnt_feedback['cmt1'] ?>"></td>
+									</tr>
+									<tr>
+										<td colspan=2>Identifying the company (inbound/outbound)</td>
+										<td>2</td>
+										<td>
+											<select class="form-control epgi_point business" name="data[Identify_company]" disabled>
+												
+												<option epgi_val=2 <?php echo $agnt_feedback['Identify_company'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=1 <?php echo $agnt_feedback['Identify_company'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['Identify_company'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=2 <?php echo $agnt_feedback['Identify_company'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+									
+										<td colspan=2><input type="text" name="data[cmt2]" class="form-control" value="<?php echo $agnt_feedback['cmt2'] ?>"></td>
+									</tr>
 
+									<tr>
+										<td colspan=2>Offer Assistance (inbound willingness statement)</td>
+										<td>2</td>
+										<td>
+											<select class="form-control epgi_point business" name="data[offer_assistance]" disabled>
+												
+												<option epgi_val=2 <?php echo $agnt_feedback['offer_assistance'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=1 <?php echo $agnt_feedback['offer_assistance'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['offer_assistance'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=2 <?php echo $agnt_feedback['offer_assistance'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+									
+										<td colspan=2><input type="text" name="data[cmt3]" class="form-control" value="<?php echo $agnt_feedback['cmt3'] ?>"></td>
+									</tr>
+
+									<tr>
+										<td colspan=2>The representative fully explained the purpose for the call. (outbound)</td>
+										<td>2</td>
+										<td>
+											<select class="form-control epgi_point business" name="data[purpose_for_call]" disabled>
+												
+												<option epgi_val=2 <?php echo $agnt_feedback['purpose_for_call'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=1 <?php echo $agnt_feedback['purpose_for_call'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['purpose_for_call'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=2 <?php echo $agnt_feedback['purpose_for_call'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+									
+										<td colspan=2><input type="text" name="data[cmt4]" class="form-control" value="<?php echo $agnt_feedback['cmt4'] ?>"></td>
+									</tr>
+
+									<tr>
+										<td class="eml" rowspan=2>Verification</td>
+										<td colspan="2">Correctly verified & entered patient demographics (existing and new patients)</td>
+										<td>5</td>
+										<td>
+											<select class="form-control epgi_point business" name="data[patient_demographics]" disabled>
+												
+												<option epgi_val=5 <?php echo $agnt_feedback['patient_demographics'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=3 <?php echo $agnt_feedback['patient_demographics'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['patient_demographics'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=5 <?php echo $agnt_feedback['patient_demographics'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+									
+										<td colspan=2><input type="text" name="data[cmt5]" class="form-control" value="<?php echo $agnt_feedback['cmt5'] ?>"></td>
+									</tr>
+
+									<tr>
+										<td colspan="2">Verified insurance is Accepted at EPGI/Offices</td>
+										<td>5</td>
+										<td>
+											<select class="form-control epgi_point business" name="data[verified_insurance]" disabled>
+												
+												<option epgi_val=5 <?php echo $agnt_feedback['verified_insurance'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=3 <?php echo $agnt_feedback['verified_insurance'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['verified_insurance'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=5 <?php echo $agnt_feedback['verified_insurance'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+									
+										<td colspan=2><input type="text" name="data[cmt6]" class="form-control" value="<?php echo $agnt_feedback['cmt6'] ?>"></td>
+									</tr>
+
+									<tr>
+										<td class="eml" rowspan=6 style="font-weight:bold; background-color:#D7BDE2">Compliance Critical</td>
+										<td class="eml" rowspan=6>Scheduling</td>
+										<td colspan="2">Correctly entered patient's information </td>
+										<td>7</td>
+										<td>
+											<select class="form-control epgi_point compliance" name="data[patients_information]" disabled>
+												<option epgi_val=7 <?php echo $agnt_feedback['patients_information'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=3 <?php echo $agnt_feedback['patients_information'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['patients_information'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=7 <?php echo $agnt_feedback['patients_information'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+										<td colspan=2><input type="text" name="data[cmt7]" class="form-control" value="<?php echo $agnt_feedback['cmt7'] ?>"></td>
+									</tr>
+
+									<tr>
+										<td colspan="2">Correctly scheduled office visit</td>
+										<td>7</td>
+										<td>
+											<select class="form-control epgi_point compliance" name="data[office_visit]" disabled>
+												<option epgi_val=7 <?php echo $agnt_feedback['office_visit'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=3 <?php echo $agnt_feedback['office_visit'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['office_visit'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=7 <?php echo $agnt_feedback['office_visit'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+										<td colspan=2><input type="text" name="data[cmt8]" class="form-control" value="<?php echo $agnt_feedback['cmt8'] ?>"></td>
+									</tr>
+
+									<tr>
+										<td colspan="2">Correctly scheduled telehealth visit</td>
+										<td>7</td>
+										<td>
+											<select class="form-control epgi_point compliance" name="data[scheduled_telehealth_visit]" disabled>
+												<option epgi_val=7 <?php echo $agnt_feedback['scheduled_telehealth_visit'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=3 <?php echo $agnt_feedback['scheduled_telehealth_visit'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['scheduled_telehealth_visit'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=7 <?php echo $agnt_feedback['scheduled_telehealth_visit'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+										<td colspan=2><input type="text" name="data[cmt9]" class="form-control" value="<?php echo $agnt_feedback['cmt9'] ?>"></td>
+									</tr>
+
+									<tr>
+										<td colspan="2">Correctly scheduled hospital follow-up</td>
+										<td>7</td>
+										<td>
+											<select class="form-control epgi_point compliance" name="data[hospital_follow_up]" disabled>
+												<option epgi_val=7 <?php echo $agnt_feedback['hospital_follow_up'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=3 <?php echo $agnt_feedback['hospital_follow_up'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['hospital_follow_up'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=7 <?php echo $agnt_feedback['hospital_follow_up'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+										<td colspan=2><input type="text" name="data[cmt10]" class="form-control" value="<?php echo $agnt_feedback['cmt10'] ?>"></td>
+									</tr>
+
+									<tr>
+										<td colspan="2">Correctly sent patient messaging/pods</td>
+										<td>7</td>
+										<td>
+											<select class="form-control epgi_point compliance" name="data[patient_pods]" disabled>
+												<option epgi_val=7 <?php echo $agnt_feedback['patient_pods'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=3 <?php echo $agnt_feedback['patient_pods'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['patient_pods'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=7 <?php echo $agnt_feedback['patient_pods'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+										<td colspan=2><input type="text" name="data[cmt11]" class="form-control" value="<?php echo $agnt_feedback['cmt11'] ?>"></td>
+									</tr>
+
+									<tr>
+										<td colspan="2">Correctly utilized EPIC link</td>
+										<td>7</td>
+										<td>
+											<select class="form-control epgi_point compliance" name="data[utilized_EPIC_link]" disabled>
+												<option epgi_val=7 <?php echo $agnt_feedback['utilized_EPIC_link'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=3 <?php echo $agnt_feedback['utilized_EPIC_link'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['utilized_EPIC_link'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=7 <?php echo $agnt_feedback['utilized_EPIC_link'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+										<td colspan=2><input type="text" name="data[cmt12]" class="form-control" value="<?php echo $agnt_feedback['cmt12'] ?>"></td>
+									</tr>
+									
+									<tr>
+										<td class="eml" rowspan=2 style="font-weight:bold; background-color:#d6bf91">Business Critical</td>
+										<td class="eml" rowspan=2>Telephony</td>
+										<td colspan="2">Correctly utilized phone system with little to no delay in communication</td>
+										<td>4</td>
+										<td>
+											<select class="form-control epgi_point business" name="data[delay_in_communication]" disabled>
+												<option epgi_val=4 <?php echo $agnt_feedback['delay_in_communication'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=2 <?php echo $agnt_feedback['delay_in_communication'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['delay_in_communication'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=4 <?php echo $agnt_feedback['delay_in_communication'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+										<td colspan=2><input type="text" name="data[cmt13]" class="form-control" value="<?php echo $agnt_feedback['cmt13'] ?>"></td>
+									</tr>
+									<tr>
+										<td colspan="2">Used correct procedure for transferring to staff extension or department</td>
+										<td>4</td>
+										<td>
+											<select class="form-control epgi_point business" name="data[transferring_to_staff]" disabled>
+												<option epgi_val=4 <?php echo $agnt_feedback['transferring_to_staff'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=2 <?php echo $agnt_feedback['transferring_to_staff'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['transferring_to_staff'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=4 <?php echo $agnt_feedback['transferring_to_staff'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+										<td colspan=2><input type="text" name="data[cmt14]" class="form-control" value="<?php echo $agnt_feedback['cmt14'] ?>"></td>
+									</tr>
+
+									<tr>
+										<td class="eml" rowspan=5 style="font-weight:bold; background-color:pink">Customer Critical</td>
+										<td class="eml" rowspan=5>Soft Skills</td>
+										<td colspan="2">Avoided long silences during the call</td>
+										<td>5</td>
+										<td>
+											<select class="form-control epgi_point customer" name="data[avoided_long_silences]" disabled>
+												<option epgi_val=5 <?php echo $agnt_feedback['avoided_long_silences'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=3 <?php echo $agnt_feedback['avoided_long_silences'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['avoided_long_silences'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=5 <?php echo $agnt_feedback['avoided_long_silences'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+										<td colspan=2><input type="text" name="data[cmt15]" class="form-control" value="<?php echo $agnt_feedback['cmt15'] ?>"></td>
+									</tr>
+
+									<tr>
+										<td colspan="2">Did not interrupt the caller</td>
+										<td>5</td>
+										<td>
+											<select class="form-control epgi_point customer" name="data[interrupt_caller]" disabled>
+												<option epgi_val=5 <?php echo $agnt_feedback['interrupt_caller'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=3 <?php echo $agnt_feedback['interrupt_caller'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['interrupt_caller'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=5 <?php echo $agnt_feedback['interrupt_caller'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+										<td colspan=2><input type="text" name="data[cmt16]" class="form-control" value="<?php echo $agnt_feedback['cmt16'] ?>"></td>
+									</tr>
+
+									<tr>
+										<td colspan="2">Was  polite, friendly, and professional</td>
+										<td>5</td>
+										<td>
+											<select class="form-control epgi_point customer" name="data[polite]" disabled>
+												<option epgi_val=5 <?php echo $agnt_feedback['polite'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=3 <?php echo $agnt_feedback['polite'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['polite'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=5 <?php echo $agnt_feedback['polite'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+										<td colspan=2><input type="text" name="data[cmt17]" class="form-control" value="<?php echo $agnt_feedback['cmt17'] ?>"></td>
+									</tr>
+
+									<tr>
+										<td colspan="2">Call was kept to the point and utilized time efficiently</td>
+										<td>5</td>
+										<td>
+											<select class="form-control epgi_point customer" name="data[utilized_time_efficiently]" disabled>
+												<option epgi_val=5 <?php echo $agnt_feedback['utilized_time_efficiently'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=3 <?php echo $agnt_feedback['utilized_time_efficiently'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['utilized_time_efficiently'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=5 <?php echo $agnt_feedback['utilized_time_efficiently'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+										<td colspan=2><input type="text" name="data[cmt18]" class="form-control" value="<?php echo $agnt_feedback['cmt18'] ?>"></td>
+									</tr>
+
+									<tr>
+										<td colspan="2">Conveyed appropriate empathy, when necessary, while maintaining control of the call</td>
+										<td>5</td>
+										<td>
+											<select class="form-control epgi_point customer" name="data[appropriate_empathy]" disabled>
+												<option epgi_val=5 <?php echo $agnt_feedback['appropriate_empathy'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=3 <?php echo $agnt_feedback['appropriate_empathy'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['appropriate_empathy'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=5 <?php echo $agnt_feedback['appropriate_empathy'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+										<td colspan=2><input type="text" name="data[cmt19]" class="form-control" value="<?php echo $agnt_feedback['cmt19'] ?>"></td>
+									</tr>
+
+									<tr>
+										<td class="eml" rowspan=1 style="font-weight:bold; background-color:pink">Customer Critical</td>
+										<td class="eml" rowspan=3>End Call</td>
+										<td colspan="2">Offered further assistance</td>
+										<td>2</td>
+										<td>
+											<select class="form-control epgi_point customer" name="data[further_assistance]" disabled>
+												<option epgi_val=2 <?php echo $agnt_feedback['further_assistance'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=1 <?php echo $agnt_feedback['further_assistance'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['further_assistance'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=2 <?php echo $agnt_feedback['further_assistance'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+										<td colspan=2><input type="text" name="data[cmt20]" class="form-control" value="<?php echo $agnt_feedback['cmt20'] ?>"></td>
+									</tr>
+									<tr>
+										<td class="eml" rowspan=1 style="font-weight:bold; background-color:#D7BDE2">Compliance Critical</td>
+										<td colspan="2">Call ended on a positive note with a summary/verification of actions and date of appointment(s)</td>
+										<td>2</td>
+										<td>
+											<select class="form-control epgi_point compliance" name="data[summary_verification]" disabled>
+												<option epgi_val=2 <?php echo $agnt_feedback['summary_verification'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=1 <?php echo $agnt_feedback['summary_verification'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['summary_verification'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=2 <?php echo $agnt_feedback['summary_verification'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+										<td colspan=2><input type="text" name="data[cmt21]" class="form-control" value="<?php echo $agnt_feedback['cmt21'] ?>"></td>
+									</tr>
+									<tr>
+										<td class="eml" rowspan=1 style="font-weight:bold; background-color:pink">Customer Critical</td>
+										<td colspan="2">Thanked the caller for his/her time and branded the call</td>
+										<td>3</td>
+										<td>
+											<select class="form-control epgi_point customer" name="data[thanked_caller]" disabled>
+												<option epgi_val=3 <?php echo $agnt_feedback['thanked_caller'] == "Excellent" ? "selected" : ""; ?> value="Excellent">Excellent</option>
+												<option epgi_val=1 <?php echo $agnt_feedback['thanked_caller'] == "Opportunity" ? "selected" : ""; ?> value="Opportunity">Opportunity</option>
+												<option epgi_val=0 <?php echo $agnt_feedback['thanked_caller'] == "Unsatisfactory" ? "selected" : ""; ?> value="Unsatisfactory">Unsatisfactory</option>
+												<option epgi_val=2 <?php echo $agnt_feedback['thanked_caller'] == "N/A" ? "selected" : ""; ?> value="N/A">N/A</option>
+											</select>
+										</td>
+										<td colspan=2><input type="text" name="data[cmt22]" class="form-control" value="<?php echo $agnt_feedback['cmt22'] ?>"></td>
+									</tr>
+
+									<tr style="font-weight:bold; background-color:#D7BDE2"><td colspan=2>Customer Score</td><td colspan=2>Business Score</td><td colspan=4>Compliance Score</td></tr>
+
+									<tr style="font-weight:bold; background-color:#D7BDE2">
+										<td>Earned Point:</td><td ><input type="text" readonly class="form-control" id="customer_earned_score" name="data[customer_earned_score]" value="<?php echo $agnt_feedback['customer_earned_score'] ?>"></td>
+										<td>Earned Point:</td><td ><input type="text" readonly class="form-control" id="business_earned_score" name="data[business_earned_score]" value="<?php echo $agnt_feedback['business_earned_score'] ?>"></td>
+										<td>Earned Point:</td><td colspan=2><input type="text" readonly class="form-control" id="compliance_earned_score" name="data[compliance_earned_score]" value="<?php echo $agnt_feedback['compliance_earned_score'] ?>"></td>
+									</tr>
+									<tr style="font-weight:bold; background-color:#D7BDE2">
+										<td>Possible Point:</td><td ><input type="text" readonly class="form-control" id="customer_possible_score" name="data[customer_possible_score]" value="<?php echo $agnt_feedback['customer_possible_score'] ?>"></td>
+										<td>Possible Point:</td><td ><input type="text" readonly class="form-control" id="business_possible_score" name="data[business_possible_score]" value="<?php echo $agnt_feedback['business_possible_score'] ?>"></td>
+										<td>Possible Point:</td><td colspan=2><input type="text" readonly class="form-control" id="compliance_possible_score" name="data[compliance_possible_score]" value="<?php echo $agnt_feedback['compliance_possible_score'] ?>"></td>
+									</tr>
+									<tr style="font-weight:bold; background-color:#D7BDE2">
+										<td>Overall Percentage:</td><td ><input type="text" readonly class="form-control" id="customer_overall_score" name="data[customer_overall_score]" value="<?php echo $agnt_feedback['customer_overall_score'] ?>"></td>
+										<td>Overall Percentage:</td><td ><input type="text" readonly class="form-control" id="business_overall_score" name="data[business_overall_score]" value="<?php echo $agnt_feedback['business_overall_score'] ?>"></td>
+										<td>Overall Percentage:</td><td colspan=2><input type="text" readonly class="form-control" id="compliance_overall_score" name="data[compliance_overall_score]" value="<?php echo $agnt_feedback['compliance_overall_score'] ?>"></td>
+									</tr>
+									<tr>
+										<td>Call Summary:</td>
+										<td colspan=2><textarea class="form-control" name="data[call_summary]"><?php echo $agnt_feedback['call_summary'] ?></textarea></td>
+										<td>Feedback:</td>
+										<td colspan=4><textarea class="form-control" name="data[feedback]"><?php echo $agnt_feedback['feedback'] ?></textarea></td>
+									</tr>
+									<?php if($agnt_feedback['attach_file']!=''){ ?>
+									<tr oncontextmenu="return false;">
+										<td colspan="2">Audio Files (Mp4/Mp3/M4a/Wav)</td>
+										<td colspan="4">
+											<?php $attach_file = explode(",",$agnt_feedback['attach_file']);
+											 foreach($attach_file as $af){ ?>
+												<audio oncontextmenu="return false;" controls controlslist="nodownload" style="background-color:#607F93">
+													  <source src="<?php echo base_url(); ?>qa_files/qa_epgi/<?php echo $af; ?>" type="audio/ogg">
+													  <source src="<?php echo base_url(); ?>qa_files/qa_epgi/<?php echo $af; ?>" type="audio/mpeg">
+												</audio> </br>
+											 <?php } ?>
+										</td>
+									</tr>
+									<?php } ?>
+								
+								<?php } ?>
 
 
 									<tr><td colspan="8" style="background-color:#C5C8C8"></td></tr>
@@ -17456,9 +18621,9 @@
 										<input type="hidden" name="pnid" class="form-control" value="<?php echo $pnid; ?>">
 
 										<tr>
-											<td colspan=3 style="font-size:16px">Feedback Acceptance</td>
+											<td colspan=3 style="font-size:16px">Feedback Acceptance:<span style="font-size:24px;color:red">*</span></td>
 											<td colspan=2>
-												<select class="form-control" id="" name="agnt_fd_acpt" required>
+												<select class="form-control" name="agnt_fd_acpt" required>
 													<option value="">--Select--</option>
 													<option <?php if(isset($agnt_feedback['agnt_fd_acpt'])) echo $agnt_feedback['agnt_fd_acpt']=='Acceptance'?"selected":""; ?> value="Acceptance">Acceptance</option>
 													<option <?php if(isset($agnt_feedback['agnt_fd_acpt'])) echo $agnt_feedback['agnt_fd_acpt']=='Not Acceptance'?"selected":""; ?> value="Not Acceptance">Not Acceptance</option>
@@ -17466,7 +18631,7 @@
 											</td>
 										</tr>
 										<tr>
-											<td colspan="3"  style="font-size:16px">Write Your Review Here</td>
+											<td colspan="3"  style="font-size:16px">Write Your Review Here:<span style="font-size:24px;color:red">*</span></td>
 											<td colspan="5"><textarea class="form-control" name="note" required><?php echo $agnt_feedback['agent_rvw_note'] ?></textarea></td>
 										</tr>
 

@@ -106,6 +106,12 @@
 								</a>
 							</li>
 							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_healthmitra/qa_healthmitra_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Healthmitra</span>
+								</a>
+							</li>
+							<li class="menu-item">
 								<a href="<?php echo base_url()?>qa_apphelp/qa_apphelp_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">AppHelp</span>
@@ -496,13 +502,13 @@
 							<li class="menu-item">
 								<a href="<?php echo base_url()?>reports_qa/qa_freedom_financial_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
-									<span class="">Freedom Financial</span>
+									<span class="">Achieve Collection</span>
 								</a>
 							</li>
 							<li class="menu-item">
 								<a href="<?php echo base_url()?>reports_qa/qa_freedom_customer_service_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
-									<span class="">Freedom Customer Service</span>
+									<span class="">Achieve Cs</span>
 								</a>
 							</li>
 							<li class="menu-item">
@@ -602,6 +608,18 @@
 								</a>
 							</li>
 							<li class="menu-item">
+								<a href="<?php echo base_url()?>Qa_urban_piper/qa_urban_piper_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Urban Piper</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>Qa_lunajoy/qa_lunajoy_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Lunajoy</span>
+								</a>
+							</li>
+							<li class="menu-item">
 								<a href="<?php echo base_url()?>Qa_superbill_outbound/qa_superbill_outbound_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Superbill-Outbound</span>
@@ -619,12 +637,12 @@
 									<span class="">Clever Care</span>
 								</a>
 							</li>
-							<li class="menu-item">
-								<a href="<?php echo base_url()?>Qa_conduent_direct_express/qa_conduent_direct_express_report" class="menu-link">
+							<!--<li class="menu-item">
+								<a href="<?php //echo base_url()?>Qa_conduent_direct_express/qa_conduent_direct_express_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Conduent- Direct Express</span>
 								</a>
-							</li>
+							</li>-->
 							<li class="menu-item">
 								<a href="<?php echo base_url()?>Qa_assured_imaging/qa_assured_imaging_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>

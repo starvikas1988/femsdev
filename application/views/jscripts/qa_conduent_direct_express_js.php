@@ -22,57 +22,49 @@ $(function() {
 
 </script>
 <script type="text/javascript">
-		$(function() {
-		$( "#agent_id" ).on('change' , function() {
-		var aid = this.value;
-		//alert(aid);
-		if(aid=="") alert("Please Select Agent")
-		var URL='<?php echo base_url();?>qa_ameridial/getTLname';
-		$('#sktPleaseWait').modal('show');
-		$.ajax({
-			type: 'POST',
-			url:URL,
-			data:'aid='+aid,
-			success: function(aList){
-				var json_obj = $.parseJSON(aList);
-			
-				$('#tl_name').empty();
-				$('#tl_name').append($('#tl_name').val(''));
-				$('#fusion_id').empty();
-				$('#fusion_id').append($('#fusion_id').val(''));
+
+	    $(function() {
+			$( "#agent_id" ).on('change' , function() {
+			var aid = this.value;
+			//alert(aid);
+			if(aid=="") alert("Please Select Agent")
+			var URL='<?php echo base_url();?>qa_ameridial/getTLname';
+			$('#sktPleaseWait').modal('show');
+			$.ajax({
+				type: 'POST',
+				url:URL,
+				data:'aid='+aid,
+				success: function(aList){
+					var json_obj = $.parseJSON(aList);
 				
-				for (var i in json_obj) $('#tl_id').append($('#tl_id').val(json_obj[i].assigned_to));
-				for (var i in json_obj){
-					if($('#tl_name').val(json_obj[i].tl_name)!=''){
-						console.log(json_obj[0].tl_name);
-						$('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
-
-					}else{
-						alert("Agent is not assigned any TL.Please assign one from manage user section or contact your HR/Manager");
-					}
+					$('#tl_name_s').empty();
+					$('#tl_name_s').append($('#tl_name_s').val(''));
+					$('#fusion_id').empty();
+					$('#fusion_id').append($('#fusion_id').val(''));
 					
+					for (var i in json_obj) $('#tl_id').append($('#tl_id').val(json_obj[i].assigned_to));
+					for (var i in json_obj){
+						if($('#tl_name_s').val(json_obj[i].tl_name)!=''){
+							console.log(json_obj[0].tl_name);
+							$('#tl_name_s').append($('#tl_name_s').val(json_obj[i].tl_name));
+
+						}else{
+							alert("Agent is not assigned any TL.Please assign one from manage user section or contact your HR/Manager");
+						}
+						
+					}
+					 
+					for (var i in json_obj) $('#fusion_id').append($('#fusion_id').val(json_obj[i].fusion_id));
+					for (var i in json_obj) $('#campaign').append($('#campaign').val(json_obj[i].process_name));
+					for (var i in json_obj) $('#office_id').append($('#office_id').val(json_obj[i].office_id));
+					$('#sktPleaseWait').modal('hide');
+				},
+				error: function(){
+					alert('Fail!');
 				}
-				for (var i in json_obj){
-					if($('#tl_names').val(json_obj[i].tl_name)!=''){
-						console.log(json_obj[0].tl_name);
-						$('#tl_names').append($('#tl_names').val(json_obj[i].tl_name));
-
-					}else{
-						alert("Agent is not assigned any TL.Please assign one from manage user section or contact your HR/Manager");
-					}
-					
-				}  
-				for (var i in json_obj) $('#fusion_id').append($('#fusion_id').val(json_obj[i].fusion_id));
-				for (var i in json_obj) $('#campaign').append($('#campaign').val(json_obj[i].process_name));
-				for (var i in json_obj) $('#office_id').append($('#office_id').val(json_obj[i].office_id));
-				$('#sktPleaseWait').modal('hide');
-			},
-			error: function(){
-				alert('Fail!');
-			}
+			});
 		});
-	});
-});
+	});	
 </script>
 
 
@@ -431,6 +423,7 @@ $('INPUT[type="file"]').change(function () {
 
 
  <script type="text/javascript">
+ 	
  		function conduent_direct_express_calc(){
 		let score_conduent = 0;
 		let scoreable_conduent = 0;
@@ -499,7 +492,10 @@ $('INPUT[type="file"]').change(function () {
 	$(document).on('change','.conduent_direct_express_point',function(){
 		conduent_direct_express_calc();
 	});
-	conduent_direct_express_calc();
+	$( document ).ready(function() {
+    conduent_direct_express_calc();
+	});
+	
 </script>
 
 

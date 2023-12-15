@@ -176,6 +176,14 @@
 				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_stratus_monitoringtech_feedback $cond) xx Left Join
 				(Select id as sid, fname, lname, fusion_id, get_client_ids(id) as client, get_process_ids(id) as pid, get_process_names(id) as process, assigned_to from signin) yy on (xx.agent_id=yy.sid) $ops_cond order by audit_date";
 			$data["monitoring_tech"] = $this->Common_model->get_query_result_array($qSql);
+
+			$qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_stratus_monitoringtech_v1_feedback $cond) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, get_client_ids(id) as client, get_process_ids(id) as pid, get_process_names(id) as process, assigned_to from signin) yy on (xx.agent_id=yy.sid) $ops_cond order by audit_date";
+			$data["monitoring_tech_v1"] = $this->Common_model->get_query_result_array($qSql);
 		
 			
 			$data["from_date"] = $from_date;
@@ -1091,6 +1099,186 @@
 		}
 	}
 
+	public function add_edit_monitoring_tech_v1($monitoringtech_v1_id){
+		if(check_logged_in())
+		{
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+			
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_stratus/add_edit_monitoring_tech_v1.php";
+			$data["content_js"] = "qa_loanxm_js.php";
+			$data['monitoringtech_v1_id']=$monitoringtech_v1_id;
+			$tl_mgnt_cond='';
+			
+			if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+			}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+				$tl_mgnt_cond=" and assigned_to='$current_user'";
+			}else{
+				$tl_mgnt_cond="";
+			}
+			
+			$qSql="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,211) and is_assign_process(id,761) and status=1  order by name";
+			/* and is_assign_process(id,474) */
+			$data["agentName"] = $this->Common_model->get_query_result_array($qSql);
+			
+			$qSql = "SELECT id,concat(fname, ' ', lname) as name, fusion_id,office_id FROM signin where role_id in (select id from role where folder in ('tl','trainer','am','manager')) and status=1";
+			$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+			
+		    	 $qSql =	"SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name
+				from qa_stratus_monitoringtech_v1_feedback where id='$monitoringtech_v1_id') xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+
+			$data["monitoring_tech_v1"] = $this->Common_model->get_query_row_array($qSql);
+			
+			//$currDate=CurrDate();
+			$curDateTime=CurrMySqlDate();
+			$a = array();
+			
+			
+			$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
+			if($field_array['agent_id']){
+				
+				if($monitoringtech_v1_id==0){
+					
+					$field_array=$this->input->post('data');
+					$field_array['audit_date']=CurrDate();
+					$field_array['call_date']=mdydt2mysql($this->input->post('call_date'));
+					//$field_array['dob']=mmddyy2mysql($this->input->post('dob'));
+					$field_array['entry_date']=$curDateTime;
+					$field_array['audit_start_time']=$this->input->post('audit_start_time');
+					$a = $this->stratus_upload_files($_FILES['attach_file'], $path='./qa_files/qa_stratus/');
+					$field_array["attach_file"] = implode(',',$a);
+					$rowid= data_inserter('qa_stratus_monitoringtech_v1_feedback',$field_array);
+				///////////
+					if(get_login_type()=="client"){
+						$add_array = array("client_entryby" => $current_user);
+					}else{
+						$add_array = array("entry_by" => $current_user);
+					}
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_stratus_monitoringtech_v1_feedback',$add_array);
+					/*******************Fatal Call Email Send functionality added on 14-12-22 START ***********************/
+					if($field_array['overall_score'] == 0){
+						$tablename = "qa_stratus_monitoringtech_v1_feedback";
+						$sql = "SELECT tname.*, ip.email_id_off, ip_tl.email_id_off as tl_email, concat(s.fname, ' ', s.lname) as fullname,
+							(SELECT concat(tls.fname, ' ', tls.lname) as tl_fullname FROM signin tls WHERE tls.id=tname.tl_id) as tl_fullname
+							FROM $tablename tname
+							LEFT JOIN info_personal ip ON ip.user_id=tname.agent_id 
+							LEFT JOIN signin s ON s.id=tname.agent_id
+							LEFT JOIN signin tl ON tl.id = tname.tl_id
+							LEFT JOIN info_personal ip_tl ON ip_tl.user_id = tname.tl_id
+							WHERE tname.id=$rowid";
+						$result= $this->Common_model->get_query_row_array($sql);				
+						$sqlParam ="SELECT process_id,params_columns, fatal_param, param_column_desc FROM qa_defect where table_name='$tablename'"; 
+						$resultParams = $this->Common_model->get_query_row_array($sqlParam);
+						
+						$process = floor($resultParams['process_id']);
+						$sqlProcess ="SELECT name FROM process where id='$process'"; 
+						$resultProcess = $this->Common_model->get_query_row_array($sqlProcess);
+						
+						$params = explode(",", $resultParams['params_columns']);
+						$fatal_params = explode(",", $resultParams['fatal_param']);
+						$descArr = explode(",", $resultParams['param_column_desc']);
+						
+						$msgTable = "<Table BORDER=1>";
+						$msgTable .= "<TR><TH>SL.</TH> <TH>CALL AUDIT PARAMETERS</TH><TH>QA Rating</TH> <TH>QA Remarks</TH></TR>";
+						
+						$i=1;
+						$j=0;
+						foreach($params as $par){
+							//echo $str = str_replace('_', ' ', $par)."<BR>";
+							if($result[$par]=='No'){
+								$msgTable .= "<TR><TD>".$i."</TD><TD>". $descArr[$j]."</TD> <TD style='color:#FF0000'>".$result[$par]."</TD><TD>".$result['cmt'.$i]."</TD></TR>";
+							}else{
+								$msgTable .= "<TR><TD>".$i."</TD><TD>". $descArr[$j]."</TD> <TD>".$result[$par]."</TD><TD>".$result['cmt'.$i]."</TD></TR>";
+							}
+							
+							$i++;
+							$j++;
+						}
+						///////////////////////////
+						
+						$msgTable .= "<TR><TD colspan='3'>Overall Score</TD> <TD>".$result['overall_score']."%</TD></TR>";
+						$msgTable .= "</Table>";
+
+						$eccA=array();
+						//$to = $result['tl_email']; // Have to open when email will trigger to the Respective TL of the Agent
+						$to = 'cherry.daluraya@fusionbposervices.com,sherryl.demape@fusionbposervices.com,vincent.butaya@fusionbposervices.com,Zephaniah.Satiembre@fusionbposervices.com,bryan.carpio@fusionbposervices.com,Acha.Joseph@fusionbposervices.com';
+						$ebody = "Hello ". $result['tl_fullname'].",<br>";
+						$ebody .= "<p>Agent Name : ".$result['fullname']."</p>";
+						$ebody .= "<p>Order Number :  ".$result['order_number']."</p>";
+						$ebody .= "<p>Call Date : ".$result['call_date']."</p>";
+						$ebody .= "<p>Audit Date time : ".ConvServerToLocal($result['entry_date'])."</p>";
+						$ebody .= "<p>Call Summary : ".$result['call_summary']."</p>";
+						$ebody .= "<p>Feedback : ".$result['feedback']."</p><br><br>";
+						$ebody .= "<p>Please listen the call from the MWP Tool and share feedback acceptancy :</p>";
+						$ebody .=  $msgTable;
+						$ebody .= "<p>Regards,</p>";
+						$ebody .= "<p>MWP Team</p>";
+						$esubject = "Fatal Call Alert - "." For Process - ".$resultProcess['name'].", Agent Name - ".$result['fullname']." Audit Date - ".$result['audit_date'];
+						$eccA[]="Bompalli.Somasundaram@omindtech.com";
+						$eccA[]="deb.dasgupta@omindtech.com";
+						$eccA[]="sumitra.bagchi@omindtech.com";
+						$eccA[]="anshuman.sarkar@fusionbposervices.com";
+						/* $eccA[]="danish.khan@fusionbposervices.com";
+						$eccA[]="Faisal.Anwar@fusionbposervices.com"; */
+						$ecc = implode(',',$eccA);
+						$path = "";
+						$from_email="";
+						$from_name="";
+						//echo $esubject."<br>";
+						//echo $ebody."<br>";
+						//exit;
+						//$send = $this->Email_model->send_email_sox("",$to, $ecc, $ebody, $esubject, $path, $from_email, $from_name, $isBcc="Y");
+						unset($eccA);
+					}
+					/*******************Fatal Call Email Send functionality added on 14-12-22 END ***********************/
+					
+				}else{
+					
+					$field_array1=$this->input->post('data');
+					$field_array1['call_date']=mdydt2mysql($this->input->post('call_date'));
+					//$field_array1['dob']=mmddyy2mysql($this->input->post('dob'));
+					if($_FILES['attach_file']['tmp_name'][0]!=''){
+						if(!file_exists("./qa_files/qa_stratus/")){
+							mkdir("./qa_files/qa_stratus/");
+						}
+						$a = $this->stratus_upload_files( $_FILES['attach_file'], $path = './qa_files/qa_stratus/' );
+						$field_array1['attach_file'] = implode( ',', $a );
+					}
+
+					$this->db->where('id', $monitoringtech_v1_id);
+					$this->db->update('qa_stratus_monitoringtech_v1_feedback',$field_array1);
+				/////////////
+					if(get_login_type()=="client"){
+						$edit_array = array(
+							"client_rvw_by" => $current_user,
+							"client_rvw_note" => $this->input->post('note'),
+							"client_rvw_date" => $curDateTime
+						);
+					}else{
+						$edit_array = array(
+							"mgnt_rvw_by" => $current_user,
+							"mgnt_rvw_note" => $this->input->post('note'),
+							"mgnt_rvw_date" => $curDateTime
+						);
+					}
+					$this->db->where('id', $monitoringtech_v1_id);
+					$this->db->update('qa_stratus_monitoringtech_v1_feedback',$edit_array);
+					
+				}
+				redirect('qa_stratus');
+			}
+			$data["array"] = $a;
+			$this->load->view("dashboard",$data);
+		}
+	}
+
 /*------------------- Agent Part ---------------------*/
 	// public function agent_stratus_feedback(){
 	// 	if(check_logged_in()){
@@ -1217,23 +1405,37 @@
 			$from_date = '';
 			$to_date = '';
 			$cond="";
+
+			$from_date = ($this->input->get('from_date'));
+			$to_date = ($this->input->get('to_date'));
+
+			if($from_date==""){
+					$from_date=CurrDate();
+				}else{
+					$from_date = mmddyy2mysql($from_date);
+				}
+
+				if($to_date==""){
+					$to_date=CurrDate();
+				}else{
+					$to_date = mmddyy2mysql($to_date);
+			}
 			
 			$campaign = $this->input->get('campaign');
 			
 			if($campaign!=""){
 			
-				$qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
+				$qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
 				$data["tot_feedback"] =  $this->Common_model->get_single_value($qSql);
 			
-				$qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
+				$qSql="Select count(id) as value from qa_".$campaign."_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
 				$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql);
 
 				if($this->input->get('btnView')=='View')
 				{
-					$from_date = mmddyy2mysql($this->input->get('from_date'));
-					$to_date = mmddyy2mysql($this->input->get('to_date'));
 					
-					if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') and agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')";
+					
+					if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') and agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
 
 					$qSql = "SELECT * from
 						(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
@@ -1248,7 +1450,7 @@
 						(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 						(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 						(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-						(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_".$campaign."_feedback where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit')) xx Left Join
+						(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_".$campaign."_feedback where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')) xx Left Join
 						(Select id as sid, fname, lname, fusion_id, get_process_names(id) as campaign, assigned_to from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
 					$data["agent_rvw_list"] = $this->Common_model->get_query_result_array($qSql);
 				}
@@ -1481,6 +1683,50 @@
 			}
 		}
 	}
+
+	public function agent_monitoring_tech_v1_rvw($id){
+		if(check_logged_in()){
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_stratus/agent_monitoring_tech_v1_rvw.php";
+			
+			$data["content_js"] = "qa_loanxm_js.php";
+			$data["agentUrl"] = "qa_stratus/agent_stratus_feedback";
+			$campaign="";
+			$campaign = $this->input->get('campaign');
+			
+			$qSql="SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_stratus_monitoringtech_v1_feedback where id='$id') xx Left Join
+				(Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+			$data["monitoring_tech_v1"] = $this->Common_model->get_query_row_array($qSql);
+			
+			$data["pnid"]=$id;
+			
+			if($this->input->post('pnid'))
+			{
+				$pnid=$this->input->post('pnid');
+				$curDateTime=CurrMySqlDate();
+				$log=get_logs();
+					
+				$field_array1=array(
+					"agnt_fd_acpt" => $this->input->post('agnt_fd_acpt'),
+					"agent_rvw_note" => $this->input->post('note'),
+					"agent_rvw_date" => $curDateTime
+				);
+				$this->db->where('id', $pnid);
+				$this->db->update('qa_stratus_monitoringtech_v1_feedback',$field_array1);
+					
+				redirect('qa_stratus/agent_stratus_feedback');
+				
+			}else{
+				$this->load->view('dashboard',$data);
+			}
+		}
+	}
 /*-------------- Report Part ---------------*/
 	public function qa_stratus_report(){
 		if(check_logged_in()){
@@ -1508,13 +1754,28 @@
 			$dn_link="";
 			$cond="";
 			$cond1="";
+
+			
+			$date_from = ($this->input->get('date_from'));
+			$date_to = ($this->input->get('date_to'));	
+
+			if($date_from==""){
+					$date_from=CurrDate();
+				}else{
+					$date_from = mmddyy2mysql($date_from);
+				}
+
+				if($date_to==""){
+					$date_to=CurrDate();
+				}else{
+					$date_to = mmddyy2mysql($date_to);
+			}
 			
 			$data["qa_stratus_list"] = array();
 			
 			if($this->input->get('show')=='Show')
 			{
-				$date_from = mmddyy2mysql($this->input->get('date_from'));
-				$date_to = mmddyy2mysql($this->input->get('date_to'));
+				
 				$office_id = $this->input->get('office_id');
 				$audit_type = $this->input->get('audit_type');
 				
@@ -1984,6 +2245,172 @@
 			$row .= '"'.$user['compliance_score_percent'].'%'.'",';
 			$row .= '"'.$user['customer_score_percent'].'%'.'",';
 			$row .= '"'.$user['business_score_percent'].'%'.'",';
+			
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+			$row .= '"'.$user['agnt_fd_acpt'].'",';
+			$row .= '"'.$user['agent_rvw_date'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+			$row .= '"'.$user['mgnt_rvw_date'].'",';
+			$row .= '"'.$user['mgnt_rvw_name'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
+			$row .= '"'.$user['client_rvw_date'].'",';
+			$row .= '"'.$user['client_rvw_name'].'",';
+			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'"';
+			
+			fwrite($fopen,$row."\r\n");
+		}
+		fclose($fopen);
+
+		}elseif($campaign == 'stratus_monitoringtech_v1')
+		{
+		$edit_url = "add_edit_monitoring_tech_v1";
+		$main_url =  $currentURL.''.$controller.'/'.$edit_url;
+		$header = array("Auditor Name", "Audit Date","Call Date/Time", "Agent", "Fusion ID", "L1 Super","Audit Type","Auditor Type","Order Number","Customer Name","Auto Fail", "VOC","Call Duration","KPI-ACPT","Audit Link", "Audit Start Date Time", "Audit End Date Time", "Interval(in sec)", "Possible Score","Earn Score","Overall Score",
+			"1. Q2 Checks","Remarks",
+			"2. Templates","Remarks",
+			"3. Hours/Battery %","Remarks",
+			"4. Camera","Remarks",
+			"5. Disconnects","Remarks",
+			"6. Call Logs","Remarks",
+			"7. TV Console Notes","Remarks",
+			"8. Master Setup List","Remarks",
+			"9. MSL Information","Remarks",
+			"10. Patient Info","Remarks",
+			"11. Phone Numbers","Remarks",
+			"12. Start Time","Remarks",
+			"13. Number of Cameras","Remarks",
+			"14. Time Zone","Remarks",
+			"15. WIP","Remarks",
+			"16. Time Syncs","Remarks",
+			"17. Data Card","Remarks",
+			"18. AV Log","Remarks",
+			"19. Response Time FTs","Remarks",
+			"20. Response Time RTs","Remarks",
+			"21. On-Turns","Remarks",
+			"22. Courtesy Calls","Remarks",
+			"23. Call Video","Remarks",
+			"24. Call OOR","Remarks",
+			"25. Self Disconnects","Remarks",
+			"26. Escalation","Remarks",
+			"27. The agent mantains privacy and confidentiality.","Remarks",
+			"28. The agent is able to handle the patient with care and kindness.","Remarks",
+			"29. The agents maintains the dignity of the patient the best way he or she can.","Remarks",
+			"30. The agent takes the initiative.","Remarks",
+			"31. The agent treats the patient as adults.","Remarks",
+			"32. The agent attentively listens and emphatically acts.","Remarks",
+			"Compliance Score Percent",
+			"Business Score Percent",
+			"Customer Score Percent",
+		"Call Summary", "Feedback", "Agent Feedback Acceptance","Agent Review Date", "Agent Comment","Mgnt Review Date","Mgnt Review By", "Mgnt Comment", "Client Review Date", "Client Review Name", "Client Review Note");
+
+		$row = "";
+		foreach($header as $data) $row .= ''.$data.',';
+		fwrite($fopen,rtrim($row,",")."\r\n");
+		$searches = array("\r", "\n", "\r\n");
+
+		foreach($rr as $user){	
+			if($user['entry_by']!=''){
+				$auditorName = $user['auditor_name'];
+			}else{
+				$auditorName = $user['client_name'];
+			}
+			
+			if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+				$interval1 = '---';
+			}else{
+				$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+			}
+			$main_urls = $main_url.'/'.$user['id'];
+			
+			$row = '"'.$auditorName.'",'; 
+			$row .= '"'.$user['audit_date'].'",';
+			$row .= '"'.$user['call_date'].'",'; 
+			$row .= '"'.$user['fname']." ".$user['lname'].'",';
+			$row .= '"'.$user['fusion_id'].'",';
+			$row .= '"'.$user['tl_name'].'",';
+			$row .= '"'.$user['audit_type'].'",';
+			$row .= '"'.$user['auditor_type'].'",';
+			$row .= '"'.$user['order_number'].'",';
+			$row .= '"'.$user['customer_name'].'",';
+			$row .= '"'.$user['auto_fail'].'",';
+			$row .= '"'.$user['voc'].'",';
+			$row .= '"'.$user['call_duration'].'",';
+			$row .= '"'.$user['kpi_acpt'].'",';
+			$row .= '"'.$main_urls.'",';
+			$row .= '"'.$user['audit_start_time'].'",';
+			$row .= '"'.$user['entry_date'].'",';
+			$row .= '"'.$interval1.'",';
+			$row .= '"'.$user['possible_score'].'",';
+			$row .= '"'.$user['earned_score'].'",';
+			$row .= '"'.$user['overall_score'].'%'.'",';
+			$row .= '"'.$user['Q2_checks'].'",';
+			$row .= '"'.$user['cmt1'].'",';
+			$row .= '"'.$user['templates'].'",';
+			$row .= '"'.$user['cmt2'].'",';
+			$row .= '"'.$user['hours_battery_per'].'",';
+			$row .= '"'.$user['cmt3'].'",';
+			$row .= '"'.$user['camera'].'",';
+			$row .= '"'.$user['cmt4'].'",';
+			$row .= '"'.$user['disconnects'].'",';
+			$row .= '"'.$user['cmt5'].'",';
+			$row .= '"'.$user['call_logs'].'",';
+			$row .= '"'.$user['cmt6'].'",';
+			$row .= '"'.$user['tv_console_notes'].'",';
+			$row .= '"'.$user['cmt7'].'",';
+			$row .= '"'.$user['master_setup_list'].'",';
+			$row .= '"'.$user['cmt8'].'",';
+			$row .= '"'.$user['MSL_information'].'",';
+			$row .= '"'.$user['cmt9'].'",';
+			$row .= '"'.$user['patient_information'].'",';
+			$row .= '"'.$user['cmt10'].'",';
+			$row .= '"'.$user['phone_numbers'].'",';
+			$row .= '"'.$user['cmt11'].'",';
+			$row .= '"'.$user['start_time'].'",';
+			$row .= '"'.$user['cmt12'].'",';
+			$row .= '"'.$user['number_of_cameras'].'",';
+			$row .= '"'.$user['cmt13'].'",';
+			$row .= '"'.$user['time_zone'].'",';
+			$row .= '"'.$user['cmt14'].'",';
+			$row .= '"'.$user['wip'].'",';
+			$row .= '"'.$user['cmt15'].'",';
+			$row .= '"'.$user['time_syncs'].'",';
+			$row .= '"'.$user['cmt16'].'",';
+			$row .= '"'.$user['data_card'].'",';
+			$row .= '"'.$user['cmt17'].'",';
+			$row .= '"'.$user['av_log'].'",';
+			$row .= '"'.$user['cmt18'].'",';
+			$row .= '"'.$user['response_time_FTS'].'",';
+			$row .= '"'.$user['cmt19'].'",';
+			$row .= '"'.$user['response_time_RTS'].'",';
+			$row .= '"'.$user['cmt20'].'",';
+			$row .= '"'.$user['on_turns'].'",';
+			$row .= '"'.$user['cmt21'].'",';
+			$row .= '"'.$user['courtesy_calls'].'",';
+			$row .= '"'.$user['cmt22'].'",';
+			$row .= '"'.$user['call_video_fatal'].'",';
+			$row .= '"'.$user['cmt23'].'",';
+			$row .= '"'.$user['call_OOR_fatal'].'",';
+			$row .= '"'.$user['cmt24'].'",';
+			$row .= '"'.$user['self_disconnects'].'",';
+			$row .= '"'.$user['cmt25'].'",';
+			$row .= '"'.$user['escalation'].'",';
+			$row .= '"'.$user['cmt26'].'",';
+			$row .= '"'.$user['mantains_privacy'].'",';
+			$row .= '"'.$user['cmt27'].'",';
+			$row .= '"'.$user['handle_patient'].'",';
+			$row .= '"'.$user['cmt28'].'",';
+			$row .= '"'.$user['dignity_of_patient'].'",';
+			$row .= '"'.$user['cmt29'].'",';
+			$row .= '"'.$user['agent_initiative'].'",';
+			$row .= '"'.$user['cmt30'].'",';
+			$row .= '"'.$user['treat_patient_as_adults'].'",';
+			$row .= '"'.$user['cmt31'].'",';
+			$row .= '"'.$user['active_listening'].'",';
+			$row .= '"'.$user['cmt32'].'",';
+			$row .= '"'.$user['compliance_score_percent'].'%'.'",';
+			$row .= '"'.$user['business_score_percent'].'%'.'",';
+			$row .= '"'.$user['customer_score_percent'].'%'.'",';
 			
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
 			$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
