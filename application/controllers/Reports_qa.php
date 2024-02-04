@@ -24605,6 +24605,8 @@ public function qa_sales_carpart_inbound_report(){
 					$tbl='qa_sales_carpart__feedback';
 				}else if($campaign=='inbound2'){
 					$tbl='qa_sales_carpart_inbound2_feedback';
+				}else if($campaign=='inbound3'){
+					$tbl='qa_sales_carpart_inbound3_feedback';
 				}
 
 				 $qSql="SELECT * from
@@ -24619,6 +24621,8 @@ public function qa_sales_carpart_inbound_report(){
 
 				$fullAray = $this->Common_model->get_query_result_array($qSql);
 				$data["qa_inbound_list"] = $fullAray;
+				//print_r($fullAray);
+				//die();
 				$this->create_qa_carpart_inbound_CSV($fullAray,$campaign);
 				$dn_link = base_url()."reports_qa/download_qa_carpart_inbound_CSV";
 
@@ -24680,6 +24684,54 @@ public function qa_sales_carpart_inbound_report(){
 			 "Overcoming Objections",
 			 "Comments 1 ","Comments 2 ","Comments 3 ","Comments 4 ","Comments 5 ","Comments 6 ","Comments 7 ","Comments 8 ","Comments 9 ","Comments 10 ","Comments 11 ","Comments 12 ","Comments 13 ","Comments 14 ","Comments 15 ","Comments 16 ","Comments 17 ","Comments 18 ", "Comments 19", "Comments 20",
 			  "Call Summary ","Feedback ","Entry By ","Entry Date ","Audit Start Time ","Client entry by ","Mgnt review by ","Mgnt review note ","Mgnt review date ","Agent review note ","Agent review date ","Client review by ","Client review note ","Client_rvw_date" );
+	   }else if($campaign=='inbound3'){
+		$header = array("Auditor Name","Audit Date","Fusion Id","Agent","L1 Super","Call Id","Contact Date","Contact Duration","Call Type","Audit Type ","Auditor Type ","VOC ","Sampling ","Order Number ","NPS","CSAT","20% Deduction","KPI - ACPT","Car Make/Model","Accessory/Part","Part#","Overall Score ","Possible Score ","Earned Score ","Auto Fail ","Sales Call Type ",
+			"Non-Sale",
+			"Introduction ",
+			"Remarks",
+			"Obtaining Customer Needs",
+			"Remarks",
+			"Questioning",
+			"Remarks",
+			"Presentation ",
+			"Remarks",
+			"Closing the Sale ",
+			"Remarks",
+			"CPP ",
+			"Remarks",
+			"Related Parts / Parts Tray",
+			"Remarks",
+			"RepairPal",
+			"Remarks",
+			"Shipping Options / Shipping Details",
+			"Remarks",
+			"Shipping & Billing / YMMSE / Part Name(s)",
+			"Remarks",
+			"Tracking Email ",
+			"Remarks",
+			"Asking / Offering for additional assistance",
+			"Remarks",
+			"CSAT / NPS Survey",
+			"Remarks",
+			"Rebranding ",
+			"Remarks",
+			"Discount Rules",
+			"Remarks",
+			"Data Gathering Compliance",
+			"Remarks",
+			"Accuracy",
+			"Remarks",
+			"Documentation ",
+			"Remarks",
+			"Hold Time",
+			"Remarks",
+			"Overcoming Objections",
+			"Remarks",
+			"Acknowledgement & Empathy",
+			"Remarks",
+			"Pace / Tone / Energy",
+			"Remarks",
+			"Call Summary ","Feedback ","Audit Start date and  Time ", "Audit End Date and  Time","Interval (in sec)", "Agent Acceptance", "Agent Review Date/Time", "Agent Comment", "Mgnt Review Date/Time","Mgnt Review By", "Mgnt Comment","Client Review Name","Client Review Note","Client Review Date and Time" );
 	   }
 
 
@@ -24868,6 +24920,110 @@ public function qa_sales_carpart_inbound_report(){
 				$row .= '"'.$user['mgnt_rvw_name'].'",';
 				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'"';
 
+
+				fwrite($fopen,$row."\r\n");
+			}
+			fclose($fopen);
+
+		} else if($campaign=='inbound3'){
+
+			foreach($rr as $user){
+				 if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+				 	$interval1 = '---';
+				 }else{
+				 	$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+				 }
+				 if($user['entry_by']!=''){
+					$auditorName = $user['auditor_name'];
+				}else{
+					$auditorName = $user['client_name'];
+				}
+
+				$row = '"'.$auditorName.'",';
+				$row .= '"'.$user['audit_date'].'",';
+				$row .= '"'.$user['fusion_id'].'",';
+				$row .= '"'.$user['fname']." ".$user['lname'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				$row .= '"'.$user['call_id'].'",';
+				$row .= '"'.$user['call_date'].'",';
+				$row .= '"'.$user['call_duration'].'",';
+				$row .= '"'.$user['call_type'].'",';
+				$row .= '"'.$user['audit_type'].'",';
+				$row .= '"'.$user['auditor_type'].'",';
+				$row .= '"'.$user['voc'].'",';
+				$row .= '"'.$user['qa_sampling'].'",';
+				$row .= '"'.$user['order_no'].'",';
+				$row .= '"'.$user['nps'].'",';
+				$row .= '"'.$user['csat'].'",';
+				$row .= '"'.$user['deduction_20_percent'].'",';
+				$row .= '"'.$user['kpi_acpt'].'",';
+				$row .= '"'.$user['car_model'].'",';
+				$row .= '"'.$user['accessory_part'].'",';
+				$row .= '"'.$user['part_no'].'",';
+				$row .= '"'.$user['overall_score'].'",';
+				$row .= '"'.$user['possible_score'].'",';
+				$row .= '"'.$user['earned_score'].'",';
+				$row .= '"'.$user['auto_fail'].'",';
+				$row .= '"'.$user['sales_call_type'].'",';
+				$row .= '"'.$user['nonSale'].'",';
+                $row .= '"'.$user['introduction'].'",';
+                $row .= '"'.$user['cmt1'].'",';
+				$row .= '"'.$user['obtain_customers_need'].'",';
+				$row .= '"'.$user['cmt2'].'",';
+				$row .= '"'.$user['questioning'].'",';
+				$row .= '"'.$user['cmt3'].'",';
+				$row .= '"'.$user['presentation'].'",';
+				$row .= '"'.$user['cmt4'].'",';
+				$row .= '"'.$user['closing_sale'].'",';
+				$row .= '"'.$user['cmt5'].'",';
+				$row .= '"'.$user['add_cpp'].'",';
+				$row .= '"'.$user['cmt6'].'",';
+				$row .= '"'.$user['add_parts'].'",';
+				$row .= '"'.$user['cmt7'].'",';
+				$row .= '"'.$user['repairPal'].'",';
+				$row .= '"'.$user['cmt8'].'",';
+				$row .= '"'.$user['shipping_options'].'",';
+				$row .= '"'.$user['cmt9'].'",';
+				$row .= '"'.$user['shipping_billing'].'",';
+				$row .= '"'.$user['cmt10'].'",';
+				$row .= '"'.$user['tracking_email_recap'].'",';
+				$row .= '"'.$user['cmt11'].'",';
+				$row .= '"'.$user['additional_assistance'].'",';
+				$row .= '"'.$user['cmt12'].'",';
+				$row .= '"'.$user['csat_nps_survey'].'",';
+				$row .= '"'.$user['cmt13'].'",';
+				$row .= '"'.$user['rebranding'].'",';
+				$row .= '"'.$user['cmt14'].'",';
+				$row .= '"'.$user['discount_rules'].'",';
+				$row .= '"'.$user['cmt15'].'",';
+				$row .= '"'.$user['data_gathering'].'",';
+				$row .= '"'.$user['cmt16'].'",';
+				$row .= '"'.$user['accuracy'].'",';
+				$row .= '"'.$user['cmt17'].'",';
+				$row .= '"'.$user['documentation'].'",';
+				$row .= '"'.$user['cmt18'].'",';
+				$row .= '"'.$user['hold_time'].'",';
+				$row .= '"'.$user['cmt19'].'",';
+				$row .= '"'.$user['overcoming_objections'].'",';
+				$row .= '"'.$user['cmt20'].'",';
+				$row .= '"'.$user['acknowledgement_empathy'].'",';
+				$row .= '"'.$user['cmt21'].'",';
+				$row .= '"'.$user['pace'].'",';
+				$row .= '"'.$user['cmt22'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['call_summary'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['feedback'])).'",';
+				$row .= '"'.$user['audit_start_time'].'",';
+				$row .= '"'.$user['entry_date'].'",';
+				$row .= '"'.$interval1.'",';
+				$row .= '"'.$user['agnt_fd_acpt'].'",';
+				$row .= '"'.$user['agent_rvw_date'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+				$row .= '"'.$user['mgnt_rvw_date'].'",';
+				$row .= '"'.$user['mgnt_rvw_name'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_name'])).'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'",';
+	  			$row .= '"'.$user['client_rvw_date'].'",';
 
 				fwrite($fopen,$row."\r\n");
 			}
@@ -47154,9 +47310,87 @@ public function download_qa_one_assist_CSV($campaign)
 				fwrite($fopen,$row."\r\n");
 			}
 			fclose($fopen);
+		}else if($campaign == 'at_t_first_net_loyalty_coaching'){
+			
+			$header = array("Auditor", "Agent", "Employee ID", "L1 Supervisor", "Audit Date", "Audit Start Date and Time", "Audit End Date and Time", "Interval(In Second)","Client","Process","MTD-QA","MTD-Tcrift","MTD-AHT","MTD-Attendance","MTD-Saves","MTD-Compliance","WTD-QA","WTD-Tcrift","WTD-AHT","WTD-Attendance","WTD-Saves","WTD-Compliance","Current Focused KPI/Behavior","Prior Focused KPI/Behavior","Areas of Strength","What behavior(s) need to be applied changed or improved on calls?","The importance of why we need to incorporate this behavior? (Impact to the employee Customer and Company)","What does fulfilling this behavior sound like when speaking to the customer? (Roleplay this with the Employee)","Validation-Did the Sup Demonstrate how the Behavior needs to be fulfilled to the Agent?","Comment","Validation-Did the Sup Observe the Agent Demonstrate the behavior properly?","Comment","Validation-Did the Sup Roleplay a scenario where this behavior can be applied?","Comment","Validation-Did the Sup Check for Understanding and Clarify Expectations?","Comment","What actionable items/commitments are you going to make in order to overcome your area of opportunity","Follow-up Actions - What are you listening for?","When - Date & Time","How","What was the outcome after the follow up inspection? Did we hear the desired behaviors based on the actions/commitments provided by agent in the last coaching session on the phone?","Based on your follow up assessment did the employee pass or fail?","If failed please also outline what are the next steps to close the gap?",
+			   "Agent Feedback Acceptance", "Agent Review Date and Time", "Agent Review Comment", "Management Review By", "Management Review Date and Time", "Management Review Comment", "Client Review By", "Client Review Date and Time", "Client Review Comment");
 
+			$row = "";
+			foreach($header as $data) $row .= ''.$data.',';
+			fwrite($fopen,rtrim($row,",")."\r\n");
+			$searches = array("\r", "\n", "\r\n");
+
+			foreach($rr as $user){
+				if($user['entry_by']!=''){
+					$auditorName = $user['auditor_name'];
+				}else{
+					$auditorName = $user['client_name'];
+				}
+
+				if($user['audit_start_time']=="" || $user['audit_start_time']=='0000-00-00 00:00:00'){
+					$interval1 = '---';
+				}else{
+					$interval1 = strtotime($user['entry_date']) - strtotime($user['audit_start_time']);
+				}
+
+				$client_name = 'AT&T';
+
+				$row = '"'.$auditorName.'",';  
+				$row .= '"'.$user['fname']." ".$user['lname'].'",';
+				$row .= '"'.$user['fusion_id'].'",';
+				$row .= '"'.$user['tl_name'].'",';
+				$row .= '"'.$user['audit_date'].'",';
+				$row .= '"'.$user['audit_start_time'].'",';
+				$row .= '"'.$user['entry_date'].'",';
+				$row .= '"'.$interval1.'",';
+				$row .= '"'.$client_name.'",';
+				$row .= '"'.$user['campaign'].'",';
+				$row .= '"'.$user['mtd_qa'].'",';
+				$row .= '"'.$user['mtd_tcrift'].'",';
+				$row .= '"'.$user['mtd_aht'].'",';
+				$row .= '"'.$user['mtd_attendance'].'",';
+				$row .= '"'.$user['mtd_saves'].'",';
+				$row .= '"'.$user['mtd_compliance'].'",';
+				$row .= '"'.$user['wtd_qa'].'",';
+				$row .= '"'.$user['wtd_tcrift'].'",';
+				$row .= '"'.$user['wtd_aht'].'",';
+				$row .= '"'.$user['wtd_attendance'].'",';
+				$row .= '"'.$user['wtd_saves'].'",';
+				$row .= '"'.$user['wtd_compliance'].'",';
+				$row .= '"'.$user['current_kpi_behavior'].'",';
+				$row .= '"'.$user['prior_kpi_behavior'].'",';
+				$row .= '"'.$user['area_of_strength'].'",';
+				$row .= '"'.$user['improve_behavior'].'",';
+				$row .= '"'.$user['incorporate_behavior'].'",';
+				$row .= '"'.$user['fulfilling_behavior'].'",';
+				$row .= '"'.$user['validation_sup_behavior'].'",';
+				$row .= '"'.$user['validation_comm1'].'",';
+				$row .= '"'.$user['validation_agent_behavior'].'",';
+				$row .= '"'.$user['validation_comm2'].'",';
+				$row .= '"'.$user['validation_applied_behavior'].'",';
+				$row .= '"'.$user['validation_comm3'].'",';
+				$row .= '"'.$user['validation_clarify_expectations'].'",';
+				$row .= '"'.$user['validation_comm4'].'",';
+				$row .= '"'.$user['agent_commitents'].'",';
+				$row .= '"'.$user['follow_up_active_listening'].'",';
+				$row .= '"'.$user['follow_up_date'].'",';
+				$row .= '"'.$user['follow_up_how'].'",';
+				$row .= '"'.$user['follow_up_result'].'",';
+				$row .= '"'.$user['pass_fail_status'].'",';
+				$row .= '"'.$user['close_gap'].'",';
+				$row .= '"'.$user['agnt_fd_acpt'].'",';
+				$row .= '"'.$user['agent_rvw_date'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['agent_rvw_note'])).'",';
+				$row .= '"'.$user['mgnt_rvw_name'].'",';
+				$row .= '"'.$user['mgnt_rvw_date'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['mgnt_rvw_note'])).'",';
+				$row .= '"'.$user['client_rvw_name'].'",';
+				$row .= '"'.$user['client_rvw_date'].'",';
+				$row .= '"'. str_replace('"',"'",str_replace($searches, "", $user['client_rvw_note'])).'",';
+				fwrite($fopen,$row."\r\n");
+			}
+			fclose($fopen);
 		}
-
 	}
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////// AT&T VERINT //////////////////////////////////

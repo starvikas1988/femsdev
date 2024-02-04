@@ -50,6 +50,7 @@
 											<option <?php echo $campaign=='att_fiberconnect_whitespace'?"selected":""; ?> value="att_fiberconnect_whitespace">Fibeconnect Whitespace</option>
 											<option <?php echo $campaign=='fiberconnect_greenspace'?"selected":""; ?> value="fiberconnect_greenspace">Fibeconnect Greenspace</option>
 											<option <?php echo $campaign=='fiberconnect_whitespace_v1'?"selected":""; ?> value="fiberconnect_whitespace_v1">Fiberconnect Whitespace V1</option>
+											<option <?php echo $campaign=='at_t_first_net_loyalty_coaching'?"selected":""; ?> value="at_t_first_net_loyalty_coaching">AT&T 5 Step Coaching Form</option>
 											<!-- <option <?php //echo $campaign=='agent_coaching'?"selected":""; ?> value="agent_coaching">Agent Coaching</option> -->
 											<!--
 											<option <?php //echo $campaign=='att_verint'?"selected":""; ?> value="att_verint">AT&T Verint</option>
@@ -103,8 +104,15 @@
 										<th>Audit Date</th>
 										<th>Agent Name</th>
 										<th>L1 Supervisor</th>
-										<th>Call Duration</th>
-										<th>Total Score</th>
+										<?php 
+										if($campaign!='at_t_first_net_loyalty_coaching'){
+											?>
+											<th>Call Duration</th>
+											<th>Total Score</th>
+											<?php
+										}
+										?>
+										
 										<th>Agent Review Date</th>
 										<th>Mgnt Review By</th>
 										<th>Mgnt Review Date</th>
@@ -122,9 +130,16 @@
 										<td><?php echo $row['audit_date']; ?></td>
 										<td><?php echo $row['fname']." ".$row['lname']; ?></td>
 										<td><?php echo $row['tl_name']; ?></td>
-										<td><?php echo $row['call_duration']; ?></td>
+										<?php 
+										if($campaign!='at_t_first_net_loyalty_coaching'){
+											?>
+											<td><?php echo $row['call_duration']; ?></td>
 										
-										<td><?php echo $row['overall_score']."%"; ?></td>
+											<td><?php echo $row['overall_score']."%"; ?></td>
+											<?php
+										}
+										?>
+										
 										<td><?php echo $row['agent_rvw_date']; ?></td>
 										<td><?php echo $row['mgnt_rvw_name']; ?></td>
 										<td><?php echo $row['mgnt_rvw_date']; ?></td>
@@ -150,7 +165,11 @@
 												<a class="btn btn-success" href="<?php echo base_url(); ?>qa_att/agent_whitespace_v1_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
 											<?php } else if($campaign=='fiberconnect_greenspace'){ ?>
 												<a class="btn btn-success" href="<?php echo base_url(); ?>qa_att/agent_greenspace_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
-											<?php } ?>
+											<?php }else if($campaign=='at_t_first_net_loyalty_coaching'){ ?>
+												<a class="btn btn-success" href="<?php echo base_url(); ?>qa_att/agent_at_t_first_net_loyalty_coaching_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
+											<?php }  
+
+											?>
 											
 										</td>
 									</tr>
@@ -163,8 +182,14 @@
 										<th>Audit Date</th>
 										<th>Agent Name</th>
 										<th>L1 Supervisor</th>
-										<th>Call Duration</th>
-										<th>Total Score</th>
+										<?php 
+										if($campaign!='at_t_first_net_loyalty_coaching'){
+											?>
+											<th>Call Duration</th>
+										    <th>Total Score</th>
+											<?php
+										}
+										?>
 										<th>Agent Review Date</th>
 										<th>Mgnt Review By</th>
 										<th>Mgnt Review Date</th>

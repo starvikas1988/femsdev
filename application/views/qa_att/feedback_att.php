@@ -178,7 +178,7 @@
 						<div class="col-md-12">
 							<header class="widget-header">
 								<h4 class="widget-title">
-									<div class="pull-left">AT&T Collection GBRM</div>
+									<div class="pull-left">AT&T Collection GRBM</div>
 									<?php if(is_access_qa_module()==true){ 
 									$att_id=0 ?>
 									<div class="pull-right">
@@ -257,6 +257,81 @@
 							</table>
 						</div>
 						
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-12">
+				<div class="widget">
+					<div class="row">
+						<div class="col-md-12">
+							<header class="widget-header">
+								<h4 class="widget-title">
+									GRBM Agent Coaching Form
+									<?php if(is_access_coach_module()==true || get_login_type() == "client"){ ?>
+									<div class="pull-right">
+										<a class="btn btn-primary waves-effect" href="<?php echo base_url(); ?>Qa_agent_coaching_new/add_edit_feedback/0" title="Add Evaluation">Add Feedback</a>
+									</div>	
+								<?php } ?>
+								</h4>
+							</header>
+						</div>
+						<hr class="widget-separator">
+					</div>
+					<div class="widget-body">
+						<div class="table-responsive">
+							<table id="default-datatable" data-plugin="DataTable" class="table table-striped skt-table" cellspacing="0" width="100%">
+								<thead>
+									<tr class="bg-info">
+										<th>SL</th>
+										<th>Auditor</th>
+										<th>Audit Date</th>
+										<th>Agent Name</th>
+										<th>TL</th>
+										<th>Process</th>
+										<th>Agent Feedback</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php $i=1; 
+										foreach($coaching_gbrm as $row){
+									?>
+									<tr>
+										<td><?php echo $i++; ?></td>
+										<td><?php echo $row['auditor_name']; ?></td>
+										<td><?php echo $row['audit_date']; ?></td>
+										<td><?php echo $row['agent_name']; ?></td>
+										<td><?php echo $row['tl_name']; ?></td>
+										<td><?php echo $row['campaign']; ?></td>
+										<td title="<?php echo $row['feedback']; ?>"><?php 
+										$msg=strlen($row['feedback']);
+										echo ($msg>40)?(substr($row['feedback'],0,40)."..."):($row['feedback']);
+										 ?></td>
+										<td>
+											<?php $mpid=$row['id']; ?>
+											
+											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_agent_coaching_new/add_edit_feedback/<?php echo $mpid ?>" title="Edit Evaluation" style="margin-left:5px; font-size:10px;">Edit</a>
+										</td>
+									</tr>
+									<?php } ?>
+								</tbody>
+								<tfoot>
+									<tr class="bg-info">
+										<th>SL</th>
+										<th>Auditor</th>
+										<th>Audit Date</th>
+										<th>Agent Name</th>
+										<th>TL</th>
+										<th>Process</th>
+										<th>Agent Feedback</th>
+										<th>Action</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -351,28 +426,25 @@
 				</div>
 			</div>
 		</div>
-		
-		<!--<div class="row">
+
+		<div class="row">
 			<div class="col-12">
 				<div class="widget">
-				
 					<div class="row">
 						<div class="col-md-12">
 							<header class="widget-header">
 								<h4 class="widget-title">
-									<div class="pull-left">AT&T [Compliance]</div>
-									<?php if(is_access_qa_module()==true){ 
-									$attcompliance_id=0 ?>
+									AT&T 5 Step Coaching Form 
+									<?php if(is_access_coach_module()==true || get_login_type() == "client"){ ?>
 									<div class="pull-right">
-										<a class="btn btn-primary" href="<?php echo base_url(); ?>Qa_att/add_edit_attcompliance/<?php echo $attcompliance_id ?>">Add Audit</a>
-									</div>
-									<?php } ?>
+										<a class="btn btn-primary waves-effect" href="<?php echo base_url(); ?>Qa_agent_coaching_new/add_edit_feedback_fnlcd/0" title="Add Evaluation">Add Feedback</a>
+									</div>	
+								<?php } ?>
 								</h4>
 							</header>
 						</div>
 						<hr class="widget-separator">
 					</div>
-				
 					<div class="widget-body">
 						<div class="table-responsive">
 							<table id="default-datatable" data-plugin="DataTable" class="table table-striped skt-table" cellspacing="0" width="100%">
@@ -381,77 +453,54 @@
 										<th>SL</th>
 										<th>Auditor</th>
 										<th>Audit Date</th>
-										<th>Fusion ID</th>
 										<th>Agent Name</th>
-										<th>L1 Supervisor</th>
-										<th>Call Duration</th>
-										<th>Total Score</th>
-										<th>Audio</th>
-										<th>Agent Review Date</th>
-										<th>Mgnt Review Date</th>
+										<th>TL</th>
+										<th>Process</th>
+										<th>Agent Feedback</th>
 										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
 									<?php $i=1; 
-									foreach($attcompliance as $row): ?>
+										foreach($firstnetloyalty as $row){
+									?>
 									<tr>
 										<td><?php echo $i++; ?></td>
 										<td><?php echo $row['auditor_name']; ?></td>
 										<td><?php echo $row['audit_date']; ?></td>
-										<td><?php echo $row['fusion_id']; ?></td>
-										<td><?php echo $row['fname']." ".$row['lname']; ?></td>
+										<td><?php echo $row['agent_name']; ?></td>
 										<td><?php echo $row['tl_name']; ?></td>
-										<td><?php echo $row['call_duration']; ?></td>
-										<td><?php echo $row['overall_score']."%"; ?></td>
+										<td><?php echo $row['campaign']; ?></td>
+										<td title="<?php echo $row['agent_rvw_note']; ?>"><?php 
+										$msg=strlen($row['agent_rvw_note']);
+										echo ($msg>40)?(substr($row['agent_rvw_note'],0,40)."..."):($row['agent_rvw_note']);
+										 ?></td>
 										<td>
-										<?php
-											if($row['attach_file']!=''){
-											$attach_file = explode(",",$row['attach_file']);
-											foreach($attach_file as $mp){ 
-										?>	
-											<audio controls='' style="width:120px; height:25px; background-color:#607F93"> 
-											  <source src="<?php echo base_url(); ?>qa_files/qa_att/<?php echo $mp; ?>" type="audio/ogg">
-											  <source src="<?php echo base_url(); ?>qa_files/qa_att/<?php echo $mp; ?>" type="audio/mpeg">
-											</audio>
-										<?php }  
-											}	?>
-										
-										</td>
-										<td><?php echo $row['agent_rvw_date']; ?></td>
-										<td><?php echo $row['mgnt_rvw_date']; ?></td>
-										<td>
-											<?php $compliance=$row['id']; ?>
+											<?php $mpid=$row['id']; ?>
 											
-											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_att/add_edit_attcompliance/<?php echo $compliance ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit/Review Feedback</a>
+											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_agent_coaching_new/add_edit_feedback_fnlcd/<?php echo $mpid ?>" title="Edit Evaluation" style="margin-left:5px; font-size:10px;">Edit</a>
 										</td>
 									</tr>
-									<?php endforeach; ?>
+									<?php } ?>
 								</tbody>
 								<tfoot>
 									<tr class="bg-info">
 										<th>SL</th>
 										<th>Auditor</th>
 										<th>Audit Date</th>
-										<th>Fusion ID</th>
 										<th>Agent Name</th>
-										<th>L1 Supervisor</th>
-										<th>Call Duration</th>
-										<th>Total Score</th>
-										<th>Audio</th>
-										<th>Agent Review Date</th>
-										<th>Mgnt Review Date</th>
+										<th>TL</th>
+										<th>Process</th>
+										<th>Agent Feedback</th>
 										<th>Action</th>
 									</tr>
 								</tfoot>
 							</table>
 						</div>
-						
 					</div>
 				</div>
 			</div>
-		</div>-->
-		
+		</div>
 
 	</section>
 </div>

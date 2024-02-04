@@ -180,6 +180,7 @@
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=agent_id) as agent_name,
 				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_at_t_first_net_loyalty_coaching_feedback $cond $cond1) xx Left Join
 				(Select id as sid, fname, lname, fusion_id, get_process_names(id) as campaign, assigned_to from signin) yy on (xx.agent_id=yy.sid) $ops_cond order by audit_date";
 			$data["firstnetloyalty"] = $this->Common_model->get_query_result_array($qSql);
@@ -1249,10 +1250,18 @@
 			
 			if($campaign!=''){
 				
-				$qSql1="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' AND audit_type not in ('Calibration','Pre-Certificate Mock Call','Certification Audit','QA Supervisor Audit')";
-				$data["tot_feedback"] =  $this->Common_model->get_single_value($qSql1);
-				$qSql2="Select count(id) as value from qa_".$campaign."_feedback where agent_rvw_date is null and agent_id='$current_user' AND audit_type not in ('Calibration','Pre-Certificate Mock Call','Certification Audit','QA Supervisor Audit')";
-				$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql2);
+				if($campaign == 'at_t_first_net_loyalty_coaching'){
+						$qSql1="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user'";
+						$data["tot_feedback"] =  $this->Common_model->get_single_value($qSql1);
+						$qSql2="Select count(id) as value from qa_".$campaign."_feedback where agent_rvw_date is null and agent_id='$current_user'";
+						$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql2);
+				}else{
+					$qSql1="Select count(id) as value from qa_".$campaign."_feedback where agent_id='$current_user' AND audit_type not in ('Calibration','Pre-Certificate Mock Call','Certification Audit','QA Supervisor Audit')";
+					$data["tot_feedback"] =  $this->Common_model->get_single_value($qSql1);
+					$qSql2="Select count(id) as value from qa_".$campaign."_feedback where agent_rvw_date is null and agent_id='$current_user' AND audit_type not in ('Calibration','Pre-Certificate Mock Call','Certification Audit','QA Supervisor Audit')";
+					$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql2);
+				}
+				
 
 				if($this->input->get('btnView')=='View')
 				{
@@ -1263,13 +1272,23 @@
 					if($toDate!="") $to_date = mmddyy2mysql($toDate);
 					
 					if($from_date !="" && $to_date!=="" )  $cond =" and (audit_date >= '$from_date' and audit_date <= '$to_date') ";
+					if($campaign == 'at_t_first_net_loyalty_coaching'){
+						$qSql = "SELECT * from
+						(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+						(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+						(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+						(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_".$campaign."_feedback Where agent_id='$current_user' $cond) xx Left Join
+						(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+
+					}else{
+						$qSql = "SELECT * from
+						(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+						(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+						(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+						(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_".$campaign."_feedback Where agent_id='$current_user' $cond And audit_type not in ('Calibration','Pre-Certificate Mock Call','Certification Audit','QA Supervisor Audit')) xx Left Join
+						(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+					}
 					
-					$qSql = "SELECT * from
-					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-					(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-					(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-					(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_".$campaign."_feedback Where agent_id='$current_user' $cond And audit_type not in ('Calibration','Pre-Certificate Mock Call','Certification Audit','QA Supervisor Audit')) xx Left Join
-					(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
 					$data["att_list"] = $this->Common_model->get_query_result_array($qSql);
 
 				}
@@ -1651,6 +1670,69 @@
         );
         $this->db->where('id', $pnid);
         $this->db->update('qa_fiberconnect_whitespace_v1_feedback',$field_array1);
+        redirect('Qa_att/agent_att_feedback');
+
+      }else{
+        $this->load->view('dashboard',$data);
+      }
+    }
+  }
+
+  public function agent_at_t_first_net_loyalty_coaching_rvw($pnid){
+    if(check_logged_in()){
+      $current_user=get_user_id();
+      $user_office_id=get_user_office_id();
+      $data['pnid']=$pnid;
+      $data["aside_template"] = "qa/aside.php";
+      $data["content_template"] = "qa_att/first_net_loyalty/agent_at_t_first_net_loyalty_coaching_rvw.php";
+     // $data["content_js"] = "qa_fiberconnect_js.php";
+      $data["agentUrl"] = "qa_att/agent_att_feedback";
+
+      $cond='';
+			
+			$cond .= " where id =157";
+			
+			$qSql="SELECT * FROM client $cond";
+      $data['client']= $this->Common_model->get_query_row_array($qSql);
+
+			$qSql = "SELECT * FROM signin where id not in (select id from role where folder='agent') and status=1";
+			$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+
+			$qSql = "SELECT * FROM process where client_id =157 and is_active = 1";
+			$data['process']= $this->Common_model->get_query_result_array($qSql);
+
+      // $qSql="SELECT * from
+      //   (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+      //   (select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+      //   (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+      //   (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_at_t_first_net_loyalty_coaching_feedback where id='$pnid') xx Left Join
+      //   (Select id as sid, fname, lname, fusion_id, assigned_to, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+
+        $qSql="SELECT Q.*, S.fusion_id, S.dept_id, CONCAT(S.fname, ' ', S.lname) as agent_name, S.assigned_to, CONCAT(T.fname, ' ', T.lname) as tl_name, get_client_ids(Q.agent_id) as client_id, get_client_names(Q.agent_id) as client_name, get_process_names(Q.agent_id) AS process_name, CONCAT(A.fname, ' ', A.lname)  AS auditor_name, audit_date,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(SELECT description from department d where d.id=(SELECT dept_id from signin s where s.id=Q.agent_id)) as department_name,
+				(SELECT office_name from office_location ol where ol.abbr=(SELECT office_id from signin sol where sol.id=Q.agent_id)) as location
+				from qa_at_t_first_net_loyalty_coaching_feedback Q 
+				Left Join signin S on Q.agent_id = S.id
+				Left Join signin T on T.id = S.assigned_to
+				Left Join signin A on Q.entry_by = A.id 
+				WHERE Q.id=$pnid";
+
+      $data["auditData"] = $this->Common_model->get_query_row_array($qSql);
+
+      if($this->input->post('pnid'))
+      {
+        $pnid=$this->input->post('pnid');
+        $curDateTime=CurrMySqlDate();
+        $log=get_logs();
+
+        $field_array1=array(
+          "agnt_fd_acpt" => $this->input->post('agnt_fd_acpt'),
+          "agent_rvw_note" => $this->input->post('note'),
+          "agent_rvw_date" => $curDateTime
+        );
+        $this->db->where('id', $pnid);
+        $this->db->update('qa_at_t_first_net_loyalty_coaching_feedback',$field_array1);
         redirect('Qa_att/agent_att_feedback');
 
       }else{

@@ -6,7 +6,7 @@
 		parent::__construct();
 		$this->load->model('user_model');
 		$this->load->model('Common_model');
-	//	$this->load->helper('common_functions_helper');
+		$this->load->helper('common_functions_helper');
 	}
 
 	private function edu_upload_files($files,$path)
@@ -84,6 +84,19 @@
     		}
     	}
 	}
+
+	// public function showImage() {
+ //        // Load the image file path
+ //        $imagePath =   base_url().'application/views/qa_att/first_net_loyalty/5_Steps_of_Coaching.jpg';
+
+ //        // Set appropriate headers
+ //        header('Content-Type: image/jpeg');
+ //        header('Content-Length: ' . filesize($imagePath));
+
+ //        // Output the image
+ //        readfile($imagePath);
+ //    }
+
 	public function index(){
 		if(check_logged_in())
 		{
@@ -222,8 +235,8 @@
 	}
 
 	public function processName(){
-		 $client_id = $this->input->post('aid');
-		 $qSql="SELECT * FROM process where client_id = $client_id and is_active=1";
+		$client_id = $this->input->post('aid');
+		$qSql="SELECT * FROM process where client_id = $client_id and is_active=1";
 		$value = $this->Common_model->get_query_result_array($qSql);
 		echo  json_encode($value);
 	}
@@ -484,6 +497,69 @@
       }
     }
   }
+
+ //    public function agent_first_net_loyalty_coaching_feedback()
+	// {
+	// 	if(check_logged_in())
+	// 	{
+	// 		$user_site_id= get_user_site_id();
+	// 		$role_id= get_role_id();
+	// 		$current_user = get_user_id();
+
+	// 		$data["aside_template"] = "qa/aside.php";
+	// 		$data["content_template"] = "qa_att/agent_first_net_loyalty_coaching_feedback.php";
+	// 		$data["content_js"] = "qa_first_net_loyalty_coaching_js.php";
+	// 		$data["agentUrl"] = "qa_att/agent_att_feedback";
+
+
+	// 		$qSql="Select count(id) as value from qa_at_t_first_net_loyalty_coaching_feedback where agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
+	// 		$data["tot_agent_feedback"] =  $this->Common_model->get_single_value($qSql);
+
+	// 		$qSql="Select count(id) as value from qa_at_t_first_net_loyalty_coaching_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
+
+	// 		$data["tot_agent_yet_rvw"] =  $this->Common_model->get_single_value($qSql);
+
+
+	// 		$from_date = '';
+	// 		$to_date = '';
+	// 		$cond="";
+	// 		$user="";
+
+	// 		if($this->input->get('btnView')=='View')
+	// 		{
+	// 			$from_date = mmddyy2mysql($this->input->get('from_date'));
+	// 			$to_date = mmddyy2mysql($this->input->get('to_date'));
+
+	// 			if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date')";
+
+	// 			$qSql = "SELECT * from
+	// 			(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+	// 			(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+	// 			(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+	// 			(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_at_t_first_net_loyalty_coaching_feedback $cond and agent_id ='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call','QA Supervisor Audit', 'Certification Audit')) xx Inner Join
+	// 			(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+	// 			$data["agent_review_list"] = $this->Common_model->get_query_result_array($qSql);
+
+	// 		}else{
+				
+				
+
+	// 			$qSql="SELECT * from
+	// 			(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+	// 			(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+	// 			(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+	// 			(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_at_t_first_net_loyalty_coaching_feedback where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call','QA Supervisor Audit', 'Certification Audit')) xx Inner Join
+	// 			(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
+	// 			$data["agent_review_list"] = $this->Common_model->get_query_result_array($qSql);
+				
+	// 		}
+
+	// 		$data["from_date"] = $from_date;
+	// 		$data["to_date"] = $to_date;
+
+	// 		$this->load->view('dashboard',$data);
+	// 	}
+	// }
 
 
     //RCA Level 1
@@ -840,6 +916,225 @@
 		}
 
 		fclose($fopen);
+	}
+
+
+
+	/************************Amir/Vikas New coaching form against of AT & T ************************/
+	public function add_edit_feedback_fnlcd($att_id)
+	{
+		if(check_logged_in()){
+			//$client_id = 157;
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_att/add_edit_feedback_fnlcd.php";
+			//$data["content_js"] = "qa_audit_js.php";
+			$data['att_id']=$att_id;
+
+			$cond='';
+			
+			$cond .= " where id =157";
+			
+			$qSql="SELECT * FROM client $cond";
+			$data['client']= $this->Common_model->get_query_row_array($qSql);
+
+			$qSql = "SELECT * FROM signin where id not in (select id from role where folder='agent') and status=1";
+			$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+
+			$qSql = "SELECT * FROM process where client_id =157 and is_active = 1";
+			$data['process']= $this->Common_model->get_query_result_array($qSql);
+
+			$curDateTime=CurrMySqlDate();
+			$a = array();
+
+			
+				$qSql="SELECT Q.*, S.fusion_id, S.dept_id, CONCAT(S.fname, ' ', S.lname) as agent_name, S.assigned_to, CONCAT(T.fname, ' ', T.lname) as tl_name, get_client_ids(Q.agent_id) as client_id, get_client_names(Q.agent_id) as client_name, get_process_names(Q.agent_id) AS process_name, CONCAT(A.fname, ' ', A.lname)  AS auditor_name, audit_date,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(SELECT description from department d where d.id=(SELECT dept_id from signin s where s.id=Q.agent_id)) as department_name,
+				(SELECT office_name from office_location ol where ol.abbr=(SELECT office_id from signin sol where sol.id=Q.agent_id)) as location
+				from qa_at_t_first_net_loyalty_coaching_feedback Q 
+				Left Join signin S on Q.agent_id = S.id
+				Left Join signin T on T.id = S.assigned_to
+				Left Join signin A on Q.entry_by = A.id 
+				WHERE Q.id=$att_id";
+				$data["auditData"] = $this->Common_model->get_query_row_array($qSql);
+			
+
+
+			$curDateTime=CurrMySqlDate();
+			$a = array();
+			
+			$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
+			if($field_array['agent_id']){
+				
+				if($att_id==0){
+					$field_array=$this->input->post('data');
+					$field_array['audit_date']=CurrDate();
+					$field_array['entry_date']=$curDateTime;
+					$field_array['follow_up_date']=mdydt2mysql($this->input->post('follow_up_date'));
+					$field_array['audit_start_time']=$this->input->post('audit_start_time');
+					
+					$rowid= data_inserter('qa_at_t_first_net_loyalty_coaching_feedback',$field_array);
+				
+					if(get_login_type()=="client"){
+						$current_user=get_user_id();
+						$add_array = array("client_entryby" => $current_user);
+					}else{
+						$current_user=get_user_id();
+						$add_array = array("entry_by" => $current_user);
+					}
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_at_t_first_net_loyalty_coaching_feedback',$add_array);
+					// echo"<pre>";
+					// print_r($field_array);
+					// echo"</pre>";
+					// exit();
+					
+				}else{
+					$field_array1=$this->input->post('data');
+					
+						
+					$field_array1['follow_up_date']=mdydt2mysql($this->input->post('follow_up_date'));
+					
+					
+					$this->db->where('id', $att_id);
+					$this->db->update('qa_at_t_first_net_loyalty_coaching_feedback',$field_array1);
+					// echo"<pre>";
+					// print_r($field_array1);
+					// echo"</pre>";
+					// die();
+					/////////////
+					if(get_login_type()=="client"){
+						$edit_array = array(
+							"client_rvw_by" => $current_user,
+							"client_rvw_note" => $this->input->post('note'),
+							"client_rvw_date" => $curDateTime
+						);
+					}else{
+						$edit_array = array(
+							"mgnt_rvw_by" => $current_user,
+							"mgnt_rvw_note" => $this->input->post('note'),
+							"mgnt_rvw_date" => $curDateTime
+						);
+					}
+					$this->db->where('id', $att_id);
+					$this->db->update('qa_at_t_first_net_loyalty_coaching_feedback',$edit_array);
+					
+				}
+				redirect('Qa_att');
+			}
+			$data["array"] = $a;
+			$this->load->view("dashboard",$data);
+		}
+	}
+
+	public function add_edit_feedback_bmtscd($att_id)
+	{
+		if(check_logged_in()){
+			//$client_id = 157;
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_att/add_edit_feedback_bmtscd.php";
+			//$data["content_js"] = "qa_audit_js.php";
+			$data['att_id']=$att_id;
+
+			$cond='';
+			
+			$cond .= " where id =157";
+			
+			$qSql="SELECT * FROM client $cond";
+			$data['client']= $this->Common_model->get_query_row_array($qSql);
+
+			$qSql = "SELECT * FROM signin where id not in (select id from role where folder='agent') and status=1";
+			$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+
+			$qSql = "SELECT * FROM process where client_id =157";
+			$data['process']= $this->Common_model->get_query_result_array($qSql);
+
+			$curDateTime=CurrMySqlDate();
+			$a = array();
+
+			
+				$qSql="SELECT Q.*, S.fusion_id, S.dept_id, CONCAT(S.fname, ' ', S.lname) as agent_name, S.assigned_to, CONCAT(T.fname, ' ', T.lname) as tl_name, get_client_ids(Q.agent_id) as client_id, get_client_names(Q.agent_id) as client_name, get_process_ids(Q.agent_id) AS process_id, get_process_names(Q.agent_id) AS process_name, CONCAT(A.fname, ' ', A.lname)  AS auditor_name, audit_date,
+				(SELECT description from department d where d.id=(SELECT dept_id from signin s where s.id=Q.agent_id)) as department_name,
+				(SELECT office_name from office_location ol where ol.abbr=(SELECT office_id from signin sol where sol.id=Q.agent_id)) as location
+				from qa_coaching_GRBM_feedback Q 
+				Left Join signin S on Q.agent_id = S.id
+				Left Join signin T on T.id = S.assigned_to
+				Left Join signin A on Q.entry_by = A.id 
+				WHERE Q.id=$att_id";
+				$data["auditData"] = $this->Common_model->get_query_row_array($qSql);
+			
+
+
+			$curDateTime=CurrMySqlDate();
+			$a = array();
+			
+			$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
+			if($field_array['agent_id']){
+				
+				if($att_id==0){
+					$field_array=$this->input->post('data');
+					$field_array['audit_date']=CurrDate();
+					$field_array['entry_date']=$curDateTime;
+					$field_array['call_date']=mdydt2mysql($this->input->post('call_date'));
+					$field_array['audit_start_time']=$this->input->post('audit_start_time');
+					// $a = $this->edu_upload_files($_FILES['attach_file'], $path='./qa_files/qa_att/gbrm/');
+					// $field_array["attach_file"] = implode(',',$a);
+					$rowid= data_inserter('qa_coaching_GRBM_feedback',$field_array);
+				
+					if(get_login_type()=="client"){
+						$current_user=get_user_id();
+						$add_array = array("client_entryby" => $current_user);
+					}else{
+						$current_user=get_user_id();
+						$add_array = array("entry_by" => $current_user);
+					}
+					$this->db->where('id', $rowid);
+					$this->db->update('qa_coaching_GRBM_feedback',$add_array);
+					// echo"<pre>";
+					// print_r($field_array);
+					// echo"</pre>";
+					// exit();
+					
+				}else{
+					$field_array1=$this->input->post('data');
+					
+						
+					$field_array1['call_date']=mdydt2mysql($this->input->post('call_date'));
+					
+					
+					$this->db->where('id', $att_id);
+					$this->db->update('qa_coaching_GRBM_feedback',$field_array1);
+					// echo"<pre>";
+					// print_r($field_array1);
+					// echo"</pre>";
+					// die();
+					/////////////
+					if(get_login_type()=="client"){
+						$edit_array = array(
+							"client_rvw_by" => $current_user,
+							"client_rvw_note" => $this->input->post('note'),
+							"client_rvw_date" => $curDateTime
+						);
+					}else{
+						$edit_array = array(
+							"mgnt_rvw_by" => $current_user,
+							"mgnt_rvw_note" => $this->input->post('note'),
+							"mgnt_rvw_date" => $curDateTime
+						);
+					}
+					$this->db->where('id', $att_id);
+					$this->db->update('qa_coaching_GRBM_feedback',$edit_array);
+					
+				}
+				redirect('Qa_agent_coaching_new');
+			}
+			$data["array"] = $a;
+			$this->load->view("dashboard",$data);
+		}
 	}
 
 }
