@@ -166,7 +166,10 @@
 										<tr>
 											<td>Call Duration:<span style="font-size:24px;color:red">*</span></td>
 											<td colspan="2"><input type="text" class="form-control" onkeydown="return false;" id="call_duration" name="data[call_duration]" value="<?php echo $call_duration; ?>" required></td>
-										
+											<td>Contact No.:<span style="font-size:24px;color:red">*</span></td>
+											<td colspan=2>
+												<input type="text" autocomplete="off" name="data[phone]" class="form-control" id="phone_no" value="<?php echo $greenspace_data['phone']; ?>" required>
+											</td>
 											<td>VOC:<span style="font-size:24px;color:red">*</span></td>
 											<td colspan="2">
 												<select class="form-control" id="voc" name="data[voc]" required>
@@ -179,6 +182,8 @@
 													<option value="5"  <?= ($greenspace_data['voc']=="5")?"selected":"" ?>>5</option>
 												</select>
 											</td>
+										</tr>
+										<tr>
 											<td>Audit Type:<span style="font-size:24px;color:red">*</span></td>
 											<td colspan="2">
 												<select class="form-control" id="audit_type" name="data[audit_type]" required>
@@ -195,8 +200,6 @@
                                                     <option value="QA Supervisor Audit"  <?= ($greenspace_data['audit_type']=="QA Supervisor Audit")?"selected":"" ?>>QA Supervisor Audit</option>   
                                                 </select>
 											</td>
-										</tr>
-										<tr>
 											<td class="auType_epi">Auditor Type<span style="font-size:24px;color:red">*</span></td>
 											<td class="auType_epi">
 												<select class="form-control" id="auditor_type" name="data[auditor_type]">

@@ -416,6 +416,7 @@ $(document).ready(function(){
 	
 	$("#audit_date").datepicker();
 	$("#call_date").datetimepicker({ maxDate: new Date() });
+	$("#call_date2").datetimepicker({ maxDate: new Date() });
 	$("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });
 	$("#from_date").datepicker({  maxDate: new Date() });
 	$("#to_date").datepicker({  maxDate: new Date() });
@@ -765,7 +766,7 @@ $(document).ready(function(){
 	});
 
    $('#back_ground_noise_mohali').on('change', function(){
-		if($(this).val()=='No'){
+		if($(this).val()=='Yes'){
 			$("#sig_mohaliremarks29").html('<option value="">Select</option><option value="Back ground noise observed on call">Back ground noise observed on call</option>');
 		}else{
 			$("#sig_mohaliremarks29").html('<option value="NA">NA</option>');
@@ -773,7 +774,7 @@ $(document).ready(function(){
 	});
 
    $('#zero_tolerance_mohali').on('change', function(){
-		if($(this).val()=='No'){
+		if($(this).val()=='Yes'){
 			$("#sig_mohaliremarks30").html('<option value="">Select</option><option value="Transaction was handled ethically - Call was not disconnected">Transaction was handled ethically - Call was not disconnected</option><option value="Agent maintained profanity on the call">Agent maintained profanity on the call</option><option value="Agent did not sounded sarcastic /degraded customer">Agent did not sounded sarcastic /degraded customer</option>');
 		}else{
 			$("#sig_mohaliremarks30").html('<option value="NA">NA</option>');
@@ -781,7 +782,7 @@ $(document).ready(function(){
 	});
 
    $('#warning_letter_mohali').on('change', function(){
-		if($(this).val()=='No'){
+		if($(this).val()=='Yes'){
 			$("#sig_mohaliremarks31").html('<option value="">Select</option><option value="Agent did not make False commitment to guest >> financial loss >>3000 INR">Agent did not make False commitment to guest >> financial loss >>3000 INR</option><option value="Agent did not Force Close ticket (No work done and case closed directly)">Agent did not Force Close ticket (No work done and case closed directly)</option><option value="Agent raised escalation ticket on IB call">Agent raised escalation ticket on IB call</option><option value="Agent raised duplicate tickets for the same category less than 14 days">Agent raised duplicate tickets for the same category less than 14 days</option><option value="Agent adhered to Escalation matrix /Did not refuse next level escalation">Agent adhered to Escalation matrix /Did not refuse next level escalation</option><option value="Agent did not misuse hold protocol">Agent did not misuse hold protocol</option>');
 		}else{
 			$("#sig_mohaliremarks31").html('<option value="NA">NA</option>');

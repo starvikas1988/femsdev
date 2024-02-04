@@ -1,0 +1,472 @@
+<script src="<?php echo base_url() ?>assets/css/search-filter/js/selectize.js"></script>
+<script type="text/javascript" src="<?php echo base_url() ?>assets/css/search-filter/js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="<?php echo base_url() ?>assets/css/search-filter/css/selectize.bootstrap3.min.css"/>
+<style>
+	td{
+		font-size:10px;
+	}
+	
+	#default-datatable th{
+		font-size:11px;
+	}
+	#default-datatable th{
+		font-size:11px;
+	}
+	
+	.table > thead > tr > th, .table > thead > tr > td, .table > tbody > tr > th, .table > tbody > tr > td, .table > tfoot > tr > th, .table > tfoot > tr > td {
+		padding:3px;
+	}
+	
+	.modal .close {
+  color: #fff;
+  text-shadow: none;
+  opacity: 1;
+  position: absolute;
+  top: -15px;
+  right: -14px;
+  width: 35px;
+  height: 35px;
+  background: #0c6bb5;
+  border-radius: 50%;
+  transition: all 0.5s ease-in-out 0s;
+}
+.modal textarea {
+  width: 100%;
+  max-width: 100%;
+  min-height: 40px;
+}
+.new-width{
+max-width: 480px!important;
+}
+.modal-footer .btn {
+width: 100px;
+padding: 10px;
+font-size: 13px;
+letter-spacing: 0.5px;
+transition: all 0.5s ease-in-out 0s;
+border: none;
+border-radius: 5px;
+}
+</style>
+
+<div class="wrap">
+	<section class="app-content">
+		<div class="row">
+		
+		<!-- DataTable -->
+		<div class="col-md-12">
+				<div class="widget">
+					<header class="widget-header">
+						<h4 class="widget-title">Rejected Candidate List</h4>
+					</header><!-- .widget-header -->
+					<hr class="widget-separator">
+							
+					<div class="widget-body">
+					
+						<?php echo form_open('',array('method' => 'get')) ?>
+						
+							<input type="hidden" id="req_status" name="req_status" value='<?php echo $req_status; ?>' >
+							
+							<div class="filter-widget">								
+								<div class="row">
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label>Start Date</label>
+											<input type="text" class="form-control" id="from_date" name="from_date" value="<?php echo $from_date;?>" autocomplete="off">
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label>End Date</label>
+											<input type="text" class="form-control" id="to_date" name="to_date" value="<?php echo $to_date;?>" autocomplete="off">
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label>Brand</label>
+											<select id="select-brand" name="brand[]" class="form-control" autocomplete="off" placeholder="Select Brand" multiple>
+												
+												<?php foreach ($company_list as $key => $value) { 
+												$bss="";
+												if(in_array($value['id'],$brand))$bss="selected";	
+												?>	
+														<option value="<?php echo $value['id']; ?>"<?php echo $bss;?>><?php echo $value['name']; ?></option>
+												<?php  }?> 
+											</select>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label>Location</label>
+											<select id="fdoffice_ids" name="office_id[]" autocomplete="off" placeholder="Select Location" multiple>
+												
+												<?php
+												//if(get_global_access()==1 || get_role_dir()=="super") echo "<option value='ALL'>ALL</option>";
+											?>
+											<?php foreach($location_list as $loc): ?>
+												<?php
+												$sCss="";
+												if(in_array($loc['abbr'],$oValue)) $sCss="selected";
+												?>
+											<option value="<?php echo $loc['abbr']; ?>" <?php echo $sCss;?>><?php echo $loc['office_name']; ?></option>
+												
+											<?php endforeach; ?>
+											</select>
+										</div>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label>Select Department</label>
+											<select id="select-department" class="form-control" name="department_id[]" autocomplete="off" placeholder="Select Department" multiple>
+											<?php
+												foreach($department_list as $k=>$dep){
+												$sCss="";
+												if(in_array($dep['id'],$o_department_id))$sCss="selected";	
+											?>
+											<option value="<?php echo $dep['id']; ?>"<?php echo $sCss;?>><?php echo $dep['shname']; ?></option>
+											<?php		
+												}
+											?>	
+											</select>
+										</div>
+									</div>									
+									
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label>Select Client</label>
+											<select id="fclient_id" name="client_id[]" autocomplete="off" placeholder="Select Client" multiple>	
+											<?php foreach($client_list as $client): 
+												$cScc='';
+												if(in_array($client->id,$client_id)) $cScc='Selected';
+											?>
+											<option value="<?php echo $client->id; ?>" <?php echo $cScc; ?> ><?php echo $client->shname; ?></option>
+											<?php endforeach; ?>	
+											</select>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label>Select Process</label>
+											<select id="fprocess_id"  name="process_id" autocomplete="off" placeholder="Select Process" class="select-box" >
+											<option value="">-- Select Process--</option>	
+											<?php foreach($process_list as $process): 
+												$cScc='';
+												if($process->id==$process_id) $cScc='Selected';
+											?>
+											<option value="<?php echo $process->id; ?>" <?php echo $cScc; ?> ><?php echo $process->name; ?></option>
+											<?php endforeach; ?>	
+											</select>
+										</div>
+									</div>
+									<div class="col-sm-3" id="requisation_div" style="display:none;">
+										<div class="form-group">
+											<label>Requisition</label>
+											<select  autocomplete="off" name="requisition_id[]" id="edurequisition_id" placeholder="Select Requisition" class="select-box">
+											<option="">ALL</option>	
+											<?php /*foreach($get_requisition as $gr): ?>
+											<?php
+												$sRss="";
+												if($gr['requisition_id']==$requisition_id) $sRss="selected";
+											?>
+												<option value="<?php echo $gr['requisition_id']; ?>" <?php echo $sRss; ?>><?php echo $gr['requisition_id']; ?></option>
+											<?php endforeach;*/ ?>
+											</select>
+										</div>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<button type="submit" name="search" id="search" value="Search" class="submit-btn">
+												<i class="fa fa-search" aria-hidden="true"></i>
+												Search
+											</button>
+										</div>
+									</div>
+								</div>
+								
+							</div>
+							
+						</form>
+					
+					</div>
+			
+			
+				</div><!-- .widget -->
+			</div>
+			<!-- END DataTable -->	
+		</div><!-- .row -->
+		
+		<div class="common-top">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="widget">
+						<div class="table-responsive">
+							<table id="default-datatable" data-plugin="DataTable" class="table skt-table" cellspacing="0" width="100%">
+								<thead>
+									<tr class='bg-info'>
+										<th>SL</th>
+										<th>Requision Code</th>
+										<th>Last Qualification</th>
+										<th>Onboarding Type</th>
+										<th>Candidate Name</th>
+										<th>Gender</th>
+										<th>Mobile</th>
+										<th>Skill Set</th>
+										<th>Total Exp.</th>
+										<th>Attachment</th>
+										<th>Status</th>
+										<?php if(is_access_dfr_module()==1){ 	////ACCESS PART ?>
+											<th>Action</th>
+										<?php } ?>
+									</tr>
+								</thead>
+								<tbody>
+									<?php
+								$k=1;
+								$m=1;
+								foreach($candidate_rejected as $cd): 
+								
+								$r_id=$cd['r_id'];
+								$c_id=$cd['can_id'];
+								$c_status = $cd['candidate_status'];
+								
+								if($c_status=='P')	$cstatus="Pending";
+								else if($c_status=='IP')	$cstatus="In Progress";
+								else if($c_status=='SL')	$cstatus="Shortlisted";
+								else if($c_status=='CS')	$cstatus="Selected";
+								else if( $c_status=='E') $cstatus="Selected as Employee";
+								else if($c_status=='R') $cstatus="Rejected";
+								
+								if($cd['requisition_status']=='CL'){
+									$bold="style='font-weight:bold; color:red'";
+								}else{
+									$bold="";
+								}
+								
+								if($cd['attachment']!='') $viewResume='View Resume';
+								else $viewResume='';
+							?>
+							<tr>
+								
+								<td><?php echo $k++; ?></td>
+								
+								<td <?=$bold?>><?php echo $cd['requisition_id']; ?></td>
+								<td><?php echo $cd['last_qualification']; ?></td>
+								<td><?php echo $cd['onboarding_type']; ?></td>
+								<td><?php echo $cd['fname']." ".$cd['lname']; ?></td>
+								<td><?php echo $cd['gender']; ?></td>
+								<td><?php echo $cd['phone']; ?></td>
+								<td><?php echo $cd['skill_set']; ?></td>
+								<td><?php echo $cd['total_work_exp']; ?></td>
+								<td><a href="<?php echo base_url(); ?>uploads/candidate_resume/<?php echo $cd['attachment']; ?>"><?php echo $viewResume; ?></a></td>
+								<td width="70px"><?php echo $cstatus; ?></td>
+								
+								<?php if(is_access_dfr_module()==1){ 	////ACCESS PART ?>
+								<td width="150px">
+									<?php	
+										$sch_id=$cd['sch_id'];
+										$interview_type=$cd['interview_type'];	
+										$interview_site=$cd['location'];	//echo $interview_site;
+										$requisition_id=$cd['requisition_id'];
+										$filled_no_position=$cd['filled_no_position'];
+										$req_no_position=$cd['req_no_position'];
+										$department_id=$cd['department_id'];
+										$role_id=$cd['role_id'];
+										$sh_status=$cd['sh_status'];
+										
+										
+									if($c_id!=""){
+										
+										echo '<a class="btn btn-success btn-xs viewCandidate" href="'.base_url().'dfr/view_candidate_details/'.$c_id.'" target="_blank"  c_id="'.$c_id.'" r_id="'.$r_id.'" title="Click to View Candidate Details" style="font-size:12px"><i class="fa fa-eye"></i></a>';
+										
+											echo '&nbsp &nbsp';
+										
+										echo '<a class="btn btn-danger btn-xs rejectCandidateTransfer" r_id="'.$r_id.'" c_id="'.$c_id.'" c_status="'.$c_status.'" title="Transfer Candidate" style="font-size:12px" ><i class="fa fa-exchange"></i></a>';
+										
+										
+										
+										echo "&nbsp &nbsp";
+										
+										if($c_status!='P'){
+										
+											echo '<a class="btn btn-xs candidateInterviewReport" href="'.base_url().'dfr/view_candidate_interview/'.$c_id.'"  target="_blank"  c_id="'.$c_id.'" r_id="'.$r_id.'" title="Click to View Candidate Interview Report" style="font-size:12px; background-color:#EE8CE4;"><i class="fa fa-desktop"></i></a>';
+										
+										}
+										
+									}
+									?>
+								</td>
+								<?php } ?>
+							</tr>
+							
+							<?php endforeach; ?>
+								</tbody>
+								
+							</table>						
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</section>
+	
+</div><!-- .wrap -->
+
+
+<!---------------Candidate Transfer-------------------->
+<div class="modal fade" id="transferRejectCandidateModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+	  
+	<form class="frmTransferCandidate" action="<?php echo base_url(); ?>dfr/CandidateTransfer" data-toggle="validator" method='POST'>
+		
+      <div class="modal-header bg-primary">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Candidate Transfer</h4>
+      </div>
+      <div class="modal-body">
+			<input type="hidden" id="r_id" name="r_id" class="form-control">
+			<input type="hidden" id="c_id" name="c_id" class="form-control">
+			<input type="hidden" id="c_status" name="c_status" class="form-control">
+			<input type="hidden" name="req_id" id="req_id" value="">
+			
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<label>List of Requisition</label>
+						<!--<select class="form-control" id="req_id" name="req_id">
+							<option value="">-Select-</option>
+							<option value="0">Pool</option>
+							<?php foreach($getrequisition as $row){ ?>
+								<option value="<?php echo $row['id']; ?>"><?php echo $row['req_desc']; ?></option>
+							<?php } ?>
+						</select>-->
+						<input type="text" name="search_req" id="search_req" class="form-control" placeholder="Type Requisition Number">
+						<div id="searchList"></div>
+					</div>
+				</div>
+			</div>
+			<div class="row" style="margin-left:8px" id="req_details">
+				
+			</div>
+			
+			</br></br>
+			
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<label>Transfer Comment</label>
+						<textarea class="form-control" id="transfer_comment" name="transfer_comment"></textarea>
+					</div>
+				</div>
+			</div>
+			
+      </div>
+	  
+      <div class="modal-footer">
+         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+		<input type="submit" name="submit" class="btn btn-primary" value="Save">
+      </div>
+	  
+	 </form>
+	 
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+	document.querySelector("#req_no_position").addEventListener("keypress", function (evt) {
+    if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
+    {
+        evt.preventDefault();
+    }
+});
+</script>
+<script>
+/*$(function() {  
+ $('#multiselect').multiselect();
+
+ $('#edurequisition_id').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            filterPlaceholder: 'Search for something...'
+        }); 
+}); */
+</script>
+<script>
+$(function() {  
+ $('#multiselect').multiselect();
+
+ $('#fdoffice_ids').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            filterPlaceholder: 'Search for something...'
+        }); 
+}); 
+</script>
+<script>
+$(function() {  
+ $('#multiselect').multiselect();
+
+ $('#select-brand').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            filterPlaceholder: 'Search for something...'
+        }); 
+}); 
+</script>
+
+<script>
+$(function() {  
+ $('#multiselect').multiselect();
+
+ $('#fclient_id').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            filterPlaceholder: 'Search for something...'
+        }); 
+}); 
+</script>
+<script>
+/*$(function() {  
+ $('#multiselect').multiselect();
+
+ $('#fprocess_id').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            filterPlaceholder: 'Search for something...'
+        }); 
+}); */
+</script>
+<script>
+$(function() {  
+ $('#multiselect').multiselect();
+
+ $('#select-department').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            filterPlaceholder: 'Search for something...'
+        }); 
+});
+
+</script>
+<script>
+	 $(document).ready(function () {
+      $('.select-box').selectize({
+          sortField: 'text'
+      });
+  });
+  
+</script>

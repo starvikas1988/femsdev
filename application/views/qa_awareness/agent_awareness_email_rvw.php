@@ -1,0 +1,403 @@
+<style>
+.table > tbody > tr > td{
+	text-align: center;
+	font-size:12px;
+}
+
+#theader{
+	font-size:20px;
+	font-weight:bold;
+	background-color:#95A5A6;
+}
+
+.eml{
+	font-weight:bold;
+	background-color:#F4D03F;
+}
+</style>
+
+<div class="wrap">
+	<section class="app-content">
+	
+		<div class="row">
+			<div class="col-12">
+				<div class="widget">
+				  <form id="form_audit_user" method="POST" action="" enctype="multipart/form-data">
+					
+					<div class="widget-body">
+					 	<div class="table-responsive">
+							<table class="table table-striped skt-table" width="100%">
+								<tbody>
+									<tr style="background-color:#AEB6BF">
+										<td colspan="10" id="theader" style="font-size:30px">Awareness EMAIL QA FORM</td>
+										<?php
+										if($pre_booking_id==0){
+											$auditorName = get_username();
+											$auditDate = CurrDateMDY();
+											$clDate_val='';
+											
+										}else{
+											if($awareness['entry_by']!=''){
+												$auditorName = $awareness['auditor_name'];
+											}else{
+												$auditorName = $awareness['client_name'];
+											}
+											$auditDate = mysql2mmddyy($awareness['audit_date']);
+											$clDate_val = mysql2mmddyy($awareness['call_date']);
+											
+										}
+									?>
+										<input type="hidden" name="audit_start_time" value="<?php echo CurrMySqlDate(); ?>">
+									</tr>
+									<tr>
+										<td colspan="2">QA Name:</td>
+										<td><input type="text" class="form-control" value="<?php echo $auditorName; ?>" disabled></td>
+										<td colspan="2">Audit Date:</td>
+										<td><input type="text" class="form-control" value="<?php echo CurrDateMDY(); ?>" disabled></td>
+										<td colspan="2">Call Date/Time:</td>
+										<td style="width:216px;" colspan="2"><input type="text" class="form-control" id="call_date" name="call_date" value="<?php echo $clDate_val; ?>" disabled></td>
+									</tr>
+									<tr>
+										<td colspan="2">Agent:</td>
+										<td>
+											<select class="form-control agentName" id="agent_id" name="data[agent_id]" disabled>
+												<option value="<?php echo $awareness['agent_id'] ?>"><?php echo $awareness['fname']." ".$awareness['lname'] ?></option>
+												<option value="">-Select-</option>
+												<?php foreach($agentName as $row):  ?>
+													<option value="<?php echo $row['id']; ?>"><?php echo $row['name'].' ('.$row['fusion_id'].')'; ?></option>
+												<?php endforeach; ?>
+											</select>
+										</td>
+										<td colspan="2">Fusion ID:</td>
+										<td><input type="text" readonly class="form-control" id="fusion_id" name="" value="<?php echo $awareness['fusion_id'] ?>"></td>
+										<td colspan="2">L1 Supervisor:</td>
+										<td colspan="2">
+											<select class="form-control" id="tl_id" name="data[tl_id]" disabled readonly>
+												<option value="<?php echo $awareness['tl_id'] ?>"><?php echo $awareness['tl_name'] ?></option>
+												<option value="">--Select--</option>
+												<?php foreach($tlname as $tl): ?>
+													<option value="<?php echo $tl['id']; ?>"><?php echo $tl['fname']." ".$tl['lname']; ?></option>
+												<?php endforeach; ?>	
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td style="font-weight:bold" colspan="1">ACPT:</td>
+										<td colspan="2">
+											<select class="form-control"  name="data[acpt]" disabled>
+												<option value="<?php echo $awareness['acpt'] ?>"><?php echo $awareness['acpt'] ?></option>
+												<option value="">-Select-</option>
+												<option value="Agent">Agent</option>
+												<option value="Customer">Customer</option>
+												<option value="Process">Process</option>
+												<option value="Technology">Technology</option>
+											</select>
+										</td>
+										<!-- <td style="font-weight:bold" colspan="1">Channel:</td>
+										<td colspan="2">
+											<select class="form-control"  name="data[Channel]" disabled>
+												<option value="">-Select-</option>
+												<option value="Chat" selected>Chat</option>
+												<option value="Email">Email</option>
+												<option value="Phone">Phone</option>
+											</select>
+										</td> -->
+										<td colspan="1">Case/Ticket #:</td>
+										<td colspan="2"><input type="text" class="form-control" id="caseTicket" name="data[caseTicket]" value="<?php echo $awareness['caseTicket'] ?>" disabled></td>
+									</tr>
+									<tr>
+										<td style="font-weight:bold" colspan="1">Product:</td>
+										<td colspan="2">
+											<select class="form-control"  name="data[product]" disabled>
+												<option value="<?php echo $awareness['product'] ?>"><?php echo $awareness['product'] ?></option>
+												<option value="">-Select-</option>
+												<option value="WebWatcher">WebWatcher</option>
+												<option value="InterGuard">InterGuard</option>
+												<option value="ScreenTime Lab">ScreenTime Lab</option>
+												<option value="Veriato">Veriato</option>
+					
+											</select>
+										</td>
+										<td style="font-weight:bold" colspan="1">Cust Rate:</td>
+										<td colspan="2">
+											<select class="form-control"  name="data[cust_rate]" disabled>
+												<option value="<?php echo $awareness['cust_rate'] ?>"><?php echo $awareness['cust_rate'] ?></option>
+												<option value="">-Select-</option>
+												<option value="Excellent">Excellent</option>
+												<option value="Good">Good</option>
+												<option value="Fair">Fair</option>
+												<option value="Poor">Poor</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="1">Audit Type:</td>
+										<td colspan="2">
+											<select class="form-control" id="audit_type" name="data[audit_type]" disabled>
+												<option value="">-Select-</option>
+                                                <option value="CQ Audit" <?= ($awareness['audit_type']=="CQ Audit")?"selected":"" ?>>CQ Audit</option>
+                                                <option value="BQ Audit" <?= ($awareness['audit_type']=="BQ Audit")?"selected":"" ?>>BQ Audit</option>
+                                                <option value="Calibration" <?= ($awareness['audit_type']=="Calibration")?"selected":"" ?>>Calibration</option>
+                                                <option value="Pre-Certificate Mock Call" <?= ($awareness['audit_type']=="Pre-Certificate Mock Call")?"selected":"" ?>>Pre-Certificate Mock Call</option>
+                                                 <option value="Certification Audit" <?= ($awareness['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
+                                                 <option value="WOW Call" <?= ($awareness['audit_type']=="WOW Call")?"selected":"" ?>>WOW Call</option>
+											</select>
+										</td>
+										<td class="auType_epi" colspan="1">Auditor Type</td>
+										<td class="auType_epi" colspan="2">
+											<select class="form-control" id="auditor_type" name="data[auditor_type]" disabled>
+												<option value="<?php echo $awareness['auditor_type'] ?>"><?php echo $awareness['auditor_type'] ?></option>
+												<option value="">-Select-</option>
+												<option value="Master">Master</option>
+												<option value="Regular">Regular</option>
+											</select>
+										</td>
+										<td colspan="1">VOC:</td>
+										<td colspan="2">
+											<select class="form-control" id="voc" name="data[voc]" disabled>
+												<option value="<?php echo $awareness['voc'] ?>"><?php echo $awareness['voc'] ?></option>
+											
+												<option value="">-Select-</option>
+												<option value="1">1</option>
+												<option value="2">2</option>
+												<option value="3">3</option>
+												<option value="4">4</option>
+												<option value="5">5</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td style="font-size:18px; font-weight:bold" colspan="1">Customer Score</td>
+										<td style="font-size:18px; font-weight:bold" colspan="2"><input type="text" readonly class="form-control" id="custlockScore" name="data[cust_score]" value="<?php echo $awareness['cust_score'] ?>"></td><td style="font-size:18px; font-weight:bold" colspan="1">Business Score</td>
+										<td style="font-size:18px; font-weight:bold" colspan="2"><input type="text" readonly class="form-control" id="busilockScore" name="data[busi_score]" value="<?php echo $awareness['busi_score'] ?>"></td>
+										<td style="font-size:18px; font-weight:bold" colspan="1">Compliance Score:</td>
+										<td style="font-size:18px; font-weight:bold" colspan="2"><input type="text" readonly class="form-control" id="compllockScore" name="data[comp_score]" value="<?php echo $awareness['comp_score'] ?>"></td>
+									</tr>
+									<tr>
+										<td style="font-size:18px; font-weight:bold" colspan="1">Earned Score</td>
+										<td style="font-size:18px; font-weight:bold" colspan="2"><input type="text" readonly class="form-control" id="pre_earnedScore" name="data[earned_score]" value="<?php echo $awareness['earned_score'] ?>"></td><td style="font-size:18px; font-weight:bold" colspan="1">Possible Score</td>
+										<td style="font-size:18px; font-weight:bold" colspan="2"><input type="text" readonly class="form-control" id="pre_possibleScore" name="data[possible_score]" value="<?php echo $awareness['possible_score'] ?>"></td>
+										<td style="font-size:18px; font-weight:bold" colspan="1">Overall Score:</td>
+										<td style="font-size:18px; font-weight:bold" colspan="2"><input type="text" readonly class="form-control" id="pre_overallScore" name="data[overall_score]" value="<?php echo $awareness['overall_score'] ?>"></td>
+									</tr>									
+									
+									<tr style="height:45px">
+										<td class="eml2">Category</td>
+										<td class="eml2" colspan=4>Sub Category</td>
+										<td class="eml2" style="width:150px">Status</td>
+										<td class="eml2" colspan=4>Remarks</td>
+										</tr>
+										
+									<tr>
+										<td rowspan=3 class="eml1">COMPLIANCE CRITICAL</td>
+										<td class="" colspan=4>Setting proper expectation to the customer.</td>
+
+										<td>											
+											<select class="form-control affinity_point compliance" name="data[Category1]" disabled>
+												<option selected value=''>Select</option>
+												<option affinity_val=5  <?php echo $awareness['Category1']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option affinity_val=5  <?php echo $awareness['Category1']=='No'?"selected":""; ?> value="No">No</option>
+												
+												<option affinity_val=0  <?php echo $awareness['Category1']=='NA'?"selected":""; ?> value="NA">NA</option>
+											</select>
+										</td>
+										<td colspan=4><input type="text" class="form-control" name="data[cmt1]" value="<?php echo $awareness['cmt1'] ?>"disabled></td>
+									</tr>
+									<tr>
+										<td class="" colspan=4>Did the agent tag the interaction accordingly?</td>
+
+										<td>											
+											<select class="form-control affinity_point compliance" name="data[Category2]" disabled>
+												<option selected value=''>Select</option>
+												<option affinity_val=5  <?php echo $awareness['Category2']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option affinity_val=5  <?php echo $awareness['Category2']=='No'?"selected":""; ?> value="No">No</option>
+												
+												<option affinity_val=0  <?php echo $awareness['Category2']=='NA'?"selected":""; ?> value="NA">NA</option>
+											</select>
+										</td>
+										<td colspan=4><input type="text" class="form-control" name="data[cmt2]" value="<?php echo $awareness['cmt2'] ?>"disabled></td>
+									</tr>
+									<tr>
+										<td class="" colspan=4>Did the agent ask if there is anything that they can do to enhance customer experience before interaction ends?</td>
+
+										<td>											
+											<select class="form-control affinity_point compliance" name="data[Category3]" disabled>
+												<option selected value=''>Select</option>
+												<option affinity_val=5  <?php echo $awareness['Category3']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option affinity_val=5  <?php echo $awareness['Category3']=='No'?"selected":""; ?> value="No">No</option>
+												
+												<option affinity_val=0  <?php echo $awareness['Category3']=='NA'?"selected":""; ?> value="NA">NA</option>
+											</select>
+										</td>
+										<td colspan=4><input type="text" class="form-control" name="data[cmt3]" value="<?php echo $awareness['cmt3'] ?>"disabled></td>
+									</tr>
+									<tr>
+										<td rowspan=1 class="1">BUSINESS CRITICAL</td>
+
+										<td class="" colspan=4>Did the agent follow correct / proper procedure?</td>
+
+										<td>											
+											<select class="form-control affinity_point business" name="data[Category4]" disabled>
+												<option selected value=''>Select</option>
+												<option affinity_val=5  <?php echo $awareness['Category4']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option affinity_val=5  <?php echo $awareness['Category4']=='No'?"selected":""; ?> value="No">No</option>
+												
+												<option affinity_val=0  <?php echo $awareness['Category4']=='NA'?"selected":""; ?> value="NA">NA</option>
+											</select>
+										</td>
+										<td colspan=4><input type="text" class="form-control" name="data[cmt4]" value="<?php echo $awareness['cmt4'] ?>"disabled></td>
+									</tr>
+									
+									
+									<tr>
+										<td rowspan=5 class="1">CUSTOMER CRITICAL</td>
+
+										<td class="" colspan=4>The agent showed politeness, courtesy, and professionalism throughout interaction. </td>
+
+										<td>											
+											<select class="form-control affinity_point customer" name="data[Category6]" disabled>
+												<option selected value=''>Select</option>
+												<option affinity_val=5  <?php echo $awareness['Category6']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option affinity_val=5  <?php echo $awareness['Category6']=='No'?"selected":""; ?> value="No">No</option>
+												
+												<option affinity_val=0  <?php echo $awareness['Category6']=='NA'?"selected":""; ?> value="NA">NA</option>
+											</select>
+										</td>
+										<td colspan=4><input type="text" class="form-control" name="data[cmt6]" value="<?php echo $awareness['cmt6'] ?>"disabled></td>
+								   </tr>
+								   <tr>
+										<td class="" colspan=4>Acknowledges and responds to the customer’s emotional statements. Expresses empathy appropriately.</td>
+
+										<td>											
+											<select class="form-control affinity_point customer" name="data[Category7]" disabled>
+												<option selected value=''>Select</option>
+												<option affinity_val=5  <?php echo $awareness['Category7']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option affinity_val=5  <?php echo $awareness['Category7']=='No'?"selected":""; ?> value="No">No</option>
+												
+												<option affinity_val=0  <?php echo $awareness['Category7']=='NA'?"selected":""; ?> value="NA">NA</option>
+											</select>
+										</td>
+										<td colspan=4><input type="text" class="form-control" name="data[cmt7]" value="<?php echo $awareness['cmt7'] ?>"disabled></td>
+								 </tr>
+									<tr>
+										<td class="" colspan=4>Must address all concern in an interaction if already provided by the customer without letting them to repeat it.</td>
+
+										<td>											
+											<select class="form-control affinity_point customer" name="data[Category8]" disabled>
+												<option selected value=''>Select</option>
+												<option affinity_val=3  <?php echo $awareness['Category8']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option affinity_val=3  <?php echo $awareness['Category8']=='No'?"selected":""; ?> value="No">No</option>
+												
+												<option affinity_val=0  <?php echo $awareness['Category8']=='NA'?"selected":""; ?> value="NA">NA</option>
+											</select>
+										</td>
+										<td colspan=4><input type="text" class="form-control" name="data[cmt8]" value="<?php echo $awareness['cmt8'] ?>"disabled></td>
+								  </tr>
+								   <tr>
+										<td class="" colspan=4>Accurately communicates to the customer. Thought and sentence construction must be understandable enough not to confuse the customer.</td>
+
+										<td>											
+											<select class="form-control affinity_point customer" name="data[Category9]" disabled>
+												<option selected value=''>Select</option>
+												<option affinity_val=3  <?php echo $awareness['Category9']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option affinity_val=3  <?php echo $awareness['Category9']=='No'?"selected":""; ?> value="No">No</option>
+												<option affinity_val=0  <?php echo $awareness['Category9']=='NA'?"selected":""; ?> value="NA">NA</option>
+											</select>
+										</td>
+										<td colspan=4><input type="text" class="form-control" name="data[cmt9]" value="<?php echo $awareness['cmt9'] ?>"disabled></td>
+									</tr>
+									 <tr>
+										<td class="" colspan=4>Perform logical troubleshooting steps and uses targeted probing questions. Pays attention to key words and phrases to quickly determine the issue, and all questions are tailored fit to the customer. </td>
+
+										<td>											
+											<select class="form-control affinity_point customer" name="data[Category10]" disabled>
+												<option selected value=''>Select</option>
+												<option affinity_val=3  <?php echo $awareness['Category10']=='Yes'?"selected":""; ?> value="Yes">Yes</option>
+												<option affinity_val=3  <?php echo $awareness['Category10']=='No'?"selected":""; ?> value="No">No</option>
+												<option affinity_val=0  <?php echo $awareness['Category10']=='NA'?"selected":""; ?> value="NA">NA</option>
+											</select>
+										</td>
+										<td colspan=4><input type="text" class="form-control" name="data[cmt10]" value="<?php echo $awareness['cmt10'] ?>"disabled></td>
+									</tr>
+									
+									<tr>
+										<td>Call Summary:</td>
+										<td colspan=3><textarea class="form-control" id="" name="data[call_summary]" disabled><?php echo $awareness['call_summary'] ?></textarea></td>
+										<td style="width: 184px;">Remark:</td>
+										<td colspan="4"><textarea class="form-control" id="" name="data[feedback]"disabled><?php echo $awareness['feedback'] ?></textarea></td>
+									</tr>
+									
+									
+
+									<?php if($pre_booking_id==0){ ?>
+									<tr>
+										<td colspan="2">Upload Files</td>
+										<td colspan="4"><input type="file" multiple class="form-control" id="attach_file" name="attach_file[]"></td>
+									</tr>
+									<?php }else{ ?>
+									<tr>	
+										<td colspan="2">Upload Files</td>
+										<?php if($awareness['attach_file']!=''){ ?>
+											<td colspan="4">
+												<?php $attach_file = explode(",",$awareness['attach_file']);
+												 foreach($attach_file as $mp){ ?>
+													<audio controls='' style="background-color:#607F93"> 
+													  <source src="<?php echo base_url(); ?>qa_files/awareness/<?php echo $mp; ?>" type="audio/ogg">
+													  <source src="<?php echo base_url(); ?>qa_files/awareness/<?php echo $mp; ?>" type="audio/mpeg">
+													</audio> </br>
+												 <?php } ?>
+											</td>
+										<?php }else{
+												//echo '<td colspan=6><b>No Files</b></td>';
+											  }
+										} ?>
+									</tr>
+									
+									
+								<?php if($pre_booking_id!=0){ ?>
+										<tr><td colspan=2 style="font-size:12px; font-weight:bold">Agent Feedback Acceptance:</td><td colspan="7"><?php echo $awareness['agnt_fd_acpt'] ?></td></tr>
+										<tr><td colspan=2 style="font-size:12px; font-weight:bold">Management Review:</td><td colspan="7"><?php echo $awareness['mgnt_rvw_note'] ?></td></tr>
+										<tr><td colspan=2 style="font-size:12px; font-weight:bold">Client Review:</td><td colspan="7"><?php echo $awareness['client_rvw_note'] ?></td></tr>
+									<?php } ?>
+										<form id="form_agent_user" method="POST" action="">
+									 <input type="hidden" name="pre_booking_id" class="form-control" value="<?php echo $pre_booking_id; ?>">
+										
+										<tr>
+											<td colspan=2 style="font-size:12px">Feedback Acceptance</td>
+											<td colspan="7">
+												<select class="form-control" id="" name="agnt_fd_acpt">
+													<option value="">--Select--</option>
+													<option <?php echo $awareness['agnt_fd_acpt']=='Acceptance'?"selected":""; ?> value="Acceptance">Acceptance</option>	
+													<option <?php echo $awareness['agnt_fd_acpt']=='Not Acceptance'?"selected":""; ?> value="Not Acceptance">Not Acceptance</option>	
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td colspan=2 style="font-size:12px">Your Review</td>
+											<td colspan="7"><textarea class="form-control" name="note"><?php echo $awareness['agent_rvw_note'] ?></textarea></td>
+										</tr>
+									  </form>
+									
+								<?php if(is_access_qa_agent_module()==true){
+										if(is_available_qa_feedback($awareness['entry_date'],72) == true){ ?>
+											<tr>
+												<?php if($awareness['agent_rvw_note']==''){ ?>
+													<td colspan="6"><button class="btn btn-success waves-effect" type="submit" id='btnagentSave' name='btnSave' value="SAVE" style="width:500px">SAVE</button></td>
+												<?php } ?>
+											</tr>
+										<?php } 
+										} ?>
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+				  </form>
+					
+				</div>
+			</div>
+		</div>
+
+	</section>
+</div>

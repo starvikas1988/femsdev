@@ -306,7 +306,6 @@ if(is_access_qa_edit_feedback()==false){ ?>
 										<td>Level 2</td>
 										<td colspan=2><input type="text" class="form-control" name="data[level2]" value="<?php echo $gtn_list['level2'] ?>" required></td>
 
-									</tr>
 									<tr>
 										<td>Factor:</td>
 										<td colspan=2><textarea class="form-control" name="data[factor]"><?php echo $gtn_list['factor'] ?></textarea></td>

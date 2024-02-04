@@ -137,6 +137,7 @@
                                                     <option value="CQ Audit" <?= ($agent_acg_rvw['audit_type']=="CQ Audit")?"selected":"" ?>>CQ Audit</option>
                                                     <option value="BQ Audit" <?= ($agent_acg_rvw['audit_type']=="BQ Audit")?"selected":"" ?>>BQ Audit</option>
                                                     <option value="Calibration" <?= ($agent_acg_rvw['audit_type']=="Calibration")?"selected":"" ?>>Calibration</option>
+                                                    <option value="WoW Call"  <?= ($agent_acg_rvw['audit_type']=="WoW Call")?"selected":"" ?>>WoW Call</option>
                                                     <option value="Pre-Certificate Mock Call" <?= ($agent_acg_rvw['audit_type']=="Pre-Certificate Mock Call")?"selected":"" ?>>Pre-Certificate Mock Call</option>
                                                     <option value="Certification Audit" <?= ($agent_acg_rvw['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
                                                     <option value="Operation Audit" <?= ($agent_acg_rvw['audit_type']=="Operation Audit")?"selected":"" ?>>Operation Audit</option>

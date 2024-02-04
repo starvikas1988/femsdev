@@ -1,0 +1,48 @@
+<!-- APP ASIDE ==========-->
+
+<aside id="app-aside" class="app-aside left light">
+	<div style="padding:20px 0; clear:both;"></div>
+	<div class="aside-scroll">
+		<div id="aside-scroll-inner" class="aside-scroll-inner">
+			<ul class="aside-menu aside-left-menu">
+			
+			<?php if(get_login_type() != "client"){ ?>
+			<li class="menu-item">
+				<a href="<?php echo base_url()?>downtime/ameridial" class="menu-link">
+					<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+					<span class="">New Downtime</span>
+				</a>
+			</li>
+			
+			<?php if(get_global_access() == 1 || (get_role_dir() != 'tl' && get_role_dir() != 'agent')){ ?>
+			<li class="menu-item">
+				<a href="<?php echo base_url()?>downtime/ameridial_list" class="menu-link">
+					<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+					<span class="">All Downtime List</span>
+				</a>
+			</li>
+			<?php } ?>
+			
+			<?php if(get_role_dir() == 'tl' || get_role_dir() == 'agent'){ ?>
+			<li class="menu-item">
+				<a href="<?php echo base_url()?>downtime/my_ameridial_list" class="menu-link">
+					<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+					<span class="">My Downtime List</span>
+				</a>
+			</li>
+			<?php } ?>
+			<?php } ?>
+			
+			<?php if(get_global_access() == 1 || (isADLocation() && (get_dept_folder() == 'qa' || get_role_dir() == 'manager')) || is_access_downtime_tracker_reports() || get_login_type() == "client"){ ?>
+			<li class="menu-item">
+				<a href="<?php echo base_url()?>downtime/ameridial_reports" class="menu-link">
+					<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+					<span class="">Ameridial Reports</span>
+				</a>
+			</li>
+			<?php } ?>
+			
+			</ul>
+		</div>
+	</div>
+</aside>

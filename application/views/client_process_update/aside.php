@@ -1,0 +1,55 @@
+<!-- APP ASIDE ==========-->
+<aside id="app-aside" class="app-aside left light">
+	<header class="aside-header">
+		<div class="animated">
+			<a href="<?php echo base_url()?>home" id="app-brand" class="app-brand">
+				<span id="brand-icon" class="brand-icon"></span>
+				<span id="brand-name" class="brand-icon foldable"><img src="<?php echo base_url() ?>assets/images/fusion-bpo.png" border="0" alt="Fusion BPO"></span>
+			</a>
+		</div>
+	</header><!-- #sidebar-header -->
+	<div style="padding:20px 0; clear:both;"></div>
+	<div class="aside-scroll">
+		<div id="aside-scroll-inner" class="aside-scroll-inner">
+			
+			<ul class="aside-menu aside-left-menu">
+				
+				<li class="menu-item">
+					<a href="<?php echo base_url(); ?>client_process_update" class="menu-link">
+						<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+						<?php if( isProcessUpdates()== true){ ?>
+							<span class="">Manage Process Updates</span>
+						<?php }else{ ?>
+								<span class="">View Process Updates</span>
+						<?php } ?>
+					</a>
+				</li>
+
+				<li class="menu-item">
+					<a href="<?php echo base_url(); ?>client_process_update/acceptance_report_list" class="menu-link">
+						<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+						
+								<span class="">Process Updates User Acceptance</span>
+						
+					</a>
+				</li>
+
+				<!-- .menu-item -->
+				
+				
+				<!--
+				<li class="menu-item">
+					
+					<a href="<?php echo base_url()?>policy/add" class="menu-link">
+						<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+						<span class="">Add Policies</span>
+					</a>
+				</li>
+				-->
+				
+				</ul>
+			</footer><!-- #sidebar-footer -->
+		</div><!-- .aside-scroll-inner -->
+	</div><!-- #aside-scroll -->
+</aside>
+<!--========== END app aside -->

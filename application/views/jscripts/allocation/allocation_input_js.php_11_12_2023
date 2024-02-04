@@ -1,0 +1,650 @@
+<script>
+
+$(document).on('change','#gio_region',function(){
+	var datas = {"oid": $(this).val()};
+	var request_url = "<?php echo base_url('allocation/filter_office'); ?>";
+
+	process_ajax(function(response)
+	{
+		var res = JSON.parse(response);
+		let options_html = "";
+
+		$('#location').multiselect('clearSelection');
+	    $('#location').multiselect('refresh');
+
+        $.each(res,function(index,element) {
+            options_html += '<option value="'+element.abbr+'">'+element.office_name+'</option>';
+        });
+
+        $('#location').html(options_html);
+
+		$('#location').multiselect('rebuild');
+
+	},request_url, datas, 'text');
+});
+
+$(document).on('change','#geo_location_input',function(){
+    var datas = {"oid": $(this).val()};
+    var request_url = "<?php echo base_url('allocation/filter_office_input'); ?>";
+
+    process_ajax(function(response)
+    {
+        var res = JSON.parse(response);
+        let options_html = "";
+
+        $('#location').multiselect('clearSelection');
+        $('#location').multiselect('refresh');
+
+        $.each(res,function(index,element) {
+            options_html += '<option value="'+element.abbr+'">'+element.office_name+'</option>';
+        });
+
+        $('#location').html(options_html);
+
+        $('#location').multiselect('rebuild');
+
+    },request_url, datas, 'text');
+});
+
+$(document).on('change','#clients',function(){
+	var datas = {"client_id": $(this).val()};
+	var request_url = "<?php echo base_url('allocation/get_client_process_list'); ?>";
+
+	process_ajax(function(response)
+	{
+		var res = JSON.parse(response);
+		let options_html = "";
+
+		$('#process').multiselect('clearSelection');
+		$('#process').multiselect('refresh');
+
+		if (res.stat==true) {
+
+	        $.each(res.datas,function(index,element) {
+	            options_html += '<option value="'+element.id+'">'+element.name+'</option>';
+	        });
+
+	        $('#process').html(options_html);
+		}
+		else { $('#process').html(''); }
+
+		$('#process').multiselect('rebuild');
+
+	},request_url, datas, 'text');
+});
+
+function restrictSpecialCharacters(input) {
+    input.value = input.value.replace(/[^\w]/g, '');
+}
+
+//INPUT COGS
+get_input_cogs = (type) => {
+	let datas = {
+		"type": type,
+		"geo_location": $("#geo_location_input").val(), 
+		"office_id": $("#location").val(), 
+		"dept_id": $("#dept_id").val(), 
+		"client_id": $("#clients").val(),
+		"process_id": $("#process").val(),
+		"role_id": $("#role").val(),
+		"month_id": $("#month_id").val(),
+		"mwp_id": $("#mwp_id").val(),
+		"month": $("#month_id").val()
+	};
+
+	let request_url = "<?=base_url('allocation/get_input_overhead_cogs')?>";
+	process_ajax(function(response)
+	{
+		$("#"+type).html(response);
+	},request_url, datas, 'text');
+
+};
+
+//User cogs details
+get_user_cogs_details = (user_id,month_name,type) => {
+
+	let datas = {
+		"user_id": user_id,
+		"month_name": month_name, 
+		"type": type
+	};
+
+	let request_url = "<?=base_url('allocation/get_input_user_cogs_details')?>";
+	process_ajax(function(response)
+	{
+		$("#demo"+user_id).html(response);
+	},request_url, datas, 'text');
+
+};
+
+get_user_cogs_add_model = (user_id,month_name,type) => {
+
+	$(".cogs_input_save_submit_btn").removeAttr('disabled');
+	
+	let datas = {
+		"user_id": user_id,
+		"month_name": month_name, 
+		"type": type
+	};
+
+	let request_url = "<?=base_url('allocation/get_input_user_cogs_model')?>";
+	process_ajax(function(response)
+	{
+		$('#'+type+'_add_model #'+type+'_model_body').html(response);
+	},request_url, datas, 'text');
+
+	$('#'+type+'_add_model').modal('show');
+};
+
+set_total_allocation = (total_allcation) => {
+    if(total_allcation) localStorage.setItem('total_headcount', total_allcation);
+    else localStorage.setItem('total_headcount', 0);
+    
+    // const valueFromLocalStorage = localStorage.getItem('total_headcount');
+    // alert(valueFromLocalStorage);
+};
+
+/////////////////////////////////////////////////////
+/////////Allocation JS start - input cogs///////////
+//////////////////////////////////////////////////
+
+user_cogs_add_check = (user_id,month_name,type) => {
+
+    let check_required_felds = true;
+
+    if(type=="input_cogs") {
+        $('.model_add_client_id :selected').map(function(idx, elem) { if($(elem).val()=="") check_required_felds = false; });
+        $('.model_add_process_id :selected').map(function(idx, elem) { if($(elem).val()=="") check_required_felds = false; });
+        $('.model_add_cost_location :selected').map(function(idx, elem) { if($(elem).val()=="") check_required_felds = false; });  
+    }
+
+    let selected_cost_location = [];
+
+    if(type=="input_non_cogs") {
+
+       $('.model_add_cost_location_non_cogs :selected').map(function(idx, elem) {
+            selected_cost_location[idx] = $(elem).val();
+            if($(elem).val()=="") check_required_felds = false; 
+        });  
+
+    }
+
+
+    $('.head_count').map(function(idx, elem) { if($(elem).val()=="0") check_required_felds = false; });
+    $('.allocation_percentage').map(function(idx, elem) { if($(elem).val()=="0") check_required_felds = false; });
+
+    if(check_required_felds) {
+
+        let datas = {
+            "user_id": user_id,
+            "month_name": month_name, 
+            "type": type,
+            "total_rows": $(".dynamic_area_show tr").length+1 //$('#table_model_add_input_cogs >tbody >tr').length
+        };
+
+        $("#table_model_add_input_cogs").find("input,textarea,select").attr("readonly", "readonly");
+        $("#table_model_add_input_cogs").find("select").css('pointer-events','none');
+
+        let request_url = "<?=base_url('allocation/get_input_cogs_add_details')?>";
+        process_ajax(function(response)
+        {   
+            var res = JSON.parse(response);
+            if (res.stat == true) 
+            {
+                if (res.status) {
+
+                    let input_html = "<h4>Something is wrong!</h4>";
+
+                    if(type=="input_cogs") {
+
+                        let clients_html = '<option value="">--Select--</option>';
+
+                        $.each(res.client_id,function(index,element) { clients_html += '<option value="'+element.id+'">'+element.shname+'</option>'; });
+
+                        let cost_location_html = '<option value="">--Select--</option>';
+
+                        $.each(res.cost_location,function(index,element) {
+                         cost_location_html += '<option value="'+element.id+'">'+element.location_name+'</option>'; });
+
+                        input_html = `<tr>
+                                        <td>
+                                            <select name="client_id[]" required class="form-control model_add_client_id" id="model_add_client_id">
+                                                ${clients_html}
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="process_id[]" required id="model_add_process_id" class="form-control model_add_process_id">
+                                                <option value="">--Select--</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="cost_location[]" required id="model_add_cost_location" class="form-control model_add_cost_location">
+                                            ${cost_location_html}
+                                            </select>
+                                        </td>
+                                        <td><input type="number" min="0" required name="head_count[]" value="0" class="form-control head_count"></td>
+                                        <td><input required readonly type="number" name="allocation_percentage[]" value="0" class="form-control allocation_percentage"></td>
+                                        <td><a href="javascript:void(0);" title="Delete row" class="d_inline btn_left btnDelete"><img src="<?php echo base_url(); ?>assets_home_v3/images/delete_it_row.svg" alt=""></a></td>
+                                        </tr>`;
+                    }
+
+                    else {
+                        let cost_location_html = "<option value=''>--Select--</option>";
+                        $.each(res.cost_location,function(index,element) {
+                            if (!selected_cost_location.includes(element.id)) {
+                                cost_location_html += '<option value="'+element.id+'">'+element.location_name+'</option>'; 
+                            }
+                            
+                        });
+
+                        input_html = `<tr>
+                                        <td>
+                                            <select name="cost_location[]" required id="model_add_cost_location_non_cogs" class="form-control model_add_cost_location_non_cogs">
+                                            ${cost_location_html}
+                                            </select>
+                                        </td>
+                                        <td><input type="number" min="0" required name="head_count[]" value="0" class="form-control head_count"></td>
+                                        <td><input required readonly type="number" name="allocation_percentage[]" value="0" class="form-control allocation_percentage"></td>
+                                        <td><a href="javascript:void(0);" title="Delete row" class="d_inline btn_left btnDelete"><img src="<?php echo base_url(); ?>assets_home_v3/images/delete_it_row.svg" alt=""></a></td>
+                                        </tr>`;
+                    }
+
+
+
+                    $(".dynamic_area_show").append(input_html);
+                }
+                else {
+                    if(type=="input_cogs") { alert("You can not add more allocation, Max Limit: "+res.allocation_master.allocation_data[0].process_count_max); }
+                    else { alert("You can not add more allocation, Max Limit: "+res.allocation_master.allocation_data[0].cost_segment_max); }
+                }
+            }
+            else {
+                let input_html = `<h4 style="text-allign: center">Allocation month is in-active Or something is wrong!</h4>`;
+                $(".dynamic_area_show").html(input_html);
+            }
+
+
+        },request_url, datas, 'text');
+
+        $("#add_btn_error").text("");
+    }
+    else { $("#add_btn_error").text("**All fileds are mandatory"); }
+}
+
+////////////// Allocation percentage calculation /////////////
+
+$(document).on('click','#table_model_add_input_cogs .btnDelete',function(){
+
+    $(this).closest('tr').remove();
+
+    calculate_allocation_percentage_delete();
+});
+
+$(document).on('change','.model_add_client_id',function(){
+//$('.model_add_client_id').on('change', function() {
+
+    let selected_process_id = $('.model_add_process_id :selected').map(function(idx, elem) {
+        return $(elem).val();
+    }).get();
+
+    let user_id = $("#model_cogs_hidden_inputs #user_id").val();
+    let month_name = $("#model_cogs_hidden_inputs #month_name").val();
+    let type = $("#model_cogs_hidden_inputs #type").val();
+
+    let datas = {
+        "user_id": user_id,
+        "month_name": month_name, 
+        "type": type,
+        "selected_process_id": selected_process_id,
+        "client_id": $(this).val()
+    };
+
+    var selected_elemnt = $(this);
+
+    let request_url = "<?=base_url('allocation/check_cogs_process_ids')?>";
+    process_ajax(function(response)
+    {   
+        var res = JSON.parse(response);
+        if (res.stat == true) 
+        {
+            let process_ids = '<option value="">--select--</option>';
+            $.each(res.cogs_process_id,function(index,element) { process_ids += '<option value="'+element.id+'">'+element.name+'</option>'; });
+
+            let selected = $(selected_elemnt).closest('td').next('td').find('select:first');
+            selected.html(process_ids);
+        }
+        else { alert("Something is wrong! Please refresh the page."); }
+
+    },request_url, datas, 'text');
+});
+
+
+$(document).on('change','.model_add_cost_location',function(){
+
+    let check_required_felds = true;
+
+    let selected_process_id = $('.model_add_process_id :selected').map(function(idx, elem) {
+        if($(elem).val()=="") check_required_felds = false;
+        else return $(elem).val();
+    }).get();
+    let selected_client_id = $('.model_add_client_id :selected').map(function(idx, elem) {
+        if($(elem).val()=="") check_required_felds = false;
+        else return $(elem).val();
+    }).get();
+    let selected_cost_location = $('.model_add_cost_location :selected').map(function(idx, elem) {
+        if($(elem).val()=="") check_required_felds = false;
+        else return $(elem).val();
+    }).get();
+
+    if (check_required_felds) {
+    	let index = $(this).closest('tr').index();
+
+    	calculate_allocation_percentage(selected_client_id,selected_process_id,selected_cost_location,index);
+
+        $("#add_btn_error").text("");
+    }
+    else { $("#add_btn_error").text("**Please select Client, Process & Cost Location"); }
+
+});
+
+$(document).on('change','.model_add_process_id',function(){
+
+    let check_required_felds = true;
+
+    let selected_process_id = $('.model_add_process_id :selected').map(function(idx, elem) {
+        if($(elem).val()=="") check_required_felds = false;
+        else return $(elem).val();
+    }).get();
+    let selected_client_id = $('.model_add_client_id :selected').map(function(idx, elem) {
+        if($(elem).val()=="") check_required_felds = false;
+        else return $(elem).val();
+    }).get();
+    let selected_cost_location = $('.model_add_cost_location :selected').map(function(idx, elem) {
+        if($(elem).val()=="") check_required_felds = false;
+        else return $(elem).val();
+    }).get();
+
+    if (check_required_felds) {
+
+    	let index = $(this).closest('tr').index();
+
+    	calculate_allocation_percentage(selected_client_id,selected_process_id,selected_cost_location,index);
+
+        $("#add_btn_error").text("");
+    }
+    else { 
+    	//$("#add_btn_error").text("**Please select Client, Process & Cost Location"); 
+    }
+
+});
+
+function calculate_allocation_percentage(client_id,process_id,cost_location,index) {
+
+	let selected_headcount = $('.head_count').map(function(idx, elem) {
+        return $(elem).val();
+    }).get();
+
+	console.log(selected_headcount);
+
+    let datas = {
+       	"proces_id": process_id,
+        "client_id": client_id, 
+        "cost_location": cost_location,
+   	};
+
+    let request_url = "<?=base_url('allocation/calculate_headcount_allocation')?>";
+    process_ajax(function(response)
+    { 
+        var res = JSON.parse(response);
+        if (res.stat == true) 
+        {
+            let sql_head_count = parseInt(res.head_count[0].headcount);
+
+		    let total_tr = parseInt($('#table_model_add_input_cogs tbody tr').length);
+
+		    selected_headcount[index] = sql_head_count
+
+		    let selected_headcount_2 = selected_headcount;
+
+			let row_total_headcount = selected_headcount_2.reduce((a, b) => a + parseInt(b), 0);
+
+            row_total_headcount += parseInt(localStorage.getItem('total_headcount'));
+
+		    let current_row_allocation = 0;
+
+			for (let i = 0; i < total_tr; i++) {
+
+                current_row_allocation = (100/row_total_headcount)*parseInt(selected_headcount[i]);
+                current_row_allocation = current_row_allocation.toFixed(2);
+
+				$('#table_model_add_input_cogs tbody tr:eq('+i+') .allocation_percentage').val(current_row_allocation);
+				$('#table_model_add_input_cogs tbody tr:eq('+i+') .head_count').val(selected_headcount[i]);
+			}
+
+        }
+     	else { alert("Something is wrong! Please refresh the page."); }
+
+    },request_url, datas, 'text');
+
+
+}
+function calculate_allocation_percentage_delete(){
+
+	let total_tr = parseInt($('#table_model_add_input_cogs tbody tr').length);
+
+	let selected_headcount = $('.head_count').map(function(idx, elem) {
+        return $(elem).val();
+    }).get();
+
+    selected_headcount_2 = selected_headcount;
+
+	let row_total_headcount = selected_headcount_2.reduce((a, b) => a + parseInt(b), 0);
+
+    row_total_headcount += parseInt(localStorage.getItem('total_headcount'));
+
+	let current_row_allocation = 0;
+
+	for (let i = 0; i < total_tr; i++) {
+
+        current_row_allocation = (100/row_total_headcount)*parseInt(selected_headcount[i]);
+        current_row_allocation = current_row_allocation.toFixed(2);
+
+		$('#table_model_add_input_cogs tbody tr:eq('+i+') .allocation_percentage').val(current_row_allocation);
+		$('#table_model_add_input_cogs tbody tr:eq('+i+') .head_count').val(selected_headcount[i]);
+	}
+	
+}
+
+$(document).on('keyup change','.head_count',function(){
+
+    let head_count = $(this).val();
+
+    let index = $(this).closest('tr').index();
+
+    let total_tr = parseInt($('#table_model_add_input_cogs tbody tr').length);
+
+    let selected_headcount = $('.head_count').map(function(idx, elem) {
+        return $(elem).val();
+    }).get();
+
+    let sql_head_count = parseInt(head_count);
+
+    selected_headcount[index] = sql_head_count
+
+    let selected_headcount_2 = selected_headcount;
+
+    let row_total_headcount = selected_headcount_2.reduce((a, b) => a + parseInt(b), 0);
+
+    row_total_headcount += parseInt(localStorage.getItem('total_headcount'));
+
+    let current_row_allocation = 0;
+
+    for (let i = 0; i < total_tr; i++) {
+
+        current_row_allocation = (100/row_total_headcount)*parseInt(selected_headcount[i]);
+        current_row_allocation = current_row_allocation.toFixed(2);
+
+        $('#table_model_add_input_cogs tbody tr:eq('+i+') .allocation_percentage').val(current_row_allocation);
+        $('#table_model_add_input_cogs tbody tr:eq('+i+') .head_count').val(selected_headcount[i]);
+    }
+
+});
+
+function delete_input_cogs(id,type){
+    if (confirm("Want to delete?")) {
+        $.post("<?php echo base_url()?>/allocation/delete_input_cogs",{"id":id, "type": type}, function(){
+            get_input_cogs(type);
+        });
+    }
+}
+
+////////////// Allocation percentage calculation /////////////
+
+$(document).on('click','.edit_allocation_headcount',function(){
+
+    $('#edit_allocation_headcount #edit_headcount').val($(this).attr('headcount'));
+    $('#edit_allocation_headcount #cogs_id').val($(this).attr('cogs_id'));
+
+    $('#edit_allocation_headcount').modal('show');
+
+});
+
+$('#edit_allocation_headcount #edit_headcount_cogs_submit').submit(function (e) {
+    e.preventDefault();
+
+    $.ajax({
+        type: 'POST',    
+        url: "<?=base_url('allocation/edit_headcount_cogs')?>",
+        data:$(this).serializeArray(),
+        success: function(msg){
+            var res = JSON.parse(msg);
+            if (res.stat == true) 
+            {
+                $('#edit_allocation_headcount').modal('hide');
+                get_input_cogs($("#edit_allocation_headcount #type").val());
+            }
+            else { alert(res.error); }
+        },
+        error: function(){
+            alert('Fail!');
+        }
+    });
+   
+});
+
+/////////////////////////////////////
+///////NON cogs Model///////
+/////////////////////////////////////
+
+
+$(document).on('change','.model_add_cost_location_non_cogs',function(){
+
+    let check_required_felds = true;
+
+    let selected_cost_location = $('.model_add_cost_location_non_cogs :selected').map(function(idx, elem) {
+        if($(elem).val()=="") check_required_felds = false;
+        else return $(elem).val();
+    }).get();
+
+    if (check_required_felds) {
+        let index = $(this).closest('tr').index();
+
+        calculate_allocation_percentage_non_cogs(selected_cost_location,index);
+
+        $("#add_btn_error").text("");
+    }
+    else { $("#add_btn_error").text("**Please select Cost Location"); }
+
+});
+
+function calculate_allocation_percentage_non_cogs(cost_location,index){
+
+    let selected_headcount = $('.head_count').map(function(idx, elem) {
+        return $(elem).val();
+    }).get();
+
+    let datas = {
+        "cost_location": cost_location,
+    };
+
+    let request_url = "<?=base_url('allocation/calculate_headcount_allocation_non_cogs')?>";
+    process_ajax(function(response)
+    { 
+        var res = JSON.parse(response);
+        if (res.stat == true) 
+        {
+            let sql_head_count = parseInt(res.head_count[0].headcount)+parseInt(res.head_count_cogs[0].headcount);
+
+            let total_tr = parseInt($('#table_model_add_input_cogs tbody tr').length);
+
+            selected_headcount[index] = sql_head_count
+
+            let selected_headcount_2 = selected_headcount;
+
+            let row_total_headcount = selected_headcount_2.reduce((a, b) => a + parseInt(b), 0);
+            row_total_headcount += parseInt(localStorage.getItem('total_headcount'));
+
+            let current_row_allocation = 0;
+
+            for (let i = 0; i < total_tr; i++) {
+
+                current_row_allocation = (100/row_total_headcount)*parseInt(selected_headcount[i]);
+                current_row_allocation = current_row_allocation.toFixed(2);
+
+                $('#table_model_add_input_cogs tbody tr:eq('+i+') .allocation_percentage').val(current_row_allocation);
+                $('#table_model_add_input_cogs tbody tr:eq('+i+') .head_count').val(selected_headcount[i]);
+            }
+
+        }
+        else { alert("Something is wrong! Please refresh the page."); }
+
+    },request_url, datas, 'text');
+}
+
+///////////////////////////////////////////////////////////////////////
+/////////// Allocation Dashboard Start ///////////
+///////////////////////////////////////////////////////////////////////
+
+function get_input_cogs_dasboard(type) {
+    let datas = {
+        "type": type,
+        "geo_location": $("#gio_region").val(), 
+        "office_id": $("#location").val(), 
+        "dept_id": $("#dept_id").val(), 
+        "client_id": $("#clients").val(),
+        "process_id": $("#process").val(),
+        "role_id": $("#role").val(),
+        "month_id": $("#month_id").val(),
+        "mwp_id": $("#mwp_id").val(),
+        "month": $("#month_id").val()
+    };
+
+    let request_url = "<?=base_url('allocation/get_input_overhead_cogs_dasboard')?>";
+    process_ajax(function(response)
+    {
+        $("#"+type).html(response);
+    },request_url, datas, 'text');
+}
+
+get_user_cogs_dashboard_details = (user_id,month_name,type) => {
+
+    let datas = {
+        "user_id": user_id,
+        "month_name": month_name, 
+        "type": type
+    };
+
+    let request_url = "<?=base_url('allocation/get_input_user_cogs_dashboard_details')?>";
+    process_ajax(function(response)
+    {
+        $("#demo"+user_id).html(response);
+    },request_url, datas, 'text');
+
+};
+
+
+
+
+
+
+</script>

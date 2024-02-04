@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Attendance Reversal</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/attendance_reversal/css/custom.css">
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/attendance_reversal/slick/slick.css">
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/attendance_reversal/slick/slick-theme.css">
+</head>
+<body>
+	<div class="main">
+		<div class="wrap">
+			<div class="gimini-main">
+				<div class="white_widget padding_3">
+					<div class="body-widget">
+						<div class="menu_widget avail_widget_br">
+							<div class="row">
+								<div class="col-sm-8">
+									<?php include_once('aside_menu.php'); ?>
+								</div>
+								<div class="col-sm-4">
+									<div class="right_side">
+										<div class="select_top minus_new_top">
+											<div class="information_icon">
+												<a href="javascript:void(0);" data-toggle="modal" data-target="#myModal_info" title="Information">
+													<i class="fa fa-info" aria-hidden="true"></i>
+												</a>
+											</div>	
+										</div>
+									</div>
+								</div>
+							</div>					
+						</div>
+					</div>
+					<div class="top_2">
+						<form name="frm_date" id="frm_date" method="post" action="<?php echo base_url(); ?>/attendance_reversal<?php echo ($_SERVER['QUERY_STRING'] == '') ? '' : '?' . $_SERVER['QUERY_STRING']; ?>">
+							<div class="body_main">
+								<div class="row align-items-center">
+									<div class="col-sm-3">
+										<label>Start Date</label>
+										<input type="date" class="form-control" id="start_date" name="start_date" value="<?php echo $start_date; ?>" onchange="check_date();" required />
+									</div>
+									<div class="col-sm-3">
+										<label>End Date</label>
+										<input type="date" class="form-control" id="end_date" name="end_date" value="<?php echo $end_date; ?>" onchange="check_date();" required />
+									</div>
+									<div class="col-sm-3">
+										<label class="visiblity_hidden d_block">Search</label>
+										<button type="submit" class="btn btn_padding filter_btn_blue save_common_btn">Search</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="body-widget">
+					<div class="row align-items-center">
+						<div class="col-sm-6">
+							<h2 class="avail_title_heading">
+								My Attendance
+								<?php if (get_role_dir() != "agent") { ?>
+									<a href="<?php echo base_url(); ?>ar_reports/team_attendance" class="btn btn_padding filter_btn btn_left2" target="_blank">My Team Attendance Download</a>
+								<?php } ?>
+							</h2>
+						</div>
+						<div class="col-sm-6">
+							<div class="equal_inline">
+								<?php
+								if (get_role_dir() != "agent" || get_site_admin() == '1' || get_global_access() == '1' || get_dept_folder() == "hr" || get_dept_folder() == "wfm" || get_dept_folder() == "rta") {
+								?>
+									<div class="up-in-toggle">
+										<input type="radio" id="switch_left" name="switch_2" value="yes" <?php echo ($agent_id == '') ? 'checked' : ''; ?> />
+										<label for="switch_left">My</label>
+										<input type="radio" id="switch_right" name="switch_2" value="no" <?php echo ($agent_id != '') ? 'checked' : ''; ?> />
+										<label for="switch_right">Team</label>
+									</div>
+									<form name="agent_search" id="agent_search" method="GET" action="<?php echo base_url(); ?>/attendance_reversal">
+										<div class="select_area" style="<?php echo ($agent_id != '') ? 'display:block' : 'display:none'; ?>">
+											<select name="agent_dtl" class="form-control" id="agent_dtl" onchange="get_agent()">
+												<option value=""> --Select-- </option>
+												<?php
+												foreach ($myTeam as $key => $rows) { ?>
+													<option value="<?php echo $rows->id; ?>" <?php echo ($agent_id == $rows->id) ? "selected='selected'" : ''; ?>><?php echo $rows->emp_name; ?></option>
+												<?php } ?>
+											</select>
+										</div>
+									</form>
+								<?php
+								}
+								?>
+							</div>
+						</div>
+						<div class="col-sm-4" style="display: none;">
+							<div class="common-right-new">
+								<div class="right-attendance">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<?php
+				$Rdata = array_chunk($attan_dtl, 7);
+				$cnt = ceil(sizeof($attan_dtl) / 7);
+				$wkdata = explode('@', weekly_overview($Rdata[0]));
+				//echo'<pre>';print_r($wkdata);
+				$pcr = round(($wkdata[1] / 7) * 100);
+				if (($wkdata[6] != "") && ($wkdata[6] != 0)) {
+					$totlog = $wkdata[6];
+				} else {
+					$totlog = $wkdata[2];
+				}
+				?>
+				<div class="top_2">
+					<div class="common-main">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="common-repeat">
+									<div class="white_widget padding_3">
+										<div class="attendance-count">
+											<div class="metrix-widget bottom-gap">
+												<div class="common-left-new">
+													<h2 class="avail_title_heading">
+														Weekly Overview
+													</h2>
+													<small>
+														<?php echo date('j F', strtotime($Rdata[0][6]['rDate'])) . ' - ' . date('j F Y', strtotime($Rdata[0][0]['rDate'])); ?>
+													</small>
+												</div>												
+											</div>
+											<div class="body-widget count">
+												<div class="circlechart" data-percentage="<?php echo $pcr; ?>">
+													Days
+												</div>
+												<div class="count-widget">
+													<?php echo $wkdata[1]; ?>
+													<span>Days</span>
+												</div>
+											</div>
+											<div class="common-top">
+												<div class="mention-widget">
+													<div class="body-widget text-center">
+														<p>
+															<span class="red-color">Absent</span>
+														</p>
+													</div>
+												</div>
+											</div>
+											<div class="common-top2">
+												<div class="table-widget common_table_widget">
+													<table class="table table-bordered table-striped table-hover">
+														<tbody>
+															<tr>
+																<td>Weekly login</td>
+																<td class="text-right">
+																	<div class="red-color">
+																		<?php echo round($totlog); ?> <span>Hrs.</span>
+																	</div>
+																</td>
+															</tr>
+															<tr>
+																<td>Weekly login target</td>
+																<td class="text-right">
+																	<span class="green-color">
+																		<?php echo round($wkdata[3]); ?><span>Hrs.</span>
+																	</span>
+																</td>
+															</tr>
+															<tr>
+																<td>Payable days</td>
+																<td class="text-right">
+																	<span class="green-color blue-color">
+																		<?php echo $wkdata[4]; ?> days
+																	</span>
+																</td>
+															</tr>
+															<tr>
+																<td>Leaves</td>
+																<td class="text-right">
+																	<span class="green-color blue-color">
+																		<?php echo $wkdata[0]; ?>
+																	</span>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-9">
+								<div class="common-repeat">
+									<div class="white_widget no-padding">
+										<div class="metrix-widget all-gap">
+											<div class="common-left-new">
+												<h2 class="avail_title_heading">
+													Integrated View
+												</h2>
+											</div>
+											<div class="common-left-new">
+												<div class="small-text">
+													<span class="green-color">
+														<i class="fa fa-circle" aria-hidden="true"></i>
+													</span>
+													<small>Present</small>
+												</div>
+											</div>
+											<div class="common-left-new">
+												<div class="small-text">
+													<span class="light-blue-new">
+														<i class="fa fa-circle" aria-hidden="true"></i>
+													</span>
+													<small>Leave</small>
+												</div>
+											</div>
+											<div class="common-left-new">
+												<div class="small-text">
+													<span class="orange-new">
+														<i class="fa fa-circle" aria-hidden="true"></i>
+													</span>
+													<small>Pending for Approval</small>
+												</div>
+											</div>
+											<div class="common-left-new">
+												<div class="small-text">
+													<span class="light-sky-new">
+														<i class="fa fa-circle" aria-hidden="true"></i>
+													</span>
+													<small>Weekly Off Holiday</small>
+												</div>
+											</div>
+											<div class="common-left-new">
+												<div class="small-text">
+													<span class="red-color">
+														<i class="fa fa-circle" aria-hidden="true"></i>
+													</span>
+													<small>Unapproved Leave/Absent</small>
+												</div>
+											</div>
+											<div class="common-left-new">
+												<div class="small-text">
+													<span class="yellow-new">
+														<i class="fa fa-circle" aria-hidden="true"></i>
+													</span>
+													<small>Not Captured</small>
+												</div>
+											</div>
+											<div class="common-left-new" style="Background-color: #fff5f5">
+												<div class="small-text">
+													<small>Shift Unavailable</small>
+												</div>
+											</div>
+										</div>
+										<div class="slider responsive">
+											<!--start slider loop here-->
+											<?php
+											$p = 0;
+											for ($i = 0; $i < $cnt; $i++) {
+											?>
+												<div>
+													<div class="table-widget">
+														<div class="right-hr">
+															<table id="example" class="table table-striped">
+																<tbody>
+																	<?php
+																	foreach ($Rdata[$i] as $key => $rows) {
+																		$mwpmin = ($rows['login_time_local_min'] != '') ? date('H:i', strtotime($rows['login_time_local_min'])) : '';
+																		$mwpmax = ($rows['logout_time_local_max'] != '') ? date('H:i', strtotime($rows['logout_time_local_max'])) : '';
+																		$schin = $rows['sch_in'];
+																		$schout = $rows['sch_out'];
+																		$din = "";
+																		$dout = "";
+																		//'<br>'.$rows['leave_type'].'====='.$rows['leave_status'];
+																		$cl = set_color_condition($rows['disposition_local']);
+																		if (($rows['rq_status'] != '') && ($rows['rq_status'] >= '1')) {
+																			$cl = 'dark-yellow-left';
+																		}
+																		$rq_start_date = ($rows['rq_start_date'] != '') ? date('H:i', strtotime($rows['rq_start_date'])) : '';
+																		$rq_end_date = ($rows['rq_end_date'] != '') ? date('H:i', strtotime($rows['rq_end_date'])) : '';
+																		if ($rows['apr_start_date'] != '') {
+																			$rq_start_date = ($rows['apr_start_date'] != '') ? date('H:i', strtotime($rows['apr_start_date'])) : '';
+																			$rq_end_date = ($rows['apr_end_date'] != '') ? date('H:i', strtotime($rows['apr_end_date'])) : '';
+																		}
+																		$din = ($rows['dailer_login_time'] != '') ? date('H:i', strtotime($rows['dailer_login_time'])) : '';
+																		$dout = ($rows['dailer_logout_time'] != '') ? date('H:i', strtotime($rows['dailer_logout_time'])) : '';
+																		$actualtime = (($din != '' && $din != '00:00' && $dout != '00:00')) ? $din . ' - ' . $dout : $mwpmin . ' - ' . $mwpmax;
+																		$change_time = ($rq_start_date != '') ? $rq_start_date . ' - ' . $rq_end_date : "";
+																		$date1 = $rows['rDate'] . " 00:00:00";
+																		$date2 = date('Y-m-d H:i:s');
+																		$timestamp1 = strtotime($date1);
+																		$timestamp2 = strtotime($date2);
+																		$diffhr = ceil(($timestamp2 - $timestamp1) / (60 * 60));
+																	?>
+																		<tr style=<?php echo ($schin == "") ? "'Background-color: #fff5f5 !important'" : ""; ?>>
+																			<td class="<?php echo $cl; ?>">
+																				<div class="blue-title">
+																					<?php echo date('d', strtotime($rows['rDate'])); ?><br>
+																					<span><?php echo date('D', strtotime($rows['rDate'])); ?></span>
+																				</div>
+																			</td>
+																			<td>
+																				<?php
+																				$type_name = ($rows['ar_type_name'] != '') ? ' =>' . $rows['ar_type_name'] : '';
+																				if ($rows['rq_status'] != '' && $rows['is_approve_l1'] == 0 && $rows['is_approve_rta'] == 0) {
+																					echo $rows['disposition_local'] . $type_name . ' - Pending For Approval';
+																				} elseif ($rows['is_approve_l1'] == '1' && $rows['is_approve_rta'] == 0) {
+																					echo $rows['disposition_local'] . $type_name . ' - ' . 'L1 Approved';
+																				} elseif ($rows['is_approve_rta'] == '1') {
+																					echo $rows['disposition_local'] . $type_name . ' - ' . 'L2 Approved';
+																				} elseif ($rows['leave_status'] == '0') {
+																					$th = ($rows['applied_type'] == 'Half') ? 'HD' : '';
+																					echo $rows['disposition_local'] . ' =>' . $th . ' ' . $rows['leave_type'] . ' Applied';
+																				} elseif ($rows['leave_status'] == '1') {
+																					$th = ($rows['applied_type'] == 'Half') ? 'HD' : '';
+																					echo $rows['disposition_local'] . ' =>' . $th . ' ' . $rows['leave_type'] . ' Approved';
+																				} else {
+																					echo $rows['disposition_local'] . $type_name;
+																				}
+																				?><br>
+																				<!--<small>Shift:</small>-->
+																				<span class="small_blue_color"><?php echo ($change_time != '') ? $actualtime . '/' . $change_time : $actualtime; ?></span><br>
+																			</td>
+																			<td>
+																				<small>Shift:</small>
+																				<span class="small_blue_color"><?php echo check_weekoff($schin, $schout); ?></span><br>
+																				<div class="total_hrs">
+																					<span class="actual_new">Expected -</span>
+																					<span class="small_blue_color"><?php echo get_time_diff($schin, $schout); ?></span>
+																				</div>
+																			</td>
+																			<td>
+																				<small>MWP:</small>
+																				<span class="small_green_color"><?php echo $mwpmin . ' - ' . $mwpmax; ?></span><br>
+																				<div class="total_hrs">
+																					<span class="actual_new">Actual </span>
+																					<span class="small_green_color"><?php echo get_time_diff($rows['login_time_local_min'], $rows['logout_time_local_max']); ?></span>
+																				</div>
+																			</td>
+																			<td>
+																				<small>Dialer:</small>
+																				<?php
+																				?>
+																				<span class="small_red_color"><?php echo ($din != '00:00' && $dout != '00:00') ? $din . ' - ' . $dout : ''; ?></span><br>
+																				<div class="total_hrs">
+																					<span class="actual_new">Actual -</span>
+																					<span class="small_red_color"><?php echo $rows['dailer_staffed_time']; //$rows['dailer_total_time'];
+																													?></span>
+																				</div>
+																			</td>
+																			<td>
+																				<?php
+																				$rDate = date('m/d/Y', strtotime($rows['rDate']));
+																				$sft = check_weekoff($schin, $schout);
+																				$sfdiff = get_time_diff($schin, $schout);
+																				$mft = $mwpmin . ' - ' . $mwpmax;
+																				$mftdiff = get_time_diff($mwpmin, $mwpmax);
+																				$dl = $din . ' - ' . $dout;
+																				$dldiff = $rows['dailer_staffed_time'];
+																				$atdate = $rows['rDate'] . '@' . $sft . '*' . $sfdiff . '@' . $mft . '*' . $mftdiff . '@' . $dl . '*' . $dldiff;
+																				
+																				if ((($rows['leave_type'] == '') && ($rows['leave_status'] == ''))|| ($rows['leave_status'] == '3'|| $rows['leave_status'] == '2')) {
+																					
+																					if ($diffhr <= (24 * 31)) {
+																						if (($rows['rq_status'] == '') || ($rows['rq_status'] == '0')) {
+																							
+																							if($rows['rDate']==CurrDate()){
+																				?>
+																							<a class="btn"  data-toggle="modal" disabled title="Current Day Modificartion Not Allowed" >
+																							<img src="<?php echo base_url();?>assets_home_v3/images/approved.svg" alt="">
+																							</a>
+																						<?php
+																							}else{
+																						?>
+																						<a class="btn" onclick="reset_from('<?php echo $rDate; ?>','<?php echo $atdate; ?>')" data-toggle="modal"  title="Apply Reversal" data-target="#myModal">
+																							<img src="<?php echo base_url();?>assets_home_v3/images/approved.svg" alt="">
+																							</a>
+																						<?php
+																							}
+																						}
+																					}
+																					if (($rows['rq_status'] != '') && ($rows['rq_status'] >= '1')) {
+																						//if($diffhr<=48){
+																						if ($rows['is_approve_l1'] != '1') {
+																						?>
+																							<a class="btn btn_left no_padding" onclick="cancel_frm('<?php echo $rows['aprevid']; ?>')" data-toggle="modal" title="Cancel Reversal" data-target="#myModal1">
+																							<img src="<?php echo base_url();?>assets_home_v3/images/cancel_big.svg" alt="">
+																							</a>
+																						<?php //}
+																						}
+																						$comment = "";
+																						foreach ($rows['rq_workflow'] as $key => $rwc) { ?>
+																							<?php $comment .= '<p>' . $rwc['comment'] . '</p>'; ?>
+																						<?php } ?>
+																						<a class="btn no_padding" onclick="open_infobox('<?php echo $comment; ?>');" class="icon-big flip" data-toggle="modal" title="Information"  data-target="#manager_information">
+																						<img src="<?php echo base_url();?>assets_home_v3/images/global_info_big.svg" alt="">
+																						</a>
+																				<?php }
+																				} ?>
+																			</td>
+																		</tr>
+																		
+																	<?php
+																		$p++;
+																	} ?>
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+											<?php } ?>
+											<!--end slider loop here-->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="myModal" class="modal fade" role="dialog" style="font-size:90%; ">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div id="type1_from">
+					<form method="post" action="<?php echo base_url(); ?>attendance_reversal/add_reversal_request" id="ar_form_1" enctype="multipart/form-data">
+						<div class="modal-header">
+							<button type="button" class="close close_new" data-dismiss="modal"></button>
+							<h4 class="modal-title">Attendance Reversal Application</h4>
+						</div>
+						<div class="modal-body filter-widget">
+							<input type="hidden" id="apply_agent_id" name="apply_agent_id" value="<?php echo $agent_id; ?>">
+							<input type="hidden" name="ar_data" id="ar_data" value="">
+							<div class="row" style="padding:3px 0px;">
+								<div class="form-group">
+									<label class="col-md-4" style="line-height:37px;">Attendance Reversal Type</label>
+									<div class="col-md-8">
+										<select class="form-control" id="form-ar_type" name="artype" onchange="validate_type(this)" required>
+											<option value="" selected="selected">Select</option>
+											<?php foreach ($ar_type as $art) :
+												if ($agent_id != "") {
+													if ($art["id"] > 2) {
+											?>
+														<option value="<?php echo $art["id"]; ?>"><?php echo $art["name"]; ?></option>
+													<?php }
+												} else { ?>
+													<option value="<?php echo $art["id"]; ?>"><?php echo $art["name"]; ?></option>
+												<?php } ?>
+											<?php endforeach; ?>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div id="start_time_id" class="row" style="padding:3px 0px;">
+								<div class="form-group">
+									<label class="col-md-4" style="line-height:37px;">Start Time(Local Time Zone)</label>
+									<div class="col-md-8">
+										<input type="time" name="ar_start_time" class="form-control">
+									</div>
+								</div>
+							</div>
+							<div id="end_time_id" class="row" style="padding:3px 0px;">
+								<div class="form-group">
+									<label class="col-md-4" style="line-height:37px;">End Time(Local Time Zone)</label>
+									<div class="col-md-8">
+										<input type="time" name="ar_end_time" class="form-control">
+									</div>
+								</div>
+							</div>
+							<div class="row" style="padding:3px 0px;">
+								<div class="form-group">
+									<label class="col-md-4">Reason</label>
+									<div class="col-md-8">
+										<textarea class="form-control" name="reason" required></textarea>
+									</div>
+								</div>
+							</div>
+							<div class="row" style="padding:3px 0px;">
+								<div class="form-group">
+									<label class="col-md-4" style="line-height:37px;">Contact Details</label>
+									<div class="col-md-8">
+										<input type="number" name="ar_contact_details" class="form-control" required>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer" style="padding:8px 15px;">
+							<button type="button" class="btn btn_padding filter_btn save_common_btn btn-sm" data-dismiss="modal">Cancel</button>
+							<button id="sub_but" type="submit" class="btn btn_padding filter_btn_blue save_common_btn btn-sm">Save</button>
+						</div>
+					</form>
+				</div>
+				<div id="type2_from" style="display:none">
+					<form method="post" action="<?php echo base_url('leave'); ?>" id="leave_form">
+						<div class="modal-header" style="padding:8px 15px;">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Leave Application</h4>
+						</div>
+						<input type="hidden" id="apply_agent_id" name="apply_agent_id" value="<?php echo $agent_id; ?>">
+						<input type="hidden" id="leave_full_half_type" name="leave_full_half_type" value="1">
+						<div class="modal-body">
+							<div class="row" style="padding:3px 0px;">
+								<div class="form-group">
+									<label class="col-md-4">Employee Name</label>
+									<div class="col-md-8"><?php echo get_username(); ?></div>
+								</div>
+							</div>
+							<div class="row" style="padding:3px 0px;">
+								<div class="form-group">
+									<label class="col-md-4" style="line-height:37px;">Leave Type</label>
+									<div class="col-md-8">
+										<?php
+										$_date_join = date_create($ab_leaveData['date_of_joining']);
+										$diff = date_diff(date_create(date('Y-m-d')), $_date_join);
+										?>
+										<select class="form-control" id="form-leave_type" name="leave_criteria_id" required>
+											<option value="">Select</option>
+											<?php foreach ($ab_leaveData['leave_structure'] as $leave) : ?>
+												<?php if ($leave["leave_access_allowed"] == 1) : ?>
+													<?php
+													if ((int)$diff->format("%a") >= $leave["show_after_days"]) :
+													?>
+														<option value="<?php echo $leave["leave_criteria_id"]; ?>">
+															<?php echo $leave["description"]; ?>
+														</option>
+													<?php endif; ?>
+												<?php endif; ?>
+											<?php endforeach; ?>
+										</select>
+										<input type="hidden" name="leave_type_id" id="leave_type_id">
+									</div>
+								</div>
+							</div>
+							<!-- IF HAS SUBSECTIONS -->
+							<div class="row sub_sections" style="padding:3px 0px; display:none;">
+								<div class="form-group">
+									<label class="col-md-4" style="line-height:37px;">Leave Sub Sections</label>
+									<div class="col-md-8">
+										<select class="form-control" name="sub_sections" id="sub_select_select">
+										</select>
+									</div>
+								</div>
+							</div>
+							<!-- END SUB SECTIONS -->
+							<div class="row" style="padding:3px 0px;">
+								<div class="form-group">
+									<label class="col-md-4">Available Balance</label>
+									<div class="col-md-8" id="leave-balance"></div>
+								</div>
+							</div>
+							<div class="row" style="padding:3px 0px;">
+								<div class="form-group">
+									<label class="col-md-4" style="line-height:37px;">From Date</label>
+									<div class="col-md-8">
+										<input readonly autocomplete="off" type="text" name="from_date" class="form-control" id="from_date">
+									</div>
+								</div>
+							</div>
+							<div class="row" style="padding:3px 0px;">
+								<div class="form-group">
+									<label class="col-md-4" style="line-height:37px;">To Date</label>
+									<div class="col-md-8">
+										<input readonly autocomplete="off" type="text" name="to_date" class="form-control" id="to_date">
+									</div>
+								</div>
+							</div>
+							<div class="row" style="padding:5px 0px;">
+								<div class="form-group">
+									<label class="col-md-4">No. of Day(s)</label>
+									<div class="col-md-8" id="no_of_days"></div>
+								</div>
+							</div>
+							<!-- FOR JAM -->
+							<div class="row" id="additional_section_JAM" style="padding:13px 0px;display:none;">
+								<div class="form-group">
+									<label class="col-md-4">Apply From Other Leaves</label>
+									<div class="col-md-8" id="no_of_days">
+										<input type="checkbox" value="1" name="apply_additional_leaves" id="apply_from_vl">
+									</div>
+								</div>
+							</div>
+							<div class="row additional_section_JAM" style="padding:3px 0px;display:none;">
+								<div class="form-group">
+									<label class="col-md-4" style="line-height:37px;">No. of Additional Leaves</label>
+									<div class="col-md-8">
+										<select class="form-control" name="no_of_additional_leaves" id="additional_leaves_select">
+										</select>
+									</div>
+								</div>
+							</div>
+							<!-- JAM CLOSED -->
+							<div class="row" style="padding:13px 0px;">
+								<div class="form-group">
+									<label class="col-md-4">Reporting Head</label>
+									<div class="col-md-8" id="reporting-head"><?php echo get_assigned_to_name() ?></div>
+								</div>
+							</div>
+							<div class="row" style="padding:3px 0px;">
+								<div class="form-group">
+									<label class="col-md-4">Reason</label>
+									<div class="col-md-8">
+										<textarea class="form-control" name="reason" required></textarea>
+									</div>
+								</div>
+							</div>
+							<div class="row" style="padding:3px 0px;">
+								<div class="form-group">
+									<label class="col-md-4" style="line-height:37px;">Contact Details</label>
+									<div class="col-md-8">
+										<input type="text" name="contact_details" class="form-control" required>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer" style="padding:8px 15px;">
+							<button type="button" class="btn btn_padding filter_btn save_common_btn btn-sm" data-dismiss="modal">Cancel</button>
+							<button id="sub_but" type="submit" class="btn btn_padding filter_btn_blue save_common_btn btn-sm">Save</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="myModal1" class="modal fade" role="dialog" style="font-size:90%; ">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div id="type1_from">
+					<form method="post" action="<?php echo base_url(); ?>attendance_reversal/cancel_reversal_request" id="ar_form" enctype="multipart/form-data">
+						<div class="modal-header">
+							<button type="button" class="close close_new" data-dismiss="modal"></button>
+							<h4 class="modal-title">Attendance Reversal Application</h4>
+						</div>
+						<div class="modal-body filter-widget">
+							<input type="hidden" name="aprovid" id="aprovid" value="">
+							<input type="hidden" id="cancel_agent_id" name="cancel_agent_id" value="<?php echo $agent_id; ?>">
+							<p>Are You Sure You Want To Cancel Attendance Reversal</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn_psdding filter_btn save_common_btn btn-sm" data-dismiss="modal">No</button>
+							<button id="sub_but" type="submit" class="btn btn_psdding filter_btn_blue save_common_btn btn-sm">Yes</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php
+	
+	?>
+	<!--Start Information Popup design  dialer #C-zentrix -->
+	<div class="modal fade model_new" id="myModal_info" role="dialog">
+		<div class="modal-dialog info_widget">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close close_new" data-dismiss="modal"></button>
+					<h4 class="modal-title">Information</h4>
+				</div>
+				<div class="modal-body">
+					<div class="information_scroll">
+						<div class="table-widget common_table_widget">
+							<table class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th class="table_width1">Status</th>
+										<th class="table_width1">Validation</th>
+										<th>Definition</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Present</td>
+										<td>p</td>
+										<td>
+											When Agent is scheduled and logged in to dialer (Staff time 7:30hrs)
+										</td>
+									</tr>
+									<tr>
+										<td>Absent</td>
+										<td>AB</td>
+										<td>
+											When Agent is scheduled but did not turn up to Office
+										</td>
+									</tr>
+									<tr>
+										<td>Week Off</td>
+										<td>WO</td>
+										<td>
+											Scheduled Week Off
+										</td>
+									</tr>
+									<tr>
+										<td>Week Off OT</td>
+										<td>WOT</td>
+										<td>
+											Approval for Week off OT
+										</td>
+									</tr>
+									<tr>
+										<td>Week Off Present</td>
+										<td>WOP</td>
+										<td>
+											Agent Present on WO with Manager Approval, then we mark as a Week off Present with 7:30 staff time less then 7:30hrs it's WO.
+										</td>
+									</tr>
+									<tr>
+										<td>Leave</td>
+										<td>Leave</td>
+										<td>
+											Agent scheduled for a Leave
+										</td>
+									</tr>
+									<tr>
+										<td>Absconding</td>
+										<td>ABS</td>
+										<td>
+											Agent is absent for more than 5 days
+										</td>
+									</tr>
+									<tr>
+										<td>Transferred Out</td>
+										<td>Trans Out</td>
+										<td>
+											Agent Transferred out from any other Process
+										</td>
+									</tr>
+									<tr>
+										<td>Attrition</td>
+										<td>ATT</td>
+										<td>
+											Confirmation received agent is attired
+										</td>
+									</tr>
+									<tr>
+										<td>X</td>
+										<td>X</td>
+										<td>
+											Once Attired mark X for remaining days of the month
+										</td>
+									</tr>
+									<tr>
+										<td>Half Day</td>
+										<td>HD</td>
+										<td>
+											Logged in for more than or equal to 4 hours and lesser than 7.5 hours, agent will be mark as "Half Day", will be consider under average login for the day.
+										</td>
+									</tr>
+									<tr>
+										<td>Absent-Login Defaulter</td>
+										<td>A_LD</td>
+										<td>
+											Below 4 hours login will be considered as Absent login defaulter (A_LD).
+										</td>
+									</tr>
+									<tr>
+										<td>Late Present</td>
+										<td>Tardy</td>
+										<td>
+											Adherence Late
+										</td>
+									</tr>
+									<tr>
+										<td>Absent</td>
+										<td>ADH</td>
+										<td>
+											4 days of Adherence Late(Tardy) / LOP
+										</td>
+									</tr>
+									<tr>
+										<td>Furlough</td>
+										<td>Furl</td>
+										<td>
+											Not active in production but still part of the process or company ( OB ma'am approval required )
+										</td>
+									</tr>
+									<tr>
+										<td>Production</td>
+										<td>-</td>
+										<td>
+											After 3 days of FHD, production will begin.
+										</td>
+									</tr>
+									<tr>
+										<td>Attendance rectification</td>
+										<td>-</td>
+										<td>
+											Attendance rectification TAT is 48 hrs. for Normal days and 24 hrs. is for the last day of pay cycle.
+										</td>
+									</tr>
+									<tr>
+										<td>SME Oyo IBD</td>
+										<td>-</td>
+										<td>
+											70% as support and 30% logged in
+										</td>
+									</tr>
+									<tr>
+										<td>Unplan leave</td>
+										<td>-</td>
+										<td>
+											No Week off changes will be expected in the middle of the week once the roster is released, any unplanned leave in the middle of the week will be considered as absent in attendance however they could apply for leave in MWP if the manager approved and this will be taken directly by payroll.
+										</td>
+									</tr>
+									<tr>
+										<td>Production</td>
+										<td>-</td>
+										<td>
+											RTA attendance is applicable only for Production agents.
+										</td>
+									</tr>
+									<tr>
+										<td>Attendance marking Metrix</td>
+										<td>-</td>
+										<td>
+											RTA will consider dialer report to mark the attendance on daily basis for Non Dialer considered MWP and OPS attendance only.
+										</td>
+									</tr>
+									<tr>
+										<td>Exception/BOD</td>
+										<td>-</td>
+										<td>
+											Any employees unable to complete the production hours for any reason (genuine issue) (technical/system issue/client-side issue and etc.) must be notified at the end of the day to RTA with respective team's ( E.g. IT / Training / Quality ) approval to incorporate those hours in attendance.
+										</td>
+									</tr>
+									<tr>
+										<td>emergency swap</td>
+										<td>-</td>
+										<td>
+											Only 10% week off swap or shift swap will be entertained in a week based on the emergency situation.
+										</td>
+									</tr>
+									<tr>
+										<td>SPOC</td>
+										<td>-</td>
+										<td>
+											We will only entertain SPOC mail communication.
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--end Information Popup design-->
+	<!--start Information Popup design-->
+	<div class="modal fade model_new" id="manager_information" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close close_new" data-dismiss="modal"></button>
+					<h4 class="modal-title">Information Header</h4>
+				</div>
+				<div class="modal-body">
+					<div id="msg_body" class="content_widget">
+						<p>
+						</p>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn_padding filter_btn save_common_btn" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--end Information Popup design-->
+	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
+	<script src="<?php echo base_url(); ?>assets/attendance_reversal/slick/slick.min.js"></script>
+	<script src="<?php echo base_url(); ?>assets/attendance_reversal/js/progresscircle.js"></script>
+	<!-- <script src="<?php echo base_url(); ?>assets/attendance_reversal/js/custom.js"></script> -->
+	<script src="<?php echo base_url(); ?>assets/attendance_reversal/js/chart-bar.js"></script>
+	<script>
+		$('.circlechart').circlechart();
+		function validate_type(obj) {
+			typ = $(obj).val();
+			if ((typ == 1) || (typ == 2)) {
+				$('#type1_from').css('display', 'none');
+				$('#type2_from').css('display', '');
+				if (typ == 2) {
+					$('#leave_full_half_type').val(1);
+				} else {
+					$('#leave_full_half_type').val(2);
+				}
+			} else {
+				$('#type2_from').css('display', 'none');
+				$('#type1_from').css('display', '');
+			}
+			if ((typ == 4) || (typ == 6)) {
+				$('#start_time_id').css('display', 'none');
+				$('#end_time_id').css('display', 'none');
+			} else {
+				$('#start_time_id').css('display', 'block');
+				$('#end_time_id').css('display', 'block');
+			}
+		}
+		function check_date() {
+			start = new Date($('#start_date').val());
+			end = new Date($('#end_date').val());
+			days = (end - start) / (1000 * 60 * 60 * 24);
+			diff = Math.round(days);
+			if (diff > 30) {
+				$('#end_date').val('');
+				alert('More then 30 days search is not allowed');
+			}
+		}
+		function reset_from(dt, atdate) {
+			$('#type1_from').css('display', '');
+			$('#type2_from').css('display', 'none');
+			$('#from_date').val(dt);
+			$('#to_date').val(dt);
+			$('#ar_data').val(atdate);
+			$('#form-ar_type').prop('selectedIndex', 0);
+			open_leave_from(dt);
+		}
+	</script>
+	<script>
+		$(document).ready(function() {
+			$(".panel").hide();
+		});
+		function open_infobox(id) {
+			$('#msg_body').html(id);
+		}
+	</script>
+	<script>
+		$('.responsive').slick({
+			dots: false,
+			infinite: false,
+			speed: 300,
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			responsive: [{
+					breakpoint: 1024,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1,
+						infinite: true,
+						dots: false
+					}
+				},
+				{
+					breakpoint: 600,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1
+					}
+				},
+				{
+					breakpoint: 480,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1
+					}
+				}
+			]
+		});
+	</script>
+	<script>
+		function open_leave_from(dt) {
+			var is_ind_loc = '<?php echo isIndiaLocation(); ?>';
+			var fdate = dt;
+			var tdate = dt;
+			urls = '<?php echo base_url(); ?>/attendance_reversal/check_holiday';
+			if (fdate == tdate) {
+				$.ajax({
+					url: urls,
+					type: "GET",
+					data: 'hdate=' + fdate,
+					success: function(data, textStatus, jqXHR) {
+						if (data == 0) {
+							$("#form-leave_type option:contains('Holiday')").hide();
+						} else {
+							$("#form-leave_type option:contains('Holiday')").show();
+						}
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+					}
+				});
+				if (is_ind_loc == 1) {
+					$("#form-leave_type option:contains('Paternity Leave')").hide();
+					$("#form-leave_type option:contains('Maternity Leave')").hide();
+					var datas = {
+						'from_date': fdate,
+						'to_date': tdate,
+						'deff_days': 1
+					};
+					var request_url = "<?= base_url() ?>leave/check_com_off_date_apply";
+					process_ajax(function(response) {
+						var res = JSON.parse(response);
+						if (res.stat == true) {
+							$("#form-leave_type option:contains('Comp Off')").show();
+						} else {
+							$("#form-leave_type option:contains('Comp Off')").hide();
+						}
+					}, request_url, datas, 'text');
+				}
+			}
+		}
+		$("#myModal #form-leave_type").change(function() {
+			var ab_user_office_id = '<?php echo $ab_leaveData['user_office_id']; ?>';
+			ab_var_js = $.parseJSON('<?php echo $ab_leaveData['var_js'] ?>');
+			console.log(ab_var_js);
+			var baseURL = "<?php echo base_url(); ?>";
+			var processAttendanc = "N";
+			if ($("#myModal #form-leave_type").val() != "") {
+				$('#sktPleaseWait').modal('show');
+				if (ab_var_js[$(this).val()][5] == 1) {
+					sub_html = '<option></option>';
+					$.each(ab_var_js[$(this).val()][6], function(i, v) {
+						sub_html += "<option value='" + i + "'>" + v.sub_leave_description + "</option>";
+					});
+					$("#myModal #sub_select_select").empty().append(sub_html);
+					$("#myModal .sub_select_select").show();
+				} else {
+					$("#myModal .sub_select_select").hide();
+				}
+				if (ab_var_js[$(this).val()][1] == 0 && ab_var_js[$(this).val()][3] != 0) {
+					$("#myModal #sub_but").attr('disabled', true);
+					$("#myModal #from_date,#myLeaveModal #to_date").val("");
+					$('#sktPleaseWait').modal('hide');
+					alert('Leave Balance for the particular leave type selected is nill. Select anyother leave type to proceed');
+					return false;
+				}
+				if (ab_var_js[$(this).val()][4] != '0') {
+					html = '';
+					for (i = 1; i <= ab_var_js[ab_var_js[$(this).val()][4]][1]; i++) {
+						html += '<option>' + i + '</option>';
+					}
+					$('div#additional_section_JAM').show();
+					$("#additional_leaves_select").empty().append(html);
+				} else {
+					$('div#additional_section_JAM').hide();
+					$('div.additional_section_JAM').hide();
+				}
+				if (ab_var_js[$(this).val()][3] != 0) {
+					$("#myModal #leave-balance").text(ab_var_js[$(this).val()][1]);
+				} else {
+					if ($(this).val() == 40) {
+						alert("You can select maximum 14 days of leave");
+					}
+				}
+				$("#leave_type_id").val(ab_var_js[$(this).val()][0]);
+				if (ab_var_js[$(this).val()][2] == "a") {
+					$.post("<?php echo base_url(); ?>leave/check_probabtion_leave/", {
+						'lc_id': $(this).val()
+					}, function(data) {
+						if (parseInt(data) > 0) {
+							$("#myModal #sub_but").attr('disabled', true);
+							$("#myModal #from_date,#myModal #to_date").val("");
+							$('#sktPleaseWait').modal('hide');
+							alert("Cannot apply anymore leaves since you have applied one in the same month as per the company policy");
+						} else {
+							$("#myModal #sub_but").attr('disabled', false);
+							$('#sktPleaseWait').modal('hide');
+							alert("You are in probation period then you can avail only 1 SL and CL per month");
+						}
+					});
+				} else {
+					$('#sktPleaseWait').modal('hide');
+					$("#myModal #sub_but").attr('disabled', false);
+				}
+			} else {
+				$("#myModal #leave-balance").text('');
+				$("#myModal #sub_select_select").empty();
+				$("#myModal .sub_select_select").hide();
+			}
+		});
+		function date_change_checks() {
+			if ($("#myModal #from_date").val() != "" && $("#myModal #to_date").val() != "") {
+				var leave_type_id = $("#myModal #form-leave_type").val();
+				if ((leave_type_id != '' && ab_var_js[leave_type_id][3] != 0) || leave_type_id == 40) {
+					from_date = new Date($("#myModal #from_date").val());
+					to_date = new Date($("#myModal #to_date").val());
+					Difference_In_Time = to_date - from_date;
+					Difference_In_Days = parseFloat(1 + Difference_In_Time / (1000 * 3600 * 24));
+					if (!check_date_range()) {
+						$("#myModal #sub_but").prop("disabled", true);
+					} else {
+						$("#no_of_days").html(Difference_In_Days);
+						$("#myModal #sub_but").prop("disabled", false);
+					}
+				}
+			} else if ($("#myModal #from_date").val() == "" && $("#myModal #to_date").val() != "") {
+				$("#no_of_days").empty().html('');
+				$("#myModal #from_date, #myModal #to_date").val("");
+				$("#myModal #sub_but").prop("disabled", true);
+				alert("Please select from date");
+			} else if ($("#myModal #from_date").val() == "" && $("#myModal #to_date").val() == "") {
+				let leave_applied_type = $('#leave_full_half_type').val();
+				if (leave_applied_type == 2) {
+					$("#no_of_days").html("0.5");
+				} else {
+					$("#no_of_days").html(Difference_In_Days);
+				}
+				$("#sub_but").prop("disabled", false);
+				check_apply_date_range();
+			}
+		}
+		function cancel_frm(apid) {
+			$('#aprovid').val(apid);
+		}
+		function get_agent() {
+			$('#agent_search').submit();
+		}
+	</script>
+	<script>
+		$(document).ready(function() {
+			$("#switch_right").click(function() {
+				$(".select_area").fadeIn();
+			});
+			$("#switch_left").click(function() {
+				$(".select_area").fadeOut();
+				window.open("<?php echo base_url(); ?>/attendance_reversal");
+			});
+		});
+		
+	</script>

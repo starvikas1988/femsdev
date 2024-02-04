@@ -1,0 +1,232 @@
+
+<style>
+    .btn-sm{
+        padding: 2px 5px;
+    }
+    .scrollheightdiv{
+        max-height:600px;
+        overflow-y:scroll;
+    }
+    #table-responsive{
+        overflow:auto;
+    }
+    .tab_hed{
+        color:#000;
+    }
+    #default_datatable_length{
+        float:left;
+    }
+    #default_datatable_filter{
+        float:right;
+    }
+    /*start new custom 25.05.2022*/
+.common-top {
+    width: 100%;
+    margin-top: 10px;
+    float: left;
+}
+.file-upload {
+    width: 100%;
+    margin: 10px 0 0 0;
+}
+.file-upload .form-control:focus {
+    outline: none;
+    box-shadow: none;
+}
+.modal-scroll {
+    width: 100%;
+    height: 400px;
+    overflow-y: scroll;
+}
+.modal .modal-header {
+    background: #188ae2;
+    color: #fff;
+}
+.modal .close {
+    width: 35px;
+    height: 35px;
+    background: #72b8ed;
+    line-height: 35px;
+    border-radius: 50%;
+    position: absolute;
+    right: -9px;
+    top: -16px;
+    opacity: 1;
+    color: #fff;
+    transition: all 0.5s ease-in-out 0s;
+}
+.modal .close:hover {
+    background: #5ea5db;
+}
+.modal .table-responsive {
+    padding-right: 10px;
+    overflow: inherit;
+}
+.modal .form-inline .form-control {
+    min-width: 100%;
+}
+.bg-success {
+    transition: all 0.5s ease-in-out 0s;
+}
+.bg-success:hover {
+    background: #0eb15e;
+}
+/*end new custom 25.05.2022*/
+</style>
+
+<div class="wrap">
+    <section class="app-content">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="widget">
+                    <header class="widget-header">
+                        <h4 class="widget-title"><i class="fa fa-calendar"></i> All Record Data</h4>
+                    </header>
+                    <hr class="widget-separator"/>
+                    <div class="widget-body clearfix">
+
+                        <div class="row">	
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Client</label>
+                                    <select class="form-control" name="client_id" id="client_id" required>
+                                        <option value="">Please Select</option>
+                                        <?php echo duns_dropdown_3d_options($duns_clients_list, 'id', 'name', $client_id, ''); ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>From Date</label>
+                                    <input type="text" class="form-control oldDatePick" name="search_from" id="search_from" value="" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>To Date</label>
+                                    <input type="text" class="form-control oldDatePick" name="search_to" id="search_to" value="" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Assign To</label>
+                                    <select class="form-control" name="assign_to" id="assign_to">
+                                        <option value="">Please Select</option>
+                                    </select>
+                                </div>
+                            </div>	
+
+                            <hr/>	
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <button type="button" id="serchBtn" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="common-top">
+                <?php // if(!empty($client_id)){ ?>
+                <div class="row">
+                <div class="col-md-12">
+                    <div class="widget">
+                        <header class="widget-header">
+                            <h4 class="widget-title"><i class="fa fa-database"></i> All Data List</h4>
+                        </header>
+                        <hr class="widget-separator"/>
+                        <div class="widget-body clearfix">					
+                            <div class="table-responsive">
+
+                                <table id="default_datatable" class="table table-bordered mb-0 table table-striped skt-table" data-plugin="DataTable">  
+                                    <thead id="dat_header">
+                                        
+                                    </thead>
+                                    <tbody>	
+
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                <?php // } ?>
+
+
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<script>
+    $(document).on("click", "#serchBtn", function () {
+        var client_id = $("#client_id").val();
+        var from_date = $("#search_from").val();
+        var to_date = $("#search_to").val();
+        var assign_to = $("#assign_to").val();
+        var table = $("#default_datatable").DataTable({
+            destroy: true,
+            "ajax": {
+                url: "<?php echo base_url(); ?>Duns_crm/getDyanamicTablesData",
+//                type: 'GET',
+                data: {client_id: client_id, from_date: from_date,
+                    to_date: to_date, assign_to: assign_to
+                }
+            },
+            'processing': true,
+            'serverSide': true,
+            'serverMethod': 'post',
+            //searching: true,
+            deferRender: true,
+            "search": {"regex": true},
+            dom: 'Blfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            "aLengthMenu": [[10,25, 50, 75, -1], [10,25, 50, 75, "All"]],
+            "iDisplayLength": 10,
+            "bSort": false,
+            initComplete: function () {
+                this.api().columns('.select-filter').every(function () {
+                    var column = this;                    
+                    var select = $('<select><option value=""></option></select>')
+                            .appendTo($(column.footer()).empty())
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                        );
+
+                                column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                            });
+
+                    column.data().unique().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            },
+        });
+        //table.buttons().container().appendTo('#default_datatable_wrapper .col-md-6:eq(0)');
+        // Apply the search
+        table.columns().every(function () {
+            var that = this;
+            $('input', this.header()).on('keyup change clear', function () {
+                if (that.search() !== this.value) {                   
+                    that.search(this.value).draw();
+                }
+            });
+        });
+    });
+</script>            

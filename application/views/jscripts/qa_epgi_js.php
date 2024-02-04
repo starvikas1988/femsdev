@@ -602,7 +602,7 @@ $('INPUT[type="file"]').change(function () {
 							$("#customer_possible_score").val(cust_possible);
 							$("#customer_overall_score").val(parseFloat((cust_earned/cust_possible)*100).toFixed(2)+"%");
 						}
-						if($(this).hasClass("compliance")){
+						if($(this).hasClass("compliance_critical")){
 							comp_earned+=earned_weightage;
 							comp_possible+=weightage;
 							//console.log(comp_earned);

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>HR Attendance</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/attendance_reversal/css/custom.css">
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/attendance_reversal/slick/slick.css">
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/attendance_reversal/slick/slick-theme.css">
+</head>
+
+<body>
+	<style>
+		.common-left-new {
+			display: flex;
+		}
+
+		.excel-btn {
+			margin-left: 10px;
+			background: #011dedb5;
+			padding: 5px 8px 5px 8px;
+			color: #fff;
+			border-radius: 50%;
+
+		}
+
+		.excel-btn:focus,
+		.excel-btn:hover {
+			color: #fff !important;
+			background: #0f28e3;
+			text-decoration: none !important;
+		}
+	</style>
+	<div class="main">
+		<div class="container-fluid">
+			<div class="gimini-main">
+				<div class="white_widget padding_3">
+					<div class="menu_widget">
+					<?php  include_once('aside_menu.php');?>
+					</div>
+				</div>
+				<div class="common-top3">
+					<div class="row align-items-center">
+						<div class="col-sm-4">
+						</div>
+					</div>
+				</div>
+
+				<div class="common-main">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="common-repeat">
+								<div class="white_widget padding_3 approval_widget">
+									<div class="metrix-widget all-gap all_new">
+										<div class="common-left-new">
+											<h2 class="heading-title2">
+												<input type="Checkbox" name="checkAll" id="checkAll"> Checked ALL Approval
+											</h2>
+										</div>
+									</div>
+									<form name="frm" id="frm" method="post" action="<?php echo base_url(); ?>/attendance_reversal/multi_approve_l1">
+										<div class="slider responsive">
+											<!--start slider loop here-->
+											<div>
+												<div class="table-widget common_table_widget">
+													<div class="right-hr">
+														<table class="table table-bordered table-striped">
+															<tbody>
+																<?php foreach ($attan_dtl as $k => $rows) {
+																	$applied_id = $rows['applied_id'];
+																	$date1 = $rows['rDate'] . " 00:00:00";
+																	$date2 = date('Y-m-d H:i:s');
+																	$timestamp1 = strtotime($date1);
+																	$timestamp2 = strtotime($date2);
+																	$diffhr = ceil(($timestamp2 - $timestamp1) / (60 * 60));
+																?>
+																	<tr>
+																		<td class="check_one">
+																			<?php
+																			if ($diffhr <= (24 * 30)) {
+																				if ($rows['is_approve_l1'] != '1') {	?>
+																					<input type="Checkbox" name="app_ids[]" id="app_ids_<?php echo $applied_id; ?>" value="<?php echo $applied_id . '@' . $rows['user_id'] . '@' . $rows['rq_start_date'] . '@' . $rows['rq_end_date']; ?>" class="chk" onchange="multi_approve(this);">
+																			<?php }
+																			} ?>
+																		</td>
+																		<td>
+																			<div class="blue-title">
+																				<?php echo date('d', strtotime($rows['rDate'])); ?><br>
+																				<span><?php echo date('D', strtotime($rows['rDate'])); ?></span>
+																			</div>
+																		</td>
+																		<td>
+																			<small>Name:</small>
+																			<span class="small_blue_color"><?php echo $rows['fname'] . ' ' . $rows['lname']; ?></span><br>
+																			<div class="total_hrs">
+																				<span class="actual_new">Type -</span>
+																				<span class="small_blue_color"><?php echo $rows['ar_type_name']; ?></span>
+																			</div>
+																		</td>
+																		<!--<td>
+																<small>Days:</small> 
+																<span class="small_blue_color">2</span><br>
+																<div class="total_hrs">
+																	<span class="actual_new">Balance -</span> 
+																	<span class="small_blue_color">5</span>
+																</div>
+															</td>-->
+																		<td>
+																			<small>From:</small>
+																			<span class="small_blue_color"><?php echo ($rows['ar_type'] == 6 || $rows['rq_start_date'] == 4) ? '' : $rows['rq_start_date']; ?></span><br>
+																			<div class="total_hrs">
+																				<span class="actual_new">To -</span>
+																				<span class="small_blue_color"><?php echo ($rows['ar_type'] == 6 || $rows['rq_start_date'] == 4) ? '' : $rows['rq_end_date']; ?></span>
+																			</div>
+																		</td>
+																		<td>
+																			<small>Applied:</small>
+																			<span class="small_blue_color"><?php echo $rows['rDate']; ?></span><br>
+																			<div class="total_hrs">
+																				<span class="actual_new">Contact -</span>
+																				<span class="small_blue_color"><?php echo $rows['rq_contact']; ?></span>
+																			</div>
+																		</td>
+																		<td>
+																			<small>Shift:</small>
+																			<span class="small_blue_color"><?php echo $rows['sch_in'] . ' - ' . $rows['sch_out']; ?></span><br>
+																			<div class="total_hrs">
+																				<span class="actual_new">Expected -</span>
+																				<span class="small_blue_color"><?php echo get_time_diff($rows['sch_in'], $rows['sch_out']); ?></span>
+																			</div>
+																		</td>
+																		<?php
+																		$mwpmin = ($rows['login_time_local_min'] != '') ? date('H:i', strtotime($rows['login_time_local_min'])) : '';
+																		$mwpmax = ($rows['logout_time_local_max'] != '') ? date('H:i', strtotime($rows['logout_time_local_max'])) : '';
+																		$din = ($rows['dailer_login_time'] != '') ? date('H:i', strtotime($rows['dailer_login_time'])) : '';
+																		$dout = ($rows['dailer_logout_time'] != '') ? date('H:i', strtotime($rows['dailer_logout_time'])) : '';
+																		$actualtime = ($din != '') ? $rows['dailer_staffed_time'] : $mwpmin . ' - ' . $mwpmax;
+
+																		$user_id = $rows['user_id'];
+																		?>
+																		<td>
+																			<small>MWP:</small>
+																			<span class="small_green_color"><?php echo $mwpmin . ' - ' . $mwpmax; ?></span><br>
+																			<div class="total_hrs">
+																				<span class="actual_new">Actual -</span>
+																				<span class="small_green_color"><?php echo get_time_diff($mwpmin, $mwpmax); ?></span>
+																			</div>
+																		</td>
+																		<td>
+																			<small>Dialer:</small>
+																			<span class="small_red_color"><?php echo $din . ' - ' . $dout; ?></span><br>
+																			<div class="total_hrs">
+																				<span class="actual_new">Actual -</span>
+																				<span class="small_red_color"><?php echo $rows['dailer_total_time']; ?></span>
+																			</div>
+																		</td>
+																		<td>
+																			<?php if ($rows['is_approve_l1'] != '1') {
+																				//if($diffhr<=48){
+																			?>
+																				<a class="action_icon tooltip_new" onclick="set_entry_id('<?php echo $applied_id; ?>','<?php echo $user_id; ?>','<?php echo $rows['rq_start_date']; ?>','<?php echo $rows['rq_end_date']; ?>','<?php echo $rows['fname'] ?>','<?php echo $rows['ar_type'] ?>');" data-toggle="modal" data-target="#myModal">
+																					<i class="fa fa-check" aria-hidden="true"></i>
+																					<span class="tooltiptext">Approve Reversal</span>
+																				</a>
+																				<a class="action_icon red_icon tooltip_new" onclick="set_entry_id('<?php echo $applied_id; ?>','<?php echo $user_id; ?>','<?php echo $rows['rq_start_date']; ?>','<?php echo $rows['rq_end_date']; ?>','<?php echo $rows['fname'] ?>','<?php echo $rows['ar_type'] ?>');" data-toggle="modal" data-target="#myModal1">
+																					<i class="fa fa-times" aria-hidden="true"></i>
+																					<span class="tooltiptext">Cancel Reversal</span>
+																				</a>
+																			<?php //}
+																			}
+																			$comment = "";
+																			foreach ($rows['rq_workflow'] as $key => $rwc) { ?>
+																				<?php $comment .= '<p>' . $rwc['comment'] . '</p>'; ?>
+																			<?php } ?>
+																			<a class="action_icon  tooltip_new" onclick="open_infobox('<?php echo $comment; ?>');" class="icon-big flip" data-toggle="modal" data-target="#manager_information">
+																				<i class="fa fa-info" aria-hidden="true"></i>
+																			</a>
+
+																		</td>
+																	</tr>
+
+																<?php } ?>
+
+															</tbody>
+														</table>
+														<div id="Display_butt" class="all_aprove" style="display:none;">
+															<div class="comment_widget">
+																<labe>Comments</label>
+																	<textarea type="text" name="multi_approval_comment" id="multi_approval_comment" class="form-control"></textarea>
+															</div>
+															<button id="aprrove_btn" name="approve" value="approve" type="submit" class="btn btn_padding filter_btn_blue btn-sm">Approve</button>
+															<button id="Cancel_btn" name="reject" value="reject" type="submit" class="btn btn_padding filter_btn_blue btn-sm">Reject</button>
+														</div>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+	</div>
+	<div id="myModal" class="modal fade" role="dialog" style="font-size:90%; ">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div id="type1_from">
+					<form method="post" action="<?php echo base_url(); ?>attendance_reversal/approve_l1" id="ar_form" enctype="multipart/form-data">
+						<div class="modal-header" style="padding:8px 15px;">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Attendance Reversal Approval </h4>
+						</div>
+						<div class="modal-body filter-widget">
+							<div class="row" style="padding:3px 0px;">
+								<div class="form-group">
+									<!-- <label class="col-md-4">Employee Name</label>
+                            <div class="col-md-8"><input type="text" name="applied_person_name" id="fname" disabled=""></div> -->
+									<!-- <input type="hidden" name="applied_person_name" id="applied_person_name" value="<?php echo get_username(); ?>"> -->
+									<input type="hidden" name="applied_person_name" id="fname">
+									<input type="hidden" id="apply_agent_id" name="apply_agent_id" value="<?php echo $agent_id; ?>">
+									<input type="hidden" name="aprovid" id="aprovid" value="">
+								</div>
+							</div>
+							<input type="hidden" name="ar_data" id="ar_data" value="">
+							<div id="start_tm" class="row" style="padding:3px 0px;">
+								<div class="form-group">
+									<label class="col-md-4" style="line-height:37px;">Start Time(Local Time Zone)</label>
+									<div class="col-md-8">
+										<input type="datetime-local" name="ar_start_time" class="form-control" id="rq_start_date">
+									</div>
+								</div>
+							</div>
+							<div id="end_tm" class="row" style="padding:3px 0px;">
+								<div class="form-group">
+									<label class="col-md-4" style="line-height:37px;">End Time(Local Time Zone)</label>
+									<div class="col-md-8">
+										<input type="datetime-local" name="ar_end_time" class="form-control" id="rq_end_date">
+									</div>
+								</div>
+							</div>
+							<div class="row" style="padding:3px 0px;">
+								<div class="form-group">
+									<label class="col-md-4">Reason</label>
+									<div class="col-md-8">
+										<textarea class="form-control" name="reason" required></textarea>
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<div class="modal-footer" style="padding:8px 15px;">
+							<button id="sub_but" type="submit" class="btn btn-primary btn-sm">Save</button>
+							<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div id="myModal1" class="modal fade" role="dialog" style="font-size:90%; ">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div id="type1_from">
+					<form method="post" action="<?php echo base_url(); ?>attendance_reversal/cancel_l1" id="ar_form" enctype="multipart/form-data">
+						<div class="modal-header" style="padding:8px 15px;">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Attendance Reversal Cancel </h4>
+						</div>
+
+						<div class="modal-body filter-widget">
+							<!-- <div class="row" style="padding:3px 0px;">
+                        <div class="form-group">
+                            <label class="col-md-4">Employee Name</label>
+                            <div class="col-md-8"><?php echo get_username(); ?></div>
+							<input type="hidden" name="applied_person_name" id="applied_person_name" value="<?php echo get_username(); ?>"> 
+                        </div>
+                    </div> -->
+							<input type="hidden" name="aprovid" id="aprovids" value="">
+							<input type="hidden" id="cancel_agent_id" name="cancel_agent_id" value="<?php echo $agent_id; ?>">
+							<div class="row" style="padding:3px 0px;">
+								<div class="form-group">
+									<div class="col-md-12">
+										<h4> Are You Sure You Want To Cancel Attendance Reversal</h4>
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+						<div class="modal-footer" style="padding:8px 15px;">
+							<button id="sub_but" type="submit" class="btn btn-primary btn-sm">Yes</button>
+							<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">No</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--start Information Popup design-->
+	<div class="modal fade model_new" id="manager_information" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Information</h4>
+				</div>
+				<div class="modal-body">
+					<div id="msg_body" class="content_widget">
+						<p>
+
+						</p>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!--end Information Popup design-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="<?php echo base_url(); ?>assets/attendance_reversal/slick/slick.min.js"></script>
+	<script src="<?php echo base_url(); ?>assets/attendance_reversal/js/progresscircle.js"></script>
+	<script src="<?php echo base_url(); ?>assets/attendance_reversal/js/custom.js"></script>
+	<!--<script src="<?php echo base_url(); ?>assets/attendance_reversal/js/chart-bar.js"></script>-->
+	<script>
+		$(document).ready(function() {
+			$("#flip").click(function() {
+				$("#panel").slideToggle("slow");
+			});
+		});
+	</script>
+	<script>
+		$(document).ready(function() {
+			$("#flip").click(function() {
+				$(".down_arrow").hide();
+				$(".up_arrow").show();
+			});
+			$("#up_flip").click(function() {
+				$(".down_arrow").show();
+				$(".up_arrow").hide();
+			});
+			$("#up_flip").click(function() {
+				$("#panel").hide();
+			});
+			$("#checkAll").click(function() {
+				$('input:checkbox').not(this).prop('checked', this.checked);
+				sz = $('.chk:checked').length;
+				if (sz > 0) {
+					$('#Display_butt').css('display', 'block');
+				} else {
+					$('#Display_butt').css('display', 'none');
+				}
+				//
+			});
+		});
+
+		function multi_approve(obj) {
+			if ($(obj).is(':checked')) {} else {
+				$('#checkAll').prop('checked', false);
+			}
+			sz = $('.chk:checked').length;
+			if (sz > 0) {
+				$('#Display_butt').css('display', 'block');
+			} else {
+				$('#Display_butt').css('display', 'none');
+			}
+		}
+
+		function set_entry_id(apid, uid, rq_start_date, rq_end_date, fname, type) {
+			//alert(apid+"********"+uid);
+			$('#aprovid').val(apid);
+			$('#aprovids').val(apid);
+			$('#apply_agent_id').val(uid);
+			$('#cancel_agent_id').val(uid);
+			$('#rq_start_date').val(rq_start_date);
+			$('#rq_end_date').val(rq_end_date);
+			$('#fname').val(fname);
+			if (type == 4 || type == 6) {
+				$('#start_tm').css('display', 'none');
+				$('#end_tm').css('display', 'none');
+			} else {
+				$('#start_tm').css('display', 'block');
+				$('#end_tm').css('display', 'block');
+			}
+		}
+	</script>
+	<script>
+		function open_comment(id) {
+			$(".down_arrow" + id).hide();
+			$(".up_arrow" + id).show();
+			$("#panel" + id).slideToggle("slow");
+		}
+
+		function close_comment(id) {
+			$(".down_arrow" + id).show();
+			$(".up_arrow" + id).hide();
+			$("#panel" + id).hide();
+		}
+	</script>
+	<script>
+		$('.responsive').slick({
+			dots: false,
+			infinite: false,
+			speed: 300,
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			responsive: [{
+					breakpoint: 1024,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1,
+						infinite: true,
+						dots: false
+					}
+				},
+				{
+					breakpoint: 600,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1
+					}
+				},
+				{
+					breakpoint: 480,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1
+					}
+				}
+			]
+		});
+	</script>
+	<script>
+		/*var ctxBAR = document.getElementById("bar-chart5");
+		var myBarChart_dailyVisitor = new Chart(ctxBAR, {
+			type: 'line',
+			stack: 'combined',
+			data: {
+				labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+				datasets: [{
+					label: "Visitors",
+					data: [12, 19, 15, 20, 20, 10],
+					backgroundColor: [
+						'rgba(55, 74, 216, 0.9)'
+					],
+					borderColor: [
+						'rgba(55, 74, 216, 0.9)'
+					],
+					borderWidth: 3
+				}]
+			},
+			options: {
+				legend: {
+					display: false,
+					position: 'right'
+				},
+				title: {
+					display: true,
+					lineHeight: 2,
+					text: ""
+				},
+				tooltips: {
+					callbacks: {
+						label: function(tooltipItem) {
+							return tooltipItem.yLabel + '';
+						}
+					}
+				},
+				maintainAspectRatio: false,
+				responsive: true,
+				scales: {
+					xAxes: [{}],
+					yAxes: [{
+						display: true,
+						ticks: {
+							callback: function(value, index, values) {
+								return value + '';
+							},
+							beginAtZero: true,
+						}
+					}]
+				},
+				plugins: {
+					datalabels: {
+						anchor: 'end',
+						align: 'top',
+						formatter: (value, ctx) => {
+							return value + '';
+						},
+						font: {
+							size: 9,
+							weight: 'bold'
+						}
+					}
+				}
+			},
+		});
+		*/
+		function open_infobox(id) {
+			$('#msg_body').html(id);
+		}
+	</script>
+</body>
+
+</html>

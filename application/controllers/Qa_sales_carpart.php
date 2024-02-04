@@ -517,6 +517,7 @@
 			
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_".$this->salesName()."/agent_".$this->salesName()."_feedback.php";
+
 			$data["agentUrl"] = "qa_".$this->salesName()."/agent_process_feedback";
 			$data["content_js"] = "qa_".$this->salesName()."_js.php";
 			$data["page"]=$this->salesName();
@@ -619,11 +620,21 @@
 				$pnid=$this->input->post('pnid');
 				$curDateTime=CurrMySqlDate();
 				$log=get_logs();
+				$agnt_fd_acpt = $this->input->post('agnt_fd_acpt');
+				if($agnt_fd_acpt!=''){
+						$field_array=array(
+						"agent_rvw_note" => $this->input->post('note'),
+						"agnt_fd_acpt" => $this->input->post('agnt_fd_acpt'),
+						"agent_rvw_date" => $curDateTime
+					);
+				}else{
+					$field_array=array(
+						"agent_rvw_note" => $this->input->post('note'),
+						"agent_rvw_date" => $curDateTime
+					);
+				}
 				
-				$field_array=array(
-					"agent_rvw_note" => $this->input->post('note'),
-					"agent_rvw_date" => $curDateTime
-				);
+				
 				$this->db->where('id', $pnid);
 				$this->db->update($cmp_tbl,$field_array);
 				

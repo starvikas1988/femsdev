@@ -35,11 +35,6 @@
 										<span class="end_date_error" style="color:red"></span>
 									</div>
 								</div>
-
-
-
-
-
 								<div class="col-md-3">
 									<div class="form-group">
 										<label>Agent</label>
@@ -100,8 +95,8 @@
 										<th>Audit Date</th>
 										<th>Employee ID</th>
 										<th>Agent Name</th>
-										<th> OverAll  Score  </th>
 										<th>L1 Supervisor</th>
+										<th>OverAll Score</th>
 										<th>Audio</th>
 										<th>Agent Review Date/Time</th>
 										<th>Mgnt Review By</th>
@@ -128,8 +123,8 @@
 										<td><?php echo $row['audit_date']; ?></td>
 										<td><?php echo $row['fusion_id']; ?></td>
 										<td><?php echo $row['fname']." ".$row['lname']; ?></td>
-										<td><?php echo $row['overall_score']; ?></td>
 										<td><?php echo $row['tl_name']; ?></td>
+										<td><?php echo $row['overall_score'].'%'; ?></td>
 										<td>
 										<?php
 											if($row['attach_file']!=''){
@@ -161,8 +156,8 @@
 										<th>Audit Date</th>
 										<th>Employee ID</th>
 										<th>Agent Name</th>
-										<th> OverAll  Score  </th>
 										<th>L1 Supervisor</th>
+										<th>OverAll Score</th>
 										<th>Audio</th>
 										<th>Agent Review Date/Time</th>
 										<th>Mgnt Review By</th>

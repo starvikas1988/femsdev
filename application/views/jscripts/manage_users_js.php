@@ -1,0 +1,734 @@
+<script src="<?php echo base_url() ?>assets/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo base_url() ?>assets/js/dataTables.bootstrap.min.js"></script>
+
+<script type="text/javascript">
+
+
+	var timeOffset="-300";
+	
+	<?php if(date('T')=="EDT"):?>
+		timeOffset="-240";
+	<?php elseif(date('T')=="EST"): ?>
+		timeOffset="-300";
+	<?php endif;?>
+	
+$(document).ready(function(){
+    
+	var baseURL="<?php echo base_url();?>";
+	var fusion_id_db="";
+	
+	// $("#fdept_id").change(function(){
+	$(document).on('change','#fdept_id',function(){
+		var dept_id=$('#fdept_id').val();
+
+		// console.log(dept_id);
+
+		populate_sub_dept_combo(dept_id,'','fsub_dept_id','Y');
+	});
+			
+	// $("#fclient_id").change(function(){
+	$(document).on('change','#fclient_id',function(){
+		
+		var client_id=$(this).val();
+		/*
+		if(client_id=="1"){
+			$("#foffice_div").hide();
+			$("#foffice_id").val('ALL');
+			$("#fsite_div").show();
+		}else{
+			$("#fsite_div").hide();
+			$("#fsite_id").val('ALL');
+			$("#foffice_div").show();
+		}
+		*/
+		populate_process_combo(client_id,'','fprocess_id','Y');
+	});
+	
+	/*
+	$("#fprocess_id").change(function(){
+		var pid=$(this).val();
+		populate_sub_process_combo(pid,'','fsub_process_id','Y');	
+	});
+	*/
+	
+	// $(".resetPasswd").click(function(){
+	$(document).on('click','.resetPasswd',function(){
+		var uid=$(this).attr("uid").trim();
+		var ans=confirm("Are you sure to reset the password?\r\n New password will be 'MWP ID'");
+		if(ans==true){
+			$.ajax({
+			   type: 'POST',    
+			   url: baseURL+'users/resetPasswd',
+			   data:'uid='+ uid,
+			   success: function(msg){
+					//alert(msg);
+					location.reload();
+				},
+				error: function(){
+					alert('Fail!');
+				}
+			  });
+		}
+	});
+	
+	
+	// $(".setUserStatus").click(function(){
+	$(document).on('click','.setUserStatus',function(){
+	
+		var uid=$(this).attr("uid").trim();
+		var sid=$(this).attr("sid").trim();
+		var title=$(this).attr("title").trim();
+				
+		var ans=confirm('Are you sure to '+title+' user?');
+		if(ans==true){
+			$.ajax({
+			   type: 'POST',    
+			   url: baseURL+'users/userActDeact',
+			   data:'uid='+ uid+"&sid="+sid,
+			   success: function(msg){
+					//alert(msg);
+					location.reload();
+				},
+				error: function(){
+					alert('Fail!');
+				}
+			  });
+		}
+	});
+	
+	
+	// $(".setGlobalAccess").click(function(){
+	$(document).on('click','.setGlobalAccess',function(){
+	
+		var uid=$(this).attr("uid").trim();
+		var cgval=$(this).attr("cgval").trim();
+				
+		var ans=confirm('Are you sure to set global access');
+		if(ans==true){
+			$.ajax({
+			   type: 'POST',    
+			   url: baseURL+'users/setGlobalAccess',
+			   data:'uid='+ uid+"&cgval="+cgval,
+			   success: function(msg){
+					//alert(msg);
+					location.reload();
+				},
+				error: function(){
+					alert('Fail!');
+				}
+			  });
+		}
+	});
+		
+	// $(".rejoinTermUser").click(function(){
+	$(document).on('click','.rejoinTermUser',function(){
+	
+		var uid=$(this).attr("uid");
+		$('#rejoin_date').val('<?php echo CurrDateMDY();?>');
+		$('#rjuid').val(uid);
+		$('#reJoinModal').modal('show');
+		
+	});
+		
+	// $("#btnReJoinTermUser").click(function(){
+	$(document).on('click','#btnReJoinTermUser',function(){
+	
+		var rjuid=$('#rjuid').val().trim();
+		var rejoin_date=$('#rejoin_date').val().trim();
+		//alert("user/rejoin_term_user?"+$('form.frmReJoinUser').serialize());
+		if(rjuid!="" && rejoin_date!=""){
+			$('#sktPleaseWait').modal('show');
+			$.ajax({
+			   type: 'POST',    
+			   url:baseURL+'users/rejoin_term_user',
+			   data:$('form.frmReJoinUser').serialize(),
+			   success: function(msg){
+						$('#sktPleaseWait').modal('hide');
+						$('#reJoinModal').modal('hide');
+						location.reload();
+				}
+				/*,
+				error: function(){
+					alert('Fail!');
+				}
+				*/
+			  });
+		}else{
+			alert("One or More Field(s) are Blank.");
+		}
+	});
+///////////////////	
+	
+	// $(".termsUser").click(function(){
+	$(document).on('click','.termsUser',function(){
+		var tuid=$(this).attr("tuid");
+		var URL=baseURL+'users/getLastLoginInfo';
+		
+		$('#sktPleaseWait').modal('show');
+		
+		$.ajax({
+		   type: 'POST',    
+		   url:URL,
+		   data:'uid='+tuid,
+		   success: function(lwd){
+			   
+				lwd=lwd.trim();
+				
+				$('#tlwd').val(lwd);
+				$('#tuid').val(tuid);
+				$('#terminateUserModal').modal('show');
+				
+				$('#sktPleaseWait').modal('hide');
+								
+			},
+			error: function(){	
+				alert('Fail!');
+				$('#sktPleaseWait').modal('hide');
+			}
+		  });
+		
+		
+	});	
+
+	
+	
+	// $("#terminatefrmUser").click(function(){
+	$(document).on('click','#terminatefrmUser',function(){
+		var uid=$('.frmTerminateUser #tuid').val();
+		var terms_date=$('.frmTerminateUser #terms_date').val();
+		var disp_id=$('.frmTerminateUser #event_master_id').val();
+		var remarks=$('.frmTerminateUser #tremarks').val();
+		var is_rehire=$('#is_rehire').val();
+		var resign_remarks=$('.frmTerminateUser #resign_remarks').val();
+		
+		var t_type=$('#t_type').val().trim();
+		var sub_t_type=$('#sub_t_type').val().trim();
+
+		var term_type_new = $('#term_type_new').val();
+		
+		//alert(baseURL+'users/updateDisposition?'+$('form.editDisp').serialize());
+		
+		//alert(uid + ">" + disp_id +  " > " + terms_date +  " > " + comments );
+		
+		//if(start_date!=="" && disp_id!=""){
+		if( uid!="" && disp_id!="" && terms_date!="" && term_type_new!="" && t_type!="" && sub_t_type!="" && (remarks!="" || resign_remarks!="") && (is_rehire != "") ){
+						
+			$('#sktPleaseWait').modal('show');
+			
+			//alert(baseURL+'users/updateDisposition?'+$('form.frmTerminateUser').serialize());
+			
+			$.ajax({
+			   type: 'POST',    
+			   url:baseURL+'users/updateDisposition',
+			   data:$('form.frmTerminateUser').serialize(),
+			   success: function(msg){
+							//alert(msg);
+						$('#sktPleaseWait').modal('hide');
+						if(msg=="PRETREM") alert("User is in termination queue.");
+						$('#terminateUserModal').modal('hide');
+						location.reload();
+					},
+					error: function(){
+						//alert('Fail!');
+					}
+			});
+		}else{
+			alert("One or more field(s) are blank. \r\nPlease fill the data");
+		}
+			
+	});
+
+	///////////
+
+    $( "#bench_date" ).datepicker({maxDate: new Date()});
+	// $(".benchuser").click(function(){
+	$(document).on('click','.benchuser',function(){
+		var buid=$(this).attr("buid");
+		var URL=baseURL+'users/getLastLoginInfo';
+		
+		$('#sktPleaseWait').modal('show');
+		
+		$.ajax({
+		   type: 'POST',    
+		   url:URL,
+		   data:'uid='+buid,
+		   success: function(lwd){
+			   
+				lwd=lwd.trim();
+				
+				$('#blwd').val(lwd);
+				$('#buid').val(buid);
+				$('#benchUserModal').modal('show');
+				$('#sktPleaseWait').modal('hide');
+								
+			},
+			error: function(){	
+				alert('Fail!');
+				$('#sktPleaseWait').modal('hide');
+			}
+		  });
+		
+		
+	});	
+	
+	function addDays(dates, days) {
+	  
+	    var date = new Date(dates);
+		var newdate = new Date(date);
+		newdate.setDate(newdate.getDate() + Number(days));
+		
+		var dd = newdate.getDate();
+		var mm = newdate.getMonth() + 1;
+		var y = newdate.getFullYear();
+
+		var someFormattedDate = mm + '/' + dd + '/' + y;
+		return someFormattedDate;
+		
+	}
+	
+	// $("#b_expiry").change(function(){
+	$(document).on('change','#b_expiry',function(){
+		bdate = $('#bench_date').val();
+		bdays = $('#b_expiry').val();
+		//alert(bdays);
+		nextdate = addDays(bdate, bdays);
+		$('#expiry_date').val(nextdate);
+	});
+
+	// $("#benchfrmUserSubmit").click(function(){
+	$(document).on('click','#benchfrmUserSubmit',function(){
+		
+		var uid=$('.frmBenchUser #buid').val();
+		var bench_date=$('.frmBenchUser #bench_date').val();
+		var b_type=$('.frmBenchUser #b_type').val();
+		var remarks=$('.frmBenchUser #bremarks').val();
+		var blwd=$('.frmBenchUser #blwd').val();
+				
+		if( uid!="" && bench_date!="" && b_type!="" && remarks!="" && blwd!=""){
+						
+			$('#sktPleaseWait').modal('show');
+			
+			$.ajax({
+			   type: 'POST',    
+			   url:baseURL+'users/benchuserUpdate',
+			   data:$('form.frmBenchUser').serialize(),
+			   success: function(msg){
+					    //alert(msg);
+						$('#sktPleaseWait').modal('hide');
+						$('#benchUserModal').modal('hide');
+						location.reload();
+					},
+					error: function(){
+						$('#benchUserModal').modal('hide');
+						alert('Fail!');
+					}
+			});
+		}else{
+			alert("One or more field(s) are blank. \r\nPlease fill the data");
+		}
+			
+	});
+	
+	
+	
+	// $(".revokeuser").click(function(){
+	$(document).on('click','.revokeuser',function(){
+		var buid=$(this).attr("buid");
+		var URL=baseURL+'users/revokeUserForm';		
+		$('#sktPleaseWait').modal('show');
+		
+		$.ajax({
+		   type: 'POST',    
+		   url:URL,
+		   data:'uid='+buid,
+		   success: function(msg){
+				$('#revokeUserGet').html(msg);
+				$('#revokeUserModal').modal('show');
+				$('#revoke_assigned_to').select2();
+				$('#revoke_process_id').select2();
+				$('#revoke_client_id').select2();
+				$('#sktPleaseWait').modal('hide');
+				$( "#reativation" ).datepicker({maxDate: new Date()});
+				clientchangecheck();
+			},
+			error: function(){	
+				alert('Fail!');
+				$('#sktPleaseWait').modal('hide');
+			}
+		  });		
+		
+	});	
+
+	function clientchangecheck(){
+	// $("#revoke_client_id").change(function(){
+	$(document).on('change','#revoke_client_id',function(){
+		var client_id=$(this).val();
+		
+		var URL='<?php echo base_url();?>/user/select_process';
+		
+		$.ajax({
+		   type: 'GET',    
+		   url:URL,
+		   data:'client_id='+client_id,
+		    success: function(data){
+				var res;
+				var i=0;
+				var a = JSON.parse(data); 
+				  
+				//$('#process_id option').each(function() {
+					//if (this.selected){
+					//	$("#process_id option[value='"+ $(this).val() +"']").remove();
+					//	alert($(this).text());
+					///	
+					//}else{
+							//$("#process_id option[value='"+ $(this).val() +"']").remove();
+					//}
+				//});
+				
+				var b = $("#revoke_process_id").val();
+				$("#revoke_process_id option").remove();
+			
+				if(b != null){ 
+					var res =  b.toString().split(',');
+					var leng = res.length;
+				}
+				
+				
+				$.each(a, function(index,jsonObject){
+					
+					if( i < leng){
+						if(jsonObject.id == res[i]){
+								$("#revoke_process_id").append('<option value="'+jsonObject.id+'" selected="selected">' + jsonObject.name + '</option>');
+								i++;
+						}else{
+							   $("#revoke_process_id").append('<option value="'+jsonObject.id+'">' + jsonObject.name + '</option>');
+						}
+					}else{
+						$("#revoke_process_id").append('<option value="'+jsonObject.id+'">' + jsonObject.name + '</option>');
+					}
+				});	
+				
+			},
+			error: function(){	
+				alert('error!');
+			}
+		  });
+		
+	});
+	}
+
+/////////////////////////////////
+
+
+///////////
+//
+
+    $( "#furlough_date" ).datepicker({maxDate: new Date()});
+	
+	// $(".furloughLeave").click(function(){
+	$(document).on('click','.furloughLeave',function(){
+		var fuid=$(this).attr("fuid");
+		var URL=baseURL+'users/getLastLoginInfo';
+		
+		$('#sktPleaseWait').modal('show');
+		
+		$.ajax({
+		   type: 'POST',    
+		   url:URL,
+		   data:'uid='+fuid,
+		   success: function(lwd){
+			   
+				lwd=lwd.trim();
+				
+				$('#flwd').val(lwd);
+				$('#fuid').val(fuid);
+				$('#furloughUserModal').modal('show');
+				$('#sktPleaseWait').modal('hide');
+								
+			},
+			error: function(){	
+				alert('Fail!');
+				$('#sktPleaseWait').modal('hide');
+			}
+		  });
+		  
+	});	
+	
+	
+	// $("#f_expiry").change(function(){
+	$(document).on('change','#f_expiry',function(){
+		var fdate = $('#furlough_date').val();
+		var fdays = $('#f_expiry').val();
+		//alert(fdays);
+		var nextdate = addDays(fdate, fdays);
+		
+		$('#f_expiry_date').val(nextdate);
+	});
+
+	// $("#furloughfrmUserSubmit").click(function(){
+	$(document).on('click','#furloughfrmUserSubmit',function(){
+		
+		var uid=$('.frmFurloughUser #fuid').val();
+		var furlough_date=$('.frmFurloughUser #furlough_date').val();
+		var expiry_date=$('.frmFurloughUser #f_expiry_date').val();
+		var remarks=$('.frmFurloughUser #fcomments').val();
+		var flwd=$('.frmFurloughUser #flwd').val();
+				
+		if( uid!="" && furlough_date!="" && remarks!="" && flwd!=""){
+						
+			$('#sktPleaseWait').modal('show');
+			
+			//alert(baseURL+'user/saveFurloughLeave?'+$('form.frmFurloughUser').serialize());
+			$.ajax({
+			   type: 'POST',    
+			   url:baseURL+'users/saveFurloughLeave',
+			   data:$('form.frmFurloughUser').serialize(),
+			   success: function(msg){
+					    //alert(msg);
+						$('#sktPleaseWait').modal('hide');
+						$('#furloughUserModal').modal('hide');
+						location.reload();
+					},
+					error: function(){
+						$('#furloughUserModal').modal('hide');
+						alert('Fail!');
+					}
+			});
+		}else{
+			alert("One or more field(s) are blank. \r\nPlease fill the data");
+		}
+			
+	});
+	
+	
+	
+	
+	
+	$( "#final_expiry_date" ).datepicker({maxDate: new Date()});
+	
+	// $(".revokeFurlough").click(function(){
+	$(document).on('click','.revokeFurlough',function(){
+		var fuid=$(this).attr("fuid");
+
+		$('#rfuid').val(fuid);
+				
+		$('#revokeFurloughUserModal').modal('show');
+		
+		  
+	});	
+	
+	
+///////////////////////////////////////
+
+
+	
+	$( "#doj" ).datepicker();
+	$( "#rejoin_date" ).datepicker({maxDate: new Date()});
+	//$( "#rejoin_date" ).datepicker();
+	
+	//$( "#terms_date" ).datetimepicker({maxDate: new Date()});
+	
+	
+	
+	$( "#terms_date" ).datetimepicker(
+		{
+			dateFormat: "mm/dd/yy",
+			timeFormat: "HH:mm",
+			maxDate   : new Date()
+			//timezone: timeOffset
+		}
+	);
+	
+	//$( "#terms_date" ).datetimepicker('setDate', (new Date("<?php echo CurrDateTimeMDY();?>")));
+//////////////
+
+    $('#default-datatable').DataTable({
+		"pageLength":50
+	});
+
+	
+	var datepickersOpt = {
+        dateFormat: 'mm/dd/yy',
+		timezone: timeOffset,
+        maxDate   : new Date()
+    }
+	
+	$("#tlwd").datepicker($.extend({},datepickersOpt));
+	
+	
+///////////////////////////
+	
+	$("#resign_comment").hide();
+	
+	// $("#t_type").change(function(){
+	$(document).on('change','#t_type',function(){
+		var t_type=$(this).val();
+		if(t_type==9){
+			$("#term_comment").hide();
+			$("#resign_comment").show();
+			$("#tremarks").prop("disabled", true);
+			$("#resign_remarks").attr("required", true);
+			$("#resign_remarks").prop("disabled", false);
+		}else{
+			$("#term_comment").show();
+			$("#resign_comment").hide();
+			$("#tremarks").prop("disabled", false);
+			$("#resign_remarks").removeAttr("required", false);
+			$("#resign_remarks").prop("disabled", true);
+		}
+	});
+	
+/////////////////////////////////	
+		
+});
+
+function pad(num, size) {
+    var s = "0000000000" + num;
+    return s.substr(s.length-size);
+}
+
+
+</script>
+
+<script>
+    $(function () {
+        $('#multiselect').multiselect();
+        $('#foffice_id').multiselect({
+            includeSelectAllOption: false,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+			numberDisplayed: 1,
+            filterPlaceholder: 'Search for something...',
+            onChange: function() {
+                var foffice_id=$('#foffice_id').val();
+
+				if(jQuery.inArray("ALL", foffice_id) !== -1){
+					$("#foffice_id").multiselect("clearSelection");
+					$('#foffice_id').multiselect('select', ['ALL']);
+					$('.open input[value!="ALL"]').attr("disabled", true);
+				}else{
+					$('.open input[value!="ALL"]').removeAttr("disabled");
+				}
+            }
+        });
+    });</script>
+
+<script>
+    $(function () {
+        $('#multiselect').multiselect();
+        $('#fdept_id').multiselect({
+            includeSelectAllOption: false,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+			numberDisplayed: 1,
+            filterPlaceholder: 'Search for something...',
+            onChange: function() {
+                var fdept_id=$('#fdept_id').val();
+
+				if(jQuery.inArray("ALL", fdept_id) !== -1){
+					$("#fdept_id").multiselect("clearSelection");
+					$('#fdept_id').multiselect('select', ['ALL']);
+					$('.open input[value!="ALL"]').attr("disabled", true);
+				}else{
+					$('.open input[value!="ALL"]').removeAttr("disabled");
+				}
+            }
+
+
+        });
+    });</script>
+
+    <script>
+    $(function () {
+        $('#multiselect').multiselect();
+        $('#fsub_dept_id').multiselect({
+            includeSelectAllOption: false,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+			numberDisplayed: 1,
+            filterPlaceholder: 'Search for something...',
+            onChange: function() {
+                var fsub_dept_id=$('#fsub_dept_id').val();
+
+				if(jQuery.inArray("ALL", fsub_dept_id) !== -1){
+					$("#fsub_dept_id").multiselect("clearSelection");
+					$('#fsub_dept_id').multiselect('select', ['ALL']);
+					$('.open input[value!="ALL"]').attr("disabled", true);
+				}else{
+					$('.open input[value!="ALL"]').removeAttr("disabled");
+				}
+            }
+        });
+    });</script>
+
+  <script>
+    $(function () {
+        $('#multiselect').multiselect();
+        $('#fclient_id').multiselect({
+            includeSelectAllOption: false,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+			numberDisplayed: 1,
+            filterPlaceholder: 'Search for something...',
+            onChange: function() {
+                var fclient_id=$('#fclient_id').val();
+
+				if(jQuery.inArray("ALL", fclient_id) !== -1){
+					$("#fclient_id").multiselect("clearSelection");
+					$('#fclient_id').multiselect('select', ['ALL']);
+					$('.open input[value!="ALL"]').attr("disabled", true);
+				}else{
+					$('.open input[value!="ALL"]').removeAttr("disabled");
+				}
+            }
+        });
+    });</script>
+
+
+    <script>
+   		$(function () {
+	        $('#multiselect').multiselect();
+	        $('#fprocess_id').multiselect({
+	            includeSelectAllOption: false,
+	            enableFiltering: true,
+	            enableCaseInsensitiveFiltering: true,
+				numberDisplayed: 1,
+	            filterPlaceholder: 'Search for something...',
+	            onChange: function() {
+	                var fprocess_id=$('#fprocess_id').val();
+
+					if(jQuery.inArray("ALL", fprocess_id) !== -1){
+						$("#fprocess_id").multiselect("clearSelection");
+						$('#fprocess_id').multiselect('select', ['ALL']);
+						$('.open input[value!="ALL"]').attr("disabled", true);
+					}else{
+						$('.open input[value!="ALL"]').removeAttr("disabled");
+					}
+	            }
+	        });
+	    });
+	</script>
+<script>
+   		$(function () {
+	        $('#multiselect').multiselect();
+	        $('#role_id').multiselect({
+	            includeSelectAllOption: false,
+	            enableFiltering: true,
+	            enableCaseInsensitiveFiltering: true,
+				numberDisplayed: 1,
+	            filterPlaceholder: 'Search for something...',
+	            onChange: function() {
+	                var role_id=$('#role_id').val();
+
+					if(jQuery.inArray("ALL", role_id) !== -1){
+						$("#role_id").multiselect("clearSelection");
+						$('#role_id').multiselect('select', ['ALL']);
+						$('.open input[value!="ALL"]').attr("disabled", true);
+					}else{
+						$('.open input[value!="ALL"]').removeAttr("disabled");
+					}
+	            }
+	        });
+	    });
+	</script>
+

@@ -14,6 +14,28 @@
 	font-weight:bold;
 	background-color:#F4D03F;
 }
+
+input[type='checkbox'] { 
+margin-left:5px;
+}
+span.checkbox-width {
+    width: 400px;
+    display: inline-block;
+}
+ input[type="file"] {
+    padding: 10px;
+}
+
+input#attach_file {
+    padding: 10px;
+}
+
+/*========*/
+
+
+.form-check  label{
+	font-weight: 500!important;
+}
 </style>
 
 <div class="wrap">
@@ -84,8 +106,17 @@
 										<td><input type="text" class="form-control" name="data[query_type]" value="<?php echo $clio['query_type'] ?>" disabled ></td>
 										<td>Query Sub Type:</td>
 										<td><input type="text" class="form-control" name="data[query_sub_type]" value="<?php echo $clio['query_sub_type'] ?>" disabled ></td>
-										<td>Property:</td>
-										<td><input type="text" class="form-control" name="data[property]" value="<?php echo $clio['property'] ?>" disabled ></td>
+										<!-- <td>Property:</td>
+										<td><input type="text" class="form-control" name="data[property]" value="<?php //echo $clio['property'] ?>" required ></td> -->
+										<td>Stat / Non-Stat</td>
+										<td>
+									        <select style="color:black;" class="form-control" name="data[stat]" disabled>
+												<option value="">-Select-</option>
+												<option <?php echo $clio['stat'] == "stat"?"selected":"";?> value="stat">Stat</option>
+												<option <?php echo $clio['stat'] == "non_stat"?"selected":"";?> value="non_stat">Non-Stat</option>
+												<option <?php echo $clio['stat'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+											</select> 
+										</td>
 									</tr>
 									<tr>
 										<td>Call Duration:</td>
@@ -170,7 +201,7 @@
 											</select>
 										</td>
 
-										<td>Inbound/Outbound :</td>
+										<td>Inbound/Outbound:</td>
 										<td>
 											<select class="form-control" name="data[in_out]" disabled="">
 												<option value="<?php echo $clio['in_out'] ?>"><?php echo $clio['in_out'] ?></option>
@@ -180,6 +211,17 @@
 												
 											</select>
 										</td>
+										<td>KPI-ACPT:</td>
+											<td colspan="2">
+												<select class="form-control" id="" name="data[kpi_acpt]" disabled>
+												    <option value="">-Select-</option>
+												    <option value="Agent" <?= ($clio['kpi_acpt']=="Agent")?"selected":"" ?>>Agent</option>
+													<option value="Customer" <?= ($clio['kpi_acpt']=="Customer")?"selected":"" ?>>Customer</option>
+													<option value="Process" <?= ($clio['kpi_acpt']=="Process")?"selected":"" ?>>Process</option>
+													<option value="Technology" <?= ($clio['kpi_acpt']=="Technology")?"selected":"" ?>>Technology</option>
+													<option value="NA" <?= ($clio['kpi_acpt']=="NA")?"selected":"" ?>>NA</option>
+											</select>
+											</td>
 									</tr>
 									<tr>
 										<td style="font-weight:bold; font-size:16px">Possible Score:</td>
@@ -234,19 +276,30 @@
 										</td>
 										<td colspan=2><input type="text" class="form-control" name="data[cmt3]" value="<?php echo $clio['cmt3'] ?>" disabled></td>
 									</tr>
-									<tr>
+									<!-- <tr>
 										<td class="eml1" colspan=3>Obtain verbal permission from an authenticated account owner before providing any account information.</td>
 										<td>
 											<select class="form-control jurry_points compliance" name="data[obtain_verbal_permission]" disabled>
 												<option value="">-Select-</option>
-												<option ji_val=2 <?php echo $clio['obtain_verbal_permission'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=2 <?php echo $clio['obtain_verbal_permission'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=0 <?php echo $clio['obtain_verbal_permission'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ji_val=2 <?php //echo $clio['obtain_verbal_permission'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option ji_val=2 <?php //echo $clio['obtain_verbal_permission'] == "No"?"selected":"";?> value="No">No</option>
+												<option ji_val=0 <?php //echo $clio['obtain_verbal_permission'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
-										<td colspan=2><input type="text" class="form-control" name="data[cmt4]" value="<?php echo $clio['cmt4'] ?>" disabled></td>
+										<td colspan=2><input type="text" class="form-control" name="data[cmt4]" value="<?php //echo $clio['cmt4'] ?>" disabled></td>
+									</tr> -->
+									<tr>
+										<td class="eml1" colspan=3>Did the CSR greets the caller by mentioning the branding in the opeaning spiel and thank the caller on the closing spiel?</td>
+										<td>
+											<select class="form-control jurry_points compliance" name="data[closing_spiel]" disabled>
+												<option value="">-Select-</option>
+												<option ji_val=2 <?php echo $clio['closing_spiel'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option ji_val=2 <?php echo $clio['closing_spiel'] == "No"?"selected":"";?> value="No">No</option>
+												<option ji_val=0 <?php echo $clio['closing_spiel'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+											</select>
+										</td>
+										<td colspan=2><input type="text" class="form-control" name="data[cmt21]" value="<?php echo $clio['cmt21'] ?>" disabled></td>
 									</tr>
-									
 
 									<tr><td colspan=6 style="background-color:#7DCEA0">CUSTOMER CRITICAL</td></tr>
 									<tr>
@@ -274,9 +327,20 @@
 										<td colspan=2><input type="text" class="form-control" name="data[cmt6]" value="<?php echo $clio['cmt6'] ?>" disabled></td>
 										<!-- <td>Business Critical</td> -->
 									</tr>
+									<?php 
+									// if($od_voice_id==0){
+										
+										$chk_array1="";
+										$clio['check_list1'];
+										$chk_array1=explode(',', $clio['check_list1']);
+										
+										//}
+
+									?>
 									<tr>
-										<td class="eml1" colspan=3>Did the agent utilize all needed information before scheduling an appointment?</td>
-										<td>
+										<td class="eml1" colspan=3 >Did the agent utilize all needed information before scheduling an appointment?</td>
+
+										<td colspan="" rowspan="9">
 											<select class="form-control jurry_points customer" name="data[do_agent_utilize_information]" disabled>
 												<option value="">-Select-</option>
 												<option ji_val=20 <?php echo $clio['do_agent_utilize_information'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
@@ -284,9 +348,123 @@
 												<option ji_val=0 <?php echo $clio['do_agent_utilize_information'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
-										<td colspan=2><input type="text" class="form-control" name="data[cmt7]" value="<?php echo $clio['cmt7'] ?>" disabled></td>
+										<td colspan=2 rowspan="9"><input type="text" class="form-control" name="data[cmt7]" value="<?php echo $clio['cmt7'] ?>" disabled></td>
 										
 									</tr>
+									<!-- checkbox start -->
+									<tr>
+										<td colspan="2" class="form-check">
+									
+											<label class="form-check-label" for="flexCheckDefault">
+									    Doctor
+									  </label>
+									</td>
+									<td>
+									  <input class="form-check-input" type="checkbox" name="check_list1[]" <?php if(in_array("Doctor", $chk_array1)) { echo 'checked'; }?> value="Doctor" id="flexCheckDefault" disabled>
+									  
+								
+  
+										</td>
+									</tr>
+										<tr>
+										<td colspan="2" class="form-check">
+									
+											<label class="form-check-label" for="flexCheckDefault">
+									    Patient Info
+									  </label>
+									</td>
+									<td>
+									  <input class="form-check-input" type="checkbox" name="check_list1[]" <?php if(in_array("Patient_Info", $chk_array1)) { echo 'checked'; }?> value="Patient_Info" id="flexCheckDefault" disabled>
+									  
+								
+  
+										</td>
+									</tr>
+										<tr>
+										<td colspan="2" class="form-check">
+									
+											<label class="form-check-label" for="flexCheckDefault">
+									    Eligibility Related
+									  </label>
+									</td>
+									<td>
+									  <input class="form-check-input" type="checkbox" name="check_list1[]" <?php if(in_array("Eligibility_Related", $chk_array1)) { echo 'checked'; }?> value="Eligibility_Related" id="flexCheckDefault" disabled>
+									  
+								
+  
+										</td>
+									</tr>
+										<tr>
+										<td colspan="2" class="form-check">
+									
+											<label class="form-check-label" for="flexCheckDefault">
+									    Referral
+									  </label>
+									</td>
+									<td>
+									  <input class="form-check-input" type="checkbox" name="check_list1[]" <?php if(in_array("Referral", $chk_array1)) { echo 'checked'; }?>  value="Referral" id="flexCheckDefault" disabled>
+									  
+								
+  
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2" class="form-check">
+									
+											<label class="form-check-label" for="flexCheckDefault">
+									    Screening Questions
+									  </label>
+									</td>
+									<td>
+									  <input class="form-check-input" type="checkbox" name="check_list1[]" <?php if(in_array("Screening_Questions", $chk_array1)) { echo 'checked'; }?> value="Screening_Questions" id="flexCheckDefault" disabled>
+									  
+								
+  
+										</td>
+									</tr>
+										<tr>
+										<td colspan="2" class="form-check">
+									
+											<label class="form-check-label" for="flexCheckDefault">
+									    Document Info
+									  </label>
+									</td>
+									<td>
+									  <input class="form-check-input" type="checkbox" name="check_list1[]" <?php if(in_array("Document_Info", $chk_array1)) { echo 'checked'; }?>  value="Document_Info" id="flexCheckDefault" disabled>
+									  
+								
+  
+										</td>
+									</tr>
+										<tr>
+										<td colspan="2" class="form-check">
+									
+											<label class="form-check-label" for="flexCheckDefault">
+									    Scheduling
+									  </label>
+									</td>
+									<td>
+									  <input class="form-check-input" type="checkbox" name="check_list1[]" <?php if(in_array("Scheduling", $chk_array1)) { echo 'checked'; }?> value="Scheduling" id="flexCheckDefault" disabled>
+									  
+								
+  
+										</td>
+									</tr>
+										<tr>
+										<td colspan="2" class="form-check">
+									
+											<label class="form-check-label" for="flexCheckDefault">
+									    Insurance
+									  </label>
+									</td>
+									<td>
+									  <input class="form-check-input" type="checkbox" name="check_list1[]" <?php if(in_array("Insurance", $chk_array1)) { echo 'checked'; }?> value="Insurance" id="flexCheckDefault" disabled>
+									  
+								
+  
+										</td>
+									</tr>
+											<!-- checkbox end -->
 									<tr>
 										<td class="eml1" colspan=3>Did the agent observe proper Hold Procedure and avoid long silences?</td>
 										<td>
@@ -339,19 +517,19 @@
 										<td colspan=2><input type="text" class="form-control" name="data[cmt12]" value="<?php echo $clio['cmt12'] ?>" disabled></td>
 										
 									</tr>
-									<tr>
+									<!-- <tr>
 										<td class="eml1" colspan=3>Did the agent ask relevant probing questions?</td>
 										<td>
 											<select class="form-control jurry_points customer" id="" name="data[ask_relevant_probing]" disabled>
 												<option value="">-Select-</option>
-												<option ji_val=3 <?php echo $clio['ask_relevant_probing'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
-												<option ji_val=3 <?php echo $clio['ask_relevant_probing'] == "No"?"selected":"";?> value="No">No</option>
-												<option ji_val=0 <?php echo $clio['ask_relevant_probing'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
+												<option ji_val=3 <?php //echo $clio['ask_relevant_probing'] == "Yes"?"selected":"";?> value="Yes">Yes</option>
+												<option ji_val=3 <?php //echo $clio['ask_relevant_probing'] == "No"?"selected":"";?> value="No">No</option>
+												<option ji_val=0 <?php //echo $clio['ask_relevant_probing'] == "N/A"?"selected":"";?> value="N/A">N/A</option>
 											</select>
 										</td>
-										<td colspan=2><input type="text" class="form-control" name="data[cmt20]" value="<?php echo $clio['cmt20'] ?>" disabled></td>
+										<td colspan=2><input type="text" class="form-control" name="data[cmt20]" value="<?php //echo $clio['cmt20'] ?>" disabled></td>
 										
-									</tr>
+									</tr> -->
 									
 									</tr><tr><td colspan=6 style="background-color:#7DCEA0">BUSINESS CRITICAL</td></tr>
 									<tr>
@@ -478,6 +656,32 @@
 										<td colspan="2"><textarea class="form-control"   name="data[call_summary]" disabled><?php echo $clio['call_summary'] ?></textarea></td>
 										<td>Feedback:</td>
 										<td colspan="2"><textarea class="form-control"   name="data[feedback]" disabled><?php echo $clio['feedback'] ?></textarea></td>
+									</tr>
+									<tr>
+										<td>Call Analytics:</td>
+											<td colspan="2">
+												<select class="form-control" id="" name="data[call_analytics]" disabled>
+											
+											    <option value="">-Select-</option>
+											    <option value="Customer Experience" <?= ($clio['call_analytics']=="Customer Experience")?"selected":"" ?>>Customer Experience</option>
+												<option value="Csat" <?= ($clio['call_analytics']=="Csat")?"selected":"" ?>>Csat</option>
+												<option value="Nps" <?= ($clio['call_analytics']=="Nps")?"selected":"" ?>>Nps</option>
+												<option value="Issue resolution" <?= ($clio['call_analytics']=="Issue resolution")?"selected":"" ?>>Issue resolution</option>
+												<option value="Repeat Caller" <?= ($clio['call_analytics']=="Repeat Caller")?"selected":"" ?>>Repeat Caller</option>
+												<option value="High AHT" <?= ($clio['call_analytics']=="High AHT")?"selected":"" ?>>High AHT</option>
+												<option value="Low AHT" <?= ($clio['call_analytics']=="Low AHT")?"selected":"" ?>>Low AHT</option>
+										</select>
+											</td>
+
+										<td>ACPT Level:</td>
+											<td colspan="2">
+												<select class="form-control" id="" name="data[acpt_level]" disabled>
+											    <option value="">-Select-</option>
+											    <option value="Level 1" <?= ($clio['acpt_level']=="Level 1")?"selected":"" ?>>Level 1</option>
+												<option value="Level 2" <?= ($clio['acpt_level']=="Level 2")?"selected":"" ?>>Level 2</option>
+												<option value="Level 3" <?= ($clio['acpt_level']=="Level 3")?"selected":"" ?>>Level 3</option>
+										</select>
+											</td>	
 									</tr>
 									
 									<tr>

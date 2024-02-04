@@ -1,0 +1,181 @@
+<script>
+	$(document).ready(function() {
+		baseURL = "<?php echo base_url(); ?>";
+		$(document).on('click', '.assets_wise_req_data', function() {
+
+			var assets_id = $(this).attr('assets_id');
+			var count_id = $(this).attr('count_id');
+
+			var request_url = "<?php echo base_url('procurement/get_request_list/assets'); ?>";
+			var datas = {
+				'assets_id': assets_id
+			};
+			process_ajax(function(response) {
+				var res = JSON.parse(response);
+				$("#collapseExample_tabledata_" + count_id).html(res.htmldata);
+
+			}, request_url, datas, 'text');
+
+		});
+
+
+		$(".approveModalshow").click(function() {
+
+			var req_id = $(this).attr("req_id");
+
+			request_url = baseURL + 'procurement/reqItemApprovHtml';
+			datas = {
+				'req_id': req_id,
+			};
+			process_ajax(function(htmldata) {
+
+				$('#approveModal').html(htmldata);
+				$("#approveModal").modal('show');
+			}, request_url, datas, 'text');
+
+		});
+
+
+		$(".manageRequestHtml").click(function() {
+
+			var req_id = $(this).attr("req_id");
+
+			request_url = baseURL + 'procurement/manageRequestHtml';
+			datas = {
+				'req_id': req_id,
+			};
+			process_ajax(function(htmldata) {
+
+				$('#manageRequestModal').html(htmldata);
+				$("#manageRequestModal").modal('show');
+			}, request_url, datas, 'text');
+
+		});
+
+
+		$(".search_more_vendor").click(function() {
+
+			var search_vendor_ids = $('select#search_vendor_ids').val();
+			request_url = baseURL + 'procurement/getSerachVendors';
+			datas = {
+				'vendor_ids': search_vendor_ids,
+			};
+			process_ajax(function(response) {
+
+				list = "";
+				var res = JSON.parse(response);
+				var c = 1;
+				$.each(res.vendors, function(index, element) {
+
+					list += `<tr>
+								<td><input type="checkbox" class="contact_vendor_check"  onclick="checkme(this.value)" name="contact_vendor_ids[]" value="${element.id}"></td>
+								<td>${element.vnd_name}</td>
+								<td>${element.vnd_phone}</td>
+								<td><div class="modal-btn">
+										<button type="button" class="btn btn-sm" title="View More" vendor_id="${element.id}" vendor_name="${element.vnd_name}">
+											<i class="fa fa-eye" aria-hidden="true"></i>
+										</button>
+									</div></td>
+								
+							</tr>`;
+					c++;
+
+					var chekVal = element.id;
+
+
+
+					$('#search_vendor_ids option[value="' + chekVal + '"]').prop('disabled', true);
+
+				});
+				$('.priority_vendors tr:last').after(list);
+				$(".bs-deselect-all").trigger("click");
+
+			}, request_url, datas, 'text');
+
+
+
+		});
+
+		$(".contactVendorBulk").click(function() {
+
+			var assets_id = $(this).attr("assets_id");
+
+			request_url = baseURL + 'procurement/contactVendorBulkHtml';
+			datas = {
+				'assets_id': assets_id,
+			};
+			process_ajax(function(response) {
+
+				var res = JSON.parse(response);
+				$('.sendReqVendor').attr('req_id', res.req_id);
+				$('.sendReqVendor').attr('assets_id', res.assets_id);
+
+				//$('#vendorContactList').html(htmldata);
+				$("#vendorContactList").modal('show');
+			}, request_url, datas, 'text');
+
+		});
+
+		$(".sendReqVendor").click(function()
+		{
+
+			var checkedVals = $('.contact_vendor_check:checkbox:checked').map(function() {
+				return this.value;
+			}).get();
+			var vendor_ids = checkedVals.join(",");
+			
+			var req_id = $(this).attr("req_id");
+			var assets_id = $(this).attr("assets_id");
+
+			request_url = baseURL + 'procurement/sendReqVendorSubmit';
+			datas = {
+				'assets_id': assets_id,
+				'req_id': req_id,
+				'vendor_ids': vendor_ids,
+			};
+
+			process_ajax(function(response) {
+				swal({
+					title: "Success!",
+					text: 'Vendor Selection Has Been Completed. Now go to Vendor Section to upload Purchase Request',
+					icon: "success"
+					}).then(function() {
+						window.location.reload();
+						//startRefresh();
+					});
+				
+			}, request_url, datas, 'text');
+
+		});
+
+	}); // end of document ready
+
+	function checkme(value) {
+
+		var numberNotChecked = $('input[name="contact_vendor_ids[]"]:checked').length;
+
+		if (Number(numberNotChecked) > Number(3)) {
+			swal({
+				title: "Warning!",
+				text: "Maximum 3 Vendors are allowed!",
+				icon: "warning"
+			}).then(function() {
+
+				$('.sendReqVendor').prop('disabled', true);
+				var style = $('.sendReqVendor').attr('style'); //it will return string
+				// update style as
+				style += ';display:none';
+				$('.sendReqVendor').attr('style', style);
+
+			});
+		} else {
+			$('.sendReqVendor').prop('disabled', false);
+			var style = $('.sendReqVendor').attr('style'); //it will return string
+			// update style as
+			style += ';display:block';
+			$('.sendReqVendor').attr('style', style);
+
+		}
+
+	}
+</script>

@@ -1,7 +1,7 @@
 
 <script>
 	$(document).ready(function(){	//ready function start
-		
+
 	/*--------- Bootstrap Date Pickers -----------*/
 		$("#follow_up_date").datetimepicker();
 		$("#audit_date").datepicker();
@@ -11,10 +11,11 @@
 		$("#cycle_date").datepicker();
 		$("#week_end_date").datepicker();
 		$("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });
-		$("#call_date_time").datetimepicker();
-		$("#from_date").datepicker();
-		$("#to_date").datepicker();
-		
+		// $("#call_date_time").datepicker({ minDate: new Date(), maxDate: new Date() });
+		$("#call_date_time").datepicker({maxDate: new Date() });
+		$("#from_date").datepicker({  maxDate: new Date() });
+		$("#to_date").datepicker({  maxDate: new Date() });
+
 	/*--------- Azax call to bring Fusion ID & L1 Super on Agent ID change -----------*/
 		$( "#agent_id" ).on('change' , function(){
 			var aid = this.value;
@@ -22,12 +23,12 @@
 			var URL='<?php echo base_url();?>qa_metropolis/getTLname';
 			$('#sktPleaseWait').modal('show');
 			$.ajax({
-				type: 'POST',    
+				type: 'POST',
 				url:URL,
 				data:'aid='+aid,
 				success: function(aList){
 					var json_obj = $.parseJSON(aList);
-					$('#tl_name').empty().append($('#tl_name').val(''));	
+					$('#tl_name').empty().append($('#tl_name').val(''));
 					//for (var i in json_obj) $('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
 					for (var i in json_obj) $('#tl_id').append($('#tl_id').val(json_obj[i].assigned_to));
 					for (var i in json_obj) $('#fusion_id').append($('#fusion_id').val(json_obj[i].fusion_id));
@@ -36,7 +37,7 @@
 					// for (var i in json_obj) $('#tenure').append($('#tenure').val(json_obj[i].tenure+' Days'));
 					$('#sktPleaseWait').modal('hide');
 				},
-				error: function(){	
+				error: function(){
 					alert('Fail!');
 				}
 			});
@@ -49,15 +50,15 @@
 			var URL='<?php echo base_url();?>Qa_mobikwik/getDesignation';
 			$('#sktPleaseWait').modal('show');
 			$.ajax({
-				type: 'POST',    
+				type: 'POST',
 				url:URL,
 				data:'aid='+aid,
 				success: function(aList){
 					var json_obj = $.parseJSON(aList);
 					console.log(json_obj);
-					//$('#designation').empty().append($('#designation').val(''));	
+					//$('#designation').empty().append($('#designation').val(''));
 					//for (var i in json_obj) $('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
-					
+
 					for (var i in json_obj){
 						if(json_obj[i].roleName =='QA Auditor' || json_obj[i].roleName =='QA Specialist' || json_obj[i].roleName =='Quality Analyst'){
 							desig = 'QA';
@@ -67,18 +68,18 @@
 						}
 					$('#designation').append($('#designation').val(desig));
 					}
-					
+
 					$('#sktPleaseWait').modal('hide');
 				},
-				error: function(){	
+				error: function(){
 					alert('Fail!');
 				}
 			});
 		});
-		
+
 	/*--------- Calibration - Auditor Type -----------*/
 		$('.auType').hide();
-		
+
 		$('#audit_type').on('change', function(){
 			if($(this).val()=='Calibration'){
 				$('.auType').show();
@@ -90,8 +91,8 @@
 				$('#auditor_type').prop('disabled',true);
 			}
 		});
-		
-	
+
+
 	/*----------------- Customer VOC & Sub VOC ------------------*/
 		$('#cust_voc').on('change', function()
 		{
@@ -577,6 +578,153 @@
 </script>
 
 <script>
+function date_validation(val,type){ 
+	// alert(val);
+		$(".end_date_error").html("");
+		$(".start_date_error").html("");
+		if(type=='E'){
+		var start_date=$("#from_date").val();
+		//if(val<start_date)
+		if(Date.parse(val) < Date.parse(start_date))
+		{
+			$(".end_date_error").html("To Date must be greater or equal to From Date");
+			 $(".heaps-effect").attr("disabled",true);
+			 $(".heaps-effect").css('cursor', 'no-drop');
+		}
+		else{
+			 $(".heaps-effect").attr("disabled",false);
+			 $(".heaps-effect").css('cursor', 'pointer');
+			}
+		}
+		else{
+			var end_date=$("#to_date").val();
+		//if(val>end_date && end_date!='')
+		
+		if(Date.parse(val) > Date.parse(end_date) && end_date!='')
+		{
+			$(".start_date_error").html("From  Date  must be less or equal to  To Date");
+			 $(".heaps-effect").attr("disabled",true);
+			 $(".heaps-effect").css('cursor', 'no-drop');
+		}
+		else{
+			 $(".heaps-effect").attr("disabled",false);
+			 $(".heaps-effect").css('cursor', 'pointer');
+			}
+
+		}
+		
+		
+	}
+
+	// var todayDate = new Date();
+    // var month = todayDate.getMonth();
+    // var year = todayDate.getUTCFullYear() - 0;
+    // var tdate = todayDate.getDate();
+    // if (month < 10) {
+    //     month = "0" + month
+    // }
+    // if (tdate < 10) {
+    //     tdate = "0" + tdate;
+    // }
+    // var maxDate = year + "-" + month + "-" + tdate;
+    // document.getElementById("call_date_time").setAttribute("min", maxDate);
+   // console.log(maxDate);
+
+
+
+
+</script>
+<script>
+	   function phone_noFunction(phone_no){
+			var phone_no=$("#phone_no").val();
+
+
+		if((phone_no.length <10) || (phone_no.length >12)){
+				$("#msg-phone_no").html("<font color=red style='font-size:14px;'>Please enter the 10-12 Digit format</font>");
+			
+				$(".waves-effect").attr("disabled",true);
+				$(".waves-effect").css('cursor', 'no-drop');
+				
+			} else{
+				$("#msg-phone_no").html("");
+				$(".waves-effect").attr("disabled",false);
+				$(".waves-effect").css('cursor', 'pointer');
+				
+			}
+  }	
+
+  
+//   function phone_no_keyup(phone_no) {
+// 	$("#msg-phone_no").html("");
+	
+// }
+
+
+
+
+jQuery.fn.ForceNumericOnly =
+function()
+{
+    return this.each(function()
+    {
+        $(this).keydown(function(e)
+        {
+            var key = e.charCode || e.keyCode || 0;
+          
+            return ((key == 8) || (key == 37) || (key == 39) || (key == 46) ||    (key == 189) || (key >= 48 && key <= 57)|| (key >= 96 && key <= 105)|| (key >= 65 && key <= 90));
+        });
+    });
+};
+
+
+
+$("#call_id").ForceNumericOnly();
+
+$("#reference").ForceNumericOnly();
+
+
+
+$(function () {
+   $('#phone_no').keydown(function (e) {
+        if (e.shiftKey || e.ctrlKey || e.altKey) {
+           e.preventDefault();
+        } 
+        else {
+            var key = e.keyCode;
+            if (!((key == 8) || (key == 37) || (key == 39) || (key == 46) || (key ==16) ||  (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+               e.preventDefault();
+            }
+        }
+    });
+});
+</script>
+
+<script>
+$('INPUT[type="file"]').change(function () {
+    var ext = this.value.match(/\.(.+)$/)[1];
+    switch (ext) {
+        case 'avi':
+			case 'mp4':
+				case '3gp':
+					case 'mpeg':
+						case 'mpg':
+							case 'mov':
+								case 'mp3':
+								case 'wav':
+        case 'flv':
+        case 'wmv':
+			case'mkv':
+            $('#qaformsubmit').attr('disabled', false);
+            break;
+        default:
+            alert('This is not an allowed file type.');
+			//$('#qaformsubmit').attr('disabled', true);
+            this.value = '';
+    }
+});
+</script>
+
+<script>
 /*--------- check Number field -----------*/
 	function checkDec(el){
 		var ex = /^[0-9]+\.?[0-9]*$/;
@@ -584,6 +732,12 @@
 			el.value = el.value.substring(0,el.value.length - 1);
 		}
 	}
+
+
+	$("#from_dates").datepicker();
+ $("#to_dates").datepicker();
+
+
 </script>
 
 
@@ -610,18 +764,18 @@
 			    var weightage = parseFloat($(element).children("option:selected").attr('idfc_val'));
 			    score = score + weightage;
 			    scoreable = scoreable + weightage;
-			
+
 			}
 		});
 		quality_score_percent = ((score*100)/scoreable).toFixed(2);
-		
+
 		//$('#idfcEarnedScore').val(score);
 		$('#idfcPossibleScore').val(scoreable);
-		
+
 		// if(!isNaN(quality_score_percent)){
 		// 	$('#idfcOverallScore').val(quality_score_percent+'%');
 		// }
-		
+
 	//////////
 		if($('#idfcAF1').val()=='Fatal' || $('#idfcAF2').val()=='Fatal' || $('#idfcAF3').val()=='Fatal' || $('#idfcAF4').val()=='Fatal' || $('#idfcAF5').val()=='Fatal' || $('#idfcAF6').val()=='Fatal' || $('#idfcAF7').val()=='Fatal' || $('#idfcAF8').val()=='Fatal'){
 			$('#idfcOverallScore').val(0);
@@ -631,7 +785,7 @@
 			if(!isNaN(quality_score_percent)){
 				$('#idfcEarnedScore').val(score);
 				$('#idfcOverallScore').val(quality_score_percent+'%');
-			}	
+			}
 		}
 
 	}
@@ -668,9 +822,9 @@ function paytail_calc()
 				scoreable = scoreable + weightage;
 			}
 		});
-				
+
 		quality_score_percent = ((score*100)/scoreable).toFixed(2);
-		
+
 		//$('#paytailearnedScore').val(score);
 		$('#paytailpossibleScore').val(scoreable);
 
@@ -681,11 +835,11 @@ function paytail_calc()
 			if(!isNaN(quality_score_percent)){
 				$('#paytailearnedScore').val(score);
 				$('#paytailoverallScore').val(quality_score_percent+'%');
-			}	
+			}
 		}
-	
+
 	}
-	
+
 	$(document).on('change','.paytail_point',function(){
 		paytail_calc();
 	});
@@ -713,25 +867,25 @@ function paytail_calc()
 			    var weightage = parseFloat($(element).children("option:selected").attr('maalomatia_val'));
 			    score = score + weightage;
 			    scoreable = scoreable + weightage;
-			
+
 			}
 		});
 		quality_score_percent = ((score*100)/scoreable).toFixed(2);
-		
+
 		$('#EarnedScore').val(score);
 		$('#PossibleScore').val(scoreable);
-		
-		
+
+
 	//////////
 		if($('#maa1').val()=='Not Met' || $('#maa2').val()=='Not Met' || $('#maa3').val()=='Not Met' || $('#maa4').val()=='Not Met' || $('#maa5').val()=='Not Met' || $('#maa6').val()=='Not Met' || $('#maa7').val()=='Not Met' || $('#maa8').val()=='Not Met' || $('#maa9').val()=='Not Met' || $('#maa10').val()=='Not Met'){
 			$('#OverallScore').val(0);
-			
+
 		}else{
-			
+
 			if(!isNaN(quality_score_percent)){
-			
+
 				$('#OverallScore').val(quality_score_percent+'%');
-			}	
+			}
 		}
 
 	}
@@ -740,6 +894,222 @@ function paytail_calc()
 		maalomatia_calc();
 	});
 	maalomatia_calc();
+
+	/*--------- Audit Sheet Calculation [HEAPS Outbound] -----------*/
+	function heaps_calc()
+	{
+		var score = 0;
+		var scoreable = 0;
+		var quality_score_percent = 0;
+		$('.heaps_point').each(function(index,element){
+			var score_type = $(element).val();
+			if((score_type == 'Yes') || (score_type == 'Pass') ){
+			    var weightage = parseFloat($(element).children("option:selected").attr('heaps_val'));
+			    score = score + weightage;
+			    scoreable = scoreable + weightage;
+			}else if((score_type == 'No') || (score_type == 'Fail')  ){
+			    var weightage = parseFloat($(element).children("option:selected").attr('heaps_val'));
+			    scoreable = scoreable + weightage;
+			// }else if(score_type == 'Fatal'){
+			//     var weightage = parseFloat($(element).children("option:selected").attr('heaps_val'));
+			//     scoreable = scoreable + weightage;
+			}else if(score_type == 'NA'){
+			    var weightage = parseFloat($(element).children("option:selected").attr('heaps_val'));
+			    score = score + weightage;
+			    scoreable = scoreable + weightage;
+
+			}
+		});
+		quality_score_percent = ((score*100)/scoreable).toFixed(2);
+
+		$('#heaps_EarnedScore').val(score);
+		$('#heaps_PossibleScore').val(scoreable);
+
+
+	//////////
+		if($('#heaps1').val()=='Fail' || $('#heaps2').val()=='Fail' || $('#heaps3').val()=='Fail' || $('#heaps4').val()=='Fail' || $('#heaps5').val()=='Fail' || $('#heaps6').val()=='Fail'){
+			$('#heaps_OverallScore').val(0);
+
+		}else{
+
+			if(!isNaN(quality_score_percent)){
+
+				$('#heaps_OverallScore').val(quality_score_percent+'%');
+			}
+		}
+
+	}
+
+	$(document).on('change','.heaps_point',function(){
+		heaps_calc();
+	});
+	heaps_calc();
+
+/*--------- Audit Sheet Calculation [Coastline] -----------*/
+function coastline_calc()
+	{
+		var score = 0;
+		var scoreable = 0;
+		var quality_score_percent = 0;
+		$('.coastline_point').each(function(index,element){
+			var score_type = $(element).val();
+			if(score_type == 'Meet'){
+			    var weightage1 = parseFloat($(element).children("option:selected").attr('coastline_val'));
+				var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+			    score = score + weightage1;
+			    scoreable = scoreable + weightage2;
+			}else if(score_type == 'Need coaching'){
+			    var weightage1 = parseFloat($(element).children("option:selected").attr('coastline_val'));
+				var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+			    score = score + weightage1;
+				scoreable = scoreable + weightage2;
+			}else if(score_type == 'Fail'){
+			    var weightage1 = parseFloat($(element).children("option:selected").attr('coastline_val'));
+				var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+			    scoreable = scoreable + weightage2;
+			}else if(score_type == 'NA'){
+			    var weightage1 = parseFloat($(element).children("option:selected").attr('coastline_val'));
+				var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+			    score = score + weightage1;
+			    scoreable = scoreable + weightage2;
+
+			}
+		});
+		quality_score_percent = ((score*100)/scoreable).toFixed(2);
+
+		$('#coastline_EarnedScore').val(score);
+		$('#coastline_PossibleScore').val(scoreable);
+
+
+	//////////
+		// if($('#actyvAI1').val()=='Fatal' || $('#actyvAI2').val()=='Fatal' || $('#actyvAI3').val()=='Fatal'){
+		// 	$('#coastline_OverallScore').val(0);
+
+		// }else{
+
+			if(!isNaN(quality_score_percent)){
+
+				$('#coastline_OverallScore').val(quality_score_percent+'%');
+			}
+		//}
+
+
+		//////////////////////////////
+		var compliancescore = 0;
+		var compliancescoreable = 0;
+		var compliance_score_percent = 0;
+		var customerscore = 0;
+		var customerscoreable = 0;
+		var customer_score_percent = 0;
+		var businessscore = 0;
+		var businessscoreable = 0;
+		var business_score_percent = 0;
+		
+		$('.compliance').each(function(index,element){
+			var score_type1 = $(element).val();
+			
+			if(score_type1 == 'Meet'){
+				var cw1 = parseFloat($(element).children("option:selected").attr('coastline_val'));
+				var cw2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				compliancescore = compliancescore + cw1;
+				compliancescoreable = compliancescoreable + cw2;
+			}else if(score_type1 == 'Need coaching'){
+				var cw1 = parseFloat($(element).children("option:selected").attr('coastline_val'));
+				var cw2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				compliancescore = compliancescore + cw1;
+				compliancescoreable = compliancescoreable + cw2;
+			}else if(score_type1 == 'Fail'){
+				var cw1 = parseFloat($(element).children("option:selected").attr('coastline_val'));
+				var cw2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				compliancescore = compliancescore + cw1;
+				compliancescoreable = compliancescoreable + cw2;
+			}else if(score_type1 == 'NA'){
+				var cw1 = parseFloat($(element).children("option:selected").attr('coastline_val'));
+				var cw2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				compliancescore = compliancescore + cw1;
+				compliancescoreable = compliancescoreable + cw2;
+			}
+		});
+		compliance_score_percent = ((compliancescore*100)/compliancescoreable).toFixed(2);
+		$('#compliancescore').val(compliancescore);
+		$('#compliancescoreable').val(compliancescoreable);
+		$('#compliance_score_percent').val(compliance_score_percent+'%');
+	//////////////
+		$('.customer').each(function(index,element){
+			var score_type2 = $(element).val();
+			
+			if(score_type2 == 'Meet'){
+				var csw1 = parseFloat($(element).children("option:selected").attr('coastline_val'));
+				var csw2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				customerscore = customerscore + csw1;
+				customerscoreable = customerscoreable + csw2;
+			}else if(score_type2 == 'Need coaching'){
+				var csw1 = parseFloat($(element).children("option:selected").attr('coastline_val'));
+				var csw2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				customerscore = customerscore + csw1;
+				customerscoreable = customerscoreable + csw2;
+			}else if(score_type2 == 'Fail'){
+				var csw1 = parseFloat($(element).children("option:selected").attr('coastline_val'));
+				var csw2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				customerscore = customerscore + csw1;
+				customerscoreable = customerscoreable + csw2;
+			}else if(score_type2 == 'NA'){
+				var csw1 = parseFloat($(element).children("option:selected").attr('coastline_val'));
+				var csw2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				customerscore = customerscore + csw1;
+				customerscoreable = customerscoreable + csw2;
+			}
+		});
+		customer_score_percent = ((customerscore*100)/customerscoreable).toFixed(2);
+		$('#customerscore').val(customerscore);
+		$('#customerscoreable').val(customerscoreable);
+		$('#customer_score_percent').val(customer_score_percent+'%');
+	//////////////
+		$('.business').each(function(index,element){
+			var score_type3 = $(element).val();
+			
+			if(score_type3 == 'Meet'){
+				var bw1 = parseFloat($(element).children("option:selected").attr('coastline_val'));
+				var bw2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				businessscore = businessscore + bw1;
+				businessscoreable = businessscoreable + bw2;
+			}else if(score_type3 == 'Need coaching'){
+				var bw1 = parseFloat($(element).children("option:selected").attr('coastline_val'));
+				var bw2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				businessscore = businessscore + bw1;
+				businessscoreable = businessscoreable + bw2;
+			}else if(score_type3 == 'Fail'){
+				var bw1 = parseFloat($(element).children("option:selected").attr('coastline_val'));
+				var bw2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				businessscore = businessscore + bw1;
+				businessscoreable = businessscoreable + bw2;
+			}else if(score_type3 == 'NA'){
+				var bw1 = parseFloat($(element).children("option:selected").attr('coastline_val'));
+				var bw2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				businessscore = businessscore + bw1;
+				businessscoreable = businessscoreable + bw2;
+			}
+		});
+		business_score_percent = ((businessscore*100)/businessscoreable).toFixed(2);
+		$('#businessscore').val(businessscore);
+		$('#businessscoreable').val(businessscoreable);
+		$('#business_score_percent').val(business_score_percent+'%');
+
+	}
+
+	$(document).on('change','.coastline_point',function(){
+		coastline_calc();
+	});
+	$(document).on('change','.compliance',function(){
+		coastline_calc();
+	});
+	$(document).on('change','.customer',function(){
+		coastline_calc();
+	});
+	$(document).on('change','.business',function(){
+		coastline_calc();
+	});
+	coastline_calc();	
 
 /*--------- Audit Sheet Calculation [actyvAI Audit] -----------*/
 function actyvAI_calc()
@@ -768,25 +1138,25 @@ function actyvAI_calc()
 				var weightage2 = parseFloat($(element).children("option:selected").attr('maalomatia_max'));
 			    score = score + weightage1;
 			    scoreable = scoreable + weightage2;
-			
+
 			}
 		});
 		quality_score_percent = ((score*100)/scoreable).toFixed(2);
-		
+
 		$('#EarnedScore').val(score);
 		$('#PossibleScore').val(scoreable);
-		
-		
+
+
 	//////////
 		if($('#actyvAI1').val()=='Fatal' || $('#actyvAI2').val()=='Fatal' || $('#actyvAI3').val()=='Fatal'){
 			$('#OverallScore').val(0);
-			
+
 		}else{
-			
+
 			if(!isNaN(quality_score_percent)){
-			
+
 				$('#OverallScore').val(quality_score_percent+'%');
-			}	
+			}
 		}
 
 	}
@@ -794,6 +1164,6 @@ function actyvAI_calc()
 	$(document).on('change','.actyvAI',function(){
 		actyvAI_calc();
 	});
-	actyvAI_calc(); 
+	actyvAI_calc();
 
 </script>

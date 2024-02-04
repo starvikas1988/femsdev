@@ -1,0 +1,600 @@
+<style>
+	td{
+		font-size:12px;
+	}
+	
+	#default-datatable th{
+		font-size:12px;
+	}
+	#default-datatable th{
+		font-size:12px;
+	}
+	
+	.table > thead > tr > th, .table > thead > tr > td, .table > tbody > tr > th, .table > tbody > tr > td, .table > tfoot > tr > th, .table > tfoot > tr > td {
+		padding:2px;
+	}
+	.lbl_chk_all{
+		padding:0px 5px;
+		background-color:#ddd;
+	}
+	
+	.lbl_chk{
+		padding:0px 5px;
+	}
+	
+	.updateRows{
+		background-color:#ADEBAD;
+	}
+	.deg{
+  text-transform: uppercase;
+ font-weight: bold;
+ color: #188ae2;
+ padding: 5px;
+ border-radius: 5px;
+ margin-left: 5px;
+ text-shadow: 0 2px 8px;
+	}
+	.app-align{
+		margin: -8px 10px 0 11px;
+}
+</style>
+
+<div class="wrap">
+	<section class="app-content ">
+		<div class="row">
+		
+		<!-- DataTable -->
+		<div class="col-md-12">
+				<div class="widget">
+					<header class="widget-header" style="background-color:yellow">
+						<div class="row">
+							<div class="col-sm-2 col-12 ">
+								<h4 class="widget-title btn label labeled">Assign Users for <?php echo $course_categories['categories_name']; ?> Course</h4>
+							</div>
+							<div class="col-sm-1 col-1 pull-right">
+								<a href="<?php echo base_url();?>course/view_subject_list/<?php echo $category_id;?>" class="btn  btn-success" title="Navigate Back"><i class="glyphicon glyphicon-arrow-left"></i> Back </a>
+							</div>
+						</div>
+					</header><!-- .widget-header -->
+					</div><!-- .widget-body -->
+				</div><!-- .widget -->
+			</div>
+			<!-- END DataTable -->	
+		</div><!-- .row -->
+	</section>
+	
+	<section class="app-content app-align">
+	<div class="row">
+		<div class="col-md-12">
+		<div class="widget">
+
+		<header class="widget-header">
+			<h4 class="widget-title">Select a View</h4>
+		</header>
+		
+		<hr class="widget-separator"/>
+		<div class="widget-body clearfix">
+					
+	
+	
+	<?php echo form_open('',array('method' => 'POST')) ?>
+	
+		<div class="row">
+		
+		<div class="col-md-2">
+			<?php   $FileName = str_replace("'", "", $oValue);
+					$oValue = explode(",",$FileName); 
+			?> 
+			<div class="form-group" >
+				<label for="office_id">Select a Location</label>
+				
+				<?php if(get_role_dir()=="super" || get_role_dir()=="admin" || get_role_dir()=="manager" || get_role_dir()=="tl" || get_global_access()=='1'){ ?>
+				<select class="form-control" name="office_id[]" id="foffice_id"  multiple  size="10" style="height: 40%;">
+					<option value='ALL' <?php echo $oValue[0]=='ALL' ? 'selected':'' ?>>ALL</option>  
+					<?php foreach($location_list as $loc): ?>
+						<?php
+						$sCss="";
+							foreach($oValue as $eval){
+								if($loc['abbr']==$eval) $sCss="selected";
+							}
+						?>
+						
+					<option value="<?php echo $loc['abbr']; ?>" <?php echo $sCss;?>><?php echo $loc['office_name']; ?></option>
+						
+					<?php endforeach; ?>
+					
+				</select>	
+				<?php }elseif($gant_access == true){   ?>
+				
+				<select class="form-control" name="office_id" id="foffice_id">
+						<option value="<?php echo get_user_office_id(); ?>" selected><?php echo get_user_office_id(); ?></option>
+				</select>
+				<?php } ?>	
+						
+				
+			</div>
+			
+		<!-- .form-group -->
+		</div>
+		
+		<div class="col-md-3">
+			<?php 
+					$dValue = explode(",",$dValue);  
+			?> 
+			<div class="form-group">
+				<label for="dept_id">Select a Department</label>
+				<span class="deg"><?php echo get_role_dir(); ?></span>
+				<?php if(get_role_dir()=="super" || get_role_dir()=="admin" ||  get_role_dir()=="manager" || get_role_dir()=="tl" || get_global_access()=='1'){ ?>
+				<select class="form-control" name="dept_id[]" id="dept_id"  multiple  size="10" style="height: 40%;">
+					<option value='ALL' <?php echo $dValue[0]=='ALL' ? 'selected':'' ?>>ALL</option>
+					<?php foreach($department_list as $dept): ?>
+						<?php
+						$sCss="";
+							foreach($dValue as $eval){
+								if($dept['id']==$eval) $sCss="selected";
+							}
+						?>
+						<option value="<?php echo $dept['id']; ?>" <?php echo $sCss;?>><?php echo $dept['description']; ?></option>
+						
+					<?php endforeach; ?>
+				<?php }elseif($gant_access == true){   ?>
+				<select class="form-control" name="dept_id[]" id="dept_id"  selected  >
+						<option value="<?php echo get_dept_id(); ?>"><?php echo get_deptshname(); ?></option>
+				<?php } ?>												
+				</select>
+			</div>
+						
+		<!-- .form-group -->
+		</div>
+		
+		<div class="col-md-3">
+			<div class="form-group">
+				<label for="sub_dept_id">Select a Sub Department</label>
+				<select class="form-control" name="sub_dept_id" id="sub_dept_id" >
+				<?php if(get_role_dir()=="super" || get_role_dir()=="admin" || get_role_dir()=="manager" || get_role_dir()=="tl" || get_role_dir()=="trainer" || get_global_access()=='1'){ ?>
+					<option value='ALL'>ALL</option>
+					<?php foreach($sub_department_list as $sub_dept): ?>
+						<?php
+						$sCss="";
+						if($sub_dept['id']==$sdValue) $sCss="selected";
+						?>
+						<option value="<?php echo $sub_dept['id']; ?>" <?php echo $sCss;?>><?php echo $sub_dept['name']; ?></option>
+						
+					<?php endforeach; ?>
+				<?php }elseif($gant_access == true){   ?>	
+						<option value="<?php echo $sub_department['sub_id']; ?>" ><?php echo $sub_department['sub_name']; ?></option>
+				<?php } ?>	
+				</select>
+			</div>
+						
+		<!-- .form-group -->
+		</div>
+		
+		<div class="col-md-3">
+			<div class="form-group">
+				<label for="client_id">Select a Client</label>
+				<select class="form-control" name="client_id" id="fclient_id" >
+				<?php if(get_role_dir()=="super" || get_role_dir()=="admin" || get_role_dir()=="manager" || get_role_dir()=="tl" || get_role_dir()=="trainer" || get_global_access()=='1'){ ?>
+					<option value='ALL'>ALL</option>
+					<?php foreach($client_list as $client): ?>
+						<?php
+						$sCss="";
+						if($client->id==$cValue) $sCss="selected";
+						?>
+						<option value="<?php echo $client->id; ?>" <?php echo $sCss;?>><?php echo $client->shname; ?></option>
+						
+					<?php endforeach; ?>
+				<?php }elseif($gant_access == true){   ?>
+					<?php foreach($client_details_list as $client): ?>
+						<option value="<?php echo $client['client_id']; ?>" ><?php echo $client['client_name']; ?></option>
+					<?php endforeach; ?>
+				<?php } ?>		
+				</select>
+			</div>
+		<!-- .form-group -->
+		</div>
+		
+		</div>
+		
+		<div class="row">
+		
+		<div class="col-md-2">
+			<div class="form-group">
+			<label for="process_id">Select a process</label>
+			<select class="form-control" name="process_id" id="fprocess_id" >
+			<?php if(get_role_dir()=="super" || get_role_dir()=="admin" || get_role_dir()=="manager" || get_role_dir()=="tl" || get_role_dir()=="trainer" ||get_global_access()=='1'){ ?>
+				<option value='ALL'>ALL</option>
+				<?php foreach($process_list as $process): ?>
+					<?php
+						$sCss="";
+						if($process->id==$pValue) $sCss="selected";
+					?>
+					<option value="<?php echo $process->id; ?>" <?php echo $sCss;?> ><?php echo $process->name; ?></option>
+					
+				<?php endforeach; ?>
+			<?php }elseif($gant_access == true){   ?>
+					<?php foreach($process_details_list as $process): ?>
+						<option value="<?php echo $process['process_id']; ?>" ><?php echo $process['process_name']; ?></option>
+					<?php endforeach; ?>
+			<?php } ?>												
+			</select>
+			</div>
+		<!-- .form-group -->
+		</div>
+		
+		<div class="col-md-2" style='display:none'>
+			<div class="form-group">
+			<label for="sub_process_id">Select a sub process</label>
+			<select class="form-control" name="sub_process_id" id="fsub_process_id" >
+				<option value='ALL'>ALL</option>
+				<?php foreach($sub_process_list as $sub_process): ?>
+					<?php
+						$sCss="";
+						if($sub_process->id==$spValue) $sCss="selected";
+					?>
+					<option value="<?php echo $sub_process->id; ?>" <?php echo $sCss;?> ><?php echo $sub_process->name; ?></option>
+					
+				<?php endforeach; ?>
+				
+			</select>
+			</div>
+		<!-- .form-group -->
+		</div>
+		
+		<div class="col-md-3" id="" >
+			<div class="form-group">
+				<label for="role">Select Reporting Head</label>
+				<select class="form-control" name="assigned_to" id="assigned_to">
+					<option value='ALL'>ALL</option>
+					<?php foreach($tl_list as $tl): 
+						$sCss="";
+						if($tl->id==$aValue) $sCss="selected";
+						
+					?>
+					<option value="<?php echo $tl->id ?>" <?php echo $sCss;?> ><?php echo $tl->tl_name ?></option>
+					<?php endforeach; ?>
+															
+				</select>
+			</div>
+		<!-- .form-group -->
+		</div>
+		
+		<div class="col-md-5">
+			<div class="form-group">
+				<label>Fusion ID(For multiple, use comma separator)</label>
+				<input type="text" id="fusionid" name="fusionid" value="<?php echo $fusionid; ?>" class="form-control">
+			</div>
+		</div>
+		
+		
+		<div class="col-md-1">
+			<div class="form-group">
+			<br>
+			<input type="submit" class="btn btn-primary btn-md" style='margin-top:4px;' id='showReports' name='showReports' value="Show">
+			</div>
+		</div>
+		
+		
+		</div><!-- .row -->
+		
+		</form>
+		
+		
+		</div>
+		</div>
+		</div>
+	</div><!-- .row -->
+	
+	
+	
+
+	<form id=""  method="post" action="<?php echo base_url();?>course/assign">	
+		<input type="hidden" name="c_id" value="<?php echo $category_id;?>">
+		<div class="row">
+			
+			<!--<div class="<?php echo $colClass;?>">
+				<a  href="<?php echo base_url()?>super/dashboard/1?<?php echo $qStrParam; ?>">
+				<div class="widget stats-widget">
+					<div class="widget-body clearfix">
+						<div class="pull-left">
+							<h3 class="widget-title text-primary"><span class="counter" data-plugin="counterUp"><?php echo $total_agent; ?></h3>
+						</div>
+						<span class="pull-right big-icon watermark"><i class="fa fa-users"></i></span>
+					</div>
+					<footer class="widget-footer bg-primary">
+						<small>Total Users</small>
+					</footer>
+				</div>
+				</a>
+			</div>-->
+			
+		</div><!-- .row -->
+		
+	
+		
+	<div class="row">
+		
+		<!-- DataTable -->
+		<div class="col-md-12">
+				<div class="widget">
+					<div class="row" style="padding-top:10px;">
+					<div class="col-md-12 col-xl-12">
+					<header class="widget-header">
+						<h6 class="widget-title">
+							<div class="row">
+								
+								<div class="col-md-2 pull-right" >
+									<div class="form-group">
+										<button type="submit" name="Assign" value="Assign_All" class="btn btn-primary" >Assign</button>
+										<button type="submit" name="deassign" value="deassign_all" class="btn btn-primary" >De-Asign</button>
+									</div>
+								</div>
+							
+								<div class="col-md-3">
+									<div class="form-group">
+										<nav aria-label="breadcrumb">
+										  <ol class="breadcrumb">
+											<li class="breadcrumb-item active" aria-current="page"><?php echo $course_categories['categories_name']; ?></li>
+										  </ol>
+										</nav>
+									</div>
+								</div>
+								
+								<div class="col-md-5  pull-right">
+									<div class="form-group">
+										<select id="course_id" name="course_id"  class="form-control">
+											<?php foreach($course_detail as $course) :?>
+												<option value="<?php echo $course['course_id']; ?>"><?php echo $course['course_name']; ?></option>
+											<?php endforeach; ?>
+										</select>
+									</div>
+								</div>
+							
+								<div class="col-md-1  pull-right">
+									<div class="form-group"><h6>Course List : </h6>
+									</div>
+								</div>
+								
+								
+							</div> 
+						</h6>
+					</header><!-- .widget-header -->
+					</div>
+					
+						<?php //if($filter_id=="" && is_access_operations_module() ){ ?>
+						
+						
+						
+					</div>
+					
+					<hr class="widget-separator">
+					
+					<div class="widget-body">
+						<div class="table-responsive">
+							<table id="default-datatable" data-plugin="DataTable" class="table table-striped" cellspacing="0" width="100%" style="cursor: pointer;">
+								<thead>
+									<tr> 
+									<?php  $filter_id ; ?>
+										<?php if($filter_id==1){ ?>
+										<th><label class="lbl_chk_all"><input type="checkbox" class="check_all"/></label></th>
+										<?php } ?>
+										
+										<th>SL</th>
+										<th>Fusion ID</th>
+										<th>UserID/XPOID</th>
+										<th>Agent</th>
+										<th>Dept</th>
+										<th>Client</th>
+										<th>Office</th>
+										<!-- <th>Site</th> -->
+										<th>Designation</th>
+										<th>Process</th>
+										<th>Assigned To</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								
+								<tfoot>
+									<tr>
+										<?php if($filter_id==1){ ?>
+										<th><label class='lbl_chk_all'><input type="checkbox" class="check_all"/></label></th>
+										<?php } ?>
+										
+										<th>SL</th>
+										<th>Fusion ID</th>
+										<th>UserID/XPOID</th>
+										<th>Agent</th>
+										<th>Dept</th>
+										<th>Client</th>
+										<th>Office</th>
+										<!-- <th>Site</th> -->
+										<th>Designation</th>
+										<th>Process</th>
+										<th>Assigned To</th>
+										<th>Action</th>
+									</tr>
+								</tfoot>
+	
+								<tbody>
+								
+								<?php 
+								
+									$i=1;
+									foreach($user_list as $user): 
+									$user_id=$user['id'];
+										
+									if($user['office_id']=='KOL'){
+										$omuid=$user['xpoid'];
+									}else{
+										$omuid=$user['omuid'];
+									}
+										 
+									
+									if(isset($user['action_status'])) $action_status=$user['action_status'];
+									else $action_status="";
+									
+									 if(!empty($course_assigned_user)){	
+									 
+										$found = array_search($user_id,  array_column($course_assigned_user, 'agent_id')); 
+										
+										$is_checked = $course_assigned_user[$found]['agent_id'] == $user_id ? 'fa fa-check'  : 'fa fa-edit';
+										$change_color = $course_assigned_user[$found]['agent_id'] == $user_id ? 'style="background-color:green;color:white"'  : '';
+										
+										$multiple_assign='';
+										$j=0;
+										foreach($course_assigned_user as $useragents){
+											if($useragents['agent_id'] == $user_id){
+												if($j==0){
+													$multiple_assign .= $useragents['course_name'];
+												}else{
+													$multiple_assign .=','. $useragents['course_name'];
+												}
+												$j++;
+											}
+										}
+										
+										$tooltip = "title='Selected User Assigned for -> ". $multiple_assign ."'";
+										$tooltip_no = $course_assigned_user[$found]['agent_id'] != $user_id ?  "title='No Assigned to course'"  : "";
+										
+										$msg_tooltip = $course_assigned_user[$found]['agent_id'] == $user_id ?  $tooltip   : $tooltip_no ;
+										
+										  
+										
+									  }else{
+										  $is_checked='fa fa-edit';
+										  $change_color='';
+										  $tooltip = '';
+										  $msg_tooltip='';
+									  }
+									
+								?>
+									<tr <?php echo $change_color ?> <?php echo $msg_tooltip ?>>
+										<?php if($filter_id==1 ){ ?>
+										<td>
+										<label class='lbl_chk'><input type="checkbox" <?php //echo $is_checked ?> class="check_row" name="sel_uids[]" value="<?php echo $user_id;?>" /></label>
+										</td>
+										<?php } ?>
+										 
+										<td><?php echo $i++; ?></td>
+										<td><input type="hidden" name="id" value="<?php echo $user_id;?>"><?php echo $user['fusion_id']; ?></td>
+										<td><?php echo $omuid; ?></td>
+										<td><?php echo $user['fname'] . " ". $user['lname']; ?></td>
+										<td><input type="hidden" name="dept_id" value="<?php echo $user['dept_id']; ?>"><?php echo $user['dept_name']; ?></td>
+										<td><?php echo $user['client_name']; ?></td>
+										<td><input type="hidden" name="dept_id" value="<?php echo $user['dept_id']; ?>"><?php echo $user['office_id']; ?></td>
+										<!-- <td><?php //echo $user['site_name']; ?></td> -->
+										<td><input type="hidden" name="role_id" value="<?php echo $user['role_id']; ?>"><?php echo $user['role_name']; ?></td>
+										<td><?php echo $user['process_name'] /*. " ".$user['sub_process_name']*/; ?></td>
+												
+										<?php 
+										
+										
+													$client_id=$user['client_ids'];
+													
+													echo "<td>".$user['asign_tl']."</td>";
+												
+													$assigned_tl=$user['assigned_to'];
+													
+													$_role_id=$user['role_id'];
+													$_is_logged_in=$user['is_logged_in'];
+													$_status=$user['status'];
+													
+													
+																								
+													$disposition_id=$user['disposition_id'];
+													$disp_name=$user['disp_name'];
+													
+													if($disposition_id==1) $bclass="label-default";
+													else if( $disposition_id==2) $bclass="label-danger";
+													else if($disposition_id==3 ) $bclass="label-warning";
+													else if($disposition_id==4 ) $bclass="label-primary";
+													else $bclass="label-info";
+													
+													   
+												echo '<td>';
+													echo "<button value='assign_single' name='assign_single' id='$user_id' uid='$user_id' cid = '$client_id' categoty_id='$disposition_id' type='submit' class='btn btn-primary btn-md assign' title='Assign User' disabled='true'><span class='" . $is_checked . "'></span></button>&nbsp;";
+													  $ufusion_id=$user['fusion_id']; 
+												echo '</td>';
+												echo '<td>';
+													echo "<button value='delete_single' name='delete_single' id='btn_$user_id' uid='$user_id' cid = '$client_id' categoty_id='$disposition_id' type='submit' class='btn btn-danger btn-md deletesingle' title='De-Assign User' disabled='true'><span class='fa fa-trash' ></span></button>&nbsp;";
+													  $ufusion_id=$user['fusion_id']; 
+												echo '</td>';
+											
+											
+											?>
+										
+									</tr>
+									
+								<?php endforeach; ?>
+										
+								</tbody>
+							</table>
+						</div>
+					</div><!-- .widget-body -->
+					
+					
+				</div><!-- .widget -->
+			</div>
+			<!-- END DataTable -->	
+			
+		</div><!-- .row -->
+	</form>			
+		
+	</section> <!-- #dash-content -->
+	
+	
+	
+
+
+<!-- Modal -->
+<div class="modal fade" id="uploaduserModal" tabindex="-1" role="dialog" aria-labelledby="AssignuserModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+   <form id="form1" method="post"  action="<?php echo base_url();?>course/upload_assign_user_excel" enctype="multipart/form-data">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">User Assign Excel Uploads</h5> 		
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-1">
+						<label for="inputCourse">Select Categories :</label> 
+					</div>
+					<input type="hidden" name="category_id" value="<?php echo $this->uri->segment(3);?>" >
+					<div class="col-sm-4">
+						<div class="form-group">
+							<select id="course_id" name="course_id"  class="form-control">
+								<?php foreach($course_detail as $course) :?>
+									<option value="<?php echo $course['course_id']; ?>"><?php echo $course['course_name']; ?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-1">
+						<label for="inputCourse">Uploads Cordinator :</label> 
+					</div>
+					<div class="col-sm-4">
+						<input type="file" name="upload_assign_users" class="form-control" required>
+					</div>
+				</div>
+			</div>
+      </div>
+      <div class="modal-footer">
+	  <a href="<?php echo base_url();?>course/sample_assign_excel_download" class="btn btn_padding filter_btn slight_minus" title="Download Sample Examination Excel">Sample Excel</a>
+	    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" name="upload_excel" value="upload_excel" class="btn btn-primary" id="upload_excel">Upload Excel</button>
+      </div>
+    </div>
+  </form>
+  </div>
+</div>
+</div><!-- .wrap -->
+	
+	
+

@@ -156,9 +156,9 @@ accs_score();
 				$('#phone').val("");
 				return false;
 			}
-			if(el.value.length >10){
+			if(el.value.length >12){
        			//alert("required 10 digits, match requested format!");
-       			$("#start_phone").html("Required 10 digits, match requested format!");
+       			$("#start_phone").html("Required 10 to 12 digits, match requested format!");
        			$("#qaformsubmit").attr("disabled", "disabled");
        			return false;
 		    }else if(el.value.length <10){
@@ -166,7 +166,7 @@ accs_score();
 		    	$("#qaformsubmit").attr("disabled", "disabled");
        			return false;
 		    }
-		    else if(el.value.length == 10){
+		    else if(el.value.length >= 10 && el.value.length<=12){
 		    	$("#start_phone").html("");
 		    	 $("#qaformsubmit").removeAttr("disabled");
        			return false;

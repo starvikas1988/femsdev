@@ -1,0 +1,736 @@
+<?php
+include_once('header.php');
+?>
+<?php if (is_access_neo_chatbot() == true) { ?>
+
+    <!--SKT Added custom chat design library here 09.03.2022-->
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets_home_v3/mwp-chatbot/css/custom.css?yy">
+    <link href="<?php echo base_url() ?>assets_home_v3/mwp-chatbot/css/botchat.css?yy" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <!--End chat design library -->
+
+<?php } ?>
+<style>
+    /*start custom chatbot design css here*/
+    .chat-bottom {
+        position: fixed;
+        width: 400px;
+        /*height:570px;*/
+        bottom: 0;
+        right: 0;
+        background-color: transparent;
+    }
+
+    .chat-bottom iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        padding: 10px;
+        background-color: transparent;
+    }
+
+    .isvisible {
+        z-index: 90;
+    }
+
+    /*end custom chatbot design css here*/
+</style>
+<!--start help element-->
+<div class="offcanvas offcanvas-end small_width" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Help & Support</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body less_top">
+        <div class="help_top">
+            <div class="gray_card">
+                <div class="support_widget">
+                    <div class="mb-2">
+                        <h2 class="support_heading">HR Support</h2>
+                    </div>
+                </div>
+                <!--start loop here-->
+                <div class="support_white">
+                    <div class="help_one">
+                        <img src="<?php echo base_url() ?>assets_home_v3/images/mail.svg" class="support_img" alt="">
+                    </div>
+                    <div class="help_two">
+                        sofia.berrada@fusionbposervices.com
+                    </div>
+                    <div class="help_three">
+                        <a href="#" class="copy_text">
+                            <img src="<?php echo base_url() ?>assets_home_v3/images/copy.svg" class="support_img" alt="">
+                        </a>
+                    </div>
+                </div>
+                <!--end loop here-->
+                <div class="support_white">
+                    <div class="help_one">
+                        <img src="<?php echo base_url() ?>assets_home_v3/images/call.svg" class="support_img" alt="">
+                    </div>
+                    <div class="help_two">
+                        +91-9876543210
+                    </div>
+                    <div class="help_three">
+                        <a href="#" class="copy_text">
+                            <img src="<?php echo base_url() ?>assets_home_v3/images/copy.svg" class="support_img" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="help_top">
+            <div class="gray_card">
+                <div class="support_widget">
+                    <div class="mb-2">
+                        <h2 class="support_heading">Payroll Helpdesk</h2>
+                    </div>
+                </div>
+                <div class="support_white">
+                    <div class="help_one">
+                        <img src="<?php echo base_url() ?>assets_home_v3/images/mail.svg" class="support_img" alt="">
+                    </div>
+                    <div class="help_two">
+                        sofia.berradakumar@fusionbposervices.com
+                    </div>
+                    <div class="help_three">
+                        <a href="#" class="copy_text">
+                            <img src="<?php echo base_url() ?>assets_home_v3/images/copy.svg" class="support_img" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="support_white">
+                    <div class="help_one">
+                        <img src="<?php echo base_url() ?>assets_home_v3/images/mail.svg" class="support_img" alt="">
+                    </div>
+                    <div class="help_two">
+                        sofia.berradakumar@fusionbposervices.com
+                    </div>
+                    <div class="help_three">
+                        <a href="#" class="copy_text">
+                            <img src="<?php echo base_url() ?>assets_home_v3/images/copy.svg" class="support_img" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="support_white">
+                    <div class="help_one">
+                        <img src="<?php echo base_url() ?>assets_home_v3/images/call.svg" class="support_img" alt="">
+                    </div>
+                    <div class="help_two">
+                        +91-9876543210
+                    </div>
+                    <div class="help_three">
+                        <a href="#" class="copy_text">
+                            <img src="<?php echo base_url() ?>assets_home_v3/images/copy.svg" class="support_img" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end help element-->
+
+
+<?php
+
+////////////////////////////////////////////
+//Your Availability & Your Adherence////////
+////////////////////////////////////////////
+
+$current_data_set = $schedule_monthly[round($selected_month)]['counters'];
+
+?>
+
+<section id="middle_area" class="middle_area">
+    <div class="container-fluid">
+        <div class="row g-3">
+            <div class="col-sm-3">
+                <div class="mb-2">
+                    <div class="card p-3">
+                        <div class="avail_widget_br">
+                            <h2 class="avail_title_heading">Your Availability</h2>
+                            <div class="month_widget">
+                                <h3 class="small_title_green"><?= $schedule_monthly[round($selected_month)]['month'] ?></h3>
+                            </div>
+                        </div>
+                        <div class="row mt-2 g-3">
+                            <div class="col-sm-6">
+                                <div class="mb-0">
+                                    <div class="avail_widget">
+                                        <img src="<?php echo base_url() ?>assets_home_v3/images/present.svg" class="avail_icon" alt="">
+                                        <h3 class="avail_title">Present</h3>
+                                        <h4 class="avail_title_black"><?= round($current_data_set['present']) ?></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="mb-0">
+                                    <div class="avail_widget">
+                                        <img src="<?php echo base_url() ?>assets_home_v3/images/absent.svg" class="avail_icon" alt="">
+                                        <h3 class="avail_title">Absent</h3>
+                                        <h4 class="avail_title_black"><?= round($current_data_set['absent']) ?></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="mb-0">
+                                    <div class="avail_widget">
+                                        <img src="<?php echo base_url() ?>assets_home_v3/images/adherence.png" class="avail_icon" alt="">
+                                        <h3 class="avail_title">Adherence (%)</h3>
+                                        <h4 class="avail_title_black"><?= round($current_data_set['adherence']) ?></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="mb-0">
+                                    <div class="avail_widget">
+                                        <img src="<?php echo base_url() ?>assets_home_v3/images/shrinkage.svg" class="avail_icon" alt="">
+                                        <h3 class="avail_title">Shrinkage (%)</h3>
+                                        <h4 class="avail_title_black"><?= round($current_data_set['shrinkage']) ?></h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--////////////////////////////////////////////
+                    //Your Availability End//////////////////////
+                    //////////////////////////////////////////// -->
+
+
+                    <div class="mt-3">
+                        <a href="javascript:void(0);" class="add_btn" data-bs-toggle="modal" data-bs-target="#add_referral">Add Referral</a>
+                    </div>
+                    <div class="mt-3">
+                        <a data-bs-toggle="modal" data-bs-target="#reference" style="color:#0000e6;font-weight:bold; cursor:pointer;">
+                            <div class="referral_bg">Your Referral -
+                                <?php
+                                $referral_count = count($get_references_user);
+                                // echo ($referral_count > 0) ? $referral_count : 0;
+                                ?>
+
+                                <span style="font-weight:bold; cursor:pointer;"><?php echo ($referral_count > 0) ? $referral_count : 0; ?></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <?php
+            $ldcdHide = "";
+            $cbHide = "";
+            $cdHide = "";
+            $diasable = "";
+            $ob_active = "";
+            $ldDiasable = "";
+            $ld_checked = "";
+            $ld_active = "";
+            $cbDiasable = "";
+            $cb_checked = "";
+            $cb_active = "";
+            $sdHide = "";
+            $sdDiasable = "";
+            $sd_checked = "";
+            $sd_active = "";
+
+            if ($break_on_ld == true) {
+                $ldDiasable = "checked";
+                $diasable = "disabled";
+                $cbDiasable = "disabled";
+                $sdDiasable = "disabled";
+                $ld_active = "time_active";
+            }
+
+
+            if ($break_on == true) {
+                $diasable = "checked";
+                $ldDiasable = "disabled";
+                $cbDiasable = "disabled";
+                $sdDiasable = "disabled";
+                $ob_active = "time_active";
+            }
+
+            if ($break_on_cb == true) {
+                $cbDiasable = "checked";
+                $ldDiasable = "disabled";
+                $diasable = "disabled";
+                $sdDiasable = "disabled";
+                $cb_active = "time_active";
+            }
+
+            if ($break_on_sd == true) {
+                $sdDiasable = "checked";
+                $ldDiasable = "disabled";
+                $diasable = "disabled";
+                $cbDiasable = "disabled";
+                $sd_active = "time_active";
+            }
+            ?>
+
+
+
+            <div class="col-sm-3">
+                <div class="mb-2">
+                    <div class="card p-3 equal_height">
+                        <div class="avail_widget_br">
+                            <h2 class="avail_title_heading">Your Time Utilization</h2>
+                            <div class="month_widget">
+                                <h3 class="small_title_green"><?= date('m-d-Y', strtotime(GetLocalTime())); ?></h3>
+                            </div>
+                        </div>
+                        <div class="row mt-2 g-2">
+                            <div class="col-sm-4">
+                                <div class="mb-0">
+                                    <div class="count_widget text-center">
+                                        <small>Last Logged</small>
+                                        <h3 class="count_blue"><?php echo ($dialer_logged_in_time != '' ? date('H:i:s', strtotime(ConvServerToLocal($dialer_logged_in_time))) : '') ?></h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="mb-0">
+                                    <div class="count_widget text-center">
+                                        <small>EST Time</small>
+                                        <h3 class="count_blue" id="txt"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="mb-0">
+                                    <div class="count_widget text-center">
+                                        <small>Local Time</small>
+                                        <h3 class="count_blue" id="txt1"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="time_uti_box">
+                                <!--start loop here-->
+                                <div id="ld_active" class="time_break_repeat <?php echo $ld_active; ?>">
+                                    <div class="time_break_name">
+                                        <span class="time_break_icon">
+                                            <img src="<?php echo base_url() ?>assets_home_v3/images/lunch.svg" alt="">
+                                        </span> Lunch/Dinner break
+                                    </div>
+                                    <div class="time_break_switch">
+                                        <div class="form-check form-switch">
+                                            <div class="check-box">
+                                                <span id='lunch_timer' class="timer_time">00:00:00</span>
+                                                <input id="break_check_button_ld" type="checkbox" typ='lunch' <?php echo $ldDiasable; ?>>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end loop here-->
+                                <div id="cb_active" class="time_break_repeat <?php echo $cb_active; ?>">
+                                    <div class="time_break_name">
+                                        <span class="time_break_icon">
+                                            <img src="<?php echo base_url() ?>assets_home_v3/images/coaching.svg" alt="">
+                                        </span> Coaching break
+                                    </div>
+                                    <div class="time_break_switch">
+                                        <div class="form-check form-switch">
+                                            <div class="check-box">
+                                                <span id='coaching_timer' class="timer_time">00:00:00</span>
+                                                <input id="break_check_button_cb" type="checkbox" typ='coaching' <?php echo $cbDiasable; ?>>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="ob_active" class="time_break_repeat <?php echo $ob_active; ?>">
+                                    <div class="time_break_name">
+                                        <span class="time_break_icon">
+                                            <img src="<?php echo base_url() ?>assets_home_v3/images/other.svg" alt="">
+                                        </span> Others break
+                                    </div>
+                                    <div class="time_break_switch">
+                                        <div class="form-check form-switch">
+                                            <div class="check-box">
+                                                <span id='others_timer' class="timer_time">00:00:00</span>
+                                                <input type="checkbox" id="break_check_button" typ='others' <?php echo $diasable; ?>>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="sd_active" class="time_break_repeat <?php echo $sd_active; ?>">
+                                    <div class="time_break_name">
+                                        <span class="time_break_icon">
+                                            <img src="<?php echo base_url() ?>assets_home_v3/images/downtime.svg" alt="">
+                                        </span> Downtime break
+                                    </div>
+                                    <div class="time_break_switch">
+                                        <div class="form-check form-switch">
+                                            <div class="check-box">
+                                                <span id='downtime_timer' class="timer_time">00:00:00</span>
+                                                <input type="checkbox" id="break_check_button_sd" typ='downtime' <?php echo $sdDiasable; ?>>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--////////////////////////////////////////////
+                /////////////Your Adherence/////////////////
+                //////////////////////////////////////////// -->
+
+            <?php $adh_url_fix = "?select_month=" . $selected_month . "&select_year=" . $selected_year . "&select_fusion=" . $selected_fusion; ?>
+
+            <div class="col-sm-3">
+                <div class="mb-2">
+                    <div class="card p-3">
+                        <div class="avail_widget_br">
+                            <h2 class="avail_title_heading">Your Adherence</h2>
+                            <div class="month_widget month_widget_week">
+                                <h3 class="small_title_green"><?= $schedule_monthly[round($selected_month)]['month'] ?>
+                                    <a href="<?php echo base_url() . "schedule_adherence/dashboard/all" . $adh_url_fix; ?>" target="_blank" class="btn btn-primary btn-sm more_btn">More</a>
+                                </h3>
+
+                            </div>
+                        </div>
+
+                        <div class="mt-0">
+                            <div class="chart-content">
+                                <div id="adherence_chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--////////////////////////////////////////////
+                /////////////Your Adherence End/////////////
+                //////////////////////////////////////////// -->
+
+                <?php // if (count($curr_schedule) > 0) { 
+                ?>
+                <div class="mb-2 mt-3">
+                    <a href="javascript:void(0)" class="btn btn-success full_btn common_shadow" <?php echo (count($curr_schedule) > 0) ? 'data-bs-toggle="modal" data-bs-target="#weekly_explore"' : 'style="cursor: no-drop;"  title="Schedule not uploaded yet"' ?>>Explore your weekly schedule</a>
+                </div>
+                <?php //} 
+                ?>
+
+            </div>
+            <div class="col-sm-3">
+                <div class="mb-3">
+                    <div class="card notice_card p-2">
+                        <div class="notice_widget">
+                            <ul class="nav nav-pills" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-bs-toggle="pill" href="#important">Important
+                                        Links</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="pill" href="#menu1">Notice <i class="fa fa-circle" aria-hidden="true"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content">
+                            <?php include_once('homev3/important_links.php'); ?>
+                            <?php include_once('homev3/notice.php'); ?>
+                        </div>
+                    </div>
+                </div>
+                <?php include_once('homev3/birthsday.php'); ?>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!--start weekly explore popup-->
+<div class="modal fade" id="weekly_explore" id="attendance_model">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Your Schedule</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="table-widget">
+                    <table id="default-datatable" data-plugin="DataTable" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Day</th>
+                                <th>In Time</th>
+                                <th>Break 1</th>
+                                <th>Lunch</th>
+                                <th>Break 2</th>
+                                <th>End Time</th>
+                                <th>Status</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <?php
+                            foreach ($curr_schedule as $user) {
+
+                                $shr_status = "Ok";
+                                if ($user['is_accept'] == '2') {
+                                    $shr_status = "In Review";
+                                }
+                                if ($user['is_accept'] == '1') {
+                                    $shr_status = "Reviewed";
+                                }
+                                if ($user['is_accept'] == '1' && $user['agent_status'] != 'C') {
+                                    $shr_status = "Accepted";
+                                }
+                                if ($user['is_accept'] == '1' && $user['agent_status'] == 'C' && $user['ops_status'] == 'C' && empty($user['wfm_status'])) {
+                                    $shr_status = "Reviewed by WFM";
+                                }
+                                if ($user['is_accept'] == '1' && $user['agent_status'] == 'C' && $user['ops_status'] == 'C' && $user['wfm_status'] == 'C') {
+                                    $shr_status = "Updated by WFM";
+                                }
+                                if ($user['is_accept'] == '3') {
+                                    $shr_status = "Rejected";
+                                }
+
+                                $shr_remarks = "<span style='color:green'>Accepted</span>";
+                                if ($user['is_accept'] == '2' && $user['agent_status'] == 'R') {
+                                    $shr_remarks = "Pending Review by Operations";
+                                }
+                                if ($user['is_accept'] == '2' && $user['agent_status'] == 'C' && $user['ops_status'] == 'R') {
+                                    $shr_remarks = "To be Reviewed by WFM";
+                                }
+                                if ($user['is_accept'] == '1' && $user['agent_status'] == 'C' && $user['ops_status'] == 'C' && $user['wfm_status'] != 'C') {
+                                    $shr_remarks = $user['ops_review'];
+                                }
+                                if ($user['is_accept'] == '1' && $user['agent_status'] == 'C' && $user['ops_status'] == 'C' && $user['wfm_status'] == 'C') {
+                                    $shr_remarks = $user['wfm_review'];
+                                }
+                                if ($user['is_accept'] == '3' && $user['agent_status'] == 'C' && $user['ops_status'] == 'C' && $user['wfm_status'] == 'X') {
+                                    $shr_remarks = $user['wfm_review'];
+                                }
+                            ?>
+
+                                <tr>
+                                    <td><?php echo $user['shdate']; ?></td>
+                                    <td><?php echo $user['shday']; ?></td>
+                                    <td><?php echo $user['in_time']; ?></td>
+                                    <td><?php echo $user['break1']; ?></td>
+                                    <td><?php echo $user['lunch']; ?></td>
+                                    <td><?php echo $user['break2']; ?></td>
+                                    <td><?php echo $user['out_time']; ?></td>
+                                    <td><?php echo $shr_status; ?></td>
+                                    <td><?php echo $shr_remarks; ?></td>
+                                </tr>
+                            <?php }
+                            ?>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end weekly explore popup-->
+
+<!--start after add referral popup-->
+<div class="modal fade" id="reference">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Your Referral - <?php echo count($get_references_user); ?></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="table-widget">
+                    <table id="" data-plugin="DataTable" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Sl</th>
+                                <th>Name</th>
+                                <th>Fusion ID</th>
+                                <th>XPOID</th>
+                                <th>DOJ</th>
+                                <th>State</th>
+                                <th>Client</th>
+                                <th>Process</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <tr>
+                                    <td>1</td>
+                                    <td>Manoj Kumar</td>
+                                    <td>FKOL015357</td>
+                                    <td></td>
+                                    <td>2022-07-06</td>
+                                    <td>Active</td>
+                                    <td>Global Support</td>
+                                    <td></td>
+                                </tr> -->
+                            <?php $i = 1;
+                            foreach ($get_references_user as $row) {
+                            ?>
+                                <tr>
+                                    <td><?php echo $i++; ?></td>
+                                    <td><?php echo $row['fname'] . " " . $row['lname']; ?></td>
+                                    <td><?php echo $row['fusion_id']; ?></td>
+                                    <td><?php echo $row['xpoid']; ?></td>
+                                    <td><?php echo $row['doj']; ?></td>
+                                    <td><?php
+
+                                        $status = $row['status'];
+                                        $terms_date = $row['terms_date'];
+                                        $lwd = $row['lwd'];
+
+                                        if ($status == 1) echo '<span class="label label-info">Active</span>';
+                                        else if ($status == 0) echo '<span class="label label-danger">Terms (LWD : ' . $lwd . ', Term Date: ' . $terms_date . ' )</span>';
+                                        else if ($status == 2) echo '<span class="label label-warning">Pre-Terms (LWD : ' . $lwd . ', Term Date: ' . $terms_date . ' )</span>';
+                                        else if ($status == 4) echo '<span class="label label-primary">Active New</span>';
+                                        else echo '<span class="label label-default">Deactive</span>';
+                                        ?></td>
+
+                                    <td><?php echo $row['client_name']; ?></td>
+                                    <td><?php echo $row['process_name']; ?></td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+if (is_access_neo_chatbot() == true) {
+    include_once 'neo_chat.php';
+}
+?>
+<!--end after add referral popup-->
+<?php
+//$disable_ameyo_chat = true;
+if (get_login_type() != "client" && is_disable_module() == false && empty($disable_ameyo_chat) && (is_ppbl_check() != '1')) {
+?>
+
+
+    <script type="text/javascript" language="javascript" src="https://wfh.ameyoengage.com:8443/ameyochatjs/ameyo-emerge-chat.js" async defer></script>
+    <?php
+    $_ameyo_noFlowID = '5';
+    $_ameyo_officeid = get_user_office_id();
+    if (!empty($_ameyo_officeid) && $_ameyo_officeid == 'ALT') {
+        $_ameyo_noFlowID = '20';
+    }
+    if (!empty($_ameyo_officeid) && isIndiaLocation($_ameyo_officeid)) {
+        $_ameyo_noFlowID = '53';
+    }
+    ?>
+    <script type="text/javascript">
+        var campaignId = '11';
+        var nodeflowId = '<?php echo $_ameyo_noFlowID; ?>';
+        var ameyoUrl = 'https://wfh.ameyoengage.com:8443'
+        var phoneNoRegex = "^[+]{0,1}[0-9]{9,16}$";
+
+        var ameyo_script = document.createElement('script');
+        ameyo_script.onload = function() {
+            try {
+                initializeChat(campaignId, nodeflowId, ameyoUrl, null, null, null, null, null, phoneNoRegex);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        ameyo_script.src = ameyoUrl + "/ameyochatjs/ameyo-emerge-chat.js";
+        document.getElementsByTagName('head')[0].appendChild(ameyo_script);
+    </script>
+
+<?php } ?>
+
+<?php
+include_once('footer.php');
+?>
+<?php
+include_once('jscripts/home_additional_js.php');
+?>
+<?php
+if (is_access_neo_chatbot() == true) {
+    include_once 'neo_chat_js.php';
+}
+?>
+<script>
+    Highcharts.chart('adherence_chart', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie',
+            marginLeft: 0,
+            marginTop: 0,
+            marginRight: 0,
+            height: 320,
+        },
+        legend: {
+            floating: false,
+            align: 'left',
+            itemMarginBottom: 5,
+            width: 300,
+            x: 0,
+            itemWidth: 150
+        },
+        colors: ['#694ed6', '#f04e98', '#ffd100', '#7fcdde', '#ed8b00'],
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: '',
+            align: 'left'
+        },
+
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            name: 'Percentage',
+            colorByPoint: true,
+            data: [{
+                name: 'On Time (<?= $schedule_monthly[round($selected_month)]['counters']['ontime'] ?>)',
+                y: <?= $schedule_monthly[round($selected_month)]['percent']['ontime'] ?>,
+                sliced: false,
+                selected: true,
+            }, {
+                name: 'Late (<?= $schedule_monthly[round($selected_month)]['counters']['latetime'] ?>)',
+                y: <?= $schedule_monthly[round($selected_month)]['percent']['latetime'] ?>
+            }, {
+                name: 'Leave (<?= $schedule_monthly[round($selected_month)]['counters']['leavetime'] ?>)',
+                y: <?= $schedule_monthly[round($selected_month)]['percent']['leavetime'] ?>
+            }, {
+                name: 'Off (<?= $schedule_monthly[round($selected_month)]['counters']['offtime'] ?>)',
+                y: <?= $schedule_monthly[round($selected_month)]['percent']['offtime'] ?>
+            }, {
+                name: 'Absent (<?= $schedule_monthly[round($selected_month)]['counters']['absenttime'] ?>)',
+                y: <?= $schedule_monthly[round($selected_month)]['percent']['absenttime'] ?>
+            }]
+        }]
+    });
+</script>
+<!--end your adherence graph js codes-->

@@ -1,0 +1,208 @@
+<?php $helpsupport = get_help_suport_location_wise_details(); ?>
+<?php if($helpsupport['hr_support_email_1'] != '' || $helpsupport['hr_support_email_2'] != '' || $helpsupport['hr_support_phone_1'] != ''){ ?>
+<div class="help_top">
+            <div class="gray_card">
+                <div class="support_widget">
+                    <div class="mb-2">
+                        <h2 class="support_heading">HR Support</h2>
+                    </div>
+                </div>
+                <!--start loop here-->
+				<?php if($helpsupport['hr_support_email_1'] != ''){?>
+                <div class="support_white">
+                    <div class="help_one">
+                        <img src="<?php echo base_url() ?>assets_home_v3/images/mail.svg" class="support_img" alt="">
+                    </div>
+                    <div class="help_two" id="hr_email">
+						<?=$helpsupport['hr_support_email_1']?>
+                    </div>
+                    <div class="help_three">
+                        <a href="#" class="copy_text">
+                            <img src="<?php echo base_url() ?>assets_home_v3/images/copy.svg" class="support_img" alt="" data-clipboard-target="#hr_email" >
+                        </a>
+                    </div>
+                     <div class="clipboard_widget" id="hr_email_copied" style="display:none;">
+                        Copied
+                    </div> 
+                </div>
+				<?php } ?>
+                <!--end loop here-->
+				<?php if($helpsupport['hr_support_email_2'] != ''){?>
+                <div class="support_white">
+                    <div class="help_one">
+                        <img src="<?php echo base_url() ?>assets_home_v3/images/mail.svg" class="support_img" alt="">
+                    </div>
+                    <div class="help_two" id="hr_email4">
+						<?=$helpsupport['hr_support_email_2']?>
+                    </div>
+                    <div class="help_three">
+                        <a href="#" class="copy_text">
+                            <img src="<?php echo base_url() ?>assets_home_v3/images/copy.svg" class="support_img" alt=""  data-clipboard-target="#hr_email4">
+                        </a>
+                    </div>
+                    <div class="clipboard_widget" id="hr_email4_copied" style="display:none;">
+                        Copied
+                    </div> 
+                </div>
+				<?php } ?>
+
+                <?php if($helpsupport['hr_support_email_3'] != ''){?>
+                <div class="support_white">
+                    <div class="help_one">
+                        <img src="<?php echo base_url() ?>assets_home_v3/images/mail.svg" class="support_img" alt="">
+                    </div>
+                    <div class="help_two" id="hr_email5">
+						<?=$helpsupport['hr_support_email_3']?>
+                    </div>
+                    <div class="help_three">
+                        <a href="#" class="copy_text">
+                            <img src="<?php echo base_url() ?>assets_home_v3/images/copy.svg" class="support_img" alt=""  data-clipboard-target="#hr_email5">
+                        </a>
+                    </div>
+                    <div class="clipboard_widget" id="hr_email5_copied" style="display:none;">
+                        Copied
+                    </div> 
+                </div>
+				<?php } ?>
+				
+				<?php if($helpsupport['hr_support_phone_1'] != ''){?>
+                <div class="support_white">
+                    <div class="help_one">
+                        <img src="<?php echo base_url() ?>assets_home_v3/images/call.svg" class="support_img" alt="">
+                    </div>
+                    <div class="help_two" id="hr_phone">
+						<?=$helpsupport['hr_support_phone_1']?>
+                    </div>
+                    <div class="help_three">
+                        <a href="#" class="copy_text">
+                            <img src="<?php echo base_url() ?>assets_home_v3/images/copy.svg" class="support_img" alt=""  data-clipboard-target="#hr_phone">
+                        </a>
+                    </div>
+                    <div class="clipboard_widget" id="hr_phone_copied" style="display:none;">
+                        Copied
+                    </div> 
+                </div>
+				<?php } ?>
+
+                <?php if($helpsupport['hr_support_phone_2'] != ''){?>
+                <div class="support_white">
+                    <div class="help_one">
+                        <img src="<?php echo base_url() ?>assets_home_v3/images/call.svg" class="support_img" alt="">
+                    </div>
+                    <div class="help_two" id="hr_phone3">
+						<?=$helpsupport['hr_support_phone_2']?>
+                    </div>
+                    <div class="help_three">
+                        <a href="#" class="copy_text">
+                            <img src="<?php echo base_url() ?>assets_home_v3/images/copy.svg" class="support_img" alt=""  data-clipboard-target="#hr_phone3">
+                        </a>
+                    </div>
+                    <div class="clipboard_widget" id="hr_phone3_copied" style="display:none;">
+                        Copied
+                    </div> 
+                </div>
+				<?php } ?>
+            </div>
+        </div>
+		<?php } ?>
+		<?php if($helpsupport['payroll_helpdesk_email_1'] != '' || $helpsupport['payroll_helpdesk_email_2'] != '' || $helpsupport['payroll_helpdesk_phone_1'] != ''){ ?>
+		<div class="help_top">
+            <div class="gray_card">
+                <div class="support_widget">
+                    <div class="mb-2">
+                        <h2 class="support_heading">Payroll Helpdesk</h2>
+                    </div>
+                </div>
+				<?php if($helpsupport['payroll_helpdesk_email_1'] != ''){?>
+                <div class="support_white">
+                    <div class="help_one">
+                        <img src="<?php echo base_url() ?>assets_home_v3/images/mail.svg" class="support_img" alt="">
+                    </div>
+                    <div class="help_two" id="hr_email2">
+                        <?=$helpsupport['payroll_helpdesk_email_1']?>
+                    </div>
+                    <div class="help_three">
+                        <a href="#" class="copy_text">
+                            <img src="<?php echo base_url() ?>assets_home_v3/images/copy.svg" class="support_img" alt=""  data-clipboard-target="#hr_email2">
+                        </a>
+                    </div>
+                    <div class="clipboard_widget" id="hr_email2_copied" style="display:none;">
+                        Copied
+                    </div> 
+                </div>
+				<?php } ?>
+				<?php if($helpsupport['payroll_helpdesk_email_2'] != ''){?>
+                <div class="support_white">
+                    <div class="help_one">
+                        <img src="<?php echo base_url() ?>assets_home_v3/images/mail.svg" class="support_img" alt="">
+                    </div>
+                    <div class="help_two" id="hr_email3">
+						<?=$helpsupport['payroll_helpdesk_email_2']?>
+                    </div>
+                    <div class="help_three">
+                        <a href="#" class="copy_text">
+                            <img src="<?php echo base_url() ?>assets_home_v3/images/copy.svg" class="support_img" alt=""  data-clipboard-target="#hr_email3">
+                        </a>
+                    </div>
+                    <div class="clipboard_widget" id="hr_email3_copied" style="display:none;">
+                        Copied
+                    </div> 
+                </div>
+				<?php } ?>
+                <?php if($helpsupport['payroll_helpdesk_email_3'] != ''){?>
+                <div class="support_white">
+                    <div class="help_one">
+                        <img src="<?php echo base_url() ?>assets_home_v3/images/mail.svg" class="support_img" alt="">
+                    </div>
+                    <div class="help_two" id="hr_email6">
+						<?=$helpsupport['payroll_helpdesk_email_3']?>
+                    </div>
+                    <div class="help_three">
+                        <a href="#" class="copy_text">
+                            <img src="<?php echo base_url() ?>assets_home_v3/images/copy.svg" class="support_img" alt=""  data-clipboard-target="#hr_email6">
+                        </a>
+                    </div>
+                    <div class="clipboard_widget" id="hr_email6_copied" style="display:none;">
+                        Copied
+                    </div> 
+                </div>
+				<?php } ?>
+				<?php if($helpsupport['payroll_helpdesk_phone_1'] != ''){?>
+                <div class="support_white">
+                    <div class="help_one">
+                        <img src="<?php echo base_url() ?>assets_home_v3/images/call.svg" class="support_img" alt="">
+                    </div>
+                    <div class="help_two" id="hr_phone2">
+					<?=$helpsupport['payroll_helpdesk_phone_1']?>
+                    </div>
+                    <div class="help_three">
+                        <a href="#" class="copy_text">
+                            <img src="<?php echo base_url() ?>assets_home_v3/images/copy.svg" class="support_img" alt="" data-clipboard-target="#hr_phone2">
+                        </a>
+                    </div>
+                    <div class="clipboard_widget" id="hr_phone2_copied" style="display:none;">
+                        Copied
+                    </div>
+                </div>
+				<?php } ?>
+                <?php if($helpsupport['payroll_helpdesk_phone_2'] != ''){?>
+                <div class="support_white">
+                    <div class="help_one">
+                        <img src="<?php echo base_url() ?>assets_home_v3/images/call.svg" class="support_img" alt="">
+                    </div>
+                    <div class="help_two" id="hr_phone4">
+					<?=$helpsupport['payroll_helpdesk_phone_2']?>
+                    </div>
+                    <div class="help_three">
+                        <a href="#" class="copy_text">
+                            <img src="<?php echo base_url() ?>assets_home_v3/images/copy.svg" class="support_img" alt="" data-clipboard-target="#hr_phone4">
+                        </a>
+                    </div>
+                    <div class="clipboard_widget" id="hr_phone4_copied" style="display:none;">
+                        Copied
+                    </div>
+                </div>
+				<?php } ?>
+            </div>
+        </div>
+		<?php } ?>

@@ -1,0 +1,1343 @@
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript">
+
+var baseURL = "<?php echo base_url();?>";
+
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+$(document).ready(function(){
+	
+	CurrServerTime(); 
+	CurrLocalTime(); 
+	/////////////////////////////
+	
+	/*
+	$( ".contest-center-small" ).click(function() {
+	  alert( "Handler for .click() called." );
+	  location.href = "<?php echo base_url();?>ipl";
+	});
+	*/
+
+
+	$("#dob").datepicker({maxDate: new Date(), changeMonth: true, changeYear: true, yearRange: "c-70:c+0"});
+	
+	var processAttendanc="N";
+	var isPayrollPopup = "<?php echo $isPayrollPopup; ?>";
+	var isMoodModel = "<?php echo $isMoodModel; ?>";
+	var isMoodSurveyModal = "<?php echo !empty($is_moodSurveyModal) ? $is_moodSurveyModal : 0; ?>";
+	
+	//var isUserSentimentModel = "<?php echo $isUserSentimentModel; ?>";
+	//var isFemsISPSurvey = "<?php echo $isFemsISPSurvey; ?>";
+	//var isFemsExpFeedback = "<?php echo $isFemsExpFeedback; ?>";
+	
+	var isUserSentimentModel = "<?php echo !empty($isUserSentimentModel) ? $isUserSentimentModel : 0; ?>";
+	var isFemsISPSurvey = "<?php echo !empty($isFemsISPSurvey) ? $isFemsISPSurvey : 0; ?>";
+	var isFemsExpFeedback = "<?php echo !empty($isFemsExpFeedback) ? $isFemsExpFeedback : 0; ?>";
+	
+	//alert(isPayrollPopup);
+	
+	//if(isPayrollPopup == "1") $("#infoPayrollFrmModel").modal('show');
+			
+	var is_OpenPayPopup = "<?php echo $is_OpenPayPopup; ?>";
+	if(is_OpenPayPopup == "Y") $("#acceptPayInfoModal").modal('show');
+	
+	var is_global_access = "<?php echo get_global_access(); ?>";
+	var office_id = "<?php echo get_user_office_id(); ?>";
+	var dept_folder = "<?php echo get_dept_folder(); ?>";
+	var role_folder = "<?php echo get_role_dir(); ?>";
+	
+	//$("#homeImgModelAllLocation").modal('show');
+	//$("#homeImgModelAllLocation2").modal('show');
+	
+	<?php if(get_role_dir() != 'agent'){ ?>
+		//$("#homeImgModelAllLocationLink").modal('show');
+	<?php } ?>
+	
+	// Employees - MOOD 
+	//if(isMoodModel==0) $("#homeYourMoodAllLoc").modal('show');
+	
+	//if(isMoodSurveyModal==0) $("#homeYourSurveyAllLoc").modal('show');
+			
+	// Employees Sentiment - PULSE SURVEY
+	if(isUserSentimentModel==0) $("#homeUserSentimentModel").modal('show');
+	//console.log(isFemsISPSurvey);
+	//if( isIndiaLocation(office_id)==true && isFemsISPSurvey==1) $("#femsISPSurvey").modal('show');
+	
+	//if(isFemsExpFeedback == "1") $("#femsExpFeedback").modal('show');
+	
+	if((isIndiaLocation(office_id)==true  && isFemsExpFeedback == 1) || is_global_access=='1'){
+		//$("#femsExpFeedback").modal('show');
+	}
+	
+	if(isADLocation(office_id)==true || office_id=="ALT" || office_id=="MON" || office_id=="ELS" || is_global_access=='1'){
+		//$("#femsAutoRepairSurvey").modal('show');
+	}
+	
+	if(isADLocation(office_id)==true || is_global_access=='1'){
+		//$("#model_ad_medicare").modal('show');
+	}
+	
+	
+	
+	
+	////////
+	
+	$('#homeYourMoodAllLoc').on('hidden.bs.modal', function () {
+		
+		var dUrl="<?php echo base_url();?>home/skipMoodSurvey";
+		$.get(dUrl, function(data, status){
+			//alert("Data: " + data + "\nStatus: " + status);
+		});
+  
+    });
+	
+	$(".YourMood").click(function(){
+		
+		var txt=$(this).attr("txt");
+		//var r = confirm("Your Mood on Today is "+txt+"\r\nAre You Sure About Your Mood?");
+		var r =true;	
+		if(r===true){
+			var dUrl="<?php echo base_url();?>home/saveYourMood?txt="+txt;
+			$('#sktPleaseWait').modal('show');
+			$.ajax({
+				type	:	'GET',
+				url		:	dUrl,
+				success	:	function(msg){
+							$('#sktPleaseWait').modal('hide');
+							$("#homeYourMoodAllLoc").modal('hide');						
+						}
+			});
+		}
+	});
+	
+	////////////////////
+	
+	
+	
+$(".YourAnswer").click(function(){
+		
+		var ans=$(this).attr("ans");
+		var ques_id = $("input[name='ques_id']").val();
+		var quotes_id = $("input[name='quotes_id']").val();
+		
+		if(ans != ""){
+		//var r = confirm("Your Mood on Today is "+txt+"\r\nAre You Sure About Your Mood?");
+			var r =true;	
+			if(r===true){
+				var dUrl="<?php echo base_url();?>home/saveUserSentiment";
+				$('#sktPleaseWait').modal('show');
+				$.ajax({
+					type	:	'POST',
+					url		:	dUrl,
+					data    :   {
+					'ans': ans,
+					'ques_id' : ques_id,
+					'quotes_id' : quotes_id
+					},
+					success	:	function(msg){
+						//window.location = '<?php echo base_url();?>home';	
+						$('#sktPleaseWait').modal('hide');
+						$("#homeUserSentimentModel").modal('hide');
+					}
+				});
+			}
+		}else{
+			alert('Please select your feedback!');
+		}
+	});
+	
+	
+	//========== FOR POPUP MODAL SURVEY ===================//
+	<?php if(!empty($is_show_survey_fems_name) && $is_show_survey_fems_name == true){ ?>
+	//$('#femsNameSurvey').modal('show');
+	<?php } ?>
+	
+	<?php if(!empty($is_show_phs_hot_topic_acknowledge) && $is_show_phs_hot_topic_acknowledge == true){ ?>
+	//$('#femsPHShotTopic').modal('show');
+	<?php } ?>
+	
+	<?php if(!empty($is_show_ack_morocco_mide) && $is_show_ack_morocco_mide == true){ ?>
+	   $('#femsMoroccoMIMIDE').modal('show');
+	<?php } ?>
+	
+	<?php if(!empty($is_show_ack_ransomware) && $is_show_ack_ransomware == true){ ?>
+	   $('#femsSecurityRansomwareAck').modal('show');
+	<?php } ?>
+
+	<?php if(!empty($is_show_ack_phishing) && $is_show_ack_phishing == true){ ?>
+	   $('#femsSecurityPhishing').modal('show');
+	<?php } ?>
+
+	<?php if(!empty($is_show_ack_cyber) && $is_show_ack_cyber == true){ ?>
+	   $('#femsSecurityCyber').modal('show');
+	<?php } ?>
+
+	<?php if(!empty($is_show_ack_cyber_care_hipaa) && $is_show_ack_cyber_care_hipaa == true){ ?>
+	   $('#femsCareCyber').modal('show');
+	<?php } ?>
+
+	<?php if(!empty($is_show_ack_cyber_skip_identity_theft) && $is_show_ack_cyber_skip_identity_theft == true){ ?>
+	   $('#femsIdentityTheft').modal('show');
+	<?php } ?>
+	
+	<?php if(!empty($is_show_ack_cyber_skip_femsESI) && $is_show_ack_cyber_skip_femsESI == true){ ?>
+	   $('#femsESI').modal('show');
+	<?php } ?>
+
+	<?php if(!empty($is_show_ack_skip_femsSecurityDesktop) && $is_show_ack_skip_femsSecurityDesktop == true){?>
+	   $('#femsSecurityDesktop').modal('show');
+	<?php } ?>
+
+	<?php if(!empty($is_show_ack_skip_femsAttentionAnnouncement) && $is_show_ack_skip_femsAttentionAnnouncement == true){?>
+	   $('#femsAttentionAnnouncement').modal('show');
+	<?php } ?>
+
+	<?php if(!empty($is_show_ack_skip_femsCleanInbox) && $is_show_ack_skip_femsCleanInbox == true){?>
+	   $('#femsCleanInbox').modal('show');
+	<?php } ?>
+	
+	<?php if(!empty($is_show_ack_skip_femsInfosecAwareness) && $is_show_ack_skip_femsInfosecAwareness == true){?>
+	   $('#femsInfosecAwareness').modal('show');
+	<?php } ?>
+	
+	<?php if(!empty($is_show_ack_skip_femsChangePassword) && $is_show_ack_skip_femsChangePassword == true){?>
+	   $('#femsChangePassword').modal('show');
+	<?php } ?>
+	
+	<?php if(!empty($is_show_ack_skip_femsRnrJanuary) && $is_show_ack_skip_femsRnrJanuary == true){?>
+	   $('#femsRnrJanuary').modal('show');
+	<?php } ?>
+	
+	<?php if(!empty($is_show_ack_skip_femsOrgChartPhils) && $is_show_ack_skip_femsOrgChartPhils == true){?>
+	   $('#femsOrgChartPhils').modal('show');
+	<?php } ?>
+	
+	<?php if(!empty($is_show_ack_skip_femsZTPolicy) && $is_show_ack_skip_femsZTPolicy == true){?>
+	   $('#femsZTPolicy').modal('show');
+	<?php } ?>
+    
+    <?php if(!empty($is_show_ack_skip_femsPhySecurity) && $is_show_ack_skip_femsPhySecurity == true){?>
+	   $('#femsPhySecurity').modal('show');
+	<?php } ?>
+	
+	<?php if(!empty($is_show_ack_skip_femsOmindReview) && $is_show_ack_skip_femsOmindReview == true){?>
+	   $('#femsOmindReview').modal('show');
+	<?php } ?>
+	
+	<?php if(!empty($is_show_ack_skip_femsOmindNDA) && $is_show_ack_skip_femsOmindNDA == true){?>
+	   $('#femsOmindNDA').modal('show');
+	<?php } ?>
+	
+	$('#myBirthdayModal').modal('show');
+	
+	<?php if(!empty($isWorkOnSite) && $isWorkOnSite == 1){ ?>
+	//$("#homewrkmodeModal").modal('show');
+	<?php } ?>
+		
+	$('.frmwrkmode').submit(function(e) {
+		
+		//var other_feedback=$('.frmITSecurity [name="other_feedback"]').val();
+		
+			$('#sktPleaseWait').modal('show');
+			$.ajax({
+				type	:	'POST',
+				url		:	'<?php echo base_url();?>home/save_work_mode',
+				data	:	$('form.frmwrkmode').serialize(),
+				success	:	function(msg){
+							alert('Successfully Submited');
+							$('#sktPleaseWait').modal('hide');
+							$("#homewrkmodeModal").modal('hide');
+						}
+			});
+		
+	});
+	
+	
+	$('#myModal').on('shown.bs.modal', function() {
+		$('#myInput').focus()
+	})
+	
+	$("#audioOn").click(function(){
+		var vid = document.getElementById("femsHomeVideo");
+		vid.muted = false;
+		$(this).hide();
+	});
+	
+	//on close remove
+    $('#homeVideoNewBrandAllLoc').on('hidden.bs.modal', function () {
+		$('#homeVideoNewBrandAllLoc .modal-body').empty();
+    });
+	
+	if( isADLocation(office_id)==false && office_id !="ALT" && office_id !="DRA"){
+		//$("#homeVideoNewBrandAllLoc").modal('show');
+		//$("#homeImageNewBrandAllLoc").modal('show');
+	}
+	
+	$("#homeVideoNewBrandAllLoc").modal('show');
+		
+	if(office_id=="CEB" || office_id=="MAN" || is_global_access=='1'){
+		//$("#homeVideoNewBrandAllLoc").modal('show');
+	}
+	
+	
+	$("#audioOnAd").click(function(){
+		var vid = document.getElementById("femsHomeVideoAd");
+		vid.muted = false;
+		$(this).hide();
+	});
+	
+	//on close remove
+    $('#homeVideoNewBrandAdLocation').on('hidden.bs.modal', function () {
+		$('#homeVideoNewBrandAdLocation .modal-body').empty();
+    });
+	
+	//if(isADLocation(office_id)==true || is_global_access=='1'){
+	if(office_id=="CAS" || is_global_access=='1'){
+		//$("#homeVideoNewBrandAdLocation").modal('show');
+		//$("#homeImageNewBrandAdLocation").modal('show');
+		
+	}
+	
+	
+	
+	
+	//$("#homeImgModelItAssessment").modal('show');
+	/* $("#homeImgModelItAssessment").on('click', function(){
+		$('#homeImgModelItAssessment').modal('hide');
+	}); */
+	
+	//$("#itAssessment").modal('show');
+				
+	if( isIndiaLocation(office_id)==true){
+		//$("#IndCarousel").carousel(0);
+		//$("#homeImgModelInd").modal('show');
+		//$("#homeImgModelHoli").modal('show');
+	}
+	
+	if(office_id=="ALT" || is_global_access=='1'){
+		//$("#homeImgModelALT").modal('show');
+	}
+	
+	if(office_id=="ELS" || is_global_access=='1'){
+		//$("#ElsCarousel").carousel(getRndInteger(0,5));
+		//$("#ElsCarousel").carousel(0);
+		//$("#homeImgModelEsl").modal('show');
+	}
+		
+	if(office_id=="KOL" && (dept_folder !="operations" || role_folder !="agent")){
+		//$("#applnIjpImgModel").modal('show');
+		//$("#homeImgModelKol").modal('show');	
+	}
+		
+	if(office_id=="CEB" || is_global_access=='1'){
+		//$("#CebCarousel").carousel(0);
+		//$("#refCebuImgModel").modal('show');
+	}
+	
+	if(office_id=="MAN" || is_global_access=='1'){
+		//$("#ManCarousel").carousel(0);
+		//$("#refManImgModel").modal('show');
+	}
+	
+	if(office_id=="CEB" || office_id=="MAN" || is_global_access=='1'){
+		//$("#philCarousel").carousel(0);
+		//$("#PhilImgModel").modal('show');
+	}
+	
+	if(office_id=="CAS" || is_global_access=='1'){
+		$("#homeImgModelCAS").modal('show');
+	}
+		
+	/*
+	$("#applnIjpModelBtn").click(function(){
+		$("#applnIjpFrmModel").modal('show');
+		$("#applnIjpImgModel").modal('hide');		
+	});
+	*/
+	
+	$("#homeImgModelKolBtn").click(function(){
+		
+		var isApply=$(this).attr("isApply");
+				
+		if(isApply>0){
+			alert('You Already Applied.');
+			
+		}else{
+			$("#frmHomeImgModelKol").modal('show');
+			$("#homeImgModelKol").modal('hide');
+		}
+		
+	});
+	
+	$("#refCebuAddRefModelBtn").click(function(){
+		$("#addReferrals").modal('show');
+		$("#refCebuImgModel").modal('hide');
+	});
+	
+	$("#refManAddRefModelBtn").click(function(){
+		$("#addReferrals").modal('show');
+		$("#refManImgModel").modal('hide');
+	});
+	
+	
+	$("#refCebuModelBtn").click(function(){
+		$("#refCebuFrmModel").modal('show');
+		$("#refCebuImgModel").modal('hide');
+	});
+	
+	
+	$("#accepteGaze").click(function(){
+		
+		var dUrl="<?php echo base_url();?>home/accepteGaze?var=1.0.1.6";
+		
+		$('#sktPleaseWait').modal('show');
+		$.ajax({
+			type	:	'POST',
+			url		:	dUrl,
+			success	:	function(msg){
+						$('#sktPleaseWait').modal('hide');
+						$('#EGazeDownModel').modal('hide');
+						window.location = '<?php echo base_url();?>assets/egaze/EfficiencyX_MWPv1.0.1.6.msi';
+						//window.open('<?php echo base_url();?>assets/egaze/EGaze_Setup.msi', "_blank")
+						
+					}
+		});
+			
+			
+	});
+	
+	$('.frmHomeKolSeed').submit(function(e) {
+		
+				
+		var location_id=$('.frmHomeKolSeed #location_id').val();
+		var fusion_id=$('.frmHomeKolSeed #fusion_id').val();
+		var appln_name=$('.frmHomeKolSeed #appln_name').val();
+		
+		var phone=$('.frmHomeKolSeed #phone').val();
+		var email_id=$('.frmHomeKolSeed #email_id').val();
+		
+		if(fusion_id!='' && phone!='' && email_id!='' && location_id!=''){
+			
+			//alert("<?php echo base_url();?>home/seedApplnSave?"+$('form.frmHomeKolSeed').serialize());
+			
+			$('#sktPleaseWait').modal('show');
+			
+			$.ajax({
+				type	:	'POST',
+				url		:	'<?php echo base_url();?>home/seedApplnSave',
+				data	:	$('form.frmHomeKolSeed').serialize(),
+				success	:	function(msg){
+							$('#sktPleaseWait').modal('hide');
+							$("#frmHomeImgModelKol").modal('hide');
+							
+							alert('You Have Successfully Applied.');
+							
+						}
+			});
+		}else{
+			alert('Fill the form correctly...');
+		}
+	});
+	
+	
+	
+	$('.frmApplnIJP #ijp_location').change(function(){
+		
+		var location=$(this).val();
+		
+		$('.frmApplnIJP #app_post').empty();
+		$('.frmApplnIJP #app_post').append($('<option></option>').val('').html('-Select-'));
+		
+		$('.frmApplnIJP #app_post').append($('<option></option>').val('SME').html('SME'));
+		$('.frmApplnIJP #app_post').append($('<option></option>').val('Quality').html('Quality'));
+		$('.frmApplnIJP #app_post').append($('<option></option>').val('Team Leader').html('Team Leader'));
+		$('.frmApplnIJP #app_post').append($('<option></option>').val('Trainer').html('Trainer'));
+			
+		if(location=="KOL"){
+			$('.frmApplnIJP #app_post').append($('<option></option>').val('MIS').html('MIS'));
+			$('.frmApplnIJP #app_post').append($('<option></option>').val('HR').html('HR'));				
+		}
+	});
+		
+	$('.frmApplnIJP').submit(function(e) {
+		
+		//alert('OK');
+		
+		var location=$('.frmApplnIJP #location').val();
+		var app_post=$('.frmApplnIJP #app_post').val();
+		var phone=$('.frmApplnIJP #phone').val();
+		var email_id=$('.frmApplnIJP #email_id').val();
+		
+		if(app_post!='' && phone!='' && email_id!='' && location!=''){
+			
+			//alert("<?php echo base_url();?>Ijpapplnsave?"+$('form.frmApplnIJP').serialize());
+			
+			$('#sktPleaseWait').modal('show');
+			
+			$.ajax({
+				type	:	'POST',
+				url		:	'<?php echo base_url();?>Ijpapplnsave',
+				data	:	$('form.frmApplnIJP').serialize(),
+				success	:	function(msg){
+							$('#sktPleaseWait').modal('hide');
+							$("#applnIjpFrmModel").modal('hide');
+							
+							alert('You Have Successfully Applied For This Job');
+							
+							$(".frmApplnIJP #name").val('');
+							$(".frmApplnIJP #phone").val('');
+							$(".frmApplnIJP #email").val('');
+							$(".frmApplnIJP #comment").val('');
+						}
+			});
+		}else{
+			alert('Fill the form correctly...');
+		}
+	});
+	
+	
+	/*
+	<?php if(date('T')=="EDT"):?>
+		//EDT();
+	<?php elseif(date('T')=="EST"): ?>
+		//EST();
+	<?php endif;?>
+	*/
+	
+<?php if ( get_role_dir()=="agent" || get_role_dir()=="tl" ) {
+	
+	//echo " CurrServerTime(); ";
+	//echo " CurrLocalTime(); ";
+	
+ } ?>
+
+	$('#break_check_button_ld').change(function(){
+	
+		if($(this).prop("checked")==true){
+						
+			swal({
+			  title: "Are You Sure to Turn Lunch/Dinner Break Timer On?",
+			  text: "",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			if(willDelete){
+				
+				$('#sktPleaseWait').modal('show');
+				
+				//alert("<?php echo base_url();?>users/break_on_ld");
+				
+				$.post("<?php echo base_url();?>users/break_on_ld",function(data){
+					//window.location.href = "<?php echo base_url().get_role_dir();?>/dashboard";
+					window.location.href = "<?php echo base_url();?>home";
+					window.location.reload()
+				});
+				
+
+			}else $(this).prop("checked",false);
+
+			});
+			
+		}else{
+				
+				$('#countdown_ld').hide();
+				
+				$('#sktPleaseWait').modal('show');
+				
+				$.post("<?php echo base_url();?>users/break_off_ld",function(data){
+					if(data==1){
+						$(this).prop("checked",false);
+						//window.location.href = "<?php echo base_url().get_role_dir();?>/dashboard";
+						window.location.href = "<?php echo base_url();?>home";
+						window.location.reload()
+					}else{
+						$(this).prop("checked",true);
+						alert(data);//("Error Occurred. Contact TL/Supervisor/Administrator");
+					}
+				});
+				
+			} 
+	});
+
+
+	$('#break_check_button_sd').change(function(){
+		if($(this).prop("checked")==true){
+						
+			swal({
+			  title: "Are You Sure to Turn System Downtime Timer On?",
+			  text: "",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			if(willDelete){
+				
+				//alert("<?php echo base_url();?>users/break_on");
+				
+				$('#sktPleaseWait').modal('show');
+				
+				$.post("<?php echo base_url();?>users/break_on_system_downtime",function(data){
+					//window.location.href = "<?php echo base_url().get_role_dir();?>/dashboard";
+					window.location.href = "<?php echo base_url();?>home";
+					window.location.reload()
+				});
+
+			}else $(this).prop("checked",false);
+
+
+			});
+			
+		}else{
+			
+				$('#countdown_sd').hide();	
+				$('#sktPleaseWait').modal('show');
+				
+				$.post("<?php echo base_url();?>users/break_off_system_downtime",function(data){
+					if(data==1){	
+						$(this).prop("checked",false);
+						//window.location.href = "<?php echo base_url().get_role_dir();?>/dashboard";
+						window.location.href = "<?php echo base_url();?>home";
+						window.location.reload()
+					}else{
+						$(this).prop("checked",true);
+						alert(data);//("Error Occurred. Contact TL/Supervisor/Administrator");
+					}
+				});
+		} 
+	});		
+
+
+			$('#break_check_button_cb').change(function(){
+		if($(this).prop("checked")==true){					
+			// r = confirm("");
+			swal({
+			  title: "Are You Sure to Turn Coaching Break Timer On?",
+			  text: "",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			if(willDelete){
+				
+				$('#sktPleaseWait').modal('show');
+				
+				$.post("<?php echo base_url();?>users/break_on_coaching",function(data){
+					//window.location.href = "<?php echo base_url().get_role_dir();?>/dashboard";
+					window.location.href = "<?php echo base_url();?>home";
+					window.location.reload()
+				});
+
+			}else $(this).prop("checked",false);
+
+			});
+			
+		}else{
+			
+				$('#countdown_cb').hide();	
+				$('#sktPleaseWait').modal('show');
+				
+				$.post("<?php echo base_url();?>users/break_off_coaching",function(data){
+					if(data==1){	
+						$(this).prop("checked",false);
+						//window.location.href = "<?php echo base_url().get_role_dir();?>/dashboard";
+						window.location.href = "<?php echo base_url();?>home";
+						window.location.reload()
+					}else{
+						$(this).prop("checked",true);
+						alert(data);//("Error Occurred. Contact TL/Supervisor/Administrator");
+					}
+				});
+		}
+
+
+
+	});
+	
+	
+	$('#break_check_button').change(function(){
+		if($(this).prop("checked")==true){
+						
+			swal({
+			  title: "Are You Sure to Turn Other Break Timer On?",
+			  text: "",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			if(willDelete){
+				
+				//alert("<?php echo base_url();?>users/break_on");
+				
+				$('#sktPleaseWait').modal('show');
+				
+				$.post("<?php echo base_url();?>users/break_on",function(data){
+					//window.location.href = "<?php echo base_url().get_role_dir();?>/dashboard";
+					window.location.href = "<?php echo base_url();?>home";
+					window.location.reload()
+				});
+
+			}else $(this).prop("checked",false);
+
+			});
+			
+		}else{
+			
+				$('#countdown').hide();	
+				$('#sktPleaseWait').modal('show');
+				
+				$.post("<?php echo base_url();?>users/break_off",function(data){
+					if(data==1){
+						$(this).prop("checked",false);
+						//window.location.href = "<?php echo base_url().get_role_dir();?>/dashboard";
+						window.location.href = "<?php echo base_url();?>home";
+						window.location.reload()
+					}else{
+						$(this).prop("checked",true);
+						alert(data);//("Error Occurred. Contact TL/Supervisor/Administrator");
+					}
+				});
+		} 
+	});
+	
+	
+/////////////////-------- IT Assessment (09/03/2020) --------//////////////////
+	$("#dekstop_laptop").on('change', function(){
+		if($(this).val()=='No'){
+			$('.itast').prop('disabled', true).val('');
+		}else{
+			$('.itast').prop('disabled', false);	
+		}
+	});
+
+	$('.frmItAssessment').submit(function(e) {
+		var refdl=$('.frmItAssessment #dekstop_laptop').val();
+		
+		if(refdl!=''){
+			$('#sktPleaseWait').modal('show');
+			$.ajax({
+				type	:	'POST',
+				url		:	'<?php echo base_url();?>home/itAssessment',
+				data	:	$('form.frmItAssessment').serialize(),
+				success	:	function(msg){
+					
+							$('#sktPleaseWait').modal('hide');
+							$("#itAssessment").modal('hide');
+							
+							alert('Successfully Submited');
+						}
+			});
+		}else{
+			alert('Fill the form correctly...');
+		}
+	});
+	
+	
+/////////////////-------- WORK From Home Survey (27/03/2020) --------//////////////////
+	<?php if($survey_workhome['isdonesurvey'] <= 0){  ?>
+		//$('#SurveyWorkHome').modal();
+		display_wfh_status();
+	<?php } ?>
+	
+	function display_wfh_status(){
+		wfh_status = $("#is_work_home").val();
+		if(wfh_status == "Yes"){ 		
+			$('#to_show_wah').show(); 
+			$("#is_shifted_happy").prop('required',true);
+			$("#how_shifted_happy").prop('required',true);
+			$("#wfh_hashtag").prop('required',true);
+			$("#wfh_comments").prop('required',true);
+		} else { 
+			$('#to_show_wah').hide(); 
+			$('.frmSurveyWorkHome #is_shifted_happy').val('');
+			$('.frmSurveyWorkHome #how_shifted_happy').val('');
+			$('.frmSurveyWorkHome #wfh_hashtag').val('');
+			$('.frmSurveyWorkHome #wfh_comments').val('');
+			$("#is_shifted_happy").removeAttr('required');
+			$("#how_shifted_happy").removeAttr('required');
+			$("#wfh_hashtag").removeAttr('required');
+			$("#wfh_comments").removeAttr('required');
+		}
+	}
+	$("#is_work_home").on('change', function(){
+       display_wfh_status();
+	});
+
+	$('.frmSurveyWorkHome').submit(function(e) {
+		var survWFH=$('.frmSurveyWorkHome #is_work_home').val();
+		var ishappyf = $('.frmSurveyWorkHome #is_shifted_happy').val();
+		var howhappyf = $('.frmSurveyWorkHome #how_shifted_happy').val();
+		var wfhhastagf = $('.frmSurveyWorkHome #wfh_hashtag').val();
+		var wfhcommentsf = $('.frmSurveyWorkHome #wfh_comments').val();
+		
+		if(survWFH!=''){
+		if(((survWFH == 'Yes') && (ishappyf != "") && (howhappyf != "") && (wfhhastagf != "") && (wfhcommentsf != "")) || (survWFH == 'No'))
+		{
+				$('#sktPleaseWait').modal('show');
+				$.ajax({
+					type	:	'POST',
+					url		:	'<?php echo base_url();?>home/survey_workfromhome',
+					data	:	$('form.frmSurveyWorkHome').serialize(),
+					success	:	function(msg){
+						
+								$('#sktPleaseWait').modal('hide');
+								$("#SurveyWorkHome").modal('hide');
+								
+								alert('Survey Submited Successfully!');
+							}
+				});
+		} else {			
+			alert('Fill the form correctly...');
+		}
+		} else {
+			alert('Fill the form correctly...');
+		}
+	});
+	
+	
+	
+////////////////////////////////////////////////////////////////////
+	$('.frmAddReferrals').submit(function(e) {
+		
+		//alert('OK');
+		
+		var refName=$('.frmAddReferrals #name').val();
+		var refPhone=$('.frmAddReferrals #phone').val();
+		var refEmail=$('.frmAddReferrals #email').val();
+		var refPosition=$('.frmAddReferrals #position').val();
+		
+		var form = $('#frmAddReferrals');
+		var formData = new FormData(form[0]);
+		
+		var fileName = $('.frmAddReferrals #r_cv_attach').val();
+		/*if(fileName == ""){
+			alert('CV Not Selected');
+			return false;
+		}*/
+		if(fileName != ""){
+		var extension = $('.frmAddReferrals #r_cv_attach').val().split('.').pop().toLowerCase();
+		if($.inArray(extension, ['pdf']) == -1){
+			alert('Sorry, Only PDF File Allowed');
+			return false;
+		}
+	}
+		 //&& fileName!='' && extension == 'pdf'
+		if(refName!='' && refPhone!='' && refEmail!='' && refPosition!=''){
+			
+			///alert("<?php echo base_url();?>home/addreferral?"+$('form.frmAddReferrals').serialize());
+		//if ($(form).valid()) {
+			
+			$('#sktPleaseWait').modal('show');
+			$.ajax({
+				type	:	'POST',
+				url		:	'<?php echo base_url();?>home/addreferral',
+				//data	:	$('form.frmAddReferrals').serialize(),
+				data	:	formData,
+				contentType: false, //this is requireded
+				processData: false, //this is requireded
+				success	:	function(msg){
+					//console.log(msg);
+					
+					$('#sktPleaseWait').modal('hide');
+					$("#addReferrals").modal('hide');
+					
+					//window.location.reload();
+					$(".frmAddReferrals #name").val('');
+					$(".frmAddReferrals #phone").val('');
+					$(".frmAddReferrals #email").val('');
+					$(".frmAddReferrals #comment").val('');
+					$(".frmAddReferrals #position").val('');
+					$('.frmAddReferrals #r_cv_attach').val('');
+					
+					alert('Successfully Submit Your Referrals');
+				},
+				error : function(msg){
+					$('#sktPleaseWait').modal('hide');
+					alert('Something Went Wrong!');
+				}
+			});
+		}else{
+			alert('Fill the form correctly...');
+		}
+	});
+	
+		
+////////////////////////////////
+	
+	$("#viewModalAttendance").click(function(){
+		
+		if(processAttendanc=="Y"){
+			
+			$('#attendance_model').modal('show');
+			
+		}else{
+			
+			$('#sktPleaseWait').modal('show');
+			
+			var rURL=baseURL+'home/getCurrentAttendance';
+			
+			$.ajax({
+			   type: 'POST',    
+			   url:rURL,
+			   success: function(tbDtata){
+				   
+				   $('#sktPleaseWait').modal('hide');
+				   $('#attendance_model').modal('show');	
+				   $('#currAttendanceTable').html(tbDtata);
+				   processAttendanc = "Y";
+				   
+				},
+				error: function(){	
+					alert('Fail!');
+					$('#sktPleaseWait').modal('hide');
+				}
+			  });
+		
+		}
+		////
+		
+	});
+	
+/////////////Holiday List//////////////////
+	$("#appHolidayList").click(function(){
+		$('#sktPleaseWait').modal('show');
+		var rURL=baseURL+'holiday_list';
+		
+		$.ajax({
+		   type: 'POST',    
+		   url:rURL,
+		   success: function(tbDtata){
+			   $('#sktPleaseWait').modal('hide');
+			   $('#holidayListModel').modal('show');	
+			   $('#holidayList').html(tbDtata);
+			},
+			error: function(){	
+				alert('Fail!');
+				$('#sktPleaseWait').modal('hide');
+			}
+		});
+	});
+////////////////////	
+
+/////////////Payroll Calendar//////////////////
+	$("#appPayrollCalendar").click(function(){
+
+		$('#payrollCalendarModel').modal('show');
+
+		$('#sktPleaseWait').modal('show');
+		var rURL=baseURL+'payroll_calendar';
+		
+		$.ajax({
+		   type: 'POST',    
+		   url:rURL,
+		   success: function(tbDtata){
+			   $('#sktPleaseWait').modal('hide');
+			   $('#payrollCalendarModel').modal('show');	
+			   $('#payrollCalendar').html(tbDtata);
+			},
+			error: function(){	
+				alert('Fail!');
+				$('#sktPleaseWait').modal('hide');
+			}
+		});
+	});
+////////////////////
+
+
+});
+
+
+/////////////////////////////////////////
+
+
+var srvTimeStr="<?php echo CurrTime();?>";
+var localtime="<?php echo GetLocalTime();?>";
+var user="<?php echo get_user_fusion_id();?>";
+ 
+if(user=='FKOL015294'){ 
+console.log(localtime);
+}
+var localDateTimeArray = localtime.split(' ');
+
+localDate = localDateTimeArray[0];
+localTime = localDateTimeArray[1];
+
+var ll = localTime.split(":");
+
+var locDt = new Date();
+    locDt.setHours(ll[0]);
+    locDt.setMinutes(ll[1]);
+    locDt.setSeconds(ll[2]);
+	
+function CurrLocalTime(){
+    //EST
+    locDt = new Date(locDt.valueOf() + 1000);
+	//console.log(locDt.valuof());
+	var ts = locDt.toTimeString().split(" ")[0];
+	//document.getElementById('txt1').innerHTML = ts;
+	$("#txt1").html(ts);
+	
+	var Linv = setTimeout(CurrLocalTime, 1000);
+}
+  
+var ss = srvTimeStr.split(":");
+var srvDt = new Date();
+    srvDt.setHours(ss[0]);
+    srvDt.setMinutes(ss[1]);
+    srvDt.setSeconds(ss[2]);
+
+function CurrServerTime(){
+    //EST
+    srvDt = new Date(srvDt.valueOf() + 1000);
+	var ts = srvDt.toTimeString().split(" ")[0];
+	//document.getElementById('txt').innerHTML = ts +" EST";
+	//$("#txt").html(ts +" EST");
+	$("#txt").html(ts);
+	
+	var Sinv = setTimeout(CurrServerTime, 1000);
+}
+
+
+function startTime() {
+	var today = new Date();
+	var h = today.getHours();
+	var m = today.getMinutes();
+	var s = today.getSeconds();
+	m = checkTime(m);
+	s = checkTime(s);
+	//document.getElementById('txt2').innerHTML =	"Local Time - "+ h + ":" + m + ":" + s;
+	$("#txt2").html("Local Time - "+ h + ":" + m + ":" + s);
+	
+	t = setTimeout(startTime, 1000);
+}
+function checkTime(i) {
+	if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+	return i;
+}
+
+
+function EST(){
+    //EST
+    offset = -5.0;
+    clientDate = new Date();
+    utc = clientDate.getTime() + (clientDate.getTimezoneOffset() * 60000);
+    serverDate = new Date(utc + (3600000*offset));
+	h = serverDate.getHours();
+	m = checkTime(serverDate.getMinutes());
+	s = checkTime(serverDate.getSeconds());
+    //return h+" "+m+" "+s;
+	document.getElementById('txt').innerHTML = h + ":" + m + ":" + s + " EST";
+	var t = setTimeout(EST, 1000);
+}
+
+function EDT(){
+	//EDT
+    offset = -4.0;
+    clientDate = new Date();
+    utc = clientDate.getTime() + (clientDate.getTimezoneOffset() * 60000);
+    serverDate = new Date(utc + (3600000*offset));
+	h = serverDate.getHours();
+	m = checkTime(serverDate.getMinutes());
+	s = checkTime(serverDate.getSeconds());
+    //return h+" "+m+" "+s;
+	
+	document.getElementById('txt').innerHTML = h + ":" + m + ":" + s + " EST";
+	
+	var t = setTimeout(EDT, 1000);
+}
+
+
+var isBreak_Dl_on = <?php echo $isBreak_Dl_on; ?>;
+var isBreak_Other_on = <?php echo $isBreak_Other_on; ?>;
+var isBreak_Cb_on = <?php echo $isBreak_Cb_on; ?>;
+var isBreak_Sd_on = <?php echo $isBreak_Sd_on; ?>;
+
+var seconds_ld = <?php echo $break_countdown_ld; ?>;
+//alert(seconds_ld);
+var seconds_sd = <?php echo $break_countdown_sd; ?>;
+var seconds = <?php echo $break_countdown; ?>;
+var seconds_cb = <?php echo $break_countdown_cb; ?>;
+
+//alert(seconds);
+
+function timer_sd() {
+    var days        = Math.floor(seconds_sd/24/60/60);
+    var hoursLeft   = Math.floor((seconds_sd) - (days*86400));
+    var hours       = Math.floor(hoursLeft/3600);
+    var minutesLeft = Math.floor((hoursLeft) - (hours*3600));
+    var minutes     = Math.floor(minutesLeft/60);
+	
+    var remainingSeconds = seconds_sd % 60;
+	
+	if (minutes < 10) {
+        minutes = "0" + minutes; 
+    }
+	
+    if (remainingSeconds < 10) {
+        remainingSeconds = "0" + remainingSeconds; 
+    }
+	
+	//document.getElementById('countdown_ld').innerHTML =  hours + ":" + minutes + ":" + remainingSeconds + " Hours";
+	
+	$("#countdown_sd").html(hours + ":" + minutes + ":" + remainingSeconds + " Hours");
+	$("#downtime_timer").html(hours + ":" + minutes + ":" + remainingSeconds);
+	
+	seconds_sd++;
+}
+
+function timer_ld() {
+    var days        = Math.floor(seconds_ld/24/60/60);
+    var hoursLeft   = Math.floor((seconds_ld) - (days*86400));
+    var hours       = Math.floor(hoursLeft/3600);
+    var minutesLeft = Math.floor((hoursLeft) - (hours*3600));
+    var minutes     = Math.floor(minutesLeft/60);
+	
+    var remainingSeconds = seconds_ld % 60;
+	
+	if (minutes < 10) {
+        minutes = "0" + minutes; 
+    }
+	
+    if (remainingSeconds < 10) {
+        remainingSeconds = "0" + remainingSeconds; 
+    }
+	
+	//document.getElementById('countdown_ld').innerHTML =  hours + ":" + minutes + ":" + remainingSeconds + " Hours";
+	
+	$("#countdown_ld").html(hours + ":" + minutes + ":" + remainingSeconds + " Hours");
+	$("#lunch_timer").html(hours + ":" + minutes + ":" + remainingSeconds );
+	
+	seconds_ld++;
+}
+
+function timer() {
+    var days        = Math.floor(seconds/24/60/60);
+    var hoursLeft   = Math.floor((seconds) - (days*86400));
+    var hours       = Math.floor(hoursLeft/3600);
+    var minutesLeft = Math.floor((hoursLeft) - (hours*3600));
+    var minutes     = Math.floor(minutesLeft/60);
+    var remainingSeconds = seconds % 60;
+	
+	if (minutes < 10) {
+        minutes = "0" + minutes; 
+    }
+	
+    if (remainingSeconds < 10) {
+        remainingSeconds = "0" + remainingSeconds; 
+    }
+	
+    //document.getElementById('countdown').innerHTML =  hours + ":" + minutes + ":" + remainingSeconds + " Hours";
+	
+	$("#countdown").html(hours + ":" + minutes + ":" + remainingSeconds + " Hours");
+	$("#others_timer").html(hours + ":" + minutes + ":" + remainingSeconds );
+	
+    /*if (seconds == 0) {
+        clearInterval(countdownTimer_onload);
+        document.getElementById('countdown').innerHTML = "Completed";
+    } else {
+        seconds++;
+    }*/
+	seconds++;
+}
+
+
+function timer_cb() {
+    var days        = Math.floor(seconds_cb/24/60/60);
+    var hoursLeft   = Math.floor((seconds_cb) - (days*86400));
+    var hours       = Math.floor(hoursLeft/3600);
+    var minutesLeft = Math.floor((hoursLeft) - (hours*3600));
+    var minutes     = Math.floor(minutesLeft/60);
+	
+	if (minutes < 10) {
+        minutes = "0" + minutes; 
+    }
+	
+    var remainingSeconds = seconds_cb % 60;
+    if (remainingSeconds < 10) {
+        remainingSeconds = "0" + remainingSeconds; 
+    }
+	
+    //document.getElementById('countdown').innerHTML =  hours + ":" + minutes + ":" + remainingSeconds + " Hours";
+	
+	$("#countdown_cb").html(hours + ":" + minutes + ":" + remainingSeconds + " Hours");
+	$("#coaching_timer").html(hours + ":" + minutes + ":" + remainingSeconds );
+	
+    /*if (seconds == 0) {
+        clearInterval(countdownTimer_onload);
+        document.getElementById('countdown').innerHTML = "Completed";
+    } else {
+        seconds++;
+    }*/
+	seconds_cb++;
+}
+
+
+var countdownTimer_onload=null;
+
+if(isBreak_Sd_on == 1){
+	countdownTimer_onload = setInterval('timer_sd()', 1000);
+}
+
+if(isBreak_Cb_on == 1){
+	countdownTimer_onload = setInterval('timer_cb()', 1000);
+}
+
+if(isBreak_Dl_on == 1 ){
+	countdownTimer_onload = setInterval('timer_ld()', 1000);
+}
+
+if(isBreak_Other_on == 1){
+	countdownTimer_onload = setInterval('timer()', 1000);
+}
+
+
+/////////vertical news board/////////////
+
+	var total_facebook_review_count = $('#facebook_reviews .row .facebook_review').length;
+	var i = 0;
+	var height = 0;
+	setInterval(function(){
+		//alert();
+			if(i < total_facebook_review_count)
+				{
+					//alert(height);
+					console.log(height);
+					console.log(i);
+					height = height + $('#facebook_reviews .row .facebook_review').get(i).offsetHeight;
+					$('#facebook_reviews .row').animate({
+						scrollTop: height
+					}, 3000);
+					i++;
+				}
+				else
+				{
+					i = 0;
+					height = 0;
+					$('#facebook_reviews .row').animate({
+						scrollTop: 0
+					}, 3000);
+				}
+		}, 5000);
+	
+	
+////////////////////////
+
+</script>
+
+<script>
+
+	function checkemail(){
+		var email=$(".frmAddReferrals #email").val();
+			
+		if(email){
+			$.ajax({
+			  type: 'POST',
+			  url: '<?php echo base_url(); ?>home/validate_referral_email',
+			  data: 'email='+email,
+			  success: function (response){
+				   //$('#email_status').html(response);
+				   response=response.trim();
+				   if(response=="OK"){
+						//return true;	
+				   }else{
+					   alert(response);
+					   $(".frmAddReferrals #email").val('');
+						//return false;
+				   }
+			  }
+			  });
+		 }else{
+		  $( '#email_status' ).html("");
+		  return false;
+		 }
+	}
+	
+	
+	function checkphone(){
+		var phone=$(".frmAddReferrals #phone").val();
+			
+		if(phone){
+			$.ajax({
+			  type: 'POST',
+			  url: '<?php echo base_url(); ?>home/validate_referral_phone',
+			  data: 'phone='+phone,
+			  success: function (response){
+				  response=response.trim();
+				  // $('#phone_status').html(response);
+					
+				   if(response=="OK"){
+					   //return true;	
+				   }else{
+					   alert(response);
+					   $(".frmAddReferrals #phone").val('');
+						//return false;
+				   }
+			  }
+			  });
+		 }else{
+		  $( '#phone_status' ).html("");
+		  return false;
+		 }
+	}
+	
+	
+	/* function checkall(){
+		var emailhtml=document.getElementById("email_status").innerHTML;
+		 if((emailhtml)=="OK"){
+		  return true;
+		 }else{
+		  return false;
+		 }
+	}
+ */
+ 
+</script>
+
+
+
+<script>
+
+ $('#bank_name').keypress(function (e) {
+        var regex = new RegExp("^[a-zA-Z \s]+$");
+        var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+        if (regex.test(str)) {
+            return true;
+        }
+        else
+        {
+        e.preventDefault();
+        //alert('This Fields accepts only alphabet');
+        return false;
+        }
+    });
+	
+</script>
+
+<script>
+	$(document).ready(function(){
+		
+		$('#upl_bank_info').change(function () {
+			//var ext = this.value.match(/\.(.+)$/)[1];
+			var ext = this.value.substring(this.value.lastIndexOf('.')+1);
+			ext=ext.toLowerCase();
+			
+			switch (ext) {
+				case 'jpg':
+				case 'jpeg':
+				case 'png':
+				case 'pdf':
+					$('#uploadButton').attr('disabled', false);
+					break;
+				default:
+					alert('This is not an allowed file type.');
+					this.value = '';
+			}
+		});
+	});	
+</script>

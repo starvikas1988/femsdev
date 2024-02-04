@@ -1,0 +1,967 @@
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.16/sweetalert2.css" integrity="sha512-JzSVRb7c802/njMbV97pjo1wuJAE/6v9CvthGTDxiaZij/TFpPQmQPTcdXyUVucsvLtJBT6YwRb5LhVxX3pQHQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.16/sweetalert2.min.js"></script>-->
+<script>
+    $('.number-only').keyup(function (e) {
+        if (this.value != '-')
+            while (isNaN(this.value))
+                this.value = this.value.split('').reverse().join('').replace(/[\D]/i, '')
+                        .split('').reverse().join('');
+    })
+
+
+    function isDateGreaterThanToday(b) {
+        // alert(b);
+        // var dS = b.split("/");
+        // var d1 = new Date(dS[1], (+dS[0] - 1));
+        // $("#end_year").val("");
+        var date = new Date(); // date object
+        var getYear = date.getFullYear(); // get current year
+        // if(b!=getYear && getYear!='2022'){
+        if (b == getYear || b == '2022') {
+            // alert('Start year must be same as current year');
+
+            $('.btn_disable').prop('disabled', false);
+
+
+
+        } else {
+
+            swal.fire({position: 'top-end', icon: 'warning', title: 'Start year must be same as current year', showConfirmButton: false, timer: 2000})
+            $('.btn_disable').prop('disabled', true);
+
+        }
+    }
+
+    function year_validation(b) {
+        var start_y = $("#start_year").val();
+        // alert(b);
+        // alert(start_y);
+
+        var start_final_year = (start_y * 1) + 1;
+        // alert(start_final_year);
+        // if(start_y>b){
+        if (b != start_final_year) {
+            // alert('end year must be greater than year');
+            swal.fire({position: 'top-end', icon: 'warning', title: 'End year must be greater than start year but not exceed 1 year', showConfirmButton: false, timer: 2000})
+
+
+            $('.btn_disable').prop('disabled', true);
+
+
+        } else {
+            $('.btn_disable').prop('disabled', false);
+        }
+
+    }
+
+    $(document).ready(function () {
+        // get_subgroup_details(1);
+        var maxField = 10;
+        var addButton = $('.add_button');
+        var wrapper = $('.field_wrapper');
+        var fieldHTML = '	<div class="row"><div class="col-sm-12 new-col"><div class="form-group new-add-field"><input type="text" autocomplete="off" name="qs_name[]" required class="form-control fusion_id_exists" id="exampleInputEmail1" aria-describedby="emailHelp"></div><a href="javascript:void(0);" class="remove_button" title="Remove field"><img src="<?php echo base_url() ?>assets_home_v3/images/delete_it_row.svg" alt=""></a></div></div>';
+        var x = 1;
+        $(addButton).click(function () {
+            if (x < maxField) {
+                x++;
+                $(wrapper).append(fieldHTML);
+            }
+        });
+
+        $(wrapper).on('click', '.remove_button', function (e) {
+            e.preventDefault();
+            $(this).parent('div').remove();
+            x--;
+        });
+
+        // add more for role wise priority data code start here
+        var role_maxField = 10;
+        var role_addButton = $('.role_add_button');
+        var role_wrapper = $('.role_field_wrapper');
+        var select_data = `<?php foreach ($pms_role_details as $role_id) { ?><option value="<?php echo $role_id['id']; ?>"><?php echo $role_id['name']; ?></option><?php } ?>`;
+                var role_fieldHTML = '<div class="row"><div class="col-sm-4"><div class="form-group mb-3"><label for="exampleFormControlInput1"class="form-label">Role Name</label><select id="select_role" class="form-control select_box" name="select_role[]"required>' + select_data + '</select></div></div><div class="col-sm-4"><div class="form-group mb-3"><label for="exampleFormControlInput1"class="form-label">Priority</label><input type="text" class="form-control" name="priority[]" id="priority"required></div></div><a href="javascript:void(0);" class="role_remove_button" title="Remove field"><i class="fa fa-trash text-danger" aria-hidden="true"></i></a></div>';
+                // $(".role_field_wrapper").append($(cloned));  
+                // console.log(role_fieldHTML);
+                var x = 1;
+                $(role_addButton).click(function () {
+                    if (x < role_maxField) {
+                        x++;
+                        $(role_wrapper).append(role_fieldHTML);
+                    } else {
+                        alert('maximum number exceed');
+                    }
+                });
+
+                $(role_wrapper).on('click', '.role_remove_button', function (e) {
+                    e.preventDefault();
+                    $(this).parent('div').remove();
+                    x--;
+                });
+
+
+
+                //add more for role wise priority data code end here
+
+
+                // add more for location wise pms data code start here
+                var pms_maxField = 10;
+                var pms_addButton = $('.pms_add_button');
+                var pms_wrapper = $('.pms_field_wrapper');
+                var location_data = `<?php foreach ($pms_location_details as $loc_id) { ?>
+                                                                                        <option value="<?php echo $loc_id['abbr']; ?>"><?php echo $loc_id['office_name']; ?></option>  
+<?php } ?>`;
+        var fin_year = `<option value="">Select Financial</option>
+                                                                                        <option value="1">2021-2022</option>  
+                                                                                        <option value="2">2022-2023</option>  
+										
+                                                                        `;
+        var cal_data = `<?php foreach ($pms_cal_details as $cal_id) { ?>
+                                                                                                            <option value="<?php echo $cal_id['id']; ?>"><?php echo $cal_id['cal_type']; ?></option>  
+<?php } ?>`;
+        var pms_fieldHTML = '<div class="row"><div class="col-sm-4"><div class="form-group mb-3"><label for="exampleFormControlInput1"class="form-label">Select Location</label><select id="select_location" class="form-control select_box" name="select_location[]"required>' + location_data + '</select></div></div><div class="col-sm-4"><div class="form-group mb-3"><label for="exampleFormControlInput1"class="form-label">Select Financial Year</label><select id="select_location" class="form-control select_box" name="select_f_year[]"required>' + fin_year + '</select></div></div><div class="col-sm-3"><div class="form-group mb-3"><label for="exampleFormControlInput1" class="form-label">Pms calculator</label><select id="select_role" class="form-control select_box" name="select_cal[]"  required>' + cal_data + '</select></div></div><a href="javascript:void(0);" class="pms_remove_button" title="Remove field"><i class="fa fa-trash text-danger" aria-hidden="true"></i></a></div>';
+        // $(".role_field_wrapper").append($(cloned));  
+        // console.log(pms_fieldHTML);
+        var x = 1;
+        $(pms_addButton).click(function () {
+            if (x < pms_maxField) {
+                x++;
+                $(pms_wrapper).append(pms_fieldHTML);
+            } else {
+                alert('maximum number exceed');
+            }
+        });
+
+        $(pms_wrapper).on('click', '.pms_remove_button', function (e) {
+            e.preventDefault();
+            $(this).parent('div').remove();
+            x--;
+        });
+
+
+
+        //add more for pms wise priority data code end here
+
+
+        location_wise_pms_list();
+
+
+    });
+
+
+
+    $(".selectAllCertifyUserCheckBox").click(function () {
+        $('input:checkbox').not(this).prop('checked', this.checked);
+        $('.check_widget').css('display', 'block');
+    });
+
+    if ($("#active_pms_qs_list").length) {
+        var dataTable = $('#active_pms_qs_list').DataTable({
+            "pageLength": '10',
+            "lengthMenu": [
+                [10, 25, 50, 100],
+                [10, 25, 50, 100],
+            ],
+            "columnDefs": [{
+                    "searchable": false,
+                    "targets": [0, -1]
+                }, // Disable search on first 
+                {
+                    "orderable": false,
+                    "targets": [0, -1]
+                } // Disable orderby on first            
+            ],
+            'scrollCollapse': false,
+            'processing': true,
+            'serverSide': true,
+            'responsive': true,
+            'serverMethod': 'post',
+            'searching': true, // Remove default Search Control
+            'ajax': {
+                complete: function (data) {
+                    console.log(data);
+
+                },
+                'url': $('#data_url').val(),
+                'data': function (data) {
+
+                }
+            }
+        });
+    }
+    function set_config_list(){
+        location_wise_pms_list();
+    }
+    location_wise_pms_list = () => {
+        baseURL = "<?php echo base_url(); ?>";
+        // alert(baseURL);
+        $("#data_list").html('');
+        finyear = $('#finyear').find(":selected").val();
+        $.ajax({
+            url: "<?php echo base_url('pms/fetch_on_pms_status_list'); ?>",
+            type: "POST",
+            data: {
+                finyear: finyear
+            },
+            success: function (data) {
+                var a = JSON.parse(data);
+                $("#sub_group_list").empty();
+                $.each(a, function (index, jsonObject) {
+                    // $("#data_list").append('<option value="' + jsonObject.id + '">' + jsonObject.sub_group + '</option>');
+                    $("#data_list").append('<tr><td>' + jsonObject.location + '</td><td>' + jsonObject.duration + '</td><td>' + jsonObject.cal_type + '</td></tr>');
+                });
+            },
+            error: function (token) {
+                notReply = 1;
+                $('#sktPleaseWait').modal('hide');
+            }
+        });
+
+    }
+
+
+    get_subgroup_details = (group_id) => {
+        // alert(group_id);
+
+        baseURL = "<?php echo base_url(); ?>";
+        // alert(baseURL);
+        $.ajax({
+            url: "<?php echo base_url('pms/fetch_subgroup_according_group'); ?>",
+            type: "POST",
+            data: {
+                group_id: group_id
+            },
+
+            success: function (data) {
+                var a = JSON.parse(data);
+                console.log(a);
+                $("#sub_group_list").empty();
+                $.each(a, function (index, jsonObject) {
+                    // alert(jsonObject.id);
+                    $("select#sub_group_list").append('<option value="' + jsonObject.id + '">' + jsonObject.sub_group + '</option>');
+                });
+            },
+            error: function (token) {
+                notReply = 1;
+                $('#sktPleaseWait').modal('hide');
+            }
+        });
+
+    }
+
+
+
+    $(document).on('click', '.check_ticket_approval', function ()
+    {
+        // $('.check_ticket').click(function(){
+        var chk = 0;
+        $(".check_ticket_approval").each(function () {
+            if ($(this).prop('checked') == true) {
+                chk = 1;
+            }
+        });
+        // alert(chk);
+        if (chk == 1) {
+            // $('.div_ticketAssignUpdate').css('display','block');
+            $('.check_widget').css('display', 'block');
+            // $('#ticket_user').prop('required',true);
+        } else {
+            // $('.div_ticketAssignUpdate').css('display','none');
+            $('.check_widget').css('display', 'none');
+        }
+    });
+
+
+    work_approval_submit_by_admin = () => {
+        var type = 'A';
+        $('#sktPleaseWait').modal('show');
+        var selected = $("input[name='check_ticket_val[]']:checked").map(function () {
+            return this.value;
+        }).get().join(',');
+//			 alert(selected);
+
+        // $('#sktPleaseWait').modal('show');
+        $.ajax({
+            url: "<?php echo base_url('pms/change_status'); ?>",
+            type: "POST",
+            data: {
+                selected: selected,
+                type: type
+            },
+            dataType: "text",
+            success: function (token) {
+                $('#sktPleaseWait').modal('hide');
+                notReply = 1;
+                if (token == 1) {
+                    alert('Active status successfully updated');
+                    get_config_set_list();
+                    location.reload();
+                } else {
+
+                }
+            },
+            error: function (token) {
+                notReply = 1;
+                $('#sktPleaseWait').modal('hide');
+                alert('Error ! Plase try again later.');
+            }
+        });
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    get_rating_details = (val, id) => {
+
+        baseURL = "<?php echo base_url(); ?>";
+        $.ajax({
+            url: "<?php echo base_url('pms/fetch_rating_details'); ?>",
+            type: "POST",
+            // data: {
+            // 	group_id: group_id						
+            // },
+
+            success: function (data) {
+                var a = JSON.parse(data);
+                console.log(a);
+                $(".populate_rating").empty();
+                $.each(a, function (index, jsonObject) {
+                    var checked = '';
+                    if (jsonObject.id == val) {
+                        checked = 'checked';
+                    }
+                    $(".populate_rating").append('<label class="rad-label "><input type="radio" ' + checked + ' onclick="rating_status_changed(' + jsonObject.id + ',' + id + ')" class="rad-input" name="rad"><div class="rad-design"></div><div class="rad-text">' + jsonObject.rating_name + '</div></label>');
+                });
+            },
+            error: function (token) {
+                notReply = 1;
+                $('#sktPleaseWait').modal('hide');
+            }
+        });
+
+    }
+
+
+    status_active = (val) => {
+        alert(val);
+
+    }
+
+
+
+
+
+    rating_status_changed = (val, rating_id) => {
+
+
+        baseURL = "<?php echo base_url(); ?>";
+        // alert(baseURL);
+        $.ajax({
+            url: "<?php echo base_url('pms/change_rating_value'); ?>",
+            type: "POST",
+            data: {
+                rating_val: val,
+                change_rating_id: rating_id
+            },
+            dataType: "text",
+            success: function (token) {
+                notReply = 1;
+                if (token == 1) {
+                    alert('Successfully updated the rating status');
+                    get_config_set_list();
+                } else {
+
+                }
+            },
+            error: function (token) {
+                notReply = 1;
+                $('#sktPleaseWait').modal('hide');
+            }
+        });
+
+    }
+
+// get_pms_qs_set_list=()=>{
+// 	// alert(22);
+// 	baseURL = "<?php echo base_url(); ?>";
+// 				// alert(baseURL);
+// 					$.ajax({
+// 						url: "<?php echo base_url('pms/fetch_pms_qs_set_list'); ?>",
+// 						type: "POST",
+// 						success: function(data) {
+//                     	var a = JSON.parse(data);
+// 						console.log(a);
+// 						$("#get_populate_qs_set").empty();
+// 						$.each(a, function(index, jsonObject) {
+// 							$("#get_populate_qs_set").append('<tr><td>'+(index+1)+' </td><td>'+jsonObject.pms_title+'  </td><td> </td><td>  </td></tr>');
+// 						});
+//                 		},
+// 						error: function(token) {
+// 							notReply = 1;
+// 							$('#sktPleaseWait').modal('hide');
+// 						}
+// 					});
+// }
+
+    if ($("#pms_flow_list").length) {
+        var dataTable = $('#pms_flow_list').DataTable({
+            "pageLength": '10',
+            "lengthMenu": [
+                [10, 20, 50, 100, 150, 200, -1],
+                [10, 20, 50, 100, 150, 200, 'All'],
+            ],
+            "columnDefs": [{
+                    "searchable": false,
+                    "targets": [0, -1]
+                }, // Disable search on first 
+                {
+                    "orderable": false,
+                    "targets": [0, -1]
+                } // Disable orderby on first            
+            ],
+            'scrollCollapse': false,
+            'processing': true,
+            'serverSide': true,
+            'responsive': true,
+            'serverMethod': 'post',
+            'searching': true, // Remove default Search Control
+            'ajax': {
+                complete: function (data) {
+                },
+                'url': "<?php echo base_url('pms/fetch_pms_flow_list'); ?>",
+                'data': function (data) {
+                }
+            }
+        });
+    }
+
+
+// if($("#pms_status_list").length) {
+//     var dataTable = $('#pms_status_list').DataTable({
+//         "pageLength": '10',
+//         "lengthMenu": [
+//             [10,20, 50, 100, 150, 200, -1],
+//             [10,20, 50, 100, 150, 200, 'All'],
+//         ],
+//         "columnDefs": [{
+//                 "searchable": false,
+//                 "targets": [0, -1]
+//             }, // Disable search on first 
+//             {
+//                 "orderable": false,
+//                 "targets": [0, -1]
+//             } // Disable orderby on first            
+//         ],
+//         'scrollCollapse': false,
+//         'processing': true,
+//         'serverSide': true,
+//         'responsive': true,
+//         'serverMethod': 'post',
+//         'searching': true, // Remove default Search Control
+//         'ajax': {
+//             complete: function(data) {
+//             },
+//             'url': "<?php echo base_url('pms/fetch_pms_status_list'); ?>",
+//             'data': function(data) {
+//             }
+//         }
+//     });
+// }
+
+
+
+///////////////////////
+    var editRequisition = function (elm) {
+// var params = $(elm).attr("params");
+        var p_id = $(elm).attr("p_id");
+        alert(p_id);
+
+        $("#assign_qs_set").modal('show');
+
+// var requisition_id = $(elm).attr("requisition_id");
+// var arrPrams = params.split("#");
+// if (arrPrams[0] == 'CHA') {
+
+// 	$('#proposed_date_edit_col').css('display', '');
+// 	$(".frmEditRequisition .site_cspl").css("display", "block");
+// 	$(".frmEditRequisition .site").prop('required', true);
+// } else {
+// 	$('#proposed_date_edit_col').css('display', 'none');
+// 	$(".frmEditRequisition .site_cspl").css("display", "none");
+// 	$(".frmEditRequisition .site").removeAttr("required");
+// }
+
+// $('#r_id').val(r_id);
+// $('#requisition_id').val(requisition_id);
+
+// $('.frmEditRequisition #r_id').val(r_id);
+
+
+// $("#editRequisitionModel").modal('show');
+    }
+
+
+
+
+
+//////////////////////
+
+
+
+    $("#group_name_submit").click(function () {
+// group_name_submit=()=>{
+        // alert(22222);
+        let group_name = $("#group_name").val();
+        baseURL = "<?php echo base_url(); ?>";
+        // alert(baseURL);
+        $.ajax({
+            url: "<?php echo base_url('pms/add_group_name'); ?>",
+            type: "POST",
+            data: {
+                group_name: group_name
+            },
+            dataType: "text",
+            success: function (token) {
+                notReply = 1;
+                if (token == 1) {
+                    alert('Successfully Inserted');
+                    $('#myModal').modal('hide');
+                    location.href = "<?php echo base_url() ?>pms/add_group";
+                } else {
+                    alert('already exist');
+                }
+                // location.href = "<?php echo base_url() ?>legal/master_access";
+            },
+            error: function (token) {
+                notReply = 1;
+                $('#sktPleaseWait').modal('hide');
+            }
+        });
+
+
+
+    });
+
+
+    $("#sub_group_name_submit").click(function () {
+
+        let group_name = $("#select_group").val();
+        let sub_group_name = $("#sub_group").val();
+        baseURL = "<?php echo base_url(); ?>";
+        if (sub_group_name != '') {
+            $.ajax({
+                url: "<?php echo base_url('pms/add_sub_group_name'); ?>",
+                type: "POST",
+                data: {
+                    group_name: group_name,
+                    sub_group_name: sub_group_name
+                },
+                dataType: "text",
+                success: function (token) {
+                    notReply = 1;
+                    if (token == 1) {
+                        // alert('Successfully Inserted');
+                        popupMessage("Successfully Inserted.", "green", "success");
+                        $('#myModal').modal('hide');
+                        location.href = "<?php echo base_url() ?>pms/add_sub_group";
+                    } else {
+                        // alert('already exist');
+                        alert('Description already exists');
+                    }
+                    // location.href = "<?php echo base_url() ?>legal/master_access";
+                },
+                error: function (token) {
+                    notReply = 1;
+                    $('#sktPleaseWait').modal('hide');
+                }
+            });
+        } else {
+            alert('Sub Description field cant be empty');
+        }
+    });
+    $(document).on('click', '.check_ticket_approval', function ()
+    {
+        // $('.check_ticket').click(function(){
+        var chk = 0;
+        $(".check_ticket_approval").each(function () {
+            if ($(this).prop('checked') == true) {
+                chk = 1;
+            }
+        });
+        // alert(chk);
+        if (chk == 1) {
+            // $('.div_ticketAssignUpdate').css('display','block');
+            $('.check_widget').css('display', 'block');
+            // $('#ticket_user').prop('required',true);
+        } else {
+            // $('.div_ticketAssignUpdate').css('display','none');
+            $('.check_widget').css('display', 'none');
+        }
+    });
+
+
+    $('.editStatus').click(function () {
+        baseURL = "<?php echo base_url(); ?>";
+        eidVal = $(this).attr('cid');
+        // alert(eidVal);
+        $('#sktPleaseWait').modal('show');
+        $.ajax({
+            url: "<?php echo base_url('pms/config_setting_details'); ?>",
+            type: "POST",
+            data: {cid: eidVal},
+            dataType: "json",
+            success: function (token) {
+                $('#sktPleaseWait').modal('hide');
+                // alert(token.rating_status);
+                $('#edit_config_set_form input[name="edit_id"]').val(token.id);
+                $('#edit_config_set_form input[name="edit_location"]').val(token.office_id);
+                $('#edit_config_set_form select[name="rating"]').val(token.rating_status);
+                $('#edit_config_set_form select[name="pms_type"]').val(token.pms_type);
+                $('#edit_config_set_form select[name="pms_status"]').val(token.pms_enable_status);
+                $('#modal_edit_type_status').modal('show');
+            },
+            error: function (token) {
+                $('#sktPleaseWait').modal('hide');
+                alert('Something Went Wrong!');
+            }
+        });
+    });
+
+
+    get_calculator_details = (val) => {
+
+        baseURL = "<?php echo base_url(); ?>";
+        // alert(baseURL);
+        $.ajax({
+            url: "<?php echo base_url('pms/fetch_calculator_details'); ?>",
+            type: "POST",
+            data: {
+                val: val
+            },
+
+            success: function (data) {
+                var a = JSON.parse(data);
+                console.log(a);
+                $("#select_cal_val").empty();
+                $.each(a, function (index, jsonObject) {
+                    // alert(jsonObject.id);
+                    $("select#select_cal_val").append('<option value="' + jsonObject.id + '">' + jsonObject.cal_type + '</option>');
+                });
+            },
+            error: function (token) {
+                notReply = 1;
+                $('#sktPleaseWait').modal('hide');
+            }
+        });
+
+    }
+
+
+    get_start_end_month = (val) => {
+        $(".financial_not_set").html("");
+
+
+        // alert(val);
+        $.ajax({
+            url: "<?php echo base_url('pms/fetch_pms_start_end_month'); ?>",
+            type: "POST",
+            data: {
+                location: val
+            },
+            success: function (data) {
+                var a = JSON.parse(data);
+                console.log(a);
+                //  alert(a.start_month);
+                // alert(a.end_month);
+
+
+                if (a.country == 'India') {
+                    get_calculator_details('1');
+                } else {
+                    get_calculator_details('0');
+
+                }
+
+                if (a.start_month != undefined) {
+                    $("#start_month").val(a.start_month);
+                    $("#start_month").prop('readonly', true);
+                    $("#end_month").val(a.end_month);
+                    $("#end_month").prop('readonly', true);
+                    $('.save_common_btn').removeAttr('disabled');
+                    $('.save_common_btn').css('background-color','');
+
+                } else {
+                    // alert('else');
+                    // alert('Please set financial year for the same location');
+                    text = "Please set financial year for the same location.";
+                    $(".financial_not_set").html(text);
+                    $("#start_month").val(a.start_month);
+                    $("#end_month").val(a.end_month);
+                    $("#start_month").prop('readonly', true);
+                    $("#start_month").prop('required', true);
+                    $("#end_month").prop('readonly', true);
+                    $("#end_month").prop('required', true);
+                    $('.save_common_btn').prop('disabled','disabled');
+                    $('.save_common_btn').css('background-color','gray');
+
+
+
+                }
+
+
+
+
+            },
+            error: function (token) {
+                notReply = 1;
+                $('#sktPleaseWait').modal('hide');
+            }
+        });
+
+    }
+
+
+
+    get_config_set_list = () => {
+        // alert(22);
+        baseURL = "<?php echo base_url(); ?>";
+        // alert(baseURL);
+
+
+        $.ajax({
+            url: "<?php echo base_url('pms/fetch_pms_qs_get_config'); ?>",
+            type: "POST",
+            success: function (data) {
+                var a = JSON.parse(data);
+                console.log(a);
+                // alert(a[0].pms_edit_status);
+                $(".pms_status_id").val(a[0].id);
+                // if(a[0].pms_enable_status=='2'){
+                // 	var on_off_status='OFF';
+                // 	$("#checked_pms_enable_status").prop("checked",true);
+                // 	$(".on_off_status_pms_enable").val(on_off_status);
+
+                // }
+                // alert(a[0].is_competency_editable);
+                if (a[0].pms_appraisal_status == '1') {
+                    // var on_off_status='OFF';
+                    $("#checked_pms_appraisal_status").prop("checked", true);
+                    $(".on_off_status_pms_appraisal").val(1);
+                }
+                // alert(a[0].is_kra_editable);
+                if (a[0].is_kra_editable == '1') {
+                    // var on_off_status='OFF';
+                    $("#checked_pms_kra_status").prop("checked", true);
+                    $(".on_off_status_pms_kra").val(1);
+                }
+                if (a[0].is_competency_editable == '1') {
+                    // var on_off_status='OFF';
+                    $("#checked_pms_com_status").prop("checked", true);
+                    $(".on_off_status_pms_com").val(1);
+                }
+
+
+                $("#competency_category").val(a[0].competency_category);
+                $("#kra_category").val(a[0].kra_category);
+
+                // if(a[0].pms_reverse_appraisal_status=='0'){
+                // 	var on_off_status='OFF';
+                // 	$("#checked_pms_reverse_appraisal_status").prop("checked",true);
+                // 	$(".on_off_status_pms_reverse_appraisal").val(on_off_status);
+                // }
+
+                // if(a[0].pms_edit_status=='0'){
+                // 	var on_off_status='OFF';
+                // 	$("#checked_pms_edit_status").prop("checked",true);
+                // 	$(".on_off_status_pms_edit").val(on_off_status);
+
+                // }
+                get_rating_details(a[0].rating_status, a[0].id);
+
+            },
+            error: function (token) {
+                notReply = 1;
+                $('#sktPleaseWait').modal('hide');
+            }
+        });
+    }
+
+    config_update = (val) => {
+        // alert(val);
+        let id = $(".pms_status_id").val();
+        var on_off = '';
+        var text = "Do you want to change the status";
+
+        if (val == 'pms_enable_status') {
+            on_off = $(".on_off_status_pms_enable").val();
+
+        }
+        if (val == 'pms_appraisal_status') {
+            on_off = $(".on_off_status_pms_appraisal").val();
+
+        }
+        // if(val=='pms_reverse_appraisal_status'){
+        // on_off=$(".on_off_status_pms_reverse_appraisal").val();
+        // }
+        // if(val=='pms_edit_status'){
+        // var on_off=$(".on_off_status_pms_edit").val();
+
+        // }
+        if (val == 'pms_kra_status') {
+            on_off = $(".on_off_status_pms_kra").val();
+
+        }
+        if (val == 'pms_com_status') {
+            on_off = $(".on_off_status_pms_com").val();
+
+        }
+
+        if (val == 'pms_com_kra') {
+            var com = $("#competency_category").val();
+            var kra = $("#kra_category").val();
+            on_off = com + '#' + kra;
+            // alert(on_off);
+            var text = "Do you want to change the competency/Kra category count";
+
+
+        }
+
+        baseURL = "<?php echo base_url(); ?>";
+
+        var conf = confirm(text);
+        // alert(swal_confirm(text));
+
+        if (conf == true) {
+            //    alert(conf);
+            $.ajax({
+                url: "<?php echo base_url('pms/add_edit_config_setting_details'); ?>",
+                type: "POST",
+                data: {
+                    status: val,
+                    id: id,
+                    on_off: on_off
+
+                },
+                dataType: "text",
+                success: function (token) {
+                    notReply = 1;
+                    if (token == 1) {
+                        if (val == 'pms_com_kra') {
+                            popupMessage('Competency/KRA category count successfully updated', "green", "success");
+                        } else {
+                            popupMessage('Status Changed Successfully Done', "green", "success");
+                        }
+                        get_config_set_list();
+
+                    }
+
+                    // location.href = "<?php echo base_url() ?>legal/master_access";
+                },
+                error: function (token) {
+                    notReply = 1;
+                    $('#sktPleaseWait').modal('hide');
+                }
+            });
+
+        } else {
+            text = "You canceled!";
+        }
+
+
+    }
+
+    function swal_confirm(title_val) {
+
+        Swal.fire({
+            title: title_val,
+            text: "",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm'
+        }).then((result) => {
+
+            result.isConfirmed;
+            returnStu(result.isConfirmed);
+
+        });
+
+
+    }
+
+    function returnStu(vat)
+    {
+        return vat;
+    }
+
+    $(document).on('change','#select_location,#pms_financial_details_id',function(){
+        loc=$('#select_location').find(":selected").val();
+        fin_details_id =$('#pms_financial_details_id').find(":selected").val();
+        $.ajax({
+                url: "<?php echo base_url('pms/check_location_wise_list'); ?>",
+                type: "POST",
+                data: {
+                    location: loc,
+                    fin_details_id: fin_details_id
+
+                },
+                dataType: "text",
+                success: function (token) {
+                    $(".btn_disable").show();
+                    if(token==1){
+                    text = "Duplicate entry not allowed ."
+                    $(".financial_not_set").html(text);
+                    $("#start_month").val('');
+                    $("#end_month").val('');
+                    $(".btn_disable").hide();
+                    }
+                }
+            });
+    });
+
+    $(document).on('change','#select_country',function(){
+        loc=$('#select_country').find(":selected").val();
+        $('#sktPleaseWait').modal('hide');
+        $.ajax({
+                url: "<?php echo base_url('pms/check_finyear_set'); ?>",
+                type: "POST",
+                data: {
+                    location: loc
+                },
+                dataType: "text",
+                success: function (token) {
+                    $('#sktPleaseWait').modal('hide');
+                    $("#btn_fin_save").show();
+                    $(".financial_yr_set").html('');
+                    if(token==1){
+                    text = "Duplicate entry not allowed ."
+                    $(".financial_yr_set").html(text);
+                    $("#btn_fin_save").hide();
+                    $("#select_country_edit").val('');
+                    }
+                    else
+                    {
+                        $("#btn_fin_save_edit").show();
+                    }
+                }
+            });
+    })
+
+  
+
+
+</script>

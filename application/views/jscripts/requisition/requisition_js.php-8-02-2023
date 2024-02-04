@@ -1,0 +1,3120 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.16/sweetalert2.css" integrity="sha512-JzSVRb7c802/njMbV97pjo1wuJAE/6v9CvthGTDxiaZij/TFpPQmQPTcdXyUVucsvLtJBT6YwRb5LhVxX3pQHQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.16/sweetalert2.min.js"></script>
+
+
+<script>
+    var loader = '<i class="fa fa-spinner fa-spin" aria-hidden="true"></i>';
+    $(function() {
+        var loca = "<?php echo get_user_office_id(); ?>";
+        if (isIndiaLocation(loca) == true) {
+            $(".dobdatepicker").datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "c-70:c+0",
+                beforeShow: function(el, dp) {
+                    inputField = $(el);
+                    inputField.parent().append($('#ui-datepicker-div'));
+                    $('#ui-datepicker-div').addClass('datepicker-modal');
+                    $('#ui-datepicker-div').hide();
+                }
+
+            });
+        } else {
+            $(".dobdatepicker").datepicker({
+                dateFormat: 'mm/dd/yy',
+                maxDate: new Date(),
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "c-70:c+0",
+                beforeShow: function(el, dp) {
+                    inputField = $(el);
+                    inputField.parent().append($('#ui-datepicker-div'));
+                    $('#ui-datepicker-div').addClass('datepicker-modal');
+                    $('#ui-datepicker-div').hide();
+                }
+
+            });
+        }
+    });
+</script>
+<script>
+    function get_user_data(cid, dfr_location, r_status, c_status, required_pos, filled_pos, r_id, interview_evalution_form) {
+        $.ajax({
+            Type: 'POST',
+            url: '<?php echo base_url(); ?>Requisition/get_user_info',
+            data: 'cid=' + cid + '&dfr_location=' + dfr_location + '&r_status=' + r_status + '&c_status=' + c_status + '&required_pos=' + required_pos + '&filled_pos=' + filled_pos + '&r_id=' + r_id + '&interview_evalution_form=' + interview_evalution_form,
+            success: function(result) {
+                $('#' + cid).html(result);
+            }
+        });
+    }
+
+    function getModelData(controller, method, elm, functionCall, htmlFlag) {
+        var call_function_name = functionCall;
+        var html_rander_flag = $('.' + htmlFlag).data(htmlFlag);
+        if (html_rander_flag == 0) {
+            $('#sktPleaseWait').modal('show');
+            $.ajax({
+                type: 'get',
+                url: "<?= base_url() ?>" + `${controller}/${method}`,
+                dataType: 'html',
+                success: function(data) {
+                    let possition = method.split('/');
+                    let possition_id = possition[0];
+                    $("#" + possition_id).html(data);
+                    $('.' + htmlFlag).data(htmlFlag, '1');
+                    $('#sktPleaseWait').modal('hide');
+                },
+                complete: function(data) {
+                    window[call_function_name](elm);
+                },
+            });
+        } else {
+            window[call_function_name](elm);
+        }
+
+    }
+</script>
+<script>
+    var approvalWfm = function(elm) {
+        var r_id = $(elm).attr("r_id");
+        var deptid = $(elm).attr("deptid");
+        var raisedby = $(elm).attr("raisedby");
+        $('.frmApprovalWfm #r_id').val(r_id);
+        $('.frmApprovalWfm #deptid').val(deptid);
+        $('.frmApprovalWfm #raisedby').val(raisedby);
+        $("#approvalWfmModel").modal('show');
+    };
+    var declineWfm = function(elm) {
+
+        var r_id = $(elm).attr("r_id");
+        $('.frmDeclineWfm #r_id').val(r_id);
+        $("#declineWfmModel").modal('show');
+    };
+    var editRequisition = function(elm) {
+
+        var params = $(elm).attr("params");
+        var r_id = $(elm).attr("r_id");
+        var requisition_id = $(elm).attr("requisition_id");
+        var arrPrams = params.split("#");
+        if (arrPrams[0] == 'CHA') {
+
+            $('#proposed_date_edit_col').css('display', '');
+            $(".frmEditRequisition .site_cspl").css("display", "block");
+            $(".frmEditRequisition .site").prop('required', true);
+        } else {
+            $('#proposed_date_edit_col').css('display', 'none');
+            $(".frmEditRequisition .site_cspl").css("display", "none");
+            $(".frmEditRequisition .site").removeAttr("required");
+        }
+
+        $('#r_id').val(r_id);
+        $('#requisition_id').val(requisition_id);
+        if (arrPrams[21] == 'editme') {
+            $('.frmEditRequisition #location').val(arrPrams[0]);
+            $('.frmEditRequisition #department_id').val(arrPrams[2]);
+            $('.frmEditRequisition #req_type').val(arrPrams[14]);
+            $('.frmEditRequisition #company_brand').val(arrPrams[16]);
+            $('.frmEditRequisition #role_id').val(arrPrams[3]);
+            $('.frmEditRequisition #fedclient_id').val(arrPrams[4]);
+            $('.frmEditRequisition #fedprocess_id').val(arrPrams[5]);
+            $('.frmEditRequisition #employee_status').val(arrPrams[6]);
+            $('.frmEditRequisition .site').val(arrPrams[20]);
+        }
+        if (arrPrams[23] == '1') {
+            $(".frmEditRequisition .asset_required").css("display", "block");
+            let arr = arrPrams[24];
+            let sel = new Array();
+            sel = arr.split(',');
+            $(".frmEditRequisition #asset_requisition").multiselect('select', sel);
+            $(".frmEditRequisition #asset_requisition").attr("required", true);
+            $(".frmEditRequisition #asset_requisition").multiselect('refresh');
+            //            $('#sktPleaseWait').modal('show');
+            $.post("<?php echo base_url(); ?>Requisition/getRequisitionAssetsData", {
+                sel: sel,
+                r_id: r_id
+            }).done(function(respon) {
+                //                $('#sktPleaseWait').modal('hide');
+                if (respon != '0') {
+                    var dat_asset = JSON.parse(respon);
+                    let string = "";
+                    $.each(dat_asset, function(r) {
+                        string += '<div class="col-md-4">\
+                                <div class="form-group">\
+                                    <label>' + dat_asset[r].name + ' Count <span class="red_bg">*</span></label>\
+                                <input type="number" id="ast_id_' + dat_asset[r].assets_id + '" name="ast_id_' + dat_asset[r].assets_id + '" class="form-control asset_id" value="' + dat_asset[r].assets_required + '" step="1" min="1" placeholder="Enter Req. ' + dat_asset[r].name + ' count..." required>\
+                                </div>\
+                            </div>';
+                    });
+                    $(".assets_count").css('display', 'block');
+                    $(".assets_count").html(string);
+                }
+
+            });
+        } else {
+            $(".frmEditRequisition #asset_requisition").multiselect('clearSelection');
+            $(".frmEditRequisition #asset_requisition").multiselect('refresh');
+            $(".frmEditRequisition #asset_requisition").attr("required", false);
+        }
+
+
+        $('.frmEditRequisition #r_id').val(r_id);
+        $('.frmEditRequisition #location').val(arrPrams[0]);
+        $('.frmEditRequisition #due_date1').val(arrPrams[1]);
+        $('.frmEditRequisition #due_date').val(arrPrams[1]);
+        $('.frmEditRequisition #due_date_edit').val(arrPrams[1]);
+        $('.frmEditRequisition #department_id').val(arrPrams[2]);
+        $('.frmEditRequisition #role_id').val(arrPrams[3]);
+        $('.frmEditRequisition #fedclient_id').val(arrPrams[4]);
+        $('.frmEditRequisition #fedprocess_id').val(arrPrams[5]);
+        $('.frmEditRequisition #employee_status').val(arrPrams[6]);
+        $('.frmEditRequisition #req_qualification').val(arrPrams[7]);
+        $('.frmEditRequisition #req_exp_range').val(arrPrams[8]);
+        $('.frmEditRequisition #is_asset').val(arrPrams[23]);
+        $('.frmEditRequisition #work_type').val(arrPrams[22]);
+        $('.frmEditRequisition #req_no_position').val(arrPrams[9]);
+        $('.frmEditRequisition #job_title').val(arrPrams[10]);
+        $('.frmEditRequisition #job_desc').val(arrPrams[11]);
+        $('.frmEditRequisition #req_skill').val(arrPrams[12]);
+        $('.frmEditRequisition #additional_info').val(arrPrams[13]);
+        $('.frmEditRequisition #req_type').val(arrPrams[14]);
+        $('.frmEditRequisition #proposed_date_edit').val(arrPrams[15]);
+        $('.frmEditRequisition #company_brand').val(arrPrams[16]);
+        $('.frmEditRequisition .site').val(arrPrams[20]);
+        // alert(arrPrams[20]);
+
+        //$('.frmEditRequisition #filled_no_position').val(arrPrams[14]);
+
+        if (arrPrams[0] != '' && arrPrams[3] != '' && arrPrams[4] != '' && arrPrams[5] != '') {
+                var location_txt = $(".frmEditRequisition #location :selected").text();
+                var role_txt = $(".frmEditRequisition #role_id :selected").text();
+                var client_txt = $(".frmEditRequisition #fedclient_id :selected").text();
+                var process_txt = $(".frmEditRequisition #fedprocess_id :selected").text();           
+                $('#job_description_view_div').show();
+                $('#job_description_modal_view_title').text(location_txt+' - '+client_txt+' - '+process_txt+' - '+role_txt);
+            
+            $.ajax({
+                type: 'POST',
+                url: "<?php echo base_url('dfr/get_job_description'); ?>",
+                data: 'role_id=' + arrPrams[3] + '&client_id=' + arrPrams[4] + '&process_id=' + arrPrams[5] + '&location=' + arrPrams[0],
+                success: function(str) {
+                    //alert(str);
+                    var jd_data = str.split("#@");
+                    
+
+                    if (jd_data[0].trim() == '0') {
+                        //alert('1');
+                        <?php if(access_job_description()== true) { ?>
+                        $('#job_description_view_title').text('Job description does not exist, Please add job description to update the requisition. ');
+                        $('#job_description_view_title').css('pointer-events', 'none'); 
+                        $('#job_description_view_title').addClass("noclick_view_job");
+                        $('#job_description_view_title').removeClass("view_job"); 
+                        <?php } else { ?>
+                        $('#job_description_view_title').text('Job description does not exist, please contact your local HR/WFM manager'); 
+                        $('#job_description_view_title').css('pointer-events', 'none'); 
+                        $('#job_description_view_title').addClass("noclick_view_job");
+                        $('#job_description_view_title').removeClass("view_job"); 
+                        <?php } ?>
+
+                        
+                        $('#editreqjdview').hide();                        
+                        $('#editreqjdview').html('');
+                        $('.frmEditRequisition #job_desc').val('');                         
+                        $('#jd_view_msg').css("display", "none");
+                        
+
+                    } else {
+                        //alert('2');
+                        $('#job_description_view_title').text('View Job Description');
+                        $('#job_description_view_title').css('pointer-events', 'auto');
+                        $('#job_description_view_title').removeClass("noclick_view_job");
+                        $('#job_description_view_title').addClass("view_job");
+                        
+                        $('#editreqjdview').show();                        
+                        $('#jd_view_msg').show();                      
+                        
+                        var textarea = jd_data[1].trim();
+                        var find = ["\r\n", "\n", "\r"];
+                        var replace = ["<br/>", "<br/>", "<br/>"];
+
+                        textarea = textarea.replace(new RegExp("(" + find.map(function(i){return i.replace(/[.?*+^$[\]\\(){}|-]/g, "\\$&")}).join("|") + ")", "g"), function(s){ return replace[find.indexOf(s)]});
+
+                        $('#editreqjdview').html(textarea);
+                        $('.frmEditRequisition #job_desc').val(jd_data[1].trim());                       
+
+                    }
+
+                },
+                error: function() {
+                    alert('Something Went Wrong!');
+                }
+            });
+        } 
+
+        $("#editRequisitionModel").modal('show');
+    };
+
+
+       
+
+    $(document).on('click', '#close_jd', function() {                   
+    $("#job_description_edit_view").modal('hide');
+    });
+
+    var sendBasicLink = function(elm) {
+        var r_id = $(elm).attr("r_id");
+        var requisition_id = $(elm).attr("requisition_id");
+        var company_brand = $(elm).attr("company_brand");
+        var offc_location = $('#poffice_id').val();
+        if (typeof company_brand !== typeof undefined && company_brand !== false) {
+            $('.frmSendBasicLink #company').val(company_brand);
+        }
+        if (typeof offc_location !== typeof undefined && offc_location == 'CHA') {
+            $(".frmSendBasicLink .site_cspl").css("display", "block");
+            $(".frmSendBasicLink .site").prop('required', true);
+        } else {
+            $(".frmSendBasicLink .site_cspl").css("display", "none");
+            $(".frmSendBasicLink .site").removeAttr("required");
+        }
+        $('.frmSendBasicLink #link_rid').val(r_id);
+        $('.frmSendBasicLink #link_requisition_id').val(requisition_id);
+        $("#SendBasicLinkModel").modal('show');
+    };
+    var addCandidate = function(elm) {
+        var r_id = $(elm).attr("r_id");
+        var requisition_id = $(elm).attr("requisition_id");
+        var company_brand = $(elm).attr("company_brand");
+        var req_location = $(elm).attr("req_location");
+        var loc = $('#office_location').html();
+        if (loc == 'Chandigarh') {
+            $('#dis_cont_cha').css('display', '');
+            $('#dis_cont_other').css('display', 'none');
+        } else {
+            $('#dis_cont_other').css('display', '');
+            $('#dis_cont_cha').css('display', 'none');
+        }
+        $('.frmAddCandidate #r_id').val(r_id);
+        $('.frmAddCandidate #requisition_id').val(requisition_id);
+        $('.frmAddCandidate #company').val(company_brand);
+        if (isIndiaLocation(loc) == true) {
+            $("#dob").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-70:+00",
+                dateFormat: "dd/mm/yy"
+            });
+        } else {
+            $("#dob").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-70:+00",
+                dateFormat: "mm/dd/yy"
+            });
+        }
+        $("#addCandidateModel").modal('show');
+        $("#existing_employee").hide();
+        $("#not_friend_referal").hide();
+        $('#ref_name').select2({
+            placeholder: "Type Your Source",
+            allowClear: true,
+            tags: true,
+            dropdownParent: $("#addCandidateModel")
+        });
+    };
+
+    $(".addCandidate").click(function() {
+        var r_id = $(this).attr("r_id");
+        var requisition_id = $(this).attr("requisition_id");
+        var company_brand = $(this).attr("company_brand");
+        var loc = $('#office_location').html();
+        if (loc == 'Chandigarh') {
+            $('#dis_cont_cha').css('display', '');
+            $('#dis_cont_other').css('display', 'none');
+        } else {
+            $('#dis_cont_other').css('display', '');
+            $('#dis_cont_cha').css('display', 'none');
+        }
+        $('.frmAddCandidate #r_id').val(r_id);
+        $('.frmAddCandidate #requisition_id').val(requisition_id);
+        $('.frmAddCandidate #company').val(company_brand);
+        //$('.frmAddCandidate #assigned_to').select2();
+        $("#addCandidateModel").modal('show');
+        if (isIndiaLocation(loc) == true) {
+            $("#dob").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-70:+00",
+                dateFormat: "dd/mm/yy"
+            });
+        } else {
+            $("#dob").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-70:+00",
+                dateFormat: "mm/dd/yy"
+            });
+        }
+        $("#existing_employee").hide();
+        $("#not_friend_referal").hide();
+        $('#ref_name').select2({
+            placeholder: "Type Your Source",
+            allowClear: true,
+            tags: true,
+            dropdownParent: $("#addCandidateModel")
+        });
+    });
+
+    var editCandidateDetails = function(elm) {
+        var params = $(elm).attr("params");
+        var c_id = $(elm).attr("c_id");
+        var r_id = $(elm).attr("r_id");
+        var arrPrams = params.split("#");
+        var h_source = arrPrams[3];
+        var office = arrPrams[20];
+        var location = arrPrams[23];
+        var site = null;
+        var site = arrPrams[25];
+        var mother_name = arrPrams[24];
+
+        if (isIndiaLocation(location) == true) {
+            $("#dob1").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-70:+00",
+                dateFormat: "dd/mm/yy"
+            });
+        } else {
+            $("#dob1").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-70:+00",
+                dateFormat: "mm/dd/yy"
+            });
+        }
+
+      
+        if (location == 'CHA') {
+            $(".frmEditCandidate .site_cspl").css("display", "block");
+            $(".frmEditCandidate .site").prop('required', !0);
+            $('.frmEditCandidate #company').val("12");
+            $('#dis_cont_cha').css('display', '');
+            $('#dis_cont_other').css('display', 'none');
+            if (site != null) {
+                $('.frmEditCandidate .site').val(site)
+            }
+            $('.frmEditCandidate #skill_set').removeAttr('required');
+            $('.frmEditCandidate #postcode').removeAttr('required');
+            $('.frmEditCandidate #address').removeAttr('required')
+        } else {
+            $(".frmEditCandidate .site_cspl").css("display", "none");
+            $(".frmEditCandidate .site").removeAttr('required');
+            $('#dis_cont_other').css('display', '');
+            $('#dis_cont_cha').css('display', 'none');
+        }
+        $('.frmEditCandidate #location').val(arrPrams[23]);
+        $('.frmEditCandidate #office_location_edit').val(location);
+        $('.frmEditCandidate #c_id').val(c_id);
+        $('.frmEditCandidate #r_id').val(r_id);
+        $('.frmEditCandidate #r_id').val(r_id);
+        $('.frmEditCandidate #requisition_id').val(arrPrams[0]);
+        $('.frmEditCandidate #fname').val(arrPrams[1]);
+        $('.frmEditCandidate #lname').val(arrPrams[2]);
+
+        $('.frmEditCandidate #hiring_source_edit').val(arrPrams[3]);
+        $('.frmEditCandidate #dob1').val(arrPrams[4]);
+        $('.frmEditCandidate #email').val(arrPrams[5]);
+        $('.frmEditCandidate #add_email').val(arrPrams[5]);
+        $('.frmEditCandidate #edit_email').val(arrPrams[5]);
+        $('.frmEditCandidate #phone').val(arrPrams[6]);
+        $('.frmEditCandidate #add_phone').val(arrPrams[6]);
+        $('.frmEditCandidate #edit_phone').val(arrPrams[6]);
+        $('.frmEditCandidate #last_qualification').val(arrPrams[7]);
+        $('.frmEditCandidate #skill_set').val(arrPrams[8]);
+        $('.frmEditCandidate #total_work_exp').val(arrPrams[9]);
+        $('.frmEditCandidate #country').val(arrPrams[10]);
+        $('.frmEditCandidate #state').val(arrPrams[11]);
+        $('.frmEditCandidate #city').val(arrPrams[12]);
+        $('.frmEditCandidate #postcode').val(arrPrams[13]);
+        $('.frmEditCandidate #address').val(arrPrams[14]);
+        $('.frmEditCandidate #summary').val(arrPrams[15]);
+        $('.frmEditCandidate #attachment').val(arrPrams[16]);
+        $('.frmEditCandidate #gender').val(arrPrams[17]);
+        $('.frmEditCandidate #ref_name').removeClass('select2-hidden-accessible');
+        $('.select2-container--default').css('display', 'none');
+        $('.frmEditCandidate #guardian_name').val(arrPrams[19]);
+        $('.frmEditCandidate #onboarding_type').val(arrPrams[20]);
+        $('.frmEditCandidate #company').val(arrPrams[21]);
+        $('.frmEditCandidate #relation_guardian').val(arrPrams[22]);
+        $('.frmEditCandidate #edit_mother_name').val(arrPrams[24]);
+        $('.frmEditCandidate #ref_name1_edit').val(arrPrams[18]);
+        $('.frmEditCandidate #refferer_edit').val(arrPrams[24]);
+        $('.frmEditCandidate #refferer_dept_edit').val(arrPrams[25]);
+       
+
+        if (site != null) {
+            $('.frmEditCandidate #additional').text(site)
+        }
+       
+       
+        if(h_source!='Existing Emplyee')
+        {
+            
+            $("#not_friend_referal_edit").removeAttr("style");
+            $("#existing_employee_edit").css('display','none');
+        }
+        else if(h_source=='Walkin')
+        {
+            $("#not_friend_referal_edit").hide();;
+            $("#existing_employee_edit").hide();;
+            $("#lebel_ref_edit").hide();
+        }
+        else if(h_source=='Existing Emplyee')
+        {
+           // alert('1');
+            $("#not_friend_referal_edit").hide();
+            $("#existing_employee_edit").removeAttr("style");
+           
+        }
+        var refname1 = arrPrams[3];
+        var datas = {
+            'refname': refname1
+        };
+        var URL = '<?php echo base_url(); ?>Requisition/getRefConsultant';
+        process_ajax(function(refList) {
+            var json_obj = $.parseJSON(refList); //parse JSON    
+                
+            $('#ref_name_edit').empty();
+            if (refname1 == 'Job Portal') {
+                // alert(refname);
+                // $('#ref_name').empty();
+                for (var i in json_obj) {
+                    $('#ref_name_edit').append('<option value="'+json_obj[i].job_portal+'" '+ (arrPrams[18] == json_obj[i].job_portal ? ' selected ' : '') +'>'+json_obj[i].job_portal+'</option>'); 
+                    $('#ref_name_edit').show();
+                    $("#ref_name_edit").removeAttr("placeholder");
+                    $("#lebel_ref_edit").text(arrPrams[3]);
+                }
+            } else if (refname1 == 'Consultancy') {
+                // alert(refname);
+                // $('#ref_name').empty();
+                for (var i in json_obj) {
+                    $('#ref_name_edit').append('<option value="'+json_obj[i].consultancy+'" '+ (arrPrams[18] == json_obj[i].consultancy ? ' selected ' : '') +'>'+json_obj[i].consultancy+'</option>'); 
+                    $("#ref_name_edit").removeAttr("placeholder");
+                    $("#lebel_ref_edit").text(arrPrams[3]);
+                    $('#ref_name_edit').show();
+                }
+
+            } else if (refname1 == 'Call From HR') {
+                for (var i in json_obj) {
+                    $('#ref_name_edit').append('<option value="'+json_obj[i].full_name+'" '+ (arrPrams[18] == json_obj[i].full_name ? ' selected ' : '') +'>'+json_obj[i].full_name+'</option>');
+                    $("#ref_name_edit").removeAttr("placeholder");
+                    $("#lebel_ref_edit").text(arrPrams[3]);
+                    $('#ref_name_edit').show();
+                }
+            } 
+            else if (refname1 == 'Walkin') {
+                $('#ref_name_edit').hide();
+            }
+            
+            
+            else {
+
+
+
+            }
+
+            $('#ref_name').val('').trigger('change');
+        }, URL, datas, 'text');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $("#editCandidateModel").modal('show')
+    };
+    var addExperience = function(elm) {
+        var r_id = $(elm).attr("r_id");
+        var c_id = $(elm).attr("c_id");
+        $('.frmaddCandidateExp #r_id').val(r_id);
+        $('.frmaddCandidateExp #c_id').val(c_id);
+        $("#addCandidateExpModel").modal('show');
+    };
+    var editCandidateExp = function(elm) {
+        var params = $(elm).attr("params");
+        var r_id = $(elm).attr("r_id");
+        var c_id = $(elm).attr("c_id");
+        var c_exp_id = $(elm).attr("c_exp_id");
+        var arrPrams = params.split("#");
+        $('.frmEditCandidateExp #r_id').val(r_id);
+        $('.frmEditCandidateExp #c_id').val(c_id);
+        $('.frmEditCandidateExp #c_exp_id').val(c_exp_id);
+        $('.frmEditCandidateExp #company_name').val(arrPrams[0]);
+        $('.frmEditCandidateExp #designation').val(arrPrams[1]);
+        $('.frmEditCandidateExp #fromdate').val(arrPrams[2]);
+        $('.frmEditCandidateExp #todate').val(arrPrams[3]);
+        $('.frmEditCandidateExp #contact').val(arrPrams[4]);
+        $('.frmEditCandidateExp #work_exp').val(arrPrams[5]);
+        $('.frmEditCandidateExp #job_desc').val(arrPrams[6]);
+        $('.frmEditCandidateExp #address').val(arrPrams[7]);
+        $("#editCandidateExpModel").modal('show');
+    };
+    var addQualification = function(elm) {
+        var r_id = $(elm).attr("r_id");
+        var c_id = $(elm).attr("c_id");
+        var loc = $('#office_location').html();
+        if (loc == 'Chandigarh') {
+            $('#div_parcent1').css('display', '');
+            $('#div_parcent').css('display', '');
+            $('#10eng').attr('required');
+            $('#10math').attr('required');
+        } else {
+            $('#div_parcent1').css('display', 'none1');
+            $('#div_parcent').css('display', 'none1');
+            $('#10eng').removeAttr('required');
+            $('#10math').removeAttr('required');
+        }
+        $('.frmaddCandidateQual #r_id').val(r_id);
+        $('.frmaddCandidateQual #c_id').val(c_id);
+        $("#addCandidateQualModel").modal('show');
+    };
+    var editCandidateQual = function(elm) {
+        var params = $(elm).attr("params");
+        var r_id = $(elm).attr("r_id");
+        var c_id = $(elm).attr("c_id");
+        var c_qual_id = $(elm).attr("c_qual_id");
+        var arrPrams = params.split("#");
+        $('.frmeditCandidateQual #r_id').val(r_id);
+        $('.frmeditCandidateQual #c_id').val(c_id);
+        $('.frmeditCandidateQual #c_qual_id').val(c_qual_id);
+        $('.frmeditCandidateQual #exam').val(arrPrams[0]);
+        $('.frmeditCandidateQual #passing_year').val(arrPrams[1]);
+        $('.frmeditCandidateQual #board_uv').val(arrPrams[2]);
+        $('.frmeditCandidateQual #specialization').val(arrPrams[3]);
+        $('.frmeditCandidateQual #grade_cgpa').val(arrPrams[4]);
+        $('.frmeditCandidateQual #10eng_edit').val(arrPrams[5]);
+        $('.frmeditCandidateQual #10math_edit').val(arrPrams[6]);
+        $('.frmeditCandidateQual #12eng_edit').val(arrPrams[7]);
+        $('.frmeditCandidateQual #12math_edit').val(arrPrams[8]);
+        var loc = $('#office_location').html();
+        if (loc == 'Chandigarh') {
+            $('#div_parcent1_edit').css('display', '');
+            $('#div_parcent_edit').css('display', '');
+            $('#10eng_edit').attr('required');
+            $('#10math_edit').attr('required');
+        } else {
+            $('#div_parcent1_edit').css('display', 'none1');
+            $('#div_parcent_edit').css('display', 'none1');
+            $('#10eng_edit').removeAttr('required');
+            $('#10math_edit').removeAttr('required');
+        }
+
+        $("#editCandidateQualModel").modal('show');
+    };
+    var scheduleCandidate = function(elm) {
+        var r_id = $(elm).attr("r_id");
+        var c_id = $(elm).attr("c_id");
+        var dept_id = $(elm).attr("hiring_department");
+        var c_status = $(elm).attr("c_status");
+        var interview_site = $(elm).attr("interview_site");
+        $('.frmaddScheduleCandidate #r_id').val(r_id);
+        $('.frmaddScheduleCandidate #c_id').val(c_id);
+        $('.frmaddScheduleCandidate #dept_id').val(dept_id);
+        $('.frmaddScheduleCandidate #c_status').val(c_status);
+        $('.frmaddScheduleCandidate #interview_site').val(interview_site);
+        $("#addScheduleCandidate").modal('show');
+        $("#assign_interviewer").select2();
+    };
+    var candidateAddInterview = function(elm) {
+
+
+        var r_id = $(elm).attr("r_id");
+        var c_id = $(elm).attr("c_id");
+        var sch_id = $(elm).attr("sch_id");
+        var sch_date = $(elm).attr("sch_date");
+        var sh_status = $(elm).attr("sh_status");
+        var schType = $(elm).attr("schType");
+        var schSite = $(elm).attr("schSite");
+        var schAssin = $(elm).attr("schAssin");
+
+        //        if (isIndiaLocation(schSite) == true) {
+        //            $("#scheduled_date").datetimepicker({changeMonth: true, changeYear: true, yearRange: "-90:+00", dateFormat: "dd/mm/yy", timeFormat: "HH:mm:ss"});
+        //        } else {
+        $("#scheduled_date").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-90:+00",
+            dateFormat: "mm/dd/yy",
+            timeFormat: "HH:mm:ss"
+        });
+        //        }
+        $('.frmaddCandidateInterview #r_id').val(r_id);
+        $('.frmaddCandidateInterview #c_id').val(c_id);
+        $('.frmaddCandidateInterview #sch_id').val(sch_id);
+        $('.frmaddCandidateInterview #sh_status').val(sh_status);
+        $('.frmaddCandidateInterview #scheduled_date').val(sch_date);
+
+        var selObj = ".frmaddCandidateInterview #interviewer_id";
+        var model = "#addCandidateInterview";
+
+        var URL = '<?php echo base_url(); ?>Requisition/getuserclientlist';
+
+        $.ajax({
+            type: 'POST',
+            url: URL,
+            data: 'pid=' + schType + '&interview_site=' + schSite,
+            success: function(pList) {
+
+                var json_obj = $.parseJSON(pList); //parse JSON dept_name
+
+                $(selObj).empty();
+                $(selObj).append($('<option></option>').val('').html('-- Select --'));
+                for (var i in json_obj) {
+                    $(selObj).append($('<option></option>').val(json_obj[i].id).html(json_obj[i].name + '-' + json_obj[i].office_id + '-' + json_obj[i].dept_name));
+                    //$('#sktPleaseWait').modal('hide');
+                }
+                $(selObj).val(schAssin);
+                $(model).modal('show');
+            },
+            error: function() {
+
+                alert('Fail!');
+            }
+
+        });
+
+    };
+    var cancelSchedule = function(elm) {
+        var id = $(elm).attr("id");
+        var dis_id = $(elm).attr("schedule_id");
+        var r_id = $(elm).attr("r_id");
+        var c_id = $(elm).attr("c_id");
+        var sch_id = $(elm).attr("sch_id");
+        $('.frmCancelScheduleCandidate #id').val(id);
+        $('.frmCancelScheduleCandidate #r_id').val(r_id);
+        $('.frmCancelScheduleCandidate #c_id').val(c_id);
+        $('.frmCancelScheduleCandidate #sch_id').val(sch_id);
+        $('.frmCancelScheduleCandidate #dis_id').val(dis_id);
+        $("#cancelScheduleCandidate").modal('show');
+    };
+    var editInterview = function(elm) {
+
+        var params2 = $(elm).attr("params2");
+        var r_id = $(elm).attr("r_id");
+        var c_id = $(elm).attr("c_id");
+        var sch_id = $(elm).attr("sch_id");
+        var interview_date = $(elm).attr("interview_date");
+        var schType = $(elm).attr("schType");
+        var schSite = $(elm).attr("schSite");
+        var schAssin = $(elm).attr("schAssin");
+        var c_status = $(elm).attr("c_status");
+        var arrPrams2 = params2.split("#");
+        if (isIndiaLocation(schSite) == true) {
+            $("#scheduled_date").datetimepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-90:+00",
+                dateFormat: "dd/mm/yy",
+                timeFormat: "HH:mm:ss"
+            });
+        } else {
+            $("#scheduled_date").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-90:+00",
+                dateFormat: "mm/dd/yy",
+                timeFormat: "HH:mm:ss"
+            });
+        }
+        $('.frmeditCandidateInterview #r_id').val(r_id);
+        $('.frmeditCandidateInterview #c_id').val(c_id);
+        $('.frmeditCandidateInterview #sch_id').val(sch_id);
+        $('.frmeditCandidateInterview #interview_date').val(interview_date);
+        $('.frmeditCandidateInterview #interviewer_id').val(arrPrams2[0]);
+        $('.frmeditCandidateInterview #result').val(arrPrams2[1]);
+        $('.frmeditCandidateInterview #ededucationtraining_param').val(arrPrams2[2]);
+        $('.frmeditCandidateInterview #edjobknowledge_param').val(arrPrams2[3]);
+        $('.frmeditCandidateInterview #edworkexperience_param').val(arrPrams2[4]);
+        $('.frmeditCandidateInterview #edanalyticalskills_param').val(arrPrams2[5]);
+        $('.frmeditCandidateInterview #edtechnicalskills_param').val(arrPrams2[6]);
+        $('.frmeditCandidateInterview #edgeneralawareness_param').val(arrPrams2[7]);
+        $('.frmeditCandidateInterview #edbodylanguage_param').val(arrPrams2[8]);
+        $('.frmeditCandidateInterview #edenglishcomfortable_param').val(arrPrams2[9]);
+        $('.frmeditCandidateInterview #edmti_param').val(arrPrams2[10]);
+        $('.frmeditCandidateInterview #edenthusiasm_param').val(arrPrams2[11]);
+        $('.frmeditCandidateInterview #edleadershipskills_param').val(arrPrams2[12]);
+        $('.frmeditCandidateInterview #edcustomerimportance_param').val(arrPrams2[13]);
+        $('.frmeditCandidateInterview #edjobmotivation_param').val(arrPrams2[14]);
+        $('.frmeditCandidateInterview #edresultoriented_param').val(arrPrams2[15]);
+        $('.frmeditCandidateInterview #edlogicpower_param').val(arrPrams2[16]);
+        $('.frmeditCandidateInterview #edinitiative_param').val(arrPrams2[17]);
+        $('.frmeditCandidateInterview #edassertiveness_param').val(arrPrams2[18]);
+        $('.frmeditCandidateInterview #eddecisionmaking_param').val(arrPrams2[19]);
+        $('.frmeditCandidateInterview #edoverall_assessment').val(arrPrams2[20]);
+        $('.frmeditCandidateInterview #edinterview_remarks').val(arrPrams2[21]);
+        $('.frmeditCandidateInterview #edinterview_status').val(arrPrams2[22]);
+        $('.frmeditCandidateInterview #edlisten_skill').val(arrPrams2[23]);
+        //getInterviewerDropdown(schType, schSite, schAssin, ".frmeditCandidateInterview #interviewer_id", "#editCandidateInterview");
+
+        var selObj = ".frmeditCandidateInterview #interviewer_id";
+        var model = "#editCandidateInterview";
+
+        var URL = '<?php echo base_url(); ?>Requisition/getuserclientlist';
+        //$('#sktPleaseWait').modal('show');
+        $.ajax({
+            type: 'POST',
+            url: URL,
+            data: 'pid=' + schType + '&interview_site=' + schSite,
+            success: function(pList) {
+                //alert(pList);
+                var json_obj = $.parseJSON(pList); //parse JSON dept_name
+
+                $(selObj).empty();
+                $(selObj).append($('<option></option>').val('').html('-- Select --'));
+                for (var i in json_obj)
+                    $(selObj).append($('<option></option>').val(json_obj[i].id).html(json_obj[i].name + '-' + json_obj[i].office_id + '-' + json_obj[i].dept_name));
+                //$('#sktPleaseWait').modal('hide');
+                $(selObj).val(schAssin);
+                $(model).modal('show');
+            },
+            error: function() {
+                alert('Fail!');
+            }
+
+        });
+
+        if (c_status == "E" || c_status == "CS") {
+
+
+            $('.frmeditCandidateInterview #addCandidateInterview').hide();
+            $('.frmeditCandidateInterview #addCandidateInterview').prop("disabled", true);
+            $('.frmeditCandidateInterview textarea').prop("disabled", true);
+            $('.frmeditCandidateInterview select').prop("disabled", true);
+        } else {
+
+            $('.frmeditCandidateInterview #addCandidateInterview').show();
+            $('.frmeditCandidateInterview #addCandidateInterview').prop("disabled", false);
+            $('.frmeditCandidateInterview textarea').prop("disabled", false);
+            $('.frmeditCandidateInterview select').prop("disabled", false);
+        }
+
+
+    };
+    var candidateNotSelectInterview = function(elm) {
+        var r_id = $(elm).attr("r_id");
+        var c_id = $(elm).attr("c_id");
+        $('.frmCandidateSelectInterviewModel #r_id').val(r_id);
+        $('.frmCandidateSelectInterviewModel #c_id').val(c_id);
+        $("#candidateNotSelectInterviewModel").modal('show');
+    };
+    var candidateSelectInterview = function(elm) {
+        var r_id = $(elm).attr("r_id");
+        var c_id = $(elm).attr("c_id");
+        $('.frmCandidateSelectInterview #r_id').val(r_id);
+        $('.frmCandidateSelectInterview #c_id').val(c_id);
+        $("#candidateSelectInterview").modal('show');
+    };
+    var candidateDecline = function(elm) {
+        var r_id = $(elm).attr("r_id");
+        var c_id = $(elm).attr("c_id");
+        var c_status = $(elm).attr("c_status");
+        $('.frmDeclineFinalSelect #r_id').val(r_id);
+        $('.frmDeclineFinalSelect #c_id').val(c_id);
+        $('.frmDeclineFinalSelect #c_status').val(c_status);
+        $("#declineFinalSelectModel").modal('show');
+    };
+    var selectedCandidateTransfer = function(elm) {
+        var r_id = $(elm).attr("r_id");
+        var c_id = $(elm).attr("c_id");
+        var requisition_id = $(elm).attr("requisition_id");
+        var c_status = $(elm).attr("c_status");
+        $('.frmTransferSelectedCandidate #r_id').val(r_id);
+        $('.frmTransferSelectedCandidate #c_id').val(c_id);
+        $('.frmTransferSelectedCandidate #requisition_id').val(requisition_id);
+        $('.frmTransferSelectedCandidate #c_status').val(c_status);
+        //$(".frmTransferSelectedCandidate")[0].reset();
+        $("#searchList").empty();
+        $("#req_details").empty();
+        $("#transferSelectedCandidateModel").modal('show');
+
+    };
+    var upload_joining = function(elm) {
+        var r_id = $(elm).attr("r_id");
+        var c_id = $(elm).attr("c_id");
+        $('.frmjoiningkit #r_id').val(r_id);
+        $('.frmjoiningkit #c_id').val(c_id);
+        $('#upload_joining_kit_form').modal('show');
+    };
+</script>
+<script>    
+    function getReferalList(){
+        var office_loc = $('#office_loc').val();    
+        $('#sktPleaseWait').modal('show');    
+            $.ajax({
+                url: '<?php echo base_url(); ?>Requisition/getReceralsList', // Path to your PHP script
+                data:'office_loc='+office_loc,
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    // Clear the existing options in the select box
+                    $('#ref_name1').empty();
+                    $('#ref_name1').append($('<option>', {
+                            value: '',
+                            text: `-- Select -- ` 
+                        }));
+                    // Append the new options to the select box
+                    $.each(data, function(index, option) {
+                        $('#ref_name1').append($('<option>', {
+                            value: option.fusion_id,
+                            text: `${option.fname} ${option.lname} (${option.fusion_id} , ${option.xpoid}) ` 
+                        }));
+                    });
+                    $('#ref_name1').selectpicker('refresh');
+                    $('#sktPleaseWait').modal('hide');
+                }
+            });        
+    }
+
+    $(document).on('click', "#referal", function() {
+        if ($(this).is(":checked")) {
+            getReferalList();
+            $("#existing_employee").show();
+            $("#non_existing_employee").hide();
+            $("#not_friend_referal").hide();
+            $(".form-check-input_v").attr('checked', false);
+            $("#ref_name").attr('required', false);
+            $("#ref_name").prop("disabled", true);
+            $('.existing_employee').prop('disabled', false);
+            $("#ref_name1").attr('required', true);
+            $("#ref_id").attr('required', true);
+        } else {
+            $("#ref_name1").val('');
+            $("#refferer").val('');
+            $("#refferer_dept").val('');
+            $("#existing_employee").hide();
+            $("#non_existing_employee").show();
+            $("#referal").attr('required', false);
+            $("#not_friend_referal").hide();
+            $("#ref_name").attr('required', true);
+            $("#ref_name").prop("disabled", false);
+            $('.existing_employee').prop('disabled', true);
+            $("#ref_name1").attr('required', false);
+            $("#ref_id").attr('required', false);
+        }
+    });
+
+    $(document).on('click', "#referal_edit", function() {
+        if ($(this).is(":checked")) {
+            getReferalList();
+            $("#existing_employee").show();
+            $("#non_existing_employee").hide();
+            $("#not_friend_referal").hide();
+            $(".form-check-input_v").attr('checked', false);
+            $("#ref_name").attr('required', false);
+            $("#ref_name").prop("disabled", true);
+            $('.existing_employee').prop('disabled', false);
+            $("#ref_name1").attr('required', true);
+            $("#ref_id").attr('required', true);
+        } else {
+            $("#ref_name1").val('');
+            $("#refferer").val('');
+            $("#refferer_dept").val('');
+            $("#existing_employee").hide();
+            $("#non_existing_employee").show();
+            $("#referal_edit").attr('required', false);
+            $("#not_friend_referal").hide();
+            $("#ref_name").attr('required', true);
+            $("#ref_name").prop("disabled", false);
+            $('.existing_employee').prop('disabled', true);
+            $("#ref_name1").attr('required', false);
+            $("#ref_id").attr('required', false);
+        }
+    });
+
+
+
+
+
+
+
+
+    $(document).on("click", '[type="radio"][name="hiring_source"]', function() {
+
+        if ($(this).is(":checked")) {
+            $('#referal').prop('required', false);
+            $('#ref_id').removeAttr('required');
+            $('#ref_name1').removeAttr('required');
+            $("#ref_name1").prop("disabled", true);
+            //$("#ref_name").attr('required',true);
+
+            $("#existing_employee").hide();
+            $('.existing_employee').prop('disabled', true);
+            $("#non_existing_employee").show();
+            $("#referal").attr('required', false);
+            $("#not_friend_referal").hide();
+            $("#ref_name").attr('required', true);
+            $("#ref_name").prop("disabled", false);
+        } else {
+            $('#ref_name').removeAttr('required');
+            $("#ref_id").attr('required', true);
+            $("#ref_name1").attr('required', true);
+        }
+    });
+    $(document).on("click", "#job_source_portal", function() {
+
+        if ($(this).is(":checked")) {
+            $("#not_friend_referal").show();
+            $("#ref_name").removeAttr("placeholder");
+            $("#lebel_ref").text("Job Portal");
+        } else {
+            $("#not_friend_referal").hide();
+        }
+    });
+    $(document).on("click", "#job_source_consult", function() {
+        if ($(this).is(":checked")) {
+            $("#not_friend_referal").show();
+            $("#ref_name").removeAttr("placeholder");
+            $("#lebel_ref").text("Consultancy");
+        } else {
+            $("#not_friend_referal").hide();
+        }
+    });
+    $(document).on("click", "#job_source_callHR", function() {
+        if ($(this).is(":checked")) {
+            $("#not_friend_referal").show();
+            $("#lebel_ref").text("HR Name");
+        } else {
+            $("#not_friend_referal").hide();
+        }
+    });
+    $(document).on("click", "#job_source_newspaper", function() {
+        if ($(this).is(":checked")) {
+            $("#not_friend_referal").show();
+            $("#lebel_ref").text("Newspaper");
+        } else {
+            $("#not_friend_referal").hide();
+        }
+    });
+    $(document).on("click", "#job_source_walkin", function() {
+        if ($(this).is(":checked")) {
+            $("#not_friend_referal").hide();
+            $('#ref_name').removeAttr('required');
+        }
+    });
+
+
+
+
+
+    $(document).on("click", "#job_source_portal1", function() {
+
+if ($(this).is(":checked")) {
+    $("#not_friend_referal_edit").show();
+    $("#ref_name_edit").removeAttr("placeholder");
+    $("#lebel_ref_edit").text("Job Portal");
+} else {
+    $("#not_friend_referal_edit").hide();
+}
+});
+$(document).on("click", "#job_source_consult1", function() {
+if ($(this).is(":checked")) {
+    $("#not_friend_referal_edit").show();
+    $("#ref_name_edit").removeAttr("placeholder");
+    $("#lebel_ref_edit").text("Consultancy");
+} else {
+    $("#not_friend_referal_edit").hide();
+}
+});
+$(document).on("click", "#job_source_callHR1", function() {
+if ($(this).is(":checked")) {
+    $("#not_friend_referal_edit").show();
+    $("#lebel_ref_edit").text("HR Name");
+} else {
+    $("#not_friend_referal_edit").hide();
+}
+});
+$(document).on("click", "#job_source_newspaper1", function() {
+if ($(this).is(":checked")) {
+    $("#not_friend_referal_edit").show();
+    $("#lebel_ref_edit").text("Newspaper");
+} else {
+    $("#not_friend_referal_edit").hide();
+}
+});
+$(document).on("click", "#job_source_walkin1", function() {
+if ($(this).is(":checked")) {
+    $("#not_friend_referal_edit").hide();
+    $('#ref_name_edit').removeAttr('required');
+}
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    $(document).on('change', "#ref_name1", function() {
+        var r_name = this.value;
+        if (r_name == "")
+            alert("--Select User--")
+        var URL = '<?php echo base_url(); ?>dfr/getUserDetails';
+        $.ajax({
+            type: 'POST',
+            url: URL,
+            data: 'r_name=' + r_name,
+            success: function(aList) {
+                var json_obj = $.parseJSON(aList); //parse JSON
+
+                $('#refferer').empty();
+                $('#refferer').append($('#refferer').val(''));
+                for (var i in json_obj) {
+                    $('#refferer').append($('#refferer').val(json_obj[i].name));
+                    $('#refferer_dept').append($('#refferer_dept').val(json_obj[i].dept_name));
+                }
+
+            },
+            error: function() {
+                alert('Fail!');
+            }
+        });
+    });
+
+
+
+    $(document).on('change', "#ref_name1_edit", function() {
+        $('#sktPleaseWait').modal('show');
+        var r_name = this.value;
+        if (r_name == "")
+            alert("--Select User--")
+        var URL = '<?php echo base_url(); ?>dfr/getUserDetails';
+        $.ajax({
+            type: 'POST',
+            url: URL,
+            data: 'r_name=' + r_name,
+            success: function(aList) {
+                var json_obj = $.parseJSON(aList); //parse JSON
+
+                $('#refferer_edit').empty();
+                $('#refferer_edit').append($('#refferer_edit').val(''));
+                $('#refferer_dept_edit').empty();
+                $('#refferer_dept_edit').append($('#refferer_dept_edit').val(''));
+                for (var i in json_obj) {
+                    $('#refferer_edit').append($('#refferer_edit').val(json_obj[i].name));
+                    $('#refferer_dept_edit').append($('#refferer_dept_edit').val(json_obj[i].dept_name));
+                }
+                $('#sktPleaseWait').modal('hide');
+            },
+            error: function() {
+                alert('Fail!');
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    $(document).on('keyup change', '#gross_amount, #pay_type, #skill_set_slab, #emp_type,#incentive_amt,#incentive_period', function() {
+        candidatePayCalculation();
+
+    });
+
+    function candidatePayCalculation() {
+
+        var location_id = $('.frmApprovalFinalSelect #location_id').val().trim();
+        var pay_type = $('.frmApprovalFinalSelect #pay_type').val().trim();
+        var emp_type = $('.frmApprovalFinalSelect #emp_type').val().trim();
+        var org_role = $('.frmApprovalFinalSelect #org_role').val().trim();
+        var role_id = $('.frmApprovalFinalSelect #role_id').val().trim();
+        var gender = $('.frmApprovalFinalSelect #gender').val().trim();
+        var brand_id = $('.frmApprovalFinalSelect #brand_id').val().trim();
+
+        //Not needed as per current salary stucture of chandighar 19-04-2023
+        //var skill_set_slab = $('.frmApprovalFinalSelect #skill_set_slab').val().trim();
+        var skill_set_slab = "";
+
+        if (skill_set_slab == "")
+            skill_set_slab = 0;
+        if (emp_type == "")
+            emp_type = 3;
+        var incentive_period = $('#incentive_period').val();
+        var pli_employers = '0';
+        var pli_employers_year = '0';
+
+        var pli_employers = Math.round($('#incentive_amt').val());
+
+        if (incentive_period == 'Monthly') {
+            pli_employers = Math.round($('#incentive_amt').val());
+            pli_employers_year = Math.round(pli_employers * 12);
+
+            $("#incentive_amt").attr("readonly", false);
+            $("#incentive_amt").attr("required", "true");
+
+        } else if (incentive_period == 'Yearly') {
+            pli_employers_year = Math.round($('#incentive_amt').val());
+            pli_employers = Math.round(pli_employers_year / 12);
+
+            $("#incentive_amt").attr("readonly", false);
+            $("#incentive_amt").attr("required", "true");
+
+        } else {
+            pli_employers = '0';
+            pli_employers_year = '0';
+
+            $("#incentive_amt").attr("readonly", true);
+            $("#incentive_amt").removeAttr("required");
+            $("#incentive_amt").val(0);
+        }
+
+        //12 - cspl
+        var gr_amt = $('#gross_amount').val();
+        // alert(gr_amt);
+        gender = gender.toLowerCase();
+
+        var bsc = 0;
+        var hr = 0;
+        var conv_amt = 0;
+        var bonus_amt = 0;
+        var medical_amt = 0;
+        var gratuity_employers = 0;
+
+        var lwf_employers = 0;
+        var lwf_employers_year = 0;
+        var lwf_employees = 0;
+        var lwf_employees_year = 0;
+
+        var pt = 0;
+
+        var esi_employers = 0;
+        var esi_employersyr = 0;
+        var esi_employees = 0;
+        var esi_employeesyr = 0;
+
+        var pf_employers = 0;
+        var pf_employersyr = 0;
+
+        var pf_employees = 0;
+        var pf_employeesyr = 0;
+
+
+        if (isIndiaLocation(location_id) == true || location_id == "CHA") {
+
+            get_stipend_data();
+
+            if (pay_type == "1" || pay_type == "7" || pay_type == "8" || pay_type == "9") {
+
+                $('#grossid label').html('Monthly Total Earning');
+
+                if (gr_amt >= 1000) {
+                    var bonus_per = .0833;
+
+                    bsc = get_basic(gr_amt, location_id, org_role);
+                    hr = get_hra(bsc, location_id, org_role);
+                    conv_amt = get_conveyance(gr_amt, location_id, emp_type);
+
+                    gratuity_employers = get_gratuity_employer(bsc, location_id);
+
+                    lwf_employers = get_lwf_employer(location_id);
+                    lwf_employers_year = get_lwf_employer_year(location_id);
+
+                    lwf_employees = get_lwf_employee(location_id);
+                    lwf_employees_year = get_lwf_employee_year(location_id);
+
+
+                    //alert(brand_id + ">> " + location_id);
+
+                    if (gender == "" && location_id == "MUM")
+                        alert("Gender Field is blank");
+                    pt = get_ptax(gr_amt, location_id, gender);
+
+                    var gr_amt_esi = Math.round((gr_amt - conv_amt) + parseInt(pli_employers));
+                    var gmt_calamount = Math.round((gr_amt - conv_amt) + parseInt(pli_employers));
+
+                    esi_employers = get_esi_employer(gr_amt_esi, location_id, gmt_calamount);
+                    esi_employees = get_esi_employee(gr_amt_esi, location_id, gmt_calamount);
+
+                    esi_employersyr = Math.round(esi_employers * 12); // ESI Employer's yearly
+                    esi_employeesyr = Math.round(esi_employees * 12); // ESI Employee's yearly
+
+                    pf_employers = get_pf_employer(bsc, location_id);
+                    pf_employersyr = pf_employers * 12;
+
+                    pf_employees = get_pf_employee(bsc, location_id);
+                    pf_employeesyr = pf_employees * 12;
+
+                    //alert(brand_id + ">> " + location_id);
+
+
+                    if (location_id == "CHA" || brand_id == "12") {
+
+                        //alert(brand_id + ">> " + location_id);
+
+                        $('.cspl').show();
+                        $('.ind_oth').hide();
+                        $('#csplBonus').hide();
+
+                        bonus_amt = Math.round(skill_set_slab * bonus_per);
+                        medical_amt = gr_amt - (bsc + hr + conv_amt + bonus_amt);
+
+                    }
+
+                    // For UI display
+                    if (gr_amt != '') {
+
+                        if (location_id == "CHA" || brand_id == "12") {
+
+                            //alert('OK');
+                            $('.cspl').show();
+                            $('.ind_oth').hide();
+
+                            $('#csplBonus').hide();
+
+                        } else {
+                            $('.cspl').hide();
+                            $('.ind_oth').show();
+                            $('#csplBonus').hide();
+
+                        }
+                        if ($("#is_loi").is(":not(:checked)")) {
+                            $('#calcKOL').show();
+                        }
+
+                    } else {
+                        $('#calcKOL').hide();
+                    }
+
+                    //alert(bsc); 
+
+                    $('#basic').val(bsc);
+                    $('#basicyr').val(bsc * 12); // yearly calcultion
+                    $('#hra').val(hr);
+                    $('#hrayr').val(hr * 12); /// Year callculation
+                    $('#conveyance').val(conv_amt);
+                    $('#conveyanceyr').val(conv_amt * 12); // Yearly callculation
+
+                    $('#allowance').val(gr_amt - (bsc + hr + conv_amt));
+                    $('#allowanceyr').val((gr_amt - (bsc + hr + conv_amt)) * 12); // Yearly callculation
+
+                    $('#bonus_amt').val(bonus_amt);
+                    $('#bonus_amtyr').val(bonus_amt * 12); // Yearly callculation
+
+                    $('#medical_amt').val(medical_amt);
+                    $('#medical_amtyr').val(medical_amt * 12); // Yearly callculation
+
+                    $('#ptax').val(pt);
+                    $('#ptaxyr').val(pt * 12);
+
+
+                    if (pay_type == "8") {
+                        esi_employers = 0;
+                        esi_employersyr = 0;
+                        esi_employees = 0;
+                        esi_employeesyr = 0;
+
+                        pf_employers = 0;
+                        pf_employersyr = 0;
+
+                        pf_employees = 0;
+                        pf_employeesyr = 0;
+
+                    }
+
+                    //// CTC Calculation ////////////
+
+
+                    var employers_contribution = Math.round(parseInt(esi_employers) + parseInt(pf_employers) + parseInt(lwf_employers) + parseInt(gratuity_employers));
+
+                    var employees_deduction = Math.round(parseInt(pt) + parseInt(esi_employees) + parseInt(pf_employees) + parseInt(lwf_employees));
+
+                    var ctc = Math.round(parseInt(gr_amt) + parseInt(esi_employers) + parseInt(pf_employers) + parseInt(lwf_employers) + parseInt(gratuity_employers) + parseInt(pli_employers));
+
+
+
+
+                    //// Take home calculation
+                    var tk_home = Math.round(gr_amt - (pt + esi_employees + pf_employees + lwf_employees)) + parseInt(pli_employers);
+
+
+
+
+                    var employers_contribution_year = Math.round((parseInt(esi_employers + pf_employers + gratuity_employers) * 12) + lwf_employers_year);
+
+                    var employees_deduction_year = Math.round((parseInt(pt + esi_employees + pf_employees) * 12) + lwf_employees_year);
+
+
+                    var gross_year = Math.round(gr_amt * 12);
+                    var ctc_year = Math.round(gross_year + employers_contribution_year) + parseInt(pli_employers_year);
+
+                    var tk_home_year = Math.round(gross_year - employees_deduction_year) + parseInt(pli_employers_year);
+
+
+
+                    $('#esi_employers').val(esi_employers); // esi_employers 
+                    $('#esi_employersyr').val(esi_employersyr); // esi_employersyr Yearly
+                    $('#esi_employees').val(esi_employees); // esi_employees 
+                    $('#esi_employeesyr').val(esi_employeesyr); // esi_employeesyr Yearly
+
+                    $('#pf_employers').val(pf_employers); // pf_employers 
+                    $('#pf_employersyr').val(pf_employersyr); // pf_employersyr Yearly
+                    $('#pf_employees').val(pf_employees); // pf_employees 
+                    $('#pf_employeesyr').val(pf_employeesyr); // pf_employeesyr Yearly
+
+                    $('#lwf_employers').val(lwf_employers);
+                    $('#lwf_employersyr').val(lwf_employers_year);
+
+                    $('#lwf_employees').val(lwf_employees);
+                    $('#lwf_employeesyr').val(lwf_employees_year);
+
+                    $('#pli_employers').val(pli_employers);
+                    $('#pli_employersyr').val(pli_employers_year);
+
+                    $('#gratuity_employers').val(gratuity_employers);
+                    $('#gratuity_employersyr').val(gratuity_employers * 12); // Yearly callculation
+
+                    $('#tot_earning').val(gr_amt); // Total Earning
+                    $('#tot_earningyr').val(gross_year); // Total Earning Yearly
+
+                    $('#ctc').val(ctc); // ctc 
+                    $('#ctcyr').val(ctc_year); // ctc Yearly
+
+                    $('#tk_home').val(tk_home); // Take home calculation
+                    $('#tk_homeyr').val(tk_home_year); // Take home Yearly calculation
+
+                    $('#ctcchecker').val(ctc);
+                    $('#grosschecker').val(tk_home);
+                    //alert(gr_amt);
+
+                    get_stipend_data(ctc); //For Loi amount
+
+                }
+
+            } else if (pay_type == "6") {
+
+                //var conv_amt = get_conveyance(gr_amt,location_id);
+                //var gr_amt_esi = Math.round(gr_amt - conv_amt);
+
+                var esi_employers = get_esi_employer(gr_amt, location_id, gr_amt);
+                var esi_employees = get_esi_employee(gr_amt, location_id, gr_amt);
+
+                // var gratuity_employers = get_gratuity_employer(bsc,location_id);
+                // var lwf_employers = get_lwf_employer(location_id);			
+                // var lwf_employees = get_lwf_employee(location_id);
+
+                if (gender == "" && location_id == "MUM")
+                    alert("Gender Field is blank");
+                pt = get_ptax(gr_amt, location_id, gender);
+
+                var tk_home = Math.round(gr_amt - (esi_employees + pt));
+
+                var ctc = Math.round(parseInt(gr_amt) + parseInt(esi_employers));
+
+                get_stipend_data(ctc); //Fo Loi amount
+
+                $('#ctcchecker').val(ctc);
+                $('#grosschecker').val(tk_home);
+                $('#calcKOL').hide();
+                $('#grossid label').html('Total CTC');
+
+            } else {
+
+                get_stipend_data(gr_amt);
+                $('#ctcchecker').val(gr_amt);
+                $('#grosschecker').val(gr_amt);
+                $('#calcKOL').hide();
+
+                if ((pay_type == "2") || (pay_type == "3"))
+                    $('#grossid label').html('Hourly Earning');
+                else if (pay_type == "11")
+                    $('#grossid label').html('Per Day Earning');
+                else
+                    $('#grossid label').html('Total CTC');
+            }
+
+        } else {
+            // $('#+++++++++').val(gr_amt);
+            $('#ctcchecker').val(gr_amt);
+            $('#grosschecker').val(gr_amt);
+            $('#calcKOL').hide();
+            $("#tranee_agent").css('display', 'none');
+            if ((pay_type == "2") || (pay_type == "3"))
+                $('#grossid label').html('Hourly Earning');
+            else if (pay_type == "11")
+                $('#grossid label').html('Per Day Earning');
+            else
+                $('#grossid label').html('Total CTC');
+        }
+        return true;
+    }
+    $(document).on("click", '.frmApprovalFinalSelect #finalcheck', function() {
+
+        var v_doj = $('.frmApprovalFinalSelect #doj').val();
+        var v_comment = $('.frmApprovalFinalSelect #approved_comment').val();
+        var v_paytype = $('.frmApprovalFinalSelect #pay_type').val();
+        var v_currency = $('.frmApprovalFinalSelect #pay_currency').val();
+        var v_gross = $('.frmApprovalFinalSelect #gross_amount').val();
+        var location_id = $('.frmApprovalFinalSelect #location_id').val();
+        // && (v_paytype != "") && (v_currency != "") && (v_gross != "")
+
+        //const check_locations = ["ALT", "MON", "DRA", "FTK", "HIG", "MIN", "SPI", "TEX", "UTA", "CAM"];
+
+        //alert(v_gross);
+
+
+        var payroll_chek = $('#payroll_chek').val();
+
+        // alert(v_paytype);
+
+
+        if (payroll_chek == 1) {
+            if ((v_doj != "") && (v_comment != "")) {
+
+                $('#modalfinalchecknow').modal();
+
+                var grossc = $('#grosschecker').val();
+                var ctcc = $('#ctcchecker').val();
+                var msgpay = "You have entered <b>[Take Home: " + grossc + ", and CTC: " + ctcc + "]</b> <br/><br/>Please check before submitting, you cannot reverse the action.";
+                $("#modalfinalchecknowbody").html(msgpay);
+
+            } else {
+
+                alert('Please Fill All Details!');
+            }
+        } else {
+            if ((v_doj != "") && (v_comment != "") && (v_paytype != "") && (v_currency != "") && (v_gross != "")) {
+
+                $('#modalfinalchecknow').modal();
+                // p
+
+                // p
+
+                var grossc = $('#grosschecker').val();
+
+                //alert(grossc);
+                var ctcc = $('#ctcchecker').val();
+                var msgpay = "You have entered <b>[Take Home: " + grossc + ", and CTC: " + ctcc + "]</b> <br/><br/>Please check before submitting, you cannot reverse the action.";
+                $("#modalfinalchecknowbody").html(msgpay);
+            } else {
+
+                alert('Please Fill All Details!');
+            }
+        }
+
+
+
+    });
+    $(document).on('click', '#finalcheckedsubmit', function() {
+        $("#candidateSelectionForm").submit();
+    });
+
+
+
+    $(".VerifyDocuments").click(function() {
+        var r_id = $(this).attr("r_id");
+        var c_id = $(this).attr("c_id");
+        var is_verify = $(this).attr("is_verify");
+        var cURL = $(this).attr("rel");
+        $('.frmVerifyDocuments #r_id').val(r_id);
+        $('.frmVerifyDocuments #c_id').val(c_id);
+        if (is_verify == 0) {
+            $('.frmVerifyDocuments #verify_submit_btn').show();
+            $('.frmVerifyDocuments #certify_documents_div').show();
+        } else {
+            $('.frmVerifyDocuments #verify_submit_btn').hide();
+            $('.frmVerifyDocuments #certify_documents_div').hide();
+        }
+        $('#sktPleaseWait').modal('show');
+        $.get(cURL, function(data) {
+            $('#sktPleaseWait').modal('hide');
+            $('#VerifyDocumentsModal').find('#VerifyDocumentsContent').html(data);
+            $("#VerifyDocumentsModal").modal('show');
+        })
+
+
+
+    });
+    $(".viewbgv").click(function() {
+        var r_id = $(this).attr("r_id");
+        var c_id = $(this).attr("c_id");
+
+
+        $.ajax({
+            type: 'POST',
+            url: "<?php echo base_url('bgv/getBgvData'); ?>",
+            data: 'c_id=' + c_id + '&r_id=' + r_id,
+            success: function(offList) {
+
+                var json_obj = $.parseJSON(offList);
+
+                if (json_obj.hasOwnProperty('add_user_id') == true) {
+                    $('.frmBGVCandidate #crc_date').val('').removeAttr("disabled");
+                    $('.frmBGVCandidate #address_verification_date').val('').removeAttr("disabled");
+
+                    $('.frmBGVCandidate #uploadFile_1').css("display", "block");
+                    $('.frmBGVCandidate #uploadFile_2').css("display", "block");
+
+                    $('.frmBGVCandidate #address_verification_doc').val('').css("display", "none");
+                    $('.frmBGVCandidate #crc_doc').val('').css("display", "none");
+
+                    $('.frmBGVCandidate #crc_doc_view').hide();
+                    $('.frmBGVCandidate #address_verification_doc_view').hide();
+
+                    $("#updateCandidateBGVModal .frmSaveButton").show();
+                } else {
+
+                    for (var i in json_obj) {
+                        $('.frmBGVCandidate #crc_date').val(json_obj[i].crc_date).prop("disabled", true);
+                        $('.frmBGVCandidate #address_verification_date').val(json_obj[i].address_verification_date).prop("disabled", true);
+
+                        $('.frmBGVCandidate #uploadFile_1').css("display", "none");
+                        $('.frmBGVCandidate #uploadFile_2').css("display", "none");
+
+                        $('.frmBGVCandidate #address_verification_doc').val(json_obj[i].address_verification_doc).css("display", "block");
+                        $('.frmBGVCandidate #crc_doc').val(json_obj[i].crc_doc).css("display", "block");
+
+                        var url_address_verification_doc = '<?php echo base_url() . "uploads/bgv_doc/" ?>' + json_obj[i].address_verification_doc;
+                        var url_crc_doc = '<?php echo base_url() . "uploads/bgv_doc/" ?>' + json_obj[i].crc_doc;
+
+                        $('.frmBGVCandidate #crc_doc_view').show();
+                        $('.frmBGVCandidate #address_verification_doc_view').show();
+
+                        $('.frmBGVCandidate #crc_doc_view').html('<a onclick=window.open("' + url_crc_doc + '"),"popUpWindow","height=500,width=400,left=100,top=100,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes"><i class="fa fa-eye"></i></a>');
+
+                        $('.frmBGVCandidate #address_verification_doc_view').html('<a onclick=window.open("' + url_address_verification_doc + '"),"popUpWindow","height=500,width=400,left=100,top=100,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes"><i class="fa fa-eye"></i></a>');
+
+                        $("#updateCandidateBGVModal .frmSaveButton").hide();
+                    }
+
+                }
+            },
+            error: function() {
+                //$('#sktPleaseWait').modal('hide');
+                alert('Something Went Wrong!');
+            }
+        });
+        $('.frmBGVCandidate #r_id').val(r_id);
+        $('.frmBGVCandidate #c_id').val(c_id);
+        $("#updateCandidateBGVModal").modal('show');
+    });
+    $('INPUT[type="file"]').change(function() {
+        //var ext = this.value.match(/\.(.+)$/)[1];
+        var fileName = $(this).val();
+        var ext = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length);
+        ext = ext.toLowerCase();
+
+        var current_req = $(this).attr('id');
+        ///This is for BGV DOC Upload
+        if (current_req == 'uploadFile_1' || current_req == 'uploadFile_2') {
+            const fileSize = this.files[0].size / 1024 / 1024; // in MiB
+            if (fileSize > 5) {
+                alert('File size exceeds 5 MB');
+                this.value = '';
+            } else {
+                var ext = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length);
+                ext = ext.toLowerCase();
+                switch (ext) {
+                    case 'pdf':
+                        break;
+                    default:
+                        alert('This is not an allowed file type.');
+                        this.value = '';
+                }
+            }
+        } else {
+            switch (ext) {
+                case 'doc':
+                case 'docx':
+                case 'pdf':
+                    $('#uploadButton').attr('disabled', false);
+                    break;
+                default:
+                    alert('This is not an allowed file type.');
+                    this.value = '';
+            }
+        }
+
+    });
+</script>
+<script>
+    $(document).on("change", "#is_asset", function() {
+        let asset = $("#is_asset").val();
+        if (asset == '1') {
+            $(".asset_required").css("display", "block");
+            $("#asset_requisition").attr("required", true);
+
+        } else {
+            $("#asset_requisition").multiselect('selectAll', true);
+            $("#asset_requisition").multiselect('clearSelection');
+            $("#asset_requisition").multiselect('refresh');
+            $("#asset_requisition").attr("required", false);
+            $(".assets_count").css('display', 'none');
+            $(".assets_count").html('');
+
+
+
+            $(".asset_required").css("display", "none");
+        }
+    });
+
+    $(document).on("click", "#editRequisition", function() {
+        if (!requiredValidation($(".frmEditRequisition"))) {            
+
+            var job_desc = $('.frmEditRequisition #job_desc').val().trim();                     
+                if(job_desc == ''){ 
+                    <?php if(access_job_description()== true) { ?>                   
+                        alert('Please add job description to update the requisition.');
+                    <?php } else { ?>
+                        alert('Job description can not be empty.Please contact your local HR/WFM manager.');
+                    <?php } ?>
+                } else {                    
+                    $(".frmEditRequisition").submit();               
+                } 
+        }
+    });
+
+    var finalSelection = function(elm) {
+        var cparams = $(elm).attr("cparams");
+        var r_id = $(elm).attr("r_id");
+        var c_id = $(elm).attr("c_id");
+        var p_lock = $(elm).attr("p_access");
+        if (p_lock == "1") {
+            $('#check_payroll').hide();
+            $('#stop_payroll').show();
+            $('#check_payroll #pay_type').removeAttr('required');
+            $('#check_payroll #pay_currency').removeAttr('required');
+            $('#check_payroll #gross_amount').removeAttr('required');
+        }
+        if (p_lock == "0") {
+            $('#check_payroll #pay_type').attr('required', 'required');
+            $('#check_payroll #pay_currency').attr('required', 'required');
+            $('#check_payroll #gross_amount').attr('required', 'required');
+            $('#check_payroll').show();
+            $('#stop_payroll').hide();
+        }
+
+        //var req_no_position=$(this).attr("req_no_position");
+        //var filled_no_position=$(this).attr("filled_no_position");
+
+        var carrPrams = cparams.split("(#)");
+        $('.frmfinalSelection #r_id').val(r_id);
+        $('.frmfinalSelection #c_id').val(c_id);
+        //$('.frmfinalSelection #req_no_position').val(req_no_position);
+        //$('.frmfinalSelection #filled_no_position').val(filled_no_position);
+
+        $('.frmfinalSelection #fname').val(carrPrams[0]);
+        $('.frmfinalSelection #lname').val(carrPrams[1]);
+        $('.frmfinalSelection #hiring_source').val(carrPrams[2]);
+        $('.frmfinalSelection #dob_new').val(carrPrams[3]);
+        $('.frmfinalSelection #email').val(carrPrams[4]);
+        $('.frmfinalSelection #phone').val(carrPrams[5]);
+        $('.frmfinalSelection #department_id').val(carrPrams[6]);
+        $('.frmfinalSelection #role_id').val(carrPrams[7]);
+        $('.frmfinalSelection #doj_new').val(carrPrams[8]);
+        //$('.frmfinalSelection #d_o_j').datepicker('option', 'minDate', carrPrams[8]);
+
+        $('.frmfinalSelection #gender').val(carrPrams[9]);
+        $('.frmfinalSelection #location').val(carrPrams[10]);
+
+        $('.frmfinalSelection #batch_code').val(carrPrams[11]);
+        $('.frmfinalSelection #address').val(carrPrams[12]);
+        $('.frmfinalSelection #country').val(carrPrams[13]);
+        $('.frmfinalSelection #state').val(carrPrams[14]);
+        $('.frmfinalSelection #city').val(carrPrams[15]);
+        $('.frmfinalSelection #postcode').val(carrPrams[16]);
+        //$('.frmfinalSelection #client_id').val(carrPrams[17]);
+        //$('.frmfinalSelection #process_id').val(carrPrams[18]);
+        $('.frmfinalSelection #org_role_id').val(carrPrams[19]);
+        // CLIENT ID SELECTION
+        $('.frmfinalSelection #client_id').select2('destroy');
+        $('.frmfinalSelection #client_id').val('');
+        $('.frmfinalSelection #client_id').attr('readonly', false);
+        $('.frmfinalSelection #client_id option').prop('disabled', false);
+        if (carrPrams[17] != "") {
+            $('.frmfinalSelection #client_id').val(carrPrams[17].split(','));
+            $('.frmfinalSelection #client_id').attr('readonly', true);
+            $('.frmfinalSelection #client_id option:not(:selected)').prop('disabled', true);
+        }
+        $('.frmfinalSelection #client_id').select2();
+        // PROCESS ID SELECTION
+        $('.frmfinalSelection #process_id').select2('destroy');
+        $('.frmfinalSelection #process_id').val('');
+        $('.frmfinalSelection #process_id').attr('readonly', false);
+        $('.frmfinalSelection #process_id option').prop('disabled', false);
+        if (carrPrams[18] != "" && carrPrams[18] != "0") {
+            $('.frmfinalSelection #process_id').val(carrPrams[18].split(','));
+            $('.frmfinalSelection #process_id').attr('readonly', true);
+            $('.frmfinalSelection #process_id option:not(:selected)').prop('disabled', true);
+        }
+        $('.frmfinalSelection #process_id').select2();
+        // PAYROLL CHECKUPS
+        if (carrPrams[21] != "") {
+
+            $('.frmfinalSelection #payroll_type').val(carrPrams[21]);
+
+            $('.frmfinalSelection input[name="payroll_type"]').each(function() {
+                $(this).val(carrPrams[21]);
+            });
+        } else {
+            $('.frmfinalSelection #payroll_type').val('1');
+            $('.frmfinalSelection input[name="payroll_type"]').each(function() {
+                $(this).val('1');
+            });
+        }
+        $('.frmfinalSelection input[name="grosspay"]').each(function() {
+            $(this).val(carrPrams[20]);
+        });
+        $('.frmfinalSelection input[name="currency"]').each(function() {
+            $(this).val(carrPrams[22]);
+        });
+        $('.frmfinalSelection input[name="payroll_status"]').each(function() {
+            $(this).val('1');
+        });
+        // L1 Supervisor Selection
+        $('.frmfinalSelection #assigned_to').val('');
+        $('.frmfinalSelection #assigned_to').attr('readonly', false);
+        $('.frmfinalSelection #assigned_to option').prop('disabled', false);
+        if (carrPrams[23] != "") {
+
+            $('.frmfinalSelection #assigned_to').val(carrPrams[23]);
+            $('.frmfinalSelection #assigned_to').attr('readonly', true);
+            $('.frmfinalSelection #assigned_to option:not(:selected)').prop('disabled', true);
+            //$('.frmfinalSelection #assigned_to').css('pointer-events','none');
+        }
+        $('.frmfinalSelection #assigned_to').select2();
+        $('.frmfinalSelection #social_security_no').val(carrPrams[24]);
+        $('.frmfinalSelection #pan_no').val(carrPrams[25]);
+        $('.frmfinalSelection #father_husband_name').val(carrPrams[26]);
+        $('.frmfinalSelection #relation').val(carrPrams[27]);
+        $('.frmfinalSelection #caste').val(carrPrams[28]);
+        $('.frmfinalSelection #marital_status').val(carrPrams[29]);
+        //$('.frmfinalSelection #married_date').val(carrPrams[30]);
+        $('.frmfinalSelection #bank_name').val(carrPrams[32]);
+        $('.frmfinalSelection #branch_name').val(carrPrams[33]);
+        $('.frmfinalSelection #bank_acc_no').val(carrPrams[34]);
+        $('.frmfinalSelection #ifsc_code').val(carrPrams[35]);
+        $('.frmfinalSelection #acc_type').val(carrPrams[36]);
+        // $('.frmfinalSelection #mother_name').val(carrPrams[37]);
+        $("#finalSelectionModel").modal('show');
+        var dept_id = $('.frmfinalSelection #department_id').val();
+        //alert(dept_id);
+        populate_sub_dept_combo(dept_id);
+        if (isIndiaLocation(carrPrams[10]) == true) {
+            $('div#caste_main').show();
+            $('#caste').attr('required', true);
+        } else {
+            $('div#caste_main').hide();
+            $('#caste').removeAttr('required', true);
+        }
+        /*  
+         if (carrPrams[10] == 'KOL' || carrPrams[10] == 'BLR' || carrPrams[10] == 'CHE' || carrPrams[10] == 'DUR' || carrPrams[10] == 'HWH' || carrPrams[10] == 'JMP' || carrPrams[10] == 'KOC' || carrPrams[10] == 'MUM' || carrPrams[10] == 'NOI' || carrPrams[10] == 'KLY') {
+         */
+
+        if (isIndiaLocation(carrPrams[10]) == true) {
+
+            $('#mother_name_div').show();
+            // $('#mother_name').attr('required', true);
+        } else {
+            $('#mother_name_div').hide();
+            // $('#mother_name').removeAttr('required', true);
+        }
+        changeDateformat1(carrPrams[10], 'dob_new');
+        changeDateformat(carrPrams[10], 'doj_new');
+
+    }
+    $(document).on("click", "#candidateFinalSelection", function() {
+        var off_id = $('.frmfinalSelection #location').val();
+        if (off_id == 'KOL') {
+            //$('#xpoid').attr("required", "true");
+            //alert('please fill the XPOID');
+            $('#xpoid').removeAttr("required");
+        } else {
+            $('#xpoid').removeAttr("required");
+        }
+    });
+    var employee_assets_dfr = function(elm) {
+        var c_id = $(elm).attr("c_id");
+        var request_url = "<?php echo base_url('Requisition/dfr_assets_assigned'); ?>";
+        $.post(request_url, {
+            c_id: c_id
+        }).done(function(response) {
+            var res = JSON.parse(response);
+            let string = "";
+            if (res.stat == true) {
+
+                string += '<div class="col-md-12">\
+                            <div class="form-group">\
+                                <label>Assigned Assets</label>\
+                            </div>\
+                        </div> ';
+                $.each(res.datas, function(r) {
+                    string += '<div class="col-md-4">\
+                                <div class="form-group">\
+                                    <button type="button"  class="btn btn-sm success assets">' + res.datas[r].name + '</button>\
+                                </div>\
+                            </div>';
+                });
+                $(".dfr_assets_assigned").html(string);
+            } else {
+                string += '<div class="col-md-4">\
+                                <div class="form-group">\
+                                    <button type="button"  class="btn btn-sm success assets">No Assetes Assigned</button>\
+                                </div>\
+                            </div>';
+                $(".dfr_assets_assigned").html(string);
+            }
+
+
+        });
+        $('#employee_assets_model_dfr').modal('show');
+    }
+</script>
+
+<script>
+    $(document).on('change', "#transfer_location", function() {
+        var pid = this.value;
+        var select_site = $("#select_site").val();
+        var department = $("#select_department_pool").val();
+        console.log(pid);
+        // var interview_site = $("#interview_site").val();
+        // var dept_id = $("#dept_id").val();
+
+        // if(pid=="") alert("Please Select The Location")
+        var URL = '<?php echo base_url(); ?>Requisition/getSiteListByLocation';
+        $('#sktPleaseWait').modal('show');
+        $.ajax({
+            type: 'POST',
+            url: URL,
+            //    data:'pid='+pid+'&interview_site='+interview_site+'&dept_id='+dept_id,
+            data: 'pid=' + pid,
+            success: function(pList) {
+                //alert(pList);
+                var json_obj = $.parseJSON(pList); //parse JSON
+                // console.log(json_obj);
+                $('#select_site').empty();
+                $('#req_id').empty();
+                $('#req_details').empty();
+                $('#select_site').append($('<option value=""> </option>').val('').html(' Select Site '));
+                for (var i in json_obj)
+                    $('#select_site').append($('<option></option>').val(json_obj[i].id).html(json_obj[i].name));
+                $('#sktPleaseWait').modal('hide');
+                // populate_brand_combo_dfr(offid,def='',objid='brand_id',isAll='N');
+
+                // $('#select_site')[0].selectize.clearOptions();
+                // $('#select_site')[0].selectize.addOption({value:"",text:"Select Site"});
+                // $('#select_site')[0].selectize.addItem(1);
+
+                // for (var i in json_obj){
+                // 	$('#select_site')[0].selectize.addOption({value:json_obj[i].id,text:json_obj[i].name});
+                // 	$('#select_site')[0].selectize.addItem(i);
+                // }
+
+                // $('#sktPleaseWait').modal('hide');	
+            },
+            error: function() {
+                alert('Fail!');
+            }
+
+        });
+
+        dependent_requisition(pid, select_site, department);
+
+    });
+
+    var candidateApproval = function(elm) {
+        var r_id = $(elm).attr("r_id");
+        var c_id = $(elm).attr("c_id");
+        var req_id = $(elm).attr("req_id");
+        var org_role = $(elm).attr("org_role");
+        var location_id = $(elm).attr("location_id");
+        var gender = $(elm).attr("gender");
+        var p_lock = $(elm).attr("p_access");
+        var c_status = $(elm).attr("c_status");
+        var brand_id = $(elm).attr("brand_id");
+        var role_id = $(elm).attr("role_id");
+        var dept_id = $(elm).attr("dept_id");
+        var gr_amt = $('#gross_amount').val();
+        $("#prevUserInfoRow").hide();
+        //Check stipned permission//
+        $(".perday").css('display', 'none');
+        $("#training_fees_perday").val('0.00');
+        $("#training_ctc").val('0.00');
+
+        $.post("<?= base_url() ?>Requisition/check_stipend_user_permission", {
+            org_role: org_role,
+            dept_id: dept_id
+        }).done(function(data) {
+
+            let lblHtml;
+            if (data == 1) {
+                $(".loi_check").css('display', 'block');
+                $("#is_loi").attr('checked', true);
+                get_stipend_data();
+            } else {
+                $(".loi_check").css('display', 'none');
+                $("#is_loi").attr('checked', false);
+                get_stipend_data();
+
+            }
+        });
+
+
+
+        if (isIndiaLocation(location_id) == true) {
+
+            $.ajax({
+                type: 'POST',
+                url: '<?= base_url() ?>Requisition/get_candidate_details',
+                data: 'c_id=' + c_id + '&loc=' + location_id,
+                success: function(msg) {
+
+                    if (msg == "hine") {
+                        $("#prevUserInfoRow").hide();
+                    } else {
+                        $("#prevUserInfoRow").show();
+                        $('#prevUserInfoContent').html(msg);
+                    }
+                    $("#approvalFinalSelectModel").modal('show');
+                    $("#doj").datepicker({
+                        dateFormat: 'dd/mm/yy',
+                        minDate: new Date()
+                    });
+                }
+
+            });
+        } else {
+            if (location_id == "CEB" || location_id == "MAN") {
+                $('.frmApprovalFinalSelectPhp #r_id').val(r_id);
+                $('.frmApprovalFinalSelectPhp #requisition_id').val(req_id);
+                $('.frmApprovalFinalSelectPhp #c_id').val(c_id);
+                $('.frmApprovalFinalSelectPhp #location_id').val(location_id);
+                $('.frmApprovalFinalSelectPhp #c_status').val(c_status);
+                $('.frmApprovalFinalSelectPhp #org_role').val(org_role);
+                $('.frmApprovalFinalSelectPhp #gender').val(gender);
+                $('.frmApprovalFinalSelectPhp #brand_id').val(brand_id);
+                $("#approvalFinalSelectModelPhp").modal('show');
+            } else {
+                $("#approvalFinalSelectModel").modal('show');
+            }
+            $("#doj").datepicker({
+                dateFormat: 'mm/dd/yy',
+                minDate: new Date()
+            });
+        }
+
+        if (isIndiaLocation(location_id) == true) {
+            $("#doj").datepicker({
+                dateFormat: 'dd/mm/yy',
+                minDate: new Date()
+            });
+        } else {
+            $("#doj").datepicker({
+                dateFormat: 'mm/dd/yy',
+                minDate: new Date()
+            });
+        }
+        if (p_lock == "1") {
+            $('#check_payroll #pay_type').removeAttr('required');
+            $('#check_payroll #pay_currency').removeAttr('required');
+            $('#check_payroll #gross_amount').removeAttr('required');
+            $('#check_payroll').hide();
+            $('#stop_payroll').show();
+            $('#check_payroll input').prop('disabled', true);
+            $('#stop_payroll input').prop('disabled', false);
+        }
+
+        if (p_lock == "0") {
+            $('#check_payroll #pay_type').attr('required', 'required');
+            $('#check_payroll #pay_currency').attr('required', 'required');
+            $('#check_payroll #gross_amount').attr('required', 'required');
+            $('#check_payroll').show();
+            $('#stop_payroll').hide();
+            $('#check_payroll input').prop('disabled', false);
+            $('#stop_payroll input').prop('disabled', true);
+        }
+
+        $('.frmApprovalFinalSelect #r_id').val(r_id);
+        $('.frmApprovalFinalSelect #requisition_id').val(req_id);
+        $('.frmApprovalFinalSelect #c_id').val(c_id);
+        $('.frmApprovalFinalSelect #location_id').val(location_id);
+        $('.frmApprovalFinalSelect #c_status').val(c_status);
+        $('.frmApprovalFinalSelect #org_role').val(org_role);
+        $('.frmApprovalFinalSelect #gender').val(gender);
+        $('.frmApprovalFinalSelect #brand_id').val(brand_id);
+        $('.frmApprovalFinalSelect #role_id').val(role_id);
+        if (location_id == "CHA" || brand_id == "12") {
+            $('.cspl').show();
+            $('.ind_oth').hide();
+        } else {
+            $('.cspl').hide();
+            $('.ind_oth').show();
+        }
+
+        $('#calcKOL').hide();
+        $('#gross_amount').val("");
+    }
+
+    function dependent_requisition(transfer_location, site, department) {
+        //alert();
+        var URL = '<?php echo base_url(); ?>Requisition/getRequisitionByLocationAndSite';
+        // $('#sktPleaseWait').modal('show');
+        $.ajax({
+            type: 'POST',
+            url: URL,
+            data: 'did=' + department + '&location=' + transfer_location + '&site_id=' + site,
+            //    data:'pid='+pid,
+            success: function(pList) {
+                console.log(pList);
+                var json_obj = $.parseJSON(pList); //parse JSON
+                // console.log(json_obj);
+                // $('#req_id').empty();
+                //$('#req_id').append($('<option></option>').val('').html(' Select Requisition '));
+
+                //for (var i in json_obj) $('#req_id').append($('<option></option>').val(json_obj[i].id).html(json_obj[i].req_desc));
+                $('#sktPleaseWait').modal('hide');
+                // $('#req_id')[0].selectize.clearOptions();
+                // $('#req_id')[0].selectize.addOption({value:"",text:"Select Requisition"});
+                // $('#req_id')[0].selectize.addItem(1);
+
+                // for (var i in json_obj){
+                // 	$('#req_id')[0].selectize.addOption({value:json_obj[i].id,text:json_obj[i].req_desc});
+                // 	$('#req_id')[0].selectize.addItem(i);
+                // }
+
+                // $('#sktPleaseWait').modal('hide');	
+            },
+            error: function() {
+                alert('Fail!');
+            }
+
+        });
+    }
+    var assignInterviewer = function(elm) {
+        var pid = elm.value;
+        var interview_site = $("#interview_site").val();
+        var dept_id = $("#dept_id").val();
+        if (pid == "")
+            alert("Please Select The User")
+        var URL = '<?php echo base_url(); ?>Requisition/getuserclientlist';
+        $('#sktPleaseWait').modal('show');
+        $.ajax({
+            type: 'POST',
+            url: URL,
+            data: 'pid=' + pid + '&interview_site=' + interview_site + '&dept_id=' + dept_id,
+            success: function(pList) {
+                //alert(pList);
+                var json_obj = $.parseJSON(pList); //parse JSON
+
+                $('#assign_interviewer').empty();
+                $('#assign_interviewer').append($('<option></option>').val('').html('-- Select --'));
+                for (var i in json_obj)
+                    $('#assign_interviewer').append($('<option></option>').val(json_obj[i].id).html(json_obj[i].name + '-' + json_obj[i].office_id + '-' + json_obj[i].dept_name));
+                $('#sktPleaseWait').modal('hide');
+            },
+            error: function() {
+                alert('Fail!');
+            }
+
+        });
+    };
+
+    function requiredValidation(e) {
+        var error = false;
+        $(e).find('input[required]').each(function(event) {
+            var val = $(this).val();
+            if (val.trim() == "") {
+                $(this).css({
+                    "border": "1px solid red"
+                });
+                popupErrorMsg($(this), "Select a option to proceed", 3);
+                error = true;
+
+            } else {
+                $(this).css({
+                    "border": "1px solid #ddd"
+                });
+
+            }
+        });
+        $(e).find('input[number]').each(function(event) {
+            var val = $(this).val();
+            if (checkNonDec(val.trim()) == false) {
+                $(this).css({
+                    "border": "1px solid red"
+                });
+                popupErrorMsg($(this), "Decimal value Not allowed", 3);
+                error = true;
+
+            } else {
+                $(this).css({
+                    "border": "1px solid #ddd"
+                });
+
+            }
+        });
+        $(e).find('select[required]').each(function(event) {
+            var val = $(this).val();
+            if (typeof(val) != 'object') {
+                if (val.trim() == "") {
+                    $(this).focus().css({
+                        "border": "1px solid red"
+                    });
+                    popupErrorMsg($(this), "Select a option to proceed", 3);
+                    error = true;
+                } else {
+                    $(this).css({
+                        "border": "1px solid #ddd"
+                    });
+                }
+            } else {
+                if (val.length == "0") {
+                    $(this).focus().css({
+                        "border": "1px solid red"
+                    });
+                    popupErrorMsg($(this), "Select a option to proceed", 3);
+                    error = true;
+                } else {
+                    $(this).css({
+                        "border": "1px solid #ddd"
+                    });
+                }
+            }
+        });
+        $(e).find('input[min]').each(function(event) {
+            var val = $(this).val();
+            var min = $(this).attr("min");
+            if (val.trim() < min) {
+                $(this).css({
+                    "border": "1px solid red"
+                });
+                popupErrorMsg($(this), "Value must be grater than Zero", 3);
+                error = true;
+            } else {
+                $(this).css({
+                    "border": "1px solid #ddd"
+                });
+
+            }
+        });
+        return error;
+    }
+
+    function checkNonDec(val) {
+        var ex = /^[0-9]*$/;
+        if (val.match(ex) == false) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function popupErrorMsg(e, msg, interval) {
+        //$(".kmi-popup_error").remove();
+        var div = $(e).closest("div");
+        var offset = $(e).position();
+        var close = document.createElement('div');
+        $(close).addClass("kmi-popup_error")
+            .html(msg)
+            .css({
+                "position": "absolute",
+                "left": (offset.left),
+                "top": (offset.top - 30),
+                "z-index": "10999",
+                "color": "white",
+                "font-size": "14px",
+                "cursor": "pointer",
+                "background-color": "#dd4b39",
+                "border-radius": "3px",
+                "padding": "5px",
+                "width": "150px;",
+                "text-align": "center",
+                "display": "none"
+            })
+            .attr("id", "kmi-popup_error")
+            .appendTo(div)
+            .on("click", function() {
+                $(close).remove();
+            });
+        $(close).slideDown("slow");
+        $(close).fadeOut(interval * 1000);
+        setTimeout(function() {
+            $(close).remove();
+        }, interval * 1000);
+    }
+    // var changeDateFormat = function(location) {
+    //     if (isIndiaLocation(location) == true) {
+    //         $(".dobdatepicker").datepicker({
+    //             dateFormat: 'dd/mm/yy',
+    //             maxDate: new Date(),
+    //             changeMonth: true,
+    //             changeYear: true,
+    //             yearRange: "c-70:c+0",
+    //             beforeShow: function(el, dp) {
+    //                 inputField = $(el);
+    //                 inputField.parent().append($('#ui-datepicker-div'));
+    //                 $('#ui-datepicker-div').addClass('datepicker-modal');
+    //                 $('#ui-datepicker-div').hide();
+    //             }
+
+    //         });
+    //     } else {
+    //         $(".dobdatepicker").datepicker({
+    //             dateFormat: 'mm/dd/yy',
+    //             maxDate: new Date(),
+    //             changeMonth: true,
+    //             changeYear: true,
+    //             yearRange: "c-70:c+0",
+    //             beforeShow: function(el, dp) {
+    //                 inputField = $(el);
+    //                 inputField.parent().append($('#ui-datepicker-div'));
+    //                 $('#ui-datepicker-div').addClass('datepicker-modal');
+    //                 $('#ui-datepicker-div').hide();
+    //             }
+
+    //         });
+    //     }
+    // };
+    function changeDateformat1(location, id) {
+        if (isIndiaLocation(location) == true) {
+            $(`#${id}`).datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "c-70:c+0",
+                beforeShow: function(el, dp) {
+                    inputField = $(el);
+                    inputField.parent().append($('#ui-datepicker-div'));
+                    $('#ui-datepicker-div').addClass('datepicker-modal');
+                    $('#ui-datepicker-div').hide();
+                }
+
+            });
+        } else {
+            $(`#${id}`).datepicker({
+                dateFormat: 'mm/dd/yy',
+                maxDate: new Date(),
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "c-70:c+0",
+                beforeShow: function(el, dp) {
+                    inputField = $(el);
+                    inputField.parent().append($('#ui-datepicker-div'));
+                    $('#ui-datepicker-div').addClass('datepicker-modal');
+                    $('#ui-datepicker-div').hide();
+                }
+
+            });
+        }
+    }
+    function changeDateformat(location, id) {
+        if (isIndiaLocation(location) == true) {
+            $(`#${id}`).datepicker({
+                dateFormat: 'dd/mm/yy',
+                minDate: new Date(),
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "c-70:c+0",
+                beforeShow: function(el, dp) {
+                    inputField = $(el);
+                    inputField.parent().append($('#ui-datepicker-div'));
+                    $('#ui-datepicker-div').addClass('datepicker-modal');
+                    $('#ui-datepicker-div').hide();
+                }
+
+            });
+        } else {
+            $(`#${id}`).datepicker({
+                dateFormat: 'mm/dd/yy',
+                minDate: new Date(),
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "c-70:c+0",
+                beforeShow: function(el, dp) {
+                    inputField = $(el);
+                    inputField.parent().append($('#ui-datepicker-div'));
+                    $('#ui-datepicker-div').addClass('datepicker-modal');
+                    $('#ui-datepicker-div').hide();
+                }
+
+            });
+        }
+    }
+
+    function get_stipend_data(ctc = '') {
+        // alert('get stripen data function hit');
+
+        let gr_amt = $('#gross_amount').val();
+
+        let indLocation = "<?= isIndiaLocation(get_user_office_id()) ?>";
+
+        if ($("#is_loi").is(":checked")) {
+            if (indLocation == true) {
+                lblHtml = 'Training date (dd/mm/yyyy) <span class="red_bg">*</span>';
+            } else {
+                lblHtml = 'Training date (mm/dd/yyyy) <span class="red_bg">*</span>';
+            }
+            $(".loi_lbl").html(lblHtml);
+            let percent = "<?= get_agent_stipend_percentage() ?>";
+            if (ctc != '' && ctc > 0) {
+                let total_stipned = Math.round((percent * ctc) / 100);
+                let per_day_stipned = Math.round(total_stipned / 30);
+                $("#training_fees_perday").val(per_day_stipned);
+                $("#training_ctc").val(total_stipned);
+            }
+            $("#perday_lbl").html(`${percent} % CTC`);
+            $("#training_fees_perday").attr('disabled', true);
+            $("#training_ctc").attr('disabled', true);
+            $(".perday").css('display', 'block');
+            $("#is_loi").val(1);
+            $('#calcKOL').hide();
+        } else {
+            if (indLocation == true) {
+                lblHtml = 'Date of Joining (dd/mm/yyyy) <span class="red_bg">*</span>';
+            } else {
+                lblHtml = 'Date of Joining (mm/dd/yyyy) <span class="red_bg">*</span>';
+            }
+
+            $(".loi_lbl").html(lblHtml);
+            $(".perday").css('display', 'none');
+            $("#training_fees_perday").val('0.00');
+            $("#training_ctc").val('0.00');
+            $("#is_loi").val(0);
+            if (gr_amt >= 1000) {
+                $('#calcKOL').show();
+            }
+        }
+
+        return true;
+    }
+
+    function checkpan() {
+        var location = "<?= get_user_office_id() ?>";
+        $('#pan_status').html(loader);
+        var pan_no = $(".frmfinalSelection #pan_no").val();
+        if (pan_no) {
+            var splcharregEx = /^[0-9a-zA-Z]+$/;
+            var alphanumregEx = /[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+            if (isIndiaLocation(location) == true) {
+                if (!(pan_no.match(splcharregEx))) {
+                    swl.fire("Please enter alphanumeric characters only.", "", "error");
+                    $('#pan_no').val('');
+                    $('#pan_no').css('border-color', 'red');
+                    return false;
+                } else {
+                    if (!(pan_no.match(alphanumregEx))) {
+                        swl.fire("Invalid Pan no.", "", "error");
+                        $('#pan_no').val('');
+                        $('#pan_no').css('border-color', 'red');
+                        return false;
+                    } else {
+                        $('#pan_no').css('border-color', '#ddd');
+                    }
+
+                }
+            }
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url(); ?>Requisition/validate_existest_pan',
+                data: 'pan_no=' + pan_no,
+                success: function(response) {
+                    response = response.trim();
+                    //   $('#pan_status').html(response);
+
+                    if (response == "OK") {
+                        //return true;	
+                        $('#pan_status').html('');
+                        $('#pan_status').removeClass('checkrequired');
+                    } else {
+                        //    alert(response);
+                        //    $(".frmAddReferrals #pan_no").val('');
+                        $('#pan_status').html(response);
+                        $('#pan_status').addClass('checkrequired');
+                        // return false;
+                    }
+                }
+            });
+        } else {
+            $('#pan_status').html("");
+            $('#pan_status').addClass('checkrequired');
+            return false;
+        }
+    }
+
+    function checkemail(type) {
+        $("#" + type + "_email_status").text("");
+        $("#" + type + "_email_status").html(loader);
+        var email = $("#" + type + "_email").val();
+        var reEmail = /^(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!\.)){0,61}[a-zA-Z0-9]?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!$)){0,61}[a-zA-Z0-9]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$/;
+        if (!email.match(reEmail)) {
+            $("#" + type + "_email_status").text("Invalid email address");
+            $("#" + type + "_email_status").focus();
+            $("#" + type + "_email_status").addClass('checkrequired');
+            return false;
+        }
+        if (email) {
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url(); ?>Requisition/validate_existest_email',
+                data: 'email=' + email,
+                success: function(response) {
+                    response = response.trim();
+                    if (response == "OK") {
+                        $("#" + type + "_email_status").text("");
+                        $("#" + type + "_email_status").removeClass('checkrequired');
+                        $('#email_check_val').val(1);
+                        if($('#email_check_val').val() == 0 || $('#phone_check_val').val() == 0){
+                            $('#addCandidateDetails').prop('disabled',true);
+                        } else {
+                            $('#addCandidateDetails').prop('disabled',false);
+                        }
+                        //$('#addCandidateDetails').prop('disabled',false);
+                    } else {
+                        $("#" + type + "_email_status").text(response);
+                        $("#" + type + "_email_status").focus();
+                        $("#" + type + "_email_status").addClass('checkrequired');
+                        $('#email_check_val').val(0);
+                        $('#addCandidateDetails').prop('disabled',true);
+                        return false;
+                    }
+                }
+            });
+        }
+    }
+
+    function checkphone(length, type) {
+
+        var phone = $("#" + type + "_phone").val();
+        $("#" + type + "_phone_status").text("");
+        $("#" + type + "_phone_status").html(loader);
+        if (phone.length != length) {
+
+            var res = parseInt(phone);
+            if (isNaN(res)) {
+                $("#" + type + "_phone_status").text("Please Enter Only Number");
+                $("#" + type + "_phone_status").addClass('checkrequired');
+                return false;
+            }
+            $("#" + type + "_phone_status").text("Please Enter " + length + " Digit Mobile Number");
+            $("#" + type + "_phone_status").addClass('checkrequired');
+            return false;
+        }
+        if (phone) {
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url(); ?>Requisition/validate_existest_phone',
+                data: 'phone=' + phone,
+                success: function(response) {
+                    response = response.trim();
+                    //   $('#phone_status').html(response);
+                    if (response == "OK") {
+                        $("#" + type + "_phone_status").text("");
+                        $("#" + type + "_phone_status").removeClass('checkrequired');
+                        $('#phone_check_val').val(1);
+                        if($('#email_check_val').val() == 0 || $('#phone_check_val').val() == 0){
+                            $('#addCandidateDetails').prop('disabled',true);
+                        } else {
+                            $('#addCandidateDetails').prop('disabled',false);
+                        }
+                    } else {
+                        $("#" + type + "_phone_status").text(response);
+                        $("#" + type + "_phone_status").addClass('checkrequired');
+                        $('#phone_check_val').val(0);
+                        $('#addCandidateDetails').prop('disabled',true);
+                        return false;
+                    }
+                }
+            });
+        } else {
+            $("#" + type + "_phone_status").text("");
+            $("#" + type + "_phone_status").addClass('checkrequired');
+            return false;
+        }
+    }
+
+    function checkuan() {
+        $('#uan_status').html(loader);
+        var uan = $(".frmfinalSelection #uan_no").val();
+        if (uan) {
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url(); ?>Requisition/validate_existest_uan',
+                data: 'uan=' + uan,
+                success: function(response) {
+                    response = response.trim();
+                    //   $('#phone_status').html(response);
+
+                    if (response == "OK") {
+                        //return true;	
+                        $('#uan_status').html('');
+                        $('#uan_status').removeClass('checkrequired');
+                        $('#addCandidateDetails').prop('disabled',false);
+                    } else {
+                        //    alert(response);
+                        //    $(".frmAddReferrals #phone").val('');
+                        $('#uan_status').html(response);
+                        $('#uan_status').addClass('checkrequired');
+                        $('#addCandidateDetails').prop('disabled',true);
+                        // return false;
+                    }
+                }
+            });
+        } else {
+            $('#uan_status').html("");
+            $('#uan_status').addClass('checkrequired');
+            return false;
+        }
+    }
+
+    function checksecurity() {
+        $('#social_security_no_status').html(loader);
+        var social_security_no = $(".frmfinalSelection #social_security_no").val();
+        if (social_security_no) {
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url(); ?>Requisition/validate_existest_social_security_no',
+                data: 'social_security_no=' + social_security_no,
+                success: function(response) {
+                    response = response.trim();
+                    //   $('#phone_status').html(response);
+
+                    if (response == "OK") {
+                        //return true;	
+                        $('#social_security_no_status').html('');
+                        $('#social_security_no_status').removeClass('checkrequired');
+                    } else {
+                        //    alert(response);
+                        //    $(".frmAddReferrals #phone").val('');
+                        $('#social_security_no_status').html(response);
+                        $('#social_security_no_status').addClass('checkrequired');
+                        // return false;
+                    }
+                }
+            });
+        } else {
+            $('#social_security_no_status').html("");
+            $('#social_security_no_status').addClass('checkrequired');
+            return false;
+        }
+    }
+
+    function checksecurity_for_candidate() {
+        $("#social_security_no_status_for_candidate").html(loader);
+        var social_security_no = $(".frmAddCandidate #social_security_no_for_candidate").val();
+        // alert(social_security_no);
+        if (social_security_no) {
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url(); ?>Requisition/validate_existest_social_security_no_while_candidate_adding',
+                data: 'social_security_no=' + social_security_no,
+                success: function(response) {
+                    response = response.trim();
+                    //   $('#phone_status').html(response);
+
+                    if (response == "OK") {
+                        //return true;	
+                        $('#social_security_no_status_for_candidate').html('');
+                        $('#social_security_no_status_for_candidate').removeClass('checkrequired');
+                    } else {
+                        //    alert(response);
+                        //    $(".frmAddReferrals #phone").val('');
+                        $('#social_security_no_status_for_candidate').html(response);
+                        $('#social_security_no_status_for_candidate').addClass('checkrequired');
+                        // return false;
+                    }
+                }
+            });
+        } else {
+            $('#social_security_no_status_for_candidate').html("");
+            $('#social_security_no_status_for_candidate').addClass('checkrequired');
+            return false;
+        }
+    }
+
+    function checkaccount() {
+        $('#bank_acc_no_status').html(loader);
+        var bank_acc_no = $(".frmfinalSelection #bank_acc_no").val();
+        if (bank_acc_no) {
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url(); ?>Requisition/validate_existest_bank_acc_no',
+                data: 'bank_acc_no=' + bank_acc_no,
+                success: function(response) {
+                    response = response.trim();
+                    //   $('#phone_status').html(response);
+
+                    if (response == "OK") {
+                        //return true;	
+                        $('#bank_acc_no_status').html('');
+                        $('#bank_acc_no_status').removeClass('checkrequired');
+                    } else {
+                        //    alert(response);
+                        //    $(".frmAddReferrals #phone").val('');
+                        $('#bank_acc_no_status').html(response);
+                        $('#bank_acc_no_status').addClass('checkrequired');
+                        // return false;
+                    }
+                }
+            });
+        } else {
+            $('#bank_acc_no_status').html("");
+            $('#bank_acc_no_status').addClass('checkrequired');
+            return false;
+        }
+    }
+
+    function checkDec(el) {
+        var ex = /^[0-9]+\.?[0-9]*$/;
+        if (ex.test(el.value) == false) {
+            el.value = el.value.substring(0, el.value.length - 1);
+        }
+    }
+</script>
+<script>
+    $(document).on('click', '#job_source_portal,#job_source_consult,#job_source_newspaper,#job_source_callHR', function() {
+        var refname = this.value;
+        var datas = {
+            'refname': refname
+        };
+        var URL = '<?php echo base_url(); ?>Requisition/getRefConsultant';
+        process_ajax(function(refList) {
+            var json_obj = $.parseJSON(refList); //parse JSON          
+            $('#ref_name').empty();
+            if (refname == 'Job Portal') {
+                // alert(refname);
+                // $('#ref_name').empty();
+                for (var i in json_obj) {
+                    $('#ref_name').append($('<option></option>').val(json_obj[i].job_portal).html(json_obj[i].job_portal));
+                }
+            } else if (refname == 'Consultancy') {
+                // alert(refname);
+                // $('#ref_name').empty();
+                for (var i in json_obj) {
+                    $('#ref_name').append($('<option></option>').val(json_obj[i].consultancy).html(json_obj[i].consultancy));
+                }
+
+            } else if (refname == 'Call From HR') {
+                for (var i in json_obj) {
+                    $('#ref_name').append($('<option></option>').val(json_obj[i].full_name).html(json_obj[i].full_name));
+                }
+            } else {
+
+            }
+
+            $('#ref_name').val('').trigger('change');
+        }, URL, datas, 'text');
+    });
+</script>
+
+
+<script>
+    $(document).on('change', '#hiring_source_edit', function() {
+        
+        var refname1 = this.value;
+       
+        if(refname1!='Existing Emplyee')
+        {
+            
+            $("#not_friend_referal_edit").removeAttr("style");
+            $("#existing_employee_edit").css('display','none');
+        }
+        else if(refname1=='Walkin')
+        {
+            $("#not_friend_referal_edit").hide();
+            $("#existing_employee_edit").hide();
+        }
+        else if(refname1=='Existing Emplyee')
+        {
+           // alert('1');
+            $("#not_friend_referal_edit").hide();
+            $("#existing_employee_edit").removeAttr("style");
+           
+        }
+        
+        var datas = {
+            'refname': refname1
+        };
+        var URL = '<?php echo base_url(); ?>Requisition/getRefConsultant';
+        process_ajax(function(refList) {
+            var json_obj = $.parseJSON(refList); //parse JSON    
+                
+            $('#ref_name_edit').empty();
+            if (refname1 == 'Job Portal') {
+                $("#ref_name_edit").removeAttr("placeholder");
+                $("#lebel_ref_edit").text(refname1);
+                for (var i in json_obj) {
+                    $('#ref_name_edit').append($('<option></option>').val(json_obj[i].job_portal).html(json_obj[i].job_portal));
+                }
+            } else if (refname1 == 'Consultancy') {
+                $("#ref_name_edit").removeAttr("placeholder");
+                $("#lebel_ref_edit").text(refname1);
+                for (var i in json_obj) {
+                    $('#ref_name_edit').append($('<option></option>').val(json_obj[i].consultancy).html(json_obj[i].consultancy));
+                }
+
+            } else if (refname1 == 'Call From HR') {
+                $("#ref_name_edit").removeAttr("placeholder");
+                $("#lebel_ref_edit").text(refname1);
+                for (var i in json_obj) {
+                    $('#ref_name_edit').append($('<option></option>').val(json_obj[i].full_name).html(json_obj[i].full_name));
+                }
+            } else {
+
+            }
+
+            $('#ref_name').val('').trigger('change');
+        }, URL, datas, 'text');
+    });
+</script>
+
+
+
+
+
+<script>
+    $(document).on("change", "#country", function() {
+        $('#sktPleaseWait').modal('show');
+        var URL = '<?php echo base_url(); ?>profile/stateList';
+        var country = $("option:selected", this).attr("cid");
+        //alert(country);
+
+        jQuery.ajax({
+            url: URL,
+            type: 'POST',
+            data: {
+                country: country
+            },
+            dataType: "json",
+            success: function(response) {
+                $('#sktPleaseWait').modal('hide');
+                //alert(response);
+
+                if (response.error == false) {
+                    if (response.state_list == "") {
+                        $("#state").empty();
+                        $("#state").append($('<option></option>').val('').html('--select--'));
+                    } else {
+
+                        $("#state").empty();
+                        $("#state").append($('<option></option>').val('').html('--select--'));
+                        for (var i in response.state_list) {
+                            $('#state').append($('<option sid="' + response.state_list[i].id + '"></option>').val(response.state_list[i].name).html(response.state_list[i].name));
+                        }
+
+                        $("#city").empty();
+                        $("#city").append($('<option></option>').val('').html('--select--'));
+                        $("#city").attr("disabled", false);
+                        $("#city_other").attr("disabled", true).removeAttr("required");
+                    }
+                }
+            }
+        });
+    });
+    $(document).on("change", "#state", function() {
+        $('#sktPleaseWait').modal('show');
+        var URL = '<?php echo base_url(); ?>profile/cityList';
+        var state = $("option:selected", this).attr("sid");
+        //alert(state);
+
+        jQuery.ajax({
+            url: URL,
+            type: 'POST',
+            data: {
+                state: state
+            },
+            dataType: "json",
+            success: function(response) {
+                $('#sktPleaseWait').modal('hide');
+                if (response.error == false) {
+                    $("#city").attr("disabled", false);
+                    $("#city_other").attr("disabled", true);
+                    if (response.city_list == "") {
+
+                        $("#city").empty();
+                        $("#city").append($('<option></option>').val('').html('--select--'));
+                        $("#city").append($('<option></option>').val('other').html('Other'));
+                    } else {
+
+                        $("#city").empty();
+                        $("#city").append($('<option></option>').val('').html('--select--'));
+                        for (var i in response.city_list) {
+                            $('#city').append($('<option></option>').val(response.city_list[i].name).html(response.city_list[i].name));
+                        }
+                        $("#city").append($('<option></option>').val('other').html('Other'));
+                    }
+                }
+            }
+        });
+    });
+    $(document).on("change", "#city", function() {
+
+        if ($(this).val() == "other") {
+            // $(this).attr("disabled",true);
+            $("#city_other").attr("disabled", false).attr("required", true);
+        } else {
+            $("#city_other").attr("disabled", true).removeAttr("required");
+        }
+
+    });
+
+    $(document).ready(function() {
+        var baseURL = "<?php echo base_url(); ?>";
+        var location = "<?php echo get_user_office_id(); ?>";
+
+    });
+
+
+    $.fn.serializeAssoc = function() {
+        var data = {};
+        $.each(this.serializeArray(), function(key, obj) {
+            var a = obj.name.match(/(.*?)\[(.*?)\]/);
+            if (a !== null) {
+                var subName = a[1];
+                var subKey = a[2];
+
+                if (!data[subName]) {
+                    data[subName] = [];
+                }
+
+                if (!subKey.length) {
+                    subKey = data[subName].length;
+                }
+
+                if (data[subName][subKey]) {
+                    if ($.isArray(data[subName][subKey])) {
+                        data[subName][subKey].push(obj.value);
+                    } else {
+                        data[subName][subKey] = [];
+                        data[subName][subKey].push(obj.value);
+                    }
+                } else {
+                    data[subName][subKey] = obj.value;
+                }
+            } else {
+                if (data[obj.name]) {
+                    if ($.isArray(data[obj.name])) {
+                        data[obj.name].push(obj.value);
+                    } else {
+                        data[obj.name] = [];
+                        data[obj.name].push(obj.value);
+                    }
+                } else {
+                    data[obj.name] = obj.value;
+                }
+            }
+        });
+        return data;
+    };
+
+
+    if ($("#dynamic-datatable").length) {
+        var dataTable = $('#dynamic-datatable').DataTable({
+            "pageLength": '20',
+            "lengthMenu": [
+                [20, 50, 100, 150, 200, -1],
+                [20, 50, 100, 150, 200, 'All'],
+            ],
+            "columnDefs": [{
+                    "searchable": false,
+                    "targets": [0, -1]
+                }, // Disable search on first 
+                {
+                    "orderable": false,
+                    "targets": [0, -1]
+                } // Disable orderby on first            
+            ],
+            'scrollCollapse': false,
+            'processing': true,
+            'serverSide': true,
+            'responsive': true,
+            'serverMethod': 'post',
+            'searching': false, // Remove default Search Control
+            'ajax': {
+                complete: function(data) {
+                    var office_id = $('#fdoffice_ids').val();
+                    if (jQuery.inArray("CHA", office_id) !== -1) {
+                        $('th:nth-child(7)').show();
+                        $('td:nth-child(7)').show();
+                    } else {
+                        $('th:nth-child(7)').hide();
+                        $('td:nth-child(7)').hide();
+                    }
+                },
+                'url': $('#data_url').val(),
+                'data': function(data) {
+                    var $form = $("#dynamic_search_form");
+                    var fdata = $($form).serializeAssoc();
+                    data.form_data = fdata;
+                    var search_click = $('#search_click').val();
+                    var req_status = $('#button_search_value').val();
+                    // // Append to data
+                    data.searchClick = search_click;
+                    data.req_status = req_status;
+                }
+            }
+        });
+    }
+
+    $('#search').click(function(e) {
+        e.preventDefault();
+        $('#search_click').val(1);
+        dataTable.draw();
+    });
+
+    $('.button_search_option').click(function() {
+        var req_status = $(this).data('val');
+        $('#button_search_value').val(req_status);
+        $('#search_click').val(1);
+        dataTable.draw();
+    });
+
+    var editAssetsCount = function(elm) {
+        var params = $(elm).attr("params");
+        var r_id = $(elm).attr("r_id");
+        var requisition_id = $(elm).attr("requisition_id");
+        var arrPrams = params.split("#");
+        $('.frmEditAssetsRequisition #r_id').val(r_id);
+        $('.frmEditAssetsRequisition #requisition_id').val(requisition_id);
+        if (arrPrams[23] == '1') {
+            let arr = arrPrams[24];
+            let sel = new Array();
+            sel = arr.split(',');
+            $(".frmEditAssetsRequisition #assets").val(arr);
+            //            $('#sktPleaseWait').modal('show');
+            $.post("<?php echo base_url(); ?>dfr/getRequisitionAssetsData", {
+                sel: sel,
+                r_id: r_id
+            }).done(function(respon) {
+                //                $('#sktPleaseWait').modal('hide');
+                if (respon != '0') {
+                    var dat_asset = JSON.parse(respon);
+                    let string = "";
+                    $.each(dat_asset, function(r) {
+                        string += '<div class="col-md-4">\
+                                <div class="form-group">\
+                                    <label>' + dat_asset[r].name + ' Count</label>\
+                                   <input type="number" id="ast_id_' + dat_asset[r].assets_id + '" name="ast_id_' + dat_asset[r].assets_id + '" class="form-control asset_id" value="' + dat_asset[r].assets_required + '" step="1" min="1" placeholder="Enter Req. ' + dat_asset[r].name + ' count..." required>\
+                                </div>\
+                            </div>';
+                    });
+                    $(".assets_count_dat").css('display', 'block');
+                    $(".assets_count_dat").html(string);
+                }
+
+            });
+        } else {
+            $(".frmEditAssetsRequisition #assets").val('');
+        }
+        $("#editRequisitionAssetsCountModel").modal('show');
+    }
+
+
+    function onlyNumberAllow(elm){
+        $(elm).val($(elm).val().replace(/[^0-9]/g, ''));
+    }
+
+    function get_jd_data(){
+                var location = $(".frmEditRequisition #location").val();
+                var role_id = $(".frmEditRequisition #role_id").val();
+                var client_id = $(".frmEditRequisition #fedclient_id").val();
+                var process_id = $(".frmEditRequisition #fedprocess_id").val(); 
+
+                if (location != '' && role_id != '' && client_id != '' && process_id != '') {
+                    var location_txt = $(".frmEditRequisition #location :selected").text();
+                    var role_txt = $(".frmEditRequisition #role_id :selected").text();
+                    var client_txt = $(".frmEditRequisition #fedclient_id :selected").text();
+                    var process_txt = $(".frmEditRequisition #fedprocess_id :selected").text();           
+                    $('#job_description_view_div').show();
+                    $('#job_description_modal_view_title').text(location_txt+' - '+client_txt+' - '+process_txt+' - '+role_txt);
+                
+                $.ajax({
+                    type: 'POST',
+                    url: "<?php echo base_url('dfr/get_job_description'); ?>",
+                    data: 'role_id=' + role_id + '&client_id=' + client_id + '&process_id=' + process_id + '&location=' + location,
+                    success: function(str) {
+                        //alert(str);
+                        var jd_data = str.split("#@");
+                        
+
+                        if (jd_data[0].trim() == '0') {
+                            //alert('1');
+                            <?php if(access_job_description()== true) { ?>
+                            $('#job_description_view_title').text('Job description does not exist, Please add job description to update the requisition. ');
+                            $('#job_description_view_title').css('pointer-events', 'none'); 
+                            $('#job_description_view_title').addClass("noclick_view_job");
+                            $('#job_description_view_title').removeClass("view_job"); 
+                            <?php } else { ?>
+                            $('#job_description_view_title').text('Job description does not exist, please contact your local HR/WFM manager'); 
+                            $('#job_description_view_title').css('pointer-events', 'none'); 
+                            $('#job_description_view_title').addClass("noclick_view_job");
+                            $('#job_description_view_title').removeClass("view_job"); 
+                            <?php } ?>
+
+                            
+                            $('#editreqjdview').hide();                        
+                            $('#editreqjdview').html('');
+                            $('.frmEditRequisition #job_desc').val('');                         
+                            $('#jd_view_msg').css("display", "none");
+                            
+
+                        } else {
+                            //alert('2');
+                            $('#job_description_view_title').text('View Job Description');
+                            $('#job_description_view_title').css('pointer-events', 'auto');
+                            $('#job_description_view_title').removeClass("noclick_view_job");
+                            $('#job_description_view_title').addClass("view_job");
+                            
+                            $('#editreqjdview').show();                        
+                            $('#jd_view_msg').show();                      
+                            
+                            var textarea = jd_data[1].trim();
+                            var find = ["\r\n", "\n", "\r"];
+                            var replace = ["<br/>", "<br/>", "<br/>"];
+
+                            textarea = textarea.replace(new RegExp("(" + find.map(function(i){return i.replace(/[.?*+^$[\]\\(){}|-]/g, "\\$&")}).join("|") + ")", "g"), function(s){ return replace[find.indexOf(s)]});
+
+                            $('#editreqjdview').html(textarea);
+                            $('.frmEditRequisition #job_desc').val(jd_data[1].trim());                       
+
+                        }
+
+                    },
+                    error: function() {
+                        alert('Something Went Wrong!');
+                    }
+                });
+            } 
+    }
+  
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>

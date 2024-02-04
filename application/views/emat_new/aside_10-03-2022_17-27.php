@@ -1,0 +1,42 @@
+   
+    <div class="sidebar_menu">
+        <div class="menu-inner">
+            <div id="sidebar-menu">               
+                <ul class="metismenu" id="sidebar_menu"> 
+
+                    <li>
+                        <a href="<?php echo base_url('emat_new')?>">
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>                    
+                    <li>
+                        <a href="<?php echo base_url('emat_new')?>/search_details">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            <span>Search  Transaction </span>
+                        </a>
+                    </li>                    
+                    <li>
+                        <a href="<?php echo base_url('emat_new')?>/new_transaction" aria-expanded="true">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            <span>New Transaction  </span>                  
+                        </a>                        
+                    </li>
+
+                    <?php 
+                    $admin_access_array = array('FCEB003880', 'FCEB000729', 'FCEB004062','FCEB003947','FCEB000580','FKOL006714','FKOL001710','FKOL008602','FKOL007078');
+                    $f_id = get_user_fusion_id();
+                    if (in_array($f_id, $admin_access_array)){
+                 ?> 
+                    <li>
+                        <a href="<?php echo base_url('emat_new')?>/report" aria-expanded="true">
+                            <i class="fa fa-bug" aria-hidden="true"></i>
+                            <span>Reports</span>                           
+                        </a>                        
+                    </li>
+                <?php }?>
+                </ul>               
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>

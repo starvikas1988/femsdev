@@ -37,28 +37,35 @@
 									</tr>
 
 									<tr>
-										<td>QA Name:<span style="font-size:24px;color:red">*</span></td>
+										<td>Auditor Name: </td>
 										<?php if ($avon['entry_by'] != '') {
 											$auditorName = $avon['auditor_name'];
 										} else {
 											$auditorName = $avon['client_name'];
-										} ?>
+										} 
+									 	$new = explode("-", $avon['entry_date']);
+										$new1 = explode(" ", $new[2]);
+										//print_r($new);
+									    $a = array($new[1], $new1[0], $new[0]);
+									    $n_date = implode("/", $a);
+										$auditDate = ($n_date)." ".$new1[1]; 
+										?>
 										<td><input type="text" class="form-control" value="<?php echo $auditorName; ?>" disabled></td>
-										<td>Audit Date:<span style="font-size:24px;color:red">*</span></td>
-										<td><input type="text" class="form-control" value="<?php echo mysql2mmddyy($avon['audit_date']); ?>" disabled></td>
-										<td>Call Date:<span style="font-size:24px;color:red">*</span></td>
-										<td><input type="text" class="form-control" value="<?php echo mysql2mmddyy($avon['call_date']); ?>" disabled></td>
+										<td>Audit Date: </td>
+										<td><input type="text" class="form-control" value="<?php echo ($auditDate) ?>"disabled></td>
+										<td>Transaction Date: </td>
+										<td><input type="text" class="form-control" value="<?php echo mysql2mmddyySls($avon['call_date']); ?>" disabled></td>
 									</tr>
 									<tr>
-										<td>Agent:<span style="font-size:24px;color:red">*</span></td>
+										<td>Agent Name: </td>
 										<td>
 											<select class="form-control" disabled>
 												<option><?php echo $avon['fname'] . " " . $avon['lname'] ?></option>
 											</select>
 										</td>
-										<td>Fusion ID:<span style="font-size:24px;color:red">*</span></td>
+										<td>Employee ID: </td>
 										<td><input type="text" class="form-control" value="<?php echo $avon['fusion_id'] ?>" disabled></td>
-										<td>L1 Supervisor:</td>
+										<td>TL Name: </td>
 										<td>
 											<select class="form-control" disabled>
 												<option><?php echo $avon['tl_name'] ?></option>
@@ -66,13 +73,11 @@
 										</td>
 									</tr>
 									<tr>
-										<td colspan="2">Call Duration:<span style="font-size:24px;color:red">*</span></td>
-										<td colspan="2"><input type="text" class="form-control" id="call_duration" name="data[call_duration]" value="<?php echo $avon['call_duration'] ?>" disabled></td>
-										<td>Type of Call:<span style="font-size:24px;color:red">*</span></td>
+										<td>AHT: </td>
+										<td><input type="text" class="form-control" id="call_duration" name="data[call_duration]" value="<?php echo $avon['call_duration'] ?>" disabled></td>
+										<td>Call Type: </td>
 										<td><input type="text" class="form-control" name="data[call_type]" value="<?php echo $avon['call_type'] ?>" disabled></td>
-									</tr>
-									<tr>
-										<td>LOB:<span style="font-size:24px;color:red">*</span></td>
+										<td>LOB/Channel: </td>
 											<td>
 												<select class="form-control" id="" name="data[lob]" disabled>
 											
@@ -86,26 +91,30 @@
 											
 										</select>
 										</td>
+									</tr>
+									<tr>
+										
 
-										<td>Digital/Non Digital<span style="font-size:24px;color:red">*</span></td>
+										<!-- <td>Digital/Non Digital </td>
 										<td>
 											<input type="text" disabled name="data[digital_non_digital]" value="<?=$avon['digital_non_digital']?>" class="form-control"/>
-										</td>
+										</td> -->
 										<td>Week</td>
 										<td>
 											<input type="text" disabled value="<?= $avon['week']?>" name="data[week]" class="form-control"/>
 										</td>
-									</tr>
-									<tr>
-										<td>Audit Type:<span style="font-size:24px;color:red">*</span></td>
+										<td>VOC: </td>
+										<td><select class="form-control" disabled>
+												<option><?php echo $avon['voc'] ?></option>
+											</select>
+										</td>
+										<td>Audit Type: </td>
 										<td><select class="form-control" disabled>
 												<option><?php echo $avon['audit_type'] ?></option>
 											</select></td>
-										<td>VOC:<span style="font-size:24px;color:red">*</span></td>
-										<td><select class="form-control" disabled>
-												<option><?php echo $avon['voc'] ?></option>
-											</select></td>
-										<td class="auType">Auditor Type<span style="font-size:24px;color:red">*</span></td>
+									</tr>
+									<tr>
+										<td class="auType">Auditor Type </td>
 										<td class="auType">
 											<select class="form-control" id="auditor_type" name="data[auditor_type]" disabled>
 												<option value="">-Select-</option>
@@ -552,7 +561,7 @@
 										<input type="hidden" name="pnid" class="form-control" value="<?php echo $pnid; ?>">
 
 										<tr>
-											<td colspan=2 style="font-size:16px">Feedback Acceptance</td>
+											<td colspan=2 style="font-size:16px">Feedback Acceptance:<span style="font-size:24px;color:red">*</span></td>
 											<td colspan=2>
 												<select class="form-control" id="" name="agnt_fd_acpt" required>
 													<option value="">--Select--</option>
@@ -562,7 +571,7 @@
 											</td>
 										</tr>
 										<tr>
-											<td colspan=2 style="font-size:16px">Your Review</td>
+											<td colspan=2 style="font-size:16px">Your Review:<span style="font-size:24px;color:red">*</span></td>
 											<td colspan=4><textarea class="form-control" name="note" required><?php echo $avon['agent_rvw_note'] ?></textarea></td>
 										</tr>
 

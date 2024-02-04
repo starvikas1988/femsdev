@@ -41,17 +41,17 @@ function do_affinity(){
 		
 		$('.affinity_point').each(function(index,element){
 			var score_type = $(element).val();
-            if(score_type =='Yes'){
+            if(score_type =='Yes' || score_type =='Pass'){
 				var weightage = parseFloat($(element).children("option:selected").attr('affinity_val'));
 				score = score + weightage;
 				scoreable = scoreable + weightage;
-			}else if(score_type == 'No'){
+			}else if(score_type == 'No' || score_type =='Fail'){
 				var weightage = parseFloat($(element).children("option:selected").attr('affinity_val'));
 				scoreable = scoreable + weightage;
 			}else if(score_type == 'Partial'){
 				var weightage = parseFloat($(element).children("option:selected").attr('affinity_val'));
 				scoreable = scoreable + weightage;
-			}else if(score_type == 'NA'){
+			}else if(score_type == 'NA' || score_type =='N/A'){
 				var weightage = parseFloat($(element).children("option:selected").attr('affinity_val'));
 				score = score + weightage;
 				scoreable = scoreable + weightage;
@@ -74,10 +74,17 @@ function do_affinity(){
 			$('#pre_overallScore').val(quality_score_percent+'%');
 		  }
 
-		  if($('#air_email_af1').val()=='No' || $('#air_email_af2').val()=='No' || $('#air_email_af3').val()=='No' || $('#air_email_af4').val()=='No'){
+		if($('#air_email_af1').val()=='No' || $('#air_email_af2').val()=='No' || $('#air_email_af3').val()=='No' || $('#air_email_af4').val()=='No'){
 			$('.airmethod_email_fatal').val(0.00+'%');
 		}else{
 			$('.airmethod_email_fatal').val(quality_score_percent+'%');
+		}
+		
+	//////// Premium Choice [MC] ///////////
+		if($('#pmcAF1').val()=='Fail' || $('#pmcAF2').val()=='Fail' || $('#pmcAF3').val()=='Fail' || $('#pmcAF4').val()=='Fail' || $('#pmcAF5').val()=='Fail'){
+			$('.pmcFatal').val(0.00+'%');
+		}else{
+			$('.pmcFatal').val(quality_score_percent+'%');
 		}
 
 
@@ -88,11 +95,11 @@ function do_affinity(){
 		var customerPercentage = 0;
 		$('.customer').each(function(index,element){
 			var sc1 = $(element).val();
-			if(sc1 == 'Yes'){
+			if(sc1 == 'Yes' || sc1 =='Pass'){
 				var w1 = parseFloat($(element).children("option:selected").attr('affinity_val'));
 				customerScore = customerScore + w1;
 				customerScoreable = customerScoreable + w1;
-			}else if(sc1 == 'No'){
+			}else if(sc1 == 'No' || sc1 =='Fail'){
 				var w1 = parseFloat($(element).children("option:selected").attr('affinity_val'));
 				customerScoreable = customerScoreable + w1;
 			}else if(sc1 == 'N/A'){
@@ -113,11 +120,11 @@ function do_affinity(){
 		var businessPercentage = 0;
 		$('.business').each(function(index,element){
 			var sc2 = $(element).val();
-			if(sc2 == 'Yes'){
+			if(sc2 == 'Yes' || sc2 =='Pass'){
 				var w2 = parseFloat($(element).children("option:selected").attr('affinity_val'));
 				businessScore = businessScore + w2;
 				businessScoreable = businessScoreable + w2;
-			}else if(sc2 == 'No'){
+			}else if(sc2 == 'No' || sc2 =='Fail'){
 				var w2 = parseFloat($(element).children("option:selected").attr('affinity_val'));
 				businessScoreable = businessScoreable + w2;
 			}else if(sc2 == 'N/A'){
@@ -138,11 +145,11 @@ function do_affinity(){
 		var compliancePercentage = 0;
 		$('.compliance').each(function(index,element){
 			var sc3 = $(element).val();
-			if(sc3 == 'Yes'){
+			if(sc3 == 'Yes' || sc3 =='Pass'){
 				var w3 = parseFloat($(element).children("option:selected").attr('affinity_val'));
 				complianceScore = complianceScore + w3;
 				complianceScoreable = complianceScoreable + w3;
-			}else if(sc3 == 'No'){
+			}else if(sc3 == 'No' || sc3 =='Fail'){
 				var w3 = parseFloat($(element).children("option:selected").attr('affinity_val'));
 				complianceScoreable = complianceScoreable + w3;
 			}else if(sc3 == 'N/A'){
@@ -334,17 +341,17 @@ function do_affinity(){
 
  <script>
  	$(function () {
-    $('#attach_file').change(function () {
-        var val = $(this).val().toLowerCase(),
-            regex = new RegExp("(.*?)\.(mp3|avi|mp4|wmv|wav)$");
+		$('#attach_file').change(function () {
+			var val = $(this).val().toLowerCase(),
+				regex = new RegExp("(.*?)\.(mp3|mp4|m4a|wav)$");
 
-        if (!(regex.test(val))) {
-            $(this).val('');
-            alert('Please select correct file format');
-            return false;
-        }
-    });
-});
+			if (!(regex.test(val))) {
+				$(this).val('');
+				alert('Please select correct file format');
+				return false;
+			}
+		});
+	});
 
    $('#btnViewAgent').click(function(){
 
@@ -908,13 +915,24 @@ $(document).ready(function(){
 	
 	$("#audit_date").datepicker();
 	$("#call_date").datepicker();
-	$("#call_date_time").datetimepicker();
+	$("#call_date_time").datetimepicker({ maxDate: new Date() });
 	$("#booking_date").datepicker();
-	$("#video_duration").timepicker({timeFormat : 'HH:mm:ss' });
-	$("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });
-	$("#from_date").datepicker();
-	$("#to_date").datepicker();
+	$("#video_duration").timepicker({ timeFormat:'HH:mm:ss', showButtonPanel:false });
+	$("#call_duration").timepicker({ timeFormat:'HH:mm:ss', showButtonPanel:false });
+	//$("#from_date").datepicker();
+	//$("#to_date").datepicker();
 	$("#go_live_date").datepicker();
+	
+	$("#from_date").datepicker({
+        onSelect: function(selected) {
+          $("#to_date").datepicker("option","minDate", selected);
+        }
+    });
+    $("#to_date").datepicker({
+        onSelect: function(selected) {
+           $("#from_date").datepicker("option","maxDate", selected);
+        }
+    });
 	
 	
 ///////////////// Calibration - Auditor Type ///////////////////////	
@@ -946,7 +964,7 @@ $(document).ready(function(){
 				var json_obj = $.parseJSON(aList);
 				$('#tl_name').empty();
 				$('#tl_name').append($('#tl_name').val(''));	
-				//for (var i in json_obj) $('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
+				for (var i in json_obj) $('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
 				for (var i in json_obj) $('#tl_id').append($('#tl_id').val(json_obj[i].assigned_to));
 				for (var i in json_obj) $('#fusion_id').append($('#fusion_id').val(json_obj[i].fusion_id));
 				for (var i in json_obj) $('#campaign').append($('#campaign').val(json_obj[i].process_name));
@@ -1063,11 +1081,11 @@ $(document).ready(function(){
 		var customerPercentage = 0;
 		$('.touchfuse_customer').each(function(index,element){
 			var sc1 = $(element).val();
-			if(sc1 == 'Yes'){
+		if(sc1 == 'Yes' || sc1 == 'Pass'){
 				var w1 = parseInt($(element).children("option:selected").attr('touchfuse_val'));
 				customerScore = customerScore + w1;
 				customerScoreable = customerScoreable + w1;
-			}else if(sc1 == 'No'){
+			}else if(sc1 == 'No' || sc1 == 'Fail'){
 				var w1 = parseInt($(element).children("option:selected").attr('touchfuse_val'));
 				customerScoreable = customerScoreable + w1;
 			}else if(sc1 == 'N/A'){
@@ -1088,11 +1106,11 @@ $(document).ready(function(){
 		var businessPercentage = 0;
 		$('.touchfuse_business').each(function(index,element){
 			var sc2 = $(element).val();
-			if(sc2 == 'Yes'){
+			if(sc2 == 'Yes' || sc2 == 'Pass'){
 				var w2 = parseInt($(element).children("option:selected").attr('touchfuse_val'));
 				businessScore = businessScore + w2;
 				businessScoreable = businessScoreable + w2;
-			}else if(sc2 == 'No'){
+			}else if(sc2 == 'No' || sc2 == 'Fail'){
 				var w2 = parseInt($(element).children("option:selected").attr('touchfuse_val'));
 				businessScoreable = businessScoreable + w2;
 			}else if(sc2 == 'N/A'){
@@ -1113,11 +1131,11 @@ $(document).ready(function(){
 		var compliancePercentage = 0;
 		$('.touchfuse_compliance').each(function(index,element){
 			var sc3 = $(element).val();
-			if(sc3 == 'Yes'){
+			if(sc3 == 'Yes' || sc3 == 'Pass'){
 				var w3 = parseInt($(element).children("option:selected").attr('touchfuse_val'));
 				complianceScore = complianceScore + w3;
 				complianceScoreable = complianceScoreable + w3;
-			}else if(sc3 == 'No'){
+			}else if(sc3 == 'No' || sc3 == 'Fail'){
 				var w3 = parseInt($(element).children("option:selected").attr('touchfuse_val'));
 				complianceScoreable = complianceScoreable + w3;
 			}else if(sc3 == 'N/A'){

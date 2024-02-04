@@ -1019,17 +1019,19 @@ $('.conduent_points').each(function(index,element){
 		}
 
 		if($('#condtAF1').val()=='No' || $('#condtAF2').val()=='No' || $('#condtAF3').val()=='No' || $('#condtAF4').val()=='No' || $('#condtAF5').val()=='NO' || $('#condtAF6').val()=='No' || $('#condtAF7').val()=='No' || $('#condtAF8').val()=='No' || $('#condtAFbtl2').val()=='Yes' || $('#condtAFbtl3').val()=='Yes' || $('#hovBR1').val()=='Fail' || $('#hovBR2').val()=='Fail' || $('#hovBR3').val()=='Fail'){
-			$('.conduentFatal').val(0);
+			//quality_score_percent = quality_score_percent.toFixed(2);
+			$('.conduentFatal').val(0+'%');
 		}else{
+			
 			$('.conduentFatal').val(quality_score_percent+'%');
 		}
-	/////////////
+	//////////////////
 		if($('#FBld_AF1').val()=='Fail' || $('#FBld_AF2').val()=='Fail' || $('#FBld_AF3').val()=='Fail'){
 			$('.fortune_Fatal').val(0);
 		}else{
 			$('.fortune_Fatal').val(quality_score_percent+'%');
 		}
-		/////////////
+	/////////////////
 		if($('#HS_AF1').val()=='Fail' || $('#HS_AF2').val()=='Fail' || $('#HS_AF3').val()=='Fail'){
 			$('.heatsurge_Fatal').val(0);
 		}else{
@@ -1040,6 +1042,12 @@ $('.conduent_points').each(function(index,element){
 			$('.hoveroundFatal').val(0+'%');
 		}else{
 			$('.hoveroundFatal').val(quality_score_percent+'%');
+		}
+	////////////// Purity Free Bottle ////////////////
+		if($('#freebottleAF1').val()=='No' || $('#freebottleAF2').val()=='No' || $('#freebottleAF3').val()=='No'){
+			$('.freebottleFatal').val(0);
+		}else{
+			$('.freebottleFatal').val(quality_score_percent+'%');
 		}
 
 		//////////////// Customer/Business/Compliance //////////////////
@@ -1111,7 +1119,7 @@ $('.conduent_points').each(function(index,element){
 	////////////
 		var complianceScore = 0;
 		var complianceScoreable = 0;
-		var compliancePercentage = 0;
+		var compliancePercentage = 0.00;
 		$('.compliance_round').each(function(index,element){
 			var sc3 = $(element).val();
 			if(sc3 == 'Yes'){
@@ -1138,7 +1146,13 @@ $('.conduent_points').each(function(index,element){
 		$('#compllockEarned').val(complianceScore);
 		$('#compllockPossible').val(complianceScoreable);
 		compliancePercentage = ((complianceScore*100)/complianceScoreable).toFixed(2);
+		//alert(compliancePercentage);
 		if(!isNaN(compliancePercentage)){
+
+			$('#compllockScore').val(compliancePercentage+'%');
+		}else{
+			compliancePercentage=0.00;
+			compliancePercentage=compliancePercentage.toFixed(2);
 			$('#compllockScore').val(compliancePercentage+'%');
 		}
 
@@ -1458,9 +1472,11 @@ $('.conduent_points').each(function(index,element){
 		});
 
 		quality_score_percent = ((score*100)/scoreable).toFixed(2);
-
-		$('#fb_earnedScore').val(score);
-		$('#fb_possibleScore').val(scoreable);
+		
+		var earn_score = score.toFixed(2);
+		$('#fb_earnedScore').val(earn_score);
+		var possible_score = scoreable.toFixed(2);
+		$('#fb_possibleScore').val(possible_score);
 
 		if(($('#hovBR1').val()=='Fail') || $('#hovBR2').val()=='Fail'){
 		$('#fb_overallScore').val(0);

@@ -12,37 +12,24 @@
                         <hr class="widget-separator">
                     </div>
                     <div class="widget-body">
-                        <form id="form_new_user" name="form_new_user" method="GET" action="<?= base_url('qa_avon/agent_avon_feedback'); ?>" onsubmit = "return(validate());">
+                        <form id="form_new_user" name="form_new_user" method="GET" action="<?= base_url('qa_avon/agent_avon_feedback'); ?>" onsubmit="return validate()">
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>From Date (mm/dd/yyyy)</label>
-                                        <input type="text" id="from_date" onchange="date_validation(this.value,'S')" name="from_date" value="<?php $date= mysql2mmddyy($from_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly required><span class="start_date_error" style="color:red"></span>
+                                        <input type="text" id="from_date" onchange="date_validation(this.value,'S')" name="from_date" onkeydown="return false;" value="<?php $date= mysql2mmddyy($from_date); echo str_replace('-', '/', $date); ?>" class="form-control"  required><span class="start_date_error" style="color:red"></span>
                                     </div>
                                 </div>  
                                 <div class="col-md-3"> 
                                     <div class="form-group">
                                         <label>To Date (mm/dd/yyyy)</label>
-                                        <input type="text" id="to_date" name="to_date"  onchange="date_validation(this.value,'E')" value="<?php $date= mysql2mmddyy($to_date); echo str_replace('-', '/', $date); ?>" class="form-control" readonly required><span class="end_date_error" style="color:red"></span>
+                                        <input type="text" id="to_date" name="to_date" onkeydown="return false;" onchange="date_validation(this.value,'E')" value="<?php $date= mysql2mmddyy($to_date); echo str_replace('-', '/', $date); ?>" class="form-control"  required><span class="end_date_error" style="color:red"></span>
                                     </div> 
                                 </div>
 
-                                <!-- <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>From Date (mm/dd/yyyy)</label>
-                                        <input type="text" id="from_date" name="from_date" value="<?= mysql2mmddyy($from_date); ?>" class="form-control" required>
-                                    </div>
-                                </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>To Date (mm/dd/yyyy)</label>
-                                        <input type="text" id="to_date" name="to_date" value="<?= mysql2mmddyy($to_date); ?>" class="form-control" required>
-                                    </div>
-                                </div> -->
-
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>LOB</label>
+                                        <label>LOB/Channel</label>
                                         <select class="form-control" id ="campaign" name="campaign" required>
                                             <option value="">Select</option>
                                             <option value="Inbound" <?= (isset($_GET['campaign']) && $_GET['campaign']=="Inbound")?"selected":""?>>Inbound</option>
@@ -104,11 +91,18 @@
                                 <tbody>
                                     <?php $i = 1;
                                     foreach ($agent_rvw_list as $row) :
+
+                                        $new = explode("-", $row['entry_date']);
+                                        $new1 = explode(" ", $new[2]);
+                                        //print_r($new);
+                                        $a = array($new[1], $new1[0], $new[0]);
+                                        $n_date = implode("/", $a);
+                                        $auditDate = ($n_date)." ".$new1[1];
                                     ?>
                                         <tr>
                                             <td><?= $i++; ?></td>
                                             <td><?= $row['auditor_name']; ?></td>
-                                            <td><?= $row['audit_date']; ?></td>
+                                            <td><?= $auditDate; ?></td>
                                             <td><?= $row['fname'] . " " . $row['lname']; ?></td>
                                             <td><?= $row['tl_name']; ?></td>
                                             <td><?= $row['lob']; ?></td>

@@ -468,6 +468,12 @@ $('INPUT[type="file"]').change(function () {
 				score_park = score_park + w1_park;
 				scoreable_park = scoreable_park + w2_park;
 				//scoreable = scoreable + weightage;
+			}else if(score_type_park == 'Unsatisfactory'){
+				fail_count_park = fail_count_park + 1;
+				let w1_park = parseFloat($(element).children("option:selected").attr('assured_imaging_data_val'));
+				let w2_park = parseFloat($(element).children("option:selected").attr('assured_imaging_data_max'));
+				score_park = score_park + w1_park;
+				scoreable_park = scoreable_park + w2_park;
 			}else if(score_type_park == 'N/A'){
 				na_count_park = na_count_park + 1;
 				let w1_park = parseFloat($(element).children("option:selected").attr('assured_imaging_data_val'));

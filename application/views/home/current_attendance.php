@@ -1,0 +1,674 @@
+<style>
+.adherencetable tr td, .adherencetable tr th{
+	text-align:center!important;
+}
+.adherence > li.active > a, .adherence > li.active > a:hover, .adherence > li.active > a:focus, .adherence > li.active {
+	background-color: #ecf6f9!important;
+}
+</style>
+
+<br/>
+<!--start old backup code-->
+<!--
+<ul class="adherence nav nav-tabs">
+  <li class="<?php if($current_view == 1){ echo "active"; } ?>"><a data-toggle="tab" href="#main1">My Attendance</a></li>
+  <li class="<?php if($current_view == 2){ echo "active"; } ?>"><a data-toggle="tab" href="#main2">Login Adherence</a></li>
+  <li class="<?php if($current_view == 3){ echo "active"; } ?>"><a data-toggle="tab" href="#main3">Auto Logout Count</a></li>
+  <li class="<?php if($current_view == 4){ echo "active"; } ?>"><a data-toggle="tab" href="#main4">Staffed Time</a></li>
+</ul>-->
+<!--end old backup code-->
+<div class="tabs-widget">
+  <ul class="nav nav-pills" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-toggle="pill" href="#main1">
+		My Attendance
+	  </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="pill" href="#main2">
+		Login Adherence
+	  </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="pill" href="#main3">
+		Auto Logout Count
+	  </a>
+    </li>
+	<li class="nav-item">
+      <a class="nav-link" data-bs-toggle="pill" href="#main4">
+		Staffed Time
+	  </a>
+    </li>
+  </ul>
+</div>  
+
+
+<?php //if($current_view == 1){ ?>
+
+<div class="payroll-widget">
+<div class="tab-content">
+
+  <div id="main1" class="tab-pane active">
+	<div class="table-widget">
+	<table id="default-datatable" data-plugin="DataTable" class="table table-striped skt-table adherencetable" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+			
+				<th>Date</th>
+														
+				<!-- <th>Login Time (EST)</th> -->
+				<th>Login Time(Local)</th>
+				
+				<!-- <th>Logout Time (EST)</th> -->
+				<th>Logout Time (Local)</th>
+				
+				<!-- <th>Hours (EST)</th> -->
+				<th>Hours (Local)</th>
+				
+				<!-- <th>Other Break (EST) </th> -->
+				<th>Other Break (Local) </th>
+				
+				<!--<th>Lunch / Dinner Break (EST) </th> -->
+				<th>Lunch / Dinner Break (Local) </th>
+				
+				<!--<th>Disposition (EST)</th> -->
+				<th>Disposition</th>
+				<th>Comments</th>
+			</tr>
+		</thead>
+		
+		<tfoot>
+			<tr>
+				<th>Date</th>
+														
+				<!-- <th>Login Time (EST)</th> -->
+				<th>Login Time(Local)</th>
+				
+				<!-- <th>Logout Time (EST)</th> -->
+				<th>Logout Time (Local)</th>
+				
+				<!-- <th>Hours (EST)</th> -->
+				<th>Hours (Local)</th>
+				
+				<!-- <th>Other Break (EST) </th> -->
+				<th>Other Break (Local) </th>
+				
+				<!-- <th>Lunch / Dinner Break (EST) </th> -->
+				<th>Lunch / Dinner Break (Local) </th>
+				
+				<!-- <th>Disposition (EST)</th> -->
+				<th>Disposition</th>
+				<th>Comments</th>
+				
+			</tr>
+		</tfoot>
+
+		<tbody>
+		
+		
+		<?php
+			//echo "<pre>".print_r($attan_dtl,true) ."</pre>";
+			$pDate=0;
+			foreach($attan_dtl as $user):
+			
+			$cDate=$user['rDate'];
+			
+			$logged_in_hours=$user['logged_in_hours'];
+			$logged_in_hours_local = $user['logged_in_hours_local'];
+			
+			
+			$work_time=$user['logged_in_sec'];
+			$work_time_local=$user['logged_in_sec_local'];
+									
+			$tBrkTime=$user['tBrkTime'];
+			$tBrkTimeLocal=$user['tBrkTimeLocal'];
+			
+			$ldBrkTime=$user['ldBrkTime'];
+			$ldBrkTimeLocal=$user['ldBrkTimeLocal'];
+			
+			$disposition=$user['disposition'];
+			$office_id = $user['office_id'];
+			
+			$todayLoginTime=$user['todayLoginTime'];
+			$is_logged_in = $user['is_logged_in'];
+			
+			$flogin_time=$user['flogin_time'];
+			$flogin_time_local=$user['flogin_time_local'];
+			
+			$logout_time=$user['logout_time'];
+			$logout_time_local = $user['logout_time_local'];
+			
+			$doj=$user['doj'];
+			$rdate=$user['rDate'];
+			
+			$total_break=$tBrkTime+$ldBrkTime;
+			$total_break_local=$tBrkTimeLocal+$ldBrkTimeLocal;
+			
+			$omuid= $user['omuid'];
+			if($user['office_id']=="KOL") $omuid = $user['xpoid'];
+			
+			$comments = $user['comments'];
+			
+			
+			$leave_dtl = "";
+			$leave_status = $user['leave_status'];
+			
+			if($user['leave_type'] !=""){
+				if( $leave_status == '0') $leave_dtl = $user['leave_type'] . " Applied";
+				else if( $leave_status == '1') $leave_dtl = $user['leave_type'] . " Approved";
+				else if( $leave_status == '2') $leave_dtl = $user['leave_type'] . " Reject";
+			}
+			
+			
+			if($rdate < $doj) continue;
+				
+			////////// For System Logout /////////////////////
+			if($user['logout_by']=='0' && $logged_in_hours!="0"){
+				//$work_time=0;
+				//$logout_time="";
+				$comments = "System Logout";
+			}
+			
+			if($work_time == 0){
+				$net_work_time="";
+				$total_break = "";
+				$tBrkTime = "";
+				$ldBrkTime = "";
+			}else{
+				
+				$net_work_time=gmdate('H:i:s',$work_time);
+				
+				$total_break = gmdate('H:i:s',$total_break);
+				$tBrkTime = gmdate('H:i:s',$tBrkTime);
+				$ldBrkTime = gmdate('H:i:s',$ldBrkTime);
+				
+			}
+			
+			if($work_time_local==0){
+				$net_work_time_local="";
+				$total_break_local="";
+				$tBrkTimeLocal = "";
+				$ldBrkTimeLocal = "";
+			
+			}else{
+				
+				$net_work_time_local=gmdate('H:i:s',$work_time_local);
+								
+				$total_break_local = gmdate('H:i:s',$total_break_local);
+				$tBrkTimeLocal = gmdate('H:i:s',$tBrkTimeLocal);
+				$ldBrkTimeLocal = gmdate('H:i:s',$ldBrkTimeLocal);
+			}
+
+			/*
+			if($is_logged_in == '1'){
+				
+				$todayLoginTime_local = ConvServerToLocalAny($todayLoginTime,$office_id);
+				$todayLoginArray = explode(" ",$todayLoginTime_local);
+				
+				if($rdate == $todayLoginArray[0]){
+										
+					$flogin_time = $todayLoginTime;
+					$flogin_time_local = $todayLoginTime_local;
+										
+					$disposition="online";
+					
+					$net_work_time="";
+					
+					$net_work_time_local="";
+					
+					$total_break = "";
+					$total_break_local="";
+					$tBrkTime = "";
+					$tBrkTimeLocal = "";
+					$ldBrkTime = "";
+					$ldBrkTimeLocal = "";
+					$logout_time="";
+					$logout_time_local="";
+				}
+			}
+			
+			*/
+			
+					
+			if($is_logged_in == '1'){
+				$todayLoginArray = explode(" ",$todayLoginTime);
+				$todayLoginTime_local = ConvServerToLocalAny($todayLoginTime,$office_id);
+				$todayLoginArray_local = explode(" ",$todayLoginTime_local);
+				
+				if($rdate == $todayLoginArray[0]){
+					
+					$flogin_time = $todayLoginTime;
+					$disposition_est="online";
+					$net_work_time="";
+					$total_break = "";
+					$tBrkTime = "";
+					$ldBrkTime = "";
+					$logout_time="";
+				}
+				
+				if($rdate == $todayLoginArray_local[0]){
+						$flogin_time_local=$todayLoginTime_local;
+						$disposition="online";
+						$net_work_time_local="";
+						$total_break_local="";
+						$tBrkTimeLocal = "";
+						$ldBrkTimeLocal = "";
+						$logout_time_local="";
+				}
+			}
+
+			
+			//echo "logged_in_sec:: " . $user['logged_in_sec'] ."<br>";
+			//echo "logged_in_sec_local:: ". $user['logged_in_sec_local'] ."<br>";
+			
+			$disposition_est = "";
+			if($logged_in_hours!="0"){
+				if($user['user_disp_id']=="8" || $user['user_disp_id']=="7") $disposition_est =  " P &". $disposition;
+				else $disposition_est =  "P";
+			}else if($leave_dtl!="") $disposition_est = $leave_dtl;
+			else if($disposition!="") $disposition_est =  $disposition; 
+			else if($rdate < $user['doj']) $disposition_est = "";
+			else $disposition_est =  "Absent"; 
+			
+			$disposition_local="";
+			
+			if($logged_in_hours_local!="0"){
+				if($user['user_disp_id']=="8" || $user['user_disp_id']=="7") $disposition_local =  " P &". $disposition;
+				else $disposition_local =  "P";
+			}else if($leave_dtl!="") $disposition_local = $leave_dtl;
+			else if($disposition!="") $disposition_local =  $disposition; 
+			else if($rdate < $user['doj']) $disposition_local = "";									
+			else $disposition_local =  "Absent"; 
+			
+			
+			
+			
+		?>
+			
+			<tr>
+			
+				<td><?php echo $user['rDate']; ?></td>
+														
+				<!-- <td><?php //echo $flogin_time; ?></td> -->
+				<td><?php echo $flogin_time_local; ?></td>
+				<!--  <td><?php //echo $logout_time; ?></td> -->
+				<td><?php echo $logout_time_local; ?></td>
+				
+				<!--  <td><?php //echo $net_work_time; ?></td> -->
+				<td><?php echo $net_work_time_local; ?></td>
+				
+				<!--  <td><?php //echo $tBrkTime; ?></td> -->
+				<td><?php echo $tBrkTimeLocal; ?></td>
+				
+				<!--  <td><?php //echo $ldBrkTime; ?></td> -->
+				<td><?php echo $ldBrkTimeLocal; ?></td>
+				
+				<!--  <td><center><?php //echo $disposition_est; ?></center></td> -->
+				<td><center><?php echo $disposition_local; ?></center></td>
+														
+				<td><?php echo $comments ; ?></td>
+				
+			</tr>
+			
+					
+		<?php endforeach; ?>
+				
+		</tbody>
+	</table>
+	</div>
+	
+  </div>
+  
+<?php //} ?>
+
+
+<?php 
+// ------- LOGIN ADHERENCE 
+//if($current_view == 2){
+?>
+	
+  <div id="main2" class="tab-pane fade">
+	<div class="table-widget">
+	<table id="default-datatable" data-plugin="DataTable" class="table table-striped skt-table" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th>Date</th>
+				<th>Roster Login Time</th>
+				<th>Actual Login Time</th>
+				<th>Adherence Time</th>
+			</tr>
+		</thead>
+		
+		<tfoot>
+			<tr>
+				<th>Date</th>
+				<th>Roster Login Time</th>
+				<th>Actual Login Time</th>
+				<th>Adherence Time</th>
+			</tr>
+		</tfoot>
+
+		<tbody>
+		
+		
+		<?php
+			//echo "<pre>".print_r($attan_dtl,true) ."</pre>";
+			
+			$pDate=0; $latecount = 0; 
+			foreach($attan_dtl as $user):
+			
+			$cDate=$user['rDate'];
+			
+			$flogin_time=$user['flogin_time'];
+			$flogin_time_local=$user['flogin_time_local'];
+			
+			$logout_time=$user['logout_time'];
+			$logout_time_local = $user['logout_time_local'];
+			
+			
+			$todayLoginTime=$user['todayLoginTime'];
+			$is_logged_in = $user['is_logged_in'];
+			
+			$rdate=$user['rDate'];
+			/*
+			if($is_logged_in == '1'){
+				$todayLoginArray = explode(" ",$todayLoginTime);
+				if($rdate == $todayLoginArray[0]){
+					$flogin_time = $todayLoginTime;
+					$flogin_time_local = ConvServerToLocalAny($todayLoginTime,$office_id);
+				}
+			}
+			*/
+								
+			if($is_logged_in == '1'){
+				$todayLoginArray = explode(" ",$todayLoginTime);
+				$todayLoginTime_local = ConvServerToLocalAny($todayLoginTime,$office_id);
+				$todayLoginArray_local = explode(" ",$todayLoginTime_local);
+				
+				if($rdate == $todayLoginArray[0]){
+					$flogin_time = $todayLoginTime;
+					$disposition_est="online";
+				}
+				
+				if($rdate == $todayLoginArray_local[0]){
+						$flogin_time_local=$todayLoginTime_local;
+						$disposition="online";
+				}
+			}
+
+			// MAKE DATA
+			$scheduled_login = $user['rDate'] ." " .$user['sch_in'] .":00";
+			$scheduled_logout = $user['rDate'] ." " .$user['sch_out'] .":00";
+			
+			
+			// GET ADHERENCE
+			$interval = ""; $extrasign = ""; $colorclass = ""; $is_late = "";
+			$roaster_login_correct = $user['sch_in'];
+			
+				
+			$t1 = strtotime( $scheduled_login );
+			$t2 = strtotime( $flogin_time_local );
+			
+			if(strpos($user['sch_in'], ':') != ""){  $roaster_login_correct = $user['rDate'] ." " .$user['sch_in'] .":00"; }
+			
+			if((strpos($user['sch_in'], ':') != "") && ($flogin_time_local != "")){
+			
+			//$roaster_login_correct = date('d M Y, h:i A', strtotime($user['rDate'] ." " .$user['sch_in']));
+			
+			$is_late = "On Time";
+			
+			if($t2 > $t1){
+				$diff = abs($t2 - $t1);  
+				$hours = floor($diff / (60*60));
+				$minutes = floor(($diff - $hours*60*60)/ 60);
+				$seconds = floor(($diff - $hours*60*60 - $minutes*60));
+				$colorclass = "text-danger"; $extrasign = "-";
+				$latecount++;
+				$is_late = "Late";
+			}
+			if($t1 > $t2){
+				$diff = abs($t1 - $t2);  
+				$hours = floor($diff / (60*60));
+				$minutes = floor(($diff - $hours*60*60)/ 60);
+				$seconds = floor(($diff - $hours*60*60 - $minutes*60));
+			}
+			
+			
+			if($hours > 0){ $s_Hour =  floor($hours); } else { $s_Hour =  "00"; }
+			if($minutes > 0){ $s_Minutes =  floor($minutes); } else { $s_Minutes =  "00"; }
+			if($seconds > 0){ $s_Seconds =  floor($seconds); } else { $s_Seconds =  "00"; }
+			
+			$interval = $extrasign .sprintf('%02d', $s_Hour) .":" .sprintf('%02d', $s_Minutes) .":" .sprintf('%02d',$s_Seconds);
+			
+			}
+			
+			
+		?>
+			
+			<tr>
+				<td><?php echo $user['rDate']; ?></td>
+				<td><?php echo $roaster_login_correct; ?></td>
+				<td><?php if($flogin_time_local != ""){ echo $flogin_time_local; } else { echo ""; } ?></td>
+				<td class="<?php echo $colorclass; ?>"><?php echo $interval; ?></td>
+				<!--<td class="<?php echo $colorclass; ?> font-weight-bold"><?php echo $is_late; ?></td>-->
+			</tr>
+			
+					
+		<?php endforeach; ?>
+		
+			<tr>
+				<td style="font-size:14px; font-weight:600" colspan="1">Total Late Count</td>
+				<td colspan="2"></td>
+				<td style="font-size:14px; font-weight:600"><?php echo $latecount; ?></td>
+			</tr>
+				
+		</tbody>
+	</table>
+	</div>
+
+  </div>
+  
+<?php //} ?>
+
+
+
+<?php 
+// ------- SYSTEM LOGOUT COUNT 
+//if($current_view == 3){ 
+?>
+
+  <div id="main3" class="tab-pane fade">
+	<div class="table-widget">
+		<table id="default-datatable" data-plugin="DataTable" class="table table-striped skt-table" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Auto Logout</th>
+				</tr>
+			</thead>
+			
+			<tfoot>
+				<tr>
+					<th>Date</th>
+					<th>Auto Logout</th>
+				</tr>
+			</tfoot>
+
+			<tbody>
+			
+			
+			<?php
+				//echo "<pre>".print_r($attan_dtl,true) ."</pre>";
+				$pDate=0; $logoutcount = 0; 
+				foreach($attan_dtl as $user):
+				
+				$cDate=$user['rDate'];
+				$logout_by = $user['logout_by'];
+				$showsystem = "";
+				$logged_in_hours=$user['logged_in_hours'];
+				if(($logout_by == 0) && ($logged_in_hours != 0)){ 
+					$logoutcount++; $showsystem = "System Logout";
+				}
+				
+				
+			?>
+				
+				<tr>
+					<td><?php echo $user['rDate']; ?></td>
+					<td><?php echo $showsystem; ?></td>
+				</tr>
+				
+						
+			<?php endforeach; ?>
+			
+				<tr>
+					<td style="font-size:14px; font-weight:600" colspan="1">Total Auto Logout</td>
+					<td style="font-size:14px; font-weight:600"><?php echo $logoutcount; ?></td>
+				</tr>
+					
+			</tbody>
+		</table>
+	</div>
+
+  </div>
+
+<?php //} ?>
+
+
+
+
+
+<?php 
+// ------- SHORTAGE COUNT 
+//if($current_view == 4){ 
+?>
+	
+   <div id="main4" class="tab-pane fade">
+   <div class="table-widget">
+		<table id="default-datatable" data-plugin="DataTable" class="table table-striped skt-table" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Actual Login Time</th>
+					<th>Actual Logout Time</th>
+					<th>Login Interval</th>
+				</tr>
+			</thead>
+			
+			<tfoot>
+				<tr>
+					<th>Date</th>
+					<th>Actual Login Time</th>
+					<th>Actual Logout Time</th>
+					<th>Login Interval</th>
+				</tr>
+			</tfoot>
+
+			<tbody>
+			
+			
+			<?php
+				//echo "<pre>".print_r($attan_dtl,true) ."</pre>";
+				$pDate=0; $shortagecount = 0;
+				foreach($attan_dtl as $user):
+				
+				$shortage = ""; $colorclass = "";
+				$cDate=$user['rDate']; 
+				$rdate=$user['rDate'];
+				
+				$flogin_time=$user['flogin_time'];
+				$flogin_time_local=$user['flogin_time_local'];
+				
+				$logout_time=$user['logout_time'];
+				$logout_time_local = $user['logout_time_local'];
+				
+				$todayLoginTime=$user['todayLoginTime'];
+				$is_logged_in = $user['is_logged_in'];
+				
+				$logged_in_hours = $user['logged_in_hours'];
+				$logged_in_hours_local = $user['logged_in_hours_local'];
+				
+				$rdate=$user['rDate'];
+				
+				/*
+				if($is_logged_in == '1'){
+					$todayLoginArray = explode(" ",$todayLoginTime);
+					if($rdate == $todayLoginArray[0]){
+						$flogin_time = $todayLoginTime;
+						$flogin_time_local = ConvServerToLocalAny($todayLoginTime,$office_id);
+					}
+				}
+				*/
+				
+				if($is_logged_in == '1'){
+					$todayLoginArray = explode(" ",$todayLoginTime);
+					$todayLoginTime_local = ConvServerToLocalAny($todayLoginTime,$office_id);
+					$todayLoginArray_local = explode(" ",$todayLoginTime_local);
+					
+					if($rdate == $todayLoginArray[0]){
+						$flogin_time = $todayLoginTime;
+						$disposition_est="online";
+					}
+					
+					if($rdate == $todayLoginArray_local[0]){
+							$flogin_time_local=$todayLoginTime_local;
+							$disposition="online";
+					}
+				}
+				
+				// MAKE DATA
+				$hours = ""; $minutes = ""; $seconds = ""; $s_Hour = ""; $s_Minutes = ""; $s_Seconds = ""; $diff = "";
+				$scheduled_login = $user['rDate'] ." " .$user['sch_in'] .":00";
+				$scheduled_logout = $user['rDate'] ." " .$user['sch_out'] .":00";
+				if($user['sch_out'] < $user['sch_in']){ 
+					$scheduled_logout = date('Y-m-d', strtotime("+1 day", strtotime($user['rDate']))) ." " .$user['sch_out'] .":00";
+				}
+							
+				
+				$t1 = strtotime($scheduled_login);
+				$t2 = strtotime($scheduled_logout);
+				
+				if($t2 > $t1){
+					$diff = abs($t2 - $t1);  
+					$hours = floor($diff / (60*60));
+					$minutes = floor(($diff - $hours*60*60)/ 60);
+					$seconds = floor(($diff - $hours*60*60 - $minutes*60));
+				}
+				
+				if($hours > 0){ $s_Hour =  floor($hours); } else { $s_Hour =  "00"; }
+				if($minutes > 0){ $s_Minutes =  floor($minutes); } else { $s_Minutes =  "00"; }
+				if($seconds > 0){ $s_Seconds =  floor($seconds); } else { $s_Seconds =  "00"; }
+				$interval = sprintf('%02d', $s_Hour) .":" .sprintf('%02d', $s_Minutes) .":" .sprintf('%02d',$s_Seconds);
+				
+				if((strpos($user['sch_in'], ':') != "") && ($logout_time_local != ""))
+				{
+					if($interval > $logged_in_hours_local){ $shortagecount++; $shortage = "1"; $colorclass = "text-danger"; }
+				}
+
+				
+			?>
+				
+				<tr>
+					<td><?php echo $user['rDate']; ?></td>
+					<td><?php echo $flogin_time_local; ?></td>
+					<td><?php echo $logout_time_local; ?></td>
+					<td class="<?php echo $colorclass; ?>"><?php if($logged_in_hours_local > 0){ echo $logged_in_hours_local; } else { echo ""; } ?></td>
+					<!--<td><?php echo $shortage; ?></td>-->
+				</tr>
+				
+						
+			<?php endforeach; ?>
+			
+				<tr>
+					<td colspan="1" style="font-size:14px; font-weight:600">Total Shortage</td>
+					<td colspan="2"></td>
+					<td style="font-size:14px; font-weight:600"><?php echo $shortagecount; ?></td>
+				</tr>
+					
+			</tbody>
+		</table>
+	</div>
+
+	</div>
+</div>	
+<?php //} ?>

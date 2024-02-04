@@ -472,6 +472,154 @@ $('INPUT[type="file"]').change(function () {
 	});
 </script>
  <script type="text/javascript">
+ 		function fiber_connect_whitespace_v1_calc(){
+		let score_whitespace_v1 = 0;
+		let scoreable_whitespace_v1 = 0;
+		let quality_score_percent_whitespace_v1 = 0.00;
+		let pass_count_whitespace_v1 = 0;
+		let fail_count_whitespace_v1 = 0;
+		let na_count_whitespace_v1 = 0;
+		let score_fiber_connect_whitespace_v1_final = 0;
+		let scoreable_fiber_connect_whitespace_v1_final = 0;
+
+		$('.fiber_connect_whitespace_v1_point').each(function(index,element){
+			let score_type_park = $(element).val();
+			
+			if(score_type_park == 'Pass'){
+				pass_count_whitespace_v1 = pass_count_whitespace_v1 + 1;
+				let w1_whitespace_v1 = parseFloat($(element).children("option:selected").attr('fiber_connect_val'));
+				let w2_whitespace_v1 = parseFloat($(element).children("option:selected").attr('fiber_connect_max'));
+				
+				score_whitespace_v1 = score_whitespace_v1 + w1_whitespace_v1;
+				scoreable_whitespace_v1 = scoreable_whitespace_v1 + w2_whitespace_v1;
+
+			}else if(score_type_park == 'Fail'){
+				fail_count_whitespace_v1 = fail_count_whitespace_v1 + 1;
+				let w1_whitespace_v1 = parseFloat($(element).children("option:selected").attr('fiber_connect_val'));
+				let w2_whitespace_v1 = parseFloat($(element).children("option:selected").attr('fiber_connect_max'));
+
+				//score = score + w1;
+				scoreable_whitespace_v1 = scoreable_whitespace_v1 + w2_whitespace_v1;
+				//scoreable = scoreable + weightage;
+			}else if(score_type_park == 'N/A'){
+				na_count_whitespace_v1 = na_count_whitespace_v1 + 1;
+				let w1_whitespace_v1 = parseFloat($(element).children("option:selected").attr('fiber_connect_val'));
+				let w2_whitespace_v1 = parseFloat($(element).children("option:selected").attr('fiber_connect_max'));
+				score_whitespace_v1 = score_whitespace_v1 + w1_whitespace_v1;
+				scoreable_whitespace_v1 = scoreable_whitespace_v1 + w2_whitespace_v1;
+			}
+		});
+		quality_score_percent_whitespace_v1 = ((score_whitespace_v1*100)/scoreable_whitespace_v1).toFixed(2);
+
+		if(quality_score_percent_whitespace_v1 == "NaN"){
+			quality_score_percent_whitespace_v1 = (0.00).toFixed(2);
+		}else{
+			quality_score_percent_whitespace_v1 = quality_score_percent_whitespace_v1;
+		}
+		
+      score_fiber_connect_whitespace_v1_final     = (score_whitespace_v1).toFixed(2);
+      scoreable_fiber_connect_whitespace_v1_final = (scoreable_whitespace_v1).toFixed(2);
+
+		$('#fiber_connect_whitespace_v1_earned_score').val(score_fiber_connect_whitespace_v1_final);
+		$('#fiber_connect_whitespace_v1_possible_score').val(scoreable_fiber_connect_whitespace_v1_final);
+		
+		if(!isNaN(quality_score_percent_whitespace_v1)){
+			$('#fiber_connect_whitespace_v1_overallscore').val(quality_score_percent_whitespace_v1+'%');
+		}
+
+		if($('#whitespace_v1AF1').val()=='Fail' || $('#whitespace_v1AF2').val()=='Fail' || $('#whitespace_v1AF3').val()=='Fail'|| $('#whitespace_v1AF4').val()=='Fail'|| $('#whitespace_v1AF5').val()=='Fail'|| $('#whitespace_v1AF6').val()=='Fail'|| $('#whitespace_v1AF7').val()=='Fail'|| $('#whitespace_v1AF8').val()=='Fail'|| $('#whitespace_v1AF9').val()=='Fail'){
+			console.log($('#whitespace_v1AF1').val());
+
+			quality_score_percent_whitespace_v1 = (0.00).toFixed(2);
+			$('.fiber_connect_whitespaceFatal').val(quality_score_percent_whitespace_v1+'%');
+		}else{
+			$('#fiber_connect_whitespace_v1_overallscore').val(quality_score_percent_whitespace_v1+'%');
+		}
+
+		//////////////// Customer/Business/Compliance //////////////////
+		var customerScore = 0;
+		var customerScoreable = 0;
+		var customerPercentage = 0;
+		$('.customer').each(function(index,element){
+			var sc1 = $(element).val();
+			if(sc1 == 'Pass'){
+				var w1 = parseFloat($(element).children("option:selected").attr('fiber_connect_val'));
+				customerScore = customerScore + w1;
+				customerScoreable = customerScoreable + w1;
+			}else if(sc1 == 'Fail'){
+				var w1 = parseFloat($(element).children("option:selected").attr('fiber_connect_max'));
+				customerScoreable = customerScoreable + w1;
+			}else if(sc1 == 'N/A'){
+				var w1 = parseFloat($(element).children("option:selected").attr('fiber_connect_val'));
+				customerScore = customerScore + w1;
+				customerScoreable = customerScoreable + w1;
+			}
+		});
+		$('#customer_earned_score').val(customerScore);
+		$('#customer_possible_score').val(customerScoreable);
+		customerPercentage = ((customerScore*100)/customerScoreable).toFixed(2);
+		if(!isNaN(customerPercentage)){
+			$('#customer_overall_score').val(customerPercentage+'%');
+		}
+	////////////
+		var businessScore = 0;
+		var businessScoreable = 0;
+		var businessPercentage = 0;
+		$('.business').each(function(index,element){
+			var sc2 = $(element).val();
+			if(sc2 == 'Pass'){
+				var w2 = parseFloat($(element).children("option:selected").attr('fiber_connect_val'));
+				businessScore = businessScore + w2;
+				businessScoreable = businessScoreable + w2;
+			}else if(sc2 == 'Fail'){
+				var w2 = parseFloat($(element).children("option:selected").attr('fiber_connect_max'));
+				businessScoreable = businessScoreable + w2;
+			}else if(sc2 == 'N/A'){
+				var w2 = parseFloat($(element).children("option:selected").attr('fiber_connect_val'));
+				businessScore = businessScore + w2;
+				businessScoreable = businessScoreable + w2;
+			}
+		});
+		$('#business_earned_score').val(businessScore);
+		$('#business_possible_score').val(businessScoreable);
+		businessPercentage = ((businessScore*100)/businessScoreable).toFixed(2);
+		if(!isNaN(businessPercentage)){
+			$('#business_overall_score').val(businessPercentage+'%');
+		}
+	////////////
+		var complianceScore = 0;
+		var complianceScoreable = 0;
+		var compliancePercentage = 0;
+		$('.compliance').each(function(index,element){
+			var sc3 = $(element).val();
+			if(sc3 == 'Pass'){
+				var w3 = parseFloat($(element).children("option:selected").attr('fiber_connect_val'));
+				complianceScore = complianceScore + w3;
+				complianceScoreable = complianceScoreable + w3;
+			}else if(sc3 == 'Fail'){
+				var w3 = parseFloat($(element).children("option:selected").attr('fiber_connect_max'));
+				complianceScoreable = complianceScoreable + w3;
+			}else if(sc3 == 'N/A'){
+				var w3 = parseFloat($(element).children("option:selected").attr('fiber_connect_val'));
+				complianceScore = complianceScore + w3;
+				complianceScoreable = complianceScoreable + w3;
+			}
+		});
+		$('#compliance_earned_score').val(complianceScore);
+		$('#compliance_possible_score').val(complianceScoreable);
+		compliancePercentage = ((complianceScore*100)/complianceScoreable).toFixed(2);
+		if(!isNaN(compliancePercentage)){
+			$('#compliance_overall_score').val(compliancePercentage+'%');
+		}
+	}
+	
+	$(document).on('change','.fiber_connect_whitespace_v1_point',function(){
+		fiber_connect_whitespace_v1_calc();
+	});
+	fiber_connect_whitespace_v1_calc();
+</script>
+
+ <script type="text/javascript">
  		function fiber_connect_greenspace_calc(){
 		let score_greenspace = 0;
 		let scoreable_greenspace = 0;

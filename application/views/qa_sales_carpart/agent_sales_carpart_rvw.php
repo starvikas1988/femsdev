@@ -818,9 +818,19 @@
 									<tr><td colspan="9" style="background-color:#C5C8C8"></td></tr>
 									
 									 <form id="form_agent_user" method="POST" action="">
+									 	<input type="hidden" name="pnid" class="form-control" value="<?php echo $pnid; ?>">
+									 	<tr>
+											<td colspan=3 style="font-size:16px">Feedback Acceptance<span style="font-size:24px;color:red">*</span></td>
+											<td colspan=6>
+												<select class="form-control" id="" name="agnt_fd_acpt" required="">
+													<option value="">--Select--</option>
+													<option <?php echo $$dataDetails['agnt_fd_acpt']=='Acceptance'?"selected":""; ?> value="Acceptance">Acceptance</option>	
+													<option <?php echo $$dataDetails['agnt_fd_acpt']=='Not Acceptance'?"selected":""; ?> value="Not Acceptance">Not Acceptance</option>	
+												</select>
+											</td>
+										</tr>
 										<tr>
-											<td colspan="3"  style="font-size:16px">Your Review
-												<input type="hidden" name="pnid" class="form-control" value="<?php echo $pnid; ?>">
+											<td colspan="3"  style="font-size:16px">Your Review<span style="font-size:24px;color:red">*</span>
 											</td>
 											<td colspan="6"><textarea class="form-control" name="note" required><?php echo $$dataDetails['agent_rvw_note'] ?></textarea></td>
 										</tr>
@@ -1759,8 +1769,6 @@
 					</div>
 				
 				<?php } ?>
-					
-					
 				</div>	
 			</div>
 		</div>

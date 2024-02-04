@@ -1,0 +1,409 @@
+<style>
+
+.play_video{
+	cursor:pointer;
+}
+</style>
+
+<link rel="stylesheet" type="text/css" href="<?php echo base_url()."assets/css/custom_tutorial.css" ?>">
+<section id="video-gallery" class="video-gallery">
+	<div class="container">
+	
+		<div class="video-widget">
+			<!--start loop here-->
+			<div class="video-repeat">				
+				<div class="play_video" vurl="<?php echo base_url().'/fems_tutorial_files/01_new_user_login.webm';?>"  >
+					<div class="video-white">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="video-thumnail">
+									<div class="body-widget">
+										<img src="<?php echo base_url().'fems_tutorial_files/01_user_login.jpg' ?>" class="video-img" alt="">
+									</div>
+									<div class="play-widget">
+										<i class="fa fa-play" aria-hidden="true"></i>
+									</div>
+									<div class="video-overlay"></div>
+								</div>
+							</div>
+							<div class="col-sm-8">
+								<div class="video-discription">
+									<div class="body-widget">
+										<h2 class="video-title">
+											Tutorial - New User Login
+										</h2>
+										<h3 class="small-title">
+											
+										</h3>
+										<p>
+											 Description text.
+										</p>									
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--end loop here-->
+			
+			<div class="video-repeat">				
+				<div class="play_video" vurl="<?php echo base_url().'/fems_tutorial_files/02_schedule_check.webm';?>"  >
+				
+					<div class="video-white">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="video-thumnail">
+									<div class="body-widget">
+										<img src="<?php echo base_url().'fems_tutorial_files/02_schedule_check.jpg' ?>" class="video-img" alt="">
+									</div>
+									<div class="play-widget">
+										<i class="fa fa-play" aria-hidden="true"></i>
+									</div>
+									<div class="video-overlay"></div>
+								</div>
+							</div>
+							<div class="col-sm-8">
+								<div class="video-discription">
+									<div class="body-widget">
+										<h2 class="video-title">
+											Tutorial - Schedule check
+										</h2>
+										<h3 class="small-title">
+											
+										</h3>
+										<p>
+											Description text.
+										</p>									
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div class="video-repeat">				
+				<div class="play_video" vurl="<?php echo base_url().'/fems_tutorial_files/03_my_time.webm';?>"  >
+				
+					<div class="video-white">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="video-thumnail">
+									<div class="body-widget">
+										<img src="<?php echo base_url().'fems_tutorial_files/03_my_time.jpg' ?>" class="video-img" alt="">
+									</div>
+									<div class="play-widget">
+										<i class="fa fa-play" aria-hidden="true"></i>
+									</div>
+									<div class="video-overlay"></div>
+								</div>
+							</div>
+							<div class="col-sm-8">
+								<div class="video-discription">
+									<div class="body-widget">
+										<h2 class="video-title">
+											Tutorial - My Time
+										</h2>
+										<h3 class="small-title">
+											
+										</h3>
+										<p>
+											Description text.
+										</p>									
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div class="video-repeat">				
+				<div class="play_video" vurl="<?php echo base_url().'/fems_tutorial_files/04_schedule_analytics.webm';?>"  >
+				
+					<div class="video-white">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="video-thumnail">
+									<div class="body-widget">
+										<img src="<?php echo base_url().'fems_tutorial_files/04_schedule_analytics.jpg' ?>" class="video-img" alt="">
+									</div>
+									<div class="play-widget">
+										<i class="fa fa-play" aria-hidden="true"></i>
+									</div>
+									<div class="video-overlay"></div>
+								</div>
+							</div>
+							<div class="col-sm-8">
+								<div class="video-discription">
+									<div class="body-widget">
+										<h2 class="video-title">
+											Tutorial - Schedule Analytics
+										</h2>
+										<h3 class="small-title">
+											
+										</h3>
+										<p>
+											Description text.
+										</p>									
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div class="video-repeat">				
+				<div class="play_video" vurl="<?php echo base_url().'/fems_tutorial_files/05_leave_module.webm';?>"  >
+				
+					<div class="video-white">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="video-thumnail">
+									<div class="body-widget">
+										<img src="<?php echo base_url().'fems_tutorial_files/05_leave_module.jpg' ?>" class="video-img" alt="">
+									</div>
+									<div class="play-widget">
+										<i class="fa fa-play" aria-hidden="true"></i>
+									</div>
+									<div class="video-overlay"></div>
+								</div>
+							</div>
+							<div class="col-sm-8">
+								<div class="video-discription">
+									<div class="body-widget">
+										<h2 class="video-title">
+											Tutorial - Leave Module
+										</h2>
+										<h3 class="small-title">
+											
+										</h3>
+										<p>
+											Description text.
+										</p>									
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div class="video-repeat">				
+				<div class="play_video" vurl="<?php echo base_url().'/fems_tutorial_files/06_training_module_part 01.webm';?>"  >
+				
+					<div class="video-white">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="video-thumnail">
+									<div class="body-widget">
+										<img src="<?php echo base_url().'fems_tutorial_files/02_schedule_check.jpg' ?>" class="video-img" alt="">
+									</div>
+									<div class="play-widget">
+										<i class="fa fa-play" aria-hidden="true"></i>
+									</div>
+									<div class="video-overlay"></div>
+								</div>
+							</div>
+							<div class="col-sm-8">
+								<div class="video-discription">
+									<div class="body-widget">
+										<h2 class="video-title">
+											Tutorial - Training Module (Part-1)
+										</h2>
+										<h3 class="small-title">
+											
+										</h3>
+										<p>
+											Description text.
+										</p>									
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div class="video-repeat">				
+				<div class="play_video" vurl="<?php echo base_url().'/fems_tutorial_files/06_training_module_part 02.webm';?>"  >
+				
+					<div class="video-white">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="video-thumnail">
+									<div class="body-widget">
+										<img src="<?php echo base_url().'fems_tutorial_files/02_schedule_check.jpg' ?>" class="video-img" alt="">
+									</div>
+									<div class="play-widget">
+										<i class="fa fa-play" aria-hidden="true"></i>
+									</div>
+									<div class="video-overlay"></div>
+								</div>
+							</div>
+							<div class="col-sm-8">
+								<div class="video-discription">
+									<div class="body-widget">
+										<h2 class="video-title">
+											Tutorial - Training Module (Part-2)
+										</h2>
+										<h3 class="small-title">
+											
+										</h3>
+										<p>
+											Description text.
+										</p>									
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div class="video-repeat">				
+				<div class="play_video" vurl="<?php echo base_url().'/fems_tutorial_files/06_training_module_part 03.webm';?>"  >
+				
+					<div class="video-white">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="video-thumnail">
+									<div class="body-widget">
+										<img src="<?php echo base_url().'fems_tutorial_files/02_schedule_check.jpg' ?>" class="video-img" alt="">
+									</div>
+									<div class="play-widget">
+										<i class="fa fa-play" aria-hidden="true"></i>
+									</div>
+									<div class="video-overlay"></div>
+								</div>
+							</div>
+							<div class="col-sm-8">
+								<div class="video-discription">
+									<div class="body-widget">
+										<h2 class="video-title">
+											Tutorial - Training Module (Part-3)
+										</h2>
+										<h3 class="small-title">
+											
+										</h3>
+										<p>
+											Description text.
+										</p>									
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div class="video-repeat">				
+				<div class="play_video" vurl="<?php echo base_url().'/fems_tutorial_files/07_kat.webm';?>"  >
+				
+					<div class="video-white">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="video-thumnail">
+									<div class="body-widget">
+										<img src="<?php echo base_url().'fems_tutorial_files/07_kat.jpg' ?>" class="video-img" alt="">
+									</div>
+									<div class="play-widget">
+										<i class="fa fa-play" aria-hidden="true"></i>
+									</div>
+									<div class="video-overlay"></div>
+								</div>
+							</div>
+							<div class="col-sm-8">
+								<div class="video-discription">
+									<div class="body-widget">
+										<h2 class="video-title">
+											Tutorial - KAT (Knowledge Assessment Test)
+										</h2>
+										<h3 class="small-title">
+											
+										</h3>
+										<p>
+											Description text.
+										</p>									
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+						
+			
+			
+			
+		</div>
+	</div>
+</section>
+
+
+<!--start popup elements here-->
+<div class="modal fade model-video" id="video_model" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"></h4>
+        </div>
+        <div class="modal-body" id='video_body'>
+		
+          <video controls autoplay preload loop" id='video_controls'>
+				<source src="<?php echo base_url().'/fems_tutorial_files/01_new_user_login.webm';?>" type="video/webm">		  
+		    </video>
+			
+        </div>        
+      </div>
+      
+    </div>
+</div>
+<!--end popup elements here-->
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+	
+	$('.play_video').click(function(e){
+		var vurl=$(this).attr("vurl");
+		var title=$(this).find('.video-title').text();
+		
+		
+		$("#video_model").modal('show');
+		$("#video_model").find('.modal-title').text(title);
+		
+		$('#video_controls source').attr('src', vurl)
+		$('#video_controls')[0].load();
+		var vid = document.getElementById("video_controls");
+		vid.muted = false;
+			
+	});
+	
+	
+	$('#video_model').on('hidden.bs.modal', function () {
+		var vid = document.getElementById("video_controls");
+		//vid.muted = true;
+		vid.pause();
+    });
+	
+	
+	
+});
+
+</script>
+

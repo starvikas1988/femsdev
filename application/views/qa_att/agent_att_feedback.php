@@ -49,6 +49,7 @@
 											<option <?php echo $campaign=='att_collection_gbrm'?"selected":""; ?> value="att_collection_gbrm">Collection GBRM</option>
 											<option <?php echo $campaign=='att_fiberconnect_whitespace'?"selected":""; ?> value="att_fiberconnect_whitespace">Fibeconnect Whitespace</option>
 											<option <?php echo $campaign=='fiberconnect_greenspace'?"selected":""; ?> value="fiberconnect_greenspace">Fibeconnect Greenspace</option>
+											<option <?php echo $campaign=='fiberconnect_whitespace_v1'?"selected":""; ?> value="fiberconnect_whitespace_v1">Fiberconnect Whitespace V1</option>
 											<!-- <option <?php //echo $campaign=='agent_coaching'?"selected":""; ?> value="agent_coaching">Agent Coaching</option> -->
 											<!--
 											<option <?php //echo $campaign=='att_verint'?"selected":""; ?> value="att_verint">AT&T Verint</option>
@@ -145,6 +146,8 @@
 												<a class="btn btn-success" href="<?php echo base_url(); ?>qa_att/agent_gbrm_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
 											<?php } else if($campaign=='att_fiberconnect_whitespace'){ ?>
 												<a class="btn btn-success" href="<?php echo base_url(); ?>qa_att/agent_whitespace_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
+											<?php }else if($campaign=='fiberconnect_whitespace_v1'){ ?>
+												<a class="btn btn-success" href="<?php echo base_url(); ?>qa_att/agent_whitespace_v1_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
 											<?php } else if($campaign=='fiberconnect_greenspace'){ ?>
 												<a class="btn btn-success" href="<?php echo base_url(); ?>qa_att/agent_greenspace_rvw/<?php echo $mpid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit Feedback</a>
 											<?php } ?>

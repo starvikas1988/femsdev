@@ -484,9 +484,12 @@
 			$data["agentUrl"] = "qa_awareness/process/agent";		
 			$campaign="";
 			$campaign = $this->input->get('campaign');
-			$qSql="Select count(id) as value from qa_awareness_chat_new_feedback where agent_id='$current_user'";
+			$qSql="Select count(id) as value from qa_awareness_chat_new_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','WOW Call')";
 			$data["tot_pre_feedback"] =  $this->Common_model->get_single_value($qSql);
-			$qSql="Select count(id) as value from qa_awareness_chat_new_feedback where agent_rvw_date is null and agent_id='$current_user'";
+
+			
+
+			 $qSql="Select count(id) as value from qa_awareness_chat_new_feedback where agent_rvw_date is null and agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','WOW Call')";
 			$data["yet_pre_rvw"] =  $this->Common_model->get_single_value($qSql);
 
 
@@ -502,7 +505,7 @@
 				$from_date = mmddyy2mysql($this->input->get('from_date'));
 				$to_date = mmddyy2mysql($this->input->get('to_date'));
 				
-				if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') and agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
+				if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') and agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','WOW Call')";
 
 				$qSql = "SELECT * from
 					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
@@ -520,13 +523,9 @@
 					(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 					(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 					(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-					(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_awareness_chat_new_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Left Join
+					(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_awareness_chat_new_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','WOW Call')) xx Left Join
 					(Select id as sid, fname, lname, fusion_id, get_process_names(id) as campaign, assigned_to from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
 				$data["awareness_list"] = $this->Common_model->get_query_result_array($qSql);
-
-
-				
-				
 			}
 			
 			$data["from_date"] = $from_date;

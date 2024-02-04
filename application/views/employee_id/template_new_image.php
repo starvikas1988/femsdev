@@ -1,0 +1,126 @@
+
+  <style >
+      @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,500;1,900&display=swap');
+  </style>
+ 
+</head>
+<body>
+    
+
+    <div class="container" id="dwn_image">       
+
+        <div id="prnt" style="width: 100%;display: flex;justify-content: center; margin: 15px 0 0 0;">
+            <div style="width: 300px;float:left;max-width: 100%;display: inline-block;vertical-align: top;margin: 0 30px 0 0;">
+                <div style="width: 100%;padding: 10px 15px  0 0;">
+                    <img src="<?=FCPATH?><?php echo $id_card; ?>" style="width:260px;height:260px;margin: 0 auto 0 20px;display:block;object-fit: cover;" alt="">
+                    <img src="<?=FCPATH?>assets/idcard/images/card_bg.png" style="margin: -300px 0 0 0;display:inline-block;object-fit: cover;" alt="">
+                    <div style="padding: 10px 20px;width:auto;text-align:center;background-image: linear-gradient(to right, #49bb7c, #12c19f, #00c4be, #00c6d8, #40c6ea);margin: -50px 30px 0 30px;position: relative;z-index: 99;">
+                        <h2 style="font-size: 13px;padding: 0;margin: 0;color: #fff;font-family: 'Open Sans', sans-serif;letter-spacing: 0.5px;text-transform: uppercase;">
+                            <?php echo $agent_details['fname'].' '.$agent_details['lname']; ?>
+                        </h2>
+                    </div>
+                    <?php 
+                        if($agent_details['brand']!='3'){
+                            ?> 
+                    <div style="padding: 10px 30px;text-align:center;background-image: linear-gradient(to right, #ed4e28, #ed5926, #ed6325, #ed6c24, #ec7524);display: inline-block;margin: 0 0 0 60px;position: relative;z-index: 99;">
+                        <h2 style="font-size: 14px;padding: 0;margin: 0;color: #fff;font-family: 'Open Sans', sans-serif;text-transform: uppercase;letter-spacing: 0.5px;"><?php echo $agent_details['fusion_id']; ?></h2>
+                    </div>
+                    <?php }else{ ?>
+                    <div style="padding: 10px 30px;text-align:center;background-image: linear-gradient(to right,#282e91, #283491, #282e91,#004eff);display: inline-block;margin: 0 0 0 60px;position: relative;z-index: 99;">
+                        <h2 style="font-size: 13px;padding: 0;margin: 0;color: #fff;font-family: 'Open Sans', sans-serif;text-transform: uppercase;letter-spacing: 0.5px;"><?php echo $agent_details['fusion_id']; ?></h2><!--omind-->
+                    </div>
+                    <?php } ?>
+                    <div style="text-align:center;margin-top:30px;">
+                    <?php 
+                        if($agent_details['brand']!='3'){
+                            ?>                        
+                        <img src="<?=FCPATH?>assets_home_v3/brand_logo/fusion_logo.jpg" style="max-width: 100%;height: 60px;margin: 0px auto 0 auto;display: block;" alt="">
+                        <?php }else{ ?>
+                        <img src="<?=FCPATH?>assets_home_v3/brand_logo/omind_logo.jpg" style="max-width: 100%;height: 60px;margin: -10px auto 0 auto;display: block;" alt=""><!--omind-->
+                        <?php } ?>
+                    </div>
+                 </div>
+            </div>
+            <div style="width: 300px;float:left;max-width: 100%;display: inline-block;vertical-align: top;margin: 10px 0 0 15px;">
+                <div style="width: 100%;padding: 10px;text-align:center;">
+                <!-- <h2 style="font-size: 16px; padding: 0 0 0px 0; margin: 0 0 0px 0;display:block;color: #000;font-family: 'Open Sans', sans-serif;"><?=$company_details['name']?></h2>  -->
+                <h2 style="font-size: 14px; padding: 0 0 0px 0; margin: 40px 20px 0 0;display:block;color: #000;font-family: 'Open Sans', sans-serif;text-transform: uppercase;">xplore tech services pvt.ltd.</h2>
+                <!-- <h3 style="font-size: 12px;padding: 0px 0 1px 0;margin:0 0 0 0;color: rgba(0, 0, 0, 0.7);font-family: 'Open Sans', sans-serif;"> <?=$company_details['title']?></h3> -->
+                 <h3 style="font-size: 12px;padding: 0px 0 1px 0;margin:0 0px 0 -20px;color: rgba(0, 0, 0, 0.7);font-family: 'Open Sans', sans-serif;font-weight: normal;"> (A fusion Group Company)</h3>
+                <div style="list-style: none;margin-top: 50px;">
+                    <!-- <div style="float:left;margin:10px 0px 20px 0px;">
+                   
+                        
+                      
+                    </div> -->
+                    <div style="">
+                        <div style="text-align: left;padding: 0px 0 0 0;font-family: 'Open Sans', sans-serif;font-weight:normal;font-size: 13px;font-weight:bold;line-height: inherit;display:inline-block;margin-top: -20px;">
+                            
+                            <div style="width:30px;float:left; display:inline-block;">
+                                <img src="<?=FCPATH?>assets/idcard/images/map.png" style="max-width: 100%;height: 20px;display: block;" alt="">
+                            </div>    
+
+                            <div style="width:auto;float:left; display:inline-block;font-weight: normal;padding-right: 4px;">
+                            <?php if(($agent_details['office_id']=='CHA') &&($agent_details['site_id']==35) ){ ?>
+                                Plot No.1, IT park, Sector 67, Mohali, Punjab – 160062 
+                                <?php }else if(($agent_details['office_id']=='CHA') &&($agent_details['site_id']==34)){?>
+                                    C-157, Phase 7 Industrial Area, Mohali, Punjab - 160055, India
+                                <?php }else{?>
+                                <?=$agent_details['brand_address']?>
+                           <?php }?>
+                            
+                          
+                            
+                                   
+                               
+                            </div>
+                            
+
+                          
+                           <div style="text-align: left;margin: 5px 0 40px 30px;font-family: 'Open Sans', sans-serif;font-size: 13px;line-height: inherit;font-weight: normal;" class="address-bg">
+                           <?php 
+                        if($agent_details['brand']!='3'){
+                            ?> 
+                        <!-- <?=$company_details['website']?> -->www.fusionbposervices.com
+                        <?php }else{ ?>
+                               <!-- <?=$company_details['website']?> -->www.omindtech.com
+                               <?php } ?>
+
+                        </div>     
+                        </div>
+                          <div style="width:30px;float:left">
+                        <img src="<?=FCPATH?>assets/idcard/images/phone1.png" style="max-width: 100%;height: 15px;display: block;" alt="">
+                    </div>
+                    <div style="">
+                        <div style="text-align: left;margin: 0 0 10px 0;font-family: 'Open Sans', sans-serif;font-size: 13px;line-height: inherit;" class="address-bg">
+                            <strong><?=$agent_details['phone']?></strong>
+                        </div>
+                    </div>
+
+                    <div style="width:30px;float:left">
+                         <img src="<?=FCPATH?>assets/idcard/images/phone1-red.png" style="max-width: 100%;height: 15px;display: block;" alt="">
+                    </div> 
+                    <div style="">
+                        <div style="text-align: left;margin: 0 0 20px 0;font-family: 'Open Sans', sans-serif;font-size: 13px;line-height: inherit;" class="address-bg">
+                       <strong> <?=$agent_details['phone_emar']?></strong>
+                        </div>
+                    </div>
+                
+                    </div>
+
+                  
+                </div>
+                <?php 
+                        if($agent_details['brand']!='3'){
+                            ?>  
+                    <img src="<?=FCPATH?>assets/idcard/images/bottom.jpg" style="width: 330px;margin: 72px -20px -60px -60px;" alt=""><!--fusion-->
+                    <?php }else{ ?>
+                        <!-- <img src="<?=FCPATH?>assets/idcard/images/bottom-image2.png" style="width: 100%;margin: 160px 0 -45px 0;" alt=""> -->
+                    <img src="<?=FCPATH?>assets/idcard/images/bottom-image2.png" style="width:330px;margin: 72px -20px -60px -60px;" alt=""><!--omind-->
+                    
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+
+    </div>

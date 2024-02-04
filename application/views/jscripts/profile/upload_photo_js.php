@@ -1,0 +1,94 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js"></script>
+<script>
+<?php //if(!empty($uploaded_file)){ ?>
+var croppieDemo = $('#croppie-demo').croppie({
+	enableOrientation: true,
+	viewport: {
+		width: 250,
+		height: 250,
+		type: 'square' // or 'square'
+	},
+	boundary: {
+		width: 300,
+		height: 300
+	}
+});
+
+$('#croppie-input').on('change', function () { 
+	var reader = new FileReader();
+	reader.onload = function (e) {
+		croppieDemo.croppie('bind', {
+			url: e.target.result
+		});
+	}
+	reader.readAsDataURL(this.files[0]);
+});
+
+$('.croppie-upload').on('click', function (ev) {
+	croppieDemo.croppie('result', {
+		type: 'canvas',
+		size: 'viewport'
+	}).then(function (image) {
+		
+		var fileName = $("#croppie-input").val();
+		if(fileName){
+		//console.log(image);
+		$('#sktPleaseWait').modal('show');
+		fusionID = $('#agent_profile').val();
+		$.ajax({
+			url: "<?php echo base_url('profile/imageCropping'); ?>",
+			type: "POST",
+			data: {
+				"image" : image,
+				"fusionid" : fusionID
+			},
+			success: function (data) {
+				//console.log(data);
+				html = '<img src="' + image + '" />';
+				$("#croppie-view").html(html);
+				$('#croppie-view').show();
+				$('.croppie-upload').html('<i class="fa fa-upload"></i> Update Photo');
+				$('.generateCard').show();
+				$('#sktPleaseWait').modal('hide');
+			},
+			error: function (data) {
+				console.log('Somethign Went Wrong!');
+				$('#sktPleaseWait').modal('hide');
+			}
+		});
+		} else {
+			alert('Please Select a File!');
+		}
+	});
+});
+
+
+
+$('.photoUploadQuestion select[name="fusion_is_idcard"]').on('change', function(){
+	curVal = $(this).val();
+	if(curVal == 'Yes'){
+		$('.question2').hide();
+		$('.question3').hide();
+		$('.question2 select[name="fusion_is_submitted"]').removeAttr('required', 'required');
+		$('.question3 select[name="fusion_is_uploaded"]').removeAttr('required', 'required');		
+	} else {
+		$('.question2').show();
+		$('.question3').show();
+		$('.question2 select[name="fusion_is_submitted"]').prop('required', true);
+		$('.question3 select[name="fusion_is_uploaded"]').prop('required', true);		
+	}
+});
+
+$('.photoUploadQuestion select[name="fusion_is_submitted"]').on('change', function(){
+	curVal = $(this).val();
+	if(curVal == 'Yes'){
+		$('.question3').hide();
+		$('.question3 select[name="fusion_is_uploaded"]').removeAttr('required', 'required');		
+	} else {
+		$('.question3').show();
+		$('.question3 select[name="fusion_is_uploaded"]').prop('required', true);		
+	}
+});
+
+<?php //} ?>
+</script>

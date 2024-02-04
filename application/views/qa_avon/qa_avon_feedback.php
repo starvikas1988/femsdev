@@ -61,7 +61,7 @@
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
-										<label>LOB</label>
+										<label>LOB/Channel</label>
 										<select class="form-control" id="" name="lob">
 											<option value="">-All-</option>
 											<?php 
@@ -138,7 +138,14 @@
 								<tbody>
 									<?php $i=1;
 									if(isset($avon_details)){
+
 										foreach($avon_details as $row):
+										$new = explode("-", $row['entry_date']);
+										$new1 = explode(" ", $new[2]);
+										//print_r($new);
+									    $a = array($new[1], $new1[0], $new[0]);
+									    $n_date = implode("/", $a);
+										$auditDate = ($n_date)." ".$new1[1];
 									?>
 									<tr>
 										<td><?php echo $i++; ?></td>
@@ -149,7 +156,7 @@
 												echo $row['client_name'].' [Client]';
 											}
 										?></td>
-										<td><?php echo $row['audit_date']; ?></td>
+										<td><?php echo $auditDate; ?></td>
 										<td><?php echo $row['fusion_id']; ?></td>
 										<td><?php echo $row['fname']." ".$row['lname']; ?></td>
 										<td><?php echo $row['tl_name']; ?></td>

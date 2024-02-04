@@ -251,6 +251,108 @@
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-12">
+				<div class="widget">
+				
+					<div class="row">
+						<div class="col-md-12">
+							<header class="widget-header">
+								<h4 class="widget-title">
+									<div class="pull-left">Fiberconnect Whitespace V1 Quality Audit Sheet</div>
+									<?php if(is_access_qa_module()==true){ 
+									$fiberconnect_id=0 ?>
+									<div class="pull-right">
+										<a class="btn btn-primary" href="<?php echo base_url(); ?>Qa_att/add_edit_fiberconnect_whitespace_v1/<?php echo $fiberconnect_id ?>">Add Audit</a>
+									</div>
+									<?php } ?>
+								</h4>
+							</header>
+						</div>
+						<hr class="widget-separator">
+					</div>
+				
+					<div class="widget-body">
+						<div class="table-responsive">
+							<table id="default-datatable" data-plugin="DataTable" class="table table-striped skt-table" cellspacing="0" width="100%">
+								<thead>
+									<tr class="bg-info">
+										<th>SL</th>
+										<th>Auditor</th>
+										<th>Audit Date</th>
+										<th>Fusion ID</th>
+										<th>Agent Name</th>
+										<th>L1 Supervisor</th>
+										<th>Call Duration</th>
+										<th>Total Score</th>
+										<th>Audio</th>
+										<th>Agent Review Date</th>
+										<!-- <th>Mgnt Review By</th> -->
+										<th>Mgnt Review Date</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php $i=1; 
+									foreach($whitespace_v1 as $row): ?>
+									<tr>
+										<td><?php echo $i++; ?></td>
+										<td><?php echo $row['auditor_name']; ?></td>
+										<td><?php echo $row['audit_date']; ?></td>
+										<td><?php echo $row['fusion_id']; ?></td>
+										<td><?php echo $row['fname']." ".$row['lname']; ?></td>
+										<td><?php echo $row['tl_name']; ?></td>
+										<td><?php echo $row['call_duration']; ?></td>
+										<td><?php echo $row['overall_score']."%"; ?></td>
+										<td>
+										<?php
+											if($row['attach_file']!=''){
+											$attach_file = explode(",",$row['attach_file']);
+											foreach($attach_file as $mp){ 
+										?>	
+											<audio controls='' style="width:120px; height:25px; background-color:#607F93"> 
+											  <source src="<?php echo base_url(); ?>qa_files/qa_att/whitespace_v1/<?php echo $mp; ?>" type="audio/ogg">
+											  <source src="<?php echo base_url(); ?>qa_files/qa_att/whitespace_v1/<?php echo $mp; ?>" type="audio/mpeg">
+											</audio>
+										<?php }  
+											}	?>
+										
+										</td>
+										<td><?php echo $row['agent_rvw_date']; ?></td>
+										<!-- <td><?php echo $row['mgnt_name']; ?></td> -->
+										<td><?php echo $row['mgnt_rvw_date']; ?></td>
+										<td>
+											<?php $fbid=$row['id']; ?>
+											
+											<a class="btn btn-success" href="<?php echo base_url(); ?>Qa_att/add_edit_fiberconnect_whitespace_v1/<?php echo $fbid ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">Edit/Review Feedback</a>
+										</td>
+									</tr>
+									<?php endforeach; ?>
+								</tbody>
+								<tfoot>
+									<tr class="bg-info">
+										<th>SL</th>
+										<th>Auditor</th>
+										<th>Audit Date</th>
+										<th>Fusion ID</th>
+										<th>Agent Name</th>
+										<th>L1 Supervisor</th>
+										<th>Call Duration</th>
+										<th>Total Score</th>
+										<th>Audio</th>
+										<th>Agent Review Date</th>
+										<!-- <th>Mgnt Review By</th> -->
+										<th>Mgnt Review Date</th>
+										<th>Action</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
 
 	</section>
 </div>

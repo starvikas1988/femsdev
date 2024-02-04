@@ -1,0 +1,1158 @@
+<style>
+.table > tbody > tr > td
+	{
+		padding: 4px !important;
+	}
+</style>	
+								
+					<div class="row">
+					
+					<!-- DataTable -->
+					<div class="col-md-12">
+							<div class="widget">
+								<header class="widget-header">
+									<h4 class="widget-title">Interviewer</h4>
+								</header><!-- .widget-header -->
+								<hr class="widget-separator">
+										
+								<div class="widget-body">
+									<div class="table-responsive">
+										<table id="default-datatable" data-plugin="DataTable" class="table skt-table" cellspacing="0" width="100%">
+											<thead>
+												<tr class='bg-info'>
+													<th></th>
+													<th>SL</th>
+													<th>Requision Code</th>
+													<th>Last Qualification</th>
+													<th>Candidate Name</th>
+													<th>Gender</th>
+													<th>Mobile</th>
+													<th>Skill Set</th>
+													<th>Total Exp.</th>
+													<th>Attachment</th>
+													<th>Status</th>
+													<th>Action</th>
+												</tr>
+											</thead>
+											
+											<tbody>
+												<?php
+										$k=1;
+										$m=1;
+										foreach($get_assigned_client as $cd): 
+										
+										$r_id=$cd['r_id'];
+										$c_id=$cd['can_id'];
+										$c_status = $cd['candidate_status'];
+										
+										if($c_status=='P')	$cstatus="Pending";
+										else if($c_status=='IP')	$cstatus="In Progress";
+										else if($c_status=='SL')	$cstatus="Shortlisted";
+										else if($c_status=='CS')	$cstatus="Selected";
+										else if( $c_status=='E') $cstatus="Selected as Employee";
+										else if($c_status=='R') $cstatus="Rejected";
+									?>
+									
+									<?php
+										if($cd['requisition_id']!=''){
+									?>
+									
+									<tr>
+										
+										<td>
+										<?php //if($cid!=""){ ?>
+											<button type="button" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#<?php echo $c_id; ?>" title=""><i class="fa fa-plus"></i></button>
+										<?php //} ?>	
+										</td>
+										
+										<td><?php echo $k++; ?></td>
+										
+										<td><?php echo $cd['requisition_id']; ?></td>
+										<td><?php echo $cd['last_qualification']; ?></td>
+										<td><?php echo $cd['fname']." ".$cd['lname']; ?></td>
+										<td><?php echo $cd['gender']; ?></td>
+										<td><?php echo $cd['phone']; ?></td>
+										<td><?php echo $cd['skill_set']; ?></td>
+										<td><?php echo $cd['total_work_exp']; ?></td>
+										<td><a href="<?php echo base_url(); ?>uploads/candidate_resume/<?php echo $cd['attachment']; ?>"><?php echo $cd['attachment']; ?></a></td>
+										<td width="80px"><?php echo $cstatus; ?></td>
+										<td>
+											<?php	
+												$sch_id=$cd['sch_id'];
+												$interview_type=$cd['interview_type'];	
+												$interview_site=$cd['location'];	//echo $interview_site;
+												$requisition_id=$cd['requisition_id'];
+												$filled_no_position=$cd['filled_no_position'];
+												$req_no_position=$cd['req_no_position'];
+												$department_id=$cd['department_id'];
+												$role_id=$cd['role_id'];
+												$sh_status=$cd['sh_status'];
+												
+												$params=$cd['requisition_id']."#".$cd['fname']."#".$cd['lname']."#".$cd['hiring_source']."#".$cd['d_o_b']."#".$cd['email']."#".$cd['phone']."#".$cd['last_qualification']."#".$cd['skill_set']."#".$cd['total_work_exp']."#".$cd['country']."#".$cd['state']."#".$cd['city']."#".$cd['postcode']."#".$cd['address']."#".$cd['summary']."#".$cd['attachment']."#".$cd['gender'];
+												
+												$cparams=$cd['fname']."#".$cd['lname']."#".$cd['hiring_source']."#".$cd['d_o_b']."#".$cd['email']."#".$cd['phone']."#".$cd['department_id']."#".$cd['role_id']."#".$cd['d_o_j']."#".$cd['gender']."#".$cd['location']."#".$cd['requisition_id']."#".$cd['address']."#".$cd['country']."#".$cd['state']."#".$cd['city']."#".$cd['postcode'];
+												
+												echo '<a class="btn btn-success btn-xs" href="'.base_url().'dfr/view_candidate_details/'.$c_id.'" target="_blank"  c_id="'.$c_id.'" r_id="'.$r_id.'" title="Click to View Candidate Details" style="font-size:12px"><i class="fa fa-eye"></i></a>';
+												echo "&nbsp &nbsp";
+										
+												if($c_status!='P'){
+												
+													echo '<a class="btn btn-xs" href="'.base_url().'dfr/view_candidate_interview/'.$c_id.'"  target="_blank"  c_id="'.$c_id.'" r_id="'.$r_id.'" title="Click to View Candidate Interview Report" style="font-size:12px; background-color:#EE8CE4;"><i class="fa fa-desktop"></i></a>';
+												
+												}
+												
+											?>
+										</td>
+									</tr>
+									
+									<?php } ?>
+									
+									<tr id="<?php echo $c_id; ?>" class="collapse">
+										<td colspan="12" style="background-color:#EEE">
+										<table class="table" style="background-color:#FFFFFF;margin-bottom:0px;border:0px !important">
+										
+										<tr>
+										<td align="center"></br><strong>Schedule & Interview </br> Details</strong></td>
+										<td style="background-color:#EEE">
+											<table  class="table skt-table" cellspacing="0" width="100%" style="background-color:#FFF;margin-bottom:0px;">
+												<thead>
+													<tr class="">
+														<th width="60px">SL.No</th>
+														<th>Scheduled On</th>
+														<th>Location</th>
+														<th>Interview Type</th>
+														<th>Assign Interviewer</th>
+														<th>Status</th>
+														<th>Interviewer</th>
+														<th>Result</th>
+														<th>Action</th>
+													</tr>
+												</thead>
+												<tbody>
+													<?php 
+														$q = 1;
+														foreach (candidate_schedule_details($cd['can_id']) as $row1): 
+													?>
+													<?php
+														$sh_status=$row1['sh_status'];
+														
+														
+														if($sh_status=='P') $schstatus="Pending";
+														else if($sh_status=='N') $schstatus="Not Cleared";
+														else if($sh_status=='C')	$schstatus="Cleared";
+														else $schstatus="Cancel";
+													?>
+													<tr>
+														<td><?php echo $q++; ?></td>
+														<td><?php echo $row1['scheduled_on']; ?></td>
+														<td><?php echo $row1['interview_loc']; ?></td>
+														<td><?php echo $row1['interview_type_name']; ?></td>
+														<td><?php echo $row1['assign_interviewer_name']; ?></td>
+														
+														<td><?php echo $schstatus; ?></td>
+														<td><?php echo $row1['interviewer_name']; ?></td>
+														<td><?php echo $row1['result']; ?></td>
+														<td class="text-center" width="100px">
+															<?php 
+																$sch_id=$row1['id'];
+																$scheduled_on=$row1['scheduled_on'];	//echo $scheduled_on;
+																$sch_date=$row1['sch_date'];
+																$currDate=date('Y-m-d H:i:s');	//echo $currDate;
+																
+																
+																$params1=$row1['sch_date']."#".$row1['interview_type']."#".$row1['interview_site']."#".$row1['sh_status']."#".$row1['remarks'];
+																
+																$params2=$row1['interviewer_id']."#".$row1['result']."#".$row1['educationtraining_param']."#".$row1['jobknowledge_param']."#".$row1['workexperience_param']."#".$row1['analyticalskills_param']."#".$row1['technicalskills_param']."#".$row1['generalawareness_param']."#".$row1['bodylanguage_param']."#".$row1['englishcomfortable_param']."#".$row1['mti_param']."#".$row1['enthusiasm_param']."#".$row1['leadershipskills_param']."#".$row1['customerimportance_param']."#".$row1['jobmotivation_param']."#".$row1['resultoriented_param']."#".$row1['logicpower_param']."#".$row1['initiative_param']."#".$row1['assertiveness_param']."#".$row1['decisionmaking_param']."#".$row1['overall_assessment']."#".$row1['interview_remarks']."#".$row1['interview_status'];
+															
+															if($c_status!='R' && $c_status!='CS'){
+																
+															//if(get_dept_folder()=="hr" || get_role_dir()=="admin" || get_role_dir()=="super" || get_global_access()==1){
+																
+																
+																//if($required_pos!=$filled_pos){
+																
+																if($sh_status=="P"){
+																	
+																	//if($currDate >= $scheduled_on){
+																		echo '<a class="btn btn-success btn-xs client_candidateAddInterview" title="Add Interview" r_id="'.$r_id.'" c_id="'.$c_id.'" sch_id="'.$sch_id.'" sh_status="'.$sh_status.'" sch_date="'.$sch_date.'" style="font-size:12px"><i class="fa fa-plus"></i></a>';
+																	/* }else{
+																		echo '<a class="btn btn-success btn-xs" disabled="true" title="Button will be active on '.$sch_date.' " style="font-size:12px"><i class="fa fa-plus"></i></a>';
+																	} */
+																	
+																	echo "&nbsp &nbsp";
+																	
+																	echo '<a class="btn btn-danger btn-xs client_cancelSchedule" r_id="'.$r_id.'" c_id="'.$c_id.'" sch_id="'.$sch_id.'" params1="'.$params1.'" title="Cancel Interview Schedule" style="font-size:12px"><i class="fa fa-close"></i></a>';
+																
+																}else if($sh_status=="C" || $sh_status=="N"){
+																	echo '<a class="btn btn-primary btn-xs client_editInterview" r_id="'.$r_id.'" c_id="'.$c_id.'" sch_id="'.$sch_id.'" params2="'.$params2.'" title="Edit Interview" style="font-size:12px"><i class="fa fa-pencil-square-o"></i></a>';
+																
+																}
+																
+																
+																//}
+															
+																
+															//}	
+																
+															}
+															?>
+														</td>
+													</tr>
+													<?php endforeach; ?>
+												</tbody>
+											</table>
+											
+										</td>	
+										</tr>
+																		
+										</table>
+										</td>
+									</tr>
+									
+									
+									<?php endforeach; ?>
+											</tbody>
+											
+										</table>
+										
+									</div>
+								</div>
+						
+						
+							</div><!-- .widget -->
+						</div>
+						<!-- END DataTable -->	
+					</div><!-- .row -->
+					
+								
+								
+								
+								
+					
+					
+		
+		
+	
+</body>
+</html>
+
+<!--------------------------------------Cancel Interview Scheduled----------------------------------------------->
+<div class="modal fade" id="cancelScheduleCandidate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+	  
+	<form class="frmCancelScheduleCandidate" action="<?php echo base_url(); ?>client_dfr/cancel_interviewSchedule" data-toggle="validator" method='POST'>
+		
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title" id="myModalLabel">Cancel Schedule Candidate</h4>
+      </div>
+      <div class="modal-body">
+			<input type="hidden" id="r_id" name="r_id" value="">
+			<input type="hidden" id="c_id" name="c_id" value="">
+			<input type="hidden" id="sch_id" name="sch_id" value="">
+	  
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<label>Reason</label>
+						<textarea id="cancel_reason" name="cancel_reason" class="form-control" required></textarea>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<label>Remarks</label>
+						<textarea id="remarks" name="remarks" class="form-control"></textarea>
+					</div>
+				</div>
+			</div>
+			
+      </div>
+	  
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		<button type="submit" id='cancelCandidateSchedule' class="btn btn-primary">Save</button>
+      </div>
+	  
+	 </form>
+	 
+    </div>
+  </div>
+</div>
+
+
+
+<!--------------------------------------Candidate Add Interview Round's---------------------------------------------->
+<div class="modal fade" id="addCandidateInterview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width:1000px;">
+    <div class="modal-content">
+	  
+	<form class="frmaddCandidateInterview" action="<?php echo base_url(); ?>client_dfr/add_candidate_interview" data-toggle="validator" method='POST'>
+		
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title" id="myModalLabel">Candidate Interview</h4>
+      </div>
+      <div class="modal-body">
+			<input type="hidden" id="r_id" name="r_id" value="">
+			<input type="hidden" id="c_id" name="c_id" value="">
+			<input type="hidden" id="sch_id" name="sch_id" value="">
+			<input type="hidden" id="sh_status" name="sh_status" value="">
+			
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Interviewer Name</label>
+						<select class="form-control" id="interviewer_id" name="interviewer_id" required>
+							<option>--Select--</option>
+							<?php 
+								$sCss="";
+								foreach($user_client as $tm): 
+								if($tm['id']==get_user_id()){  $sCss="selected";  ?>
+									<option value="<?php echo $tm['id']; ?>" <?php echo $sCss; ?>><?php echo $tm['name']; ?></option>
+								<?php }else{?>
+									<option value="<?php echo $tm['id']; ?>"><?php echo $tm['name']; ?></option>
+								<?php } ?>
+							<?php endforeach; ?>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Interview Date</label>
+						<input type="text" id="scheduled_date" name="interview_date" class="form-control" required>
+					</div>
+				</div>	
+			</div>
+			
+			</br>
+			
+			<div class="row">
+				<!-- -->
+				<div class="col-md-4">
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Education/Training:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="educationtraining_param" name="educationtraining_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Job Knowledge:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="jobknowledge_param" name="jobknowledge_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Work Experience:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="workexperience_param" name="workexperience_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Analytical Skills:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="analyticalskills_param" name="analyticalskills_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Technical Skills:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="technicalskills_param" name="technicalskills_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">General Awareness:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="generalawareness_param" name="generalawareness_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				
+				<div class="col-md-4">
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Body Language:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="bodylanguage_param" name="bodylanguage_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">English Comfortable:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="englishcomfortable_param" name="englishcomfortable_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">MTI:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="mti_param" name="mti_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Enthusiasm:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="enthusiasm_param" name="enthusiasm_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Leadership Skills:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="leadershipskills_param" name="leadershipskills_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Customer Importance:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="customerimportance_param" name="customerimportance_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				
+				<div class="col-md-4">
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Job Motivation:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="jobmotivation_param" name="jobmotivation_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Target Oriented:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="resultoriented_param" name="resultoriented_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Convincing Power:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="logicpower_param" name="logicpower_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Initiative:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="initiative_param" name="initiative_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Assertiveness:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="assertiveness_param" name="assertiveness_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Decision Making:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="decisionmaking_param" name="decisionmaking_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				
+				<!-- -->
+			</div>
+			
+			</br>
+			
+			
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Overall Interview Result</label>
+						<select class="form-control" id="result" name="result" required>
+							<option value="">-Select-</option>
+							<option value="A">A</option>
+							<option value="B">B</option>
+							<option value="C">C</option>
+							<option value="D">D</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Interview Status</label>
+						<select id="interview_status" name="interview_status" class="form-control" required>
+							<option value="">--select--</option>
+							<option value="C">Cleared Interview</option>
+							<option value="N">Not Cleared Interview</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Overall Assessment</label>
+						<textarea class="form-control" id="overall_assessment" name="overall_assessment" required></textarea>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Interview Remarks</label>
+						<textarea class="form-control" id="interview_remarks" name="interview_remarks"></textarea>
+					</div>
+				</div>
+			</div>
+			
+      </div>
+	  
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		<button type="submit" id='addCandidateInterview' class="btn btn-primary">Save</button>
+      </div>
+	  
+	 </form>
+	 
+    </div>
+  </div>
+</div>
+
+<!---------------------------------Edit Interview part---------------------------------->
+<div class="modal fade" id="editCandidateInterview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width:1000px">
+    <div class="modal-content">
+	  
+	<form class="frmeditCandidateInterview" action="<?php echo base_url(); ?>client_dfr/edit_interview" data-toggle="validator" method='POST'>
+		
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title" id="myModalLabel">Candidate Edit Interview</h4>
+      </div>
+      <div class="modal-body">
+			<input type="hidden" id="r_id" name="r_id" value="">
+			<input type="hidden" id="c_id" name="c_id" value="">
+			<input type="hidden" id="sch_id" name="sch_id" value="">
+			
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label>Interviewer Name</label>
+						<select class="form-control" id="interviewer_id" name="interviewer_id" required>
+							<option>--Select--</option>
+							<?php foreach($user_client as $tm): ?>
+								<option value="<?php echo $tm['id']; ?>"><?php echo $tm['name']; ?></option>
+							<?php endforeach; ?>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label>Overall Interview Result</label>
+						<select class="form-control" id="result" name="result" required>
+							<option value="">-Select-</option>
+							<option value="A">A</option>
+							<option value="B">B</option>
+							<option value="C">C</option>
+							<option value="D">D</option>
+						</select>
+					</div>
+				</div>	
+				<div class="col-md-4">
+					<div class="form-group">
+						<label>Interview Status</label>
+						<select class="form-control" id="edinterview_status" name="interview_status" required>
+							<option value="">--select--</option>
+							<option value="C">Cleared Interview</option>
+							<option value="N">Not Cleared Interview</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			
+			</br>
+			
+			<div class="row">
+				<!-- -->
+				<div class="col-md-4">
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Education/Training:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="ededucationtraining_param" name="educationtraining_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Job Knowledge:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="edjobknowledge_param" name="jobknowledge_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Work Experience:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="edworkexperience_param" name="workexperience_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Analytical Skills:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="edanalyticalskills_param" name="analyticalskills_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Technical Skills:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="edtechnicalskills_param" name="technicalskills_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">General Awareness:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="edgeneralawareness_param" name="generalawareness_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				
+				<div class="col-md-4">
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Body Language:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="edbodylanguage_param" name="bodylanguage_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">English Comfortable:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="edenglishcomfortable_param" name="englishcomfortable_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">MTI:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="edmti_param" name="mti_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Enthusiasm:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="edenthusiasm_param" name="enthusiasm_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Leadership Skills:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="edleadershipskills_param" name="leadershipskills_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Customer Importance:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="edcustomerimportance_param" name="customerimportance_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				
+				<div class="col-md-4">
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Job Motivation:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="edjobmotivation_param" name="jobmotivation_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Target Oriented:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="edresultoriented_param" name="resultoriented_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Convincing Power:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="edlogicpower_param" name="logicpower_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Initiative:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="edinitiative_param" name="initiative_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Assertiveness:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="edassertiveness_param" name="assertiveness_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label style="float:right">Decision Making:</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" id="eddecisionmaking_param" name="decisionmaking_param">
+									<option value="">-Select-</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				
+				<!-- -->
+			</div>
+			
+			</br>
+			
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Overall Assessment</label>
+						<textarea class="form-control" id="edoverall_assessment" name="overall_assessment" required></textarea>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Interview Remarks</label>
+						<textarea class="form-control" id="edinterview_remarks" name="interview_remarks"></textarea>
+					</div>
+				</div>
+			</div>
+			
+      </div>
+	  
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" id='addCandidateInterview' class="btn btn-primary">Save</button>
+      </div>
+	  
+	 </form>
+	 
+    </div>
+  </div>
+</div>

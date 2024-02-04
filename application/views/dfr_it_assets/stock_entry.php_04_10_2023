@@ -1,0 +1,1826 @@
+<link href="<?= base_url() ?>assets/css/search-filter/assets/css/simple-datatables-latest.css" rel="stylesheet" />
+<link href="<?= base_url() ?>assets/css/search-filter/assets/css/custom.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<script src="<?= base_url() ?>assets/css/search-filter/assets/js/all.min.js"></script>
+<style>
+    .mb-1 {
+        margin-bottom: 0.6rem !important;
+    }
+
+    .search-select label {
+        display: block;
+    }
+
+    .search-select .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+        width: 100%;
+    }
+
+    .bootstrap-select>.dropdown-toggle {
+        height: 40px;
+    }
+
+    .search-select ul {
+        max-height: 200px !important;
+    }
+
+    .remove-btn {
+        width: 40px;
+        font-size: 14px;
+        border-radius: 51px;
+        float: right;
+        padding: 9px;
+    }
+
+    .overflow {
+        max-height: 500px;
+        overflow-y: auto;
+        min-height: 98px;
+    }
+
+    .dt-buttons {
+        width: auto;
+    }
+
+    .user_bg {
+        height: 50px;
+        width: 50px;
+        padding: 10px;
+        background: var(--bs-common-btn);
+        border-radius: 50%;
+        margin: 5px auto 5px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .heading_title1 {
+        font-size: 13px;
+        padding: 0;
+        margin: 0;
+        color: #000;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .heading_big {
+        font-size: 15px;
+        padding: 0;
+        margin: 0;
+        color: #2205bf;
+        font-weight: bold;
+    }
+
+    .tabs_widget {
+        margin: 0 0 10px 0;
+    }
+
+    .tabs_widget .nav-pills>li.active>a {
+        background: #024dc3;
+        color: #fff;
+        transition: all 0.5s ease-in-out 0s;
+    }
+
+    .tabs_widget .nav-pills>li.active>a:hover {
+        background: #024dc3;
+    }
+
+    .tabs_widget .nav-pills>li.active>a:focus {
+        background: #024dc3;
+        outline: none;
+        box-shadow: none;
+    }
+
+    .tabs_widget .nav>li>a {
+        background: #fff;
+        color: #000;
+        transition: all 0.5s ease-in-out 0s;
+    }
+
+    .tabs_widget .nav>li>a:hover {
+        color: #fff;
+        background: #024dc3 !important;
+    }
+
+    .tabs_widget li {
+        margin: 0 5px 0 0;
+    }
+
+    .btn-submit {
+        width: 100px;
+        padding: 10px;
+        background: #4650dd;
+        border-radius: 20px;
+        color: #fff;
+        border: none;
+        font-size: 14px;
+        margin-top: 22px;
+        transition: all 0.5s ease-in-out 0s;
+    }
+
+    .btn-submit:focus,
+    .btn-submit:hover {
+        color: #fff !important;
+        background: #001cff;
+    }
+
+    .new-section input[type="file"] {
+        border: 1px solid #ddd !important;
+    }
+
+    @media (min-width: 768px) {
+        .modal-new-dash .modal-dialog {
+            width: 900px !important;
+        }
+    }
+
+    .tab-pane .widget {
+        /* min-height: 180px;
+    max-height: 500px; */
+        height: 100%;
+        border-radius: 10px !important;
+    }
+
+    .tab-panel {
+        margin-bottom: -10px !important;
+    }
+
+    .font-look {
+        font-size: 14px;
+        color: #333;
+        font-weight: ;
+    }
+
+    .new-tab .row {
+        padding: 5px;
+    }
+
+    .total-count {
+        margin-bottom: 10px;
+        padding: 10px;
+    }
+
+    .total-count .heading_title1 {
+        font-size: 16px !important;
+        color: #08e2b1;
+    }
+
+    .total-count .heading_big {
+        font-size: 18px !important;
+    }
+
+    .multiselect-container {
+        width: 100%;
+    }
+
+    /*20-3-23*/
+    .chart-wrap .chart-title {
+        margin-bottom: 10px;
+        font-size: 16px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .chart-wrap .row {
+        position: relative;
+        height: 25px;
+        margin-bottom: 5px;
+    }
+
+    .chart-wrap .bar-wrap {
+        position: relative;
+        background: #a2a6a8;
+        width: 100%;
+        height: 16px;
+        overflow: hidden;
+        border-radius: 10px;
+    }
+
+    .chart-wrap .bar-wrap .bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background: #00055c;
+        transition: all 1s;
+        transform: translateX(-100%);
+    }
+
+    .chart-wrap .bar-wrap .bar.in {
+        transform: translateX(0%);
+    }
+
+    .chart-wrap .row:nth-of-type(1) .bar {
+        transition: 1s 400ms;
+    }
+
+    .chart-wrap .row:nth-of-type(2) .bar {
+        transition: 1s 600ms;
+    }
+
+    .chart-wrap .row:nth-of-type(3) .bar {
+        transition: 1s 800ms;
+    }
+
+    .chart-wrap .row:nth-of-type(4) .bar {
+        transition: 1s 1000ms;
+    }
+
+    .chart-wrap .row:nth-of-type(5) .bar {
+        transition: 1s 1200ms;
+    }
+
+    .chart-wrap .row:nth-of-type(6) .bar {
+        transition: 1s 1400ms;
+    }
+
+    .chart-wrap .row:nth-of-type(7) .bar {
+        transition: 1s 1600ms;
+    }
+
+    .chart-wrap .label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 150px;
+        padding-left: 10px;
+        text-align: left;
+        font-size: 10px;
+        line-height: 12px;
+        text-transform: uppercase;
+        font-weight: bold;
+        z-index: 2;
+        color: #fff;
+        text-transform: capitalize;
+        opacity: 0.8;
+    }
+
+    .chart-wrap .number {
+        position: absolute;
+        top: -6px;
+        right: 0;
+        width: 30px;
+        padding-right: 10px;
+        font-size: 14px;
+        line-height: 26px;
+        font-weight: bold;
+        text-align: right;
+        z-index: 2;
+    }
+
+    @media screen and (min-width: 800px) {
+        .chart-wrap .row {
+            padding: 0 40px 0 0;
+        }
+
+        .chart-wrap .label {
+            text-align: left;
+            padding-left: 15px;
+        }
+
+        .chart-wrap .number {
+            text-align: left;
+            padding-right: 0;
+        }
+    }
+
+    .chart {
+        height: auto;
+        width: 100%;
+    }
+
+    .chart_area .row {
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    .chart_area .widget {
+        height: 100%;
+    }
+
+    .caption_main {
+        position: relative;
+    }
+
+    .caption_title {
+        position: absolute;
+        top: 6px;
+        font-size: 13px;
+        color: #000;
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .main_area .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .main_area .form-group {
+        height: 100%;
+        margin: 0;
+    }
+
+    .margin_bottom {
+        margin: 0 0 10px 0;
+    }
+</style>
+<div id="layoutSidenav_content">
+    <main>
+        <div class="wrap">
+            <h2 class="avail_title_heading">Inventory Dashboard</h2>
+            <hr class="sepration_border">
+            <?php //if(it_assets_access()==true){ 
+            ?>
+            <div class="common_top">
+                <div class="tab-content main_area">
+                    <div id="menu2" class="tab-pane fade in active tab-panel">
+                        <div class="row flex_wrap">
+                            <!-- ======================================= -->
+                            <?php foreach ($assets_list_chart as $value) { ?>
+                                <div class="col-sm-3 margin_bottom">
+                                    <div class="form-group">
+                                        <div class="white_widget padding_3 column_height">
+                                            <div class="body_widget">
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <div class="user_bg">
+                                                            <img src="<?php echo base_url(); ?>assets_home_v3/images/assets_list.svg" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-9">
+                                                        <div class="total-count" style="margin-bottom: 0px;">
+                                                            <h2 class="avail_title_heading_stck"><?= $value['name'] ?></h2>
+                                                            <p>
+                                                                <?= $assets_dashboard_status[$value['id']][0]['total'] ?>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div style="padding: 5px;color: #00055c;font-weight: bold;">In-stock: <?= $assets_dashboard_status[$value['id']][0]['Un-Assigned/Released'] + $assets_dashboard_status[$value['id']][0]['Return(Un-Assigned)'] + $assets_dashboard_status[$value['id']][0]['Stock'] ?></div>
+                                                </div>
+                                                <div class="body_widget">
+                                                    <div class="chart-wrap">
+                                                        <div id="dashboard-stats" class="chart bars-horizontal brand-primary">
+                                                            <div class="row">
+                                                                <span class="label">Assigned</span>
+                                                                <div class="bar-wrap">
+                                                                    <div style="background: #10c469;" class="bar" data-value="<?= $assets_dashboard_status[$value['id']][0]['Assigned'] ?>"></div>
+                                                                </div>
+                                                                <span class="number"><?= $assets_dashboard_status[$value['id']][0]['Assigned'] ?></span>
+                                                            </div>
+                                                            <div class="row">
+                                                                <span class="label">Live</span>
+                                                                <div class="bar-wrap">
+                                                                    <div style="background: #08e2b1;" class="bar" data-value="<?= $assets_dashboard_status[$value['id']][0]['Live'] ?>"></div>
+                                                                </div>
+                                                                <span class="number"><?= $assets_dashboard_status[$value['id']][0]['Live'] ?></span>
+                                                            </div>
+                                                            <div class="row">
+                                                                <span class="label">Un-Assigned/Released</span>
+                                                                <div class="bar-wrap">
+                                                                    <div style="background: #188ae2;" class="bar" data-value="<?= $assets_dashboard_status[$value['id']][0]['Un-Assigned/Released'] ?>"></div>
+                                                                </div>
+                                                                <span class="number"><?= $assets_dashboard_status[$value['id']][0]['Un-Assigned/Released'] ?></span>
+                                                            </div>
+                                                            <div class="row">
+                                                                <span class="label">Return(Un-Assigned)</span>
+                                                                <div class="bar-wrap">
+                                                                    <div style="background: #5bc0de;" class="bar" data-value="<?= $assets_dashboard_status[$value['id']][0]['Return(Un-Assigned)'] ?>"></div>
+                                                                </div>
+                                                                <span class="number"><?= $assets_dashboard_status[$value['id']][0]['Return(Un-Assigned)'] ?></span>
+                                                            </div>
+                                                            <div class="row">
+                                                                <span class="label">Stock</span>
+                                                                <div class="bar-wrap">
+                                                                    <div style="background: #ba8e94;" class="bar" data-value="<?= $assets_dashboard_status[$value['id']][0]['Stock'] ?>"></div>
+                                                                </div>
+                                                                <span class="number"><?= $assets_dashboard_status[$value['id']][0]['Stock'] ?></span>
+                                                            </div>
+                                                            <div class="row">
+                                                                <span class="label">Scrap</span>
+                                                                <div class="bar-wrap">
+                                                                    <div style="background: #777777;" class="bar" data-value="<?= $assets_dashboard_status[$value['id']][0]['Scrap'] ?>"></div>
+                                                                </div>
+                                                                <span class="number"><?= $assets_dashboard_status[$value['id']][0]['Scrap'] ?></span>
+                                                            </div>
+                                                            <div class="row">
+                                                                <span class="label">Defect</span>
+                                                                <div class="bar-wrap">
+                                                                    <div style="background: #ff5b5b;" class="bar" data-value="<?= $assets_dashboard_status[$value['id']][0]['Defect'] ?>"></div>
+                                                                </div>
+                                                                <span class="number"><?= $assets_dashboard_status[$value['id']][0]['Defect'] ?></span>
+                                                            </div>
+                                                            <div class="row">
+                                                                <span class="label">Misplaced/Lost</span>
+                                                                <div class="bar-wrap">
+                                                                    <div style="background: #00055c;" class="bar" data-value="<?= $assets_dashboard_status[$value['id']][0]['Misplaced/Lost'] ?>"></div>
+                                                                </div>
+                                                                <span class="number"><?= $assets_dashboard_status[$value['id']][0]['Misplaced/Lost'] ?></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                            <!-- ==================================================== -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="top_1">
+                <div class="chart_area">
+                    <div class="row flex_wrap">
+                        <div class="col-sm-8">
+                            <div class="white_widget padding_3 column_height">
+                                <div class="avail_title_heading">
+                                    Assets In-stock Details
+                                </div>
+                                <div class="body_widget caption_main">
+                                    <canvas id="my_chart" class="canvas-height"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="white_widget padding_3 column_height">
+                                <div class="body_widget">
+                                    <canvas id="myChart111" class="canvas-height1"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php //} 
+            ?>
+            <div class="top_1">
+                <div class="white_widget padding_3">
+                    <div class="right_side">
+                        <?php if (it_assets_full_access() == true) { ?>
+                            <button type="button" class="btn btn_padding filter_btn btn-sm" data-toggle="modal" data-target="#myModal-add-stock">Add Stock</button>
+                            <button type="button" class="btn btn_padding filter_btn btn-sm" title="Assign non-inv assets using Jitbit ID" data-toggle="modal" data-target="#assign_non_inv_assets_model">Assign Assets</button>
+                        <?php } ?>
+                    </div>
+                    <div class="body_widget">
+                        <form id="assset_stock_search">
+                            <div class="row">
+                                <div class="col-sm-4 form-group">
+                                    <div class="filter-widget search-select">
+                                        <label for="exampleInputEmail1" class="form-label ">Start Date</label>
+                                        <input type="date" class="form-control search_stock_id" value="<?php echo $start_date; ?>" name="start_date">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="filter-widget search-select">
+                                        <label for="exampleInputEmail1" class="form-label ">End Date</label>
+                                        <input type="date" class="form-control search_stock_id" value="<?php echo $end_date; ?>" name="end_date">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="filter-widget search-select">
+                                        <label for="exampleInputEmail1" class="form-label ">Location</label>
+                                        <select class="search_stock_id multiselect_options" name="location_search[]" multiple>
+                                            <?php foreach ($location_list as $key => $value) {
+                                                $sel = "";
+                                                if (in_array($value['abbr'], $location_search)) $sel = "selected";
+                                            ?>
+                                                <option value="<?php echo $value['abbr']; ?>" <?php echo $sel; ?>><?php echo $value['office_name'] ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="filter-widget search-select">
+                                        <label for="exampleInputEmail1" class="form-label ">Assets</label>
+                                        <select class="selectpicker search_stock_id" name="assets_search" data-show-subtext="true" data-live-search="true">
+                                            <option value="">All</option>
+                                            <?php foreach ($assets_list_chart as $key => $value) {
+                                                $sel = "";
+                                                if ($value['id'] == $assets_search) $sel = "selected";
+                                            ?>
+                                                <option value="<?php echo $value['id']; ?>" <?php echo $sel; ?>><?php echo $value['name'] ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="filter-widget search-select">
+                                        <label for="exampleInputEmail1" class="form-label ">Brand:</label>
+                                        <select class="selectpicker search_stock_id" name="brand_search" data-show-subtext="true" data-live-search="true">
+                                            <option value="">All</option>
+                                            <?php foreach ($brand_list as $key => $value) {
+                                                $sel = "";
+                                                if ($value['id'] == $brand_search) $sel = "selected";
+                                            ?>
+                                                <option value="<?php echo $value['id']; ?>" <?php echo $sel; ?>><?php echo $value['name'] ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="filter-widget search-select">
+                                        <label for="exampleInputEmail1" class="form-label ">Status</label>
+                                        <select class="selectpicker search_stock_id" name="status_search" data-show-subtext="true" data-live-search="true">
+                                            <option value="">All</option>
+                                            <option value="1" <?php if ($status_search == '1') echo "selected"; ?>>Un-Assigned/Released</option>
+                                            <option value="2" <?php if ($status_search == '2') echo "selected"; ?>>Assigned</option>
+                                            <option value="8" <?php if ($status_search == '7') echo "selected"; ?>>Live</option>
+                                            <option value="3" <?php if ($status_search == '3') echo "selected"; ?>>Scrap</option>
+                                            <option value="4" <?php if ($status_search == '4') echo "selected"; ?>>Defect</option>
+                                            <option value="5" <?php if ($status_search == '5') echo "selected"; ?>>Return(Un-Assigned/Released)</option>
+                                            <option value="6" <?php if ($status_search == '6') echo "selected"; ?>>Stock</option>
+                                            <option value="9" <?php if ($status_search == '9') echo "selected"; ?>>In-Stock(Check Overall Stock)</option>
+                                            <option value="7" <?php if ($status_search == '7') echo "selected"; ?>>Misplaced/Lost</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="filter-widget search-select">
+                                        <label for="exampleInputEmail1" class="form-label ">Stock Type</label>
+                                        <select class="selectpicker search_stock_id" name="type_search" data-show-subtext="true" data-live-search="true">
+                                            <option value="">All</option>
+                                            <option value="1" <?php if ($type_search == '1') echo "selected"; ?>>New</option>
+                                            <option value="2" <?php if ($type_search == '2') echo "selected"; ?>>Existing</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="filter-widget search-select">
+                                        <label for="exampleInputEmail1" class="form-label ">Serial Number</label>
+                                        <select id="stock-serial-number-search" class="selectpicker" name="serial_number" data-show-subtext="true" data-live-search="true">
+                                            <option value="">Select a Serial Number</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="filter-widget search-select">
+                                        <label for="exampleInputEmail1" class="form-label ">Reference ID</label>
+                                        <select id="stock-reference-id-search" class="selectpicker" name="reference_id_search" data-show-subtext="true" data-live-search="true">
+                                            <option value="">Select a Reference ID</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="search-select">
+                                        <label for="exampleInputEmail1" class="form-label">MWP ID</label>
+                                        <input type="text" name="assigned_user_search" class="form-control" value="<?= $assigned_user_search ?>" placeholder="Enter MWP ID">
+                                    </div>
+                                </div>
+                                <!--<div class="col-sm-4 form-group">
+                                        <div class="search-select">
+                                            <label for="exampleInputEmail1" class="form-label ">Assigned To:</label>
+                                            <select id="assigned_user_search" class="selectpicker" name="assigned_user_search" data-show-subtext="true" data-live-search="true">
+                                                <option value="">Select Assigned User</option>
+                                            </select>
+                                        </div>
+                                    </div> -->
+                                <div class="col-sm-4">
+                                    <div class="mb-0">
+                                        <label class="visiblity_hidden d_block">Search</label>
+                                        <button type="submit" class="btn btn_padding filter_btn_blue save_common_btn mt-3">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <?php if (!empty($result_data)) {
+                // print_r($result_data);
+            ?>
+                <div class="top_1">
+                    <div class="white_widget padding_3 new-table">
+                        <!--<div class="card-header"> <i class="fas fa-table me-1"></i> List </div> -->
+                        <div class="common_table_widget report_hirarchy_new table_body it_assets_expt">
+                            <table id="datatablesSimple" class="table table-bordered table-striped new-list">
+                                <thead>
+                                    <tr>
+                                        <th class="table_width_sr">SL. No.</th>
+                                        <th class="table_width1">Reference ID</th>
+                                        <th class="table_width1">Serial Number</th>
+                                        <th class="table_width1">Name (MWP ID)</th>
+                                        <th class="table_width1">Client</th>
+                                        <th class="table_width1">Process</th>
+                                        <th class="table_width1">Department</th>
+                                        <th class="table_width1">Physical Location</th>
+                                        <th class="table_width1">Assets</th>
+                                        <th class="table_width1">Brand</th>
+                                        <th class="table_width1">Model Number</th>
+                                        <th class="employee_adrs">Remaining Days of Warranty Expiry</th>
+                                        <th class="employee_adrs">Remaining Days of Next Inspection Date</th>
+                                        <th class="employee_adrs">Remarks</th>
+                                        <th data-priority="2" class="table_width1">Status</th>
+                                        <th data-priority="1" class="employee_td">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($result_data as $key => $value) {
+                                        if (isset($process_data[$value['id']][0])) {
+                                            $client_name = $process_data[$value['id']][0]['client_name'];
+                                            $process_name = $process_data[$value['id']][0]['process_name'];
+                                            $department_name = $process_data[$value['id']][0]['department_name'];
+                                        } else {
+                                            $client_name = "-";
+                                            $process_name = "-";
+                                            $department_name = "-";
+                                        }
+                                        if ($value['status'] == 1) $stat = "Un-Assigned/Released";
+                                        if ($value['status'] == 2) {
+                                            $ack_doc = "";
+                                            if ($value['is_user_acknowledge'] == 1) {
+                                                $ack = 'Done | ' . $value['acknowledge_date'] . '';
+                                                if ($value['ack_doc'] != null && $value['ack_doc'] != "") $ack_doc = "<br> | Document Upload Done ";
+                                                else $ack_doc = "<br> | Document Upload Pending ";
+                                            } else {
+                                                $ack = 'Pending';
+                                            }
+                                            $stat = "Assigned | " . $ack . "" . $ack_doc;
+                                        }
+                                        if ($value['status'] == 3) $stat = "Scrap";
+                                        if ($value['status'] == 4) $stat = "Defect";
+                                        if ($value['status'] == 5) $stat = "Return(Un-Assigned/Released)";
+                                        if ($value['status'] == 6) $stat = "Stock";
+                                        if ($value['status'] == 7) $stat = "Misplaced / Lost";
+                                        if ($value['status'] == 8) $stat = "Live";
+                                        $params = $value['reference_id'] . "#" . $value['serial_number'] . "#" . $value['status'] . "#" . $value['id'];
+                                        $params_new = $value['reference_id'] . "~#~" . $value['serial_number'] . "~#~" . $value['status'] . "~#~" . $value['id'];
+                                    ?>
+                                        <tr>
+                                            <td><?php echo ++$key; ?></td>
+                                            <td><?php echo $value['reference_id'] . ' / ' . $value['location'] ?></td>
+                                            <td><?php echo $value['serial_number'] ?></td>
+                                            <td><?php if ($value['assigned_user_fusion_id'] != "") echo $value['assigned_user_fusion_id'];
+                                                else echo "-"; ?></td>
+                                            <td><?= $client_name == "" ? "All" : $client_name ?></td>
+                                            <td><?= $process_name == "" ? "All" : $process_name ?></td>
+                                            <td><?= $department_name == "" ? "All" : $department_name ?></td>
+                                            <td><?php echo $value['phy_location_name'] ?></td>
+                                            <td><?php echo $value['asset_name'] ?></td>
+                                            <td><?php echo $value['brand_name'] ?></td>
+                                            <td><?php echo $value['model_number'] ?></td>
+                                            <td><?= $process_data[$value['id']]['remaining_warrenty'] ?></td>
+                                            <td><?= $process_data[$value['id']]['remaining_inspection'] ?></td>
+                                            <td><?php echo $value['reamrks'] ?></td>
+                                            <td><?php echo $stat; ?></td>
+                                            <td>
+                                                <?php if (it_assets_full_access() == true || get_dept_folder() == "it") { ?>
+                                                    <?php if ($value['is_user_acknowledge'] == 1) { ?>
+                                                        <button title="Upload Agreement Document" type="button" params="<?php echo $params; ?>" class="btn btn-sm no_padding assets_upload_doc_agreement"><img src="<?php echo base_url(); ?>assets_home_v3/images/upload_icon.svg" alt=""></button>
+                                                <?php  }
+                                                } ?>
+                                                <?php if (it_assets_access() == true) { ?>
+                                                    <button title="View Stock Details" type="button" params="<?php echo $params; ?>" class="btn btn-sm no_padding btn_left view_stock_details"><img src="<?php echo base_url(); ?>assets_home_v3/images/view.svg" alt=""></button>
+                                                <?php } ?>
+                                                <?php if (it_assets_full_access() == true) { ?>
+                                                    <?php if ($value['status'] != 2 && $value['status'] != 8) { ?>
+                                                        <button title="Status Update" type="button" params="<?php echo $params_new; ?>" class="btn btn-sm no_padding btn_left stock_status_update"><img src="<?php echo base_url(); ?>assets_home_v3/images/check.svg" alt=""></button>
+                                                    <?php } ?>
+                                                    <?php
+                                                    $params2 = $value['reference_id'] . "~#~" . $value['serial_number'] . "~#~" . $value['status'] . "~#~" . $value['id'] . "~#~" . $value['model_number'] . "~#~" . $value['configuration'] . "~#~" . $value['brand_id'] . "~#~" . $value['po_number'] . "~#~" . $value['purchase_type'] . "~#~" . $value['ram_id'] . "~#~" . $value['storage_device_type'] . "~#~" . $value['storage_device_id'] . "~#~" . $value['own_rental'] . "~#~" . $value['data_purchase'] . "~#~" . $value['vendor_id'] . "~#~" . $value['under_validity'] . "~#~" . $value['valid_thru'] . "~#~" . $value['os_id'] . "~#~" . $value['conditions'] . "~#~" . $value['ast_department_id'] . "~#~" . $value['phy_location_id'] . "~#~" . $value['campaign_name'] . "~#~" . $value['type'] . "~#~" . $value['location'] . "~#~" . $value['battery_qty'] . "~#~" . $value['last_inspection_date'];
+                                                    if ($value['status'] == 1 || $value['status'] == 5) { ?>
+                                                        <button title="Assigned Asset to user Using `JITBIT ID`" type="button" params="<?php echo $params; ?>" class="btn no_padding btn_left btn-sm" id="assign_stock_using_jitbit"><img src="<?php echo base_url(); ?>assets_home_v3/images/assets_jitbit.svg" alt=""></button>
+                                                    <?php }
+                                                    if ($value['status'] == 2) { ?>
+                                                        <button title="Un-Assign/Release" type="button" params="<?php echo $params; ?>" class="btn btn-sm no_padding btn_left un_assigned_user_assets"><img src="<?php echo base_url(); ?>assets_home_v3/images/cancel_big.svg" alt=""></button>
+                                                        <button title="User BGV Status" type="button" params="<?php echo $params; ?>" user_id="<?= $value['assign_user_id'] ?>" class="btn btn-sm no_padding btn_left user_bgv_reports_status"><img src="<?php echo base_url(); ?>assets_home_v3/images/background_check_action_menu.svg" alt=""></button>
+                                                    <?php }
+                                                    if ($value['status'] != 2) { ?>
+                                                        <button title="Assigned to the floor" type="button" params="<?php echo $params_new; ?>" class="btn btn-sm no_padding btn_left assign_assets_to_floor" id="assign_assets_to_floor"><img src="<?php echo base_url(); ?>assets_home_v3/images/floor_action.svg" alt=""></button>
+                                                    <?php } ?>
+                                                    <button title="Edit Stock Details" type="button" params="<?php echo $params2; ?>" class="btn btn-sm no_padding btn_left edit_stock_entry"><img src="<?php echo base_url(); ?>assets_home_v3/images/edit_icon.svg" alt=""></button>
+                                                <?php } ?>
+                                                <!--start dropdown menu-->
+                                                <div class="dropdown action_dropdown d_inline btn_left">
+                                                    <button class="btn action_dropdown filter_btn dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+                                                        <img src="<?php echo base_url() ?>assets_home_v3/images/dot_menu.svg" alt="">
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="#">Dropdown Menu 1</a></li>
+                                                        <li><a href="#">Dropdown Menu 2</a></li>
+                                                        <li><a href="#">Dropdown Menu 3</a></li>
+                                                    </ul>
+                                                </div>
+                                                <!--end dropdown menu-->
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
+    </main>
+</div>
+<!-- Modal Stock Entry -->
+<div class="modal fade" id="myModal-add-stock" role="dialog">
+    <div class="modal-dialog modal-md modal_common">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close close_new" data-dismiss="modal"></button>
+                <h4 class="modal-title">Enter stock details</h4>
+            </div>
+            <form method="post" action="<?= base_url() ?>dfr_it_assets/add_stock_details">
+                <div class="modal-body">
+                    <div class="scroll_pop_new">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="filter-widget form-group">
+                                    <label for="exampleInputEmail1" class="form-label">Location <span class="red_bg">*</span></label>
+                                    <select id="location_id" name="location_id" class="form-control" placeholder="Select Location" required>
+                                        <option value="">Select a location </option>
+                                        <?php foreach ($location_list as $key => $value) {
+                                            $sel = "";
+                                            if ($value['abbr'] == $office_id) $sel = "selected";
+                                        ?>
+                                            <option value="<?php echo $value['abbr']; ?>" <?php echo $sel; ?>><?php echo $value['office_name'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="filter-widget form-group">
+                                    <label for="exampleInputEmail1" class="form-label">Assets Name <span class="red_bg">*</span></label>
+                                    <select id="assets_name" name="assets_name" class="form-control" placeholder="Select Assets" required>
+                                        <option value="">Select a Category</option>
+                                        <?php foreach ($assets_list_chart as $key => $value) { ?>
+                                            <option value="<?php echo $value['id']; ?>"><?php echo $value['name'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="filter-widget form-group">
+                                    <label for="exampleInputEmail1" class="form-label">Select Brand <span class="red_bg">*</span></label>
+                                    <select id="brand_name" name="brand_name" class="form-control" placeholder="Select Brand" required>
+                                        <option value="">Select a Brand</option>
+                                        <?php foreach ($brand_list as $key => $value) { ?>
+                                            <option value="<?php echo $value['id']; ?>"><?php echo strtoupper($value['name']) ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="filter-widget form-group">
+                                    <label for="exampleInputEmail1" class="form-label">Select Type <span class="red_bg">*</span></label>
+                                    <select id="stock_type" name="stock_type" class="form-control" placeholder="Select Brand" required>
+                                        <option value="1">New</option>
+                                        <option value="2">Existing</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" class="form-label">Enter Total Stock <span class="red_bg">*</span></label>
+                                    <input type="number" min="1" max="100" oninput="validity.valid||(value='');" class="form-control" placeholder="Enter Total Stock" name="stock_total" id="stock_total" value="" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="visiblity_hidden d_block">Add</label>
+                                    <button title="Add Stock Total" class="btn btn_padding filter_btn add-btn total-stock-add">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="add-stock-details-section">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn_padding filter_btn save_common_btn" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn_padding filter_btn_blue save_common_btn add-stock_submit" disabled>Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Modal 1 View Stock Details-->
+<div class="modal fade" id="stock_details" role="dialog" tabindex="-1" role="dialog" aria-labelledby="addAprv" aria-hidden="true">
+    <div class="modal-dialog modal-md modal_common">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close close_new" data-dismiss="modal"></button>
+                <h4 class="modal-title">View assets details</h4>
+            </div>
+            <div class="modal-body">
+                <div class="filter-widget scroll_pop_new">
+                    <div class="row stock_details_result">
+                    </div>
+                    <div class="row stock_assign_details_result">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn_padding filter_btn save_common_btn" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Edit Stock Details-->
+<div class="modal fade" id="edit-stock-details" role="dialog" tabindex="-1" role="dialog" aria-labelledby="addAprv" aria-hidden="true">
+    <div class="modal-dialog modal-md modal_common">
+        <form id="update-stock-details-submit">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close close_new" data-dismiss="modal"></button>
+                    <h4 class="modal-title">Edit assets details</h4>
+                    <span class="small_font"><span id="stok_head"></span></span>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <input type="hidden" name="stock_id" id="stock_id" value="">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Enter Model Number</label>
+                                <input type="text" class="form-control" placeholder="Enter Model Number" name="model_number" id="model_number" value="">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Enter Assets Details/configuration</label>
+                                <input type="text" class="form-control" placeholder="Enter Configuration/Details" name="configuration" id="configuration" value="">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Select Brand <span class="red_bg">*</span></label>
+                                <select id="brand_id" name="brand_id" class="form-control" placeholder="Select Brand" required>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Enter Po Number</label>
+                                <input type="text" class="form-control" placeholder="Enter PO Number" name="po_number" id="po_number" value="">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Select Purchase Type <span class="red_bg">*</span></label>
+                                <select id="purchase_type" name="purchase_type" class="form-control" placeholder="Select Purchase Type" required>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Select Processor</label>
+                                <select id="ast_department" name="ast_department" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Select Ram Size</label>
+                                <select id="ram-id" name="ram_id" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Select Storage Device Type</label>
+                                <select id="storage_device_type" name="storage_device_type" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Select Storage Device Size</label>
+                                <select id="storage_device_size" name="storage_device_size" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Select Own/rental/client <span class="red_bg">*</span></label>
+                                <select id="own_rental" name="own_rental" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Date Of Purchase</label>
+                                <input type="date" class="form-control" placeholder="Enter Data of Purchase" name="date_of_purchase" id="date_of_purchase" value="">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Select Under Validity/warranty <span class="red_bg">*</span></label>
+                                <select id="under_validity" name="under_validity" class="form-control" required>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Valid till <span class="red_bg" id="valid_thru_required"></span></label>
+                                <input type="date" class="form-control" placeholder="Enter Valid Thru" name="valid_thru" id="valid_thru" value="">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Select Vendor <span class="red_bg">*</span></label>
+                                <select id="vendor_id" name="vendor_id" class="form-control" required>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Select Os</label>
+                                <select id="os_id" name="os_id" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Enter Condition</label>
+                                <input type="text" class="form-control" placeholder="Enter Condition Details" name="conditions" id="conditions" value="">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Select Physical Location</label>
+                                <select id="phy_location" name="phy_location" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Select Current Location</label>
+                                <select id="office_location" name="office_location" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Company Brand</label>
+                                <select id="campaign_name" name="campaign_name" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Battery Qty</label>
+                                <input type="text" class="form-control" placeholder="Enter Battery Qty" name="battery_qty" id="battery_qty" value="" onkeydown="return ( event.ctrlKey || event.altKey 
+                    || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) 
+                    || (95<event.keyCode && event.keyCode<106)
+                    || (event.keyCode==8) || (event.keyCode==9) 
+                    || (event.keyCode>34 && event.keyCode<40) 
+                    || (event.keyCode==46) )">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Last Inspection Date</label>
+                                <input type="date" class="form-control" placeholder="Enter Data of Purchase" name="date_of_last_inspection" id="date_of_last_inspection" value="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn_padding filter_btn save_common_btn" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn_padding filter_btn_blue save_common_btn">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Modal Stock Status Update-->
+<div class="modal fade" id="stock_status_update" role="dialog" tabindex="-1" role="dialog" aria-labelledby="addAprv" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close close_new" data-dismiss="modal"></button>
+                <h4 class="modal_title">Status Update</h4>
+                <span class="small_font">Reference ID: <span id="stock_reference_id"></span> Serial Number: <span id="stock_serial_num"></span></span>
+            </div>
+            <form method="post" action="<?= base_url() ?>dfr_it_assets/stock_status_update">
+                <div class="modal-body">
+                    <div class="modal-card">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <input type="hidden" name="stock_id" value="" id="stock_id" required>
+                                <div class="form-group filter-widget">
+                                    <label for="exampleInputEmail1" class="form-label">Status <span class="red_bg">*</span></label>
+                                    <select id="status" name="status" class="form-control stock_status_update_stat" placeholder="Select status" required>
+                                        <option value="" selected>--- Select a Option ---</option>
+                                        <option value="1">Un-Assigned/Released</option>
+                                        <option value="3">Scrap</option>
+                                        <option value="4">Defect</option>
+                                        <option value="6">Stock</option>
+                                        <option value="7">Misplaced/Lost</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group filter-widget">
+                                    <label for="exampleInputEmail1" class="form-label">Enter Comments <span class="red_bg" id="comments_req"></span></label>
+                                    <input id="comments_stat" type="text" class="form-control" placeholder="Enter your comments" name="comments" id="comments">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group filter-widget status_note_sec">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn_padding filter_btn save_common_btn" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn_padding filter_btn_blue save_common_btn">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Assets Assignment using JITBIT USER -->
+<div class="modal fade" id="assign_stock_using_jitbit_model" role="dialog" tabindex="-1" role="dialog" aria-labelledby="addAprv" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <form method="post" id="assets_assignment_jitbit_submit">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close close_new" data-dismiss="modal"></button>
+                    <h4 class="modal-title">User Assets Assignment - Jitbit Ticket</h4>
+                    <span class="small_font"> <span id="assets_details"></span></span>
+                </div>
+                <div class="modal-body">
+                    <div class="filter-widget">
+                        <div class="modal-card">
+                            <div class="row">
+                                <input type="hidden" id="stock_id" name="stock_id" value="">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1" class="form-label">Enter MWP ID <span style="color: red;">*</span></label>
+                                        <input type="text" class="form-control" placeholder="MWP ID" name="mwp_id" id="mwp_id" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1" class="form-label">Enter Jitbit Ticket ID <span style="color: red;">*</span></label>
+                                        <input type="text" minlength="8" maxlength="15" onkeydown="return ( event.ctrlKey || event.altKey 
+                    || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) 
+                    || (95<event.keyCode && event.keyCode<106)
+                    || (event.keyCode==8) || (event.keyCode==9) 
+                    || (event.keyCode>34 && event.keyCode<40) 
+                    || (event.keyCode==46) )" class="form-control" placeholder="Jitbit ID" name="jitbit_id" id="jitbit_id" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1" class="form-label">Enter Assign Date <span style="color: red;">*</span></label>
+                                        <input type="date" class="form-control" name="assign_date" id="assign_date" value="<?= date('Y-m-d') ?>" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1" class="form-label">Enter Comments</label>
+                                        <input type="text" class="form-control" placeholder="Comments" name="comments" id="comments">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn_padding filter_btn save_common_btn" data-dismiss="modal">Close</button>
+                    <button id="assets_assignment_stat" type="submit" class="btn btn_padding filter_btn_blue save_common_btn">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Assets Assignment using JITBIT-->
+<div class="modal fade" id="assign_non_inv_assets_model" role="dialog" tabindex="-1" role="dialog" aria-labelledby="addAprv" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <form method="post" id="assets_assignment_jitbit_submit_non_inv">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close close_new" data-dismiss="modal"></button>
+                    <h4 class="modal-title">Non inventory assets assignment using jitbit ticket ID</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="filter-widget">
+                        <div class="modal-card">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1" class="form-label">Enter Location <span class="red_bg">*</span></label>
+                                        <select id="location_id" name="location_id" class="form-control" required>
+                                            <option value="" selected>--- Select a Option ---</option>
+                                            <?php
+                                            foreach ($location_list as $key => $value) {
+                                                $sel = "";
+                                                if ($value['abbr'] == get_user_office_id()) $sel = "selected";
+                                            ?>
+                                                <option value="<?php echo $value['abbr']; ?>" <?php echo $sel; ?>><?php echo $value['office_name'] ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1" class="form-label">Select Assets <span class="red_bg">*</span></label>
+                                        <select id="assets_id" name="assets_id" class="form-control" required>
+                                            <option value="" selected>--- Select a Option ---</option>
+                                            <?php
+                                            foreach ($assets_list as $value) {
+                                                if ($value['is_inv'] == 2) echo '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1" class="form-label">Enter MWP ID <span class="red_bg">*</span></label>
+                                        <input type="text" class="form-control" placeholder="MWP ID" name="mwp_id" id="mwp_id" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1" class="form-label">Enter Jitbit Ticket ID <span class="red_bg">*</span></label>
+                                        <input type="text" minlength="8" maxlength="15" onkeydown="return ( event.ctrlKey || event.altKey 
+                    || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false) 
+                    || (95<event.keyCode && event.keyCode<106)
+                    || (event.keyCode==8) || (event.keyCode==9) 
+                    || (event.keyCode>34 && event.keyCode<40) 
+                    || (event.keyCode==46) )" class="form-control" placeholder="Jitbit ID" name="jitbit_id" id="jitbit_id" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1" class="form-label">Enter Comments <span class="red_bg">*</span></label>
+                                        <input type="text" class="form-control" placeholder="Comments" name="comments" id="comments" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn_padding filter_btn save_common_btn" data-dismiss="modal">Close</button>
+                    <button id="assets_assignment_stat" type="submit" class="btn btn_padding filter_btn_blue save_common_btn">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Modal Assets un-assigned/release-->
+<div class="modal fade" id="stock_un-assigned_release" role="dialog" tabindex="-1" role="dialog" aria-labelledby="addAprv" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close close_new" data-dismiss="modal"></button>
+                <h4 class="modal-title">Un-assign/release Assets</h4>
+                <span class="small_font"> Reference ID: <span id="stock_reference_id"></span> | Serial Number: <span id="stock_serial_num"></span></span>
+            </div>
+            <form method="post" id="un_assigned_user_assets_submit">
+                <div class="modal-body">
+                    <div class="filter-widget">
+                        <div class="modal-card">
+                            <div class="row">
+                                <input type="hidden" id="stock_id" name="stock_id" value="">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1" class="form-label">Enter Comments <span class="red_bg small_font">** (Be careful when you release assets. Using forced asset release)</span></label>
+                                        <input type="text" class="form-control" placeholder="Enter your comments" name="comments" id="comments" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn_padding filter_btn save_common_btn" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn_padding filter_btn_blue save_common_btn">Release</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Modal Assets Document Upload-Agreement -->
+<div class="modal modal-new-dash fade" id="assets_agreement_doc_upload" role="dialog" tabindex="-1" role="dialog" aria-labelledby="addAprv" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close close_new" data-dismiss="modal"></button>
+                <h4 class="modal-title">User Asset Document Details</h4>
+                <span class="small_font"> Reference Id: <span id="stock_reference_id"></span> | Serial Number: <span id="stock_serial_num"></span></span>
+            </div>
+            <div class="modal-body">
+                <div class="common_table_widget">
+                    <table class="table table-bordered form-group table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Fusion ID</th>
+                                <th>Asset</th>
+                                <th>Assign Date</th>
+                                <th>Assign By</th>
+                                <th>User Location</th>
+                                <th>Department</th>
+                                <th>Acknowledgement Date</th>
+                                <th>Comments</th>
+                            </tr>
+                        </thead>
+                        <tbody id="user_assign_assets_details"> </tbody>
+                    </table>
+                    <div id="user_document_details"> </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn_padding filter_btn save_common_btn" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Assets un-assigned/release-->
+<div class="modal fade" id="stock_un-assigned_release" role="dialog" tabindex="-1" role="dialog" aria-labelledby="addAprv" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close close_new" data-dismiss="modal"></button>
+                <h4 class="modal-title"> Un-assign/release Assets</h4>
+                <span class="small_font"> Reference Id: <span id="stock_reference_id"></span> | Serial Number: <span id="stock_serial_num"></span></span>
+            </div>
+            <form method="post" id="un_assigned_user_assets_submit">
+                <div class="modal-body">
+                    <div class="filter-widget">
+                        <div class="modal-card">
+                            <div class="row">
+                                <input type="hidden" id="stock_id" name="stock_id" value="">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1" class="form-label">Enter Comments <span class="red_bg small_font">** (Be careful when you release assets. Using forced asset release)</span></label>
+                                        <input type="text" class="form-control" placeholder="Enter your comments" name="comments" id="comments" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn_padding filter_btn save_common_btn" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn_padding filter_btn_blue save_common_btn">Release</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Modal User BGV Status -->
+<div class="modal fade" id="user_bgv_status_model" role="dialog" tabindex="-1" role="dialog" aria-labelledby="addAprv" aria-hidden="true">
+    <div class="modal-dialog modal-md modal_common">
+        <form method="post" id="assets_assignment_jitbit_submit">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close close_new" data-dismiss="modal"></button>
+                    <h4 class="modal-title">User Bgv Status</h4>
+                    <span class="small_font"> <span id="assets_details"></span></span>
+                </div>
+                <div class="modal-body">
+                    <div class="filter-widget">
+                        <div id="user_bgv_div"></div>
+                    </div>
+
+                    <!--start CRC table-->
+                    <div class="common_table_widget report_hirarchy_new form-group">
+                        <strong>CRC</strong>
+                        <hr class="sepration_border">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>View Document</th>
+                                    <th>Old Document</th>
+                                    <th>Date</th>
+                                    <th>Modified Date</th>
+                                    <th>Upload By</th>
+                                    <th>Modified By</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <a href="#">
+                                            <img src="<?php echo base_url(); ?>assets_home_v3/images/view.svg" alt="">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="#">
+                                            <img src="<?php echo base_url(); ?>assets_home_v3/images/view.svg" alt="">
+                                        </a>
+                                    </td>
+                                    <td>2022-11-21</td>
+                                    <td>2022-11-21 05:26:42</td>
+                                    <td>System Administrator</td>
+                                    <td>System Administrator</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--end CRC table-->
+
+                    <!--start Address Verification table-->
+                    <div class="common_table_widget report_hirarchy_new form-group">
+                        <strong>Address Verification</strong>
+                        <hr class="sepration_border">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>View Document</th>
+                                    <th>Old Document</th>
+                                    <th>Date</th>
+                                    <th>Modified Date</th>
+                                    <th>Upload By</th>
+                                    <th>Modified By</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <a href="#">
+                                            <img src="<?php echo base_url(); ?>assets_home_v3/images/view.svg" alt="">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="#">
+                                            <img src="<?php echo base_url(); ?>assets_home_v3/images/view.svg" alt="">
+                                        </a>
+                                    </td>
+                                    <td>2022-11-21</td>
+                                    <td>2022-11-21 05:26:42</td>
+                                    <td>System Administrator</td>
+                                    <td>System Administrator</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--end Address Verification table-->
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn_padding filter_btn save_common_btn" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Assets Assignment to floor -->
+<div class="modal fade" id="assign_stock_to_floor" role="dialog" tabindex="-1" role="dialog" aria-labelledby="addAprv" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <form id="stock_floor_assign">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close close_new" data-dismiss="modal"></button>
+                    <h4 class="modal-title">Assign assets to floor - jitbit ticket</h4>
+                    <span class="small_font"> <span id="assets_details"></span></span>
+                </div>
+                <input type="hidden" id="stock_id" name="stock_id" value="">
+                <div class="modal-body">
+                    <div class="filter-widget common_table_widget">
+                        <div class="modal-card" id="model_content_assets">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn_padding filter_btn save_common_btn" data-dismiss="modal">Close</button>
+                    <button id="submit_assignment" type="submit" class="btn btn_padding filter_btn_blue save_common_btn">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- <script src="<?= base_url() ?>assets/css/search-filter/assets/js/scripts.js"></script>
+<script src="<?= base_url() ?>assets/css/search-filter/assets/js/simple-datatables-latest.js"></script>
+<script src="<?= base_url() ?>assets/css/search-filter/assets/js/datatables-simple-demo.js"></script> -->
+<!--start data table with export button-->
+<link rel="stylesheet" href="<?php echo base_url() ?>assets/css/data-table/css/dataTables.bootstrap.min.css" />
+<link rel="stylesheet" href="<?php echo base_url() ?>assets/css/data-table/css/buttons.bootstrap.min.css" />
+<script src="<?php echo base_url() ?>assets/css/data-table/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo base_url() ?>assets/css/data-table/js/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo base_url() ?>assets/css/data-table/js/dataTables.buttons.min.js"></script>
+<script src="<?php echo base_url() ?>assets/css/data-table/js/buttons.bootstrap.min.js"></script>
+<script src="<?php echo base_url() ?>assets/css/data-table/js/jszip.min.js"></script>
+<script src="<?php echo base_url() ?>assets/css/data-table/js/vfs_fonts.js"></script>
+<script src="<?php echo base_url() ?>assets/css/data-table/js/buttons.html5.min.js"></script>
+<script src="<?php echo base_url() ?>assets/css/data-table/js/buttons.print.min.js"></script>
+<script src="<?php echo base_url() ?>assets/css/data-table/js/buttons.colVis.min.js"></script>
+<script>
+    (function($) {
+        function generateBarGraph(wrapper) {
+            // Set Up Values Array
+            var values = [];
+            // Get Values and save to Array
+            $(wrapper + ' .bar').each(function(index, el) {
+                values.push($(this).data('value'));
+            });
+            // Get Max Value From Array
+            var max_value = Math.max.apply(Math, values);
+            // Set width of bar to percent of max value
+            $(wrapper + ' .bar').each(function(index, el) {
+                var bar = $(this),
+                    value = bar.data('value'),
+                    percent = Math.ceil((value / max_value) * 100);
+                // Set Width & Add Class
+                bar.width(percent + '%');
+                bar.addClass('in');
+            });
+        }
+        // Generate the bar graph on window load...
+        $(window).on('load', function(event) {
+            generateBarGraph('#dashboard-stats');
+        });
+    })(jQuery); // Fully reference jQuery after this point.
+</script>
+<script>
+    $(function() {
+        $('#multiselect').multiselect();
+        $('.multiselect_options').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            filterPlaceholder: 'Search for something...'
+        });
+    });
+    $(document).ready(function() {
+        var table = $('#datatablesSimple').DataTable({
+            lengthChange: false,
+            responsive: true,
+            fixedColumns: {                
+                right: 1
+            },
+            <?php //if(it_assets_access()==true){ 
+            ?>
+            buttons: [{
+                extend: 'excel',
+                split: ['', ''],
+            }]
+            <?php //} 
+            ?>
+        });
+        table.buttons().container()
+            .appendTo('#datatablesSimple_wrapper .col-sm-6:eq(0)');
+    });
+</script>
+<!--end data table with export button-->
+<script>
+    $(document).on('focusout', '#add_stock_serial_number', function() {
+        var serial_number_check = $(this).val();
+        if (serial_number_check != "") {
+            var request_url = "<?php echo base_url('dfr_it_assets/chk_serial_number_add_stock'); ?>";
+            var datas = {
+                serial_number: serial_number_check
+            };
+            process_ajax(function(response) {
+                var res = JSON.parse(response);
+                if (res.stat == true) {
+                    $(".add-stock_submit").attr('disabled', false);
+                } else {
+                    alert('Serial Number already exist!');
+                    $(".add-stock_submit").attr('disabled', true);
+                }
+            }, request_url, datas, 'text');
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<script>
+    const assets_count = "<?= count($assets_list_chart) ?>";
+    var barColors = [];
+    const getRandomColor = function() {
+        let letters = '0123456789ABCDEF';
+        let color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+    for (var i = 0; i < Number(assets_count); i++) {
+        barColors[i] = getRandomColor();
+    }
+    var ctx = document.getElementById('my_chart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [<?php $comma = '';
+                        foreach ($assets_list_chart as $key => $value) {
+                            echo $comma . '"' . $value['name'] . '"';
+                            $comma = ',';
+                        } ?>],
+            datasets: [{
+                label: '',
+                data: [<?php $comma = '';
+                        foreach ($assets_count_name1 as $key => $value) {
+                            echo $comma . $value;
+                            $comma = ',';
+                        } ?>],
+                backgroundColor: barColors,
+                borderWidth: 2,
+                borderSkipped: false,
+                borderRadius: 0,
+                barThickness: 20
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                }
+            }
+        }
+    });
+</script>
+<script>
+    var xValues = ["Un-Assigned/Released", "Assigned", "Scrap", "Defect", "Return(Un-Assigned/Released)", "Stock", "Misplaced / Lost", "Live"];
+    var yValues = [<?php $comma = '';
+                    for ($i = 1; $i <= 8; $i++) {
+                        $status_check = false;
+                        foreach ($pie as $value) {
+                            if ($value['status'] == $i) {
+                                $status_check = true;
+                                $chart_value = $value['pie_value'];
+                            }
+                        }
+                        if ($status_check === true) echo $comma . $chart_value;
+                        else echo $comma . '0';
+                        $comma = ",";
+                    } ?>];
+    var barColors2 = [
+        "#188ae2",
+        "#10c469",
+        "#777777",
+        "#ff5b5b",
+        "#5bc0de",
+        "#ba8e94",
+        "#00055c",
+        "#08e2b1"
+    ];
+    new Chart("myChart111", {
+        type: "pie",
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: barColors2,
+                data: yValues
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: ""
+            }
+        }
+    });
+</script>
+<!--end new design js library-->
+<script>
+    $(document).on('submit', '#edit-stock-details #update-stock-details-submit', function(event) {
+        event.preventDefault();
+        var datas = $(this).serializeArray();
+        var request_url = "<?php echo base_url('dfr_it_assets/update_stock_entry'); ?>";
+        process_ajax(function(response) {
+            var res = JSON.parse(response);
+            if (res.stat == true) {
+                alert("Submit Success");
+                location.reload();
+            } else {
+                alert("Something is wrong! Please Check required Fields");
+            }
+        }, request_url, datas, 'text');
+    });
+</script>
+<script>
+    $(document).on('click', '#assign_stock_using_jitbit', function() {
+        var params = $(this).attr("params");
+        var arrPrams = params.split("#");
+        $("#assets_assignment_jitbit_submit")[0].reset();
+        $("#assign_stock_using_jitbit_model #assets_details").text("Serial Number: " + arrPrams[1] + " | Reference ID: " + arrPrams[0]);
+        $("#assign_stock_using_jitbit_model #assets_assignment_jitbit_submit #stock_id").val(arrPrams[3]);
+        $('#assign_stock_using_jitbit_model').modal('show');
+    });
+    $(document).on('focusout', '#assign_stock_using_jitbit_model #assets_assignment_jitbit_submit #mwp_id', function() {
+        var mwp_id = $(this).val();
+        var stock_id = $("#assign_stock_using_jitbit_model #assets_assignment_jitbit_submit #stock_id").val();
+        if (mwp_id != "" && stock_id != "") {
+            var request_url = "<?php echo base_url('dfr_it_assets/chk_user_assets_assignment_status_jitbit'); ?>";
+            var datas = {
+                'mwp_id': mwp_id,
+                'stock_id': stock_id
+            };
+            process_ajax(function(response) {
+                var res = JSON.parse(response);
+                if (res.stat == true) {
+                    $("#assign_stock_using_jitbit_model #assets_assignment_jitbit_submit #assets_assignment_stat").attr('disabled', false);
+                } else {
+                    alert(res.errmsg);
+                    $("#assign_stock_using_jitbit_model #assets_assignment_jitbit_submit #assets_assignment_stat").attr('disabled', true);
+                }
+            }, request_url, datas, 'text');
+        } else {
+            alert("Enter MWP ID!");
+        }
+    });
+    $("#assign_stock_using_jitbit_model #assets_assignment_jitbit_submit").submit(function(e) {
+        e.preventDefault();
+        datas = $("#assets_assignment_jitbit_submit").serialize();
+        var request_url = "<?php echo base_url('dfr_it_assets/jitbit_id_user_inv_assets_assignmnet'); ?>";
+        process_ajax(function(response) {
+            var res = JSON.parse(response);
+            if (res.stat == true) {
+                location.reload();
+            } else {
+                alert(res.errmsg);
+            }
+        }, request_url, datas, 'text');
+    });
+</script>
+<script>
+    $(document).on('focusout', '#assign_non_inv_assets_model #assets_assignment_jitbit_submit_non_inv #mwp_id', function() {
+        var mwp_id = $(this).val();
+        var location_id = $("#assign_non_inv_assets_model #assets_assignment_jitbit_submit_non_inv #location_id").val();
+        var assets_id = $("#assign_non_inv_assets_model #assets_assignment_jitbit_submit_non_inv #assets_id").val();
+        if (mwp_id != "" && location_id != "" && assets_id != '') {
+            var request_url = "<?php echo base_url('dfr_it_assets/chk_user_assets_assignment_status_jitbit_non_inv'); ?>";
+            var datas = {
+                'mwp_id': mwp_id,
+                'assets_id': assets_id,
+                'location_id': location_id
+            };
+            process_ajax(function(response) {
+                var res = JSON.parse(response);
+                if (res.stat != true) {
+                    alert(res.errmsg);
+                }
+            }, request_url, datas, 'text');
+        } else {
+            alert("Please Select Location, Assets and Mwp ID");
+        }
+    });
+    $("#assign_non_inv_assets_model #assets_assignment_jitbit_submit_non_inv").submit(function(e) {
+        e.preventDefault();
+        datas = $("#assets_assignment_jitbit_submit_non_inv").serialize();
+        var request_url = "<?php echo base_url('dfr_it_assets/jitbit_id_user_non_inv_assets_assignmnet'); ?>";
+        process_ajax(function(response) {
+            var res = JSON.parse(response);
+            if (res.stat == true) {
+                location.reload();
+            } else {
+                alert(res.errmsg);
+            }
+        }, request_url, datas, 'text');
+    });
+    $(document).on('change', '#edit-stock-details #update-stock-details-submit #under_validity', function() {
+        var chek_validity = $(this).val();
+        if (chek_validity == 1) {
+            $("#edit-stock-details #update-stock-details-submit #valid_thru").attr("required", true);
+            $("#edit-stock-details #update-stock-details-submit #valid_thru_required").text('*');
+        } else {
+            $("#edit-stock-details #update-stock-details-submit #valid_thru").attr("required", false);
+            $("#edit-stock-details #update-stock-details-submit #valid_thru_required").text('');
+        }
+    });
+    //Auto Scroll
+    $(document).scrollTop($(document).height());
+</script>
+<script>
+    $(document).on('click', '.un_assigned_user_assets', function() {
+        var params = $(this).attr("params");
+        var arrPrams = params.split("#");
+        var reference_id = arrPrams[0];
+        var serial_number = arrPrams[1];
+        var s_status = arrPrams[2];
+        var stock_id = arrPrams[3];
+        $('#stock_un-assigned_release #un_assigned_user_assets_submit #stock_id').val(stock_id);
+        $('#stock_un-assigned_release #stock_reference_id').text(reference_id);
+        $('#stock_un-assigned_release #stock_serial_num').text(serial_number);
+        $('#stock_un-assigned_release').modal('show');
+    });
+    $("#stock_un-assigned_release #un_assigned_user_assets_submit").submit(function(e) {
+        e.preventDefault();
+        var stock_id = $('#un_assigned_user_assets_submit #stock_id').val();
+        var comments = $('#un_assigned_user_assets_submit #comments').val();
+        datas = {
+            'stock_id': stock_id,
+            'comments': comments
+        };
+        var request_url = "<?php echo base_url('dfr_it_assets/assets_forced_release_unassign'); ?>";
+        process_ajax(function(response) {
+            var res = JSON.parse(response);
+            if (res.stat == true) {
+                location.reload();
+            } else {
+                alert(res.errmsg);
+            }
+        }, request_url, datas, 'text');
+    });
+</script>
+<script>
+    $(document).on('click', '.user_bgv_reports_status', function() {
+        var params = $(this).attr("params");
+        var arrPrams = params.split("#");
+        var user_id = $(this).attr("user_id");
+        $("#user_bgv_status_model #assets_details").text("Serial Number: " + arrPrams[1] + " | Reference ID: " + arrPrams[0]);
+        var datas = {
+            'user_id': user_id
+        };
+        var request_url = "<?php echo base_url('dfr_it_assets/get_user_bgv_status'); ?>";
+        process_ajax(function(response) {
+            var res = JSON.parse(response);
+            if (res.stat == true) {
+                if (res.bgv_status == true) {
+                    if (res.user_data[0].is_modify == '1') {
+                        var modified_details_crc = `
+                                <div class="col-md-4">
+                                <div> <label  class=" font-look righT" style="margin-right: 0px;">Old Document</label> :<label class="font-look lefT" style="margin-left: 10px;"><a href="<?= base_url() ?>uploads/bgv_doc/${res.user_data[0].crc_doc_old}" target="_blank">View File</a></label></div>
+                                </div>
+                                 <div class="col-md-4">
+                                <div> <label  class=" font-look righT" style="margin-right: 0px;">Modified By</label> :<label class="font-look lefT" style="margin-left: 10px;"> ${res.user_data[0].modify_by} </label></div>
+                                </div>
+                                 <div class="col-md-4">
+                                <div> <label  class=" font-look righT" style="margin-right: 0px;">Modified Date</label> :<label class="font-look lefT" style="margin-left: 10px;"> ${res.user_data[0].modified_date} </label></div>
+                                </div> 
+                    `;
+                        var modified_details_ad = `
+                                <div class="col-md-4">
+                                <div> <label  class=" font-look righT" style="margin-right: 0px;">Old Document</label> :<label class="font-look lefT" style="margin-left: 10px;"><a href="<?= base_url() ?>uploads/bgv_doc/${res.user_data[0].address_verification_doc_old}" target="_blank">View File</a></label></div>
+                                </div>
+                                 <div class="col-md-4">
+                                <div> <label  class=" font-look righT" style="margin-right: 0px;">Modified By</label> :<label class="font-look lefT" style="margin-left: 10px;"> ${res.user_data[0].modify_by} </label></div>
+                                </div>
+                                 <div class="col-md-4">
+                                <div> <label  class=" font-look righT" style="margin-right: 0px;">Modified Date</label> :<label class="font-look lefT" style="margin-left: 10px;"> ${res.user_data[0].modified_date} </label></div>
+                                </div> 
+                    `;
+                    } else {
+                        var modified_details_crc = "";
+                        var modified_details_ad = "";
+                    }
+                    var bgv_details = `<div class="modal-card new-tab"><div class="row">
+                                    <h2 class="avail_title_heading">CRC</h2>
+                                    <hr class="sepration_border">
+                                <div class="col-md-4">
+                                <div> <label  class=" font-look righT" style="margin-right: 0px;">View Document</label> :<label class="font-look lefT" style="margin-left: 10px;"><a href="<?= base_url() ?>uploads/bgv_doc/${res.user_data[0].crc_doc}" target="_blank">View File</a></label></div>
+                                </div>
+                                 <div class="col-md-4">
+                                <div> <label  class=" font-look righT" style="margin-right: 0px;">Upload By</label> :<label class="font-look lefT" style="margin-left: 10px;"> ${res.user_data[0].upload_by} </label></div>
+                                </div>
+                                 <div class="col-md-4">
+                                <div> <label  class=" font-look righT" style="margin-right: 0px;">Date</label> :<label class="font-look lefT" style="margin-left: 10px;"> ${res.user_data[0].crc_date} </label></div>
+                                </div> ${modified_details_crc}
+                            </div>
+                    </div>
+                    <div class="modal-card new-tab"><div class="row">
+                    <h2 class="avail_title_heading">Address Verification</h2>
+                    <hr class="sepration_border">
+                                <div class="col-md-4">
+                                <div> <label  class=" font-look righT" style="margin-right: 0px;">View Document</label> :<label class="font-look lefT" style="margin-left: 10px;"><a href="<?= base_url() ?>uploads/bgv_doc/${res.user_data[0].address_verification_doc}" target="_blank">View File</a></label></div>
+                                </div>
+                                 <div class="col-md-4">
+                                <div> <label  class=" font-look righT" style="margin-right: 0px;">Upload By</label> :<label class="font-look lefT" style="margin-left: 10px;"> ${res.user_data[0].upload_by} </label></div>
+                                </div>
+                                 <div class="col-md-4">
+                                <div> <label  class=" font-look righT" style="margin-right: 0px;">Date</label> :<label class="font-look lefT" style="margin-left: 10px;"> ${res.user_data[0].address_verification_date} </label></div>
+                                </div> ${modified_details_ad}
+                            </div>
+                    </div>
+                `;
+                } else {
+                    var bgv_details = "<div class='modal-card'><div class='text-center'><p>BGV Status is Pending</p></div></div>";
+                }
+                $("#user_bgv_status_model #user_bgv_div").html(bgv_details);
+            } else {
+                alert(res.errmsg);
+            }
+        }, request_url, datas, 'text');
+        $('#user_bgv_status_model').modal('show');
+    });
+    ///////////////////////////////////
+    $(document).on('submit', '#assign_stock_to_floor #assets_stock_floor_assign', function(event) {
+        event.preventDefault();
+        var datas = $(this).serialize();
+        var request_url = "<?php echo base_url('dfr_it_assets/submit_assets_assign_floor'); ?>";
+        process_ajax(function(response) {
+            var res = JSON.parse(response);
+            if (res.stat == true) {
+                location.reload();
+            } else {
+                alert(res.errmsg);
+            }
+        }, request_url, datas, 'text');
+    });
+    $(document).on('submit', '#assign_stock_to_floor #assets_stock_floor_release', function(event) {
+        event.preventDefault();
+        var datas = $(this).serialize();
+        var request_url = "<?php echo base_url('dfr_it_assets/submit_assets_assign_floor_release'); ?>";
+        process_ajax(function(response) {
+            var res = JSON.parse(response);
+            if (res.stat == true) {
+                location.reload();
+            } else {
+                alert(res.errmsg);
+            }
+        }, request_url, datas, 'text');
+    });
+</script>

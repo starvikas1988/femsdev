@@ -1,0 +1,364 @@
+<?php
+	$approved_on = date_format(date_create($can_dtl_row['approved_on']),'Y-m-d');
+	if ($can_dtl_row['approved_on'] == "") $approved_on = '';
+	$per_day_array = array(2,3,10,11);
+	
+	$gross_pay = $can_dtl_row['gross_pay'];
+	$location = $can_dtl_row['location'];
+	$org_role = $can_dtl_row['org_role'];
+	$pay_type= $can_dtl_row['pay_type'];
+	$payroll_type_name= $can_dtl_row['payroll_type_name'];
+	$incentive_amt = $can_dtl_row['incentive_amt'];
+	$incentive_period = $can_dtl_row['incentive_period'];
+	$joining_bonus = $can_dtl_row['joining_bonus'];
+	$variable_pay=$can_dtl_row['variable_pay'];
+	$gender = $can_dtl_row['gender'];
+	$rank = $can_dtl_row['rank'];
+	$emp_type = $can_dtl_row['emp_type'];
+
+	if($emp_type=="") $emp_type=$can_dtl_row['emp_status'];
+
+	if($location=="") $location = $can_dtl_row['pool_location'];
+
+	$brand = $can_dtl_row['company'];
+	if($brand=="") $brand = $can_dtl_row['brand'];
+		
+	$basic = get_basic($gross_pay, $location, $org_role);
+	$hra =  get_hra($basic, $location, $org_role);
+	
+	$conveyance = get_conveyance($gross_pay, $location, $emp_type);
+	$other_allowance = get_allowance($gross_pay, $basic, $hra,$conveyance, $location);
+	
+	$ptax = get_ptax($gross_pay, $location, $gender);
+
+	
+$pf_employee = get_pf_employee($basic, $location);
+$pf_employer = get_pf_employer($basic, $location);
+
+//$gratuity_employer = get_gratuity_employer($basic, $location);
+$gratuity_employer = 0;
+
+$lwf_employers = get_lwf_employer($location,$brand);
+$lwf_employers_year = get_lwf_employer_year($location,$brand);
+
+$lwf_employees = get_lwf_employee($location,$brand);
+$lwf_employees_year = get_lwf_employee_year($location,$brand);
+
+
+$pli_incentive = 0;
+$pli_incentive_year = 0; 
+
+if ($incentive_period == 'Monthly') {
+    $pli_incentive = round($incentive_amt);
+    $pli_incentive_year = round($incentive_amt*12);
+}elseif($incentive_period == 'Yearly'){
+    $pli_incentive_year = round($incentive_amt);
+    $pli_incentive = round($incentive_amt/12); 
+}
+
+//$gr_amt_esi =  $gross_pay - $conveyance;
+//$gr_amt_esi = round($gross_pay + $pli_incentive - $conveyance);
+$gr_amt_esi = round($gross_pay - $conveyance);
+
+if($location == "CHA"){
+	$gmt_calamount =  round($gross_pay + $pli_incentive - $conveyance); //20-04-2023 modify as per current formula
+}else{
+	$gmt_calamount =  round($gross_pay - $conveyance); //20-04-2023 modify as per current formula
+}
+
+
+$esi_employer = get_esi_employer($gr_amt_esi, $location, $gmt_calamount);
+$esi_employee = get_esi_employee($gr_amt_esi, $location, $gmt_calamount);
+
+
+if ($pay_type == "8") {
+	$pf_employee = 0;
+	$pf_employer = 0;
+	$esi_employer = 0;
+	$esi_employee = 0;
+}
+
+
+
+
+if($location=="KOC") $ptax_year = $ptax * 12;
+else $ptax_year = $ptax * 12;
+
+$employee_deduc = round($pf_employee + $esi_employee + $ptax + $lwf_employees);
+$employer_contri = round($esi_employer + $pf_employer + $gratuity_employer + $lwf_employers);
+
+$ctc = round($gross_pay + $esi_employer + $pf_employer + $gratuity_employer + $lwf_employers + $pli_incentive);
+
+
+$tk_home = round($gross_pay - ($pf_employee + $esi_employee + $ptax + $lwf_employees)) + round($pli_incentive); 
+
+
+$employer_contri_year = round((($esi_employer + $pf_employer + $gratuity_employer)*12) + $lwf_employers_year);
+$employee_deduc_year = round((($pf_employee + $esi_employee )*12) + $ptax_year + $lwf_employees_year);
+						
+$gross_pay_year= round($gross_pay*12);
+$ctc_year =  round($gross_pay_year + $employer_contri_year + $pli_incentive_year);
+
+
+$tk_home_year =  round($gross_pay_year - $employee_deduc_year) + round($pli_incentive_year); 
+	
+if($org_role==13) $notice_period='30';
+else $notice_period='90';
+	
+
+
+$singDtls = get_signature_details($location, $org_role, $rank, $brand, $can_dtl_row['doj']);
+
+$for_comp = $singDtls['company'];
+$signature_text = $singDtls['signature_text'];
+$signature_img = $singDtls['signature_img'];
+
+	
+?>
+			
+<div style="margin:5px;">	
+	
+	
+	<div id="body1" style='width:100%;'>
+		<br/><br/><br/><br/>
+		<P style='text-align:right;'>Date: <?php echo $approved_on ?></P>
+		
+		<strong>Name:</strong> <?php echo $can_dtl_row['fname'].' '.$can_dtl_row['lname'] ?>
+		<br>
+		Address: <?php echo $can_dtl_row['address'];?>	
+		<P style='font-size:15px; text-align:center; font-weight:bold;'>Re: Letter of Offer</P>
+		<span>Dear <?php echo $can_dtl_row['fname'].' '.$can_dtl_row['lname'] ?>,</span>
+		<br>
+		<br>
+		<span>We are pleased to offer you the position of “<?php echo $can_dtl_row['position_name'];?>” for Omind Technologies and its group of companies.</span>
+		<P style='text-align:justify;'>This offer is contingent upon proof of employment eligibility, background and reference check, and confirmation that you are not bound by any contractual agreements that restrict your ability to perform your duties for Omind Technologies Pvt. Ltd., and any of its subsidiary companies. </p>
+		<span>The organization reserves the right to make your employment contingent on additional requirements.</span>
+		<br>
+		<span>We are offering this position to you based on the terms listed below</span>
+		<br><br>
+		<span style='font-size:15px; font-weight:bold; '>TERM START: </span>
+		<br>
+		<?php 
+			if($emp_type==6){
+		?>	
+			<span>This offer/apprenticeship will be valid for <?php echo $can_dtl_row['contract_dur_days'] ?> days, or it may get extended. </span><br>
+		<?php } ?>
+		
+		<span>We look forward to have you onboard with us by <?php echo $can_dtl_row['doj'] ?></span>
+		<br><br>
+		<span style='font-size:15px; font-weight:bold; '>COMPENSATION PACKAGE: </span>
+		<br>
+		<?php if($pay_type=="9"){ ?>
+			<span> Your offered  fixed CTC will be Rs. <?php echo $ctc; ?> per month and Rs. <?php echo $ctc_year; //echo ($ctc*12); ?> per annum and you will be eligible for variable performance incentive in addition to your fixed CTC . The CTC detail is provided in the attached Annexure.</span>
+		<?php }else{ ?>
+			<span>Your offered CTC will be Rs. <?php echo $ctc; ?> per month and Rs. <?php echo $ctc_year; //echo ($ctc*12); ?> per annum. The CTC detail is provided in the attached Annexure.</span>
+		<?php } ?>
+		<br>
+		<br>
+		
+		<?php if($joining_bonus > 0){ ?> <!--$incentive_amt > 0 || -->
+			<span style='font-size:15px; font-weight:bold; '>ADDITIONAL Remuneration: </span>
+			<span> <?php //if($incentive_amt > 0) echo "$incentive_period Incentive Amount: Rs. $incentive_amt "; 
+			if($joining_bonus > 0) echo " Joining Bonus: Rs. $joining_bonus"; ?></span>
+		<?php } ?>
+		<?php if($variable_pay > 0 ){ ?>
+                          <br>
+			<span>Variable Pay:</span>
+			<span> &nbsp;Rs.<?php echo $variable_pay; ?></span>
+		<?php } ?>
+		<br><br>
+		<span>Benefits: You would be entitled to such benefits as may be provided from time-to time as per Company policy.</span>
+		<br><br>
+		<span style='font-size:15px; font-weight:bold; '>ADDITIONAL TERMS: </span>
+		<br><br>
+		<span style='font-size:15px; font-weight:bold; '>PLACEMENT: </span>
+		<br>
+		<span>You will be positioned in <?php echo $can_dtl_row['location_name'];?> office, India.</span>
+		
+		<P style='text-align:justify;'> <span style='font-size:15px; font-weight:bold; '>PROBATION: </span> <br/> You will be on probation for a period of six (6) calendar months from the date of joining. The Management reserves the right to terminate this appointment without assigning any reason, whatsoever, during your probation period. The Management, at its discretion, may extend your probationary period.</p>
+		
+		<span style='font-size:15px; text-align:center; font-weight:bold; '>CONFIRMATION:</span>
+		<br>
+		<span>On satisfactory completion of your probationary period, your service will be confirmed. Management’s decision in this regard shall be final.</span>
+		<br><br>
+		
+		
+		
+		<div style="page-break-after: always"><span style="display: none;">&nbsp;</span></div>
+		
+		<br/><br/><br/><br/>
+		<P style='text-align:justify;'> <span style='font-size:15px; font-weight:bold; '>SEPARATION AND NOTICE PERIOD: </span><br/>In case of separation with the company, if you are deployed in any other country for carrying out official work you should return to your origin station at India for handover of charges and obtain written clearance from all relevant departments after submission of all work authorization documents, work related documents, permits, company assets etc. to the concerned departments at India office. If you want to resign voluntarily you have to serve a notice period of <?php echo $notice_period; ?> days as mandatory unless you are released by your Reporting Manager and HR Manager after deciding a mutually agreed early release date. The notice period is not negotiable on any terms to any day less than the specified number of days as mentioned above.</p>
+		
+		<P style='text-align:justify;'> <span style='font-size:15px; font-weight:bold; '>ACCEPTANCE INSTRUCTIONS: </span><br/>You are requested to confirm your acceptance by signing a copy of this offer letter and forward us the same in scanned copy. Should you accept this offer, we will formalize the terms of your employment in a separate employment agreement, which you will be required to sign and which may contain additional terms and conditions to those listed above. </p>
+		
+		<span>Therefore, the terms listed above do not constitute a binding agreement and ONLY serve as evidence of negotiations concerning your employment. If you have any questions regarding this employment offer, please let us know.</span>
+		<br><br>
+		<span style='font-size:15px; font-weight:bold; '>JOINING DOCUMENTS: </span><br>
+		<span>You are required to carry the following documents at the time of your joining:</span><br>
+		<span>1. Copy of all your educational certificates, </span><br>
+		<span>2. Accepted resignation letter of the last organization and last drawn salary slip (in original) </span><br>
+		<span>3. Salary bank statement of last six months </span><br>
+		<span>4. Appointment / experience letter of the last organization, </span><br>
+		<span>5. Passport size photographs-4, </span><br>
+		<span>6. Passport Copy </span><br>
+		<span>7. PAN Card Copy </span><br>
+		<span>8. AADHAR Card Copy</span><br>
+		<span>9. Proof of Residential address if address is different than Aadhar Card,</span><br>
+		<span>10. Medical Fitness Certificate</span><br>
+		<span>11. Your joining will be confirmed post providing the Vaccination Documents</span>
+		<br><br>
+		<span>We are excitingly looking forward to having you join our team,</span>
+		<br><br>
+		<span>Congratulations and best wishes,</span>
+		<br/>
+		<table cellpadding='0' cellspacing="0" border='0' align='center' style='font-weight:bold; width:100%;'>
+		<tr >
+			<td style="height:30px;">For OMIND TECHNOLOGIES PVT. LTD.</td>
+			<td style="height:30px;">I hereby accept the above offer<br/></td>
+		</tr>
+		<tr >
+			<td style="height:80px;">
+			<!-- <img height='50px' src="<?php APPPATH ?>main_img/omind_saikat_banerjee.png" alt="signature" /> -->
+			<img height='50px' src="<?php APPPATH ?>main_img/rituparna_signature_omind.png" alt="signature" />
+			<br/></td>
+			<td style="height:80px;">Signature:......................................................<br/><br/></td>
+		</tr>
+		<tr>
+			<td style="height:30px;">
+				<!-- Saikat Banerjee<br> Assistant Manager - HR -->
+				Rituparna Banerjee<br> Deputy Manager
+			</td>
+			<td style="height:30px;">Name:.............................................................</td>
+		</tr>
+		</table>
+		<br/>
+		
+		
+		<div style="page-break-after: always"><span style="display: none;">&nbsp;</span></div>
+		<br><br><br><br/>
+		<P style='text-align:right;font-size:10px'><strong>Name:</strong> <?php echo $can_dtl_row['fname'].' '.$can_dtl_row['lname'] ?></P>
+		
+		<br><br>
+		<P style='text-align:center;font-size:16px'><strong>ANNEXURE</P>
+		<br/><br/><br>
+		
+
+		<table cellpadding='2' cellspacing="0" border='1' align='center' style='font-size:12px; text-align:center; width:99%;'>
+			<tr bgcolor="#A9A9A9">
+				<th><strong>Salary Components</strong></th>
+				<th><strong>Monthly</strong></th>
+				<th><strong>Yearly</strong></th>
+			</tr>
+			<tr>
+			<tr>
+				<td style="text-align:left;">Basic</td>
+				<td ><?php echo $basic; ?></td>
+				<td><?php echo ($basic * 12); ?></td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">HRA</td>
+				<td > <?php echo $hra; ?></td>
+				<td><?php echo ($hra * 12); ?></td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">Conveyance</td>
+				<td  ><?php echo $conveyance; ?></td>
+				<td><?php echo ($conveyance * 12); ?></td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">Other Allowance</td>
+				<td ><?php echo $other_allowance; ?></td>
+				<td><?php echo ($other_allowance * 12); ?></td>
+			</tr>
+			<tr bgcolor="#D3D3D3">
+				<td style="text-align:left;">Gross Salary (A)</td>
+				<td ><?php echo $gross_pay; ?></td>
+				<td><?php echo $gross_pay_year; ?></td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">PF (Employer's)</td>
+				<td><?php echo $pf_employer; ?></td>
+				<td><?php echo ($pf_employer * 12); ?></td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">ESIC (Employer's)</td>
+				<td><?php echo $esi_employer; ?></td>
+				<td><?php echo ($esi_employer * 12); ?></td>
+			</tr>
+			<!--<tr>
+				<td style="text-align:left;">Gratuity *</td>
+				<td><?php echo $gratuity_employer; ?></td>
+				<td><?php echo ($gratuity_employer * 12); ?></td>
+			</tr>-->
+			<tr style="text-align:left;">
+				<td style="text-align:left;">Employer Labour Welfare Fund #</td>
+				<td><?php echo $lwf_employers; ?></td>
+				<td><?php echo $lwf_employers_year; ?></td>
+			</tr>
+			<tr bgcolor="#D3D3D3">
+				<td style="text-align:left;">Employer Contribution (B)</td>
+				<td><?php echo $employer_contri; ?></td>
+				<td><?php echo $employer_contri_year; ?></td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">Employee PF *</td>
+				<td><?php echo $pf_employee; ?></td>
+				<td><?php echo ($pf_employee * 12); ?></td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">Employee ESI *</td>
+				<td><?php echo $esi_employee; ?></td>
+				<td><?php echo ($esi_employee * 12); ?></td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">Employee Labour Welfare Fund # </td>
+				<td><?php echo $lwf_employees; ?></td>
+				<td><?php echo $lwf_employees_year; ?></td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">Professional Tax Deduction * </td>
+				<td><?php echo $ptax; ?></td>
+				<td><?php echo $ptax_year; ?></td>
+			</tr>
+			<tr bgcolor="#D3D3D3">
+				<td style="text-align:left;">Employee Deduction (C )</td>
+				<td><?php echo $employee_deduc; ?></td>
+				<td><?php echo $employee_deduc_year; ?></td>
+			</tr>
+			<tr bgcolor="#D3D3D3">
+                <td style="text-align:left;">Performance Linked Incentive (PLI) (D)</td>
+                <td><?php echo $pli_incentive; ?></td>
+                <td><?php echo $pli_incentive_year; ?></td>
+            </tr>
+			<tr bgcolor="#D3D3D3">
+				<td style="text-align:left;">Cost to Company (E) = (A+B+D)</td>
+				<td><?php echo $ctc; ?></td>
+				<td><?php echo $ctc_year; ?></td>
+			</tr>
+			<tr bgcolor="#D3D3D3">
+				<td style="text-align:left;">Take Home Salary (F) = (A + D - C)</td>
+				<td><?php echo $tk_home; ?></td>
+				<td><?php echo $tk_home_year; ?></td>
+			</tr>
+			
+		</table>		
+
+		<br><br>
+		
+		<?php /*?><?php if($incentive_amt > 0){ ?>
+		<span>Additional incentive- <?php echo "Rs. ".$incentive_amt . " " .$incentive_period; ?></span>
+	    <?php } ?><?php */?>
+		
+	<br><br><br>
+	<span style='font-size:10px'>* As per provision of PF, ESI, Gratuity, LWF & Professional Tax Act</span><br>
+	<span style='font-size:10px'><?php echo get_lwf_note($location);?> </span><br>
+	<span style='font-size:10px'>** As per company policy</span><br><br>
+	<span style='font-size:10px'>** CTC annexure is confidential information. Please do not share it with anyone else it will be viewed seriously.</span><br>
+	
+	
+		
+	</div>
+		
+</div>					
+					
+					

@@ -1,0 +1,100 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
+<script src="<?php echo base_url() ?>assets/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo base_url() ?>assets/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
+
+<script type="text/javascript">
+	var baseURL ="<?php echo base_url(); ?>";
+	$('#default-datatable').DataTable({
+		"pageLength":50
+	});
+
+	$('#issu_date, #review_date').datepicker({
+		changeMonth: true,
+		changeYear: true,
+		showButtonPanel: true,
+		dateFormat: 'dd/mm/yy'
+	});
+
+	
+$(document).ready(function(){
+	var baseURL ="<?php echo base_url(); ?>";
+
+	$('#assigned_to, #role_id, #dept_id').select2();
+
+	$("#aprsl_type").change(function(){
+		if($(this).val() == '1'){
+			$('#dept_id').attr('required','required');
+		  	$('#assigned_to').attr('required','required');
+		    $('#role_id').attr('required','required');
+		    $('#gross_amount').removeAttr('readonly');
+			$('#incentive_amt').removeAttr('readonly');
+			$('#incentive_period').removeAttr('readonly');
+			$('#incentive_period').css('pointer-events', 'auto');
+		    $('.prom').show();
+		}else if($(this).val() == '3'){
+			$('#dept_id').attr('required','required');
+		  	$('#assigned_to').attr('required','required');
+		    $('#role_id').attr('required','required');
+		    $('#gross_amount').attr('readonly',true);
+			$('#incentive_amt').attr('readonly',true);
+			$('#incentive_period').attr('readonly',true);
+			$('#incentive_period').css('pointer-events', 'none');
+		    $('.prom').show();
+		}else{
+			$('#dept_id').removeAttr('required');
+			$('#assigned_to').removeAttr('required');
+			$('#role_id').removeAttr('required');
+		    $('#gross_amount').removeAttr('readonly');
+			$('#incentive_amt').removeAttr('readonly');
+			$('#incentive_period').removeAttr('readonly');
+			$('#incentive_period').css('pointer-events', 'auto');
+			$('.prom').hide();
+		}
+
+	});
+
+
+	$(document).on('submit','.form_appr',function(e){
+		e.preventDefault();
+		let valid = true;
+		$('.form_appr [required]').each(function() {
+	      if ($(this).is(':invalid') || !$(this).val()) valid = false;
+	    })
+		if(!valid) alert("please fill all fields!");
+		else{
+			$('#sktPleaseWait').modal('show');	
+				$.ajax({
+				   type: 'POST',    
+				   url:baseURL+'appraisal_employee/save',
+				   data: new FormData(this),
+				    contentType: false,
+					cache: false,
+					processData:false,
+				   // data:$('form.form_appr').serialize(),
+				   success: function(msg){
+						var msg = JSON.parse(msg);
+						if(msg.error == 'false')
+						{	
+							location.reload();
+							
+						}
+						else if(msg.error == 'true')
+						{
+							$('#sktPleaseWait').modal('hide');
+							alert('Unable to Process, Please Try After A While');
+						}
+							
+					}	
+				});
+		}
+
+	});
+
+
+
+});
+</script>
+
+

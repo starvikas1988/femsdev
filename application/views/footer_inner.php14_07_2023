@@ -1,0 +1,11 @@
+<footer id="footer" class="footer">
+        <div class="container">
+            <div class="body_widget text-center">
+                <p>
+					© <?php echo date("Y"); ?> Fusion BPO Services, All Rights Reserved. <br>
+					Powered by: Omind Technologies
+                </p>
+            </div>
+        </div>		
+    </footer>
+

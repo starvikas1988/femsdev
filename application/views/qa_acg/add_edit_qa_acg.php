@@ -202,10 +202,12 @@
                                                     <option value="CQ Audit" <?= ($qa_acg_curd['audit_type']=="CQ Audit")?"selected":"" ?>>CQ Audit</option>
                                                     <option value="BQ Audit" <?= ($qa_acg_curd['audit_type']=="BQ Audit")?"selected":"" ?>>BQ Audit</option>
                                                     <option value="Calibration" <?= ($qa_acg_curd['audit_type']=="Calibration")?"selected":"" ?>>Calibration</option>
+                                                    <option value="WoW Call"  <?= ($qa_acg_curd['audit_type']=="WoW Call")?"selected":"" ?>>WoW Call</option>
                                                     <option value="Pre-Certificate Mock Call" <?= ($qa_acg_curd['audit_type']=="Pre-Certificate Mock Call")?"selected":"" ?>>Pre-Certificate Mock Call</option>
                                                     <option value="Certification Audit" <?= ($qa_acg_curd['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
                                                     <option value="Operation Audit" <?= ($qa_acg_curd['audit_type']=="Operation Audit")?"selected":"" ?>>Operation Audit</option>
                                                     <option value="Trainer Audit"  <?= ($qa_acg_curd['audit_type']=="Trainer Audit")?"selected":"" ?>>Trainer Audit</option>
+                                                    <option value="QA Supervisor Audit"  <?= ($qa_acg_curd['audit_type']=="QA Supervisor Audit")?"selected":"" ?>>QA Supervisor Audit</option>
                                                 </select>
 											</td>
 											<td class="auType_epi">Auditor Type<span style="font-size:24px;color:red">*</span></td>

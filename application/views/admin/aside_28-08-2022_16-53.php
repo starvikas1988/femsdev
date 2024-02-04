@@ -1,0 +1,167 @@
+<!-- APP ASIDE ==========-->
+<aside id="app-aside" class="app-aside left light">
+	<header class="aside-header">
+		<div class="animated">
+			<a href="<?php echo base_url()?>home" id="app-brand" class="app-brand">
+				<span id="brand-icon" class="brand-icon"></span>
+				<span id="brand-name" class="brand-icon foldable"><img src="<?php echo base_url() ?>assets/images/fusion-bpo.png" border="0" alt="Fusion BPO"></span>
+			</a>
+		</div>
+	</header><!-- #sidebar-header -->
+	<div style="padding:20px 0; clear:both;"></div>
+	<div class="aside-scroll">
+		<div id="aside-scroll-inner" class="aside-scroll-inner">
+			<ul class="aside-menu aside-left-menu">
+			
+				<li class="menu-item">
+					<a href="<?php echo base_url()?>admin/dashboard" class="menu-link">
+						<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+						<span class="">Dashboard</span>
+					</a>
+				</li><!-- .menu-item -->
+				
+				
+				<li class="menu-item has-submenu">
+					<a href="" class="menu-link submenu-toggle">
+						<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+						<span class="menu-text foldable">User</span>
+						<span class="menu-caret foldable"><i class="zmdi zmdi-hc-sm zmdi-chevron-right"></i></span>
+					</a>
+					<ul class="submenu">
+					
+						<li>
+							<a  href="<?php echo base_url()?>users/manage">
+								<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+								<span class="">Manage</span>
+							</a>
+						</li>
+						
+						<?php if(is_access_add_user()==true){ ?>	
+							
+							<li>
+								<a href="<?php echo base_url()?>user/chkuser">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Add</span>
+								</a>
+							</li>
+							
+						<?php } ?>
+						
+					</ul>
+					
+				</li>
+				
+				<?php if(is_access_manage_client()==true){ ?>
+				
+				<li class="menu-item has-submenu">
+					<a href="" class="menu-link submenu-toggle">
+						<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+						<span class="menu-text foldable">Client</span>
+						<span class="menu-caret foldable"><i class="zmdi zmdi-hc-sm zmdi-chevron-right"></i></span>
+					</a>
+					<ul class="submenu">
+						<li>
+							<a  href="<?php echo base_url()?>user/manage_client">
+								<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+								<span class="">Manage</span>
+							</a>
+						</li>
+						
+						<li>
+							<a href="<?php echo base_url()?>user/add_client">
+								<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+								<span class="">Add</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<?php } ?>			
+				<!--				
+				<li class="menu-item has-submenu">
+					<a href="#" class="menu-link submenu-toggle">
+						<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+						<span class="menu-text foldable">Performance Evaluation</span>
+						<span class="menu-caret foldable"><i class="zmdi zmdi-hc-sm zmdi-chevron-right"></i></span>
+					</a>
+					<ul class="submenu">
+						<li><a  href="<?php //echo base_url()?>evaluation">Submit Own</a></li>
+						<li><a  href="<?php //echo base_url()?>evaluation/evaluate_list">Review/Evaluate</a></li>
+					</ul>
+				</li>
+				
+												
+				<li class="menu-item">
+					<a href="<?php //echo base_url()?>logindetails" class="menu-link">
+						<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+						<span class="">Update Login Details</span>
+					</a>
+				</li>
+				-->
+				
+				<li class="menu-item">
+					<a href="<?php echo base_url()?>querybrowser" class="menu-link">
+						<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+						<span class="">Query Browser</span>
+					</a>
+				</li>
+												
+				
+				<li class="menu-item has-submenu">
+					<a href="" class="menu-link submenu-toggle">
+						<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+						<span class="menu-text foldable">Schedule</span>
+						<span class="menu-caret foldable"><i class="zmdi zmdi-hc-sm zmdi-chevron-right"></i></span>
+					</a>
+					<ul class="submenu">
+						<li>
+						
+							<a  href="<?php echo base_url()?>schedule">
+								<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+								<span class="">Screen</span>
+							</a>
+						
+						</li>
+						<li>
+							<a href="<?php echo base_url()?>schedule/upload_schedule">
+								<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+								<span class="">Upload</span>
+							</a>
+							
+						</li>
+						
+					</ul>
+				</li>
+				
+				<?php if(is_access_reset_password()==true){ ?>
+					<li class="menu-item">
+					<a href="<?php echo base_url()?>user_password_reset" class="menu-link">
+						<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+						<span class="">Bulk Password Reset</span>
+					</a>
+				</li>
+				<?php } ?>
+				
+				
+				<?php if(is_access_l1_map()==true){ ?>
+					<li class="menu-item">
+						<a href="<?php echo base_url()?>map_l1super" class="menu-link">
+							<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+							<span class="">Map L1-Supervisor</span>
+						</a>
+					</li>
+				<?php } ?>
+				
+				<!--
+				<li class="menu-item">
+					<a href="<?php //echo base_url()?>user_history/history" class="menu-link">
+						<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+						<span class="">Migrate User</span>
+					</a>
+				</li> 
+				-->
+				</ul>
+			</footer><!-- #sidebar-footer -->
+		</div><!-- .aside-scroll-inner -->
+	</div><!-- #aside-scroll -->
+</aside>
+<!--========== END app aside -->

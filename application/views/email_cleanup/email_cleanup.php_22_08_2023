@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Email</title>
+    <!-- <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script> -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    <link href="css/css/fontawesome.css" rel="stylesheet" />
+    <style>
+      @import url('https://fonts.googleapis.com/css?family=Exo:400,700');
+
+      * {
+        margin: 0px;
+        padding: 0px;
+      }
+
+      body {
+        font-family: 'Exo', sans-serif;
+      }
+
+      .form-control {
+          font-size: 13px;
+      }
+
+      .hero-banner {
+        min-height: 100vh;
+        /*display: flex;*/
+        justify-content: center;
+        align-items: center;
+        background-size: cover;
+        background-position: center center;
+        padding: 15px;
+      }
+
+      .hero-banner h1 {
+        font-size: 48px;
+        color: #263991;
+      }
+
+ .form-control:focus {
+  color: #212529;
+  background-color: #fff;
+  border-color: #263991;;
+  outline: 0;
+  box-shadow: 0 0 0 0 rgba(13,110,253,.25);
+  border-radius: 45px;
+}
+.form-check-input:focus {
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 0 rgba(13,110,253,.25);
+}
+.blue-btn{
+  width: 120px;
+padding: 6px;
+background: #263991;
+color: white;
+font-weight: 500;
+border-radius: 5px;
+transition: all 0.5s ease-in-out 0s;
+font-size: 14px;
+}
+button:focus:not(:focus-visible) {
+  outline: 0;
+ background: #0d1a51;
+}
+button:hover{
+  outline: 0;
+  background: #0d1a51;
+}
+
+    </style>
+  </head>
+  <body>
+    <section class="hero-banner bg-light py-5 ">
+      <div class="container">
+        <div class="row row align-items-center">
+          
+          <div class="col-lg-6">
+            <!--  <a href="#" class="btn btn-outline-secondary btn-lg border">Order Now</a> -->
+            <div class="row">
+              <div class="col-lg-12">
+                <h1 class="mt-3 title">Email Registration</h1>
+              </div>
+              <div class="col-lg-12">
+                <p class=" text-secondary my-3">**YOU ARE REQUESTED TO REGISTER YOUR OFFICIAL EMAIL ID WITH MWP, SO THAT YOU <b>DON'T MISS</b> OUT ON IMPORTANT ANNOUNCEMENTS FROM MWP REGARDING <b>YOUR SCOPE OF PERSONAL GROWTH</b>.</p>
+
+                <p>**Allowed Domain names are: </p>
+                <ul>
+                  <li><b>@omindtech.com</b></li>
+                  <li><b>@fusionbposervices.com</b></li>
+                  <li><b>@travelomind.com</b></li>
+                  <!-- <li><b>@xploretech.com</b></li> -->
+                  <li><b>@xplore-tech.com</b></li>
+                  <li><b>@vitalsolutions.net</b></li>
+                  <li><b>@corp.fusionbposervices.com</b></li>
+                </ul>
+              </div>
+              <form method="post">
+
+
+                <div class="col-lg-12" style="margin-bottom: 20px;">
+                  <label for="exampleInputEmail1" class="form-label">Have an Email ID with above mentioned Domains?</label>
+                  <select id="have_email" class="form-control" name="have_email" required>
+                      <option value="">-- Select --</option>
+                      <option value="No">No</option>
+                      <option value="Yes">Yes</option>
+                  </select>
+                </div>
+                
+                <div id="have_email_div" style="display:none;">
+                    <div class="col-lg-6">
+                      <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Primary Email*(this field is mandatory)</label>
+                        <input required type="text" class="form-control" id="email_p" name="primary_mail" aria-describedby="emailHelp">
+                        <label class="form-check-label"></label>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Secondary Email</label>
+                        <input type="text" class="form-control" id="email_s" name="secondary_mail" aria-describedby="emailHelp">
+                      </div>
+                    </div>  
+                </div>
+                
+            
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <input type="checkbox" class="form-check-input" name="chckb" id="exampleCheck1" required value="chckd">
+                    <label class="form-check-label" style="font-size: 12px;">I hereby declare that the information provided is correct and best to my knowledge.</label>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                  <button type="submit" id="sub_btn" class="blue-btn">Submit</button>
+                </div>
+
+              </form>
+              
+            </div>
+          </div>
+          <div class="col-lg-6 offset-lg-1 order-lg-1">
+          <div style="padding-left: 100px;">
+            <!-- <img src="img/web-development-vector.png" class="img-fluid" alt="Web Development"> -->
+            <img src="<?php echo base_url()."assets/images/Email-PNG-Download-Image.png" ?>" class="img-fluid" alt="Web Development">
+</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="margin_bottom_space"></div>
+<script>
+      $(document).on('focusout','#email_p',function()
+      {
+        var email = $(this).val();
+        if(email.length > 0)
+          {
+        var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@(fusionbposervices.com|vitalsolutions.net|xplore-tech.com|omindtech.com|travelomind.com|corp.fusionbposervices.com)$/;   
+        if (!(email.toLowerCase().match(validRegex))) {  
+            alert("Invalid email address");
+            $('#email_p').val('');
+            return false;
+        }else{
+            
+            
+            var datas = {'email':email};
+            // console.log(datas);
+            $.ajax({
+              type  : 'POST',
+              url   : '<?php echo base_url('email_cleanup/check_email_exist'); ?>',
+              data  : datas,
+              success : function(msg){
+                var msg = JSON.parse(msg);
+                  // console.log(msg);
+                    if(msg.error == 'yes')
+                    {
+                        alert("This email id is already registered with MWP");
+                        $('#email_p').val('');
+
+                    }
+                  }
+            });
+          }
+          }
+
+        //alert(email.length);
+        
+      });
+
+
+      $(document).on('focusout','#email_s',function()
+      {
+        var email = $(this).val();
+        if(email.length > 0)
+            {
+
+        var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@(fusionbposervices.com|vitalsolutions.net|xplore-tech.com|omindtech.com|travelomind.com|corp.fusionbposervices.com)$/;   
+        if (!(email.toLowerCase().match(validRegex))) {  
+            alert("Invalid email address");
+            $('#email_s').val('');
+            return false;
+        }else{
+              var email_p = $('#email_p').val();
+              if(email == email_p){
+                alert("Secondary email address can't match Primary email address");
+                $('#email_s').val('');
+              }else{
+                  var datas = {'email':email};
+                  // console.log(datas);
+                  $.ajax({
+                    type  : 'POST',
+                    url   : '<?php echo base_url('email_cleanup/check_email_exist'); ?>',
+                    data  : datas,
+                    success : function(msg){
+                      var msg = JSON.parse(msg);
+                        // console.log(msg);
+                          if(msg.error == 'yes')
+                          {
+                              alert("This email id is already registered with MWP");
+                              $('#email_s').val('');
+                          }
+                        }
+                  });
+              }             
+        }
+      }
+
+        //alert(email.length);
+        
+      });
+
+
+      $(document).on('change','#have_email',function()
+      {
+        var have_mail = $(this).val();
+        if(have_mail == "Yes"){
+          $('#have_email_div').show();
+          $('#email_p').attr('required','required');
+        }else{
+          $('#have_email_div').hide();
+          $('#email_p').removeAttr('required');
+          $('#email_p').val('');
+          $('#email_s').val('');
+        }
+        
+      });
+
+    </script>
+
+
+  </body>
+</html>

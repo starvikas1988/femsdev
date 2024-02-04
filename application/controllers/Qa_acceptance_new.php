@@ -4419,7 +4419,7 @@ else {
 	public function acceptance_dashboard()
 	{
 		if(check_logged_in()){
-			date_default_timezone_set("Asia/Kolkata");
+			//date_default_timezone_set("Asia/Kolkata");
 			$current_user     = get_user_id();
 			$user_office_id   = get_user_office_id();
 			$is_global_access = get_global_access();
@@ -4450,7 +4450,7 @@ else {
 			if(!empty($office_location)){ 					
 				if(!in_array('ALL',$office_location)){
 					$extracted_office_location = implode("','",$office_location);
-					$office_condition = " AND l.abbr IN('".$extracted_office_location."')";
+					$office_condition = " AND s.office_id  IN('".$extracted_office_location."')";
 				}
 			}
 
@@ -4588,10 +4588,10 @@ else {
 					$p_data = $this->Common_model->get_query_row_array($query);
 					$process = $p_data['process_name'];
 					$overall_sql = "select count(qa.id) as total_feedback,'$process' as process,
-					sum(case when qa.agnt_fd_acpt = 'Accepted' then 1 else 0 end) as accept_count,
-					sum(case when qa.agnt_fd_acpt = 'Not Accepted' then 1 else 0 end) as rebuttal_count,
+					sum(case when qa.agnt_fd_acpt in ('Accepted','Acceptance') then 1 else 0 end) as accept_count,
+					sum(case when qa.agnt_fd_acpt in ('Not Accepted','Not Acceptance') then 1 else 0 end) as rebuttal_count,
 					sum(case when qa.agnt_fd_acpt is null then 1 else 0 end) as not_accepted_count,
-					sum(case when qa.agnt_fd_acpt = 'Accepted' and (TIME_TO_SEC(qa.agent_rvw_date)/3600) <=24 then 1 else 0 end) as tntfr_hr_acpt
+					sum(case when qa.agnt_fd_acpt in ('Accepted','Acceptance') and (TIME_TO_SEC(qa.agent_rvw_date)/3600) <=24 then 1 else 0 end) as tntfr_hr_acpt
 					from ".$p_data['table_name']." qa join signin s on qa.agent_id = s.id
 					where 1 $office_condition $dateCondition $tl_cond $qa_cond";
 					//echo $overall_sql;
@@ -4599,25 +4599,25 @@ else {
 					$overall_data[] = $this->Common_model->get_query_row_array($overall_sql);
 
 				$tlwise_sql = "select count(qa.id) as total_feedback,qa.tl_id, (select concat(fname,' ',lname) as tl_name FROM signin WHERE signin.id = qa.tl_id) as tl_name,
-					sum(case when qa.agnt_fd_acpt = 'Accepted' then 1 else 0 end) as accept_count, sum(case when qa.agnt_fd_acpt = 'Not Accepted' then 1 else 0 end) as rebuttal_count,
+					sum(case when qa.agnt_fd_acpt in ('Accepted','Acceptance') then 1 else 0 end) as accept_count, sum(case when qa.agnt_fd_acpt in ('Not Accepted','Not Acceptance') then 1 else 0 end) as rebuttal_count,
 					sum(case when qa.agnt_fd_acpt is null then 1 else 0 end) as not_accepted_count,
-					sum(case when qa.agnt_fd_acpt = 'Accepted' and (TIME_TO_SEC(qa.agent_rvw_date)/3600) <=24 then 1 else 0 end) as tntfr_hr_acpt from ".$p_data['table_name']." qa join signin s on qa.agent_id = s.id
+					sum(case when qa.agnt_fd_acpt in ('Accepted','Acceptance') and (TIME_TO_SEC(qa.agent_rvw_date)/3600) <=24 then 1 else 0 end) as tntfr_hr_acpt from ".$p_data['table_name']." qa join signin s on qa.agent_id = s.id
 					where 1 $office_condition $dateCondition $tl_cond $qa_cond group by qa.tl_id";
 
 					$tl_wise_data[] = $this->Common_model->get_query_result_array($tlwise_sql);
 					//echo $tlwise_sql;
 					$qawise_sql = "select count(qa.id) as total_feedback,qa.entry_by, (select concat(fname,' ',lname) as qa_name FROM signin WHERE signin.id = qa.entry_by) as qa_name, (select d.description FROM signin si join department d on si.dept_id = d.id WHERE si.id = qa.entry_by) as department,
-					sum(case when qa.agnt_fd_acpt = 'Accepted' then 1 else 0 end) as accept_count, sum(case when qa.agnt_fd_acpt = 'Not Accepted' then 1 else 0 end) as rebuttal_count,
+					sum(case when qa.agnt_fd_acpt in ('Accepted','Acceptance') then 1 else 0 end) as accept_count, sum(case when qa.agnt_fd_acpt in ('Not Accepted','Not Acceptance') then 1 else 0 end) as rebuttal_count,
 					sum(case when qa.agnt_fd_acpt is null then 1 else 0 end) as not_accepted_count,
-					sum(case when qa.agnt_fd_acpt = 'Accepted' and (TIME_TO_SEC(qa.agent_rvw_date)/3600) <=24 then 1 else 0 end) as tntfr_hr_acpt from ".$p_data['table_name']." qa join signin s on qa.agent_id = s.id
+					sum(case when qa.agnt_fd_acpt in ('Accepted','Acceptance') and (TIME_TO_SEC(qa.agent_rvw_date)/3600) <=24 then 1 else 0 end) as tntfr_hr_acpt from ".$p_data['table_name']." qa join signin s on qa.agent_id = s.id
 					where 1 $office_condition $dateCondition $tl_cond $qa_cond  group by qa.entry_by";
 
 					$qa_wise_data[] = $this->Common_model->get_query_result_array($qawise_sql);
 
 					$agentwise_sql = "select count(qa.id) as total_feedback,concat(s.fname,' ',s.lname) as agent_name,s.xpoid,qa.tl_id, (select concat(fname,' ',lname) as tl_name FROM signin WHERE signin.id = qa.tl_id) as tl_name,
-					sum(case when qa.agnt_fd_acpt = 'Accepted' then 1 else 0 end) as accept_count, sum(case when qa.agnt_fd_acpt = 'Not Accepted' then 1 else 0 end) as rebuttal_count,
+					sum(case when qa.agnt_fd_acpt in ('Accepted','Acceptance') then 1 else 0 end) as accept_count, sum(case when qa.agnt_fd_acpt in ('Not Accepted','Not Acceptance') then 1 else 0 end) as rebuttal_count,
 					sum(case when qa.agnt_fd_acpt is null then 1 else 0 end) as not_accepted_count,
-					sum(case when qa.agnt_fd_acpt = 'Accepted' and (TIME_TO_SEC(qa.agent_rvw_date)/3600) <=24 then 1 else 0 end) as tntfr_hr_acpt from ".$p_data['table_name']." qa join signin s on qa.agent_id = s.id
+					sum(case when qa.agnt_fd_acpt in ('Accepted','Acceptance') and (TIME_TO_SEC(qa.agent_rvw_date)/3600) <=24 then 1 else 0 end) as tntfr_hr_acpt from ".$p_data['table_name']." qa join signin s on qa.agent_id = s.id
 					where 1 $office_condition $dateCondition $tl_cond $qa_cond  group by s.id";
 
 					$agent_wise_data[] = $this->Common_model->get_query_result_array($agentwise_sql);	
@@ -4775,7 +4775,7 @@ else {
 /////////////////////////////START VIKAS////////////////////////////////////////////
 
 	public function excel_qa_graph(){
-			date_default_timezone_set("Asia/Kolkata");
+			//date_default_timezone_set("Asia/Kolkata");
 
 			$default_val[] = 'ALL';
 
@@ -4804,7 +4804,7 @@ else {
 			if(!empty($office_location)){ 					
 				if(!in_array('ALL',$office_location)){
 					$extracted_office_location = implode("','",$office_location);
-					$office_condition = " AND l.abbr IN('".$extracted_office_location."')";
+					$office_condition = " AND s.office_id  IN('".$extracted_office_location."')";
 				}
 			}
 
@@ -5038,10 +5038,10 @@ else {
 
 						
 					$overall_sql = "select count(qa.id) as total_feedback,'$process' as process,
-					sum(case when qa.agnt_fd_acpt = 'Accepted' then 1 else 0 end) as accept_count,
-					sum(case when qa.agnt_fd_acpt = 'Not Accepted' then 1 else 0 end) as rebuttal_count,
+					sum(case when qa.agnt_fd_acpt in ('Accepted','Acceptance') then 1 else 0 end) as accept_count,
+					sum(case when qa.agnt_fd_acpt in ('Not Accepted','Not Acceptance') then 1 else 0 end) as rebuttal_count,
 					sum(case when qa.agnt_fd_acpt is null then 1 else 0 end) as not_accepted_count,
-					sum(case when qa.agnt_fd_acpt = 'Accepted' and (TIME_TO_SEC(qa.agent_rvw_date)/3600) <=24 then 1 else 0 end) as tntfr_hr_acpt
+					sum(case when qa.agnt_fd_acpt in ('Accepted','Acceptance') and (TIME_TO_SEC(qa.agent_rvw_date)/3600) <=24 then 1 else 0 end) as tntfr_hr_acpt
 					from ".$p_data['table_name']." qa join signin s on qa.agent_id = s.id
 					where 1 $office_condition $dateCondition $tl_cond $qa_cond";				
 //
@@ -5052,10 +5052,10 @@ else {
 
 
 						$locationwise_sql = "select count(qa.id) as total_feedback,'$process' as process,s.office_id,
-												sum(case when qa.agnt_fd_acpt = 'Accepted' then 1 else 0 end) as accept_count,
-							 					sum(case when qa.agnt_fd_acpt = 'Not Accepted' then 1 else 0 end) as rebuttal_count,
+												sum(case when qa.agnt_fd_acpt in ('Accepted','Acceptance') then 1 else 0 end) as accept_count,
+							 					sum(case when qa.agnt_fd_acpt in ('Not Accepted','Not Acceptance') then 1 else 0 end) as rebuttal_count,
 							 					sum(case when qa.agnt_fd_acpt is null then 1 else 0 end) as not_accepted_count,
-												sum(case when qa.agnt_fd_acpt = 'Accepted' and (TIME_TO_SEC(qa.agent_rvw_date)/3600) <=24 then 1 else 0 end) as tntfr_hr_acpt
+												sum(case when qa.agnt_fd_acpt in ('Accepted','Acceptance') and (TIME_TO_SEC(qa.agent_rvw_date)/3600) <=24 then 1 else 0 end) as tntfr_hr_acpt
 						 					from ".$p_data['table_name']." qa join signin s on qa.agent_id = s.id
 											where 1 $office_condition $dateCondition $tl_cond $qa_cond";
 
@@ -5064,9 +5064,9 @@ else {
 
 
 						$tlwise_sql = "select count(qa.id) as total_feedback,qa.tl_id, (select concat(fname,' ',lname) as tl_name FROM signin WHERE signin.id = qa.tl_id) as tl_name,
-					sum(case when qa.agnt_fd_acpt = 'Accepted' then 1 else 0 end) as accept_count, sum(case when qa.agnt_fd_acpt = 'Not Accepted' then 1 else 0 end) as rebuttal_count,
+					sum(case when qa.agnt_fd_acpt in ('Accepted','Acceptance') then 1 else 0 end) as accept_count, sum(case when qa.agnt_fd_acpt in ('Not Accepted','Not Acceptance') then 1 else 0 end) as rebuttal_count,
 					sum(case when qa.agnt_fd_acpt is null then 1 else 0 end) as not_accepted_count,
-					sum(case when qa.agnt_fd_acpt = 'Accepted' and (TIME_TO_SEC(qa.agent_rvw_date)/3600) <=24 then 1 else 0 end) as tntfr_hr_acpt from ".$p_data['table_name']." qa join signin s on qa.agent_id = s.id
+					sum(case when qa.agnt_fd_acpt in ('Accepted','Acceptance') and (TIME_TO_SEC(qa.agent_rvw_date)/3600) <=24 then 1 else 0 end) as tntfr_hr_acpt from ".$p_data['table_name']." qa join signin s on qa.agent_id = s.id
 					where 1 $office_condition $dateCondition $tl_cond $qa_cond group by qa.tl_id";
 
 										//echo "<pre>"; print_r($tlwise_sql); echo "</pre>";
@@ -5079,9 +5079,9 @@ else {
 
 
 						$qawise_sql = "select count(qa.id) as total_feedback,qa.entry_by, (select concat(fname,' ',lname) as qa_name FROM signin WHERE signin.id = qa.entry_by) as qa_name, (select d.description FROM signin si join department d on si.dept_id = d.id WHERE si.id = qa.entry_by) as department,
-					sum(case when qa.agnt_fd_acpt = 'Accepted' then 1 else 0 end) as accept_count, sum(case when qa.agnt_fd_acpt = 'Not Accepted' then 1 else 0 end) as rebuttal_count,
+					sum(case when qa.agnt_fd_acpt in ('Accepted','Acceptance') then 1 else 0 end) as accept_count, sum(case when qa.agnt_fd_acpt in ('Not Accepted','Not Acceptance') then 1 else 0 end) as rebuttal_count,
 					sum(case when qa.agnt_fd_acpt is null then 1 else 0 end) as not_accepted_count,
-					sum(case when qa.agnt_fd_acpt = 'Accepted' and (TIME_TO_SEC(qa.agent_rvw_date)/3600) <=24 then 1 else 0 end) as tntfr_hr_acpt from ".$p_data['table_name']." qa join signin s on qa.agent_id = s.id
+					sum(case when qa.agnt_fd_acpt in ('Accepted','Acceptance') and (TIME_TO_SEC(qa.agent_rvw_date)/3600) <=24 then 1 else 0 end) as tntfr_hr_acpt from ".$p_data['table_name']." qa join signin s on qa.agent_id = s.id
 					where 1 $office_condition $dateCondition $tl_cond $qa_cond  group by qa.entry_by";
 
 						$qawise_data[] = $this->Common_model->get_query_result_array($qawise_sql);
@@ -5090,9 +5090,9 @@ else {
 
 
 						$agentwise_sql = "select count(qa.id) as total_feedback,concat(s.fname,' ',s.lname) as agent_name,s.xpoid,qa.tl_id, (select concat(fname,' ',lname) as tl_name FROM signin WHERE signin.id = qa.tl_id) as tl_name,
-					sum(case when qa.agnt_fd_acpt = 'Accepted' then 1 else 0 end) as accept_count, sum(case when qa.agnt_fd_acpt = 'Not Accepted' then 1 else 0 end) as rebuttal_count,
+					sum(case when qa.agnt_fd_acpt in ('Accepted','Acceptance') then 1 else 0 end) as accept_count, sum(case when qa.agnt_fd_acpt in ('Not Accepted','Not Acceptance') then 1 else 0 end) as rebuttal_count,
 					sum(case when qa.agnt_fd_acpt is null then 1 else 0 end) as not_accepted_count,
-					sum(case when qa.agnt_fd_acpt = 'Accepted' and (TIME_TO_SEC(qa.agent_rvw_date)/3600) <=24 then 1 else 0 end) as tntfr_hr_acpt from ".$p_data['table_name']." qa join signin s on qa.agent_id = s.id
+					sum(case when qa.agnt_fd_acpt in ('Accepted','Acceptance') and (TIME_TO_SEC(qa.agent_rvw_date)/3600) <=24 then 1 else 0 end) as tntfr_hr_acpt from ".$p_data['table_name']." qa join signin s on qa.agent_id = s.id
 					where 1 $office_condition $dateCondition $tl_cond $qa_cond  group by s.id";
 
 						$agentwise_data[] = $this->Common_model->get_query_result_array($agentwise_sql);

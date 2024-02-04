@@ -1,0 +1,259 @@
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/dataTables.bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+	
+	var baseURL="<?php echo base_url();?>";
+	
+	
+	$('#create_dipcheck_modal #location_id').select2();
+	
+	$("#campaign_id").change(function(){
+		
+		var desc = $('option:selected', this).text();
+		$("#desc").val(desc);
+				
+	});
+	
+		////////////////////	
+		
+		$("#client_id").change(function(){
+			var client_id=$(this).val();
+			populate_process_combo(client_id,'','process_id','Y');
+		});
+				
+		$("#edclient_id").change(function(){
+			var client_id=$(this).val();
+			populate_process_combo(client_id,'','edprocess_id','Y');
+		});
+				
+		$("#fclient_id").change(function(){
+			var client_id=$(this).val();
+			populate_process_combo(client_id,'','fprocess_id','Y');
+		});
+				
+	////////////	
+	
+	$('#exam_type').change(function(){
+		examTypeHideCheck();
+	});
+	
+	examTypeHideCheck();
+	function examTypeHideCheck()
+	{
+		exam_type = $('#exam_type').val();
+		if(exam_type == 'S')
+		{
+			$('.closerSurvey').show();
+			$('.closerExam').hide();
+			$('#start_time').removeAttr('required');
+			$('#exam_duration').removeAttr('required');
+			$('#close_date').attr('required', 'required');
+		}
+		if(exam_type == 'E')
+		{
+			$('.closerSurvey').hide();
+			$('.closerExam').show();
+			$('#start_time').attr('required', 'required');
+			$('#exam_duration').attr('required', 'required');
+			$('#close_date').removeAttr('required');
+		}
+	}
+	
+	$('.startExamSchedule').click(function(){
+		
+		$('#modalExamScheduleUser').modal('show');
+		kid = $(this).attr('kid');
+		kname = $(this).attr('kname');
+		
+		baseURL = "<?php echo base_url(); ?>";
+		var rURL=baseURL+'kat/exam_schedule_user_list/'+kid;
+		$('#modalExamScheduleUser #modal_kat_id').val(kid);
+		$('#modalExamScheduleUser #modal_exam_name').val(kname);
+		
+		$('#sktPleaseWait').modal('show');
+		$.ajax({
+		   type: 'GET',    
+		   url: rURL,
+		   data:'kid='+kid,
+		   success: function(response){
+				var json_obj = JSON.parse(response);
+				var html = '';
+				for (var i in json_obj){
+					html += '<tr>';
+					if(json_obj[i].exam_status == 2){
+                        html += '<td></td>';
+                    }else{
+                        html += '<td><input class="kat_checkbox" type="checkbox" name="userCheckbox[]" value="'+json_obj[i].user_id+'"></td>';    
+                    }
+					html += '<td>'+json_obj[i].fullname +'</td>';
+					html += '<td>'+json_obj[i].fusion_id+'</td>';
+					if(json_obj[i].exam_status == 2){
+						html += '<td><span class="text-success"><b>Started</b></span></td>';
+					} else {
+						html += '<td><span class="text-danger"><b>Not Started</b></span></td>';
+					}
+					html += '</tr>';
+				}
+				$('#sktPleaseWait').modal('hide');
+				datatable_refresh('#modalExamScheduleUser #default-datatable', 1);
+				$('#SelectScheduleUser').html(html);
+				datatable_refresh('#modalExamScheduleUser #default-datatable');	
+				
+				var kat_checkbox = $('.kat_checkbox').length;
+                if(kat_checkbox == 0)
+                {  
+                    $('.userCheckboxAll').hide();
+					$(".katbtn").prop('disabled', true);                     
+                }else{
+                    $('.userCheckboxAll').show(); 
+                    $(".katbtn").prop('disabled', false);     
+                }     
+			},
+			error: function(){	
+				alert('Fail!');
+				$('#sktPleaseWait').modal('hide');
+			}
+		  });
+	});
+	
+	function datatable_refresh(id, type="")
+	{
+		if(type!=''){
+		$(id).dataTable().fnClearTable();
+		$(id).dataTable().fnDestroy();
+		}
+		if(type==''){
+		$(id).DataTable({
+			paginate:false,
+			bInfo:false
+		});
+		}
+	}
+	
+	$(document).on('click','.userCheckboxAll',function()
+		{
+		if($(this).is(':checked'))
+		{
+			$('[name="userCheckbox[]"]').prop('checked',true);
+		}
+		else
+		{
+			$('[name="userCheckbox[]"]').prop('checked',false);
+		}
+	});
+
+	
+	$(".pActDeact").click(function(){
+		var pid=$(this).attr("adpid");
+		var sid=$(this).attr("pstat");
+		var title=$(this).attr("titleJS");
+		
+		//alert(baseURL+"kat/pActDeact?pid="+pid + "&sid="+sid);
+		var ans=confirm('Are you sure to '+title+" the Process Updates?");
+		
+		if(ans==true){
+			$.ajax({
+			   type: 'POST',    
+			   url: baseURL+'kat/pActDeact',
+			   data:'pid='+ pid+'&sid='+ sid,
+			   success: function(msg){
+					location.reload();
+				}
+			  });
+		  }
+	});
+	
+	
+	$("#location_id, #client_id , #process_id").change(function(){
+		
+		var location_id =  $('#location_id option:selected').text();
+		
+		var client_name =  $('#client_id option:selected').text();
+		var process_name =  $('#process_id option:selected').text();			
+		var title = location_id + "-" + client_name+ "-"+process_name;
+		$('#description').val(title);
+		
+	});
+	
+	$("#start_time").mask("99:99");
+	$("#start_time").on('keyup blur', function(e){
+		var st = $("#start_time").val();
+		var samar = st.split(":");
+		if(samar[0] > 23 && samar[1] > 59) {
+			samar[0] = 23;
+			samar[1] = 59;
+		}
+		if(samar[0] > 23 || samar[1] > 59) {
+			samar[0] = 23;
+			samar[1] = 59;
+		}
+		var start_t = samar.join(':');
+		$("#start_time").val(start_t);
+	});
+
+	
+	
+	
+////////////////////////////////////////////////////////////////////////////////////////
+	
+	$("#create_dipcheck_form").submit(function (e) {
+		$('#btnSubmit').prop('disabled',true);
+	});
+		
+		
+	/*
+	$(document).on('submit','#qaformsubmit',function(){
+		$('#qaformsubmit').prop('disabled',true);
+			
+	});
+	});	 */
+
+
+	var d = new Date();
+    var monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"];
+    today = monthNames[d.getMonth()] + ' ' + d.getDate() + ' ' + d.getFullYear();
+
+    $('#close_date').attr('disabled', 'disabled');
+    $('#open_date').datepicker({
+        defaultDate: "+1d",
+        minDate: new Date(),
+        maxDate: "+3M",
+        dateFormat: 'mm/dd/yy',
+        showOtherMonths: true,
+        changeMonth: true,
+        selectOtherMonths: true,
+        required: true,
+        showOn: "focus",
+        numberOfMonths: 1,
+    });
+
+    $('#open_date').change(function () {
+        var from = $('#open_date').datepicker('getDate');
+        var date_diff = Math.ceil((from.getTime() - Date.parse(today)) / 86400000);
+        //var maxDate_d = startDate;
+        date_diff = date_diff + 'd';
+		
+        $('#close_date').val('').removeAttr('disabled').removeClass('hasDatepicker').datepicker({
+            dateFormat: 'mm/dd/yy',
+            minDate: date_diff,
+            maxDate: "+3M",
+        });
+    });
+
+    $('#close_date').keyup(function () {
+        $(this).val('');
+        alert('Please select date from Calendar');
+    });
+    $('#open_date').keyup(function () {
+        $('#open_date,#close_date').val('');
+        $('#close_date').attr('disabled', 'disabled');
+        alert('Please select date from Calendar');
+    });
+
+	
+});
+
+</script>

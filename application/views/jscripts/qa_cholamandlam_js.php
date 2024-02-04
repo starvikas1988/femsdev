@@ -7,16 +7,18 @@
 		
 		$('.cholamandlam_points').each(function(index,element){
 			var score_type = $(element).val();
-			if(score_type == 'Yes'){
+			if((score_type == 'Yes') || (score_type == 'Pass')){
 				var weightage = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
 				score = score + weightage;
 				scoreable = scoreable + weightage;
+				
 			}else if(score_type == 'Fatal'){
 				var weightage = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
 				scoreable = scoreable + weightage;
-			}else if(score_type == 'No'){
+			}else if((score_type == 'No') || (score_type == 'Fail')){
 				var weightage = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
 				scoreable = scoreable + weightage;
+				
 			}else if(score_type == 'N/A'){
 				var weightage = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
 				score = score + weightage;
@@ -33,14 +35,197 @@
 		$('#cholamandlam_earnedScore').val(score);
 		$('#cholamandlam_possibleScore').val(scoreable);
 
-		if(($('#cholamandlam_AF1').val()=='Fatal' || $('#cholamandlam_AF1').val()=='No') || ($('#cholamandlam_AF2').val()=='Fatal' || $('#cholamandlam_AF2').val()=='No') || ($('#cholamandlam_AF3').val()=='Fatal' || $('#cholamandlam_AF3').val()=='No') || ($('#cholamandlam_AF4').val()=='Fatal' || $('#cholamandlam_AF4').val()=='No' ) || ($('#cholamandlam_AF5').val()=='Fatal' || $('#cholamandlam_AF5').val()=='No' ) || ($('#cholamandlam_AF6').val()=='Fatal' || $('#cholamandlam_AF6').val()=='No' ) || $('#cholamandlam_AF7').val()=='Fatal' || $('#cholamandlam_AF8').val()=='Fatal' || $('#cholamandlam_AF9').val()=='Fatal' || $('#cholamandlam_AF10').val()=='Fatal' || $('#cholamandlam_AF11').val()=='Fatal' || $('#cholamandlam_AF12').val()=='Fatal' || $('#cholamandlam_AF13').val()=='Fatal'){
+		if(($('#cholamandlam_AF1').val()=='Fatal' || $('#cholamandlam_AF1').val()=='No') || ($('#cholamandlam_AF2').val()=='Fatal' || $('#cholamandlam_AF2').val()=='No') || ($('#cholamandlam_AF3').val()=='Fatal' || $('#cholamandlam_AF3').val()=='No') || ($('#cholamandlam_AF4').val()=='Fatal' || $('#cholamandlam_AF4').val()=='No' ) || ($('#cholamandlam_AF5').val()=='Fatal' || $('#cholamandlam_AF5').val()=='No' ) || ($('#cholamandlam_AF6').val()=='Fatal' || $('#cholamandlam_AF6').val()=='No' ) || $('#cholamandlam_AF7').val()=='Fatal' || $('#cholamandlam_AF8').val()=='Fatal' || $('#cholamandlam_AF9').val()=='Fatal' || $('#cholamandlam_AF10').val()=='Fatal' || $('#cholamandlam_AF11').val()=='Fatal' || $('#cholamandlam_AF12').val()=='Fatal' || $('#cholamandlam_AF13').val()=='Fatal' || $('#chola_collection1').val()=='Fail' || $('#chola_collection2').val()=='Fail' || $('#chola_collection3').val()=='Fail' || $('#chola_collection4').val()=='Fail' || $('#chola_collection5').val()=='Fail' || $('#chola_collection6').val()=='Fail' || $('#chola_collection7').val()=='Fail' || $('#chola_collection8').val()=='Fail' || $('#chola_collection9').val()=='Fail' || $('#chola_collection10').val()=='Fail' || $('#chola_collection11').val()=='Fail' || $('#chola_collection12').val()=='Fail' || $('#chola_collection13').val()=='Fail' || $('#chola_collection14').val()=='Fail' || $('#chola_collection15').val()=='Fail' || $('#chola_collection16').val()=='Fail'){
 		$('#cholamandlam_overallScore').val(0);
+		
+		$('#fatalspan3').val("Fatal Error").css("color","red");
 		}else{
 			if(!isNaN(quality_score_percent)){
 				$('#cholamandlam_overallScore').val(quality_score_percent+'%');
+				$('#fatalspan3').val("Non Fatal").css("color","blue");
 			}	
 		}
-	
+
+		
+		//////////////////////////////
+		var compliancescore = 0;
+		var compliancescoreable = 0;
+		var call_opening_score_percent = 0;
+		var customerscore = 0;
+		var customerscoreable = 0;
+		var process_knowledge_score_percent = 0;
+		var businessscore = 0;
+		var businessscoreable = 0;
+		var negotiation_score_percent = 0;
+		var softskillsscore = 0;
+		var softskillsscoreable = 0;
+		var soft_skills_score_percent = 0;
+		var callclosurescore = 0;
+		var callclosurescoreable = 0;
+		var call_closure_score_percent = 0;
+		var systemknowledgescore = 0;
+		var systemknowledgescoreable = 0;
+		var system_knowledge_score_percent = 0;
+
+		
+		$('.call_opening').each(function(index,element){
+			var score_type1 = $(element).val();
+			
+			if((score_type1 == 'Yes') || (score_type1 == 'Pass')){
+				var weightage1 = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
+				//var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				compliancescore = compliancescore + weightage1;
+				compliancescoreable = compliancescoreable + weightage1;
+			}else if((score_type1 == 'No') || (score_type1 == 'Fail')){
+				var weightage1 = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
+				//var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				compliancescoreable = compliancescoreable + weightage1;
+			}else if(score_type1 == 'NA'){
+				var weightage1 = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
+				//var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				compliancescore = compliancescore + weightage1;
+				compliancescoreable = compliancescoreable + weightage1;
+			}
+		});
+		call_opening_score_percent = ((compliancescore*100)/compliancescoreable).toFixed(2);
+		// $('#compliancescore').val(compliancescore);
+		// $('#compliancescoreable').val(compliancescoreable);
+		$('#call_opening_score_percent').val(call_opening_score_percent+'%');
+
+	//////////////
+
+		$('.process_knowledge').each(function(index,element){
+			var score_type2 = $(element).val();
+			
+			if((score_type2 == 'Yes') || (score_type2 == 'Pass')){
+				var weightage1 = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
+				//var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				customerscore = customerscore + weightage1;
+				customerscoreable = customerscoreable + weightage1;
+			}else if((score_type2 == 'No') || (score_type2 == 'Fail')){
+				var weightage1 = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
+				//var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				customerscoreable = customerscoreable + weightage1;
+			}else if(score_type2 == 'NA'){
+				var weightage1 = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
+				//var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				customerscore = customerscore + weightage1;
+				customerscoreable = customerscoreable + weightage1;
+			}
+		});
+		process_knowledge_score_percent = ((customerscore*100)/customerscoreable).toFixed(2);
+		// $('#customerscore').val(customerscore);
+		// $('#customerscoreable').val(customerscoreable);
+		$('#process_knowledge_score_percent').val(process_knowledge_score_percent+'%');
+		
+	//////////////
+
+		$('.negotiation').each(function(index,element){
+			var score_type3 = $(element).val();
+			
+			if((score_type3 == 'Yes') || (score_type3 == 'Pass')){
+				var weightage1 = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
+				//var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				businessscore = businessscore + weightage1;
+				businessscoreable = businessscoreable + weightage1;
+			}else if((score_type3 == 'No') || (score_type3 == 'Fail')){
+				var weightage1 = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
+				//var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				businessscoreable = businessscoreable + weightage1;
+			}else if(score_type3 == 'NA'){
+				var weightage1 = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
+				//var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				businessscore = businessscore + weightage1;
+				businessscoreable = businessscoreable + weightage1;
+			}
+		});
+		negotiation_score_percent = ((businessscore*100)/businessscoreable).toFixed(2);
+		// $('#businessscore').val(businessscore);
+		// $('#businessscoreable').val(businessscoreable);
+		$('#negotiation_score_percent').val(negotiation_score_percent+'%');
+
+	//////////////
+
+	$('.soft_skills').each(function(index,element){
+			var score_type4 = $(element).val();
+			
+			if((score_type4 == 'Yes') || (score_type4 == 'Pass')){
+				var weightage1 = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
+				//var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				softskillsscore = softskillsscore + weightage1;
+				softskillsscoreable = softskillsscoreable + weightage1;
+			}else if((score_type4 == 'No') || (score_type4 == 'Fail')){
+				var weightage1 = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
+				//var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				softskillsscoreable = softskillsscoreable + weightage1;
+			}else if(score_type4 == 'NA'){
+				var weightage1 = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
+				//var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				softskillsscore = softskillsscore + weightage1;
+				softskillsscoreable = softskillsscoreable + weightage1;
+			}
+		});
+
+		soft_skills_score_percent = ((softskillsscore*100)/softskillsscoreable).toFixed(2);
+		// $('#businessscore').val(businessscore);
+		// $('#businessscoreable').val(businessscoreable);
+		$('#soft_skills_score_percent').val(soft_skills_score_percent+'%');
+
+		//////////////
+
+	$('.call_closure').each(function(index,element){
+			var score_type5 = $(element).val();
+			
+			if((score_type5 == 'Yes') || (score_type5 == 'Pass')){
+				var weightage1 = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
+				//var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				callclosurescore = callclosurescore + weightage1;
+				callclosurescoreable = callclosurescoreable + weightage1;
+			}else if((score_type5 == 'No') || (score_type5 == 'Fail')){
+				var weightage1 = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
+				//var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				callclosurescoreable = callclosurescoreable + weightage1;
+			}else if(score_type5 == 'NA'){
+				var weightage1 = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
+				//var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				callclosurescore = callclosurescore + weightage1;
+				callclosurescoreable = callclosurescoreable + weightage1;
+			}
+		});
+		
+		call_closure_score_percent = ((callclosurescore*100)/callclosurescoreable).toFixed(2);
+		// $('#businessscore').val(businessscore);
+		// $('#businessscoreable').val(businessscoreable);
+		$('#call_closure_score_percent').val(call_closure_score_percent+'%');
+
+		
+		//////////////
+
+	$('.system_knowledge').each(function(index,element){
+			var score_type6 = $(element).val();
+			
+			if((score_type6 == 'Yes') || (score_type6 == 'Pass')){
+				var weightage1 = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
+				//var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				systemknowledgescore = systemknowledgescore + weightage1;
+				systemknowledgescoreable = systemknowledgescoreable + weightage1;
+			}else if((score_type6 == 'No') || (score_type6 == 'Fail')){
+				var weightage1 = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
+				//var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				systemknowledgescoreable = systemknowledgescoreable + weightage1;
+			}else if(score_type6 == 'NA'){
+				var weightage1 = parseFloat($(element).children("option:selected").attr('cholamandlam_val'));
+				//var weightage2 = parseFloat($(element).children("option:selected").attr('coastline_max'));
+				systemknowledgescore = systemknowledgescore + weightage1;
+				systemknowledgescoreable = systemknowledgescoreable + weightage1;
+			}
+		});
+		
+		system_knowledge_score_percent = ((systemknowledgescore*100)/systemknowledgescoreable).toFixed(2);
+		// $('#businessscore').val(businessscore);
+		// $('#businessscoreable').val(businessscoreable);
+		$('#system_knowledge_score_percent').val(system_knowledge_score_percent+'%');
+
 	}
 	
 	$(document).on('change','.cholamandlam_points',function(){
@@ -88,6 +273,34 @@
 	});
 	smileimpress_calc();
 </script>
+
+<script>
+//////////////////// Phone Number Validation ///////////////////
+	function checkDec(el){
+		var ex = /^[0-9]+\.?[0-9]*$/;
+		if(ex.test(el.value)==false){
+			el.value = el.value.substring(0,el.value.length - 1);
+		}
+	}
+	
+	function phone_noFunction(phone_no){
+		var phone_no=$("#phone_no").val();
+		var pattern =/^[0-9]+\.?[0-9]*$/;    
+		if(!pattern.test(phone_no)){
+			$("#msg-phone_no").html("<font color=red style='font-size:14px;'>This Phone No  is not valid </font>");
+			$(".waves-effect").attr("disabled",true);
+			$(".waves-effect").css('cursor', 'no-drop');
+		}else if((phone_no.length <10) || (phone_no.length >12)){
+			$("#msg-phone_no").html("<font color=red style='font-size:14px;'>Please enter at least 10-12 characters inside the Text Box</font>");
+			$(".waves-effect").attr("disabled",true);
+			$(".waves-effect").css('cursor', 'no-drop');
+		}else{
+			$("#msg-phone_no").html("");
+			$(".waves-effect").attr("disabled",false);
+			$(".waves-effect").css('cursor', 'pointer');
+		}
+	}
+</script>
  
  <script>
 $(document).ready(function()
@@ -95,7 +308,7 @@ $(document).ready(function()
 	
 	$("#audit_date").datepicker();
 	$("#call_date").datepicker();
-	$("#call_duration").timepicker({timeFormat : 'HH:mm:ss' });
+	$("#call_duration").timepicker({timeFormat : 'HH:mm:ss', showButtonPanel: false });
 	$("#from_date").datepicker();
 	$("#to_date").datepicker();
 	
@@ -255,7 +468,7 @@ $(document).ready(function()
 				var json_obj = $.parseJSON(aList);
 				$('#tl_name').empty();
 				$('#tl_name').append($('#tl_name').val(''));	
-				//for (var i in json_obj) $('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
+				for (var i in json_obj) $('#tl_name').append($('#tl_name').val(json_obj[i].tl_name));
 				for (var i in json_obj) $('#tl_id').append($('#tl_id').val(json_obj[i].assigned_to));
 				for (var i in json_obj) $('#fusion_id').append($('#fusion_id').val(json_obj[i].fusion_id));
 				for (var i in json_obj) $('#campaign').append($('#campaign').val(json_obj[i].process_name));
@@ -274,11 +487,3 @@ $(document).ready(function()
 
 </script>
  
- <script>
-	function checkDec(el){
-		var ex = /^[0-9]+\.?[0-9]*$/;
-		if(ex.test(el.value)==false){
-			el.value = el.value.substring(0,el.value.length - 1);
-		}
-	}
- </script>

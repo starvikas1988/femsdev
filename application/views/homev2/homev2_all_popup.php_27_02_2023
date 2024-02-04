@@ -1,0 +1,1319 @@
+<!-- Modal Start here-->
+<div class="modal fade bs-example-modal-sm" id="sktPleaseWait" tabindex="-2" role="dialog" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+				  <h4 class="modal-title">
+					<i class="fa fa-refresh fa-spin" style="font-size:16px"></i> Please Wait. Processing...
+                 </h4>
+				 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-info
+                    progress-bar-striped active"
+                    style="width: 100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="LogoutImgModelAd" class="modal fade" role="dialog" aria-labelledby="confirmAcknowledgeLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <!-- Modal content-->
+	<div class="modal-content">
+		<div class="modal-header">			
+			 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+		<form class="frmAdLogoutAcknowledge" action="<?php echo base_url(); ?>logout" data-bs-toggle="validator" method='POST'>
+			<div class="modal-body">
+				<img style= 'width:100%;' src ="<?php echo base_url(); ?>assets/images/ad_logout_img.png"/>
+				<br><br>
+				<div class="row">
+					<div class="col-md-12" style="color:darkgreen;font-weight:bold; font-size:16px;">
+						<input type="checkbox" id="is_acknowledge" name="is_acknowledge" value='1' required>
+						I acknowledge the same
+					</div>
+				</div>
+			</div>
+			
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-primary" id="confirm">I acknowledge</button>
+				
+			 </div>	 
+		</form>
+	</div>
+	</div>
+</div>
+
+
+<div id="LogoutImgModel" class="modal fade">
+  <div class="modal-dialog modal-dialog-centered">
+    <!-- Modal content-->
+	<div class="modal-content">
+		<div class="modal-header">                
+			<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+		<div class="modal-body">
+			<img style= 'width:100%;' src ="<?php echo base_url(); ?>assets/images/fems_logout_popup_2021.jpg"/>
+		</div>
+		
+		<div class="modal-footer">
+			<button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+		 </div>	  
+	</div>
+	</div>
+</div>
+
+
+<!-------------------------Add References----------------------- ---->
+<div id="addReferrals" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">			
+            <form id="frmAddReferrals" class="frmAddReferrals" action="" onsubmit="return false;" data-bs-toggle="validator" method='POST' enctype="multipart/form-data">
+
+                <div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">Add Referral </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label>Full Name</label>
+                                <input type="text" id="name" name="name" class="form-control" autocomplete="off" required onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32">
+                            </div>
+                        </div>
+						<div class="col-md-6">
+                            <div class="mb-3">
+                                <label>Phone</label>
+                                <input type="number" id="phone" name="phone" class="form-control" onfocusout="checkphone()" required>
+                                <span id="phone_status" style="color:red"></span>
+                            </div>
+                        </div>
+						<div class="col-md-6">
+                            <div class="mb-3">
+                                <label>Email</label>
+                                <input type="email" id="email" name="email" class="form-control" onfocusout="checkemail();" required>
+                                <span id="email_status" style="color:red"></span>
+                            </div>
+                        </div>
+						<div class="col-md-6">
+                            <div class="mb-3">
+                                <label>Position Referring For</label>
+                                <select id="position" name="position" required>
+                                    <option value="">-- Select Position --</option>
+                                    <option value="agent">CCE</option>
+                                    <option value="tl">TL</option>
+                                    <option value="qa">QA</option>
+                                    <option value="manager">MANAGER</option>
+                                    <option value="am">AM</option>
+                                    <option value="trainer">TRAINER</option>
+                                    <option value="support">OTHER SUPPORT</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label>Comment</label>
+                                <textarea id="comment" name="comment" class="form-control" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label>Attach CV
+                                </label>
+                                <input type="file" class="form-control" name="userfile" id="r_cv_attach" accept=".pdf">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <input type="submit" name="submit" id='addReferal' class="btn btn-primary" value="Save">
+                </div>
+					
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-------------------------User References----------------------- ---->
+<div id="reference" class="modal fade">
+    <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width:900px;">
+        <!-- Modal content-->
+        <div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel">Your Referrals - <?php echo count($get_references_user); ?> </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+						<div class="table-widget">
+                        <table id="default-datatable" data-plugin="DataTable" class="table table-striped skt-table" cellspacing="0" width="100%" style='margin-bottom:0px;'>
+                            <thead>
+                                <tr>
+                                    <th>SL</th>
+                                    <th>Name</th>
+                                    <th>Fusion ID</th>
+                                    <th>XPOID</th>
+                                    <th>DOJ</th>
+                                    <th>Status</th>
+                                    <th>Client</th>
+                                    <th>Process</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $i = 1;
+                                foreach ($get_references_user as $row) {
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $i++; ?></td>
+                                        <td><?php echo $row['fname'] . " " . $row['lname']; ?></td>
+                                        <td><?php echo $row['fusion_id']; ?></td>
+                                        <td><?php echo $row['xpoid']; ?></td>
+                                        <td><?php echo $row['doj']; ?></td>
+                                        <td><?php
+                                            $status = $row['status'];
+                                            $terms_date = $row['terms_date'];
+                                            $lwd = $row['lwd'];
+
+                                            if ($status == 1)
+                                                echo '<span class="label label-info">Active</span>';
+                                            else if ($status == 0)
+                                                echo '<span class="label label-danger">Terms (LWD : ' . $lwd . ', Term Date: ' . $terms_date . ' )</span>';
+                                            else if ($status == 2)
+                                                echo '<span class="label label-warning">Pre-Terms (LWD : ' . $lwd . ', Term Date: ' . $terms_date . ' )</span>';
+                                            else if ($status == 4)
+                                                echo '<span class="label label-primary">Active New</span>';
+                                            else
+                                                echo '<span class="label label-default">Deactive</span>';
+                                            ?></td>
+
+                                        <td><?php echo $row['client_name']; ?></td>
+                                        <td><?php echo $row['process_name']; ?></td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="schedule" class="modal fade">
+    <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width:900px;">
+        <!-- Modal content-->
+        <div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">
+					Your Schedule
+                 </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+						<div class="table-widget">
+							<table id="default-datatable" data-plugin="DataTable" class="table table-striped skt-table" cellspacing="0" width="100%" style='margin-bottom:0px;'>
+								<thead>
+									<tr>
+										<th>Date</th>
+										<th>Day</th>
+										<th>In Time</th>
+										<th>Break 1</th>
+										<th>Lunch</th>
+										<th>Break 2</th>
+										<th>End Time</th>
+										<th>Status</th>
+										<th>Remarks</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<?php
+									foreach ($curr_schedule as $user) {
+
+										$shr_status = "Ok";
+										if ($user['is_accept'] == '2') {
+											$shr_status = "In Review";
+										}
+										if ($user['is_accept'] == '1') {
+											$shr_status = "Reviewed";
+										}
+										if ($user['is_accept'] == '1' && $user['agent_status'] != 'C') {
+											$shr_status = "Accepted";
+										}
+										if ($user['is_accept'] == '1' && $user['agent_status'] == 'C' && $user['ops_status'] == 'C' && empty($user['wfm_status'])) {
+											$shr_status = "Reviewed by WFM";
+										}
+										if ($user['is_accept'] == '1' && $user['agent_status'] == 'C' && $user['ops_status'] == 'C' && $user['wfm_status'] == 'C') {
+											$shr_status = "Updated by WFM";
+										}
+										if ($user['is_accept'] == '3') {
+											$shr_status = "Rejected";
+										}
+
+										$shr_remarks = "Accepted";
+										if ($user['is_accept'] == '2' && $user['agent_status'] == 'R') {
+											$shr_remarks = "Pending Review by Operations";
+										}
+										if ($user['is_accept'] == '2' && $user['agent_status'] == 'C' && $user['ops_status'] == 'R') {
+											$shr_remarks = "To be Reviewed by WFM";
+										}
+										if ($user['is_accept'] == '1' && $user['agent_status'] == 'C' && $user['ops_status'] == 'C' && $user['wfm_status'] != 'C') {
+											$shr_remarks = $user['ops_review'];
+										}
+										if ($user['is_accept'] == '1' && $user['agent_status'] == 'C' && $user['ops_status'] == 'C' && $user['wfm_status'] == 'C') {
+											$shr_remarks = $user['wfm_review'];
+										}
+										if ($user['is_accept'] == '3' && $user['agent_status'] == 'C' && $user['ops_status'] == 'C' && $user['wfm_status'] == 'X') {
+											$shr_remarks = $user['wfm_review'];
+										}
+										?>
+
+										<tr>
+											<td><?php echo $user['shdate']; ?></td>
+											<td><?php echo $user['shday']; ?></td>
+											<td><?php echo $user['in_time']; ?></td>
+											<td><?php echo $user['break1']; ?></td>
+											<td><?php echo $user['lunch']; ?></td>
+											<td><?php echo $user['break2']; ?></td>
+											<td><?php echo $user['out_time']; ?></td>
+											<td><?php echo $shr_status; ?></td>
+											<td><?php echo $shr_remarks; ?></td>
+										</tr>
+									<?php }
+									?>
+								</tbody>
+							</table>
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-------------------------Holiday List--------------------------->
+<div id="holidayListModel" class="modal fade">
+	<div class="modal-dialog  modal-lg" style="width: 915px;max-width:100%;">			
+		<div class="modal-content">
+			<div class="modal-header">
+				 <h4 class="modal-title">
+					Holiday List <?php echo $currYear; ?>
+				 </h4>
+				 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="widget">							
+							<div class="widget-body">
+								<div class="table-responsive" id="holidayList">
+					
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!------------------------------------------------------------------->
+
+<!-------------------------Payroll Calendar--------------------------->
+<div id="payrollCalendarModel" class="modal fade">
+	<div class="modal-dialog  modal-lg">
+		<div class="modal-content" style="width: 915px;margin-left: -86px;">			
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="widget">
+							<hr class="widget-separator">
+								<header class="widget-header">
+									<h4 class="widget-title" style="font-size: 23px;">Payroll Calendar <?php echo $currYear; ?></h4>
+								</header>
+							<div class="widget-body">
+								<div class="table-responsive" id="payrollCalendar">
+
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!------------------------------------------------------------------->
+
+<div id="refIndLeftModel" class="modal fade">
+  <div class="modal-dialog" style = 'width:50%;'>
+	<div class="modal-content">
+		<div class="modal-body">
+			<img style= 'width:100%;' src ="<?php echo base_url(); ?>assets/images/ind_employee_connect.jpg"/>
+		</div>
+	</div>
+	</div>
+</div>
+		
+<div id="refERCalendar" class="modal fade">
+  <div class="modal-dialog" style = 'width:50%;'>
+	<div class="modal-content">
+		<div class="modal-body">
+			<img style= 'width:100%;' src ="<?php echo base_url().$er_calender_url; ?>"/>
+		</div>
+	</div>
+	</div>
+</div>
+        
+        
+<div id="refLDCalendar" class="modal fade">
+  <div class="modal-dialog" style = 'max-width: 1200px;margin-top: 43px;'>
+	<div class="modal-content">
+		<div class="modal-body">
+			<img style= 'object-fit: contain;  width: 100%;' src ="<?php echo base_url(); ?>assets/images/LD_Calendar_2022.png"/>
+		</div>
+	</div>
+	</div>
+</div>
+        
+<!--<div id="refLDCourses" class="modal fade">
+  <div class="modal-dialog" style = 'width:50%;'>
+	<div class="modal-content">
+		<div class="modal-body">
+			<img style= 'width:100%;' src ="<?php /*?><?php echo base_url(); ?><?php */?>assets/images/LD_Courses.png"/>
+		</div>
+	</div>
+	</div>
+</div>-->
+
+<div id="refEmailPhishing" class="modal fade">
+  <div class="modal-dialog" style = 'width:50%;'>
+	<div class="modal-content">
+		<div class="modal-body">
+			<img style= 'width:100%;' src ="<?php echo base_url(); ?>assets/images/email_phishing.png"/>
+		</div>
+	</div>
+	</div>
+</div>
+
+<div id="refGroupAnnounce" class="modal fade">
+  <div class="modal-dialog" style = 'width:50%;'>
+	<div class="modal-content">
+		<div class="modal-body">
+			<img style= 'width:100%;' src ="<?php echo base_url(); ?>assets/images/Transition-Proveera.png"/>
+		</div>
+	</div>
+	</div>
+</div>
+
+<div id="refGroupAnnounceCashify" class="modal fade">
+  <div class="modal-dialog" style = 'width:50%;'>
+	<div class="modal-content">
+		<div class="modal-body">
+			<img style= 'width:100%;' src ="<?php echo base_url(); ?>assets/images/Transition-Cashify.png"/>
+		</div>
+	</div>
+	</div>
+</div>
+
+
+<div id="IndLeftModel2" class="modal fade">
+  <div class="modal-dialog" style = 'width:50%;'>
+	<div class="modal-content">
+		<div class="modal-body">
+			<img style= 'width:100%;' src ="<?php echo base_url(); ?>assets/images/ind_calender_January_2021.jpg?<?php echo time(); ?>"/>
+		</div>
+	</div>
+	</div>
+</div>
+
+
+
+
+<!-------------------------Ameridial Details--------------------------->
+<div id="ameridialModel" class="modal fade">
+	<div class="modal-dialog  modal-lg">
+		<div class="modal-content"> 
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="widget">
+							<header class="widget-header">
+								<h4 class="widget-title"></h4>
+							</header>
+							<hr class="widget-separator">
+							<h4 class="widget-title" style="color:darkblue">Ameridial Labor Laws</h4>
+							<div class="widget-body">
+										<p>Congratulations on your ComplyRight Intranet Licensing purchase. This service provides one year of unlimited access to the mandatory labor law posters that help your business maintain ongoing compliance with posting requirements. Developed and monitored by a team of legal experts, all postings are updated in real-time to ensure that the most up-to-date, compliant labor law postings are accessible via your company’s intranet.</p>
+
+										<p> <b>Link:</b> <a href="https://mandatoryview.com/?LicenceId=94937756-d2f6-4c83-8ef4-4e7204c27bc9&ProductType=IntranetLicense&SubType=PG" target="_blank">https://mandatoryview.com/?LicenceId=94937756-d2f6-4c83-8ef4-4e7204c27bc9&ProductType=IntranetLicense&SubType=PG</a> </p>
+
+										<p><b>Instructions:</b> Add the link to your designated intranet page based on the procedures for linking content to your intranet.</p>
+
+										<p>By adding the link to your intranet site, you acknowledge that you agree to the <a href="https://mandatoryview.com/termsofuse" target="_blank"> Intranet License Terms of Use available here .</a></p>
+
+ 
+
+										<p>Sincerely,</p>
+
+										<p>Your Compliance Team	</p>
+								</div>
+							</div>
+							<button type="button" class="btn btn-danger" style="margin-top: 10px;" data-bs-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!------------------------------------------------------------------->
+
+
+
+<?php 
+	if ( $is_OpenPayPopup == "Y" ) {
+?>
+
+<!-- Pay bank modal -->
+<div class="modal fade" id="acceptPayInfoModal" data-backdrop="static"  role="dialog1" aria-labelledby="myModalLabel1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Bank Details</h4>
+			</div>
+			<div class="modal-body">
+			
+				<form class="frmPayBankInfo" action="<?php echo base_url(); ?>profile/payVarify" data-toggle="validator" method='POST'>
+				
+			
+					<div class="row">
+						<div class="col-md-12">
+							<div class="widget">
+								<div class="widget-body clearfix">
+									
+
+									
+									<div class="row">
+										<div class="col-md-12">
+											
+										<input type="hidden" class="form-control" id="id" value='<?echo $bank_row['id']; ?>' name="id" >
+										<input type="hidden" class="form-control" id="user_id" value='<?echo $bank_row['user_id']; ?>' name="user_id" >
+											
+											
+											<span>
+											<b>
+											This is to verify your salary account mentioned in MWP is correct.<br>Re 1 had been transferred to your account. <br> <br>
+											Please check your bank account and verify selecting the correct option.
+											<b>
+											</span>
+											<br>
+											<br>
+											<br>
+											
+																						  
+											  <input type="radio" value='Y' name="pay_varify" required>
+											  <b>I certify that I have recieved Re 1 in my account.</b>
+											
+											<br>
+											<br>
+											  <input type="radio" value='N' name="pay_varify" required>
+											  I did not recieved Re 1 in my account.
+																						
+										</div>
+										
+									</div>	
+									
+								</div>
+						  </div>
+						</div>
+					</div>
+					
+					<div class="modal-footer">
+						<button type="button" id='btnPayBankInfoClose' class="btn btn-info" data-dismiss="modal">Need time to check my account</button>
+						<button type="submit" id='btnPayBankInfo' class="btn btn-primary">Confirm & Verified</button>
+					</div>
+			
+				</form>
+			</div>
+		</div>
+	</div>
+</div>	
+
+<?php 
+	}
+?>
+
+
+
+
+<!-------------------------User Attendance------------------ --------->
+<div id="attendance_model" class="modal fade">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+	<div class="modal-content">
+	
+		<div class="modal-body">
+		
+			<div class="row">
+		
+		<!-- DataTable -->
+		<div class="col-md-12">
+				<div class="widget">
+					<header class="widget-header">
+						<h4 class="widget-title">Your Attendance Report</h4>
+					</header><!-- .widget-header -->
+					<hr class="widget-separator">
+						
+					<div class="widget-body">
+						<div id='currAttendanceTable' class="table-responsive" >
+						
+						
+							
+							
+						</div>
+					</div><!-- .widget-body -->
+					
+				</div><!-- .widget -->
+			</div>
+			
+			
+		</div><!-- .row -->
+		 
+			
+		</div>
+	</div>
+	</div>
+</div>
+
+
+
+<!--start birthday Popup Design-->
+<div class="box">
+   <div class="box-inner">
+    <h2 class="mb-sm-0 font-size-18">Today's Birthday</h2>
+    <a href="#" class="close-btn">
+        <i class="fa fa-times" aria-hidden="true"></i>
+    </a>
+    <div class="pop-content">
+	
+	
+		<?php
+			foreach ($user_today_dob as $row) {
+				$fusion_id = $row['fusion_id'];
+				$dept_name = $row['dept_name'];
+				$office_id = $row['office_id'];
+				$ppic_url = $user_today_dob_ppic[$fusion_id];
+		?>
+			
+			<div style="">
+				<div class="birthday-bg">
+					<div class="birthday-element"  >
+						<img src="<?php echo $ppic_url; ?>" class="birthday-img-pop" alt="">
+					</div>
+					<div class="birthday-element">
+						<strong><?php echo $row['fname'] . " " . $row['lname'] . " (" . $dept_name . ", " . $office_id . ")"; ?></strong>
+					</div>
+				</div>
+			</div>
+		
+		<?php
+			}
+		?>
+        
+    </div>
+   </div>
+</div>
+<!--end birthday Popup Design-->
+
+<!-- ++++++++++++++++++++++++++++ start work anniversary popup ++++++++++++++++++++++++++++++++++++++ -->
+
+<div class="workanniversary">
+   <div class="box-inner">
+    <h2 class="mb-sm-0 font-size-18">Today's Work Anniversary</h2>
+    <a href="#" class="close-btn">
+        <i class="fa fa-times" aria-hidden="true"></i>
+    </a>
+    <div class="pop-content">
+	
+	
+		<?php
+			foreach ($user_work_anniversary as $row) {
+				$fusion_id = $row['fusion_id'];
+				$dept_name = $row['dept_name'];
+				$office_id = $row['office_id'];
+				$ppic_url = $user_work_anniversary_ppic[$fusion_id];
+		?>
+			
+			<div style="">
+				<div class="birthday-bg">
+					<div class="birthday-element"  >
+						<img src="<?php echo $ppic_url; ?>" class="birthday-img-pop" alt="">
+					</div>
+					<div class="birthday-element">
+						<strong><?php echo $row['fname'] . " " . $row['lname'] . " (" . $dept_name . ", " . $office_id . ")"; ?> <!-- - <?php echo $row['work_age'];?> <?php if($row['work_age'] > 1){ echo 'Years';}else{ echo 'Year';}?> --> </strong>
+					</div>
+				</div>
+			</div>
+		
+		<?php
+			}
+		?>
+        
+    </div>
+   </div>
+</div>
+<!-- +++++++++++++++++++++++++++ end work anniversary popup ++++++++++++++++++++++++++++++++++++++++ -->
+
+<!--start notification Popup Design-->
+<div class="box1">
+   <div class="box-inner">
+    <h2 class="mb-sm-0 font-size-18">Important Links</h2>
+    <a href="#" class="close-btn">
+        <i class="fa fa-times" aria-hidden="true"></i>
+    </a>
+    <div class="pop-content right-new">
+		 
+		<ul>
+			<?php
+				if (isIndiaLocation(get_user_office_id()) == true) {
+			?>
+				<li>
+				<a  href='#' id='appHolidayList'style="cursor:pointer;">
+					<i class="fa fa-question-circle" aria-hidden="true"></i>
+						 Holiday List <?php echo $currYear; ?>
+				</a>
+				</li>		
+			
+			<?php } ?>	
+			
+			
+			<?php
+				if (isIndiaLocation(get_user_office_id()) == true) {
+			?>
+				<li>
+				<a  href='#' id='appPayrollCalendar'style="cursor:pointer;">
+					<i class="fa fa-question-circle" aria-hidden="true"></i>
+						 Payroll calendar <?php echo $currYear; ?>
+				</a>
+				</li>		
+			
+			<?php } ?>	
+									
+			<?php // if(in_array(get_user_office_id(),array("KOL"))){ ?>
+			<?php if(isset($er_calender_url) && $er_calender_url!=""){ ?>
+				<li>
+					
+					<a href='#' data-bs-toggle="modal" data-bs-target="#refERCalendar" style="cursor:pointer;">
+						 <i class="fa fa-download" aria-hidden="true"></i>
+						  ER calendar <?php echo $currYear; ?>
+					</a>
+				</li>
+			<?php } ?>
+				
+				<li>					
+					<a href='#' data-bs-toggle="modal" data-bs-target="#refLDCalendar" style="cursor:pointer;">
+						 <i class="fa fa-download" aria-hidden="true"></i>
+						 Learning & Development calendar <?php echo $currYear; ?>
+					</a>
+				</li>
+				
+				<!--<li>
+					
+					<a href='#' data-bs-toggle="modal" data-bs-target="#refLDCourses" style="cursor:pointer;">
+						 <i class="fa fa-download" aria-hidden="true"></i>
+						  L&D Mandatory Courses
+					</a>
+				</li>-->
+				
+					
+				<li>
+					<a href="<?php echo base_url(); ?>ITDocvm" target="_blank" >
+						 <i class="fa fa-question-circle" aria-hidden="true"></i>
+						 IT Awareness
+					</a>
+				</li>
+			
+				<li>
+					<a href="<?php echo base_url(); ?>uploads/email_creation_deletion_pdf/email_id_creation_deletion.pdf" target="_blank" >
+						 <i class="fa fa-question-circle" aria-hidden="true"></i>
+						 Email ID Creation & Deletion Procedure
+					</a>
+				</li>
+            
+                <li>
+					<a href="<?php echo base_url(); ?>uploads/fusion_global_it_escalation/Fusion Global IT Escalation Process Document - Version2.1.pdf" target="_blank" >
+						 <i class="fa fa-question-circle" aria-hidden="true"></i>
+						 Fusion Global IT Escalation Process
+					</a>
+				</li>
+			
+				<li>
+					<a href="<?php echo base_url(); ?>uploads/fusion_onsite_it_escalation/Fusion Onsite IT Escalation Matrix - Version1.1.pdf" target="_blank" >
+						 <i class="fa fa-question-circle" aria-hidden="true"></i>
+						 Fusion Onsite IT Escalation Matrix
+					</a>
+				</li>
+            
+                <li>
+					<a href="<?php echo base_url(); ?>uploads/jitbit_ticket_creation_SOP/Jitbit Ticket creation SOP - Version 2.1.pdf" target="_blank" >
+						 <i class="fa fa-question-circle" aria-hidden="true"></i>
+						 Jitbit Ticket Creation SOP
+					</a>
+				</li>
+				
+				<?php if (in_array(get_user_office_id(), array("FTK", "HIG", "MIN", "SPI", "CAM", "UTA")) || get_global_access() == 1) { ?>
+					<li>
+					<a href='#'data-bs-toggle="modal" data-bs-target="#ameridialModel" style="cursor:pointer;">
+						 <i class="fa fa-download" aria-hidden="true"></i>
+						 L&D Ameridial Labor Laws
+					</a>
+					</li>
+				<?php } ?>
+				
+				<?php if (isADLocation()) { ?>
+					<li>
+						<a href="<?php echo base_url(); ?>assets/it_security/Drake_login_SOP.pdf" target="_blank" >
+						 <i class="fa fa-question-circle" aria-hidden="true"></i>
+						 Drake Login
+						</a>
+					</li>
+				<?php } ?>
+				
+				<li>
+				
+					<a href='#' data-bs-toggle="modal" data-bs-target="#EGazeDownModel" style="cursor:pointer;" >
+						 <i class="fa fa-download" aria-hidden="true"></i>
+						 Download EfficiencyX(1.0.1.6)
+					</a>
+				</li>
+				
+				<li>
+					<a href="<?php echo base_url(); ?>assets/egaze/EfficiencyX_manual_MWP.pdf" target="_blank">
+						 <i class="fa fa-user" aria-hidden="true"></i>
+						 EfficiencyX Installation and User Guide
+					</a>
+				</li>
+				<!--<li>
+					<a href="<?php /*?><?php echo base_url(); ?><?php */?>assets/helpdesk/Fusion_Technical_Helpdesk_Escalation_MatrixV1_2.pdf" target="_blank" >
+						 <i class="fa fa-question-circle" aria-hidden="true"></i>
+						 Fusion Technical Helpdesk Escalation
+					</a>
+				</li>-->
+				<!--<li>
+					<a href="<?php /*?><?php echo base_url(); ?><?php */?>assets/helpdesk/Global_Technical_Helpdesk_SLA_for_all_the_Mediums_V1_2.pdf" target="_blank" >
+						<i class="fa fa-ticket" aria-hidden="true"></i>
+						 Global Technical Helpdesk SLA
+					</a>
+				</li>-->
+				<li>
+					<a href="<?php echo base_url(); ?>assets/egaze/dotnet_framework_4.6.1.exe" target="_blank" >
+						<i class="fa fa-cloud-download" aria-hidden="true"></i>
+						Download .NET Framework 4.6.1
+					</a>
+				</li>
+                <li>					
+					<a href='#' data-bs-toggle="modal" data-bs-target="#refEmailPhishing" style="cursor:pointer;">
+						 <i class="fa fa-download" aria-hidden="true"></i>
+						  Email Phishing - Stay Protected
+					</a>
+				</li>
+                <li>
+					<a href="<?php echo base_url(); ?>uploads/ISMS_Policy_Update/Information_Security_Policy.pdf" target="_blank" >
+						 <i class="fa fa-question-circle" aria-hidden="true"></i>
+						 ISMS policy Acceptance
+					</a>
+				</li>
+				<li>					
+					<a href='#' data-bs-toggle="modal" data-bs-target="#refGroupAnnounce" style="cursor:pointer;">
+						 <i class="fa fa-download" aria-hidden="true"></i>
+						  Group Announcement Proveera&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width="40" height="40" src ="<?php echo base_url(); ?>assets/images/new-blinking.gif"/>
+					</a>
+				</li>
+				<li>					
+					<a href='#' data-bs-toggle="modal" data-bs-target="#refGroupAnnounceCashify" style="cursor:pointer;">
+						 <i class="fa fa-download" aria-hidden="true"></i>
+						  Group Announcement Cashify&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width="40" height="40" src ="<?php echo base_url(); ?>assets/images/new-blinking.gif"/>
+					</a>
+				</li>
+			</ul> 
+		 
+    </div>
+   </div>
+</div>
+<!--end notification Popup Design-->
+
+
+
+
+
+<!---------------------DynamicPopUp-------------------------->
+<?php
+if (isset($UserHomePopup)) {
+
+	foreach ($UserHomePopup as $key => $value) {
+		?>
+		<div id="myDynamicPopUp<?php echo $value['id'] ?>" class="modal fade">
+			<div class="modal-dialog" style='wigth:60%;'>
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-body">
+						<a href="<?php
+						if (isset($value['img_link'])) {
+							echo $value['img_link'];
+						} else {
+							echo "#";
+						};
+						?>" target="_blank" id="" style="cursor:pointer;">
+							<img style='width:100%;' src="<?php echo base_url(); ?>uploads/dynamic_pop_up/<?php echo $value['image_path']; ?>" />
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(window).on('load', function () {
+				$('#myDynamicPopUp<?php echo $value["id"] ?>').modal('show');
+			});
+		</script>
+		<?php
+	}
+}
+?>
+
+
+
+<div id="EGazeDownModel" class="modal fade">
+<div class="modal-dialog modal-md">
+<!-- Modal content-->
+<div class="modal-content">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-12">
+
+				<div style="background: aliceblue;box-shadow: 0 1px 2px #ccc">
+					Please note that Fusion will be capturing your system data, while you are logged into EfficiencyX and MWP during Official duty. This is to ensure compliance monitoring is in place for the business. Application will not store any customer sensitive information or key logs. please ensure you are logged into EfficiencyX when you are in shift and logout from MWP while your shift is over.
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="modal-footer">
+		<input type="submit" name="submit" id='accepteGaze' class="btn btn-primary" value="Accept & Download ">
+	</div>
+
+</div>
+
+</div>
+</div>
+
+
+
+
+<?php if (!empty($UserSentimentQuestions)) { ?>
+
+<div id="homeUserSentimentModel" class="modal fade model-new" data-backdrop="static" role="dialog" aria-hidden="true">
+
+	<div class="modal-dialog modal-md modal-dialog-centered">
+
+		<div class="modal-content">
+			
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div id="fusion-middle" class="fusion-middle">
+					<div class="logo-widget">
+						<a href="#">
+							<?php if(get_user_company_id()==3){ ?>
+									
+									<img src="<?php echo base_url(); ?>assets/images/omind_logo.png" width='100px' class="Omind-Logo" alt="">
+									
+							<?php 
+								}else{
+							?>	
+							<img src="<?php echo base_url(); ?>assets/home_user_survey/images/fusion-logo.png" class="fusion-logo" alt="">
+							<?php  } ?>
+						</a>
+					</div>
+
+					<div class="manager-widget">
+						<img src="<?php echo base_url(); ?>assets/home_user_survey/images/bg.png" class="bg-slider" alt="">
+					</div>
+
+					<div class="middle-widget">
+
+						<div class="container">
+							<div class="body-widget text-center wow fadeInLeft">
+								<h2 class="heading-title2">Please click on appropriate button</h2>
+								<h1 class="heading-title1"><?php echo $UserSentimentQuestions['question']; ?></h1>
+							</div>
+							<div class="button-widget">
+
+								<input type="hidden" name="ques_id" id='ques_id' value="<?php echo $UserSentimentQuestions['id']; ?>">
+								<input type="hidden" name="quotes_id" id='quotes_id' value="<?php echo $UserSentimentQuotes['id']; ?>">
+
+								<div class="row">
+									<div class="col-sm-2">
+										<div class="btn-bg wow fadeInLeft">
+											<a href="#" ans='Strongly Disagree' class='YourAnswer'> <span class="small-font">Strongly <br> Disagree</span></a>
+										</div>
+									</div>
+									<div class="col-sm-2">
+										<div class="btn-bg wow fadeInRight">
+											<a href="#" ans='Disagree' class='YourAnswer'><span class="small-font">Disagree</span></a>
+										</div>
+									</div>
+									<div class="col-sm-2">
+										<div class="btn-bg wow fadeInLeft">
+											<a href="#" ans='Neutral' class='YourAnswer'><span class="small-font">Neutral</span></a>
+										</div>
+									</div>
+									<div class="col-sm-2">
+										<div class="btn-bg wow fadeInRight">
+											<a href="#" ans='Agree' class='YourAnswer'><span class="small-font">Agree</span></a>
+										</div>
+									</div>
+									<div class="col-sm-2">
+										<div class="btn-bg wow fadeInLeft">
+											<a href="#" ans='Strongly Agree' class='YourAnswer'><span class="small-font">Strongly <br> Agree</span></a>
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<div class="skip-widget wow fadeInUp">
+								<div class="skip-btn wow fadeInRight">
+
+									<a href="<?php echo base_url('home/skipUserSentiment'); ?>">
+										Skip
+										<i class="fa fa-angle-double-right" aria-hidden="true"></i>
+									</a>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="footer-new">
+						<div class="blue-bg"></div>
+						<div class="footer-widget">
+							<div class="containerxx">
+								<div class="row text-center">
+									<div class="col-sm-12">
+										<div class="body-widget">
+											<p>
+												<?php echo $UserSentimentQuotes['quotes'] ?>
+											</p>
+										</div>
+										<div class="copyright-widget">
+											<small>
+												Powered by <strong>Omind Technologies</strong>
+											</small>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<?php } ?>
+
+
+
+
+<?php /*?><?php 
+//Edited on 26/10/21
+	if($is_added_vaccination==0 && (isIndiaLocation(get_user_office_id())==true || get_user_office_id()=="ELS")){
+?><?php */?>
+<?php
+
+//Edited on 26/10/21
+
+    if($is_added_vaccination==0  && (is_ppbl_check()!='1') && (isIndiaLocation(get_user_office_id())==true || get_user_office_id()=="ELS")){
+
+?>			
+<div id="addedVaccinationModal" class="modal fade" data-backdrop="static"  role="dialog" aria-hidden="true" >
+  <div class="modal-dialog">
+    <!-- Modal content-->
+	<div class="modal-content">
+		
+			<div class="modal-header">
+				<h4 class="modal-title" id="">Please Share Your vaccination information</h4>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				
+			</div>
+		
+			<div class="modal-body">				
+					<div class="row">
+						<div class="col-md-12" style="margin-top:30px; margin-bottom:35px;">
+							<center>
+								<a class="btn btn-primary" style="width:auto;" href="<?php echo base_url('profile/vaccine/'.$prof_fid); ?>"><i class="fa fa-clock-o"></i>  Click Here To Update Your vaccination information </a>
+							</center>
+						</div>
+					</div>
+			</div>
+			</form>
+	</div>
+	</div>
+	</div>
+
+
+
+	
+	
+<script type="text/javascript">
+		
+$(document).ready(function(){
+	$("#addedVaccinationModal").modal('show');
+		
+});
+</script>
+
+<?php  
+}
+?>
+
+
+
+<!----------------- Desktop Security Start  ----------------------------->
+
+<div id="femsSecurityDesktop" class="modal fade" data-backdrop="static" data-keyboard="false" style="z-index:99999999999!important">
+  <div class="modal-dialog" style="width:60%; margin-top:15px;" >
+	<div class="modal-content">      
+		
+			<form class="femsESIAckForm"  action="<?php echo base_url('notification_home/acknowledge_security_desktop'); ?>" method='POST'>
+		
+			  <div class="modal-body">					
+					<div class="row">
+						<div class="col-md-12">
+							<img style="width:100%" src="<?php echo base_url() ."assets/images/desktop_security.jpg"; ?>">
+						</div>
+						
+						<div class="col-md-12" style="margin-top:10px;">
+							<div class="form-group">
+								<input type="checkbox" id="fems_ack_security_desktop" name="fems_ack_security_desktop" value="1" required> &nbsp; &nbsp;<b>I acknowledge that I have read the above content</b>
+							</div>	
+						</div>
+					</div>
+			  </div>				
+			 
+			  <div class="modal-footer">
+				<button style="float:left" type="submit" class="btn btn-success"><i class="fa fa-paper-plane"></i> Read</button>
+				<?php /*if($is_show_ack_ransomware_skip_status < 1){ ?>
+				<a class="btn btn-primary pull-right" href="<?php echo base_url('notification_home/acknowledge_security_ransomware_skip'); ?>"><i class="fa fa-clock-o"></i> Skip Now </a>
+				<?php }*/ ?>
+			  </div>
+			  
+			 </form>
+		
+		</div>
+	</div>
+</div>
+
+<!---------------------- Desktop Security End ------------------------------------>
+
+<!----------------- Attention Announcement Start  ----------------------------->
+
+<div id="femsAttentionAnnouncement" class="modal fade" data-backdrop="static" data-keyboard="false" style="z-index:99999999999!important">
+  <div class="modal-dialog" style="width:50%; margin-top:10px;" >
+	<div class="modal-content">      
+		
+			<form class="femsESIAckForm"  action="<?php echo base_url('notification_home/acknowledge_attention_announcement'); ?>" method='POST'>
+		
+			  <div class="modal-body">					
+					<div class="row">
+						<div class="col-md-12">
+							<img style="width:100%" src="<?php echo base_url() ."assets/images/attention_announcement.jpg"; ?>">
+						</div>
+						
+						<div class="col-md-12" style="margin-top:10px;">
+							<div class="form-group">
+								<input type="checkbox" id="fems_ack_attention_announcement" name="fems_ack_attention_announcement" value="1" required> &nbsp; &nbsp;<b>I acknowledge that I have read the above content</b>
+							</div>	
+						</div>
+					</div>
+			  </div>				
+			 
+			  <div class="modal-footer">
+				<button style="float:left" type="submit" class="btn btn-success"><i class="fa fa-paper-plane"></i> Read</button>
+				<?php /*if($is_show_ack_ransomware_skip_status < 1){ ?>
+				<a class="btn btn-primary pull-right" href="<?php echo base_url('notification_home/acknowledge_security_ransomware_skip'); ?>"><i class="fa fa-clock-o"></i> Skip Now </a>
+				<?php }*/ ?>
+			  </div>
+			  
+			 </form>
+		
+		</div>
+	</div>
+</div>
+
+<!---------------------- Attention Announcement End ------------------------------------>
+
+<!----------------- Clean Inbox Start  ----------------------------->
+
+<div id="femsCleanInbox" class="modal fade" data-backdrop="static" data-keyboard="false" style="z-index:99999999999!important">
+  <div class="modal-dialog" style="width:50%; margin-top:10px;" >
+	<div class="modal-content">      
+		
+			<form class="femsESIAckForm"  action="<?php echo base_url('notification_home/acknowledge_clean_inbox'); ?>" method='POST'>
+		
+			  <div class="modal-body">					
+					<div class="row">
+						<div class="col-md-12">
+							<img style="width:100%" src="<?php echo base_url() ."assets/images/clean_inbox.jpg"; ?>">
+						</div>
+						
+						<div class="col-md-12" style="margin-top:10px;">
+							<div class="form-group">
+								<input type="checkbox" id="fems_ack_clean_inbox" name="fems_ack_clean_inbox" value="1" required> &nbsp; &nbsp;<b>I acknowledge that I have read the above content</b>
+							</div>	
+						</div>
+					</div>
+			  </div>				
+			 
+			  <div class="modal-footer">
+				<button style="float:left" type="submit" class="btn btn-success"><i class="fa fa-paper-plane"></i> Read</button>
+				<?php /*if($is_show_ack_ransomware_skip_status < 1){ ?>
+				<a class="btn btn-primary pull-right" href="<?php echo base_url('notification_home/acknowledge_security_ransomware_skip'); ?>"><i class="fa fa-clock-o"></i> Skip Now </a>
+				<?php }*/ ?>
+			  </div>
+			  
+			 </form>
+		
+		</div>
+	</div>
+</div>
+
+<!---------------------- Clean Desktop End ------------------------------------>
+	
+<!----------------- Omind Review Start  ----------------------------->
+
+<div id="femsOmindReview" class="modal fade" data-backdrop="static" data-keyboard="false" style="z-index:99999999999!important">
+  <div class="modal-dialog" style="width:50%; margin-top:10px;" >
+	<div class="modal-content">      
+		
+			<form class="femsESIAckForm"  action="<?php echo base_url('notification_home/acknowledge_omind_review'); ?>" method='POST'>
+		
+			  <div class="modal-body">
+				  <div class="row verticle-center">
+					<div class="col-sm-7">
+						<div class="popup-content">
+							<img src="<?php echo base_url(); ?>assets/images/omind-logo.png" class="omind-logo" alt="">
+							<h2 class="survey-title">
+								Greetings from Mind Workplace,
+							</h2>
+							<p>
+								As we continue to develop and popularize the Mind Workplace platform, we invite all Fusion employees to submit reviews on their experience with this workforce management system.
+							</p>
+							<p>
+								Please visit www.g2.com and submit your review. You can also use the link below to view a step-by-step guide on how to submit your review on G2.
+							</p>
+							<div class="thanks-top-widget">
+								<h3 class="thank-blue">
+									Thank you for your support!
+								</h3>
+							</div>
+							<a href="https://www.g2.com/products/omind-technologies-mind-workplace/reviews" target="_blank" class="add-review">
+								Add Review
+							</a>
+							<a href="https://www.omindtech.com/pdf/G2_Login_and_Review_System.pdf" target="_blank" class="download-pdf">
+								Download Tutorial
+							</a>
+						</div>
+					</div>
+					<div class="col-sm-5">
+						<div class="body-widget">
+							<img src="<?php echo base_url(); ?>assets/images/survey-right.png" class="img-right" alt="">
+						</div>
+					</div>
+				  </div>
+					    <div class="col-md-12" style="margin-top:10px;">
+							<div class="form-group">
+								<input type="checkbox" id="fems_ack_clean_inbox" name="fems_ack_clean_inbox" value="1" required> &nbsp; &nbsp;<b>I acknowledge that I have read the above content</b>
+							</div>	
+						</div>
+				</div>				
+			 
+			  <div class="modal-footer">
+				<button style="float:left" type="submit" class="btn btn-success"><i class="fa fa-paper-plane"></i> Read</button>
+				<?php /*if($is_show_ack_ransomware_skip_status < 1){ ?>
+				<a class="btn btn-primary pull-right" href="<?php echo base_url('notification_home/acknowledge_security_ransomware_skip'); ?>"><i class="fa fa-clock-o"></i> Skip Now </a>
+				<?php }*/ ?>
+			  </div>
+			  
+			 </form>
+		
+		</div>
+	</div>
+</div>
+
+<!---------------------- Omind Review End ------------------------------------>
+
+
+
+<div class="modal fade" id="homeUserNewHomePageModel" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" style="width:600px;max-width:100%;">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+         <!-- <button type="button" class="btn-close"  data-bs-dismiss="modal"></button> -->
+        </div>
+		
+			<!-- Modal body -->
+			<div class="modal-body">
+			  <h5><b>Do you like the MindWorkplace New Home Page?</b></h5>
+			</div>
+			
+			<div class="modal-footer">			
+				<button type="submit" class="btn btn-danger btnNewHomePage" value='No' style="width:100px;">No</button>
+				<button type="submit" class="btn btn-primary btnNewHomePage" value='Yes' style="width:100px;">Yes</button>
+			</div>	 
+		
+		
+         
+      </div>
+    </div>
+  </div>
+  
+  
+  
+
+

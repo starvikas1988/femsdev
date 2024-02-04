@@ -1,0 +1,342 @@
+<!--start footer elements-->
+<footer id="footer" class="footer">
+    <div class="container">
+        <div class="body_widget text-center">
+            <p>
+                2023 © Omind Technologies.
+            </p>
+        </div>
+    </div>
+</footer>
+<!--end footer elements-->
+
+<!--start add referral popup-->
+<div class="modal fade" id="add_referral">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Add Referral</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="mb-2">
+                            <label for="" class="form-label">Full Name <span class="red-bg">*</span></label>
+                            <input type="text" class="form-control" id="" placeholder="">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="mb-2">
+                            <label for="" class="form-label">Phone <span class="red-bg">*</span></label>
+                            <input type="number" class="form-control" id="" placeholder="">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="mb-2">
+                            <label for="" class="form-label">Email <span class="red-bg">*</span></label>
+                            <input type="email" class="form-control" id="" placeholder="">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="mb-2">
+                            <label for="" class="form-label">Position Referring For <span class="red-bg">*</span></label>
+                            <select name="" id="" class="form-control">
+                                <option value="">--Select Position--</option>
+                                <option value="">CCE</option>
+                                <option value="">TL</option>
+                                <option value="">Manager</option>
+                                <option value="">AM</option>
+                                <option value="">Trainer</option>
+                                <option value="">Other Support</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="mb-2">
+                            <label for="" class="form-label">Comment <span class="red-bg">*</span></label>
+                            <textarea name="" id="" class="form-control" cols="3" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="mb-2">
+                            <label for="formFile" class="form-label">Attach CV <span class="red-bg">*</span></label>
+                            <input class="form-control" type="file" id="formFile">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary save_btn" data-bs-dismiss="modal">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--end add referral popup-->
+
+<!--start weekly explore popup-->
+<div class="modal fade" id="weekly_explore">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Your Shedule</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="table-widget">
+                    <table id="" data-plugin="DataTable" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Day</th>
+                                <th>In Time</th>
+                                <th>Break 1</th>
+                                <th>Lunch</th>
+                                <th>Break 2</th>
+                                <th>End Time</th>
+                                <th>Status</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2023-05-08</td>
+                                <td>Mon</td>
+                                <td>09:00</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>18:00</td>
+                                <td>Ok</td>
+                                <td><span class="gree_text">Accepted</span></td>
+                            </tr>
+                            <tr>
+                                <td>2023-05-09</td>
+                                <td>Tue</td>
+                                <td>09:00</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>18:00</td>
+                                <td>Ok</td>
+                                <td><span class="gree_text">Accepted</span></td>
+                            </tr>
+                            <tr>
+                                <td>2023-05-10</td>
+                                <td>Wed</td>
+                                <td>09:00</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>18:00</td>
+                                <td>Ok</td>
+                                <td><span class="gree_text">Accepted</span></td>
+                            </tr>
+                            <tr>
+                                <td>2023-05-11</td>
+                                <td>Thu</td>
+                                <td>09:00</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>18:00</td>
+                                <td>Ok</td>
+                                <td><span class="gree_text">Accepted</span></td>
+                            </tr>
+                            <tr>
+                                <td>2023-05-12</td>
+                                <td>Fri</td>
+                                <td>09:00</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>18:00</td>
+                                <td>Ok</td>
+                                <td><span class="gree_text">Accepted</span></td>
+                            </tr>
+                            <tr>
+                                <td>2023-05-13</td>
+                                <td>Sat</td>
+                                <td>OFF</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>OFF</td>
+                                <td>Ok</td>
+                                <td><span class="gree_text">Accepted</span></td>
+                            </tr>
+                            <tr>
+                                <td>2023-05-14</td>
+                                <td>Sun</td>
+                                <td>OFF</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>OFF</td>
+                                <td>Ok</td>
+                                <td><span class="gree_text">Accepted</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end weekly explore popup-->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<script src="<?php echo base_url() ?>assets_home_v3/js/bootstrap.bundle.min.js"></script>
+
+<script src="<?php echo base_url() ?>assets_home_v3/js/highcharts.js"></script>
+
+<!--start your adherence graph js code-->
+
+<?php
+    include_once 'jscripts.php';
+?>  
+
+
+        <?php
+        if (isset($content_js) && !empty($content_js)) {
+            if (is_array($content_js)) {
+                foreach ($content_js as $key => $script_url) {
+                    if (!preg_match("/.php/", $script_url)) {
+                        if (preg_match("/\Ahttp/", $script_url)) {
+                            echo '<script src="' . $script_url . '"></script>';
+                        } else {
+                            echo '<script src="' . base_url('application/views/jscripts/' . $script_url) . '"></script>';
+                        }
+                    } else {
+                        include_once 'application/views/jscripts/' . $script_url;
+                    }
+                }
+            } else {
+                if (!preg_match("/.php/", $content_js)) {
+                    if (preg_match("/\Ahttp/", $content_js)) {
+                        echo '<script src="' . $content_js . '"></script>';
+                    } else {
+                        echo '<script src="' . base_url('application/views/jscripts/' . $content_js) . '"></script>';
+                    }
+                } else {
+                    include_once 'application/views/jscripts/' . $content_js;
+                }
+            }
+        }
+        ?>
+
+<script>
+    Highcharts.chart('adherence_chart', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie',
+            marginLeft: 0,
+            marginTop: 0,
+            marginRight: 0,
+            height: 320,
+        },
+        legend: {
+            floating: false,
+            align: 'left',
+            itemMarginBottom: 5,
+            width: 300,
+            x: 0,
+            itemWidth: 150
+        },
+        colors: ['#694ed6', '#f04e98', '#ffd100', '#7fcdde', '#ed8b00'],
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: '',
+            align: 'left'
+        },
+
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            name: 'Brands',
+            colorByPoint: true,
+            data: [{
+                name: 'On Time 0, (0%)',
+                y: 44.77,
+                sliced: false,
+                selected: true,
+            }, {
+                name: 'Late 0, (0%)',
+                y: 7.82
+            }, {
+                name: 'Leave 0, (0%)',
+                y: 5.63
+            }, {
+                name: 'Off 0, (0%)',
+                y: 10.44
+            }, {
+                name: 'Absent 0, (0%)',
+                y: 12.02
+            }]
+        }]
+    });
+</script>
+<!--end your adherence graph js code-->
+
+<!--start autosuggestion js code-->
+<script>
+    $(document).ready(function() {
+        $("#autosuggest_input").click(function() {
+            $(".autosuggest").fadeToggle("slow");
+            $(".search").addClass("search_around");
+        });
+        $(".middle_area").click(function() {
+            $(".autosuggest").fadeOut("");
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $("#autosuggest_input").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $(".autosuggest li").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+<!--end autosuggestion js code-->
+<!--start Loader js code-->
+<script>
+    $(window).on("load", function() {
+        $("#page_loader").delay(3000).fadeOut();
+    });
+</script>
+<!--end Loader js code-->
+</body>
+
+</html>

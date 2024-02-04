@@ -51,7 +51,7 @@ $(document).ready(function(){
 	});
 });
 </script>
-/////////////////////////PRE- BOOKING JS//////////////////////////
+
 <script type="text/javascript">
 	 $("#disposition").on('change', function() {
         var isAll = '';
@@ -82,6 +82,18 @@ $(document).ready(function(){
                 $('#sub_dispo').append($('<option></option>').val('Test Lead').html('Test Lead'));
                 $('#sub_dispo').append($('<option></option>').val('Do not call').html('Do not call'));
                 $('#sub_dispo').append($('<option></option>').val('Non-Buyer query').html('Non-Buyer query'));
+				$('#sub_dispo').append($('<option></option>').val('Seller Query').html('Seller Query'));
+				$('#sub_dispo').append($('<option></option>').val('Wrong number').html('Wrong number'));
+				
+            }
+			if(dispo == 'Hub Related Query') {
+                $('#sub_dispo').append($('<option></option>').val('Directions Location').html('Directions Location'));
+                $('#sub_dispo').append($('<option></option>').val('Hub Timings').html('Hub Timings'));
+                $('#sub_dispo').append($('<option></option>').val('Need Hub Contact').html('Need Hub Contact'));
+				$('#sub_dispo').append($('<option></option>').val('No Reason given').html('No Reason given'));
+                $('#sub_dispo').append($('<option></option>').val('Not Looking for a car').html('Not Looking for a car'));
+                $('#sub_dispo').append($('<option></option>').val('Not shown any interest').html('Not shown any interest'));
+				
             }
              if(dispo == 'Dropped') {
                 $('#sub_dispo').append($('<option></option>').val('Language Barrier').html('Language Barrier'));
@@ -125,6 +137,7 @@ $(document).ready(function(){
                 $('#sub_dispo').append($('<option></option>').val('Want Loan- Offer Terms Not Acceptable').html('Want Loan- Offer Terms Not Acceptable'));
                 $('#sub_dispo').append($('<option></option>').val('Expected Negotiation on listed price').html('Expected Negotiation on listed price'));
                 $('#sub_dispo').append($('<option></option>').val('Wants to reserve the car').html('Wants to reserve the car'));
+				$('#sub_dispo').append($('<option></option>').val('Comparison with competition').html('Comparison with competition'));
             }
 
             $('#sktPleaseWait').modal('hide');
@@ -161,6 +174,30 @@ $(document).ready(function(){
             }
              if(subdispo == 'Non-Buyer query') {
                 $('#sub_subdispo').append($('<option></option>').val('Customer wants to sell car/ wants to sell or buy bike / Wants to get dealership').html('Customer wants to sell car/ wants to sell or buy bike / Wants to get dealership'));
+            }
+			if(subdispo == 'Seller Query') {
+				$('#sub_subdispo').append($('<option></option>').val('N/A').html('N/A'));
+            }
+			if(subdispo == 'Wrong number') {
+                $('#sub_subdispo').append($('<option></option>').val('N/A').html('N/A'));
+            }
+			if(subdispo == 'Directions Location') {
+                $('#sub_subdispo').append($('<option></option>').val('N/A').html('N/A'));
+            }
+			if(subdispo == 'Hub Timings') {
+                $('#sub_subdispo').append($('<option></option>').val('N/A').html('N/A'));
+            }
+			if(subdispo == 'Need Hub Contact') {
+                $('#sub_subdispo').append($('<option></option>').val('N/A').html('N/A'));
+            }
+			if(subdispo == 'No Reason given') {
+                $('#sub_subdispo').append($('<option></option>').val('N/A').html('N/A'));
+            }
+			if(subdispo == 'Not Looking for a car') {
+                $('#sub_subdispo').append($('<option></option>').val('N/A').html('N/A'));
+            }
+			if(subdispo == 'Not shown any interest') {
+                $('#sub_subdispo').append($('<option></option>').val('N/A').html('N/A'));
             }
             if(subdispo == 'Language Barrier') {
                 $('#sub_subdispo').append($('<option></option>').val('Lingual customer not comfortable in Hindi & english/ lingual advisor not comfortable in hindi or english').html('Lingual customer not comfortable in Hindi & english/ lingual advisor not comfortable in hindi or english'));
@@ -261,11 +298,13 @@ $(document).ready(function(){
             if(subdispo == 'Wants to reserve the car') {
                 $('#sub_subdispo').append($('<option></option>').val('Customer wants to reserve the car for himself').html('Customer wants to reserve the car for himself'));
             }
+			if(subdispo == 'Comparison with competition') {
+                $('#sub_subdispo').append($('<option></option>').val('N/A').html('N/A'));
+            }
 
             $('#sktPleaseWait').modal('hide');
     });
 </script>
-//////////////////////////////////////////////////////////////////
 
 <script type="text/javascript">
 ////////////////////////////////////////////////////////////////	

@@ -152,6 +152,12 @@
 					$field_array['audit_start_time']=$this->input->post('audit_start_time');
 					$a = $this->mt_upload_files($_FILES['attach_file'], $path='./qa_files/qa_clio/');
 					$field_array["attach_file"] = implode(',',$a);
+
+					$voice_chkbox= $this->input->post('check_list1');
+					if(!empty('voice_chkbox')){
+						$field_array['check_list1']=implode(',',$voice_chkbox);
+					}
+					
 					$rowid= data_inserter('qa_clio_feedback',$field_array);
 				///////////
 					if(get_login_type()=="client"){
@@ -162,6 +168,110 @@
 					$this->db->where('id', $rowid);
 					$this->db->update('qa_clio_feedback',$add_array);
 					
+					/*******************Fatal Call Email Send functionality added on 12-12-22 START ***********************/
+					if($field_array['overall_score'] == 0){
+						$tablename = "qa_clio_feedback";
+						$sql = "SELECT tname.*, ip.email_id_off, ip_tl.email_id_off as tl_email, concat(s.fname, ' ', s.lname) as fullname,
+							(SELECT concat(tls.fname, ' ', tls.lname) as tl_fullname FROM signin tls WHERE tls.id=tname.tl_id) as tl_fullname
+							FROM $tablename tname
+							LEFT JOIN info_personal ip ON ip.user_id=tname.agent_id 
+							LEFT JOIN signin s ON s.id=tname.agent_id
+							LEFT JOIN signin tl ON tl.id = tname.tl_id
+							LEFT JOIN info_personal ip_tl ON ip_tl.user_id = tname.tl_id
+							WHERE tname.id=$rowid";
+						$result= $this->Common_model->get_query_row_array($sql);				
+						$sqlParam ="SELECT process_id,params_columns, fatal_param,param_column_desc FROM qa_defect where table_name='$tablename'"; 
+						$resultParams = $this->Common_model->get_query_row_array($sqlParam);
+						
+						$process = floor($resultParams['process_id']);
+						$sqlProcess ="SELECT name FROM process where id='$process'"; 
+						$resultProcess = $this->Common_model->get_query_row_array($sqlProcess);
+						
+						$params = explode(",", $resultParams['params_columns']);
+						$fatal_params = explode(",", $resultParams['fatal_param']);
+						$descArr = explode(",", $resultParams['param_column_desc']);
+						
+						$msgTable = "<Table BORDER=1>";
+						$msgTable .= "<TR><TH>SL.</TH> <TH>CALL AUDIT PARAMETERS</TH><TH>QA Rating</TH> <TH>QA Remarks</TH></TR>";
+						
+						$i=1;
+						$j=0;
+						foreach($params as $par){
+							//echo $str = str_replace('_', ' ', $par)."<BR>";
+							if($result[$par]=='No'){
+								$msgTable .= "<TR><TD>".$i."</TD><TD>". $descArr[$j]."</TD> <TD style='color:#FF0000'>".$result[$par]."</TD><TD>".$result['cmt'.$i]."</TD></TR>";
+							}else{
+								$msgTable .= "<TR><TD>".$i."</TD><TD>". $descArr[$j]."</TD> <TD>".$result[$par]."</TD><TD>".$result['cmt'.$i]."</TD></TR>";
+							}
+							
+							$i++;
+							$j++;
+						}
+						///////////////////////////
+						//$j=1;
+						/* if(!empty($fatal_params)){
+							
+							foreach($fatal_params as $fatal_par){
+								if(!empty($fatal_par)){
+								$msgTable .= "<TR><TD>".$i."</TD><TD style='color:#FF0000'>".ucwords( str_replace('_', ' ',$fatal_par))."</TD> <TD>".$result[$fatal_par]."</TD><TD>".$result['cmt'.($i-10)]."</TD></TR>";
+								
+								$i++;
+								}
+							}
+						} */
+						$msgTable .= "<TR><TD colspan='3'>Customer Score</TD> <TD>".$result['customer_score']."%</TD></TR>";
+						$msgTable .= "<TR><TD colspan='3'>Business Score</TD> <TD>".$result['business_score']."%</TD></TR>";
+						$msgTable .= "<TR><TD colspan='3'>Compliance Score</TD> <TD>".$result['compliance_score']."%</TD></TR>";
+						
+						$msgTable .= "<TR><TD colspan='3'>Overall Score</TD> <TD>".$result['overall_score']."%</TD></TR>";
+						
+						
+						$msgTable .= "</Table>";
+						
+						$eccA=array();
+						//$to = $result['tl_email']; // Have to open when email will trigger to the Respective TL of the Agent
+						$to = 'Gustavo.Diaz@fusionbposervices.com,walter.miranda@fusionbposervices.com,rene.martinez@fusionbposervices.com,Diego.Quezada@fusionbposervices.com,aaron.munguia@fusionbposervices.com,Roxana.Martinez@fusionbposervices.com,amitabh.vartak@fusionbposervices.com,ashish.tere@fusionbposervices.com,Faisal.Anwar@fusionbposervices.com,projectcentrel.operations@fusionbposervices.com,ivan.gagote@fusionbposervices.com,jimson.birao@fusionbposervices.com,desiree.arnado@fusionbposervices.com,rizzie.larios@fusionbposervices.com,Zephaniah.Satiembre@fusionbposervices.com,bryan.carpio@fusionbposervices.com,Acha.Joseph@fusionbposervices.com';
+						
+						$ebody = "Hello ". $result['tl_fullname'].",<br>";
+						$ebody .= "<p>Agent Name : ".$result['fullname']."</p>";
+						//$ebody .= "<p>As per phone No. ".$result['phone']."</p>";
+						$ebody .= "<p>Reference ID :  ".$result['reference_id']."</p>";
+						$ebody .= "<p>Total Talk time : ".$result['call_duration']."</p>";
+						$ebody .= "<p>Audit Date time : ".ConvServerToLocal($result['entry_date'])."</p>";
+						$ebody .= "<p>Call Summary : ".$result['call_summary']."</p>";
+						$ebody .= "<p>Feedback : ".$result['feedback']."</p><br><br>";
+						$ebody .= "<p>Please listen the call from the MWP Tool and share feedback acceptancy :</p>";
+						$ebody .=  $msgTable;
+						$ebody .= "<p>Regards,</p>";
+						$ebody .= "<p>MWP Team</p>";
+						$esubject = "Fatal Call Alert - "." For Process - ".$resultProcess['name'].", Agent Name - ".$result['fullname']." Audit Date - ".$result['audit_date'];
+						
+						//echo $ebody;
+						//exit;
+					
+						$eccA[]="Bompalli.Somasundaram@omindtech.com";
+						$eccA[]="deb.dasgupta@omindtech.com";
+						$eccA[]="danish.khan@fusionbposervices.com";
+						$eccA[]="sumitra.bagchi@omindtech.com";
+						$eccA[]="anshuman.sarkar@fusionbposervices.com";
+						
+						$ecc = implode(',',$eccA);
+						$path = "";
+						$from_email="";
+						$from_name="";
+						
+						//echo $esubject."<br>";
+					
+						//echo $ebody."<br>";
+						//exit;
+						
+						$send = $this->Email_model->send_email_sox("",$to, $ecc, $ebody, $esubject, $path, $from_email, $from_name, $isBcc="Y");
+						unset($eccA);
+					}
+					
+					
+					/*******************Fatal Call Email Send functionality added on 12-12-22 END ***********************/
+					
 				}else{
 					
 					$field_array1=$this->input->post('data');
@@ -170,6 +280,12 @@
 						$a = $this->mt_upload_files($_FILES['attach_file'],$path='./qa_files/qa_clio/');
 						$field_array1['attach_file'] = implode(',',$a);
 					}
+
+					$voice_chkbox= $this->input->post('check_list1');
+					if(!empty('voice_chkbox')){
+						$field_array1['check_list1']=implode(',',$voice_chkbox);
+					}
+
 					$this->db->where('id', $gds_id);
 					$this->db->update('qa_clio_feedback',$field_array1);
 					/////////////
@@ -258,8 +374,7 @@
 						$add_array = array("entry_by" => $current_user);
 					}
 					$this->db->where('id', $rowid);
-					$this->db->update('qa_clio_spot_feedback',$add_array);
-					
+					$this->db->update('qa_clio_spot_feedback',$add_array);					
 				}else{
 					
 					$field_array1=$this->input->post('data');
@@ -305,32 +420,30 @@ public function agent_clio_feedback()
 			$user_site_id= get_user_site_id();
 			$role_id= get_role_id();
 			$current_user = get_user_id();
-			
 			$data["aside_template"] = "qa/aside.php";
 			$data["content_template"] = "qa_clio/agent_clio_feedback.php";
 			$data["content_js"] = "qa_clio_js.php";
 			$data["agentUrl"] = "qa_clio/agent_clio_feedback";
 			
-			$qSql="Select count(id) as value from qa_clio_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
+			$qSql="Select count(id) as value from qa_clio_feedback where agent_id='$current_user' And audit_type not in ('Calibration','Pre-Certificate Mock Call','Certification Audit')";
 			$data["tot_feedback"] =  $this->Common_model->get_single_value($qSql);
 			
-			$qSql="Select count(id) as value from qa_clio_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit') and agent_rvw_date is Null";
+			$qSql="Select count(id) as value from qa_clio_feedback where agent_id='$current_user' And audit_type not in ('Calibration','Pre-Certificate Mock Call','Certification Audit') and agnt_fd_acpt is Null";
 			$data["yet_rvw"] =  $this->Common_model->get_single_value($qSql);
-
-
-
-			$qSql="Select count(id) as value from qa_clio_spot_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
+		///////////////////
+			$qSql="Select count(id) as value from qa_clio_spot_feedback where agent_id='$current_user' And audit_type not in ('Calibration','Pre-Certificate Mock Call','Certification Audit')";
 			$data["tot_feedback_spot"] =  $this->Common_model->get_single_value($qSql);
 			
-			$qSql="Select count(id) as value from qa_clio_spot_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit') and agent_rvw_date is Null";
+			$qSql="Select count(id) as value from qa_clio_spot_feedback where agent_id='$current_user' And audit_type not in ('Calibration','Pre-Certificate Mock Call','Certification Audit') and agnt_fd_acpt is Null";
 			$data["yet_rvw_spot"] =  $this->Common_model->get_single_value($qSql);
+			
 			$from_date = '';
 			$to_date = '';
 			$cond="";
 			$user="";
 			if(get_role_dir()=='agent'){
-					$user .="where id ='$current_user'";
-				}
+				$user .="where id ='$current_user'";
+			}
 			
 			if($this->input->get('btnView')=='View')
 			{
@@ -343,33 +456,34 @@ public function agent_clio_feedback()
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_clio_feedback $cond And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Inner Join
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_clio_feedback $cond And audit_type not in ('Calibration','Pre-Certificate Mock Call','Certification Audit')) xx Inner Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin $user) yy on (xx.agent_id=yy.sid)";
 				$data["agent_rvw_list"] = $this->Common_model->get_query_result_array($qSql);
-
+			///////////////
 				$qSql = "SELECT * from
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_clio_spot_feedback $cond And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Inner Join
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_clio_spot_feedback $cond And audit_type not in ('Calibration','Pre-Certificate Mock Call','Certification Audit')) xx Inner Join
 				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin $user) yy on (xx.agent_id=yy.sid)";
-				$data["agent_rvw_list"] = $this->Common_model->get_query_result_array($qSql);
+				$data["agent_rvw_list_spot"] = $this->Common_model->get_query_result_array($qSql);
+				
 			}else{
-             $qSql="SELECT * from
-				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_clio_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Inner Join
-				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
-				$data["agent_rvw_list"] = $this->Common_model->get_query_result_array($qSql);
-
-
+				
 				$qSql="SELECT * from
 				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_clio_spot_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')) xx Inner Join
-				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_clio_feedback where agent_id='$current_user' And audit_type not in ('Calibration','Pre-Certificate Mock Call','Certification Audit')) xx Inner Join
+				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) "; //Where xx.agnt_fd_acpt is Null
+				$data["agent_rvw_list"] = $this->Common_model->get_query_result_array($qSql);
+			////////////////
+				$qSql="SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_clio_spot_feedback where agent_id='$current_user' And audit_type not in ('Calibration','Pre-Certificate Mock Call','Certification Audit')) xx Inner Join
+				(Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agnt_fd_acpt is Null";
 				$data["agent_rvw_list_spot"] = $this->Common_model->get_query_result_array($qSql);
 
 			}

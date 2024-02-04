@@ -153,6 +153,7 @@ input[type='checkbox']{
 												<option value="CQ Audit" <?= ($scan_data['audit_type']=="CQ Audit")?"selected":"" ?>>CQ Audit</option>
 												<option value="BQ Audit" <?= ($scan_data['audit_type']=="BQ Audit")?"selected":"" ?>>BQ Audit</option>
 												<option value="Calibration" <?= ($scan_data['audit_type']=="Calibration")?"selected":"" ?>>Calibration</option>
+												<option value="WoW Call"  <?= ($scan_data['audit_type']=="WoW Call")?"selected":"" ?>>WoW Call</option>
 												<option value="Pre-Certificate Mock Call" <?= ($scan_data['audit_type']=="Pre-Certificate Mock Call")?"selected":"" ?>>Pre-Certificate Mock Call</option>
 												<option value="Certification Audit" <?= ($scan_data['audit_type']=="Certification Audit")?"selected":"" ?>>Certification Audit</option>
 												<option value="WoW Call"  <?= ($scan_data['audit_type']=="WoW Call")?"selected":"" ?>>WoW Call</option>

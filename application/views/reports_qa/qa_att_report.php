@@ -57,6 +57,7 @@
 										<option <?php echo $campaign=='att_collection_gbrm'?"selected":""; ?> value="att_collection_gbrm">Collection GBRM</option>
 										<option <?php echo $campaign=='att_fiberconnect_whitespace'?"selected":""; ?> value="att_fiberconnect_whitespace">Fiberconnect Whitespace</option>
 										<option <?php echo $campaign=='fiberconnect_greenspace'?"selected":""; ?> value="fiberconnect_greenspace">Fiberconnect Greenspace</option>
+										<option <?php echo $campaign=='fiberconnect_whitespace_v1'?"selected":""; ?> value="fiberconnect_whitespace_v1">Fiberconnect Whitespace V1</option>
 										<!--<option <?php //echo $campaign=='att_verint'?"selected":""; ?> value="att_verint">AT&T Verint</option>
 										<option <?php //echo $campaign=='att_florida'?"selected":""; ?> value="att_florida">AT&T Florida</option>-->
 									</select>

@@ -1,0 +1,392 @@
+<script type="text/javascript">
+
+$(document).ready(function()
+{
+		var baseURL="<?php echo base_url();?>";
+		
+		var uUrl=baseURL+'schedule/upload';
+
+		var settings = {
+			url: uUrl,
+			dragDrop:true,
+			fileName: "myfile",
+			allowedTypes:"xls,xlsx",	
+			returnType:"json",	
+			dynamicFormData:function()
+			{
+			   var sdate=$('#ssdate').val();
+			   var edate=$('#sedate').val();
+			   return {
+					'sdate' : sdate,
+					'edate' : edate
+				}
+			},
+			onSelect:function(files)
+			{
+				var sdate=$('#ssdate').val();
+				if(sdate==""){
+					alert("Enter the Start Date");
+					return false;
+				}else{
+					if(isValidDate(sdate)==false){
+						alert("Invalid Start Date");
+						return false;
+					}
+					
+				}
+				
+				var edate=$('#sedate').val();
+				if(edate==""){
+					alert("Enter the End Date");
+					return false;
+				}else{
+					if(isValidDate(edate)==false){
+						alert("Invalid End Date");
+						return false;
+					}	
+				}
+			},
+			onSuccess:function(files,data,xhr)
+			{
+			   
+			   
+			   var res = data[0].split("##");
+			   console.log(data[0]);
+			   alert(res[0]);
+			   $("#OutputDiv").html(res[1]);
+			   //alert("Successfully uploaded and import to database.");
+			   if(res[0]=="done"){
+				   var rUrl=baseURL+'schedule';
+				   window.location.href=rUrl;	
+			   }
+			   
+			},
+			onError:function (files, status, message)
+			{
+			   $("#OutputDiv").html(message);
+			   
+			   alert(message);
+			   
+			  // var rUrl=baseURL+'schedule';
+			   //window.location.href=rUrl;	
+			   
+			},
+			showDelete:false
+		}
+		
+		var uploadObj = $("#mulitplefileuploader").uploadFile(settings);
+
+		////////////////////////////////////////
+		
+			
+		
+	$('#example').on('click', '.editSchedule', function(){
+		
+		//var today = new Date();
+		//today.setHours(today.getHours()-9.5);
+		//alert(today);
+		
+		var shid=$(this).attr("shid");
+		$('#shid').val(shid);
+		
+		var URL=baseURL+'schedule/get_data';
+
+		//$('#sktPleaseWait').modal('show');
+		
+		$.ajax({
+		   type: 'POST',    
+		   url:URL,
+		   data:'shid='+shid,
+		   success: function(data){
+		   
+								
+				var rsp = jQuery.parseJSON(data);
+				
+				
+				$('#user_id').val(rsp[0].user_id);
+				
+				$('#agent_name').val(rsp[0].agent_name);
+				$('#omuid').val(rsp[0].omuid);
+				$('#start').val(rsp[0].start_date);
+				$('#end').val(rsp[0].end_date);
+				
+				$('#shday').val(rsp[0].shday);
+				$('#in_time').val(rsp[0].in_time);
+				$('#break1').val(rsp[0].break1);
+				$('#lunch').val(rsp[0].lunch);
+				$('#break2').val(rsp[0].break2);
+				$('#out_time').val(rsp[0].out_time);
+				//$('#sktPleaseWait').modal('hide');
+				
+				$('#sktShModal').modal('show');
+				
+			},
+			error: function(){
+			
+				alert('Fail!');
+				
+				$('#sktPleaseWait').modal('hide');
+			}
+			
+		  });
+		 
+		  
+		////
+		
+	});
+	
+	
+		$("#updateSchedule").click(function(){
+	
+		var shid=$('#shid').val();
+		var user_id=$('#user_id').val();
+		
+		if(user_id!="" && shid!=""){
+		
+			$('#sktPleaseWait').modal('show');
+				
+			$.ajax({
+			   type: 'POST',    
+			   url:baseURL+'schedule/update_data',
+			   data:$('form.frmEditSchedule').serialize(),
+			   success: function(msg){
+						$('#sktPleaseWait').modal('hide');
+						$('#sktShModal').modal('hide');
+						location.reload();
+				},
+				error: function(){
+					alert('Fail! to update');
+				}
+				
+			  });
+		}else{
+			alert("One or More Field(s) are Blank.");
+		}
+	});
+	
+		
+	
+	$('#example').on('click', '.deleteSchedule', function(){
+	
+		var shid=$(this).attr("shid").trim();
+						
+		var ans=confirm('Are you sure to detete this schedule?');
+		if(ans==true){
+			$.ajax({
+			   type: 'POST',    
+			   url: baseURL+'schedule/deleteSchedule',
+			   data:'shid='+ shid,
+			   success: function(msg){
+					//alert(msg);
+					location.reload();
+				},
+				error: function(){
+					alert('Fail!');
+				}
+			  });
+		}
+	});
+	
+	
+	
+	
+}); 
+
+
+
+  $(function(){
+    
+	var timeOffset="-300";
+	<?php if(date('T')=="EDT"):?>
+		timeOffset="-240";
+	<?php elseif(date('T')=="EST"): ?>
+		timeOffset="-300";
+	<?php endif;?>
+	
+	
+	/* global setting */
+    var datepickersOpt = {
+        dateFormat: 'mm/dd/yy',
+		timezone: timeOffset,
+        minDate   : "-150D"
+    }
+
+    $("#ssdate").datepicker($.extend({
+        onSelect: function() {
+            var minDate = $(this).datepicker('getDate');
+            minDate.setDate(minDate.getDate()+6); //add 6 days
+            $("#sedate").datepicker( "option", "minDate", minDate);
+			
+			$('#sedate').val(js_mm_dd_yyyy(minDate));
+        }
+    },datepickersOpt));
+	
+	/*
+    $("#sedate").datepicker($.extend({
+        onSelect: function() {
+            var maxDate = $(this).datepicker('getDate');
+            maxDate.setDate(maxDate.getDate()-6);
+            $("#ssdate").datepicker( "option", "maxDate", maxDate);
+        }
+    },datepickersOpt));
+	*/
+	
+	$('.selectdatepick input').datepicker({ dateFormat: 'yy-mm-dd' });
+	
+});
+
+
+ 
+</script>
+
+<script>
+	$(document).on('change','#office_id',function(e)
+	{
+		var office_id = $(this).val();
+		e.preventDefault();
+		var url = "<?php echo base_url('schedule/get_date_range_screen'); ?>";
+		var datas = {'office_id':office_id};
+		process_ajax(function(response_text){
+			var res = jQuery.parseJSON(response_text);
+			if(res.stat == true)
+			{
+				var options = '<option value="">--Select Date Range--</option>';
+				$.each(res.data, function(key,value) {
+					options += '<option value="'+value.start_date+'#'+value.end_date+'">'+value.shrange+'</option>';
+				});
+				$('#sch_range').html(options);
+			}
+			else
+			{
+				$('#sch_range').html('<option value="">No Date Range Found</option>');
+			}
+		},url,datas,'text');
+		
+	});
+	
+	$('#client_filter').change(function(){
+		cid = $(this).val();
+		populate_process_combo(cid,def='',objid='process_filter',isAll='Y');
+	});
+</script>
+
+<script>
+   $(function () {
+	    $('#multiselect').multiselect();
+	    $('#filter_office_id').multiselect({
+	        includeSelectAllOption: false,
+	        enableFiltering: true,
+	        enableCaseInsensitiveFiltering: true,
+			numberDisplayed: 1,
+	        filterPlaceholder: 'Search for something...',
+			onChange: function() {
+                var office_id=$('#filter_office_id').val();
+
+				if(jQuery.inArray("ALL", office_id) !== -1){
+					$("#filter_office_id").multiselect("clearSelection");
+					$('#filter_office_id').multiselect('select', ['ALL']);
+					$('.open input[value!="ALL"]').attr("disabled", true);
+				}else{
+					$('.open input[value!="ALL"]').removeAttr("disabled");
+				}
+            }
+	    });
+	});
+</script>
+
+
+<script>
+   $(function () {
+	    $('#multiselect').multiselect();
+	    $('#dept_id').multiselect({
+	        includeSelectAllOption: false,
+	        enableFiltering: true,
+	        enableCaseInsensitiveFiltering: true,
+			numberDisplayed: 1,
+	        filterPlaceholder: 'Search for something...',
+			onChange: function() {
+                var dept_id=$('#dept_id').val();
+
+				if(jQuery.inArray("ALL", dept_id) !== -1){
+					$("#dept_id").multiselect("clearSelection");
+					$('#dept_id').multiselect('select', ['ALL']);
+					$('.open input[value!="ALL"]').attr("disabled", true);
+				}else{
+					$('.open input[value!="ALL"]').removeAttr("disabled");
+				}
+            }
+	    });
+	});
+</script>
+
+<script>
+   $(function () {
+	    $('#multiselect').multiselect();
+	    $('#client_filter').multiselect({
+	        includeSelectAllOption: false,
+	        enableFiltering: true,
+	        enableCaseInsensitiveFiltering: true,
+			numberDisplayed: 1,
+	        filterPlaceholder: 'Search for something...',
+			onChange: function() {
+                var client_filter=$('#client_filter').val();
+
+				if(jQuery.inArray("ALL", client_filter) !== -1){
+					$("#client_filter").multiselect("clearSelection");
+					$('#client_filter').multiselect('select', ['ALL']);
+					$('.open input[value!="ALL"]').attr("disabled", true);
+				}else{
+					$('.open input[value!="ALL"]').removeAttr("disabled");
+				}
+            }
+	    });
+	});
+</script>
+
+<script>
+   $(function () {
+	    $('#multiselect').multiselect();
+	    $('#process_filter').multiselect({
+	        includeSelectAllOption: false,
+	        enableFiltering: true,
+	        enableCaseInsensitiveFiltering: true,
+			numberDisplayed: 1,
+	        filterPlaceholder: 'Search for something...',
+			onChange: function() {
+                var process_filter=$('#process_filter').val();
+
+				if(jQuery.inArray("ALL", process_filter) !== -1){
+					$("#process_filter").multiselect("clearSelection");
+					$('#process_filter').multiselect('select', ['ALL']);
+					$('.open input[value!="ALL"]').attr("disabled", true);
+				}else{
+					$('.open input[value!="ALL"]').removeAttr("disabled");
+				}
+            }
+	    });
+	});
+</script>
+
+<script>
+   $(function () {
+	    $('#multiselect').multiselect();
+	    $('#shDay').multiselect({
+	        includeSelectAllOption: false,
+	        enableFiltering: true,
+	        enableCaseInsensitiveFiltering: true,
+			numberDisplayed: 1,
+	        filterPlaceholder: 'Search for something...',
+			onChange: function() {
+                var shDay=$('#shDay').val();
+
+				if(jQuery.inArray("ALL", shDay) !== -1){
+					$("#shDay").multiselect("clearSelection");
+					$('#shDay').multiselect('select', ['ALL']);
+					$('.open input[value!="ALL"]').attr("disabled", true);
+				}else{
+					$('.open input[value!="ALL"]').removeAttr("disabled");
+				}
+            }
+	    });
+	});
+</script>

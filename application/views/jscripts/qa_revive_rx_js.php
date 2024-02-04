@@ -319,6 +319,80 @@ $( "#client_id" ).on('change' , function() {
 	
 </script>
 
+ <script type="text/javascript">
+ 		function revive_rx_inbound_calc(){
+		let score_park = 0;
+		let scoreable_park = 0;
+		let quality_score_percent_park = 0.00;
+		let pass_count_park = 0;
+		let fail_count_park = 0;
+		let na_count_park = 0;
+		let score_revive_rx_inbound_final = 0;
+		let scoreable_revive_rx_inbound_final = 0;
+
+		$('.revive_rx_inbound_point').each(function(index,element){
+			let score_type_park = $(element).val();
+			
+			if(score_type_park == 'Pass'){
+				pass_count_park = pass_count_park + 1;
+				let w1_park = parseFloat($(element).children("option:selected").attr('revive_rx_inbound_val'));
+				let w2_park = parseFloat($(element).children("option:selected").attr('revive_rx_inbound_max'));
+				
+				score_park = score_park + w1_park;
+				scoreable_park = scoreable_park + w2_park;
+
+			}else if(score_type_park == 'Fail'){
+				fail_count_park = fail_count_park + 1;
+				let w1_park = parseFloat($(element).children("option:selected").attr('revive_rx_inbound_val'));
+				let w2_park = parseFloat($(element).children("option:selected").attr('revive_rx_inbound_max'));
+
+				//score = score + w1;
+				scoreable_park = scoreable_park + w2_park;
+				//scoreable = scoreable + weightage;
+			}else if(score_type_park == 'NA'){
+				na_count_park = na_count_park + 1;
+				let w1_park = parseFloat($(element).children("option:selected").attr('revive_rx_inbound_val'));
+				let w2_park = parseFloat($(element).children("option:selected").attr('revive_rx_inbound_max'));
+				score_park = score_park + w1_park;
+				scoreable_park = scoreable_park + w2_park;
+			}
+		});
+
+		console.log(score_park);
+		quality_score_percent_park = Math.round((score_park*100)/scoreable_park);
+
+		if(quality_score_percent_park == "NaN"){
+			quality_score_percent_park = (0.00).toFixed(2);
+		}else{
+			quality_score_percent_park = quality_score_percent_park;
+		}
+		
+      score_revive_rx_inbound_final     = Math.round(score_park);
+      scoreable_revive_rx_inbound_final = Math.round(scoreable_park);
+
+		$('#revive_rx_inbound_earned_score').val(score_revive_rx_inbound_final);
+		$('#revive_rx_inbound_possible_score').val(scoreable_revive_rx_inbound_final);
+		
+		if(!isNaN(quality_score_percent_park)){
+			$('#revive_rx_inbound_overall_score').val(quality_score_percent_park+'%');
+		}
+
+		if($('#inbound_fatal1').val()=='Fail' || $('#inbound_fatal2').val()=='Fail'){
+			//console.log($('#inbound_fatal1').val());
+
+			quality_score_percent_park = (0.00).toFixed(2);
+			$('.inboundFatal').val(quality_score_percent_park+'%');
+		}else{
+			$('#revive_rx_inbound_overall_score').val(quality_score_percent_park+'%');
+		}
+	}
+	
+	$(document).on('change','.revive_rx_inbound_point',function(){
+		revive_rx_inbound_calc();
+	});
+	revive_rx_inbound_calc();
+</script>
+
 <script>
 ////////do_revive_rx////////////// Revive Rx ////////////////////
 function do_revive_rx(){

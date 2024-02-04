@@ -1,0 +1,149 @@
+<div class="wrap">
+	<?php
+			echo '<section class="app-content">'; 
+				echo '<div class="row">';
+					echo '<div class="col-md-12">';
+						echo '<div class="widget">';
+							echo '<header class="widget-header pull-right">';
+								echo '<a href="'. base_url() .'course" type="button" class="btn  btn-success"><i class="glyphicon glyphicon-arrow-left"></i> Back </a>';
+							echo '</header>';
+							echo '<hr class="widget-separator">';
+							
+							echo '<div class="widget-body clearfix">';
+								
+							echo '</div>'; 
+						echo '</div>';
+					echo '</div>';
+				echo '</div>';
+			
+						
+						
+				echo '<div class="row">';
+					echo '<div class="col-md-12">';
+						echo '<div class="widget">';
+							echo '<header class="widget-header">';
+								echo '<h4 class="widget-title">Examination Attempted</h4>';
+							echo '</header>';
+							echo '<hr class="widget-separator">';
+							
+							echo '<div class="widget-body clearfix">';
+								echo '<div class="table-responsive">';
+									echo '<table id="default-datatable" data-plugin="DataTable" class="table table-striped skt-table" width="100%" cellspacing="0">';
+										echo '<thead>';
+											echo '<tr class="bg-info">';
+												echo '<th>SL</th>';
+												echo '<th>Course Name</th>';
+												echo '<th>Total Question</th>';
+												echo '<th>Pass Marks</th>';
+												echo '<th>Total Attempted</th>';
+												echo '<th>Total Correct Ans</th>';
+												echo '<th>Total Scored</th>';
+												echo '<th>Certification</th>';
+											echo '</tr>';
+										echo '</thead>';
+										
+										echo '<tbody>';
+										//echo '<pre>';
+										//print_r($available_exam);
+								
+											$i=1;
+											foreach($attempt_data as $value)
+											{
+													echo '<tr align="center">';
+													echo '<td>'.$i.'</td>';
+													echo '<td>'.$value['course_name'].'</td>';
+													echo '<td>'.$value['no_of_question'].'</td>';
+													echo '<td>'.$value['pass_marks'].'</td>';
+													echo '<td>'.$value['attempted_question'].'</td>';
+													echo '<td>'.$value['correct_ans'].'</td>';
+													echo '<td>'.$value['scored'].'</td>';
+													if( $value['exam_status']== 1 ){
+														echo '<td>PASSED </td>';
+													}else{
+														echo '<td>FAILED </td>';
+													}
+													echo '</tr>';
+												$i++;
+											}
+										
+										echo '</tbody>';
+										
+									echo '</table>';
+								echo '</div>';
+							echo '</div>';
+						echo '</div>';
+					echo '</div>';
+				echo '</div>';		
+						
+						
+						
+						
+						
+						
+				echo '<div class="row">';
+					echo '<div class="col-md-12">';
+						echo '<div class="widget">';
+							echo '<header class="widget-header">';
+								echo '<h4 class="widget-title">Available Examination</h4>';
+							echo '</header>';
+							echo '<hr class="widget-separator">';
+							
+							echo '<div class="widget-body clearfix">';
+								echo '<div class="table-responsive">';
+									echo '<table id="default-datatable" data-plugin="DataTable" class="table table-striped skt-table" width="100%" cellspacing="0">';
+										echo '<thead>';
+											echo '<tr class="bg-info">';
+												echo '<th>SL</th>';
+												echo '<th>Course Name</th>';
+												echo '<th>Examination</th>';
+												echo '<th>Total Question</th>';
+												echo '<th>Allotted Time</th>';
+												echo '<th>Pass Marks</th>';
+												echo '<th>Action</th>';
+											echo '</tr>';
+										echo '</thead>';
+										
+										echo '<tbody>';
+										//echo '<pre>';
+										//print_r($available_exam);
+										if($available_exam_count > 0)
+										{
+											$i=1; 
+											foreach($available_exam as $key=>$value)
+											{
+													echo '<tr align="center">';
+													echo '<td>'.$i.'</td>';
+													echo '<td>'.$value->course_name.'</td>';
+													echo '<td>'.$value->exam_title.'</td>';
+													echo '<td>'.$value->no_of_question.'</td>';
+													echo '<td>'.$value->allotted_time.'</td>';
+													echo '<td>'.$value->pass_marks.'</td>';
+													
+														if($passed == 1){
+															echo '<td><button class="btn btn-success btn-sm disabled">Give Exam</button></td>';
+														}else{
+															echo '<td><form method="POST" action="'.base_url('course/exam_panel').'"><input type="hidden" name="lt_exam_categories_id" value="'.$categories_id.'"><input type="hidden" name="lt_exam_course_id" value="'.$course_id.'"><input type="hidden" name="lt_exam_schedule_id" value="'.$value->id.'"><input type="hidden" name="course_title" value="'.$title_id.'"><button type="submit" class="btn btn-success btn-sm">Give Exam</button></form></td>';
+														}
+												
+												echo '</tr>';
+												$i++;
+											}
+										}
+										else
+										{
+											echo '<tr>';
+												echo '<td colspan="6" class="text-center">No Examination Available</td>';
+											echo '</tr>';
+										}
+										echo '</tbody>';
+										
+									echo '</table>';
+								echo '</div>';
+							echo '</div>';
+						echo '</div>';
+					echo '</div>';
+				echo '</div>';
+			echo '</section>';
+		
+	?>
+</div>

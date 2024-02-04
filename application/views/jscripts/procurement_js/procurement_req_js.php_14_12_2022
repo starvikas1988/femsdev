@@ -1,0 +1,43 @@
+<script>
+$(document).ready(function() {
+
+	$(document).on('click','.assets_wise_req_data',function(){
+
+	var assets_id = $(this).attr('assets_id');
+	var count_id = $(this).attr('count_id');
+
+	var request_url = "<?php echo base_url('procurement/get_request_list/assets'); ?>";
+	var datas = {'assets_id': assets_id};
+	process_ajax(function(response)
+	{
+		var approve_status = list = "";
+		var res = JSON.parse(response);
+		var c=1;
+		$.each(res.datas,function(index,element) {
+			if(element.req_approve=='1') approve_status = "Approved";
+			else approve_status = "Pending";
+			list += `<tr>
+						<td>${c}</td>
+						<td>${element.req_number}</td>
+						<td>${element.location_name}</td>
+						<td>${element.request_by_name}</td>
+						<td>${element.req_date}</td>
+						<td>${approve_status}</td>
+						<td>${element.approve_by_name}</td>
+						<td>${element.req_total_assets}</td>
+						<td></td>
+					</tr>`; 
+			c++;
+		});
+		$("#collapseExample_data_"+count_id).html(list);
+						
+	},request_url, datas, 'text');
+
+});
+
+
+
+
+
+});
+</script>

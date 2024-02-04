@@ -1,0 +1,843 @@
+<link href="<?= base_url() ?>assets/css/search-filter/assets/css/simple-datatables-latest.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="<?= base_url() ?>assets/css/search-filter/assets/css/custom.css" rel="stylesheet" />
+<script src="<?= base_url() ?>assets/css/search-filter/assets/js/all.min.js"></script>
+<style>
+	.card-number {
+		border-left: 5px solid #3b5998;
+		padding-left: 16px;
+	}
+
+	.mb-1 {
+		margin-bottom: 0.6rem !important;
+	}
+
+	textarea {
+		width: 100%;
+		max-width: 100%;
+	}
+
+	.margin-Right {
+		margin-right: -20px;
+	}
+
+	.paddingTop {
+		padding-top: 15px !important;
+	}
+
+	.fa-shield {
+		margin-right: 5px;
+		font-size: 18px;
+	}
+
+	.search-select label {
+		display: block;
+	}
+
+	.search-select .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+		width: 100%;
+	}
+
+	.bootstrap-select>.dropdown-toggle {
+		height: 40px;
+		border-radius: 0px !important;
+	}
+
+	.search-select ul {
+		max-height: 200px !important;
+	}
+
+	.search-select .bs-placeholder:hover {
+		background: #fff !important;
+		box-shadow: none !important;
+	}
+
+	.search-select .dropdown-menu>.active>a,
+	.search-select .dropdown-menu>.active>a:focus,
+	.search-select .dropdown-menu>.active>a:hover {
+		color: #fff;
+		text-decoration: none;
+		background-color: #3b5998 !important;
+		outline: 0;
+	}
+
+	.search-select .dropdown-menu {
+		border-radius: 1px !important;
+	}
+
+	.btn-place {
+		float: right;
+	}
+
+	.btn-place .btn {
+		border-radius: 1px !important;
+		color: #3b5998 !important;
+		font-weight: bold;
+	}
+
+	.btn-place .btn:focus,
+	.btn-place .btn:hover {
+		text-decoration: none;
+		background: #fdfafa !important;
+		color: #3b5998 !important;
+		font-weight: bold;
+		box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .25), 0 3px 10px 5px rgba(0, 0, 0, 0.05) !important;
+	}
+
+	.canvas-chart {
+		width: 100%;
+		display: block;
+		box-sizing: border-box;
+		height: 499px !important;
+	}
+
+	.new-modal .bootstrap-select {
+		width: 100% !important;
+	}
+
+	/*.new-modal .dropdown-menu{ max-height:216px!important;}*/
+</style>
+<div class="wrap new">
+	<div class="new-tabs it_tab_area form-group">
+		<ul class="nav nav-tabs">
+			<li class="<?= $active_movement ?>"><a data-toggle="tab" href="#home">Assets Movement</a></li>
+			<?php if ($check_hod === true) { ?>
+				<li class="<?= $active_hod ?>"><a data-toggle="tab" href="#menu1">HOD Panel</a></li>
+			<?php } ?>
+		</ul>
+	</div>
+	<div class="tab-content">
+		<div id="home" class="tab-pane fade <?= $active_movement ?>">
+			<!-- main start -->
+			<div class="body_widget">
+				<div class="white_widget padding_3">
+					<div class="row d_flex">
+						<div class="col-sm-6">
+							<h2 class="avail_title_heading">Assets Movement</h2>
+						</div>
+						<!--<div class="col-sm-6">
+								<div class="btn-place">
+									<button class="btn bn-sm btn-default" data-toggle="modal" data-target="#myModal">Export</button>
+									<button class="btn bn-sm btn-default" data-toggle="modal" data-target="#myModal">Move Assets</button>
+								</div>
+							</div> -->
+					</div>
+					<hr class="sepration_border">
+					<div class="body_widget">
+						<form method="post">
+							<div class="row flex_wrap">
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label for="full_form">Star Date</label>
+										<input type="date" value="<?= $start_date ?>" name="start_date" class="form-control">
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group ">
+										<label for="full_form">End Date</label>
+										<input type="date" value="<?= $end_date ?>" name="end_date" class="form-control">
+									</div>
+								</div>
+								<div class="col-sm-3 form-group">
+									<div class="filter-widget search-select">
+										<label for="full_form">Location</label>
+										<select class="multiselect_options" name="location_id[]" multiple>
+											<?php foreach ($location_list as $value) {
+												if ($value['abbr'] != get_user_office_id()) :
+													$sel = "";
+													if (in_array($value['abbr'],$location_id)) $sel = "selected";
+											?>
+													<option value="<?= $value['abbr'] ?>" <?= $sel ?>><?= $value['office_name'] ?></option>
+											<?php endif;
+											} ?>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3 form-group">
+									<div class="filter-widget search-select">
+										<label for="full_form">Assets</label>
+										<select class="multiselect_options" name="assets_id[]" multiple>
+											<?php foreach ($assets_list as $value) {
+												$sel = "";
+												if (in_array($value['id'],$assets_id)) $sel = "selected"; ?>
+													<option value="<?= $value['id'] ?>" <?= $sel ?>><?= $value['name'] ?></option>
+											<?php } ?>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3 form-group">
+									<div class="filter-widget search-select">
+										<label for="full_form">Department</label>
+										<select class="multiselect_options" name="dpt_id[]" multiple>
+											<?php foreach ($department_data as $value) {
+												$sel = "";
+												if (in_array($value['id'],$dpt_id)) $sel = "selected"; ?>
+												<option value="<?= $value['id'] ?>" <?= $sel ?>><?= $value['shname'] ?></option>
+											<?php } ?>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3 form-group">
+									<div class="filter-widget search-select">
+										<label for="full_form">Client</label>
+										<select class="multiselect_options" id="client_id_search" name="client_id[]" multiple>
+											<?php foreach ($client_list as $value) {
+												$sel = "";
+												if ($client_id == $value->id) $sel = "selected"; ?>
+												<option value="<?= $value->id ?>" <?= $sel ?>><?= $value->shname ?></option>
+											<?php } ?>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3 form-group">
+									<div class="filter-widget search-select">
+										<label for="full_form">Process</label>
+										<select class="multiselect_options" id="process_id_search" name="process_id" multiple>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3 form-group">
+									<div class="filter-widget search-select">
+										<label for="full_form">Status</label>
+										<select class="multiselect_options" name="status_id[]" multiple>
+											<option value="4" <?php if (in_array(4,$status_id)) echo "selected" ?>>Approved</option>
+											<option value="5" <?php if (in_array(5,$status_id)) echo "selected" ?>>Close</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="search-select">
+										<label for="full_form">Request ID</label>
+										<input type="text" value="<?= $req_id ?>" name="req_id" maxlength="20" class="form-control" placeholder="Enter Request ID">
+									</div>
+								</div>
+								<input type="hidden" name="active_panel" value="movement">
+								<div class="col-sm-3">
+									<label class="visiblity_hidden d_block">Search</label>
+									<button type="submit" class="btn btn_padding filter_btn_blue save_common_btn">Search</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="white_widget padding_3">
+				<div class="common_table_widget report_hirarchy_new nTable it_assets_expt">
+					<table class="table table-bordered table-striped " id="datatablesSimple">
+						<thead>
+							<th class="table_width_sr">SL. No.</th>
+							<th class="table_width1">Request ID</th>
+							<th class="table_width1">Request From</th>
+							<th class="table_width1">Request To</th>
+							<th class="table_width1">Request Date</th>
+							<th class="table_width1">Department</th>
+							<th class="table_width1">Client</th>
+							<th class="table_width1">Process</th>
+							<th class="table_width1">Assets</th>
+							<th class="table_width1">Total Assets Req</th>
+							<th class="employee_td">Comments</th>
+							<th class="table_width1">Approved By</th>
+							<th class="table_width1">Approval Date</th>
+							<?php if ($status_id == 5 || $status_id == 'all') : ?>
+								<th class="table_width1">Close By</th>
+								<th class="table_width1">Close Date</th>
+							<?php endif; ?>
+							<th class="table_width1">Status</th>
+							<th class="table_width_sr leave_columns_fixed">Action</th>
+						</thead>
+						<tbody>
+							<?php $c = 1;
+							foreach ($movement_data as $value) { ?>
+								<tr>
+									<td><?= $c ?></td>
+									<td><?= $value['req_id'] ?></td>
+									<td><?= $value['req_from'] ?></td>
+									<td><?= $value['req_to'] ?></td>
+									<td><?= $value['raised_date'] ?></td>
+									<td><?= $value['department_name'] ?></td>
+									<td><?= $value['client_name'] ?></td>
+									<td><?= $value['process_name'] ?></td>
+									<td><?= $value['assets_name'] ?></td>
+									<td><?= $value['assets_total'] ?></td>
+									<td><?= $value['comments'] ?></td>
+									<td><?= $value['hod_name'] ?></td>
+									<td><?= $value['hod_approve_date'] ?></td>
+									<?php if ($status_id == 5 || $status_id == 'all') : ?>
+										<td><?= $value['close_by_name'] ?></td>
+										<td><?= $value['close_date'] ?></td>
+									<?php endif; ?>
+									<td><?php
+										if ($value['status'] == 4) echo 'Approved';
+										elseif ($value['status'] == 5) echo 'Closed';
+										?></td>
+									<td class="leave_columns_fixed action_column_right">
+										<?php if ($value['status'] == 4) : ?>
+											<button title="Assets Move" id="assest_move_req" value="<?= $value['id'] ?>" r_id="<?= $value['req_id'] ?>" request_total="<?= $value['assets_total'] ?>" assets_name="<?= $value['assets_name'] ?>" location_name="<?= $value['req_from'] ?>" assets_id="<?= $value['assets_id'] ?>" class="btn btn-sm"><img src="<?php echo base_url(); ?>assets_home_v3/images/move_icon.svg" alt=""></button>
+										<?php endif; ?>
+										<?php if ($value['status'] == 5) : ?>
+											<button title="View" id="assest_move_view" value="<?= $value['id'] ?>" r_id="<?= $value['req_id'] ?>" request_total="<?= $value['assets_total'] ?>" assets_name="<?= $value['assets_name'] ?>" assets_id="<?= $value['assets_id'] ?>" location_name="<?= $value['req_from'] ?>" class="btn btn-sm"><img src="<?php echo base_url(); ?>assets_home_v3/images/view.svg" alt=""></button>
+										<?php endif; ?>
+									</td>
+								</tr>
+							<?php $c++;
+							} ?>
+						</tbody>
+						<tfoot></tfoot>
+					</table>
+				</div>
+			</div>
+			<!-- Assets movement to a location START -->
+			<div id="myModal_assets_movement_req" class="modal fade new-modal" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<form method="post" action="<?= base_url() ?>dfr_it_assets/approved_assets_movement">
+							<div class="modal-header">
+								<button type="button" class="close close_new" data-dismiss="modal"></button>
+								<h4 class="modal-title">Move Assests to</h4>
+								<span class="small_font"><span id="req_location"></span> Location | Assets Name: <span class="assets_name_hod"></span> | Request ID: <span id="req_id_hod"></span></span>
+							</div>
+							<div class="modal-body overFlow">
+								<div class="scroll_pop_new">
+									<input type="hidden" id="req_total" name="req_total" value="">
+									<input type="hidden" id="req_id" name="req_id" value="">
+									<input type="hidden" id="req_number" name="req_number" value="">
+									<div class="row" id="assets_mov_details">
+										<p>Out Of Stock</p>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn_padding filter_btn save_common_btn" data-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn_padding filter_btn_blue save_common_btn modal-save assets_move_submit">Move</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- Assets movement to a location END -->
+			<!-- Assets movement history view START -->
+			<div id="myModal_assets_movement_history_details" class="modal fade new-modal " role="dialog">
+				<div class="modal-dialog modal_common">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close close_new" data-dismiss="modal"></button>
+							<h4 class="modal-title">Assests Movement to</h4>
+							<span class="small_font"><span id="req_location"></span> Location | Assets Name: <span class="assets_name_hod"></span> | Request ID: <span id="req_id_hod"></span></span>
+						</div>
+						<div class="modal-body overFlow">
+							<div class="common_table_widget scroll_pop_new">
+								<table class="table table-bordered table-striped">
+									<thead>
+										<th class="table_width_sr">SL. No.</th>
+										<th class="table_width1">Serial Number</th>
+										<th class="table_width1">Reference ID</th>
+										<th class="table_width1">Brand</th>
+										<th class="table_width1">Configuration</th>
+										<th class="table_width1">Model Number</th>
+										<th class="table_width1">Movement Date</th>
+									</thead>
+									<tbody id="move_assets_history_tr">
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn_padding filter_btn save_common_btn" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Assets movement history view END -->
+			<!-- main end -->
+		</div>
+		<?php
+		/*
+=========================
+	HOD Panel START
+========================= 
+*/
+		if ($check_hod === true) {
+		?>
+			<div id="menu1" class="tab-pane fade <?=$active_hod?>">
+				<!-- main start -->
+				<div class="white_widget padding_3">
+					<div class="row d_flex">
+						<div class="col-sm-6">
+							<h2 class="avail_title_heading">View Type: <?php if ($view_type_hod == 1) echo "My Request"; else echo "Others Request"; ?></h2>
+						</div>
+						<div class="col-sm-6">
+							<div class="right_side">
+								<button class="btn bn-sm btn_padding filter_btn" data-toggle="modal" data-target="#myModal-assets-req-generate">Generate Request</button>
+							</div>
+						</div>
+					</div>
+					<hr class="sepration_border">
+					<div class="body_widget">
+						<form method="post">
+							<div class="row flex_wrap">
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label for="full_form">Star Date</label>
+										<input type="date" value="<?= $start_date_hod ?>" name="start_date_hod" class="form-control">
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label for="full_form">End Date</label>
+										<input type="date" value="<?= $end_date_hod ?>" name="end_date_hod" class="form-control">
+									</div>
+								</div>
+								<div class="col-sm-3 form-group">
+									<div class="filter-widget search-select">
+										<label for="full_form">Location</label>
+										<select class="multiselect_options" id="location_id_hod_search" name="location_id_hod[]" multiple>
+											<?php foreach ($location_list as $value) {
+												if ($value['abbr'] != get_user_office_id()) :
+													$sel = "";
+													if ($location_id_hod == $value['abbr']) $sel = "selected";
+											?>
+													<option value="<?= $value['abbr'] ?>" <?= $sel ?>><?= $value['office_name'] ?></option>
+											<?php endif;
+											} ?>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3 form-group">
+									<div class="filter-widget search-select">
+										<label for="full_form">Assets</label>
+										<select class="multiselect_options" name="assets_id_hod[]" multiple>
+											<?php foreach ($assets_list as $value) {
+												$sel = "";
+												if ($assets_id_hod == $value['id']) $sel = "selected"; ?>
+												<option value="<?= $value['id'] ?>" <?= $sel ?>><?= $value['name'] ?></option>
+											<?php } ?>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3 form-group">
+									<div class="filter-widget search-select">
+										<label for="full_form">Department</label>
+										<select class="multiselect_options" name="dpt_id_hod[]" multiple>
+											<?php foreach ($department_data as $value) {
+												$sel = "";
+												if ($dpt_id_hod == $value['id']) $sel = "selected"; ?>
+												<option value="<?= $value['id'] ?>" <?= $sel ?>><?= $value['shname'] ?></option>
+											<?php } ?>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3 form-group">
+									<div class="filter-widget search-select">
+										<label for="full_form">Client</label>
+										<select class="multiselect_options" id="client_id_hod_search" name="client_id_hod[]" multiple>
+											<?php foreach ($client_list as $value) {
+												$sel = "";
+												if ($client_id_hod == $value->id) $sel = "selected"; ?>
+												<option value="<?= $value->id ?>" <?= $sel ?>><?= $value->shname ?></option>
+											<?php } ?>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3 form-group">
+									<div class="filter-widget search-select">
+										<label for="full_form">Process</label>
+										<select class="multiselect_options" id="process_id_hod_search" name="process_id_hod[]" multiple>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3 form-group">
+									<div class="filter-widget search-select">
+										<label for="full_form">Status</label>
+										<select class="multiselect_options " name="status_id_hod[]" multiple>
+											<option value="1" <?php if (in_array(1,$status_id_hod)) echo "selected" ?>>Pending</option>
+											<?php if ($view_type_hod == 1) : ?>
+												<option value="2" <?php if (in_array(2,$status_id_hod)) echo "selected" ?>>Cancel</option>
+											<?php endif; ?>
+											<option value="3" <?php if (in_array(3,$status_id_hod)) echo "selected" ?>>Rejected</option>
+											<option value="4" <?php if (in_array(4,$status_id_hod)) echo "selected" ?>>Approved</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group search-select">
+										<label for="full_form">View Type <span style="color: red">*</span></label>
+										<select class="selectpicker" id="view_type_hod_search" name="view_type_id" data-show-subtext="true" data-live-search="true" required>
+											<option value="1" <?php if ($view_type_hod == 1) echo "selected" ?>>My Request</option>
+											<option value="2" <?php if ($view_type_hod == 2) echo "selected" ?>>Others Request</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group search-select">
+										<label for="full_form">Request ID</label>
+										<input type="text" value="<?= $req_id_hod ?>" name="req_id_hod" maxlength="20" class="form-control" placeholder="Enter Request ID">
+									</div>
+								</div>
+								<input type="hidden" name="active_panel" value="hod">
+								<div class="col-sm-3">
+									<label class="visiblity_hidden d_block">Search</label>
+									<button class="btn btn_padding filter_btn_blue save_common_btn btn-save">Search</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="white_widget padding_3">
+					<div class="common_table_widget report_hirarchy_new new-table next-table nTable it_assets_expt">
+						<table class="table table-striped " id="datatablesSimple-next">
+							<thead>
+								<th class="table_width_sr">SL. No.</th>
+								<th class="table_width1">Request ID</th>
+								<th class="table_width1">Request By(MWP ID)</th>
+								<th class="table_width1">Request From</th>
+								<th class="table_width1">Request To</th>
+								<th class="table_width1">Request Date</th>
+								<th class="table_width1">Department</th>
+								<th class="table_width1">Client</th>
+								<th class="table_width1">Process</th>
+								<th class="table_width1">Assets</th>
+								<th class="table_width1">Total Assets Req</th>
+								<th class="employee_td">Comments</th>
+								<?php if ($status_id_hod == 3 || $status_id_hod == 'all') : ?>
+									<th class="table_width1">Rejected By</th>
+									<th class="table_width1">Reject Date</th>
+									<th class="employee_td">Reject Reason</th>
+								<?php endif; ?>
+								<?php if ($status_id_hod == 4 || $status_id_hod == 'all') : ?>
+									<th class="table_width1">Approve By</th>
+									<th> class="table_width1"Approve Date</th>
+								<?php endif; ?>
+								<?php if ($status_id_hod == 2 || $status_id_hod == 'all') : ?>
+									<th class="table_width1">Cancel By</th>
+									<th class="table_width1">Cancel Date</th>
+								<?php endif; ?>
+								<th class="table_width1">Status</th>
+								<th class="table_width1 leave_columns_fixed">Action</th>
+							</thead>
+							<tbody>
+								<?php $c = 1;
+								foreach ($acc_hod_data as $value) { ?>
+									<tr>
+										<td><?= $c ?></td>
+										<td><?= $value['req_id'] ?></td>
+										<td><?= $value['req_by'] ?></td>
+										<td><?= $value['req_from'] ?></td>
+										<td><?= $value['req_to'] ?></td>
+										<td><?= $value['raised_date'] ?></td>
+										<td><?= $value['department_name'] ?></td>
+										<td><?= $value['client_name'] ?></td>
+										<td><?= $value['process_name'] ?></td>
+										<td><?= $value['assets_name'] ?></td>
+										<td><?= $value['assets_total'] ?></td>
+										<td><?= $value['comments'] ?></td>
+										<?php if ($status_id_hod == 3 || $status_id_hod == 'all') : ?>
+											<td><?= $value['hod_name'] ?></td>
+											<td><?= $value['hod_reject_date'] ?></td>
+											<td><?= $value['hod_reject_reason'] ?></td>
+										<?php endif; ?>
+										<?php if ($status_id_hod == 4 || $status_id_hod == 'all') : ?>
+											<td><?php if ($value['hod_reject_date'] == null) : echo $value['hod_name'];
+												endif; ?></td>
+											<td><?= $value['hod_approve_date'] ?></td>
+										<?php endif; ?>
+										<?php if ($status_id_hod == 2 || $status_id_hod == 'all') : ?>
+											<td><?= $value['cancel_by_name'] ?></td>
+											<td><?= $value['cancel_date'] ?></td>
+										<?php endif; ?>
+										<td><?php
+											if ($value['status'] == 1) echo 'Pending';
+											elseif ($value['status'] == 2) echo 'Cancel';
+											elseif ($value['status'] == 3) echo 'Rejected';
+											elseif ($value['status'] == 4) echo 'Approved';
+											//elseif($value['status'] == 5) echo '<label class="label label-success">Closed</label>';
+											?></td>
+										<td class="leave_columns_fixed action_column_right">
+											<?php if ($view_type_hod == 1 && $value['status'] == 1) : ?>
+												<a href="<?= base_url() ?>dfr_it_assets/assets_movement_cancel_request/<?= $value['id'] ?>" title="Cancel" onclick="return confirm('Make sure, Are you Cancel Request?');" class="btn btn-sm"><img src="<?php echo base_url();?>assets_home_v3/images/delete_action.svg" alt=""></a>
+											<?php endif; ?>
+											<?php if ($view_type_hod == 2 && $value['status'] == 1) : ?>
+												<button title="Approve" id="approve_assets_request_hod" value="<?= $value['id'] ?>" r_id="<?= $value['req_id'] ?>" request_total="<?= $value['assets_total'] ?>" assets_name="<?= $value['assets_name'] ?>" assets_id="<?= $value['assets_id'] ?>" class="btn btn-sm no_padding"><img src="<?php echo base_url();?>assets_home_v3/images/check.svg" alt=""></button>
+												<button title="Reject" id="reject_assets_request_hod" value="<?= $value['id'] ?>" r_id="<?= $value['req_id'] ?>" request_total="<?= $value['assets_total'] ?>" assets_name="<?= $value['assets_name'] ?>" assets_id="<?= $value['assets_id'] ?>" class="btn btn-sm no_padding btn_left"><img src="<?php echo base_url();?>assets_home_v3/images/cancel_big.svg" alt=""></button>
+											<?php endif; ?>
+										</td>
+									</tr>
+								<?php $c++;
+								} ?>
+							</tbody>
+							<tfoot></tfoot>
+						</table>
+					</div>
+				</div>
+				<!-- Model Approve Request START -->
+				<div id="model_assets_request_approve" class="modal fade new-modal" role="dialog">
+					<div class="modal-dialog modal_common">
+						<div class="modal-content">
+							<form action="<?= base_url() ?>dfr_it_assets/assets_movement_approve_request" method="post">
+								<div class="modal-header">
+									<button type="button" class="close close_new" data-dismiss="modal"></button>
+									<h4 class="modal-title">Approve Request [Movement]</h4>
+									<span class="small_font">Assets Name: <span class="assets_name_hod"></span> | Request ID: <span id="req_id_hod"></span></span>
+								</div>
+								<div class="modal-body overFlow">
+									<div class="scroll_pop_new common_table_widget">
+										<table class="table table-bordered table-striped">
+											<thead>
+												<th>SL</th>
+												<th>Name</th>
+												<th>In Stock</th>
+												<th>Request Assets</th>
+											</thead>
+											<tbody>
+												<tr>
+													<td>1</td>
+													<td class="assets_name_hod"></td>
+													<td class="in_stock_present_assets"></td>
+													<td class="req_total_assets"></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<input type="hidden" name="req_id" value="" id="req_id_approve" required>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn_padding filter_btn save_common_btn" data-dismiss="modal">Close</button>
+									<button type="submit" type="button" class="btn btn_padding filter_btn_blue save_common_btn modal-save">Approve</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- Model Approve Request END -->
+				<!-- Model Reject Request START -->
+				<div id="modal_assets_request_reject" class="modal fade new-modal" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<form action="<?= base_url() ?>dfr_it_assets/assets_movement_reject_request" method="post">
+								<div class="modal-header">
+									<button type="button" class="close close_new" data-dismiss="modal"></button>
+									<h4 class="modal-title">Reject Request [Movement]</h4>
+									<span class="small_font">Assets Name: <span class="assets_name_hod"></span> | Request ID: <span id="req_id_hod"></span></span>
+								</div>
+								<div class="modal-body">
+									<div class="common_table_widget form-group">
+										<table class="table table-bordered table-striped">
+											<thead>
+												<th>SL</th>
+												<th>Name</th>
+												<th>In Stock</th>
+												<th>Request Assets</th>
+											</thead>
+											<tbody>
+												<tr>
+													<td>1</td>
+													<td class="assets_name_hod"></td>
+													<td class="in_stock_present_assets"></td>
+													<td class="req_total_assets"></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="row">
+										<input type="hidden" name="req_id" value="" id="req_id_reject" required>
+										<div class="col-sm-12">
+											<div class="form-group ">
+												<label for="full_form">Reject Reason <span class="red_bg">*</span></label>
+												<textarea class="form-control" maxlength="700" name="reject_reason" placeholder="Enter Reject Reason" required></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn_padding filter_btn save_common_btn" data-dismiss="modal">Close</button>
+									<button type="submit" type="button" class="btn btn_padding filter_btn_blue save_common_btn modal-save">Reject</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- Model Reject Request END -->
+				<!-- Model Generate Request START -->
+				<div id="myModal-assets-req-generate" class="modal fade new-modal" role="dialog">
+					<div class="modal-dialog modal_common">
+						<div class="modal-content">
+							<form action="<?= base_url() ?>dfr_it_assets/assets_mov_req_generate" method="post">
+								<div class="modal-header">
+									<button type="button" class="close close_new" data-dismiss="modal"></button>
+									<h4 class="modal-title">Generate Assets Request [Movement]</h4>
+								</div>
+								<div class="modal-body">
+									<div class="row">
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label for="full_form">Request Send To <span class="red_bg">*</span></label>
+												<select class="selectpicker " name="location_hod" data-show-subtext="true" data-live-search="true" required>
+													<option value="">--- Select a location ---</option>
+													<?php foreach ($location_list as $value) {
+														if ($value['abbr'] != get_user_office_id()) : ?>
+															<option value="<?= $value['abbr'] ?>"><?= $value['office_name'] ?></option>
+													<?php endif;
+													} ?>
+												</select>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label for="full_form">Department <span class="red_bg">*</span></label>
+												<select class="selectpicker" name="dpt_id_hod" data-show-subtext="true" data-live-search="true" required>
+													<option value="">--- Select a department ---</option>
+													<?php foreach ($department_data as $value) { ?>
+														<option value="<?= $value['id'] ?>"><?= $value['shname'] ?></option>
+													<?php } ?>
+												</select>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-group ">
+												<label for="full_form">Client <span class="red_bg">*</span></label>
+												<select class="selectpicker" id="client_id_hod" name="client_id_hod" data-show-subtext="true" data-live-search="true" required>
+													<option value="">--- Select a client ---</option>
+													<?php foreach ($client_list as $value) { ?>
+														<option value="<?= $value->id ?>"><?= $value->shname ?></option>
+													<?php } ?>
+												</select>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-group ">
+												<label for="full_form">Process <span class="red_bg">*</span></label>
+												<select class="selectpicker" id="process_id_hod" name="process_id_hod" data-show-subtext="true" data-live-search="true" required>
+													<option value="">--- Select a Process ---</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-group ">
+												<label for="full_form">Assets <span class="red_bg">*</span></label>
+												<select class="selectpicker" name="assets_id" data-show-subtext="true" data-live-search="true" required>
+													<option value="">--- Select a Asset ---</option>
+													<?php foreach ($assets_list as $value) { ?>
+														<option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+													<?php } ?>
+												</select>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-group ">
+												<label for="full_form">Total Assets Request <span class="red_bg">*</span></label>
+												<input type="number" min="1" max="2000" oninput="validity.valid||(value='');" name="assets_total" placeholder="Enter Total Assets Request" class="form-control" required>
+											</div>
+										</div>
+										<div class="col-sm-12">
+											<div class="form-group ">
+												<label for="full_form">Reason <span class="red_bg">*</span></label>
+												<textarea name="reason" maxlength="600" class="form-control" placeholder="Enter Reason" cols="50" required></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn_padding filter_btn save_common_btn" data-dismiss="modal">Close</button>
+									<button type="submit" type="button" class="btn btn_padding filter_btn_blue save_common_btn modal-save">Generate</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- Model Generate Request END -->
+				<!-- main end -->
+			</div>
+		<?php
+			/*
+=========================
+	HOD Panel END
+========================= 
+*/
+		}
+		?>
+	</div>
+</div>
+<!--start data table with export button-->
+<link rel="stylesheet" href="<?php echo base_url() ?>assets/css/data-table/css/dataTables.bootstrap.min.css" />
+<link rel="stylesheet" href="<?php echo base_url() ?>assets/css/data-table/css/buttons.bootstrap.min.css" />
+<script src="<?php echo base_url() ?>assets/css/data-table/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo base_url() ?>assets/css/data-table/js/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo base_url() ?>assets/css/data-table/js/dataTables.buttons.min.js"></script>
+<script src="<?php echo base_url() ?>assets/css/data-table/js/buttons.bootstrap.min.js"></script>
+<script src="<?php echo base_url() ?>assets/css/data-table/js/jszip.min.js"></script>
+<script src="<?php echo base_url() ?>assets/css/data-table/js/vfs_fonts.js"></script>
+<script src="<?php echo base_url() ?>assets/css/data-table/js/buttons.html5.min.js"></script>
+<script src="<?php echo base_url() ?>assets/css/data-table/js/buttons.print.min.js"></script>
+<script src="<?php echo base_url() ?>assets/css/data-table/js/buttons.colVis.min.js"></script>
+<script>
+
+    $(function() {
+        $('#multiselect').multiselect();
+        $('.multiselect_options').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            filterPlaceholder: 'Search for something...'
+        });
+    });
+
+	$(document).ready(function() {
+		var table = $('#datatablesSimple').DataTable({
+			lengthChange: false,
+			buttons: [{
+				extend: 'excel',
+				split: ['', ''],
+			}]
+		});
+		table.buttons().container().appendTo('#datatablesSimple_wrapper .col-sm-6:eq(0)');
+	});
+</script>
+<script>
+	$(document).ready(function() {
+		var table = $('#datatablesSimple-next').DataTable({
+			lengthChange: false,
+			buttons: [{
+				extend: 'excel',
+				split: ['', ''],
+			}]
+		});
+		table.buttons().container().appendTo(' #datatablesSimple-next_wrapper .col-sm-6:eq(0)');
+	});
+</script>
+<!--end data table with export button-->
+<script>
+	$(document).on('change', '#client_id_hod_search', function() {
+		var client_id = $(this).val();
+		var datas = {
+			'cid': client_id
+		};
+		var request_url = "<?php echo base_url('dfr_it_assets/getProcessList'); ?>";
+		process_ajax(function(response) {
+			var res = JSON.parse(response);
+			var list = '';
+			$.each(res, function(index, element) {
+				list += '<option value="' + element.id + '">' + element.name + '</option>';
+			});
+			$('#process_id_hod_search').html(list);
+			$('#process_id_hod_search').multiselect('rebuild');
+			//$('.selectpicker').selectpicker('refresh');
+		}, request_url, datas, 'text');
+	});
+</script>
+<script>
+	$(document).on('change', '#client_id_search', function() {
+		var client_id = $(this).val();
+		var datas = {
+			'cid': client_id
+		};
+		var request_url = "<?php echo base_url('dfr_it_assets/getProcessList'); ?>";
+		process_ajax(function(response) {
+			var res = JSON.parse(response);
+			var list = '';
+			$.each(res, function(index, element) {
+				list += '<option value="' + element.id + '">' + element.name + '</option>';
+			});
+			$('#process_id_search').html(list);
+			$('#process_id_search').multiselect('rebuild');
+		}, request_url, datas, 'text');
+	});
+</script>

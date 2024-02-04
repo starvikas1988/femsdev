@@ -323,50 +323,56 @@ private function ajio_upload_files($files,$path)   // this is for file uploaging
      $from_date = '';
      $to_date = '';
      $cond="";
+     $cond1="";
      $user="";
+
+     $from_date = ($this->input->get('from_date'));
+     $to_date   = ($this->input->get('to_date'));
+
+      if($from_date !="" && $to_date!=="" ){
+         $from_date = mmddyy2mysql($this->input->get('from_date'));
+         $to_date   = mmddyy2mysql($this->input->get('to_date'));
+        $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date' ) ";
+        $cond1= " and (audit_date >= '$from_date' and audit_date <= '$to_date' ) ";
+      }  
+
+     $qSql_acg="Select count(id) as value from qa_acg_feedback where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit')";
+
+         
+     $tot_feedback =  $this->Common_model->get_single_value($qSql_acg);
+
+     // $qSql="Select count(id) as value from qa_acg_feedback where agent_id='$current_user' and agent_rvw_date=' '";
+
+     $qSql="Select count(id) as value from qa_acg_feedback where agent_id='$current_user' $cond1 And audit_type not in ('Calibration', 'Pre-Certificate Mock Call', 'Certification Audit','QA Supervisor Audit') and agent_rvw_date is Null";
+     
+     $yet_rvw =  $this->Common_model->get_single_value($qSql);
 
      if($this->input->get('btnView')=='View')
      {
-     	 // $qSql="Select count(id) as value from qa_acg_feedback where agent_id='$current_user'";
-     	 $qSql_acg="Select count(id) as value from qa_acg_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit')";
-
-	     
-	     $tot_feedback =  $this->Common_model->get_single_value($qSql_acg);
-
-	     // $qSql="Select count(id) as value from qa_acg_feedback where agent_id='$current_user' and agent_rvw_date=' '";
-
-	     $qSql="Select count(id) as value from qa_acg_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit') and agent_rvw_date is Null";
-	     
-	     $yet_rvw =  $this->Common_model->get_single_value($qSql);
-
-       $from_date = mmddyy2mysql($this->input->get('from_date'));
-       $to_date = mmddyy2mysql($this->input->get('to_date'));
-
-       if($from_date !="" && $to_date!=="" )  $cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date' ) ";
 
        if(get_role_dir()=='agent'){
          $user .="where id ='$current_user'";
        }
 
-
+       //echo"<br>";
    	 $qSql= "SELECT * from
 	 	(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
 	 	(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
 	 	(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-	 	(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_acg_feedback  $cond And agent_id='$current_user'  And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','Certificate Audit')) xx Inner Join
+	 	(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_acg_feedback  $cond And agent_id='$current_user'  And audit_type not in ('Calibration', 'Pre-Certificate Mock Call','QA Supervisor Audit', 'Certification Audit')) xx Inner Join
 	 (Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid)";
 
 	       $data["qa_acg"] = $this->Common_model->get_query_result_array($qSql);
 	     }else{
 
-       // $qSql = "SELECT * from
-       // (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
-       // (select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
-       // (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
-       // (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_acg_feedback where agent_id='$current_user' And audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit', 'Calibration', 'Pre-Certificate Mock Call', 'Certificate Audit')) xx Inner Join
-       // (Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) Where xx.agent_rvw_date is Null";
-
-       // $data["qa_acg"] = $this->Common_model->get_query_result_array($qSql);
+       $qSql = "SELECT * from
+       (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+       (select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+       (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+       (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_acg_feedback where agent_id='$current_user' And audit_type not in ('Calibration', 'Pre-Certificate Mock Call','QA Supervisor Audit', 'Certification Audit')) xx Inner Join
+       (Select id as sid, fname, lname, fusion_id, assigned_to, get_client_names(id) as client, get_process_names(id) as process from signin) yy on (xx.agent_id=yy.sid) ";
+       //Where xx. agent_rvw_date is Null
+       $data["qa_acg"] = $this->Common_model->get_query_result_array($qSql);
      }
      $data["tot_feedback"] = $tot_feedback;
      $data["yet_rvw"] = $yet_rvw;

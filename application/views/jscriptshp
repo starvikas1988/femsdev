@@ -1,0 +1,80 @@
+<?php 
+include_once 'jscripts/skt.common_js.php';
+
+if($content_template=="home/home.php" || $content_template=="homev2/homev2.php"){
+	include_once 'jscripts/skt.notifi_js.php';
+}
+
+if(strpos($content_template, 'home') !== false) include_once 'jscripts/home_js.php';
+
+if($content_template=="home/change_password.php" ) include_once 'jscripts/home_js.php';
+
+if($content_template=="user/add_users.php" ) include_once 'jscripts/add_users_js.php';
+if($content_template=="user/manage_users.php" || $content_template=="user/add.php") include_once 'jscripts/manage_users_js.php';
+if($content_template=="emailinfo/manage.php") include_once 'jscripts/manage_emailinfo_js.php';
+
+
+if(strpos($content_template, 'profile') !== false){
+	include_once 'jscripts/profile_js.php';
+}
+
+if(strpos($content_template, 'dashboard.php') !== false){
+		include_once 'jscripts/comm_dashboard_js.php';
+		//skt
+		//include_once 'jscripts/agent_dashboard_js.php';
+		include_once 'jscripts/skt.notifi_js.php';
+}
+
+if(strpos($content_template, 'agent_resignation.php') !== false){
+	//skt
+	//include_once 'jscripts/agent_dashboard_js.php';
+}
+
+if($content_template=="reports/rep_main.php" || $content_template=="reports/rep_terms.php" || $content_template=="reports/cancel_term_req.php" || $content_template=="reports/attrition.php" || $content_template=="reports/resign_report.php" || $content_template=="reports/rep_history.php" || $content_template=="reports/requisition_report.php" || $content_template=="reports/candidate_report.php" ) include_once 'jscripts/reports_js.php';
+
+if($content_template=="attendance/att_main.php" || $content_template=="attendance/att_summary.php" || $content_template=="attendance/att_logintime.php" ) include_once 'jscripts/attendance_js.php';
+
+if($content_template=="schedule/upload.php") include_once 'jscripts/schedule_js.php';
+if($content_template=="schedule/actual_screen.php") include_once 'jscripts/schedule_js.php';
+
+if($content_template=="audit/add.php" || $content_template=="audit/manage.php" || $content_template=="audit/rawdata.php" ) include_once 'jscripts/audit_js.php';
+
+if($content_template=="coaching/add.php" || $content_template=="coaching/manage.php" || $content_template=="coaching/rep_tl.php" || $content_template=="coaching/rep_agent.php" || $content_template=="coaching/rawdata.php" ) include_once 'jscripts/coaching_js.php';
+
+if($content_template=="logindetails/main.php") include_once 'jscripts/logindetails_js.php';
+
+if(strpos($content_template, 'master') !== false) include_once 'jscripts/master_js.php';
+
+if(strpos($content_template, 'evaluation') !== false) include_once 'jscripts/evaluation_js.php';
+
+if($content_template=="user/upload.php") include_once 'jscripts/bulkupload_js.php';
+if($content_template=="user/upload_update.php") include_once 'jscripts/bulkupload_update_js.php';
+
+
+/////User Resignation//////
+if($content_template=="user_resign/user_resign_list.php" || $content_template=="user_resign/resignation.php")  
+include_once 'jscripts/user_resign_list_js.php';
+
+/////User History//////
+if($content_template=="user_history/add.php") include_once 'jscripts/user_history_js.php';
+
+
+if(strpos($content_template, 'policy') !== false){
+	include_once 'jscripts/policy_js.php';
+}
+
+
+if(strpos($content_template, 'process_update') !== false){
+	include_once 'jscripts/process_update_js.php';
+}
+
+//////DFR/////////
+if($content_template=="dfr/manage_requisition.php" || $content_template=="dfr/view_requisition.php" || $content_template=="dfr/candidate_exp_qual_details.php" || $content_template=="dfr/candidate_details.php")  
+include_once 'jscripts/dfr_js.php';
+
+
+if($content_template=="metrix/upload.php") include_once 'jscripts/metrix_js.php';
+if($content_template=="metrix/metrix_screen.php") include_once 'jscripts/metrix_js.php';
+
+
+?>

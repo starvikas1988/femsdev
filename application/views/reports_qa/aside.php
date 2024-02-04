@@ -200,14 +200,14 @@
 									<li class="menu-item">
 										<a href="<?php echo base_url()?>reports_qa/qa_process_report/service" class="menu-link">
 											<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
-											<span class="">Service</span>
+											<span class="">CarParts-Service</span>
 										</a>
 									</li>
 
 									<li class="menu-item">
 										<a href="<?php echo base_url()?>reports_qa/qa_process_report/sales_carpart" class="menu-link">
 											<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
-											<span class="">Sales</span>
+											<span class="">CarParts-Sales</span>
 										</a>
 									</li>
 
@@ -305,8 +305,12 @@
 											<span class="">Telaid QA-OB</span>
 										</a>
 									</li>
-
-
+									<li class="menu-item">
+										<a href="<?php echo base_url()?>qa_telaid/qa_telaid_employee_coaching_report" class="menu-link">
+											<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
+											<span class="">Telaid Employee Coaching Form</span>
+										</a>
+									</li>
 								</ul>
 							</li>
 							<!-- <li class="menu-item">

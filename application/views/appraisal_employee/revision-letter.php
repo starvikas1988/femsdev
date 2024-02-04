@@ -1,0 +1,414 @@
+<?php
+
+$location = $individual_user['office_id'];
+$gross_pay = $individual_user['gross_pay'];
+$sex = $individual_user['sex'];
+$pay_type = $individual_user['payroll_type'];
+$incentive_amt = $individual_user['incentive_amt'];
+$incentive_period = $individual_user['incentive_period'];
+$joining_bonus = @$individual_user['joining_bonus'];
+$rank = $individual_user['rank'];
+
+$brand = $individual_user['brand'];
+$master_org_grade = $individual_user['master_org_grade'];
+
+$org_role = $individual_user['org_role_id'];
+
+$basic = get_basic($gross_pay, $location, $org_role);
+$hra =  get_hra($basic, $individual_user['office_id'], $org_role);
+$event_date=$individual_user['event_date']!=''?date_format(date_create($individual_user['event_date']),'Y-m-d'):'';
+
+
+$emp_status = $individual_user['emp_status'];
+if($emp_status==0) $emp_status=3;
+
+$conveyance = get_conveyance($gross_pay, $location, $emp_status);
+
+$skill_set_slab = @$individual_user['skill_set_slab'];
+
+$bonus = 0;
+if($location=="CHA" || $brand==12){
+	$bonus = get_bonus_cha($skill_set_slab, "CHA");
+	$other_allowance = get_medical_allowance($gross_pay, $basic, $hra, $conveyance, $bonus, "CHA");
+}else{
+	$other_allowance = get_allowance($gross_pay, $basic, $hra, $conveyance, $location);
+}
+
+$ptax = get_ptax($gross_pay, $location, $sex);
+
+$pf_employee = get_pf_employee($basic, $location);
+$pf_employer = get_pf_employer($basic, $location);
+
+//$gratuity_employer = get_gratuity_employer($basic, $location);
+$gratuity_employer = 0;
+
+$lwf_employers = get_lwf_employer($location,$brand);
+$lwf_employers_year = get_lwf_employer_year($location,$brand);
+
+$lwf_employees = get_lwf_employee($location,$brand);
+$lwf_employees_year = get_lwf_employee_year($location,$brand);
+
+$pli_incentive = 0;
+$pli_incentive_year = 0; 
+
+if ($incentive_period == 'Monthly') {
+    $pli_incentive = round($incentive_amt);
+    $pli_incentive_year = round($incentive_amt*12);
+}elseif($incentive_period == 'Yearly'){
+    $pli_incentive_year = round($incentive_amt);
+    $pli_incentive = round($incentive_amt/12); 
+}
+
+//$gr_amt_esi =  $gross_pay - $conveyance;
+//$gr_amt_esi = round($gross_pay + $pli_incentive - $conveyance);
+$gr_amt_esi = round($gross_pay - $conveyance);
+
+if($location == "CHA"){
+	$gmt_calamount =  round($gross_pay + $pli_incentive - $conveyance);
+}else{
+	$gmt_calamount =  round($gross_pay - $conveyance);
+}
+
+
+$esi_employer = get_esi_employer($gr_amt_esi, $location, $gmt_calamount);
+$esi_employee = get_esi_employee($gr_amt_esi, $location, $gmt_calamount);
+
+
+if ($pay_type == "8") {
+	$pf_employee = 0;
+	$pf_employer = 0;
+	$esi_employer = 0;
+	$esi_employee = 0;
+}
+
+
+
+ $stipend_array = array(2, 3, 4, 5, 6, 10, 11, 10, 12, 13);
+ if (in_array($pay_type, $stipend_array)){
+	$pf_employee = 0;
+	$pf_employer = 0;
+	$esi_employer = 0;
+	$esi_employee = 0;
+	$gratuity_employer=0;
+	$lwf_employers=0;
+	$lwf_employees=0;
+	$lwf_employers_year=0;
+	$lwf_employees_year=0;
+	
+	 
+ }
+ 
+
+if($location=="KOC") $ptax_year = $ptax * 12;
+else $ptax_year = $ptax * 12;
+
+$employee_deduc = round($pf_employee + $esi_employee + $ptax + $lwf_employees);
+$employer_contri = round($esi_employer + $pf_employer + $gratuity_employer + $lwf_employers);
+
+$ctc = round($gross_pay + $esi_employer + $pf_employer + $gratuity_employer + $lwf_employers + $pli_incentive);
+
+
+$tk_home = round($gross_pay - ($pf_employee + $esi_employee + $ptax + $lwf_employees)) + round($pli_incentive);
+
+
+$employer_contri_year = round((($esi_employer + $pf_employer + $gratuity_employer)*12) + $lwf_employers_year);
+$employee_deduc_year = round((($pf_employee + $esi_employee )*12) + $ptax_year + $lwf_employees_year);
+						
+$gross_pay_year= round($gross_pay*12);
+$ctc_year =  round($gross_pay_year + $employer_contri_year + $pli_incentive_year);
+
+
+
+
+$tk_home_year =  round($gross_pay_year - $employee_deduc_year) + round($pli_incentive_year);
+
+
+if ($org_role == 13) $notice_period = '30';
+else $notice_period = '90';
+
+
+//  echo "basic".$basic." HRA".$hra." Conveyance".$conveyance." Other allowance".$other_allowance." Gross".$gross_pay;die;
+
+
+
+
+// print_r($individual_user);
+$datedoj = $individual_user['doj'];
+$date 	= date_create($datedoj);
+$doj = date_format($date, "Y-m-d");
+$current_date  = date('Y-m-d');
+
+// "company" => $for_comp,
+// "signature_text" => $signature_text,
+// "signature_img" => $signature_img
+	
+$singDtls = get_signature_details($location, $org_role, $rank, $brand, $individual_user['doj'],$master_org_grade);
+
+$for_comp = $singDtls['company'];
+$signature_text = $singDtls['signature_text'];
+$signature_img = $singDtls['signature_img'];
+	
+
+//////////////////////
+				
+?>
+
+
+<br><br>
+<div style="width:100%;">
+
+
+	<section id="pdf-converter" class="pdf-converter">
+		<div style="width:800px;margin:0 auto;max-width:100%;">
+			<!-- <p style="font-size:18px;font-family: 'Roboto', sans-serif;padding:0 0 10px 0;margin:60px 0 0 0;line-height:25px;font-weight:bold;text-align:center;">
+					Confirmation Letter
+				</p> -->
+
+			<p style="font-size:14px;font-family: 'Roboto', sans-serif;	padding:0 0 15px 0;margin:60px 0 0 0;line-height:25px;">
+				Date: <?php echo $event_date; ?>
+			</p>
+			<p style="font-size:14px;font-family: 'Roboto', sans-serif;	padding:0 0 15px 0;margin:0 0 0 0;line-height:25px;">
+				Name: <?php echo $individual_user['fname'] . ' ' . $individual_user['lname']; ?><br>
+				Employee Code: <?php echo $individual_user['fusion_id']; ?><br>
+				<?php echo $for_comp; ?><br>
+				</span>
+			</p>
+			<p style="font-size:14px;font-family: 'Roboto', sans-serif;	padding:0 0 15px 0;margin:0;line-height:25px;font-weight:bold; text-align:center">
+				Sub:- <u>Salary Revision Letter</u>
+			</p>
+			<p style="font-size:14px;font-family: 'Roboto', sans-serif;	padding:0 0 15px 0;margin:0;line-height:25px;">
+				Dear <?php echo $individual_user['fname'] . ' ' . $individual_user['lname']; ?>,
+			</p>
+			<p style="font-size:14px;font-family: 'Roboto', sans-serif;	padding:0 0 15px 0;margin:0;line-height:25px;">
+				On behalf of <b><?php echo $for_comp; ?></b>, We are pleased to inform you that</br>
+				based on your annual performance your salary is revised to CTC Rs.<?php echo number_format($ctc,2)." (".getIndianCurrency($ctc).")"; ?> p.m. w.e.f. <?php echo $individual_user['affected_from']; ?>.<br><br>
+				<?php if ($joining_bonus > 0) { ?> <!--$incentive_amt > 0 || -->
+					<span style='font-size:15px; font-weight:bold; '>ADDITIONAL REMUNERATION: </span>
+					<span> <?php //if ($incentive_amt > 0) echo "$incentive_period Incentive Amount: Rs.".number_format($incentive_amt,2)." (".getIndianCurrency($incentive_amt).")";
+							if ($joining_bonus > 0) echo " Joining Bonus: Rs.".number_format($joining_bonus,2)." (".getIndianCurrency($joining_bonus).")"; ?></span><br>
+				<?php } ?>
+				</span>
+			</p>
+
+
+
+
+
+			<p style="font-size:14px;font-family: 'Roboto', sans-serif;	padding:0 0 15px 0;margin:0;line-height:25px;">
+				All other terms and conditions pertaining to your employment with us remain unchanged.
+			</p>
+			<p style="font-size:14px;font-family: 'Roboto', sans-serif;	padding:0 0 15px 0;margin:0;line-height:25px;">
+				Please note this position is subjected to your performance in the new role.
+			</p>
+
+			<p style="font-size:14px;font-family: 'Roboto', sans-serif;	padding:0 0 15px 0;margin:0;line-height:25px;">
+				Congratulations and best wishes,
+			</p>
+
+			<p style="font-size:14px;font-family: 'Roboto', sans-serif;	padding:0 0 15px 0;margin:0;line-height:25px;">
+				Regards,
+			</p>
+
+			<p style="font-size:14px;font-family: 'Roboto', sans-serif;	padding:0 0 15px 0;margin:0;line-height:25px;">
+				Yours truly,
+			</p>
+
+			<p style="font-size:14px;font-family: 'Roboto', sans-serif;	padding:0 0 15px 0;margin:0;line-height:25px;">
+
+				
+				<?php echo  "For " . $for_comp; ?>
+
+			</p>
+
+			<p style="padding:0 0 10px 0;margin:0;line-height:0;">
+				<?php echo $signature_img; ?>
+				
+			</p>
+
+			<p style="font-size:14px;font-family: 'Roboto', sans-serif;	padding:0 0 15px 0;margin:0;line-height:25px;font-weight:bold;">
+				<span style="width:150px;border-top:1px solid #000;display:block;margin:0 0 10px 0;"></span>
+					
+					<?php echo $signature_text; ?>
+									
+				<span style="width:100%;border-top:1px solid #000;display:block;margin:10px 0 0 0;"></span>
+			</p>
+
+			<div style="width:50%;margin:0px 0 0 0;display:inline-block;">
+				<p style="font-size:14px;font-family: 'Roboto', sans-serif;	padding:0 0 15px 0;margin:0;line-height:5px;">
+					<strong>Date:</strong> <?php echo $current_date; ?></span>
+				</p>
+			</div>
+		</div>
+	</section>
+</div>
+<br>
+<?php
+ if(!in_array($pay_type, $stipend_array)){
+?>
+	 
+<div style="page-break-after: always"><span style="display: none;">&nbsp;</span></div>
+
+<br><br><br><br />
+<P style='text-align:right;font-size:10px'><strong>Name:</strong> <?php echo $individual_user['fname'] . ' ' . $individual_user['lname'] ?></P>
+
+<br><br>
+<P style='text-align:center;font-size:16'><strong>ANNEXURE</P>
+<br /><br /><br>
+
+
+<table cellpadding='2' cellspacing="0" border='1' align='center' style='font-size:12px; text-align:center; width:99%;'>
+			<tr bgcolor="#A9A9A9">
+				<th><strong>Salary Components</strong></th>
+				<th><strong>Monthly</strong></th>
+				<th><strong>Yearly</strong></th>
+			</tr>
+			<tr>
+			<tr>
+				<td style="text-align:left;">Basic</td>
+				<td><?php echo $basic; ?></td>
+				<td><?php echo ($basic * 12); ?></td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">HRA</td>
+				<td><?php echo $hra; ?></td>
+				<td><?php echo ($hra * 12); ?></td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">Conveyance</td>
+				<td><?php echo $conveyance; ?></td>
+				<td><?php echo ($conveyance * 12); ?></td>
+			</tr>
+			
+			<?php 
+			if($location=="CHA" || $brand==12){
+			?>
+			<tr>
+				<td style="text-align:left;">Medical Allowance</td>
+				<td><?php echo $other_allowance; ?></td>
+				<td><?php echo ($other_allowance * 12); ?></td>
+			</tr>
+			
+			<?php if($bonus > 0) { ?>
+			<tr>
+				<td style="text-align:left;">Statutory Bonus</td>
+				<td><?php echo $bonus; ?></td>
+				<td><?php echo ($bonus * 12); ?></td>
+			</tr>
+			<?php } ?>
+
+			<?php
+			}else{
+			?>
+			<tr>
+				<td style="text-align:left;">Other Allowance</td>
+				<td><?php echo $other_allowance; ?></td>
+				<td><?php echo ($other_allowance * 12); ?></td>
+			</tr>
+			<?php
+			}
+			?>
+			
+			<tr bgcolor="#D3D3D3">
+				<td style="text-align:left;">Gross Salary (A)</td>
+				<td><?php echo $gross_pay; ?></td>
+				<td><?php echo $gross_pay_year; ?></td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">PF (Employer's)</td>
+				<td><?php echo $pf_employer; ?></td>
+				<td><?php echo ($pf_employer * 12); ?></td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">ESIC (Employer's)</td>
+				<td><?php echo $esi_employer; ?></td>
+				<td><?php echo ($esi_employer * 12); ?></td>
+			</tr>
+			<!--<tr>
+				<td style="text-align:left;">Gratuity *</td>
+				<td><?php echo $gratuity_employer; ?></td>
+				<td><?php echo ($gratuity_employer * 12); ?></td>
+			</tr>-->
+			<tr style="text-align:left;">
+				<td style="text-align:left;">Employer Labour Welfare Fund #</td>
+				<td><?php echo $lwf_employers; ?></td>
+				<td><?php echo $lwf_employers_year; ?></td>
+			</tr>
+			<tr bgcolor="#D3D3D3">
+				<td style="text-align:left;">Employer Contribution (B)</td>
+				<td><?php echo $employer_contri; ?></td>
+				<td><?php echo $employer_contri_year; ?></td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">Employee PF *</td>
+				<td><?php echo $pf_employee; ?></td>
+				<td><?php echo ($pf_employee * 12); ?></td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">Employee ESI *</td>
+				<td><?php echo $esi_employee; ?></td>
+				<td><?php echo ($esi_employee * 12); ?></td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">Employee Labour Welfare Fund # </td>
+				<td><?php echo $lwf_employees; ?></td>
+				<td><?php echo $lwf_employees_year; ?></td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">Professional Tax Deduction * </td>
+				<td><?php echo $ptax; ?></td>
+				<td><?php echo $ptax_year; ?></td>
+			</tr>
+			<tr bgcolor="#D3D3D3">
+				<td style="text-align:left;">Employee Deduction (C )</td>
+				<td><?php echo $employee_deduc; ?></td>
+				<td><?php echo $employee_deduc_year; ?></td>
+			</tr>
+			<tr bgcolor="#D3D3D3">
+                <td style="text-align:left;">Performance Linked Incentive (PLI) (D)</td>
+                <td><?php echo $pli_incentive; ?></td>
+                <td><?php echo $pli_incentive_year; ?></td>
+            </tr>
+			<tr bgcolor="#D3D3D3">
+				<td style="text-align:left;">Cost to Company (E) = (A+B+D)</td>
+				<td><?php echo $ctc; ?></td>
+				<td><?php echo $ctc_year; ?></td>
+			</tr>
+			<?php if($location =="CHA"){ ?>
+			<tr bgcolor="#D3D3D3">
+				<td style="text-align:left;">Cost to Company (Excl PLI)</td>
+				<td><?php echo round($ctc - $pli_incentive); ?></td>
+				<td><?php echo round($ctc_year - $pli_incentive_year); ?></td>
+			</tr>
+			<?php } ?>
+			<tr bgcolor="#D3D3D3">
+				<td style="text-align:left;"><?php if($location =="CHA"){ ?> Take Home Salary Incl 100% PLI (E) = (A - C + D) <?php } else { ?> Take Home Salary (F) = (A + D - C) <?php } ?></td>
+				<td><?php echo $tk_home; ?></td>
+				<td><?php echo $tk_home_year; ?></td>
+			</tr>
+			<?php if($location =="CHA"){ ?>
+			<tr bgcolor="#D3D3D3">
+				<td style="text-align:left;">Take Home Salary Excl PLI (F) = (A - C)</td>
+				<td><?php echo round($tk_home - $pli_incentive); ?></td>
+				<td><?php echo round($tk_home_year - $pli_incentive_year); ?></td>
+			</tr>
+			<?php } ?>
+			
+		</table>
+
+		<br><br>
+
+		<?php /*?>
+		<?php if ($incentive_amt > 0) { ?>
+			<span>Additional incentive- <?php echo "Rs.".number_format($incentive_amt,2). " " . $incentive_period; ?></span>
+		<?php } ?>
+		<?php */?>
+		
+		<br><br><br>
+		<span style='font-size:10px'>* As per provision of PF, ESI, Gratuity, LWF & Professional Tax Act</span><br>
+		<span style='font-size:10px'><?php echo get_lwf_note($location);?> </span><br>
+		<span style='font-size:10px'>** As per company policy</span><br><br>
+		<span style='font-size:10px'>** CTC annexure is confidential information. Please do not share it with anyone else it will be viewed seriously.</span><br>
+<?php
+ }
+?>
+		

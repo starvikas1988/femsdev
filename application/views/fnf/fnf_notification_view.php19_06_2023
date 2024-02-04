@@ -1,0 +1,92 @@
+<div class="wrap">
+<section class="app-content">	
+	
+		<div class="simple-page-wrap" style="width:80%;">
+		<div class="simple-page-form animated flipInY">
+		<h4 class="form-title m-b-xl text-center"><?php echo $showup; ?> FNF Notifications</h4>
+		
+		<hr/>			
+					
+		<div style="padding:10px 10px;text-align:center">
+		<p><b>Total FNF Pending : </b><?php echo $total; ?></p>
+		
+		<?php if(!empty($last3Days)){ ?>
+		<?php if($total >= $last3Days[0]['fnf_count']){ ?>		
+		<span class="text-danger"><b>** NOTE : Please complete your pending FNF</b></span><br/>
+		3 Days Ago : <b><?php echo $last3Days[0]['fnf_count']; ?> FNF</b> was pending | Today : <b><?php echo $total; ?></b> Pending <br/><br/>
+		<?php } ?> 
+		<?php } ?>
+		
+		<center>
+		<table class="table table-primary" style="width:80%">
+		<thead>
+		<?php if($showup == "IT") { ?>
+			<tr class="bg-primary">
+				<th class="text-center">Office</th>
+				<th class="text-center">Department</th>
+				<th class="text-center">FNF Pending</th>
+			</tr>
+		<?php }else{ ?>
+			<tr class="bg-primary">
+				<th class="text-center">Office</th>
+				<th class="text-center">FNF Pending</th>
+			</tr>
+		<?php } ?>	
+		
+		</thead>
+		<tbody>
+		<?php if($showup == "IT") { 
+			foreach($fnf_list_it_global as $fToken){ 
+			if(isIndiaLocation($fToken['office_id'])){ ?> 
+				<tr>
+				    <td class="text-center"><b><?php echo $fToken['office_id']; ?></b></td>
+					<td class="text-center">IT Global Helpdesk</td>
+					<td class="text-center"><?php echo $fToken['value']; ?></td>
+				</tr>
+			<?php } }
+			foreach($fnf_list_it_local as $fToken){ 
+			if(isIndiaLocation($fToken['office_id'])){ ?> 
+				<tr>
+				    <td class="text-center"><b><?php echo $fToken['office_id']; ?></b></td>
+					<td class="text-center">IT Local</td>
+					<td class="text-center"><?php echo $fToken['value']; ?></td>
+				</tr>
+			<?php } }
+			/*foreach($fnf_list_it_network as $fToken){ 
+			if(isIndiaLocation($fToken['office_id'])){ ?> 
+				<tr>
+				    <td class="text-center"><b><?php echo $fToken['office_id']; ?></b></td>
+					<td class="text-center">IT Network</td>
+					<td class="text-center"><?php echo $fToken['value']; ?></td>
+				</tr>
+			<?php } }*/
+
+			 } else{ foreach($fnf_list as $fToken){ 
+		if(isIndiaLocation($fToken['office_id'])){
+		?>
+		<tr>
+		    <td class="text-center"><b><?php echo $fToken['office_id']; ?></b></td>
+			<td class="text-center"><?php echo $fToken['value']; ?></td>
+		</tr>
+		<?php } } } ?>	
+		</tbody>
+		</table>
+		</center>
+		</div>
+		
+		<form action="<?php echo base_url('fnf/fnf_submission_info'); ?>" data-toggle="validator" autocomplete="off" method='POST'>				
+		<div class="form-group text-center">
+		    <strong>Date & Time :</strong> <?php echo date('d M, Y h:i A', strtotime(GetLocalTime())); ?> <br/>			
+		</div>		
+		<div class="text-center">
+		<a href="<?php echo base_url('fnf/fnf_submission_info/fnf/'.$total); ?>" class="btn btn-success" style="width:220px;"><i class="fa fa-check-circle"></i> Go To FNF</a>
+		</div>		
+		<a href="<?php echo base_url('fnf/fnf_submission_info/skip/'.$total); ?>" class="btn btn-danger pull-right" style="display:inline;width:120px;float: right;"><i class="fa fa-arrow-right"></i> Skip Now</a>				
+		</form>
+		
+		<br/><br/><br/><br/><br/><br/><br/><br/>
+		</div>
+		</div>	
+		
+</section> 
+</div>

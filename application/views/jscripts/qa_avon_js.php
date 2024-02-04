@@ -124,6 +124,7 @@ $(function() {
 				for (var i in json_obj) $('#fusion_id').append($('#fusion_id').val(json_obj[i].fusion_id));
 				for (var i in json_obj) $('#campaign').append($('#campaign').val(json_obj[i].process_name));
 				for (var i in json_obj) $('#office_id').append($('#office_id').val(json_obj[i].office_id));
+				for (var i in json_obj) $('#agent_tenure').append($('#agent_tenure').val(json_obj[i].agent_tenure));
 				$('#sktPleaseWait').modal('hide');
 			},
 			error: function(){
@@ -1040,7 +1041,7 @@ $('INPUT[type="file"]').change(function () {
 			$('#mtl_overall_score').val(quality_score_percent+'%');
 		}
 
-		if($('#ajioAF1').val()=='Fail' || $('#ajioAF2').val()=='Fail' || $('#ajioAF3').val()=='Fail' || $('#ajioAF4').val()=='Fail' || $('#ajioAF5').val()=='Fail'){
+		if($('#ajioAF1').val()=='Fail' || $('#ajioAF2').val()=='Fail' || $('#ajioAF3').val()=='Fail' || $('#ajioAF4').val()=='Fail' || $('#ajioAF5').val()=='Fail' || $('#ajioAF6').val()=='Fail'){
 			quality_score_percent = (0.00).toFixed(2);
 			$('.acgFatal').val(quality_score_percent+'%');
 			//$('.phs_chatemail_v2Fatal').val(0.00).toFixed(2);
@@ -1147,7 +1148,7 @@ $('INPUT[type="file"]').change(function () {
 		$('.park_west_point').each(function(index,element){
 			let score_type_park = $(element).val();
 			
-			if(score_type_park == 'Pass'){
+			if(score_type_park == 'Pass' || score_type_park == 'Yes'){
 				pass_count_park = pass_count_park + 1;
 				let w1_park = parseFloat($(element).children("option:selected").attr('park_west_val'));
 				let w2_park = parseFloat($(element).children("option:selected").attr('park_west_max'));
@@ -1155,7 +1156,7 @@ $('INPUT[type="file"]').change(function () {
 				score_park = score_park + w1_park;
 				scoreable_park = scoreable_park + w2_park;
 
-			}else if(score_type_park == 'Fail'){
+			}else if(score_type_park == 'Fail' || score_type_park == 'No'){
 				fail_count_park = fail_count_park + 1;
 				let w1_park = parseFloat($(element).children("option:selected").attr('park_west_val'));
 				let w2_park = parseFloat($(element).children("option:selected").attr('park_west_max'));
@@ -1190,13 +1191,10 @@ $('INPUT[type="file"]').change(function () {
 			$('#park_overall_score').val(quality_score_percent_park+'%');
 		}
 
-		if($('#parkAF1').val()=='Fail' || $('#parkAF2').val()=='Fail' || $('#parkAF3').val()=='Fail' || $('#parkAF4').val()=='Fail' || $('#parkAF5').val()=='Fail' || $('#parkAF6').val()=='Fail' || $('#parkAF7').val()=='Fail' || $('#parkAF8').val()=='Fail' || $('#parkAF9').val()=='Fail'  || $('#parkAF10').val()=='Fail' || $('#parkAF11').val()=='Fail' || $('#parkAF12').val()=='Fail' || $('#parkAF13').val()=='Fail' || $('#parkAF14').val()=='Fail' || $('#parkAF15').val()=='Fail' || $('#parkAF16').val()=='Fail' || $('#parkAF17').val()=='Fail' || $('#parkAF18').val()=='Fail' || $('#parkAF19').val()=='Fail' || $('#parkAF20').val()=='Fail' || $('#parkAF21').val()=='Fail' || $('#parkAF22').val()=='Fail' || $('#parkAF23').val()=='Fail' || $('#parkAF24').val()=='Fail' || $('#parkAF25').val()=='Fail' || $('#parkAF26').val()=='Fail' || $('#parkAF27').val()=='Fail' || $('#parkAF28').val()=='Fail' || $('#parkAF29').val()=='Fail'){
-			console.log($('#parkAF1').val());
-
-			quality_score_percent_park = (0.00).toFixed(2);
-			$('.parkFatal').val(quality_score_percent_park+'%');
+		if($('#parkAF1').val()=='No' || $('#parkAF2').val()=='No' || $('#parkAF3').val()=='No' || $('#parkAF4').val()=='No' || $('#parkAF5').val()=='No' || $('#parkAF6').val()=='No' || $('#parkAF7').val()=='No' || $('#parkAF8').val()=='No' || $('#parkAF9').val()=='No'  || $('#parkAF10').val()=='No' || $('#parkAF11').val()=='No' || $('#parkAF12').val()=='No' || $('#parkAF13').val()=='No' || $('#parkAF14').val()=='No' || $('#parkAF15').val()=='No' || $('#parkAF16').val()=='No' || $('#parkAF17').val()=='No' || $('#parkAF18').val()=='No' || $('#parkAF19').val()=='No' || $('#parkAF20').val()=='No' || $('#parkAF21').val()=='No' || $('#parkAF22').val()=='No' || $('#parkAF23').val()=='No' || $('#parkAF24').val()=='No' || $('#parkAF25').val()=='No' || $('#parkAF26').val()=='No' || $('#parkAF27').val()=='No' || $('#parkAF28').val()=='No' || $('#parkAF29').val()=='No' || $('#parkAF30').val()=='No'){
+			$('.parkFatal').val(0+'%');
 		}else{
-			$('#park_overall_score').val(quality_score_percent_park+'%');
+			$('.parkFatal').val(quality_score_percent_park+'%');
 		}
 	}
 	

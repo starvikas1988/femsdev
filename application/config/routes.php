@@ -1,0 +1,629 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/*
+| -------------------------------------------------------------------------
+| URI ROUTING
+| -------------------------------------------------------------------------
+| This file lets you re-map URI requests to specific controller functions.
+|
+| Typically there is a one-to-one relationship between a URL string
+| and its corresponding controller class/method. The segments in a
+| URL normally follow this pattern:
+|
+|	example.com/class/method/id/
+|
+| In some instances, however, you may want to remap this relationship
+| so that a different class/function is called than the one
+| corresponding to the URL.
+|
+| Please see the user guide for complete details:
+|
+|	https://codeigniter.com/user_guide/general/routing.html
+|
+| -------------------------------------------------------------------------
+| RESERVED ROUTES
+| -------------------------------------------------------------------------
+|
+| There are three reserved routes:
+|
+|	$route['default_controller'] = 'welcome';
+|
+| This route indicates which controller class should be loaded if the
+| URI contains no data. In the above example, the "welcome" class
+| would be loaded.
+|
+|	$route['404_override'] = 'errors/page_missing';
+|
+| This route will tell the Router which controller/method to use if those
+| provided in the URL cannot be matched to a valid route.
+|
+|	$route['translate_uri_dashes'] = FALSE;
+|
+| This is not exactly a route, but allows you to automatically route
+| controller and method names that contain dashes. '-' isn't a valid
+| class or method name character, so it requires translation.
+| When you set this option to TRUE, it will replace ALL dashes in the
+| controller and method URI segments.
+|
+| Examples:	my-controller/index	-> my_controller/index
+|		my-controller/my-method	-> my_controller/my_method
+*/
+$route['default_controller'] = 'fusion';
+$route['404_override'] = '';
+$route['translate_uri_dashes'] = FALSE;
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// LOGIN ROUTES
+////////////////////////////////////////////////////////////////////////////////////////////
+
+$route['login'] = 'fusion/login';
+$route['login/'] = 'fusion/login';
+
+$route['twofa'] = 'fusion/twofa';
+$route['twofa/'] = 'fusion/twofa';
+
+$route['verifyemail'] = 'fusion/verifyemail';
+$route['verifyemail/'] = 'fusion/verifyemail';
+
+$route['resend2facode'] = 'fusion/resend2facode';
+$route['resend2facode/'] = 'fusion/resend2facode';
+
+$route['logout'] = 'fusion/logout';
+$route['logout/'] = 'fusion/logout';
+
+$route['forcelogout'] = 'fusion/forcelogout';
+$route['forcelogout/'] = 'fusion/forcelogout';
+
+
+$route['login/:any/'] = 'fusion/login/$1';
+$route['login/:any'] = 'fusion/login/$1';
+
+$route['subRequest/'] = 'fusion/submit_request';
+$route['subRequest'] = 'fusion/submit_request';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// USER ROUTES
+////////////////////////////////////////////////////////////////////////////////////////////
+
+$route['users/manage'] = 'user/index';
+$route['users/manage/'] = 'user/index';
+
+$route['users/add'] = 'user/add_users';
+$route['users/add/'] = 'user/add_users';
+
+$route['users/addsuccess'] = 'user/add_user_success';
+$route['users/addsuccess/'] = 'user/add_user_success';
+
+$route['users/userActDeact'] = 'user/user_act_deact';
+$route['users/userActDeact/'] = 'user/user_act_deact';
+
+$route['users/updateUser'] = 'user/update_user';
+$route['users/updateUser/'] = 'user/update_user';
+
+$route['users/resetPasswd'] = 'user/reset_password';
+$route['users/resetPasswd/'] = 'user/reset_password';
+
+$route['users/terminateUser'] = 'user/terminate_user';
+$route['users/terminateUser/'] = 'user/terminate_user';
+
+$route['users/cancelTermination'] = 'user/cancel_termination';
+$route['users/cancelTermination/'] = 'user/cancel_termination';
+
+$route['users/updateTerminateUser'] = 'user/update_termination_ticket';
+$route['users/updateTerminateUser/'] = 'user/update_termination_ticket';
+
+$route['users/getPreTermUserInfo'] = 'user/get_pre_term_user_info';
+$route['users/getPreTermUserInfo/'] = 'user/get_pre_term_user_info';
+
+$route['users/updatePreTermUserInfo'] = 'user/update_pre_term_user_info';
+$route['users/updatePreTermUserInfo/'] = 'user/update_pre_term_user_info';
+
+$route['users/rejectPreTermRequest'] = 'user/reject_pre_term_request';
+$route['users/rejectPreTermRequest/'] = 'user/reject_pre_term_request';
+
+$route['users/getLastDisposition'] = 'user/get_last_disposition';
+$route['users/getLastDisposition/'] = 'user/get_last_disposition';
+
+$route['users/updateDisposition'] = 'user/update_disposition';
+$route['users/updateDisposition/'] = 'user/update_disposition';
+
+$route['users/updateDispositionBulk'] = 'user/update_disposition_bulk';
+$route['users/updateDispositionBulk/'] = 'user/update_disposition_bulk';
+
+$route['users/loggin_to_dialer'] = 'user/loggin_to_dialer';
+$route['users/loggin_to_dialer/'] = 'user/loggin_to_dialer';
+$route['users/logout_from_dialer'] = 'user/logout_from_dialer';
+$route['users/logout_from_dialer/'] = 'user/logout_from_dialer';
+
+$route['users/break_on'] = 'user/break_on';
+$route['users/break_on/'] = 'user/break_on';
+$route['users/break_off'] = 'user/break_off';
+$route['users/break_off/'] = 'user/break_off';
+
+
+///Hriday Start
+$route['users/get_last_lldate'] = 'user/get_last_lldate';
+$route['users/get_last_lldate/'] = 'user/get_last_lldate';
+
+$route['users/checkDateOfJoining'] = 'user/checkDateOfJoining';
+$route['users/checkDateOfJoining/'] = 'user/checkDateOfJoining';
+
+$route['users/cancelSuspension'] = 'user/cancelSuspension';
+$route['users/cancelSuspension/'] = 'user/cancelSuspension';
+
+$route['users/process'] = 'user/process';
+$route['users/process/'] = 'user/process';
+
+///Hriday End
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// EMAIL INFO ROUTES
+////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+$route['emailinfo'] = 'emailinfo/index';
+$route['emailinfo/'] = 'emailinfo/index';
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// REPORT ROUTES
+////////////////////////////////////////////////////////////////////////////////////////////
+
+$route['reports'] = 'reports/index';
+$route['reports/'] = 'reports/index';
+
+$route['reports/:num'] = 'reports/index/$1';
+$route['reports/:num/'] = 'reports/index/$1';
+
+$route['reports_hr/:num'] = 'reports_hr/index/$1';
+$route['reports_hr/:num/'] = 'reports_hr/index/$1';
+
+/*
+$route['reports/downloadCsv'] = 'reports/downloadCsv';
+$route['reports/downloadCsv'] = 'reports/downloadCsv';
+
+$route['reports/tramsUsers'] = 'reports/trams_users';
+$route['reports/tramsUsers'] = 'reports/trams_users';
+*/
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// break monitor ROUTES
+////////////////////////////////////////////////////////////////////////////////////////////
+
+$route['break_monitor/:num'] = 'break_monitor/index/$1';
+$route['break_monitor/:num/'] = 'break_monitor/index/$1';
+
+
+//$route['applyjoblink/:any'] = 'applyjoblink/index/$1';
+//$route['applyjoblink/:any/'] = 'applyjoblink/index/$1';
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// Profile ROUTES
+////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+$route['profile/([A-Z]+)(\d+)'] = 'profile/index/$1$2';
+$route['profile/([A-Z]+)(\d+)/'] = 'profile/index/$1$2';
+
+$route['uprofile/([A-Z]+)(\d+)'] = 'uprofile/index/$1$2';
+$route['uprofile/([A-Z]+)(\d+)/'] = 'uprofile/index/$1$2';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// HR ROUTES
+////////////////////////////////////////////////////////////////////////////////////////////
+
+$route['hr/dashboard'] = 'hr/index';
+$route['hr/dashboard/'] = 'hr/index';
+
+$route['hr/dashboard/:num'] = 'hr/index/$1';
+$route['hr/dashboard/:num/'] = 'hr/index/$1';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// WFM ROUTES
+////////////////////////////////////////////////////////////////////////////////////////////
+
+$route['wfm/dashboard'] = 'wfm/index';
+$route['wfm/dashboard/'] = 'wfm/index';
+
+$route['wfm/dashboard/:num'] = 'wfm/index/$1';
+$route['wfm/dashboard/:num/'] = 'wfm/index/$1';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// SUPER ADMIN ROUTES
+////////////////////////////////////////////////////////////////////////////////////////////
+
+$route['super/dashboard'] = 'super/index';
+$route['super/dashboard/'] = 'super/index';
+
+$route['super/dashboard/:num'] = 'super/index/$1';
+$route['super/dashboard/:num/'] = 'super/index/$1';
+
+$route['super/changePasswd'] = 'fusion/frm_change_password';
+$route['super/changePasswd/'] = 'fusion/frm_change_password';
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// ADMIN ROUTES
+////////////////////////////////////////////////////////////////////////////////////////////
+
+$route['admin/dashboard'] = 'admin/index';
+$route['admin/dashboard/'] = 'admin/index';
+
+$route['admin/dashboard/:num'] = 'admin/index/$1';
+$route['admin/dashboard/:num/'] = 'admin/index/$1';
+
+$route['admin/changePasswd'] = 'fusion/frm_change_password';
+$route['admin/changePasswd/'] = 'fusion/frm_change_password';
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// Manager ROUTES
+////////////////////////////////////////////////////////////////////////////////////////////
+
+$route['manager/dashboard'] = 'manager/index';
+$route['manager/dashboard/'] = 'manager/index';
+
+$route['manager/dashboard/:num'] = 'manager/index/$1';
+$route['manager/dashboard/:num/'] = 'manager/index/$1';
+
+
+$route['manager/changePasswd'] = 'fusion/frm_change_password';
+$route['manager/changePasswd/'] = 'fusion/frm_change_password';
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// AM ROUTES
+////////////////////////////////////////////////////////////////////////////////////////////
+
+$route['am/dashboard'] = 'am/index';
+$route['am/dashboard/'] = 'am/index';
+
+$route['am/dashboard/:num'] = 'am/index/$1';
+$route['am/dashboard/:num/'] = 'am/index/$1';
+
+
+$route['am/changePasswd'] = 'fusion/frm_change_password';
+$route['am/changePasswd/'] = 'fusion/frm_change_password';
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// Support ROUTES
+////////////////////////////////////////////////////////////////////////////////////////////
+
+$route['support/dashboard'] = 'support/index';
+$route['support/dashboard/'] = 'support/index';
+
+$route['support/dashboard/:num'] = 'support/index/$1';
+$route['support/dashboard/:num/'] = 'support/index/$1';
+
+
+$route['support/changePasswd'] = 'fusion/frm_change_password';
+$route['support/changePasswd/'] = 'fusion/frm_change_password';
+
+$route['support/ncnsTramsReq'] = 'support/ncns_trams_request';
+$route['support/ncnsTramsReq/'] = 'support/ncns_trams_request';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// TL ROUTES
+////////////////////////////////////////////////////////////////////////////////////////////
+
+$route['tl/dashboard'] = 'tl/index';
+$route['tl/dashboard/'] = 'tl/index';
+
+$route['tl/dashboard/:num'] = 'tl/index/$1';
+$route['tl/dashboard/:num/'] = 'tl/index/$1';
+
+$route['tl/changePasswd'] = 'fusion/frm_change_password';
+$route['tl/changePasswd/'] = 'fusion/frm_change_password';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// Trainer ROUTES
+////////////////////////////////////////////////////////////////////////////////////////////
+
+$route['trainer/dashboard'] = 'trainer/index';
+$route['trainer/dashboard/'] = 'trainer/index';
+
+$route['trainer/dashboard/:num'] = 'trainer/index/$1';
+$route['trainer/dashboard/:num/'] = 'trainer/index/$1';
+
+$route['trainer/changePasswd'] = 'fusion/frm_change_password';
+$route['trainer/changePasswd/'] = 'fusion/frm_change_password';
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// AGENT ROUTES
+////////////////////////////////////////////////////////////////////////////////////////////
+
+$route['agent/dashboard'] = 'agent/index';
+$route['agent/dashboard/'] = 'agent/index';
+
+$route['agent/login-stats'] = 'agent/login_stats_now';
+$route['agent/login-stats/'] = 'agent/login_stats_now';
+
+$route['agent/changePasswd'] = 'fusion/frm_change_password';
+$route['agent/changePasswd/'] = 'fusion/frm_change_password';
+
+$route['agent/updateInfo'] = 'agent/update_user_info';
+$route['agent/updateInfo/'] = 'agent/update_user_info';
+
+// user_monitor
+
+$route['user_monitor/dashboard'] = 'user_monitor/index';
+$route['user_monitor/dashboard/'] = 'user_monitor/index';
+
+$route['user_monitor/dashboard/:num'] = 'user_monitor/index/$1';
+$route['user_monitor/dashboard/:num/'] = 'user_monitor/index/$1';
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// AGENT ROUTES
+////////////////////////////////////////////////////////////////////////////////////////////
+//$route['gallery/album/(:any)/(:any)'] = 'album/selected_album/$1/$2';
+$route['gallery/album'] = 'album/selected_album';
+
+///// servicerequest /////
+$route["servicerequest/ticket/:num/"] = 'servicerequest/ticket/$1';
+$route["servicerequest/ticket/:num/"] = 'servicerequest/ticket/$1';
+
+$route["servicerequest/ticket/reply"] = 'servicerequest/ticket_replies';
+$route["servicerequest/ticket/reply/"] = 'servicerequest/ticket_replies';
+
+$route["servicerequest/ticket/edit/:num"] = 'servicerequest/edit/$1';
+$route["servicerequest/ticket/edit/:num/"] = 'servicerequest/edit/$1';
+
+$route["servicerequest/download/:num"] = 'servicerequest/download/$1';
+$route["servicerequest/download/:num/"] = 'servicerequest/download/$1';
+
+$route['service_request_path/reports/(:any)'] = 'service_request_path/reports/$1';
+
+
+///// QA Servicerequest /////
+$route["qa_servicerequest/ticket/:num/"] = 'qa_servicerequest/ticket/$1';
+$route["qa_servicerequest/ticket/:num/"] = 'qa_servicerequest/ticket/$1';
+
+$route["qa_servicerequest/ticket/reply"] = 'qa_servicerequest/ticket_replies';
+$route["qa_servicerequest/ticket/reply/"] = 'qa_servicerequest/ticket_replies';
+
+$route["qa_servicerequest/ticket/edit/:num"] = 'qa_servicerequest/edit/$1';
+$route["qa_servicerequest/ticket/edit/:num/"] = 'qa_servicerequest/edit/$1';
+
+$route["qa_servicerequest/download/:num"] = 'qa_servicerequest/download/$1';
+$route["qa_servicerequest/download/:num/"] = 'qa_servicerequest/download/$1';
+
+$route['qa_service_request_path/reports/(:any)'] = 'qa_service_request_path/reports/$1';
+
+
+//////////
+$route['quality/Qa_oyo'] = 'Qa_oyo';
+
+
+$route["Qa_welcomepickup/edit_ticket_feedback/:num"] = 'Qa_welcomepickup/edit_ticket_feedback/$1';
+$route["Qa_welcomepickup/edit_ticket_feedback/:num/"] = 'Qa_welcomepickup/edit_ticket_feedback/$1';
+
+//
+//
+$route["master/leave_criteria_sub_section/:num/"] = 'master/leave_criteria_sub_section/$1';
+
+//
+//
+$route['tdashboard'] = 'test';
+
+$route['my-calendar'] = "CaledarController";
+
+
+$route['client/client_logout'] = 'clientlogin/client_logout';
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// USER ROUTES
+////////////////////////////////////////////////////////////////////////////////////////////
+
+$route['users/revokeFurloughUser']='user/revokeFurloughUser';
+$route['users/revokeFurloughUser/']='user/revokeFurloughUser';
+
+
+$route['users/manage'] = 'user/index';
+$route['users/manage/'] = 'user/index';
+
+$route['users/getSubDepartmentList'] = 'user/getSubDepartmentList';
+$route['users/getSubDepartmentList/'] = 'user/getSubDepartmentList';
+
+$route['users/break_on_coaching'] = 'user/break_on_coaching';
+$route['users/break_on_coaching/'] = 'user/break_on_coaching';
+
+$route['users/break_on_ld'] = 'user/break_on_ld';
+$route['users/break_on_ld/'] = 'user/break_on_ld';
+
+$route['users/break_off_ld'] = 'user/break_off_ld';
+$route['users/break_off_ld/'] = 'user/break_off_ld';
+
+$route['users/break_on_system_downtime'] = 'user/break_on_system_downtime';
+$route['users/break_on_system_downtime/'] = 'user/break_on_system_downtime';
+
+$route['users/break_off_system_downtime'] = 'user/break_off_system_downtime';
+$route['users/break_off_system_downtime/'] = 'user/break_off_system_downtime';
+
+$route['users/break_on_coaching'] = 'user/break_on_coaching';
+$route['users/break_on_coaching/'] = 'user/break_on_coaching';
+
+$route['users/break_off_coaching'] = 'user/break_off_coaching';
+$route['users/break_off_coaching/'] = 'user/break_off_coaching';
+
+
+$route['users/break_on'] = 'user/break_on';
+$route['users/break_on/'] = 'user/break_on';
+
+$route['users/break_off'] = 'user/break_off';
+$route['users/break_off/'] = 'user/break_off';
+
+
+$route['users/getProcessList'] = 'user/getProcessList';
+$route['users/getProcessList/'] = 'user/getProcessList';
+
+$route['users/getSubProcessList'] = 'user/getSubProcessList';
+$route['users/getSubProcessList/'] = 'user/getSubProcessList';
+
+$route['users/getAccessControl'] = 'user/getAccessControl';
+$route['users/getAccessControl/'] = 'user/getAccessControl';
+
+$route['users/getAccessControlServicerequest'] = 'user/getAccessControlServicerequest';
+$route['users/getAccessControlServicerequest/'] = 'user/getAccessControlServicerequest';
+
+$route['users/getAssignList'] = 'user/getAssignList';
+$route['users/getAssignList/'] = 'user/getAssignList';
+
+$route['users/getUserList'] = 'user/getUserList';
+$route['users/getUserList/'] = 'user/getUserList';
+
+$route['users/getAccessControlDept'] = 'user/getAccessControlDept';
+$route['users/getAccessControlDept/'] = 'user/getAccessControlDept';
+
+
+$route['user/:any'] = 'user/manage_client';
+$route['user/:any/'] = 'user/manage_client';
+
+$route['users/add'] = 'user/add_users';
+$route['users/add/'] = 'user/add_users';
+
+$route['users/addsuccess'] = 'user/add_user_success';
+$route['users/addsuccess/'] = 'user/add_user_success';
+
+$route['users/userActDeact'] = 'user/user_act_deact';
+$route['users/userActDeact/'] = 'user/user_act_deact';
+
+$route['users/updateUser'] = 'user/update_user';
+$route['users/updateUser/'] = 'user/update_user';
+
+$route['users/resetPasswd'] = 'user/reset_password';
+$route['users/resetPasswd/'] = 'user/reset_password';
+
+$route['users/terminateUser'] = 'user/terminate_user';
+$route['users/terminateUser/'] = 'user/terminate_user';
+
+$route['users/cancelTermination'] = 'user/cancel_termination';
+$route['users/cancelTermination/'] = 'user/cancel_termination';
+
+$route['users/updateTerminateUser'] = 'user/update_termination_ticket';
+$route['users/updateTerminateUser/'] = 'user/update_termination_ticket';
+
+$route['users/getPreTermUserInfo'] = 'user/get_pre_term_user_info';
+$route['users/getPreTermUserInfo/'] = 'user/get_pre_term_user_info';
+
+$route['users/updatePreTermUserInfo'] = 'user/update_pre_term_user_info';
+$route['users/updatePreTermUserInfo/'] = 'user/update_pre_term_user_info';
+
+$route['users/rejectPreTermRequest'] = 'user/reject_pre_term_request';
+$route['users/rejectPreTermRequest/'] = 'user/reject_pre_term_request';
+
+$route['users/getLastDisposition'] = 'user/get_last_disposition';
+$route['users/getLastDisposition/'] = 'user/get_last_disposition';
+
+$route['users/updateDisposition'] = 'user/update_disposition';
+$route['users/updateDisposition/'] = 'user/update_disposition';
+
+$route['users/updateDispositionBulk'] = 'user/update_disposition_bulk';
+$route['users/updateDispositionBulk/'] = 'user/update_disposition_bulk';
+
+$route['users/loggin_to_dialer'] = 'user/loggin_to_dialer';
+$route['users/loggin_to_dialer/'] = 'user/loggin_to_dialer';
+$route['users/logout_from_dialer'] = 'user/logout_from_dialer';
+$route['users/logout_from_dialer/'] = 'user/logout_from_dialer';
+
+$route['users/break_on'] = 'user/break_on';
+$route['users/break_on/'] = 'user/break_on';
+$route['users/break_off'] = 'user/break_off';
+$route['users/break_off/'] = 'user/break_off'; 
+
+$route['users/manage_client']='user/manage_client';
+$route['users/manage_client/']='user/manage_client';
+
+$route['users/chkuser']='user/chkuser';
+$route['users/chkuser/']='user/chkuser';
+
+$route['users/add_client']='user/add_client';
+$route['users/add_client/']='user/add_client';
+
+$route['users/client_aside']='user/client_aside';
+$route['users/client_aside/']='user/client_aside';
+
+$route['users/add_client_diy/diy']='user/add_client_diy/diy';
+$route['users/add_client_diy/diy/']='user/add_client_diy/diy';
+
+$route['users/manage_client/diy']='user/manage_client/diy';
+$route['users/manage_client/diy/']='user/manage_client/diy';
+
+$route['users/getLastLoginInfo']='user/getLastLoginInfo';
+$route['users/getLastLoginInfo/']='user/getLastLoginInfo';
+
+$route['users/downloadCsv']='user/downloadCsv';
+$route['users/downloadCsv/']='user/downloadCsv';
+
+$route['users/setGlobalAccess']='user/setGlobalAccess';
+$route['users/setGlobalAccess/']='user/setGlobalAccess';
+
+$route['users/rejoin_term_user']='user/rejoin_term_user';
+$route['users/rejoin_term_user/']='user/rejoin_term_user';
+
+$route['users/saveFurloughLeave']='user/saveFurloughLeave';
+$route['users/saveFurloughLeave/']='user/saveFurloughLeave';
+
+$route['users/benchuserUpdate']='user/benchuserUpdate';
+$route['users/benchuserUpdate/']='user/benchuserUpdate';
+
+$route['users/revokeUserForm']='user/revokeUserForm';
+$route['users/revokeUserForm/']='user/revokeUserForm';
+
+$route['users/select_process']='user/select_process';
+$route['users/select_process/']='user/select_process';
+
+$route['users/offer_letter_pdf']='user/offer_letter_pdf';
+$route['users/offer_letter_pdf/(:any)/(:any)']='user/offer_letter_pdf/$1/$2'; 
+
+$route['users/resend_offer_letter']='user/resend_offer_letter';
+$route['users/resend_offer_letter/:any()']='user/resend_offer_letter/$1/$2';
+
+$route['users/revokeUserUpdate']='user/revokeUserUpdate';
+$route['users/revokeUserUpdate/']='user/revokeUserUpdate';
+
+$route['users/revokeFurloughUser']='user/revokeFurloughUser';
+$route['users/revokeFurloughUser/']='user/revokeFurloughUser';
+
+
+$route['users/last_working_date_check']='user/last_working_date_check';
+$route['users/last_working_date_check/']='user/last_working_date_check';
+
+$route['users/userUnlockLoginType']='user/userUnlockLoginType';
+$route['users/userUnlockLoginType/']='user/userUnlockLoginType';
+
+$route['users/resetClientPassword']='user/resetClientPassword';
+$route['users/resetClientPassword/']='user/resetClientPassword';
+
+$route['users/editUserClient']='user/editUserClient';
+$route['users/editUserClient/']='user/editUserClient/';
+
+$route['users/check_email_exist']='user/check_email_exist';
+$route['users/check_email_exist/']='user/check_email_exist/';
+
+$route['users/select_phoneCode']='user/select_phoneCode';
+$route['users/select_phoneCode/']='user/select_phoneCode/';
+
+$route['users/getUserName']='user/getUserName';
+$route['users/getUserName/']='user/getUserName/';
+
+$route['users/userClientActDeact']='user/userClientActDeact';
+$route['users/userClientActDeact/']='user/userClientActDeact/';
+
+
+// ++++++++++++++++++++++++++++++++++ PROCUREMENT ROUTES +++++++++++++++++++++++++++++++++++++++
+$route['vendorDahsboard']='proc_vendor/vendorportal_dahsboard';
+$route['vendorProfileDetails']='Vendorlogin/adddetails';
+$route['vendorlogout']='vendorlogin/logout';
+$route['quotationRequest']='proc_vendor/vendor_quotation_request';
+// ++++++++++++++++++++++++++++++++++ END PROCUREMENT ROUTES ++++++++++++++++++++++++++++++++++++
