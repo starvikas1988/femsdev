@@ -396,6 +396,188 @@
 /*-------------------------- Fortune Builder (End) ---------------------------*/
 ///////////////////////////////////////////////////////////////////////////////////
 
+
+//////////vikas starts//////////////////
+
+public function qpc_verisk_coaching(){
+		if(check_logged_in())
+		{
+			$current_user = get_user_id();
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_ameridial/qpc_verisk_coaching/qpc_verisk_coaching.php";
+			$data["content_js"] = "qa_audit_js.php";			
+			$from_date = $this->input->get('from_date');
+			$to_date = $this->input->get('to_date');
+			$agent_id = $this->input->get('agent_id');
+			$cond='';
+			$cond1='';
+			
+			$qSql_agent="SELECT id, concat(fname, ' ', lname) as name, assigned_to, fusion_id FROM `signin` where role_id in (select id from role where folder ='agent') and dept_id=6 and is_assign_client(id,709) and status=1  order by name";
+			$data["agentName"] = $this->Common_model->get_query_result_array($qSql_agent);
+			
+			if($from_date==""){ 
+				$from_date=CurrDate();
+			}else{
+				$from_date = mmddyy2mysql($from_date);
+			}
+			
+			if($to_date==""){ 
+				$to_date=CurrDate();
+			}else{
+				$to_date = mmddyy2mysql($to_date);
+			}
+			
+		////////////////////////	
+			if($from_date !="" && $to_date!=="" )  $cond =" where (audit_date >= '$from_date' and audit_date <= '$to_date') ";
+			if($agent_id!=""){
+				$cond1 ="and agent_id='$agent_id'";
+			}
+			
+			if(get_user_fusion_id()=='FFLO000546'){
+				$ops_cond="";
+			}else{
+				if(get_role_dir()=='manager' && get_dept_folder()=='operations'){
+					$ops_cond=" Where (assigned_to='$current_user' OR assigned_to in (SELECT id FROM signin where assigned_to ='$current_user'))";
+				}else if(get_role_dir()=='tl' && get_dept_folder()=='operations'){
+					$ops_cond=" Where assigned_to='$current_user'";
+				}else{
+					$ops_cond="";
+				}
+			}
+
+		    $qSql = "SELECT * from
+				(Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name,
+				(select concat(fname, ' ', lname) as name from signin_client sc where sc.id=client_entryby) as client_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=agent_id) as agent_name,
+				(select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_rvw_name from qa_QPC_Verisk_5_Step_coaching_feedback $cond $cond1) xx Left Join
+				(Select id as sid, fname, lname, fusion_id, get_process_names(id) as campaign, assigned_to from signin) yy on (xx.agent_id=yy.sid) $ops_cond order by audit_date";		
+			$data["qpc_verisk_data"] = $this->Common_model->get_query_result_array($qSql);
+
+			$data["from_date"] = $from_date;
+			$data["to_date"] = $to_date;
+			
+			$this->load->view("dashboard",$data);
+		}
+}
+
+public function add_edit_feedback_qpc_verisk($att_id)
+{
+	if(check_logged_in()){
+		//$client_id = 709;
+		$current_user=get_user_id();
+		$user_office_id=get_user_office_id();
+		$data["aside_template"] = "qa/aside.php";
+		$data["content_template"] = "qa_ameridial/qpc_verisk_coaching/add_edit_feedback_qpc_verisk.php";
+		//$data["content_js"] = "qa_coaching_js_v1.php";
+		$data['att_id']=$att_id;
+
+		$cond='';
+		
+		$cond .= " where id =709";
+		
+		$qSql="SELECT * FROM client $cond";
+		$data['client']= $this->Common_model->get_query_row_array($qSql);
+
+		$qSql = "SELECT * FROM signin where id not in (select id from role where folder='agent') and status=1";
+		$data['tlname'] = $this->Common_model->get_query_result_array($qSql);
+
+		$qSql = "SELECT * FROM process where client_id =709 and id='1260' and is_active = 1";
+		$data['process']= $this->Common_model->get_query_result_array($qSql);
+
+		$curDateTime=CurrMySqlDate();
+		$a = array();
+
+		
+			$qSql="SELECT Q.*, S.fusion_id, S.dept_id, CONCAT(S.fname, ' ', S.lname) as agent_name, S.assigned_to, CONCAT(T.fname, ' ', T.lname) as tl_name, get_client_ids(Q.agent_id) as client_id, get_client_names(Q.agent_id) as client_name, get_process_names(Q.agent_id) AS process_name, CONCAT(A.fname, ' ', A.lname)  AS auditor_name, audit_date,
+			(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+			(SELECT description from department d where d.id=(SELECT dept_id from signin s where s.id=Q.agent_id)) as department_name,
+			(SELECT office_name from office_location ol where ol.abbr=(SELECT office_id from signin sol where sol.id=Q.agent_id)) as location
+			from qa_QPC_Verisk_5_Step_coaching_feedback Q 
+			Left Join signin S on Q.agent_id = S.id
+			Left Join signin T on T.id = S.assigned_to
+			Left Join signin A on Q.entry_by = A.id 
+			WHERE Q.id=$att_id";
+			$data["auditData"] = $this->Common_model->get_query_row_array($qSql);
+		
+
+
+		$curDateTime=CurrMySqlDate();
+		$a = array();
+		
+		$field_array['agent_id']=!empty($_POST['data']['agent_id'])?$_POST['data']['agent_id']:"";
+		if($field_array['agent_id']){
+			
+			if($att_id==0){
+				$field_array=$this->input->post('data');
+				$field_array['audit_date']=CurrDate();
+				$field_array['entry_date']=$curDateTime;
+				
+				$field_array['follow_up_date']=mdydt2mysql($this->input->post('call_date'));
+			    
+				$field_array['audit_start_time']=$this->input->post('audit_start_time');
+				
+				$rowid= data_inserter('qa_QPC_Verisk_5_Step_coaching_feedback',$field_array);
+
+				// echo $this->db->last_query();
+				// echo"<pre>";
+				// print_r($field_array);
+				// echo"</pre>";
+				// exit();
+			
+				if(get_login_type()=="client"){
+					$current_user=get_user_id();
+					$add_array = array("client_entryby" => $current_user);
+				}else{
+					$current_user=get_user_id();
+					$add_array = array("entry_by" => $current_user);
+				}
+				$this->db->where('id', $rowid);
+				$this->db->update('qa_QPC_Verisk_5_Step_coaching_feedback',$add_array);
+				
+				
+			}else{
+				$field_array1=$this->input->post('data');
+				
+					
+				$field_array1['follow_up_date']=mdydt2mysql($this->input->post('call_date'));
+				
+				
+				$this->db->where('id', $att_id);
+				$this->db->update('qa_QPC_Verisk_5_Step_coaching_feedback',$field_array1);
+				// echo $this->db->last_query();
+				// echo"<pre>";
+				// print_r($field_array1);
+				// echo"</pre>";
+				// die();
+				/////////////
+				if(get_login_type()=="client"){
+					$edit_array = array(
+						"client_rvw_by" => $current_user,
+						"client_rvw_note" => $this->input->post('note'),
+						"client_rvw_date" => $curDateTime
+					);
+				}else{
+					$edit_array = array(
+						"mgnt_rvw_by" => $current_user,
+						"mgnt_rvw_note" => $this->input->post('note'),
+						"mgnt_rvw_date" => $curDateTime
+					);
+				}
+				$this->db->where('id', $att_id);
+				$this->db->update('qa_QPC_Verisk_5_Step_coaching_feedback',$edit_array);
+				
+			}
+			redirect('qa_ameridial/qpc_verisk_coaching');
+		}
+		$data["array"] = $a;
+		$this->load->view("dashboard",$data);
+	}
+}
+
+
+//////////vikas ends//////////////////
+
 ///////////////////////////////////////////////////////////////////////////////////
 /*-------------------------- Ways2well (Start) ---------------------------*/
 ///////////////////////////////////////////////////////////////////////////////////
@@ -9010,6 +9192,7 @@ public function lifi(){
 				from qa_amd_qpc_feedback $cond) xx Left Join
 				(Select id as sid, fname, lname, fusion_id, get_process_names(id) as campaign, assigned_to from signin) yy on (xx.agent_id=yy.sid) $ops_cond order by audit_date";
 			$data["qpc_data"] = $this->Common_model->get_query_result_array($qSql);
+
 
 			$data["from_date"] = $from_date;
 			$data["to_date"] = $to_date;
@@ -18810,6 +18993,9 @@ public function add_edit_cinemark($cinemark_id){
 				}else if ($campaign=="conduent_direct_express") {
 					$qSql1="Select count(id) as value from qa_conduent_direct_express_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit','WOW Call', 'Trainer Audit')";
 					$qSql2="Select count(id) as value from qa_conduent_direct_express_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit','WOW Call', 'Trainer Audit')";
+				}else if ($campaign=="QPC_Verisk_5_Step_coaching") {
+					$qSql1="Select count(id) as value from qa_QPC_Verisk_5_Step_coaching_feedback where agent_id='$current_user' ";
+					$qSql2="Select count(id) as value from qa_QPC_Verisk_5_Step_coaching_feedback where agent_rvw_date is null and agent_id='$current_user' ";
 				}else{
 					$qSql1="Select count(id) as value from qa_amd_".$campaign."_feedback where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'WOW Call','Operation Audit', 'Trainer Audit')";
 					$qSql2="Select count(id) as value from qa_amd_".$campaign."_feedback where agent_rvw_date is null and agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit','WOW Call', 'Trainer Audit')";
@@ -18827,11 +19013,20 @@ public function add_edit_cinemark($cinemark_id){
 					$toDate = $this->input->get('to_date');
 					if($toDate!="") $to_date = mmddyy2mysql($toDate);
 
-					if($fromDate !="" && $toDate!=="" ){
-						$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','WOW Call') ";
+					if($campaign=="QPC_Verisk_5_Step_coaching"){
+						if($fromDate !="" && $toDate!=="" ){
+							$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' ";
+						}else{
+							$cond= " Where agent_id='$current_user' ";
+						}
 					}else{
-						$cond= " Where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','WOW Call') ";
+						if($fromDate !="" && $toDate!=="" ){
+							$cond= " Where (audit_date >= '$from_date' and audit_date <= '$to_date') And agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','WOW Call') ";
+						}else{
+							$cond= " Where agent_id='$current_user' and audit_type in ('CQ Audit', 'BQ Audit', 'Operation Audit', 'Trainer Audit','WOW Call') ";
+						}
 					}
+					
 
 					if($campaign=="mercy_ship"){
 						$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_mercy_feedback $cond) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
@@ -18843,6 +19038,8 @@ public function add_edit_cinemark($cinemark_id){
 						$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_epgi_feedback $cond) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
 					}else if($campaign=="conduent_direct_express"){
 						$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_conduent_direct_express_feedback $cond) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
+					}else if($campaign=="QPC_Verisk_5_Step_coaching"){
+						$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_QPC_Verisk_5_Step_coaching_feedback $cond) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
 					}else{
 					 $qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name from qa_amd_".$campaign."_feedback $cond) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to, get_process_names(id) as process_name from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
 					}
@@ -18877,6 +19074,8 @@ public function add_edit_cinemark($cinemark_id){
 				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name,agent_rvw_note as agent_note,mgnt_rvw_note as mgnt_note from qa_epgi_feedback where id=$id) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
 			}else if ($campaign=="conduent_direct_express") {
 				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name,agent_rvw_note as agent_note,mgnt_rvw_note as mgnt_note from qa_conduent_direct_express_feedback where id=$id) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
+			}else if ($campaign=="QPC_Verisk_5_Step_coaching") {
+				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name,agent_rvw_note as agent_note,mgnt_rvw_note as mgnt_note from qa_QPC_Verisk_5_Step_coaching_feedback where id=$id) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
 			}else{
 				$qSql="SELECT * from (Select *, (select concat(fname, ' ', lname) as name from signin s where s.id=entry_by) as auditor_name, (select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name, (select concat(fname, ' ', lname) as name from signin sx where sx.id=mgnt_rvw_by) as mgnt_name,agent_rvw_note as agent_note,mgnt_rvw_note as mgnt_note from qa_amd_".$campaign."_feedback where id=$id) xx Left Join (Select id as sid, fname, lname, fusion_id, office_id, assigned_to,get_process_names(id) as process_name from signin) yy on (xx.agent_id=yy.sid) order by audit_date";
 			}
@@ -18936,6 +19135,57 @@ public function add_edit_cinemark($cinemark_id){
 		}
 	}
 
+	//vikas
+
+	public function agent_QPC_Verisk_rvw($id,$campaign){
+		if(check_logged_in()){
+			$current_user=get_user_id();
+			$user_office_id=get_user_office_id();
+			
+			$data["aside_template"] = "qa/aside.php";
+			$data["content_template"] = "qa_ameridial/qpc_verisk_coaching/agent_QPC_Verisk_rvw.php";
+			$data["agentUrl"] = "qa_ameridial/agent_amd_feedback";
+			//$data["content_js"] = "qa_coaching_js_v1.php";
+
+
+			$qSql="SELECT Q.*, S.fusion_id, S.dept_id, CONCAT(S.fname, ' ', S.lname) as agent_name, S.assigned_to, CONCAT(T.fname, ' ', T.lname) as tl_name, get_client_ids(Q.agent_id) as client_id, get_client_names(Q.agent_id) as client_name, get_process_names(Q.agent_id) AS process_name, CONCAT(A.fname, ' ', A.lname)  AS auditor_name, audit_date,
+				(select concat(fname, ' ', lname) as name from signin s where s.id=tl_id) as tl_name,
+				(SELECT description from department d where d.id=(SELECT dept_id from signin s where s.id=Q.agent_id)) as department_name,
+				(SELECT office_name from office_location ol where ol.abbr=(SELECT office_id from signin sol where sol.id=Q.agent_id)) as location
+				from qa_QPC_Verisk_5_Step_coaching_feedback Q 
+				Left Join signin S on Q.agent_id = S.id
+				Left Join signin T on T.id = S.assigned_to
+				Left Join signin A on Q.entry_by = A.id 
+				WHERE Q.id=$id";
+
+			$data["agent_auditData"] = $this->Common_model->get_query_row_array($qSql);
+
+			$data["pnid"]=$id;
+			$data["campaign"]=$campaign;
+
+
+			if($this->input->post('pnid'))
+			{
+				$pnid=$this->input->post('pnid');
+				$curDateTime=CurrMySqlDate();
+				$log=get_logs();
+
+				$field_array=array(
+					"agnt_fd_acpt" => $this->input->post('agnt_fd_acpt'),
+					"follow_up_ack" => $this->input->post('follow_up_ack'),
+					"agent_rvw_note" => $this->input->post('note'),
+					"agent_rvw_date" => $curDateTime
+				);
+				$this->db->where('id', $pnid);
+				$this->db->update('qa_QPC_Verisk_5_Step_coaching_feedback',$field_array);
+
+				redirect('Qa_ameridial/agent_amd_feedback');
+
+			}else{
+				$this->load->view('dashboard',$data);
+			}
+		}
+	}
 
 ///////////////////////////////////////////////////////////////////////////////////
 /*-------------------------- Suarez (Amir- 08/07/2021) --------------------------*/

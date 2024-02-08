@@ -200,14 +200,14 @@
 									<li class="menu-item">
 										<a href="<?php echo base_url()?>reports_qa/qa_process_report/service" class="menu-link">
 											<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
-											<span class="">CarParts-Service</span>
+											<span class="">Service</span>
 										</a>
 									</li>
 
 									<li class="menu-item">
 										<a href="<?php echo base_url()?>reports_qa/qa_process_report/sales_carpart" class="menu-link">
 											<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
-											<span class="">CarParts-Sales</span>
+											<span class="">Sales</span>
 										</a>
 									</li>
 
@@ -305,12 +305,8 @@
 											<span class="">Telaid QA-OB</span>
 										</a>
 									</li>
-									<li class="menu-item">
-										<a href="<?php echo base_url()?>qa_telaid/qa_telaid_employee_coaching_report" class="menu-link">
-											<span class="menu-icon"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg"></i></span>
-											<span class="">Telaid Employee Coaching Form</span>
-										</a>
-									</li>
+
+
 								</ul>
 							</li>
 							<!-- <li class="menu-item">
@@ -615,12 +611,6 @@
 								<a href="<?php echo base_url()?>Qa_urban_piper/qa_urban_piper_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Urban Piper</span>
-								</a>
-							</li>
-							<li class="menu-item">
-								<a href="<?php echo base_url()?>Qa_lunajoy/qa_lunajoy_report" class="menu-link">
-									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
-									<span class="">Lunajoy</span>
 								</a>
 							</li>
 							<li class="menu-item">
@@ -1421,6 +1411,14 @@
 								<a href="<?php echo base_url()?>qa_unacademy/qa_unacademy_report" class="menu-link">
 									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
 									<span class="">Unacademy</span>
+								</a>
+							</li>
+
+
+							<li class="menu-item">
+								<a href="<?php echo base_url()?>qa_perfect_choice/qa_perfect_choice_report" class="menu-link">
+									<span class="menu-icon"><i class="zmdi zmdi-assignment-check zmdi-hc-lg"></i></span>
+									<span class="">Perfect Choice</span>
 								</a>
 							</li>
 

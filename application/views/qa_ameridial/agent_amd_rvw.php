@@ -219,6 +219,8 @@
 												$cmpng="Ways-2-well";
 											}else if($campaign=="epgi"){
 												$cmpng="EPGI";
+											}else if($campaign=="QPC_Verisk_5_Step_coaching"){
+												$cmpng="QPC Verisk 5 Step _Coaching Form";
 											}
 										?>
 										<td colspan="8" style="font-size:30px; font-weight:bold">AMERIDIAL <?php echo ' ['.$cmpng.']'; ?></td>

@@ -19,13 +19,13 @@
 							<div class="col-md-4">
 								<div class="form-group">
 									<label>Search Date From - Audit Date (mm/dd/yyyy)</label>
-									<input type="text" id="from_date" name="from_date" value="<?php echo mysql2mmddyy($from_date); ?>" class="form-control" readonly autocomplete="off">
+									<input type="text" id="from_date" onchange="date_validation(this.value,'S')" name="from_date" value="<?php $date= mysql2mmddyy($from_date); echo str_replace('-', '/', $date); ?>" class="form-control" required readonly autocomplete="off"><span class="start_date_error" style="color:red"></span>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
 									<label>Search Date To - Audit Date (mm/dd/yyyy)</label>
-									<input type="text" id="to_date" name="to_date" value="<?php echo mysql2mmddyy($to_date); ?>" class="form-control" readonly autocomplete="off">
+									<input type="text" id="to_date" name="to_date"  onchange="date_validation(this.value,'E')" value="<?php $date= mysql2mmddyy($to_date); echo str_replace('-', '/', $date); ?>" class="form-control" required readonly autocomplete="off"><span class="end_date_error" style="color:red"></span>
 								</div>
 							</div>
 							<div class="col-md-3">
@@ -44,7 +44,28 @@
 							</div>
 						</div>
 						<div class="row">
+							<!-- <?php
+							//if($process_id !='QPC_Verisk_5_Step_coaching'){
 
+							//}
+							 ?> -->
+						<div class="col-md-3">
+								<div class="form-group">
+									<label>Select Audit Type</label>
+									<select class="form-control" id="" name="audit_type">
+										<option value='All'>ALL</option>
+										<option <?php echo $audit_type=='CQ Audit'?"selected":""; ?> value="CQ Audit">CQ Audit</option>
+										<option <?php echo $audit_type=='BQ Audit'?"selected":""; ?> value="BQ Audit">BQ Audit</option>
+										<option <?php echo $audit_type=='Calibration'?"selected":""; ?> value="Calibration">Calibration</option>
+										<option <?php echo $audit_type=='Pre-Certificate Mock Call'?"selected":""; ?> value="Pre-Certificate Mock Call">Pre-Certificate Mock Call</option>
+										<option <?php echo $audit_type=='Certificate Audit'?"selected":""; ?> value="Certificate Audit">Certificate Audit</option>
+										<option <?php echo $audit_type=='Operation Audit'?"selected":""; ?> value="Operation Audit">Operation Audit</option>
+										<option <?php echo $audit_type=='Trainer Audit'?"selected":""; ?> value="Trainer Audit">Trainer Audit</option>
+										<option <?php echo $audit_type=='WOW Call'?"selected":""; ?> value="WOW Call">WOW Call</option>
+										
+									</select>
+								</div>
+						</div>	
 							<div class="col-md-5">
 								<div class="form-group">
 									<label>Select Process</label>
@@ -76,16 +97,18 @@
 										}else{ ?>
 											<option <?php echo $process_id=='fortunebuilder'?"selected":""; ?> value="fortunebuilder">Fortune Builder</option>
 											<option <?php echo $process_id=='hoveround'?"selected":""; ?> value="hoveround">Hoveround</option>
+											<option <?php echo $process_id=='hoveround_jam'?"selected":""; ?> value="hoveround_jam">Hoveround Evaluation] (Jamica)</option>
 											<option <?php echo $process_id=='ncpssm'?"selected":""; ?> value="ncpssm">NCPSSM</option>
 											<option <?php echo $process_id=='stc'?"selected":""; ?> value="stc">STC Scoresheet</option>
 											<option <?php echo $process_id=='touchfuse'?"selected":""; ?> value="touchfuse">Touchfuse</option>
 											<option <?php echo $process_id=='touchfuse_new'?"selected":""; ?> value="touchfuse_new">Touchfuse New</option>
 											<option <?php echo $process_id=='tbn'?"selected":""; ?> value="tbn">TBN Scoresheet</option>
-											<option <?php echo $process_id=='275'?"selected":""; ?> value="275">Purity Free Bottle</option>
+											<option <?php echo $process_id=='275'?"selected":""; ?> value="275">Purity Free Bottle</option> 
 											<option <?php echo $process_id=='280'?"selected":""; ?> value="280">Purity Catalog</option>
 											<!--<option <?php echo $process_id=='purity_care'?"selected":""; ?> value="purity_care">Purity Care</option>-->
 											<option <?php echo $process_id=='273'?"selected":""; ?> value="273">Purity Care</option>
-											<option <?php echo $process_id=='261'?"selected":""; ?> value="261">Conduent</option>
+											<option <?php echo $process_id=='1253'?"selected":""; ?> value="1253">Conduent</option>
+											<option <?php echo $process_id=='1132'?"selected":""; ?> value="1132">Conduent-Direct Express</option>
 											<option <?php echo $process_id=='pcare_cs'?"selected":""; ?> value="pcare_cs">Purity [Conscious Selling]</option>
 											<option <?php echo $process_id=='jfmi'?"selected":""; ?> value="jfmi">JFMI</option>
 											<option <?php echo $process_id=='tpm'?"selected":""; ?> value="tpm">TPM Scoresheet</option>
@@ -110,6 +133,7 @@
 											<option <?php echo $process_id=='302'?"selected":""; ?> value="302">CURATIVE</option>
 											<option <?php echo $process_id=='episource'?"selected":""; ?> value="episource">EPISOURCE</option>
 											<option <?php echo $process_id=='blains'?"selected":""; ?> value="blains">BLAINS</option>
+											<option <?php echo $process_id=='blains_v2'?"selected":""; ?> value="blains_v2">BLAINS VERSION 2</option>
 											<option <?php echo $process_id=='413'?"selected":""; ?> value="413">Pajamagram</option>
 											<option <?php echo $process_id=='377.1'?"selected":""; ?> value="377.1">Brightway Prescreen(Old)</option>
 											<option <?php echo $process_id=='377.2'?"selected":""; ?> value="377.2">Brightway Prescreen</option>
@@ -151,8 +175,11 @@
 											<option <?php echo $process_id=='cci_medicare'?"selected":""; ?> value="cci_medicare">CCI Medicare</option>
 											<option <?php echo $process_id=='cci_commercial'?"selected":""; ?> value="cci_commercial">CCI Commercial</option>
 											<option <?php echo $process_id=='lockheed'?"selected":""; ?> value="lockheed">Lockheed</option>
-											<option <?php echo $process_id=='754'?"selected":""; ?> value="754">Homeward Health</option>
+											<!--<option <?php echo $process_id=='754'?"selected":""; ?> value="754">Homeward Health</option>-->
 											<option <?php echo $process_id=='756'?"selected":""; ?> value="756">Kenny-U-Pull</option>
+											<option <?php echo $process_id=='755'?"selected":""; ?> value="755">Ways-2-Well</option>
+											<option <?php echo $process_id=='885'?"selected":""; ?> value="885">EPGI</option>
+											<option <?php echo $process_id=='QPC_Verisk_5_Step_coaching'?"selected":""; ?> value="QPC_Verisk_5_Step_coaching">QPC Verisk 5 Step Coaching Form</option>
 
 										<?php } ?>
 
@@ -163,7 +190,7 @@
 
 							<div class="col-md-1" style='margin-top:22px;'>
 								<div class="form-group">
-									<button class="btn btn-primary waves-effect" a href="<?php echo base_url()?>reports_qa/qa_ameridial_report" type="submit" id='show' name='show' value="Show">SHOW</button>
+									<button class="btn btn-primary blains-effect" a href="<?php echo base_url()?>reports_qa/qa_ameridial_report" type="submit" id='show' name='show' value="Show">SHOW</button>
 								</div>
 							</div>
 
@@ -189,9 +216,16 @@
 										<th>Fusion ID</th>
 										<th>Agent Name</th>
 										<th>L1 Supervisor</th>
-										<th>Call Date</th>
-										<th>Call Duration</th>
-										<th>Total Score</th>
+										<?php
+										if($process_id !='QPC_Verisk_5_Step_coaching'){
+											?>
+												<th>Call Date</th>
+												<th>Call Duration</th>
+												<th>Total Score</th>
+											<?php
+										}
+										 ?>
+										
 									</tr>
 								</thead>
 								<tbody>
@@ -206,33 +240,40 @@
 										<td><?php echo $row['fusion_id']; ?></td>
 										<td><?php echo $row['fname']." ".$row['lname']; ?></td>
 										<td><?php echo $row['tl_name']; ?></td>
-										<td><?php echo $row['call_date']; ?></td>
-										<td>
-											<?php
-												if($process_id == "purity_care")
-												{
-													$call_duration_str	=	"";
-													if($row['call_one_call_duration'] != "")
-													{
-														$call_duration_str	.=	"Call One-".$row['call_one_call_duration'];
-													}
-													if($row['call_two_call_duration'] != "")
-													{
-														$call_duration_str	.=	",Call Two-".$row['call_two_call_duration'];
-													}
-													if($row['call_three_call_duration'] != "")
-													{
-														$call_duration_str	.=	",Call Three-".$row['call_three_call_duration'];
-													}
-													echo ltrim($call_duration_str,",");
-												}
-												else
-												{
-													echo $row['call_duration'];
-												}
+										<?php
+										if($process_id !='QPC_Verisk_5_Step_coaching'){
 											?>
-										</td>
-										<td><?php echo $row['overall_score']."%"; ?></td>
+												<td><?php echo $row['call_date']; ?></td>
+												<td>
+													<?php
+														if($process_id == "purity_care")
+														{
+															$call_duration_str	=	"";
+															if($row['call_one_call_duration'] != "")
+															{
+																$call_duration_str	.=	"Call One-".$row['call_one_call_duration'];
+															}
+															if($row['call_two_call_duration'] != "")
+															{
+																$call_duration_str	.=	",Call Two-".$row['call_two_call_duration'];
+															}
+															if($row['call_three_call_duration'] != "")
+															{
+																$call_duration_str	.=	",Call Three-".$row['call_three_call_duration'];
+															}
+															echo ltrim($call_duration_str,",");
+														}
+														else
+														{
+															echo $row['call_duration'];
+														}
+													?>
+												</td>
+												<td><?php echo $row['overall_score']."%"; ?></td>
+											<?php
+										}
+										 ?>
+										
 									</tr>
 									<?php } ?>
 								</tbody>

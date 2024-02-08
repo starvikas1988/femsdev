@@ -23,13 +23,13 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<label>From Date (mm/dd/yyyy)</label>
-										<input type="text" id="from_date" name="from_date" value="<?php echo mysql2mmddyy($from_date); ?>" class="form-control" readonly>
+										<input type="text" id="from_date" onchange="date_validation(this.value,'S')" name="from_date" value="<?php $date= mysql2mmddyy($from_date); echo str_replace('-', '/', $date); ?>" class="form-control" required readonly><span class="start_date_error" style="color:red"></span>
 									</div>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
 										<label>To Date (mm/dd/yyyy)</label>
-										<input type="text" id="to_date" name="to_date" value="<?php echo mysql2mmddyy($to_date); ?>" class="form-control" readonly>
+										<input type="text" id="to_date" name="to_date"  onchange="date_validation(this.value,'E')" value="<?php $date= mysql2mmddyy($to_date); echo str_replace('-', '/', $date); ?>" class="form-control" required readonly><span class="end_date_error" style="color:red"></span>
 									</div>
 								</div>
 								<div class="col-md-5">
@@ -39,6 +39,7 @@
 											<option value="">--Select--</option>
 											<option <?php echo $campaign=='fortunebuilder'?"selected":""; ?> value="fortunebuilder">Fortune Builder</option>
 											<option <?php echo $campaign=='hoveround'?"selected":""; ?> value="hoveround">Hoveround</option>
+											<option <?php echo $campaign=='hoveround_jam'?"selected":""; ?> value="hoveround_jam">Hoveround Evaluation</option>
 											<option <?php echo $campaign=='ncpssm'?"selected":""; ?> value="ncpssm">NCPSSM</option>
 											<option <?php echo $campaign=='stc'?"selected":""; ?> value="stc">STC Scoresheet</option>
 											<option <?php echo $campaign=='touchfuse'?"selected":""; ?> value="touchfuse">Touchfuse</option>
@@ -49,6 +50,7 @@
 											<option <?php echo $campaign=='purity_care'?"selected":""; ?> value="purity_care">Purity Care</option>
 											<option <?php echo $campaign=='puritycare_new'?"selected":""; ?> value="puritycare_new">Purity Care New</option>
 											<option <?php echo $campaign=='conduent'?"selected":""; ?> value="conduent">Conduent</option>
+											<option <?php echo $campaign=='conduent_direct_express'?"selected":""; ?> value="conduent_direct_express">Conduent - Direct Express</option>
 											<option <?php echo $campaign=='jfmi'?"selected":""; ?> value="jfmi">JFMI</option>
 											<option <?php echo $campaign=='tpm'?"selected":""; ?> value="tpm">TPM Scoresheet</option>
 											<option <?php echo $campaign=='patchology'?"selected":""; ?> value="patchology">Patchology Agent Improvement</option>
@@ -68,6 +70,7 @@
 											<option <?php echo $campaign=='ancient_nutrition'?"selected":""; ?> value="ancient_nutrition">Ancient Nutrition</option>
 											<option <?php echo $campaign=='powerfan'?"selected":""; ?> value="powerfan">Power Fan</option>
 											<option <?php echo $campaign=='blains'?"selected":""; ?> value="blains">BLAINS</option>
+											<option <?php echo $campaign=='blains_v2'?"selected":""; ?> value="blains_v2">BLAINS VERSION 2</option>
 											<option <?php echo $campaign=='pajamagram'?"selected":""; ?> value="pajamagram">Pajamagram</option>
 											<option <?php echo $campaign=='brightway_prescreen_new'?"selected":""; ?> value="brightway_prescreen_new">Brightway Prescreen</option>
 											<!-- <option <?php echo $campaign=='brightway_prescreen'?"selected":""; ?> value="brightway_prescreen">Brightway Prescreen(Old)</option> -->
@@ -91,7 +94,7 @@
 											<option <?php echo $campaign=='delta_iowa'?"selected":""; ?> value="delta_iowa">DELTA DENTAL[IOWA]</option>
 											<option <?php echo $campaign=='trapollo'?"selected":""; ?> value="trapollo">TRAPOLLO</option>
 											<option <?php echo $campaign=='sontiq'?"selected":""; ?> value="sontiq">SONTIQ</option>
-											<option <?php echo $campaign=='sas'?"selected":""; ?> value="sas">Specialty Answering Service (SAS)</option>
+											<option <?php echo $campaign=='sas'?"selected":""; ?> value="sas">Specialty Answering Service</option>
 											<option <?php echo $campaign=='gap'?"selected":""; ?> value="gap">Great American Power</option>
 											<option <?php echo $campaign=='suarez'?"selected":""; ?> value="suarez">Suarez</option>
 											<option <?php echo $campaign=='sfe'?"selected":""; ?> value="sfe">SFE Scorecard</option>
@@ -119,11 +122,13 @@
 											<option <?php echo $campaign=='homeward_health'?"selected":""; ?> value="homeward_health">Homeward Health</option>
 											<option <?php echo $campaign=='kenny_u_pull'?"selected":""; ?> value="kenny_u_pull">Kenny-U-Pull</option>
 											<option <?php echo $campaign=='ways2well'?"selected":""; ?> value="ways2well">Ways-2-Well</option>
+											<option <?php echo $campaign=='epgi'?"selected":""; ?> value="epgi">EPGI</option>
+											<option <?php echo $campaign=='QPC_Verisk_5_Step_coaching'?"selected":""; ?> value="QPC_Verisk_5_Step_coaching">QPC Verisk 5 Step Coaching Form</option>
 										</select>
 									</div>
 								</div>
 								<div class="col-md-1" style="margin-top:20px">
-								    <button class="btn btn-success waves-effect" a href="<?php echo base_url()?>Qa_ameridial/agent_amd_feedback" type="submit" id='btnView' name='btnView' value="View">View</button>
+								    <button class="btn btn-success blains-effect" a href="<?php echo base_url()?>Qa_ameridial/agent_amd_feedback" type="submit" id='btnView' name='btnView' value="View">View</button>
 								</div>
 							</div>
 
@@ -167,8 +172,14 @@
 										<th>Fusion ID</th>
 										<th>Agent Name</th>
 										<th>L1 Supervisor</th>
+										<?php 
+										if($campaign!="QPC_Verisk_5_Step_coaching"){
+											?>
+											<th>Total Score</th>
+											<?php 
+										}
+										?>
 										
-										<th>Total Score</th>
 										<th>Agent Review Date</th>
 										<th>Mgnt Review By</th>
 										<th>Mgnt Review Date</th>
@@ -186,15 +197,35 @@
 										<td><?php echo $row['fusion_id']; ?></td>
 										<td><?php echo $row['fname']." ".$row['lname']; ?></td>
 										<td><?php echo $row['tl_name']; ?></td>
+										<?php 
+										if($campaign!="QPC_Verisk_5_Step_coaching"){
+											?>
+											<td><?php echo $row['overall_score']."%"; ?></td>
+											<?php 
+										}
+										?>
 										
-										<td><?php echo $row['overall_score']."%"; ?></td>
 										<td><?php echo $row['agent_rvw_date']; ?></td>
 										<td><?php echo $row['mgnt_name']; ?></td>
 										<td><?php echo $row['mgnt_rvw_date']; ?></td>
-										<td>
-											<?php $adid=$row['id']; ?>
-												<a class="btn btn-success agentFeedback" href="<?php echo base_url(); ?>Qa_ameridial/agent_amd_rvw/<?php echo $adid ?>/<?php echo $campaign ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">View/Review</a>
-										</td>
+										<?php 
+										if($campaign =="QPC_Verisk_5_Step_coaching"){
+											?>
+											<td>
+												<?php $adid=$row['id']; ?>
+													<a class="btn btn-success agentFeedback" href="<?php echo base_url(); ?>Qa_ameridial/agent_QPC_Verisk_rvw/<?php echo $adid ?>/<?php echo $campaign ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">View/Review</a>
+											</td>
+											<?php 
+										}else{
+											?>
+											<td>
+												<?php $adid=$row['id']; ?>
+													<a class="btn btn-success agentFeedback" href="<?php echo base_url(); ?>Qa_ameridial/agent_amd_rvw/<?php echo $adid ?>/<?php echo $campaign ?>" title="Click to Review" style="margin-left:5px; font-size:10px;">View/Review</a>
+											</td>
+											<?php
+										}
+										?>
+										
 									</tr>
 									<?php endforeach; ?>
 								</tbody>
@@ -206,8 +237,14 @@
 										<th>Fusion ID</th>
 										<th>Agent Name</th>
 										<th>L1 Supervisor</th>
+										<?php 
+										if($campaign!="QPC_Verisk_5_Step_coaching"){
+											?>
+											<th>Total Score</th>
+											<?php 
+										}
+										?>
 										
-										<th>Total Score</th>
 										<th>Agent Review Date</th>
 										<th>Mgnt Review By</th>
 										<th>Mgnt Review Date</th>
